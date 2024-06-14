@@ -3,7 +3,7 @@
 @section('title', 'Home')
 
 @section('backend_content')
-<div class="container">
+{{-- <div class="container"> --}}
     <div class="row">
         <div class="col-12">
             <div class="page-header">
@@ -115,5 +115,5 @@
 
         </div>
     </div>
-</div>
+{{-- </div> --}}
 @endsection
