@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backend\HomeController;
+use App\Http\Controllers\Backend\AdminLoginController;
+use App\Http\Controllers\Frontend\UserLogoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,12 +16,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
+|--------------------------------------------------------------------------
+| Frontend
+|--------------------------------------------------------------------------
+*/
+
+// Route::get('/', function () {
+//     return view('backend.pages.dashboard');
+// });
+
 Route::get('/', function () {
-    return view('backend.pages.dashboard');
+    return view('frontend.pages.home');
 });
 
-Route::get('/frontend', function () {
-    return view('frontend.pages.home');
+Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
+    // Route::get('/dashboard', [HomeController::class, 'adminDashboard'])->name('admin.dashboard');
+    Route::post('/logout', [UserLogoutController::class, 'logout'])->name('user.logout');
 });
 
 Route::middleware([
@@ -29,4 +43,21 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Backend
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('admin')->group(function(){
+
+    Route::get('/login', [AdminLoginController::class, 'loginPage'])->name('admin.loginpage');
+    Route::post('/login', [AdminLoginController::class, 'login'])->name('admin.login');
+});
+
+Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
+    Route::get('/dashboard', [HomeController::class, 'adminDashboard'])->name('admin.dashboard');
+    Route::post('/logout', [AdminLoginController::class, 'adminLogout'])->name('admin.logout');
 });

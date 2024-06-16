@@ -343,7 +343,8 @@ textarea.form-control {
     position: fixed;
     transform: translateY(-50%);
     border-radius: 30px;
-    display: inline-block;
+    /* display: inline-block; */
+    display: none;
     color: #ffffff;
     background-color: #82b440;
     padding: 10px 20px 10px 42px;

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -16,6 +15,8 @@
 
     <!-- TITLE -->
     <title>Ecorik | @yield('title') </title>
+
+    @livewireStyles
 </head>
 
 <body>
@@ -48,6 +49,8 @@
     <!-- SCRIPT -->
     @include('frontend.layouts.include.script')
     <!-- /SCRIPT -->
+
+    @livewireScripts
 </body>
 
 </html>

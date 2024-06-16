@@ -185,7 +185,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a href="#" class="nav-link dropdown-toggle">
                                         News
                                         <i class='bx bx-chevron-down'></i>
@@ -207,21 +207,46 @@
                                         <a href="news-details.html" class="nav-link">News Details</a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> --}}
                             <li class="nav-item">
-                                <a href="#" class="nav-link dropdown-toggle">
-                                        Contacts
+                                <a href="#" class="nav-link">
+                                    Contacts
+                                </a>
+                            </li>
+                            @auth('web')
+                            <li class="nav-item">
+                                <a href="javascript:void(0)" class="nav-link dropdown-toggle">
+                                        My Account
                                         <i class='bx bx-chevron-down'></i>
                                     </a>
                                 <ul class="dropdown-menu">
                                     <li class="nav-item">
-                                        <a href="contact-style-one.html" class="nav-link">Contact Style One</a>
+                                        <a href="" class="nav-link">Dashboard</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="contact-style-two.html" class="nav-link">Contact Style Two</a>
+                                        <a href="" class="nav-link">Inbox</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link" onclick="event.preventDefault(); document.getElementById('logoutForm').submit()">Logout</a>
+                                        <form action="{{route('user.logout')}}" id="logoutForm" method="POST">
+                                            @csrf
+                                        </form>
                                     </li>
                                 </ul>
                             </li>
+                            @endauth
+                            @guest('web')
+                            <li class="nav-item">
+                                <a href="{{ route('login') }}" class="nav-link">
+                                    Login
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('register') }}" class="nav-link">
+                                    Register
+                                </a>
+                            </li>
+                            @endguest
                         </ul>
                         <!-- Start Other Option -->
                         <div class="others-option">
