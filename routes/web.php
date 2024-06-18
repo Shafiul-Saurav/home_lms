@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Backend\HomeController;
+use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Backend\AdminLoginController;
+use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Frontend\UserLogoutController;
 
 /*
@@ -31,7 +32,7 @@ Route::get('/', function () {
 });
 
 Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
-    // Route::get('/dashboard', [HomeController::class, 'adminDashboard'])->name('admin.dashboard');
+    Route::get('/dashboard', [HomeController::class, 'userDashboard'])->name('user.dashboard');
     Route::post('/logout', [UserLogoutController::class, 'logout'])->name('user.logout');
 });
 
@@ -58,6 +59,6 @@ Route::prefix('admin')->group(function(){
 });
 
 Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
-    Route::get('/dashboard', [HomeController::class, 'adminDashboard'])->name('admin.dashboard');
+    Route::get('/dashboard', [BackendHomeController::class, 'adminDashboard'])->name('admin.dashboard');
     Route::post('/logout', [AdminLoginController::class, 'adminLogout'])->name('admin.logout');
 });
