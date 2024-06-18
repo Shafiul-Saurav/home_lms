@@ -23,10 +23,6 @@ use App\Http\Controllers\Frontend\UserLogoutController;
 |--------------------------------------------------------------------------
 */
 
-// Route::get('/', function () {
-//     return view('backend.pages.dashboard');
-// });
-
 Route::get('/', function () {
     return view('frontend.pages.home');
 });
