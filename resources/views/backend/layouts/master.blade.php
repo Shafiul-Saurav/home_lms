@@ -15,6 +15,7 @@
 
 		<!-- TITLE -->
 		<title> Dashboard | @yield('title') </title>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <!-- STYLE -->
         @include('backend.layouts.include.style')

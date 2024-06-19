@@ -2,9 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Backend\ModuleController;
 use App\Http\Controllers\Trash\RoleTrashController;
+use App\Http\Controllers\Trash\UserTrashController;
 use App\Http\Controllers\Trash\ModuleTrashController;
 use App\Http\Controllers\Backend\AdminLoginController;
 use App\Http\Controllers\Backend\PermissionController;
@@ -64,7 +66,7 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::get('/dashboard', [BackendHomeController::class, 'adminDashboard'])->name('admin.dashboard');
     Route::post('/logout', [AdminLoginController::class, 'adminLogout'])->name('admin.logout');
 
-    //Module Route
+    // Module Route
     Route::get('modules/trash', [ModuleTrashController::class, 'trash'])
     ->name('modules.trash');
     Route::get('modules/{module_slug}/restore', [ModuleTrashController::class, 'restore'])
@@ -73,7 +75,7 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     ->name('modules.forcedelete');
     Route::resource('/modules', ModuleController::class);
 
-    //Permission Route
+    // Permission Route
     Route::get('permissions/trash', [PermissionTrashController::class, 'trash'])
     ->name('permissions.trash');
     Route::get('permissions/{permission_slug}/restore', [PermissionTrashController::class, 'restore'])
@@ -82,7 +84,7 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     ->name('permissions.forcedelete');
     Route::resource('/permissions', PermissionController::class);
 
-    //Role Route
+    // Role Route
     Route::get('roles/trash', [RoleTrashController::class, 'trash'])
     ->name('roles.trash');
     Route::get('roles/{role_slug}/restore', [RoleTrashController::class, 'restore'])
@@ -90,4 +92,16 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::delete('roles/{role_slug}/forcedelete', [RoleTrashController::class, 'forceDelete'])
     ->name('roles.forcedelete');
     Route::resource('roles', RoleController::class);
+
+    // User Route
+    Route::get('/users/trash', [UserTrashController::class, 'trash'])->name('users.trash');
+    Route::get('/users/restore/{id}', [UserTrashController::class, 'restore'])
+    ->name('users.restore');
+    Route::delete('/users/forcedelete/{id}', [UserTrashController::class, 'forceDelete'])
+    ->name('users.forcedelete');
+
+    // Ajax Call Active
+    Route::get('check/user/is_active/{user_id}', [UserController::class, 'checkActive'])
+        ->name('user.is_active.ajax');
+    Route::resource('/users', UserController::class);
 });

@@ -85,7 +85,7 @@
                                     class="sub-angle fa fa-angle-right"></i></a>
                             <ul class="sub-slide-menu">
                                 <li><a class="sub-slide-item" href="{{ route('roles.index') }}">List</a></li>
-                                <li><a class="sub-slide-item" href="">Trash</a></li>
+                                <li><a class="sub-slide-item" href="{{ route('roles.trash') }}">Trash</a></li>
                             </ul>
                         </li>
                         <li class="sub-slide">
@@ -93,8 +93,8 @@
                                     class="sub-side-menu__label">User Setting</span><i
                                     class="sub-angle fa fa-angle-right"></i></a>
                             <ul class="sub-slide-menu">
-                                <li><a class="sub-slide-item" href="">List</a></li>
-                                <li><a class="sub-slide-item" href="">Trash</a></li>
+                                <li><a class="sub-slide-item" href="{{ route('users.index') }}">List</a></li>
+                                <li><a class="sub-slide-item" href="{{ route('users.trash') }}">Trash</a></li>
                             </ul>
                         </li>
                     </ul>
