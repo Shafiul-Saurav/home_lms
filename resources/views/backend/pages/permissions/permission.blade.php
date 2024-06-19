@@ -56,7 +56,9 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="permission_name">Permission Name</label>
-                                    <input type="text" name="permission_name" class="form-control" id="permission_name"
+                                    <input type="text" name="permission_name" class="form-control @error('permission_name')
+                                        is-invalid
+                                    @enderror" id="permission_name"
                                         value="{{ old('permission_name') }}" required>
                                     @error('permission_name')
                                         <span class="invalid-feedback" role="alert">
@@ -76,7 +78,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header border-bottom">
-                    <h3 class="card-title">Module List</h3>
+                    <h3 class="card-title">Permission List</h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">

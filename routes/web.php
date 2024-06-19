@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Backend\ModuleController;
+use App\Http\Controllers\Trash\RoleTrashController;
 use App\Http\Controllers\Trash\ModuleTrashController;
 use App\Http\Controllers\Backend\AdminLoginController;
 use App\Http\Controllers\Backend\PermissionController;
@@ -79,4 +81,13 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::delete('permissions/{permission_slug}/forcedelete', [PermissionTrashController::class, 'forceDelete'])
     ->name('permissions.forcedelete');
     Route::resource('/permissions', PermissionController::class);
+
+    //Role Route
+    Route::get('roles/trash', [RoleTrashController::class, 'trash'])
+    ->name('roles.trash');
+    Route::get('roles/{role_slug}/restore', [RoleTrashController::class, 'restore'])
+    ->name('roles.restore');
+    Route::delete('roles/{role_slug}/forcedelete', [RoleTrashController::class, 'forceDelete'])
+    ->name('roles.forcedelete');
+    Route::resource('roles', RoleController::class);
 });

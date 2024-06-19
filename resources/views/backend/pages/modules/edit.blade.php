@@ -36,7 +36,14 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="module_name">Module Name</label>
-                                    <input type="text" name="module_name" class="form-control" id="module_name" value="{{ $module->module_name }}" required>
+                                    <input type="text" name="module_name" class="form-control @error('module_name')
+                                        is-invalid
+                                    @enderror" id="module_name" value="{{ $module->module_name }}" required>
+                                    @error('module_name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
                         </div>

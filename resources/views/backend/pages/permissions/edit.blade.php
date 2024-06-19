@@ -57,7 +57,9 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="permission_name">Permission Name</label>
-                                    <input type="text" name="permission_name" class="form-control" id="permission_name"
+                                    <input type="text" name="permission_name" class="form-control @error('permission_name')
+                                        is-invalid
+                                    @enderror" id="permission_name"
                                         value="{{ $permission->permission_name }}" required>
                                     @error('permission_name')
                                         <span class="invalid-feedback" role="alert">

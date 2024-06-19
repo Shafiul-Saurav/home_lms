@@ -7,6 +7,7 @@ use App\Models\Permission;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PermissionStoreUpdateRequest;
 
 class PermissionController extends Controller
 {
@@ -35,7 +36,7 @@ class PermissionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PermissionStoreUpdateRequest $request)
     {
         //authorize this user to access/give access to admin dashboard
         // Gate::authorize('create-permission');
@@ -74,7 +75,7 @@ class PermissionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $permission_slug)
+    public function update(PermissionStoreUpdateRequest $request, string $permission_slug)
     {
         //authorize this user to access/give access to admin dashboard
         // Gate::authorize('edit-permission');

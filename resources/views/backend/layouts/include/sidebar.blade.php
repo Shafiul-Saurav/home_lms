@@ -84,7 +84,7 @@
                                     class="sub-side-menu__label">Role Setting</span><i
                                     class="sub-angle fa fa-angle-right"></i></a>
                             <ul class="sub-slide-menu">
-                                <li><a class="sub-slide-item" href="">List</a></li>
+                                <li><a class="sub-slide-item" href="{{ route('roles.index') }}">List</a></li>
                                 <li><a class="sub-slide-item" href="">Trash</a></li>
                             </ul>
                         </li>

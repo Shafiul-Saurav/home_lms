@@ -6,6 +6,7 @@ use App\Models\Module;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ModuleStoreUpdateRequest;
 
 class ModuleController extends Controller
 {
@@ -32,7 +33,7 @@ class ModuleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ModuleStoreUpdateRequest $request)
     {
         // dd($request->all());
         //authorize this user to access/give access to admin dashboard
@@ -69,7 +70,7 @@ class ModuleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $module_slug)
+    public function update(ModuleStoreUpdateRequest $request, string $module_slug)
     {
         // dd($request->module_slug);
         //authorize this user to access/give access to admin dashboard
