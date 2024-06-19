@@ -44,3 +44,5 @@
 
 <!-- SWITCHER JS -->
 <script src="{{asset('assets/backend')}}/switcher/js/switcher.js"></script>
+
+@stack('backend_script')

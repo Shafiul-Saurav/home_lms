@@ -2,9 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Backend\ModuleController;
+use App\Http\Controllers\Trash\ModuleTrashController;
 use App\Http\Controllers\Backend\AdminLoginController;
-use App\Http\Controllers\Backend\HomeController as BackendHomeController;
+use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Frontend\UserLogoutController;
+use App\Http\Controllers\Trash\PermissionTrashController;
+use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,4 +61,22 @@ Route::prefix('admin')->group(function(){
 Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::get('/dashboard', [BackendHomeController::class, 'adminDashboard'])->name('admin.dashboard');
     Route::post('/logout', [AdminLoginController::class, 'adminLogout'])->name('admin.logout');
+
+    //Module Route
+    Route::get('modules/trash', [ModuleTrashController::class, 'trash'])
+    ->name('modules.trash');
+    Route::get('modules/{module_slug}/restore', [ModuleTrashController::class, 'restore'])
+    ->name('modules.restore');
+    Route::delete('modules/{module_slug}/forcedelete', [ModuleTrashController::class, 'forceDelete'])
+    ->name('modules.forcedelete');
+    Route::resource('/modules', ModuleController::class);
+
+    //Permission Route
+    Route::get('permissions/trash', [PermissionTrashController::class, 'trash'])
+    ->name('permissions.trash');
+    Route::get('permissions/{permission_slug}/restore', [PermissionTrashController::class, 'restore'])
+    ->name('permissions.restore');
+    Route::delete('permissions/{permission_slug}/forcedelete', [PermissionTrashController::class, 'forceDelete'])
+    ->name('permissions.forcedelete');
+    Route::resource('/permissions', PermissionController::class);
 });

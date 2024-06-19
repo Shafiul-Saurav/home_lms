@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<!-- Mirrored from php.spruko.com/noa/noa/pages/index.php by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 19 May 2024 07:29:27 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 <head>
 
 		<!-- META DATA -->

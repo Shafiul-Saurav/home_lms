@@ -12,3 +12,5 @@
 <!-- INTERNAL SWITCHER CSS -->
 <link href="{{asset('assets/backend')}}/switcher/css/switcher.css" rel="stylesheet" />
 <link href="{{asset('assets/backend')}}/switcher/demo.css" rel="stylesheet" />
+
+@stack('backend_style')
