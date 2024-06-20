@@ -12,7 +12,9 @@ use App\Http\Controllers\Backend\AdminLoginController;
 use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Frontend\UserLogoutController;
 use App\Http\Controllers\Trash\PermissionTrashController;
+use App\Http\Controllers\Backend\GeneralSettingController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
+use App\Http\Controllers\Backend\PageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -99,9 +101,15 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     ->name('users.restore');
     Route::delete('/users/forcedelete/{id}', [UserTrashController::class, 'forceDelete'])
     ->name('users.forcedelete');
-
     // Ajax Call Active
     Route::get('check/user/is_active/{user_id}', [UserController::class, 'checkActive'])
         ->name('user.is_active.ajax');
     Route::resource('/users', UserController::class);
+
+    // Page Route
+    Route::resource('/pages', PageController::class);
+
+    //General Route
+    Route::get('logo_fav', [GeneralSettingController::class, 'logoFav'])->name('logo.fav');
+    Route::post('logo_fav_store', [GeneralSettingController::class, 'logoFavUpdate'])->name('logo.fav.store');
 });

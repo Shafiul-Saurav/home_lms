@@ -13,6 +13,8 @@
 <script src="{{asset('assets/backend')}}/js/dataTables.responsive.min.js"></script>
 <script src="{{asset('assets/backend')}}/js/responsive.bootstrap5.min.js"></script>
 <script src="{{asset('assets/backend')}}/js/table-data.js"></script>
+<script src="{{asset('assets/backend')}}/js/fileupload.js"></script>
+<script src="{{asset('assets/backend')}}/js/file-upload.js"></script>
 <script>
     $('.show_confirm').click(function(event){
             let form = $(this).closest('form');
