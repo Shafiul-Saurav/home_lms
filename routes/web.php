@@ -10,13 +10,16 @@ use App\Http\Controllers\Trash\UserTrashController;
 use App\Http\Controllers\Trash\ModuleTrashController;
 use App\Http\Controllers\Backend\AdminLoginController;
 use App\Http\Controllers\Backend\BreadcrumbController;
+use App\Http\Controllers\Backend\CopyrightController;
 use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Frontend\UserLogoutController;
 use App\Http\Controllers\Trash\PermissionTrashController;
 use App\Http\Controllers\Backend\GeneralSettingController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
+use App\Http\Controllers\Backend\HomeSliderController;
 use App\Http\Controllers\Backend\LogoFaviconController;
 use App\Http\Controllers\Backend\PageController;
+use App\Http\Controllers\Backend\WebsiteLinkController;
 
 /*
 |--------------------------------------------------------------------------
@@ -112,7 +115,6 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::resource('/pages', PageController::class);
 
     /*
-    |------------------------------------------|
     | General Setting                          |
     |------------------------------------------|
     */
@@ -123,5 +125,13 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     // Breadcrumb Route
     Route::resource('breadcrumb', BreadcrumbController::class);
 
+    // Websitelink Route
+    Route::resource('website_link', WebsiteLinkController::class);
+
+    // Home Slider Route
+    Route::resource('home_slider', HomeSliderController::class);
+
+    // Copyright Route
+    Route::resource('copyright', CopyrightController::class);
 
 });
