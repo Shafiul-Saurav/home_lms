@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PageName extends Model
+class Breadcrumb extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
 
     //Relationship with Breadcrumb
-    public function breadcrumbs()
+    public function pageName()
     {
-        return $this->hasMany(Breadcrumb::class);
+        return $this->belongsTo(PageName::class, 'page_id', 'id');
     }
 }

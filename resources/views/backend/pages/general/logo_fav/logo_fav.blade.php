@@ -28,7 +28,7 @@
                     <h3 class="card-title">Website Setting</h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('logo.fav.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('logo_fav.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-row">
                             <div class="col-12 mb-3">

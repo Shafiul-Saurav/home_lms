@@ -2,22 +2,36 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
 use App\Models\LogoFavicon;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 
-class GeneralSettingController extends Controller
+class LogoFaviconController extends Controller
 {
-    public function logoFav()
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $logo_fav = LogoFavicon::first(); // Assuming there is only one logo and favicon
+        $logo_fav = LogoFavicon::first();
         $logo_favs = LogoFavicon::all();
 
         return view('backend.pages.general.logo_fav.logo_fav', compact('logo_fav', 'logo_favs'));
     }
 
-    public function logoFavUpdate(Request $request)
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
     {
         // dd($request->all());
         $logo_fav = LogoFavicon::firstOrNew([]);
@@ -48,8 +62,38 @@ class GeneralSettingController extends Controller
 
         $logo_fav->save();
 
-        return redirect()->route('logo.fav')->with('message', 'Logo Updated successfully');
+        return redirect()->back()->with('message', 'Logo Updated successfully');
     }
 
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
 }

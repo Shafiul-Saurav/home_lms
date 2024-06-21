@@ -34,9 +34,9 @@
                         <span class="side-menu__label ms-3">General Setting</span><i class="fa-solid fa-angle-right"></i>
                     </a>
                     <ul class="slide-menu">
-                        <li><a href="{{ route('logo.fav') }}" class="slide-item">Logo & Favicon Setting</a></li>
+                        <li><a href="{{ route('logo_fav.index') }}" class="slide-item">Logo & Favicon Setting</a></li>
                         <li><a href="{{ route('pages.index') }}" class="slide-item">Page Create</a></li>
-                        <li><a href="form-validation.html" class="slide-item">Form Validation</a></li>
+                        <li><a href="{{ route('breadcrumb.index') }}" class="slide-item">Breadcrumb/Banner Setting</a></li>
                         <li><a href="form-advanced.html" class="slide-item">Form Advanced</a></li>
                         <li><a href="wysiwyag.html" class="slide-item">Form Editors</a></li>
                         <li><a href="form-editable.html" class="slide-item">Form Editable</a></li>

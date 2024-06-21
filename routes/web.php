@@ -9,11 +9,13 @@ use App\Http\Controllers\Trash\RoleTrashController;
 use App\Http\Controllers\Trash\UserTrashController;
 use App\Http\Controllers\Trash\ModuleTrashController;
 use App\Http\Controllers\Backend\AdminLoginController;
+use App\Http\Controllers\Backend\BreadcrumbController;
 use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Frontend\UserLogoutController;
 use App\Http\Controllers\Trash\PermissionTrashController;
 use App\Http\Controllers\Backend\GeneralSettingController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
+use App\Http\Controllers\Backend\LogoFaviconController;
 use App\Http\Controllers\Backend\PageController;
 
 /*
@@ -109,7 +111,17 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     // Page Route
     Route::resource('/pages', PageController::class);
 
-    //General Route
-    Route::get('logo_fav', [GeneralSettingController::class, 'logoFav'])->name('logo.fav');
-    Route::post('logo_fav_store', [GeneralSettingController::class, 'logoFavUpdate'])->name('logo.fav.store');
+    /*
+    |------------------------------------------|
+    | General Setting                          |
+    |------------------------------------------|
+    */
+
+    // Logo_Favicon Route
+    Route::resource('logo_fav', LogoFaviconController::class);
+
+    // Breadcrumb Route
+    Route::resource('breadcrumb', BreadcrumbController::class);
+
+
 });
