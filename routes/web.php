@@ -1,25 +1,27 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\Backend\RoomController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Backend\ModuleController;
 use App\Http\Controllers\Trash\RoleTrashController;
 use App\Http\Controllers\Trash\UserTrashController;
+use App\Http\Controllers\Backend\RoomTypeController;
+use App\Http\Controllers\Backend\CopyrightController;
 use App\Http\Controllers\Trash\ModuleTrashController;
 use App\Http\Controllers\Backend\AdminLoginController;
 use App\Http\Controllers\Backend\BreadcrumbController;
-use App\Http\Controllers\Backend\CopyrightController;
+use App\Http\Controllers\Backend\HomeSliderController;
 use App\Http\Controllers\Backend\PermissionController;
+use App\Http\Controllers\Backend\LogoFaviconController;
+use App\Http\Controllers\Backend\WebsiteLinkController;
 use App\Http\Controllers\Frontend\UserLogoutController;
 use App\Http\Controllers\Trash\PermissionTrashController;
 use App\Http\Controllers\Backend\GeneralSettingController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
-use App\Http\Controllers\Backend\HomeSliderController;
-use App\Http\Controllers\Backend\LogoFaviconController;
-use App\Http\Controllers\Backend\PageController;
-use App\Http\Controllers\Backend\WebsiteLinkController;
 
 /*
 |--------------------------------------------------------------------------
@@ -115,7 +117,7 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::resource('/pages', PageController::class);
 
     /*
-    | General Setting                          |
+    | General Setting Start                    |
     |------------------------------------------|
     */
 
@@ -134,4 +136,17 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     // Copyright Route
     Route::resource('copyright', CopyrightController::class);
 
+    /*
+    | General Setting End                      |
+    |------------------------------------------|
+    */
+
+    // Room Type Route
+    Route::resource('room_types', RoomTypeController::class);
+
+    // Room Route
+    // Ajax Call Active
+    Route::get('check/room/is_wifi/{room_id}', [RoomController::class, 'checkActiveWifi'])
+        ->name('room.is_wifi.ajax');
+    Route::resource('rooms', RoomController::class);
 });

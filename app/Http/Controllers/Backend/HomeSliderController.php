@@ -38,7 +38,7 @@ class HomeSliderController extends Controller
         ]);
 
         $this->image_upload($request, $home_slider->id);
-        return redirect()->back()->with('message', 'Slider Created Successfully');
+        return redirect()->back()->with('message', 'Slider Created Successfully 🙂');
     }
 
     /**
@@ -69,7 +69,7 @@ class HomeSliderController extends Controller
             'description' => $request->description,
         ]);
         $this->image_upload($request, $home_slider->id);
-        return redirect()->route('home_slider.index')->with('message', 'Slider Updated Successfully');
+        return redirect()->route('home_slider.index')->with('message', 'Slider Updated Successfully 🙂');
     }
 
     /**
@@ -83,7 +83,7 @@ class HomeSliderController extends Controller
             unlink($photo_location);
         }
         $home_slider->delete();
-        return redirect()->back()->with('error', 'Slider Updated Successfully');
+        return redirect()->back()->with('error', 'Slider Deleted Successfully');
     }
 
     /**
