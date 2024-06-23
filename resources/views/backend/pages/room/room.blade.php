@@ -264,46 +264,47 @@
         });
     </script>
      <script>
-        $(document).ready(function() {
-            let imageFieldIndex = 1;
+       $(document).ready(function() {
+    let imageFieldIndex = 1;
 
-            // Add new image input field
-            $(document).on('click', '.addImageField', function() {
-                const newField = `
-                    <div class="d-flex justify-content-between mb-2" id="multipleImageField${imageFieldIndex}">
-                        <input type="file" name="multiple_image[]" class="form-control me-4" />
-                        <button type="button" class="btn btn-danger removeImageField" data-id="${imageFieldIndex}">-</button>
-                    </div>`;
-                $('#multipleImageFields').append(newField);
-                imageFieldIndex++;
-            });
+    // Add new image input field
+    $(document).on('click', '.addImageField', function() {
+        const newField = `
+            <div class="d-flex justify-content-between mb-2" id="multipleImageField${imageFieldIndex}">
+                <input type="file" name="multiple_image[]" class="form-control me-4" />
+                <button type="button" class="btn btn-danger removeImageField" data-id="${imageFieldIndex}">-</button>
+            </div>`;
+        $('#multipleImageFields').append(newField);
+        imageFieldIndex++;
+    });
 
-            // Remove image input field
-            $(document).on('click', '.removeImageField', function() {
-                const id = $(this).data('id');
-                $(`#multipleImageField${id}`).remove();
-            });
+    // Remove image input field
+    $(document).on('click', '.removeImageField', function() {
+        const id = $(this).data('id');
+        $(`#multipleImageField${id}`).remove();
+    });
 
-            // Handle form submission with AJAX
-            $('#roomForm').on('submit', function(event) {
-                event.preventDefault();
+    // Handle form submission with AJAX
+    $('#roomForm').on('submit', function(event) {
+        event.preventDefault();
 
-                let formData = new FormData(this);
+        let formData = new FormData(this);
 
-                $.ajax({
-                    url: '{{ route('rooms.store') }}',
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        $('#response').html('<p class="alert alert-success">Room created successfully!</p>');
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        $('#response').html('<p class="alert alert-danger">Error creating room: ' + errorThrown + '</p>');
-                    }
-                });
-            });
+        $.ajax({
+            url: '{{ route('rooms.store') }}',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                $('#response').html('<p class="alert alert-success">Room created successfully!</p>');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                $('#response').html('<p class="alert alert-danger">Error creating room: ' + errorThrown + '</p>');
+            }
         });
+    });
+});
+
     </script>
 @endpush

@@ -151,16 +151,22 @@ class RoomController extends Controller
 
         if ($request->hasFile('multiple_image')) {
             foreach ($request->file('multiple_image') as $uploaded_photo) {
-                // Handle each multiple image upload
-                $photo_location = 'public/uploads/rooms/';
-                $new_photo_name = $room->id . '_' . time() . '.' . $uploaded_photo->getClientOriginalExtension();
-                $new_photo_location = $photo_location . $new_photo_name;
-                Image::make($uploaded_photo)->resize(380, 400)->save(base_path($new_photo_location), 40);
+                if ($uploaded_photo->isValid()) {
+                    // Handle each multiple image upload
+                    $photo_location = 'public/uploads/rooms/';
+                    $new_photo_name = $room->id . '_' . time() . '_' . uniqid() . '.' . $uploaded_photo->getClientOriginalExtension();
+                    $new_photo_location = $photo_location . $new_photo_name;
 
-                // Save image to RoomImage model
-                $room->roomImages()->create([
-                    'multiple_image' => $new_photo_name,
-                ]);
+                    // Resize and save the image
+                    Image::make($uploaded_photo)->resize(380, 400)->save(base_path($new_photo_location), 40);
+
+                    // Save image to RoomImage model
+                    $room->roomImages()->create([
+                        'multiple_image' => $new_photo_name,
+                    ]);
+                } else {
+                    Log::warning('Invalid image file: ' . $uploaded_photo->getClientOriginalName());
+                }
             }
         }
     }
