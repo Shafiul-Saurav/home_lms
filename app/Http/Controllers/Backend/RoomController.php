@@ -7,6 +7,9 @@ use App\Models\Roomtype;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class RoomController extends Controller
 {
@@ -43,6 +46,7 @@ class RoomController extends Controller
         ]);
 
         $this->image_upload($request, $room->id);
+        $this->multiple_image_upload($request, $room->id);
         return redirect()->back()->with('message', 'Room Created Successfully 🙂');
     }
 
@@ -78,23 +82,40 @@ class RoomController extends Controller
         ]);
 
         $this->image_upload($request, $room->id);
+        $this->multiple_image_upload($request, $room->id);
         return redirect()->route('rooms.index')->with('message', 'Room Updated Successfully 🙂');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        $room = Room::where('id', $id)->first();
-        if($room->image != 'default_home_slider.jpg'){
+        $room = Room::findOrFail($id);
+
+        // Delete main room image if it's not the default
+        if($room->image != 'default_room.jpg'){
             $photo_location = 'uploads/rooms/'.$room->image;
             unlink($photo_location);
         }
-        $room->delete();
-        return redirect()->back()->with('error', 'Room Deleted Successfully');
-    }
 
+        // Delete multiple room images and their associated files
+        foreach ($room->roomImages as $roomImage) {
+            $image_path = public_path('uploads/rooms/' . $roomImage->multiple_image);
+            if (file_exists($image_path)) {
+                unlink($image_path);
+                Log::info('Room image deleted: ' . $image_path);
+            } else {
+                Log::warning('Room image not found or could not delete: ' . $image_path);
+            }
+            $roomImage->delete();
+        }
+
+        // Delete the room record
+        $room->delete();
+
+        return redirect()->back()->with('error', 'Room deleted successfully');
+    }
      /**
      * Store/Update the Image file.
      *
@@ -121,6 +142,26 @@ class RoomController extends Controller
             $check = $room->update([
                 'image' => $new_photo_name,
             ]);
+        }
+    }
+
+    protected function multiple_image_upload($request, $room_id)
+    {
+        $room = Room::findOrFail($room_id);
+
+        if ($request->hasFile('multiple_image')) {
+            foreach ($request->file('multiple_image') as $uploaded_photo) {
+                // Handle each multiple image upload
+                $photo_location = 'public/uploads/rooms/';
+                $new_photo_name = $room->id . '_' . time() . '.' . $uploaded_photo->getClientOriginalExtension();
+                $new_photo_location = $photo_location . $new_photo_name;
+                Image::make($uploaded_photo)->resize(380, 400)->save(base_path($new_photo_location), 40);
+
+                // Save image to RoomImage model
+                $room->roomImages()->create([
+                    'multiple_image' => $new_photo_name,
+                ]);
+            }
         }
     }
 
