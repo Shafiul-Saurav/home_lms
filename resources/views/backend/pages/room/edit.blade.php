@@ -91,6 +91,27 @@
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-group">
+                                    <label for="multiple_image">Multiple Images</label>
+                                    <div id="multipleImageFields">
+                                        <div class="d-flex justify-content-between mb-2" id="multipleImageField0">
+                                            <input type="file" name="multiple_image[]" class="form-control me-4" />
+                                            <button type="button" class="btn btn-secondary addImageField">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <ul class="list-inline">
+                                    @foreach ($room->roomImages as $roomImage)
+                                    <li class="list-inline-item">
+                                        <img src="{{ asset('uploads/rooms') }}/{{ $roomImage->multiple_image }}" alt="" style="height: 100px">
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
                                     <label for="price">Price</label>
                                     <input type="number" name="price" class="form-control @error('price')
                                         is-invalid
@@ -115,4 +136,26 @@
 
 @push('backend_script')
     @include('backend.pages.common.script')
+    <script>
+        $(document).ready(function() {
+            let imageFieldIndex = 1;
+
+            // Add new image input field
+            $(document).on('click', '.addImageField', function() {
+                const newField = `
+                    <div class="d-flex justify-content-between mb-2" id="multipleImageField${imageFieldIndex}">
+                        <input type="file" name="multiple_image[]" class="form-control me-4" />
+                        <button type="button" class="btn btn-danger removeImageField" data-id="${imageFieldIndex}">-</button>
+                    </div>`;
+                $('#multipleImageFields').append(newField);
+                imageFieldIndex++;
+            });
+
+            // Remove image input field
+            $(document).on('click', '.removeImageField', function() {
+                const id = $(this).data('id');
+                $(`#multipleImageField${id}`).remove();
+            });
+        });
+    </script>
 @endpush

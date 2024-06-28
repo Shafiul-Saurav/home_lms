@@ -150,6 +150,15 @@ class RoomController extends Controller
         $room = Room::findOrFail($room_id);
 
         if ($request->hasFile('multiple_image')) {
+            // Optionally, delete old images here if necessary
+            foreach ($room->roomImages as $roomImage) {
+                $image_path = public_path('uploads/rooms/' . $roomImage->multiple_image);
+                if (file_exists($image_path)) {
+                    unlink($image_path);
+                }
+                $roomImage->delete();
+            }
+
             foreach ($request->file('multiple_image') as $uploaded_photo) {
                 if ($uploaded_photo->isValid()) {
                     // Handle each multiple image upload

@@ -28,8 +28,11 @@
                 <li>
                     <h3>Pages</h3>
                 </li>
-                <li class="slide">
-                    <a class="side-menu__item {{Request::routeIs('logo_fav.index') ? 'active' : ''}}
+                <li class="slide {{Request::routeIs('logo_fav.index') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('pages.index') ? 'is-expanded' : ''}} {{Request::routeIs('breadcrumb.index') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('website_link.index') ? 'is-expanded' : ''}} {{Request::routeIs('home_slider.index') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('copyright.index') ? 'is-expanded' : ''}}">
+                    <a class="side-menu__item  {{Request::routeIs('logo_fav.index') ? 'active' : ''}}
                     {{Request::routeIs('pages.index') ? 'active' : ''}} {{Request::routeIs('breadcrumb.index') ? 'active' : ''}}
                     {{Request::routeIs('website_link.index') ? 'active' : ''}} {{Request::routeIs('home_slider.index') ? 'active' : ''}}
                     {{Request::routeIs('copyright.index') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
@@ -45,69 +48,82 @@
                         <li><a href="{{ route('copyright.index') }}" class="slide-item {{Request::routeIs('copyright.index') ? 'active' : ''}}">Copyright Setting</a></li>
                     </ul>
                 </li>
-                {{-- <li class="slide">
-                    <a class="side-menu__item" data-bs-toggle="slide" href="#">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M19,2H9C7.3438721,2.0018311,6.0018311,3.3438721,6,5v1H5C3.3438721,6.0018311,2.0018311,7.3438721,2,9v10c0.0018311,1.6561279,1.3438721,2.9981689,3,3h10c1.6561279-0.0018311,2.9981689-1.3438721,3-3v-1h1c1.6561279-0.0018311,2.9981689-1.3438721,3-3V5C21.9981689,3.3438721,20.6561279,2.0018311,19,2z M17,19c-0.0014038,1.1040039-0.8959961,1.9985962-2,2H5c-1.1040039-0.0014038-1.9985962-0.8959961-2-2v-8h14V19z M17,10H3V9c0.0014038-1.1040039,0.8959961-1.9985962,2-2h10c1.1040039,0.0014038,1.9985962,0.8959961,2,2V10z M21,15c-0.0014038,1.1040039-0.8959961,1.9985962-2,2h-1V9c-0.0008545-0.7719116-0.3010864-1.4684448-0.7803345-2H21V15z M21,6H7V5c0.0014038-1.1040039,0.8959961-1.9985962,2-2h10c1.1040039,0.0014038,1.9985962,0.8959961,2,2V6z"/></svg>
-                        <span class="side-menu__label">Tables</span><i class="fa-solid fa-angle-right"></i></a>
-                    <ul class="slide-menu">
-                        <li class="side-menu-label1"><a href="javascript:void(0)">Tables</a></li>
-                        <li><a href="tables.html" class="slide-item">Default Table</a></li>
-                        <li><a href="datatable.html" class="slide-item">Data Tables</a></li>
-                        <li><a href="table-editable.html" class="slide-item">Editable Tables</a></li>
-                    </ul>
-                </li> --}}
-                <li class="slide">
-                    <a class="side-menu__item" data-bs-toggle="slide" href="#">
+                <li class="slide {{Request::routeIs('modules.index') ? 'is-expanded' : ''}}
+                {{Request::routeIs('modules.trash') ? 'is-expanded' : ''}}
+                {{Request::routeIs('permissions.index') ? 'is-expanded' : ''}}
+                {{Request::routeIs('permissions.trash') ? 'is-expanded' : ''}}
+                {{Request::routeIs('roles.index') ? 'is-expanded' : ''}}
+                {{Request::routeIs('roles.trash') ? 'is-expanded' : ''}}
+                {{Request::routeIs('users.index') ? 'is-expanded' : ''}}
+                {{Request::routeIs('users.trash') ? 'is-expanded' : ''}}">
+                    <a class="side-menu__item {{Request::routeIs('modules.index') ? 'active' : ''}}
+                {{Request::routeIs('modules.trash') ? 'active' : ''}}
+                {{Request::routeIs('permissions.index') ? 'active' : ''}}
+                {{Request::routeIs('permissions.trash') ? 'active' : ''}}
+                {{Request::routeIs('roles.index') ? 'active' : ''}}
+                {{Request::routeIs('roles.trash') ? 'active' : ''}}
+                {{Request::routeIs('users.index') ? 'active' : ''}}
+                {{Request::routeIs('users.trash') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M19,2H9C7.3438721,2.0018311,6.0018311,3.3438721,6,5v1H5C3.3438721,6.0018311,2.0018311,7.3438721,2,9v10c0.0018311,1.6561279,1.3438721,2.9981689,3,3h10c1.6561279-0.0018311,2.9981689-1.3438721,3-3v-1h1c1.6561279-0.0018311,2.9981689-1.3438721,3-3V5C21.9981689,3.3438721,20.6561279,2.0018311,19,2z M17,19c-0.0014038,1.1040039-0.8959961,1.9985962-2,2H5c-1.1040039-0.0014038-1.9985962-0.8959961-2-2v-8h14V19z M17,10H3V9c0.0014038-1.1040039,0.8959961-1.9985962,2-2h10c1.1040039,0.0014038,1.9985962,0.8959961,2,2V10z M21,15c-0.0014038,1.1040039-0.8959961,1.9985962-2,2h-1V9c-0.0008545-0.7719116-0.3010864-1.4684448-0.7803345-2H21V15z M21,6H7V5c0.0014038-1.1040039,0.8959961-1.9985962,2-2h10c1.1040039,0.0014038,1.9985962,0.8959961,2,2V6z"/></svg>
                         <span class="side-menu__label">Role Management</span><i class="fa-solid fa-angle-right"></i>
                     </a>
                     <ul class="slide-menu">
-                        <li class="sub-slide">
-                            <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span
+                        <li class="sub-slide {{Request::routeIs('modules.index') ? 'is-expanded' : ''}}
+                {{Request::routeIs('modules.trash') ? 'is-expanded' : ''}}">
+                            <a class="sub-side-menu__item {{Request::routeIs('modules.index') ? 'active' : ''}}
+                {{Request::routeIs('modules.trash') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
                                     class="sub-side-menu__label">Module Setting</span><i
                                     class="sub-angle fa fa-angle-right"></i></a>
                             <ul class="sub-slide-menu">
-                                <li><a class="sub-slide-item" href="{{ route('modules.index') }}">List</a></li>
-                                <li><a class="sub-slide-item" href="{{ route('modules.trash') }}">Trash</a></li>
+                                <li><a class="sub-slide-item {{Request::routeIs('modules.index') ? 'active' : ''}}" href="{{ route('modules.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{Request::routeIs('modules.trash') ? 'active' : ''}}" href="{{ route('modules.trash') }}">Trash</a></li>
                             </ul>
                         </li>
-                        <li class="sub-slide">
-                            <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span
+                        <li class="sub-slide {{Request::routeIs('permissions.index') ? 'is-expanded' : ''}}
+                        {{Request::routeIs('permissions.trash') ? 'is-expanded' : ''}}">
+                            <a class="sub-side-menu__item {{Request::routeIs('permissions.index') ? 'active' : ''}}
+                        {{Request::routeIs('permissions.trash') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
                                     class="sub-side-menu__label">Permission Setting</span><i
                                     class="sub-angle fa fa-angle-right"></i></a>
                             <ul class="sub-slide-menu">
-                                <li><a class="sub-slide-item" href="{{ route('permissions.index') }}">List</a></li>
-                                <li><a class="sub-slide-item" href="{{ route('permissions.trash') }}">Trash</a></li>
+                                <li><a class="sub-slide-item {{Request::routeIs('permissions.index') ? 'active' : ''}}" href="{{ route('permissions.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{Request::routeIs('permissions.trash') ? 'active' : ''}}" href="{{ route('permissions.trash') }}">Trash</a></li>
                             </ul>
                         </li>
-                        <li class="sub-slide">
-                            <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span
+                        <li class="sub-slide {{Request::routeIs('roles.index') ? 'is-expanded' : ''}}
+                        {{Request::routeIs('roles.trash') ? 'is-expanded' : ''}}">
+                            <a class="sub-side-menu__item {{Request::routeIs('roles.index') ? 'active' : ''}}
+                        {{Request::routeIs('roles.trash') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
                                     class="sub-side-menu__label">Role Setting</span><i
                                     class="sub-angle fa fa-angle-right"></i></a>
                             <ul class="sub-slide-menu">
-                                <li><a class="sub-slide-item" href="{{ route('roles.index') }}">List</a></li>
-                                <li><a class="sub-slide-item" href="{{ route('roles.trash') }}">Trash</a></li>
+                                <li><a class="sub-slide-item {{Request::routeIs('roles.index') ? 'active' : ''}}" href="{{ route('roles.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{Request::routeIs('roles.trash') ? 'active' : ''}}" href="{{ route('roles.trash') }}">Trash</a></li>
                             </ul>
                         </li>
-                        <li class="sub-slide">
-                            <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span
+                        <li class="sub-slide {{Request::routeIs('users.index') ? 'is-expanded' : ''}}
+                        {{Request::routeIs('users.trash') ? 'is-expanded' : ''}}">
+                            <a class="sub-side-menu__item {{Request::routeIs('users.index') ? 'active' : ''}}
+                        {{Request::routeIs('users.trash') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
                                     class="sub-side-menu__label">User Setting</span><i
                                     class="sub-angle fa fa-angle-right"></i></a>
                             <ul class="sub-slide-menu">
-                                <li><a class="sub-slide-item" href="{{ route('users.index') }}">List</a></li>
-                                <li><a class="sub-slide-item" href="{{ route('users.trash') }}">Trash</a></li>
+                                <li><a class="sub-slide-item {{Request::routeIs('users.index') ? 'active' : ''}}" href="{{ route('users.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{Request::routeIs('users.trash') ? 'active' : ''}}" href="{{ route('users.trash') }}">Trash</a></li>
                             </ul>
                         </li>
                     </ul>
                 </li>
-                <li class="slide">
-                    <a class="side-menu__item {{Request::routeIs('room_types.index') ? 'active' : ''}} {{Request::routeIs('rooms.index') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
+                <li class="slide {{Request::routeIs('room_types.index') ? 'is-expanded' : ''}}
+                {{Request::routeIs('rooms.index') ? 'is-expanded' : ''}}">
+                    <a class="side-menu__item {{Request::routeIs('room_types.index') ? 'active' : ''}}
+                {{Request::routeIs('rooms.index') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
                         <i class="fa-solid fa-people-roof"></i>
                         <span class="side-menu__label ms-3">Room Management</span><i class="fa-solid fa-angle-right"></i>
                     </a>
                     <ul class="slide-menu">
                         <li><a href="{{ route('room_types.index') }}" class="slide-item {{Request::routeIs('room_types.index') ? 'active' : ''}}">Room Type Setting</a></li>
-                        <li><a href="{{ route('rooms.index') }}" class="slide-item {{Request::routeIs('rooms.index') ? 'active' : ''}}">Room Type Setting</a></li>
+                        <li><a href="{{ route('rooms.index') }}" class="slide-item {{Request::routeIs('rooms.index') ? 'active' : ''}}">Room Setting</a></li>
                     </ul>
                 </li>
                 <li class="slide">
