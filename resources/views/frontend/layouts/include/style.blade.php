@@ -22,6 +22,7 @@
 <link rel="stylesheet" href="{{asset('assets/frontend')}}/css/magnific-popup.min.css">
 <!-- Beautiful Fonts CSS -->
 <link rel="stylesheet" href="{{asset('assets/frontend')}}/css/beautiful-fonts.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 <!-- Style CSS -->
 <link rel="stylesheet" href="{{asset('assets/frontend')}}/css/style.css">
 <!-- Dark CSS -->

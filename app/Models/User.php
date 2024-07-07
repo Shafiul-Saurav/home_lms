@@ -76,4 +76,10 @@ class User extends Authenticatable
         return $this->role->permissions()->where('permission_slug', $permission_slug)
         ->first() ? true : false;
     }
+
+    //Relationship with Profile
+    // Public function profile()
+    // {
+    //     return $this->hasOne(Profile::class);
+    // }
 }
