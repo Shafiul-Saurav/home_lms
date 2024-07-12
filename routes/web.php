@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\ModuleController;
 use App\Http\Controllers\Trash\RoleTrashController;
 use App\Http\Controllers\Trash\UserTrashController;
 use App\Http\Controllers\Backend\RoomTypeController;
+use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Backend\CopyrightController;
 use App\Http\Controllers\Trash\ModuleTrashController;
 use App\Http\Controllers\Backend\AdminLoginController;
@@ -19,10 +20,10 @@ use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Backend\LogoFaviconController;
 use App\Http\Controllers\Backend\WebsiteLinkController;
 use App\Http\Controllers\Frontend\UserLogoutController;
+use App\Http\Controllers\Frontend\ProfileImageController;
 use App\Http\Controllers\Trash\PermissionTrashController;
 use App\Http\Controllers\Backend\GeneralSettingController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
-use App\Http\Controllers\Frontend\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,9 @@ Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
     Route::post('/logout', [UserLogoutController::class, 'logout'])->name('user.logout');
     Route::post('/general_store', [ProfileController::class, 'generalStore'])->name('general.store');
     Route::post('/profile_store', [ProfileController::class, 'profileStore'])->name('profile.store');
+    Route::post('myupdate/password', [ProfileController::class, 'updatePassword'])->name('mypostupdate.password');
+
+    Route::post('image/crop',[ProfileImageController::class, 'crop'])->name('image.crop');
 });
 
 Route::middleware([

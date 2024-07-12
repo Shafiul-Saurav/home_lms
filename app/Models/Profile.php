@@ -11,9 +11,14 @@ class Profile extends Model
 
     protected $guarded = ['id'];
 
-    //Relationship with User
+    // Relationship with User
     Public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    // Relationship with ProfileImage
+    public function profileImage() {
+        return $this->hasOne(ProfileImage::class);
     }
 }

@@ -4,15 +4,14 @@
 
 @push('frontend_style')
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="{{ asset('ijaboCropTool/ijaboCropTool.min.css') }}">
     <style>
         .nav-pills .nav-link.active,
         .nav-pills .show>.nav-link {
             color: #fff;
             background-color: #cc8c18;
             border-radius: 0;
-
         }
-
         .custom_link {
             color: #cc8c18;
             border: 1px solid #cc8c18;
@@ -24,11 +23,9 @@
             font-size: 24px;
             margin-right: 10px;
         }
-
         .custom_link:hover {
             color: #cc8c18;
         }
-
         input[type="radio"] {
             appearance: none;
             width: 18px;
@@ -236,16 +233,17 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="tab-content responsive-tab-content" id="v-pills-tabContent">
+                                    <!-- User General Setting Start -->
                                     <div class="tab-pane fade show active" id="v-pills-general" role="tabpanel"
                                         aria-labelledby="v-pills-general-tab" tabindex="0">
                                         <h4>General Information</h4>
-                                        {{-- @if ($profile)
+                                        @if ($profile)
                                             @if ($profileImage && $profileImage->profile_image)
-                                                <img src="{{ asset($profileImage->profile_image) }}" class="profile_image" alt="Profile Image" style="width: 200px; height: 200px; border: 5px solid #2490EB; border-radius: 50%;">
+                                                <img src="{{ asset($profileImage->profile_image) }}" class="profile_image" alt="Profile Image" style="width: 200px; height: 200px; border: 5px solid #cc8c18;  border-radius: 50%;">
+                                            @else
+                                                <img src="{{ asset('profile/default_profile.png') }}" class="profile_image" style="width: 200px; height: 200px; border-radius: 50%;">
                                             @endif
-                                        @else --}}
-                                        {{-- <img src="{{ asset('profile/default_profile.png') }}" class="profile_image" style="width: 200px; height: 200px; border-radius: 50%;" alt="Default Profile Image">
-                                        @endif --}}
+                                        @endif
 
                                         <form action="{{ route('general.store') }}" method="POST" class="mt-4">
                                             @csrf
@@ -271,6 +269,7 @@
                                             </div>
                                         </form>
                                     </div>
+                                    <!-- User Personal Setting Start -->
                                     <div class="tab-pane fade" id="v-pills-personal" role="tabpanel"
                                         aria-labelledby="v-pills-personal-tab" tabindex="0">
                                         <h4>Personal Information</h4>
@@ -323,11 +322,62 @@
                                         </form>
 
                                     </div>
+
+                                    <!-- User Profile Setting Start -->
+                                    @if($profile)
                                     <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
-                                        aria-labelledby="v-pills-profile-tab" tabindex="0">Profile
+                                        aria-labelledby="v-pills-profile-tab" tabindex="0">
+                                        <h4>Upload Your Profile Picture</h4>
+                                        @if ($profileImage && $profileImage->profile_image)
+                                            <img src="{{ asset($profileImage->profile_image) }}" class="profile_image" alt="Profile Image" style="width: 200px; height: 200px; border: 5px solid #cc8c18;  border-radius: 50%;">
+                                        @else
+                                        <img src="{{ asset('profile/default_profile.png') }}" class="profile_image" style="width: 200px; height: 200px; border-radius: 50%;">
+                                        @endif
+                                        <div class="form-group mt-4">
+                                            <label for="">Change Picture</label>
+                                            <input type="file" name="profile_image" class="form-control rounded-5" id="profile_image">
+                                        </div>
                                     </div>
+                                    @endif
                                     <div class="tab-pane fade" id="v-pills-password" role="tabpanel"
-                                        aria-labelledby="v-pills-password-tab" tabindex="0">Change Password
+                                        aria-labelledby="v-pills-password-tab" tabindex="0">
+                                        <h4>Change Password</h4>
+                                        <form action="{{ route('mypostupdate.password') }}" method="POST" class="mt-4">
+                                            @csrf
+                                            <div class="form-group mb-3">
+                                                <input type="password" name="old_password" placeholder="Enter Old Password *"
+                                                    class="form-control rounded-5 @error('old_password')
+                                            is-invalid
+                                            @enderror">
+                                            @error('old_password')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <input type="password" name="password" placeholder="Enter New Password *"
+                                                    class="form-control rounded-5 @error('password')
+                                            is-invalid
+                                            @enderror">
+                                            @error('password')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <input type="password" name="password_confirmation" placeholder="Re-type New Password *"
+                                                    class="form-control rounded-5">
+                                            </div>
+                                            <div class="mb-3">
+                                                <button type="submit" class="default-btn mx-0"
+                                                    style="pointer-events: all; cursor: pointer;" fdprocessedid="w7cgf3">
+                                                    Save Change
+                                                    <i class="flaticon-right"></i>
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
                                     <div class="tab-pane fade" id="v-pills-booking" role="tabpanel"
                                         aria-labelledby="v-pills-booking-tab" tabindex="0">Booking List
@@ -350,6 +400,7 @@
 
 @push('frontend_script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="{{ asset('ijaboCropTool/ijaboCropTool.min.js') }}"></script>
     <script>
         $('.nav-tabs-dropdown')
             .on("click", ".nav-link:not('.active')", function(event) {
@@ -395,5 +446,32 @@
         }
                 toastr.warning("{{ session('warning') }}");
         @endif
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#profile_image').ijaboCropTool({
+                preview: '.profile_image',
+                processUrl: '{{ route("image.crop") }}',
+                withCSRF: ['_token', '{{ csrf_token() }}'],
+                buttonsText: ['CROP & SAVE', 'QUIT NOW'],
+                buttonsColor: ['#30bf7d', '#ee5155', -15],
+                onSuccess: function(message, element, status) {
+                    $('.loader').hide();
+                    toastr.success('Image updated successfully!');
+                },
+                onError: function(message, element, status) {
+                    $('.loader').hide();
+                    toastr.error('Failed to update image. Please try again.');
+                },
+                onBefore: function() {
+                    $('.loader').show();
+                },
+            });
+
+            // Show the loader when the CROP & SAVE button is clicked
+            $(document).on('click', '.ijaboCropTool_btn.c_save', function() {
+                $('.loader').show();
+            });
+        });
     </script>
 @endpush
