@@ -5,24 +5,27 @@ use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\RoomController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\StuffController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Backend\ModuleController;
 use App\Http\Controllers\Trash\RoleTrashController;
 use App\Http\Controllers\Trash\UserTrashController;
 use App\Http\Controllers\Backend\RoomTypeController;
 use App\Http\Controllers\Frontend\ProfileController;
+use App\Http\Controllers\Trash\StuffTrashController;
 use App\Http\Controllers\Backend\CopyrightController;
 use App\Http\Controllers\Trash\ModuleTrashController;
 use App\Http\Controllers\Backend\AdminLoginController;
 use App\Http\Controllers\Backend\BreadcrumbController;
+use App\Http\Controllers\Backend\DepartmentController;
 use App\Http\Controllers\Backend\HomeSliderController;
 use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Backend\LogoFaviconController;
 use App\Http\Controllers\Backend\WebsiteLinkController;
 use App\Http\Controllers\Frontend\UserLogoutController;
 use App\Http\Controllers\Frontend\ProfileImageController;
+use App\Http\Controllers\Trash\DepartmentTrashController;
 use App\Http\Controllers\Trash\PermissionTrashController;
-use App\Http\Controllers\Backend\GeneralSettingController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 
 /*
@@ -156,4 +159,24 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::get('check/room/is_wifi/{room_id}', [RoomController::class, 'checkActiveWifi'])
         ->name('room.is_wifi.ajax');
     Route::resource('rooms', RoomController::class);
+
+    // Department Route
+    Route::get('/departments/trash', [DepartmentTrashController::class, 'trash'])->name('departments.trash');
+    Route::get('/departments/restore/{id}', [DepartmentTrashController::class, 'restore'])
+    ->name('departments.restore');
+    Route::delete('/departments/forcedelete/{id}', [DepartmentTrashController::class, 'forceDelete'])
+    ->name('departments.forcedelete');
+    // Text Editor Image Upload With Ajax
+    Route::post('departments/upload-image', [DepartmentController::class, 'uploadImage'])->name('departments.upload-image');
+    Route::resource('departments', DepartmentController::class);
+
+    // Stuff Route
+    Route::get('/staffs/trash', [StuffTrashController::class, 'trash'])->name('staffs.trash');
+    Route::get('/staffs/restore/{id}', [StuffTrashController::class, 'restore'])
+    ->name('staffs.restore');
+    Route::delete('/staffs/forcedelete/{id}', [StuffTrashController::class, 'forceDelete'])
+    ->name('staffs.forcedelete');
+    // Text Editor Image Upload With Ajax
+    Route::post('staffs/upload-image', [StuffController::class, 'uploadImage'])->name('staffs.upload-image');
+    Route::resource('staffs', StuffController::class);
 });

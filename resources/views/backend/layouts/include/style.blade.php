@@ -12,5 +12,6 @@
 <!-- INTERNAL SWITCHER CSS -->
 <link href="{{asset('assets/backend')}}/switcher/css/switcher.css" rel="stylesheet" />
 <link href="{{asset('assets/backend')}}/switcher/demo.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
 @stack('backend_style')

@@ -1,6 +1,6 @@
 @extends('backend.layouts.master')
 
-@section('title', 'Role')
+@section('title', 'Department')
 
 @push('backend_style')
     @include('backend.pages.common.style')
@@ -11,8 +11,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
-                    <h3 class="card-title">Role Trashed List</h3>
-                    <a href="{{ route('roles.index') }}" class="btn btn-info"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
+                    <h3 class="card-title">Department Trash List</h3>
+                    <a href="{{ route('departments.index') }}" class="btn btn-info"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -21,41 +21,28 @@
                                 <tr>
                                     <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">Last Updated</th>
-                                    <th class="border-bottom-0">Role Name</th>
-                                    <th class="border-bottom-0">Number off Permissions</th>
-                                    <th class="border-bottom-0">Note</th>
-                                    {{-- @can('edit-role') --}}
+                                    <th class="border-bottom-0">Department Name</th>
                                     <th class="border-bottom-0">Actions</th>
-                                    {{-- @endcan --}}
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($roles as $role)
-                                @if ($role->id != 4)
+                                @foreach ($departments as $department)
                                     <tr>
                                         <td>
-                                            <strong>{{ $roles->firstItem() + $loop->index }}</strong>
+                                            <strong>{{ $departments->firstItem() + $loop->index }}</strong>
                                         </td>
-                                        <td>{{ $role->updated_at->format('d-M-Y') }}</td>
-                                        <td>{{ $role->role_name }}</td>
-                                        <td>
-                                            <span class="badge bg-success">{{ $role->permissions->count() }}</span>
-                                        </td>
-                                        <td>{{ $role->role_note }}</td>
-                                        {{-- @can('delete-role') --}}
+                                        <td>{{ $department->updated_at->format('d-M-Y') }}</td>
+                                        <td>{{ $department->dep_name }}</td>
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
-                                                {{-- @can('delete-role') --}}
                                                 <div>
-                                                    <a href="{{ route('roles.restore', ['role_slug' => $role->role_slug]) }}"
+                                                    <a href="{{ route('departments.restore', ['id' => $department->id]) }}"
                                                         class="btn btn-sm btn-outline-success border me-2" data-toggle="tooltip"
                                                         data-placement="top" data-bs-original-title="Restore"><i class="fa-solid fa-store"></i>
                                                     </a>
                                                 </div>
-                                                {{-- @endcan
-                                                @can('delete-role') --}}
                                                 <div>
-                                                    <form action="{{ route('roles.forcedelete', ['role_slug' => $role->role_slug]) }}"
+                                                    <form action="{{ route('departments.forcedelete', ['id' => $department->id]) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
@@ -65,14 +52,10 @@
                                                         </button>
                                                     </form>
                                                 </div>
-                                                {{-- @endcan --}}
                                             </div>
                                         </td>
-                                        {{-- @endcan --}}
                                     </tr>
-                                    @endif
                                 @endforeach
-
                             </tbody>
                         </table>
                     </div>

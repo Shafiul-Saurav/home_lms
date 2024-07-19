@@ -49,29 +49,29 @@
                     </ul>
                 </li>
                 <li class="slide {{Request::routeIs('modules.index') ? 'is-expanded' : ''}}
-                {{Request::routeIs('modules.trash') ? 'is-expanded' : ''}}
-                {{Request::routeIs('permissions.index') ? 'is-expanded' : ''}}
-                {{Request::routeIs('permissions.trash') ? 'is-expanded' : ''}}
-                {{Request::routeIs('roles.index') ? 'is-expanded' : ''}}
-                {{Request::routeIs('roles.trash') ? 'is-expanded' : ''}}
-                {{Request::routeIs('users.index') ? 'is-expanded' : ''}}
-                {{Request::routeIs('users.trash') ? 'is-expanded' : ''}}">
+                    {{Request::routeIs('modules.trash') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('permissions.index') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('permissions.trash') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('roles.index') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('roles.trash') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('users.index') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('users.trash') ? 'is-expanded' : ''}}">
                     <a class="side-menu__item {{Request::routeIs('modules.index') ? 'active' : ''}}
-                {{Request::routeIs('modules.trash') ? 'active' : ''}}
-                {{Request::routeIs('permissions.index') ? 'active' : ''}}
-                {{Request::routeIs('permissions.trash') ? 'active' : ''}}
-                {{Request::routeIs('roles.index') ? 'active' : ''}}
-                {{Request::routeIs('roles.trash') ? 'active' : ''}}
-                {{Request::routeIs('users.index') ? 'active' : ''}}
-                {{Request::routeIs('users.trash') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
+                        {{Request::routeIs('modules.trash') ? 'active' : ''}}
+                        {{Request::routeIs('permissions.index') ? 'active' : ''}}
+                        {{Request::routeIs('permissions.trash') ? 'active' : ''}}
+                        {{Request::routeIs('roles.index') ? 'active' : ''}}
+                        {{Request::routeIs('roles.trash') ? 'active' : ''}}
+                        {{Request::routeIs('users.index') ? 'active' : ''}}
+                        {{Request::routeIs('users.trash') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M19,2H9C7.3438721,2.0018311,6.0018311,3.3438721,6,5v1H5C3.3438721,6.0018311,2.0018311,7.3438721,2,9v10c0.0018311,1.6561279,1.3438721,2.9981689,3,3h10c1.6561279-0.0018311,2.9981689-1.3438721,3-3v-1h1c1.6561279-0.0018311,2.9981689-1.3438721,3-3V5C21.9981689,3.3438721,20.6561279,2.0018311,19,2z M17,19c-0.0014038,1.1040039-0.8959961,1.9985962-2,2H5c-1.1040039-0.0014038-1.9985962-0.8959961-2-2v-8h14V19z M17,10H3V9c0.0014038-1.1040039,0.8959961-1.9985962,2-2h10c1.1040039,0.0014038,1.9985962,0.8959961,2,2V10z M21,15c-0.0014038,1.1040039-0.8959961,1.9985962-2,2h-1V9c-0.0008545-0.7719116-0.3010864-1.4684448-0.7803345-2H21V15z M21,6H7V5c0.0014038-1.1040039,0.8959961-1.9985962,2-2h10c1.1040039,0.0014038,1.9985962,0.8959961,2,2V6z"/></svg>
                         <span class="side-menu__label">Role Management</span><i class="fa-solid fa-angle-right"></i>
                     </a>
                     <ul class="slide-menu">
                         <li class="sub-slide {{Request::routeIs('modules.index') ? 'is-expanded' : ''}}
-                {{Request::routeIs('modules.trash') ? 'is-expanded' : ''}}">
+                            {{Request::routeIs('modules.trash') ? 'is-expanded' : ''}}">
                             <a class="sub-side-menu__item {{Request::routeIs('modules.index') ? 'active' : ''}}
-                {{Request::routeIs('modules.trash') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
+                                {{Request::routeIs('modules.trash') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
                                     class="sub-side-menu__label">Module Setting</span><i
                                     class="sub-angle fa fa-angle-right"></i></a>
                             <ul class="sub-slide-menu">
@@ -126,24 +126,33 @@
                         <li><a href="{{ route('rooms.index') }}" class="slide-item {{Request::routeIs('rooms.index') ? 'active' : ''}}">Room Setting</a></li>
                     </ul>
                 </li>
-                <li class="slide">
+                {{-- <li class="slide">
                     <a class="side-menu__item has-link" data-bs-toggle="slide" href="landing.html" target="_blank">
                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M21.6,2.7c0-0.2-0.2-0.3-0.4-0.4c-3.8-1-7.9,0.3-10.4,3.3L9.5,7.1L6.8,6.4C5.7,6,4.6,6.5,4.1,7.5L2,11.2c0,0,0,0.1-0.1,0.1c-0.1,0.3,0.1,0.5,0.4,0.6l3.4,0.7c-0.3,0.9-0.6,1.8-0.7,2.7c0,0.2,0,0.3,0.1,0.4l3,2.9c0.1,0.1,0.2,0.1,0.4,0.1c0,0,0,0,0,0c0.9-0.1,1.9-0.3,2.8-0.6l0.7,3.3c0,0.2,0.3,0.4,0.5,0.4c0.1,0,0.2,0,0.2-0.1l3.7-2.1c0.9-0.5,1.3-1.6,1.1-2.6l-0.7-2.9l1.4-1.3C21.3,10.5,22.6,6.5,21.6,2.7z M3.2,11.1L4.9,8c0.3-0.6,0.9-0.8,1.5-0.6l2.3,0.6L7.7,9.2c-0.6,0.8-1.2,1.6-1.6,2.5L3.2,11.1z M16,19l-3.1,1.8l-0.6-2.9c0.9-0.4,1.7-1,2.5-1.6l1.3-1.2l0.6,2.3C16.7,18,16.5,18.7,16,19z M17.6,12.3l-3.5,3.2c-1.5,1.3-3.4,2.1-5.4,2.3l-2.6-2.6c0.3-2,1.1-3.9,2.4-5.4L10.1,8c0,0,0.1-0.1,0.1-0.1l1.4-1.6c2.2-2.6,5.8-3.8,9.1-3.1C21.4,6.6,20.3,10.1,17.6,12.3z M16.4,5.6c-1.1,0-1.9,0.9-1.9,1.9s0.9,1.9,1.9,1.9c1.1,0,1.9-0.9,1.9-1.9C18.3,6.5,17.5,5.6,16.4,5.6z M16.4,8.5c-0.5,0-0.9-0.4-0.9-0.9c0-0.5,0.4-0.9,0.9-0.9c0.5,0,0.9,0.4,0.9,0.9C17.3,8.1,16.9,8.5,16.4,8.5z"/></svg>
                         <span class="side-menu__label">Landing</span>
                         <span class="badge badge-sm bg-secondary badge-hide">new</span>
                     </a>
-                </li>
-                <li class="slide">
-                    <a class="side-menu__item" data-bs-toggle="slide" href="#">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M21.5,21H20V4.5C20,4.223877,19.776123,4,19.5,4S19,4.223877,19,4.5V21h-3v-8.5c0-0.276123-0.223877-0.5-0.5-0.5S15,12.223877,15,12.5V21h-3V8.5C12,8.223877,11.776123,8,11.5,8S11,8.223877,11,8.5V21H8v-4.5C8,16.223877,7.776123,16,7.5,16S7,16.223877,7,16.5V21H3V2.5C3,2.223877,2.776123,2,2.5,2S2,2.223877,2,2.5v19.0005493C2.0001831,21.7765503,2.223999,22.0001831,2.5,22h19c0.276123,0,0.5-0.223877,0.5-0.5S21.776123,21,21.5,21z"/></svg>
-                        <span class="side-menu__label">Charts</span><i class="fa-solid fa-angle-right"></i></a>
+                </li> --}}
+                <li class="slide {{Request::routeIs('departments.index') ? 'is-expanded' : ''}}
+                {{Request::routeIs('departments.trash') ? 'is-expanded' : ''}}">
+                    <a class="side-menu__item {{Request::routeIs('departments.index') ? 'active' : ''}}
+                     {{Request::routeIs('departments.trash') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
+                        <i class="fa-solid fa-building-user"></i>
+                        <span class="side-menu__label ms-3">Department</span><i class="fa-solid fa-angle-right"></i></a>
                     <ul class="slide-menu">
-                        <li class="side-menu-label1"><a href="javascript:void(0)">Charts</a></li>
-                        <li><a href="chart-echart.html" class="slide-item"> ECharts</a></li>
-                        <li><a href="chart-chartjs.html" class="slide-item">Chart Js</a></li>
-                        <li><a href="chart-flot.html" class="slide-item"> Flot Charts</a></li>
-                        <li><a href="chart-morris.html" class="slide-item"> Morris Charts</a></li>
-                        <li><a href="chart-nvd3.html" class="slide-item">Nvd3 Charts</a></li>
+                        <li><a href="{{ route('departments.index') }}" class="slide-item {{Request::routeIs('departments.index') ? 'active' : ''}}"> List</a></li>
+                        <li><a href="{{ route('departments.trash') }}" class="slide-item {{Request::routeIs('departments.trash') ? 'active' : ''}}"> Trash</a></li>
+                    </ul>
+                </li>
+                <li class="slide {{Request::routeIs('staffs.index') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('staffs.trash') ? 'is-expanded' : ''}}">
+                    <a class="side-menu__item {{Request::routeIs('staffs.index') ? 'active' : ''}}
+                    {{Request::routeIs('staffs.trash') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
+                        <i class="fa-solid fa-clipboard-user fa-fw"></i>
+                        <span class="side-menu__label ms-3">Staff</span><i class="fa-solid fa-angle-right"></i></a>
+                    <ul class="slide-menu">
+                        <li><a href="{{ route('staffs.index') }}" class="slide-item {{Request::routeIs('staffs.index') ? 'active' : ''}}"> List</a></li>
+                        <li><a href="{{ route('staffs.trash') }}" class="slide-item {{Request::routeIs('staffs.trash') ? 'active' : ''}}"> Trash</a></li>
                     </ul>
                 </li>
                 <li class="slide">

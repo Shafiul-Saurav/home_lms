@@ -1,0 +1,89 @@
+@extends('backend.layouts.master')
+
+@section('title', 'Department')
+
+@push('backend_style')
+    @include('backend.pages.common.style')
+@endpush
+
+@section('backend_content')
+    <div class="row">
+        <div class="col-12">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Department</h1>
+                </div>
+                <div class="ms-auto pageheader-btn">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Department</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12">
+            <div class="card">
+                <div class="card-header border-bottom d-flex justify-content-between">
+                    <h3 class="card-title">Department Details</h3>
+                    <a href="{{ route('departments.index') }}" class="btn btn-outline-info border"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row row-sm">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive export-table">
+                        <table class="table table-bordered text-nowrap key-buttons border-bottom w-100">
+                            <tbody>
+                                <tr><th colspan="2"><h3>{{ $department->dep_name }}</h3></th></tr>
+                                <tr>
+                                    <th>Description</th>
+                                    <td width="80%">{!! $department->dep_description !!}</td>
+                                </tr>
+                                <tr>
+                                    <th>Created Date</th>
+                                    <td>{{ $department->created_at->format('d-M-Y') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Last Updated</th>
+                                    <td>{{ $department->updated_at->format('d-M-Y') }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Row -->
+@endsection
+
+@push('backend_script')
+    @include('backend.pages.common.script')
+    <script>
+        $(document).ready(function() {
+            $('#summernote').summernote({
+                height: 300,
+                callbacks: {
+                    onImageUpload: function(files) {
+                        var data = new FormData();
+                        data.append('image', files[0]);
+                        $.ajax({
+                            url: '{{ route('departments.upload-image') }}',
+                            method: 'POST',
+                            data: data,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                                $('#summernote').summernote('insertImage', response.url);
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+@endpush

@@ -15,11 +15,27 @@
 <!-- STICKY JS -->
 <script src="{{asset('assets/backend')}}/js/sticky.js"></script>
 
+<!-- INTERNAL Summernote Editor js -->
+<script src="{{asset('assets/backend')}}/plugins/summernote-editor/summernote1.js"></script>
+<script src="{{asset('assets/backend')}}/js/summernote.js"></script>
+
+<!-- WYSIWYG Editor JS -->
+<script src="{{asset('assets/backend')}}/plugins/wysiwyag/jquery.richtext.js"></script>
+<script src="{{asset('assets/backend')}}/plugins/wysiwyag/wysiwyag.js"></script>
+
+<!-- FORMEDITOR JS -->
+<script src="{{asset('assets/backend')}}/plugins/quill/quill.min.js"></script>
+<script src="{{asset('assets/backend')}}/js/form-editor2.js"></script>
+
+<!-- SELECT2 JS -->
+<script src="{{asset('assets/backend')}}/plugins/select2/select2.full.min.js"></script>
+
 <!-- APEXCHART JS -->
 <script src="{{asset('assets/backend')}}/js/apexcharts.js"></script>
 
 <!-- INTERNAL SELECT2 JS -->
-<script src="{{asset('assets/backend')}}/plugins/select2/select2.full.min.js"></script>
+
+{{-- <script src="{{asset('assets/backend')}}/plugins/select2/select2.full.min.js"></script> --}}
 
 <!-- CHART-CIRCLE JS-->
 <script src="{{asset('assets/backend')}}/js/circle-progress.min.js"></script>
@@ -28,6 +44,9 @@
 <script src="{{asset('assets/backend')}}/plugins/datatable/js/jquery.dataTables.min.js"></script>
 <script src="{{asset('assets/backend')}}/plugins/datatable/js/dataTables.bootstrap5.js"></script>
 <script src="{{asset('assets/backend')}}/plugins/datatable/dataTables.responsive.min.js"></script>
+
+{{-- <!-- FORM ELEMENTADVANCED JS -->
+<script src="{{asset('assets/backend')}}/js/formelementadvnced.js"></script> --}}
 
 <!-- INDEX JS -->
 <script src="{{asset('assets/backend')}}/js/index1.js"></script>
