@@ -61,17 +61,17 @@
     <div class="social-link">
         <ul>
             <li>
-                <a href="https://www.facebook.com/" target="_blank">
+                <a href="{{ $website_link->facebook??null }}" target="_blank">
                         <i class="bx bxl-facebook"></i>
                     </a>
             </li>
             <li>
-                <a href="https://www.twitter.com/" target="_blank">
+                <a href="{{ $website_link->twitter??null }}" target="_blank">
                         <i class="bx bxl-twitter"></i>
                     </a>
             </li>
             <li>
-                <a href="https://www.linkedin.com/" target="_blank">
+                <a href="{{ $website_link->linkedIn??null }}" target="_blank">
                         <i class="bx bxl-linkedin"></i>
                     </a>
             </li>

@@ -15,3 +15,12 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
 @stack('backend_style')
+<style>
+    @media (min-width: 992px) {
+        .side-header {
+            width: 270px !important;
+            display: flex !important;
+            padding: 7px 17px !important;
+        }
+    }
+</style>

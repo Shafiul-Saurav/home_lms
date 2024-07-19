@@ -31,3 +31,12 @@
 <link rel="stylesheet" href="{{asset('assets/frontend')}}/css/responsive.css">
 
 @stack('frontend_style')
+
+<style>
+    @media only screen and (max-width: 991px) {
+        .mobile-nav .logo {
+            width: 135px;
+            top: 6px;
+        }
+    }
+</style>

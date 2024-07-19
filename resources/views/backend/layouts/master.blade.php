@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+        @php
+            $logo_fav = App\Models\LogoFavicon::first();
+        @endphp
 		<!-- META DATA -->
 		<meta charset="UTF-8">
 		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
@@ -11,7 +13,7 @@
 		<meta name="keywords" content="admin,admin dashboard,admin panel,admin template,bootstrap,clean,dashboard,flat,jquery,modern,responsive,premium admin templates,responsive admin,ui,ui kit.">
 
 		<!-- FAVICON -->
-		<link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/backend')}}/images/brand/favicon.ico"/>
+		<link rel="shortcut icon" type="image/x-icon" href="{{ asset($logo_fav->favicon??null) }}"/>
 
 		<!-- TITLE -->
 		<title> Dashboard | @yield('title') </title>

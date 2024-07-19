@@ -4,8 +4,8 @@
             <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar" href="#"></a>
             <!-- sidebar-toggle-->
             <a class="logo-horizontal" href="{{ route('admin.dashboard') }}">
-                <img src="{{asset('assets/backend')}}/images/brand/logo.png" class="header-brand-img desktop-logo" alt="logo">
-                <img src="{{asset('assets/backend')}}/images/brand/logo-3.png" class="header-brand-img light-logo1"
+                <img src="{{ asset($logo_fav->logo??null) }}" class="header-brand-img desktop-logo" alt="logo">
+                <img src="{{ asset($logo_fav->logo??null) }}" class="header-brand-img light-logo1"
                     alt="logo">
             </a>
             <!-- LOGO -->
@@ -175,7 +175,7 @@
                                         <a class="dropdown-item d-flex p-4" href="cart.html">
                                             <span class="avatar avatar-lg br-5 me-3 align-self-center cover-image" data-bs-image-src="{{asset('assets/backend')}}/images/ecommerce/1.jpg"></span>
                                             <div class="wp-60 cart-desc mt-1">
-                                                <p class="fs-13 mb-0 lh-1 mb-1 text-dark fw-500">TrueBasket Metal Single Pot</p>
+                                                <p class="fs-13 lh-1 mb-1 text-dark fw-500">TrueBasket Metal Single Pot</p>
                                                 <p class="fs-12 fw-300 lh-1 mb-0">Status: <span class="text-green">In Stock</span></p>
                                                 <span class="fs-12 fw-300 lh-1 mb-0">Quantity: 01</span>
                                             </div>
@@ -188,7 +188,7 @@
                                         <a class="dropdown-item d-flex p-4" href="cart.html">
                                             <span class="avatar avatar-lg br-5 me-3 align-self-center cover-image" data-bs-image-src="{{asset('assets/backend')}}/images/ecommerce/2.jpg"></span>
                                             <div class="wp-60 cart-desc mt-1">
-                                                <p class="fs-13 mb-0 lh-1 mb-1 text-dark fw-500">Authentic chair with Canopy</p>
+                                                <p class="fs-13 lh-1 mb-1 text-dark fw-500">Authentic chair with Canopy</p>
                                                 <p class="fs-12 fw-300 lh-1 mb-0">Status: <span class="text-green">In Stock</span></p>
                                                 <span class="fs-12 fw-300 lh-1 mb-0">Quantity: 03</span>
                                             </div>
@@ -201,7 +201,7 @@
                                         <a class="dropdown-item d-flex p-4" href="cart.html">
                                             <span class="avatar avatar-lg br-5 me-3 align-self-center cover-image" data-bs-image-src="{{asset('assets/backend')}}/images/ecommerce/3.jpg"></span>
                                             <div class="wp-60 cart-desc mt-1">
-                                                <p class="fs-13 mb-0 lh-1 mb-1 text-dark fw-500">Casual Sneakers Canvas</p>
+                                                <p class="fs-13 lh-1 mb-1 text-dark fw-500">Casual Sneakers Canvas</p>
                                                 <p class="fs-12 fw-300 lh-1 mb-0">Status: <span class="text-green">In Stock</span></p>
                                                 <span class="fs-12 fw-300 lh-1 mb-0">Quantity: 03</span>
                                             </div>
@@ -214,7 +214,7 @@
                                         <a class="dropdown-item d-flex p-4" href="cart.html">
                                             <span class="avatar avatar-lg br-5 me-3 align-self-center cover-image" data-bs-image-src="{{asset('assets/backend')}}/images/ecommerce/4.jpg"></span>
                                             <div class="wp-60 cart-desc mt-1">
-                                                <p class="fs-13 mb-0 lh-1 mb-1 text-dark fw-500">Branded Head Phones</p>
+                                                <p class="fs-13 lh-1 mb-1 text-dark fw-500">Branded Head Phones</p>
                                                 <p class="fs-12 fw-300 lh-1 mb-0">Status: <span class="text-danger">No Stock</span></p>
                                                 <span class="fs-12 fw-300 lh-1 mb-0">Quantity: 01</span>
                                             </div>
@@ -227,7 +227,7 @@
                                         <a class="dropdown-item d-flex p-4" href="cart.html">
                                             <span class="avatar avatar-lg br-5 me-3 align-self-center cover-image" data-bs-image-src="{{asset('assets/backend')}}/images/ecommerce/5.jpg"></span>
                                             <div class="wp-60 cart-desc mt-1">
-                                                <p class="fs-13 mb-0 lh-1 mb-1 text-dark fw-500">camera lens (16mm f/1.4)</p>
+                                                <p class="fs-13 lh-1 mb-1 text-dark fw-500">camera lens (16mm f/1.4)</p>
                                                 <p class="fs-12 fw-300 lh-1 mb-0">Status: <span class="text-green">In Stock</span></p>
                                                 <span class="fs-12 fw-300 lh-1 mb-0">Quantity: 02</span>
                                             </div>

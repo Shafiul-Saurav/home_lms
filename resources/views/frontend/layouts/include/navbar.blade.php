@@ -3,16 +3,16 @@
         <!-- Menu For Mobile Device -->
         <div class="mobile-nav">
             <a href="index.html" class="logo">
-                    <img src="{{asset('assets/frontend')}}/img/mobile-manu-logo.png" alt="Logo">
-                </a>
+                <img src="{{ asset($logo_fav->logo??null) }}" alt="Logo" style="width: 60px; height: 60px;">
+            </a>
         </div>
         <!-- Menu For Desktop Device -->
         <div class="main-nav">
             <nav class="navbar navbar-expand-md navbar-light">
                 <div class="container">
                     <a class="navbar-brand" href="index.html">
-                            <img src="{{asset('assets/frontend')}}/img/home-one/logo.jpg" alt="Logo">
-                        </a>
+                        <img src="{{ asset($logo_fav->logo??null) }}" alt="Logo" style="width: 80px; height: 80px;">
+                    </a>
                     <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
                         <ul class="navbar-nav m-auto">
                             <li class="nav-item">
@@ -250,9 +250,9 @@
                         </ul>
                         <!-- Start Other Option -->
                         <div class="others-option">
-                            <a class="call-us" href="tel:+009-8765-4332">
+                            <a class="call-us" href="tel:{{ $website_link->number??null }}">
                                     <i class="bx bx-phone-call bx-tada"></i>
-                                    +009 8765 4332
+                                    {{ $website_link->number??null }}
                                 </a>
                         </div>
                         <!-- End Other Option -->

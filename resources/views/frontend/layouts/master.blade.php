@@ -2,6 +2,11 @@
 <html lang="zxx">
 
 <head>
+    @php
+        $logo_fav = App\Models\LogoFavicon::first();
+        $copyright = App\Models\Copyright::first();
+        $website_link = App\Models\WebsiteLink::first();
+    @endphp
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

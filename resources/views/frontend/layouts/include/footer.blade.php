@@ -27,32 +27,32 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="single-widget">
                         <a href="index.html">
-                                <img src="{{asset('assets/frontend')}}/img/home-one/footer-logo.png" alt="Image">
+                                <img src="{{ asset($logo_fav->logo??null) }}" alt="Image" style="width: 80px; height: 80px;">
                             </a>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat molestiae corporis, magni maxime perferendis ducimus.</p>
+                        <p>{{ $copyright->description??null }}</p>
                         <ul class="social-icon">
                             <li>
-                                <a href="https://www.facebook.com/" target="_blank">
+                                <a href="{{ $website_link->facebook??null }}" target="_blank">
                                         <i class="bx bxl-facebook"></i>
                                     </a>
                             </li>
                             <li>
-                                <a href="https://www.twitter.com/" target="_blank">
+                                <a href="{{ $website_link->twitter??null }}" target="_blank">
                                         <i class="bx bxl-twitter"></i>
                                     </a>
                             </li>
                             <li>
-                                <a href="https://www.pinterest.com/" target="_blank">
-                                        <i class="bx bxl-pinterest-alt"></i>
-                                    </a>
-                            </li>
-                            <li>
-                                <a href="https://www.linkedin.com/" target="_blank">
+                                <a href="{{ $website_link->linkedIn??null }}" target="_blank">
                                         <i class="bx bxl-linkedin"></i>
                                     </a>
                             </li>
                             <li>
-                                <a href="https://www.youtube.com/" target="_blank">
+                                <a href="{{ $website_link->instagram??null }}" target="_blank">
+                                        <i class="bx bxl-instagram"></i>
+                                    </a>
+                            </li>
+                            <li>
+                                <a href="{{ $website_link->youtube??null }}" target="_blank">
                                         <i class="bx bxl-youtube"></i>
                                     </a>
                             </li>
@@ -151,20 +151,20 @@
                         <ul class="information">
                             <li class="address">
                                 <i class="flaticon-maps-and-flags"></i>
-                                <span>Address</span> 205 Fida Walinton, Tongo Street Front The USA
+                                <span>Address</span> {{ $website_link->address??null }}
                             </li>
                             <li class="address">
                                 <i class="flaticon-call"></i>
                                 <span>Phone</span>
-                                <a href="tel:+882-569-756">
-                                        +882-569-756
+                                <a href="tel:{{ $website_link->number??null }}">
+                                        {{ $website_link->number??null }}
                                     </a>
                             </li>
                             <li class="address">
                                 <i class="flaticon-envelope"></i>
                                 <span>Email</span>
-                                <a href="/cdn-cgi/l/email-protection#d4bcb1b8b8bb94b1b7bba6bdbffab7bbb9">
-                                        <span class="__cf_email__" data-cfemail="0a626f6666654a6f696578636124696567">[email&#160;protected]</span>
+                                <a href="mailto:{{ $website_link->email??null }}">
+                                    {{ $website_link->email??null }}
                                     </a>
                             </li>
                         </ul>
@@ -175,15 +175,15 @@
         <div class="footer-bottom-area">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <div class="copy-right">
-                        <p>© Ecorik is Proudly Owned by <a href="https://envytheme.com/" target="_blank">EnvyTheme</a></p>
+                    <div class="copy-right designed">
+                        <p>© All Rights Reserved By <i class='bx bx-heart'></i> <a style="margin-left: 3px;" href="https://envytheme.com/" target="_blank">{{ $copyright->title??null }}</a></p>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                {{-- <div class="col-lg-6">
                     <div class="designed">
                         <p>Designed By <i class='bx bx-heart'></i> <a href="https://envytheme.com/" target="_blank">EnvyTheme</a></p>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
