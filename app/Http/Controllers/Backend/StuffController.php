@@ -6,6 +6,7 @@ use App\Models\Stuff;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\StaffPayment;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -131,6 +132,34 @@ class StuffController extends Controller
                 'stuff_image' => $new_photo_name,
             ]);
         }
+    }
+
+    public function staffPayment($id)
+    {
+        $stuff = Stuff::findOrFail($id);
+        $stuffPayments = StaffPayment::where('staff_id', $id)->paginate(100);
+
+        return view('backend.pages.staff_payment.staff_payment', compact('stuff', 'stuffPayments'));
+    }
+
+    public function staffPaymentSave(Request $request, $id)
+    {
+        // dd($request->all());
+        StaffPayment::create([
+            'staff_id' => $request->staff_id,
+            'amount' => $request->amount,
+            'payment_date' => $request->payment_date,
+        ]);
+
+        return redirect()->route('staff.payment', $id)->with('message', 'Payment Created Successfully 🙂');
+    }
+
+    public function staffPaymentDelete($id)
+    {
+        $stuffPayment = StaffPayment::where('id', $id)->first();
+        $stuffPayment->delete();
+
+        return redirect()->back()->with('message', 'Payment Record Deleted Successfully');
     }
 
 }

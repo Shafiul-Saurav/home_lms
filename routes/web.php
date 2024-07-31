@@ -178,5 +178,8 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     ->name('staffs.forcedelete');
     // Text Editor Image Upload With Ajax
     Route::post('staffs/upload-image', [StuffController::class, 'uploadImage'])->name('staffs.upload-image');
+    Route::get('staff_payment/{id}', [StuffController::class, 'staffPayment'])->name('staff.payment');
+    Route::post('staff_payment/save/{id}', [StuffController::class, 'staffPaymentSave'])->name('staff.payment.save');
+    Route::delete('staff_payment/delete/{id}', [StuffController::class, 'staffPaymentDelete'])->name('staff.payment.delete');
     Route::resource('staffs', StuffController::class);
 });

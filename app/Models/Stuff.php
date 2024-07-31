@@ -17,4 +17,10 @@ class Stuff extends Model
     {
         return $this->belongsTo(Department::class, 'department_id', 'id');
     }
+
+    //  Relationship with StaffPayment
+    public function staffPayments()
+    {
+        return $this->hasMany(StaffPayment::class);
+    }
 }

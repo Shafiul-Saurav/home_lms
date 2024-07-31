@@ -150,6 +150,11 @@
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
+                                                    <a href="{{ route('staff.payment', $stuff->id) }}" class="btn btn-sm btn-outline-info border me-2"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        data-bs-original-title="Payment">
+                                                        <i class="fa-regular fa-credit-card"></i>
+                                                    </a>
                                                     <a href="{{ route('staffs.show', $stuff->id) }}" class="btn btn-sm btn-outline-primary border me-2"
                                                         data-toggle="tooltip" data-placement="top"
                                                         data-bs-original-title="View">
@@ -193,27 +198,4 @@
 
 @push('backend_script')
     @include('backend.pages.common.script')
-    {{-- <script>
-        $(document).ready(function() {
-            $('#summernote').summernote({
-                height: 300,
-                callbacks: {
-                    onImageUpload: function(files) {
-                        var data = new FormData();
-                        data.append('stuff_image', files[0]);
-                        $.ajax({
-                            url: '{{ route('staffs.upload-image') }}',
-                            method: 'POST',
-                            data: data,
-                            processData: false,
-                            contentType: false,
-                            success: function(response) {
-                                $('#summernote').summernote('insertImage', response.url);
-                            }
-                        });
-                    }
-                }
-            });
-        });
-    </script> --}}
 @endpush
