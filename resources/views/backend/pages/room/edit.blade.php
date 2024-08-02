@@ -26,6 +26,7 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Update Room</h3>
+                    <a href="{{ route('rooms.index') }}" class="btn btn-info"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('rooms.update', $room->id) }}" method="POST" enctype="multipart/form-data">
