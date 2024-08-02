@@ -142,6 +142,10 @@
                                     <th class="border-bottom-0">Wifi</th>
                                     <th class="border-bottom-0">AC</th>
                                     <th class="border-bottom-0">TV</th>
+                                    <th class="border-bottom-0">Mini Fridge</th>
+                                    <th class="border-bottom-0">Balcony</th>
+                                    <th class="border-bottom-0">Kitchenette</th>
+                                    <th class="border-bottom-0">Living Area</th>
                                     {{-- @can('edit-permission') --}}
                                     <th class="border-bottom-0">Actions</th>
                                     {{-- @endcan --}}

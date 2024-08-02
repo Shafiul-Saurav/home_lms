@@ -15,12 +15,18 @@ return new class extends Migration
             $table->id();
             $table->foreignId('roomtype_id')->constrained('roomtypes')->onDelete('cascade');
             $table->string('title')->nullable();
+            $table->string('occupancy')->nullable();
+            $table->string('bed_type')->nullable();
             $table->string('image')->default('default_room.jpg');
             $table->longText('description')->nullable();
             $table->string('price')->nullable();
-            $table->boolean('is_wifi')->default(false);
+            $table->boolean('is_wifi')->default(true);
             $table->boolean('is_ac')->default(true);
             $table->boolean('is_tv')->default(true);
+            $table->boolean('balcony')->default(false);
+            $table->boolean('mini_fridge')->default(false);
+            $table->boolean('kitchenette')->default(false);
+            $table->boolean('living_area')->default(false);
             $table->timestamps();
         });
     }

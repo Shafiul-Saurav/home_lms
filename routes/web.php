@@ -159,8 +159,6 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     // Ajax Call Active
     Route::get('check/room/is_wifi/{room_id}', [RoomController::class, 'checkActiveWifi'])
         ->name('room.is_wifi.ajax');
-    // Text Editor Image Upload With Ajax
-    // Route::post('rooms/upload-image', [RoomController::class, 'uploadImage'])->name('rooms.upload-image');
     Route::resource('rooms', RoomController::class);
 
     // Department Route
