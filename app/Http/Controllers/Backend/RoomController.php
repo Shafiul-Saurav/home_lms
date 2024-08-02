@@ -200,4 +200,13 @@ class RoomController extends Controller
         ]);
     }
 
+    // public function uploadImage(Request $request)
+    // {
+    //     if ($request->hasFile('image')) {
+    //         $path = $request->file('image')->store('rooms', 'public');
+    //         return response()->json(['url' => Storage::url($path)]);
+    //     }
+    //     return response()->json(['error' => 'No image uploaded'], 400);
+    // }
+
 }

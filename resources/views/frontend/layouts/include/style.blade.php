@@ -39,4 +39,8 @@
             top: 6px;
         }
     }
+
+    .nav-link.activePage {
+        color: #cc8c18 !important;
+    }
 </style>

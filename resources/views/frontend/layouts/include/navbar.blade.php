@@ -2,7 +2,7 @@
     <div class="navbar-area">
         <!-- Menu For Mobile Device -->
         <div class="mobile-nav">
-            <a href="index.html" class="logo">
+            <a href="{{ route('home') }}" class="logo">
                 <img src="{{ asset($logo_fav->logo??null) }}" alt="Logo" style="width: 60px; height: 60px;">
             </a>
         </div>
@@ -10,39 +10,18 @@
         <div class="main-nav">
             <nav class="navbar navbar-expand-md navbar-light">
                 <div class="container">
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="{{ route('home') }}">
                         <img src="{{ asset($logo_fav->logo??null) }}" alt="Logo" style="width: 80px; height: 80px;">
                     </a>
                     <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
                         <ul class="navbar-nav m-auto">
                             <li class="nav-item">
-                                <a href="#" class="nav-link dropdown-toggle active">
-                                        Home
-                                        <i class='bx bx-chevron-down'></i>
-                                    </a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item">
-                                        <a href="index.html" class="nav-link active">Home One</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="index-2.html" class="nav-link">Home Two</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="index-3.html" class="nav-link">Home Three</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="index-4.html" class="nav-link">Home Four</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="index-5.html" class="nav-link">Home Five</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="index-6.html" class="nav-link">Home Six</a>
-                                    </li>
-                                </ul>
+                                <a href="{{ route('home') }}" class="nav-link {{Request::routeIs('home') ? 'activePage' : ''}}">
+                                    Home
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link dropdown-toggle">
+                                <a href="javascript:void(0)" class="nav-link dropdown-toggle">
                                         Pages
                                         <i class='bx bx-chevron-down'></i>
                                     </a>
@@ -117,27 +96,9 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link dropdown-toggle">
-                                        Rooms
-                                        <i class='bx bx-chevron-down'></i>
-                                    </a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item">
-                                        <a href="room-grid-view.html" class="nav-link">Room Grid View</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="room-style-one.html" class="nav-link">Room Style One</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="room-style-two.html" class="nav-link">Room Style Two</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="room-details-left-sidebar.html" class="nav-link">Room Details Left Sidebar</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="room-details-right-sidebar.html" class="nav-link">Room Details Right Sidebar</a>
-                                    </li>
-                                </ul>
+                                <a href="{{ route('rooms') }}" class="nav-link {{Request::routeIs('rooms') ? 'activePage' : ''}}">
+                                    Rooms
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link dropdown-toggle">
@@ -215,13 +176,13 @@
                             </li>
                             @auth('web')
                             <li class="nav-item">
-                                <a href="javascript:void(0)" class="nav-link dropdown-toggle">
+                                <a href="javascript:void(0)" class="nav-link dropdown-toggle {{Request::routeIs('user.dashboard') ? 'activePage' : ''}}">
                                         My Account
                                         <i class='bx bx-chevron-down'></i>
                                     </a>
                                 <ul class="dropdown-menu">
                                     <li class="nav-item">
-                                        <a href="" class="nav-link">Dashboard</a>
+                                        <a href="{{ route('user.dashboard') }}" class="nav-link {{Request::routeIs('user.dashboard') ? 'activePage' : ''}}">Dashboard</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="" class="nav-link">Inbox</a>

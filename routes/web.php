@@ -27,6 +27,7 @@ use App\Http\Controllers\Frontend\ProfileImageController;
 use App\Http\Controllers\Trash\DepartmentTrashController;
 use App\Http\Controllers\Trash\PermissionTrashController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
+use App\Http\Controllers\Frontend\WebsiteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,9 +46,9 @@ use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', function () {
-    return view('frontend.pages.home');
-});
+Route::get('/', [WebsiteController::class, 'home'])->name('home');
+Route::get('rooms', [WebsiteController::class, 'rooms'])->name('rooms');
+Route::get('room/details', [WebsiteController::class, 'roomDetails'])->name('room.details');
 
 Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
     Route::get('/dashboard', [ProfileController::class, 'userDashboard'])->name('user.dashboard');
@@ -158,6 +159,8 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     // Ajax Call Active
     Route::get('check/room/is_wifi/{room_id}', [RoomController::class, 'checkActiveWifi'])
         ->name('room.is_wifi.ajax');
+    // Text Editor Image Upload With Ajax
+    // Route::post('rooms/upload-image', [RoomController::class, 'uploadImage'])->name('rooms.upload-image');
     Route::resource('rooms', RoomController::class);
 
     // Department Route

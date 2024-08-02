@@ -68,7 +68,7 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" class="form-control @error('description')
+                                    <textarea name="description" id="summernote" class="form-control @error('description')
                                         is-invalid
                                     @enderror" id="description" cols="30" rows="5">{{ old('description') }}</textarea>
                                     @error('description')
@@ -265,46 +265,46 @@
     </script>
      <script>
        $(document).ready(function() {
-    let imageFieldIndex = 1;
+            let imageFieldIndex = 1;
 
-    // Add new image input field
-    $(document).on('click', '.addImageField', function() {
-        const newField = `
-            <div class="d-flex justify-content-between mb-2" id="multipleImageField${imageFieldIndex}">
-                <input type="file" name="multiple_image[]" class="form-control me-4" />
-                <button type="button" class="btn btn-danger removeImageField" data-id="${imageFieldIndex}">-</button>
-            </div>`;
-        $('#multipleImageFields').append(newField);
-        imageFieldIndex++;
-    });
+            // Add new image input field
+            $(document).on('click', '.addImageField', function() {
+                const newField = `
+                    <div class="d-flex justify-content-between mb-2" id="multipleImageField${imageFieldIndex}">
+                        <input type="file" name="multiple_image[]" class="form-control me-4" />
+                        <button type="button" class="btn btn-danger removeImageField" data-id="${imageFieldIndex}">-</button>
+                    </div>`;
+                $('#multipleImageFields').append(newField);
+                imageFieldIndex++;
+            });
 
-    // Remove image input field
-    $(document).on('click', '.removeImageField', function() {
-        const id = $(this).data('id');
-        $(`#multipleImageField${id}`).remove();
-    });
+            // Remove image input field
+            $(document).on('click', '.removeImageField', function() {
+                const id = $(this).data('id');
+                $(`#multipleImageField${id}`).remove();
+            });
 
-    // Handle form submission with AJAX
-    $('#roomForm').on('submit', function(event) {
-        event.preventDefault();
+            // Handle form submission with AJAX
+            $('#roomForm').on('submit', function(event) {
+                event.preventDefault();
 
-        let formData = new FormData(this);
+                let formData = new FormData(this);
 
-        $.ajax({
-            url: '{{ route('rooms.store') }}',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                $('#response').html('<p class="alert alert-success">Room created successfully!</p>');
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                $('#response').html('<p class="alert alert-danger">Error creating room: ' + errorThrown + '</p>');
-            }
+                $.ajax({
+                    url: '{{ route('rooms.store') }}',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        $('#response').html('<p class="alert alert-success">Room created successfully!</p>');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#response').html('<p class="alert alert-danger">Error creating room: ' + errorThrown + '</p>');
+                    }
+                });
+            });
         });
-    });
-});
-
     </script>
+
 @endpush

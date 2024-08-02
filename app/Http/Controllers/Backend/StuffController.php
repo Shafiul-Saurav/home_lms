@@ -99,7 +99,7 @@ class StuffController extends Controller
     public function uploadImage(Request $request)
     {
         if ($request->hasFile('stuff_image')) {
-            $path = $request->file('stuff_image')->store('departments', 'public');
+            $path = $request->file('stuff_image')->store('stuffs', 'public');
             return response()->json(['url' => Storage::url($path)]);
         }
         return response()->json(['error' => 'No image uploaded'], 400);

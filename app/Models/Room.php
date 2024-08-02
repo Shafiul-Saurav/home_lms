@@ -22,4 +22,10 @@ class Room extends Model
     {
         return $this->hasMany(RoomImage::class);
     }
+
+    //Relationship with Booking
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
 }

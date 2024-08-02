@@ -198,4 +198,27 @@
 
 @push('backend_script')
     @include('backend.pages.common.script')
+    <script>
+        $(document).ready(function() {
+            $('#summernote').summernote({
+                height: 300,
+                callbacks: {
+                    onImageUpload: function(files) {
+                        var data = new FormData();
+                        data.append('stuff_image', files[0]);
+                        $.ajax({
+                            url: '{{ route('staffs.upload-image') }}',
+                            method: 'POST',
+                            data: data,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                                $('#summernote').summernote('insertImage', response.url);
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    </script>
 @endpush
