@@ -72,7 +72,7 @@ class RoomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(RoomStoreUpdateRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
         $room = Room::where('id', $id)->first();
         $room->update([
@@ -168,7 +168,7 @@ class RoomController extends Controller
                     $new_photo_location = $photo_location . $new_photo_name;
 
                     // Resize and save the image
-                    Image::make($uploaded_photo)->resize(380, 400)->save(base_path($new_photo_location), 40);
+                    Image::make($uploaded_photo)->resize(760, 400)->save(base_path($new_photo_location), 40);
 
                     // Save image to RoomImage model
                     $room->roomImages()->create([

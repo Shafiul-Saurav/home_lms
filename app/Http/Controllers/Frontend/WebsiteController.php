@@ -19,9 +19,9 @@ class WebsiteController extends Controller
         return view('frontend.pages.rooms.rooms');
     }
 
-    public function roomDetails()
+    public function roomDetails($id)
     {
-        // $room = Room::findOrFail($id);
-        return view('frontend.pages.rooms.room_details');
+        $room = Room::findOrFail($id);
+        return view('frontend.pages.rooms.room_details', compact('room'));
     }
 }

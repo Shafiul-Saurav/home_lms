@@ -48,7 +48,7 @@ use App\Http\Controllers\Frontend\WebsiteController;
 
 Route::get('/', [WebsiteController::class, 'home'])->name('home');
 Route::get('rooms', [WebsiteController::class, 'rooms'])->name('rooms');
-Route::get('room/details', [WebsiteController::class, 'roomDetails'])->name('room.details');
+Route::get('room/details/{id}', [WebsiteController::class, 'roomDetails'])->name('room.details');
 
 Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
     Route::get('/dashboard', [ProfileController::class, 'userDashboard'])->name('user.dashboard');
