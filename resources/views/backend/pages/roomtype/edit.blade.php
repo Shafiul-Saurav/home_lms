@@ -49,8 +49,36 @@
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-group">
+                                    <label for="occupancy">Occupancy</label>
+                                    <input type="text" name="occupancy" class="form-control @error('occupancy')
+                                        is-invalid
+                                    @enderror" id="occupancy"
+                                        value="{{ $room_type->occupancy }}" required>
+                                    @error('occupancy')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="bed_type">Bed Type</label>
+                                    <input type="text" name="bed_type" class="form-control @error('bed_type')
+                                        is-invalid
+                                    @enderror" id="bed_type"
+                                        value="{{ $room_type->bed_type }}" required>
+                                    @error('bed_type')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" class="form-control @error('description')
+                                    <textarea name="description" id="summernote" class="form-control @error('description')
                                         is-invalid
                                     @enderror" id="description" cols="30" rows="5">{{ $room_type->description }}</textarea>
                                     @error('description')

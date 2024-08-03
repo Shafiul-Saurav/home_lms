@@ -47,8 +47,36 @@
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-group">
+                                    <label for="occupancy">Occupancy</label>
+                                    <input type="text" name="occupancy" class="form-control @error('occupancy')
+                                        is-invalid
+                                    @enderror" id="occupancy"
+                                        value="{{ old('occupancy') }}" required>
+                                    @error('occupancy')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="bed_type">Bed Type</label>
+                                    <input type="text" name="bed_type" class="form-control @error('bed_type')
+                                        is-invalid
+                                    @enderror" id="bed_type"
+                                        value="{{ old('bed_type') }}" required>
+                                    @error('bed_type')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" class="form-control @error('description')
+                                    <textarea name="description" id="summernote" class="form-control @error('description')
                                         is-invalid
                                     @enderror" id="description" cols="30" rows="5">{{ old('description') }}</textarea>
                                     @error('description')
@@ -79,7 +107,8 @@
                                     <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">Last Updated</th>
                                     <th class="border-bottom-0">Title</th>
-                                    <th class="border-bottom-0">Description</th>
+                                    <th class="border-bottom-0">Occupancy</th>
+                                    <th class="border-bottom-0">Bed Type</th>
                                     {{-- @can('edit-permission') --}}
                                     <th class="border-bottom-0">Actions</th>
                                     {{-- @endcan --}}
@@ -93,7 +122,8 @@
                                         </td>
                                         <td>{{ $room_type->updated_at->format('d-M-Y') }}</td>
                                         <td>{{ $room_type->title }}</td>
-                                        <td>{{ $room_type->description }}</td>
+                                        <td>{{ $room_type->occupancy }}</td>
+                                        <td>{{ $room_type->bed_type }}</td>
                                         {{-- @can('edit-permission') --}}
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">

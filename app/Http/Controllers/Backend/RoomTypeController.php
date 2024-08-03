@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
 use App\Models\Roomtype;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\RoomTypeStoreRequest;
 
 class RoomTypeController extends Controller
 {
@@ -28,12 +29,14 @@ class RoomTypeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RoomTypeStoreRequest $request)
     {
         // dd($request->all());
 
         Roomtype::create([
             'title' => $request->title,
+            'occupancy' => $request->occupancy,
+            'bed_type' => $request->bed_type,
             'description' => $request->description,
         ]);
 
@@ -60,12 +63,14 @@ class RoomTypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(RoomTypeStoreRequest $request, string $id)
     {
         // dd($request->all());
         $room_type = Roomtype::where('id', $id)->first();
         $room_type->update([
             'title' => $request->title,
+            'occupancy' => $request->occupancy,
+            'bed_type' => $request->bed_type,
             'description' => $request->description,
         ]);
         return redirect()->route('room_types.index')->with('message', 'Room Type Update Successfully 🙂');

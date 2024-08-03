@@ -26,7 +26,8 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Update Room</h3>
-                    <a href="{{ route('rooms.index') }}" class="btn btn-info"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
+                    <a href="{{ route('rooms.index') }}" class="btn btn-info"><i class="fa-solid fa-angles-left fa-fw"></i>
+                        Back</a>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('rooms.update', $room->id) }}" method="POST" enctype="multipart/form-data">
@@ -36,15 +37,16 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="roomtype_id" class="form-label mb-3">Select Room Type</label>
-                                    <select id="roomtype_id" name="roomtype_id" class="form-control select2 form-select select2-hidden-accessible
+                                    <select id="roomtype_id" name="roomtype_id"
+                                        class="form-control select2 form-select select2-hidden-accessible
                                     @error('roomtype_id')
                                         is-invalid
                                     @enderror">
                                         <option selected>Choose a Room Type</option>
                                         @forelse ($room_types as $room_type)
-                                            <option value="{{ $room_type->id }}" @if ($room->roomtype_id == $room_type->id)
-                                                selected
-                                            @endif>{{ $room_type->title }}</option>
+                                            <option value="{{ $room_type->id }}"
+                                                @if ($room->roomtype_id == $room_type->id) selected @endif>{{ $room_type->title }}
+                                            </option>
                                         @empty
                                         @endforelse
                                     </select>
@@ -58,10 +60,11 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="title">Title</label>
-                                    <input type="text" name="title" class="form-control @error('title')
+                                    <input type="text" name="title"
+                                        class="form-control @error('title')
                                         is-invalid
-                                    @enderror" id="title"
-                                        value="{{ $room->title }}" required>
+                                    @enderror"
+                                        id="title" value="{{ $room->title }}" required>
                                     @error('title')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -72,9 +75,11 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" id="summernote" class="form-control @error('description')
+                                    <textarea name="description" id="summernote"
+                                        class="form-control @error('description')
                                         is-invalid
-                                    @enderror" id="description" cols="30" rows="5">{!! $room->description !!}</textarea>
+                                    @enderror"
+                                        id="description" cols="30" rows="5">{!! $room->description !!}</textarea>
                                     @error('description')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -85,9 +90,10 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="image">Image</label>
-                                    <input type="file" name="image" class="dropify" data-default-file="{{ asset('uploads/rooms') }}/{{ $room->image }}"
-                                    data-height="200" data-max-width="1930" data-max-height="1090"
-                                    data-allowed-file-extensions="png jpg"/>
+                                    <input type="file" name="image" class="dropify"
+                                        data-default-file="{{ asset('uploads/rooms') }}/{{ $room->image }}"
+                                        data-height="200" data-max-width="400" data-max-height="420" data-show-errors="true"
+                                        data-errors-position="outside" data-allowed-file-extensions="png jpg" />
                                 </div>
                             </div>
                             <div class="col-12 mb-3">
@@ -104,9 +110,10 @@
                             <div class="col-12 mb-3">
                                 <ul class="list-inline">
                                     @foreach ($room->roomImages as $roomImage)
-                                    <li class="list-inline-item">
-                                        <img src="{{ asset('uploads/rooms') }}/{{ $roomImage->multiple_image }}" alt="" style="height: 100px">
-                                    </li>
+                                        <li class="list-inline-item">
+                                            <img src="{{ asset('uploads/rooms') }}/{{ $roomImage->multiple_image }}"
+                                                alt="" style="height: 100px">
+                                        </li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -114,10 +121,11 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="price">Price</label>
-                                    <input type="number" name="price" class="form-control @error('price')
+                                    <input type="number" name="price"
+                                        class="form-control @error('price')
                                         is-invalid
-                                    @enderror" id="price"
-                                        value="{{ $room->price }}" required>
+                                    @enderror"
+                                        id="price" value="{{ $room->price }}" required>
                                     @error('price')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -157,6 +165,28 @@
                 const id = $(this).data('id');
                 $(`#multipleImageField${id}`).remove();
             });
+        });
+    </script>
+    <script>
+        var drEvent = $('.dropify').dropify();
+
+        drEvent.on('dropify.error.fileSize', function(event, element) {
+            // alert('Filesize error message!');
+        });
+        drEvent.on('dropify.error.minWidth', function(event, element) {
+            // alert('Min width error message!');
+        });
+        drEvent.on('dropify.error.maxWidth', function(event, element) {
+            // alert('Max width error message!');
+        });
+        drEvent.on('dropify.error.minHeight', function(event, element) {
+            // alert('Min height error message!');
+        });
+        drEvent.on('dropify.error.maxHeight', function(event, element) {
+            // alert('Max height error message!');
+        });
+        drEvent.on('dropify.error.imageFormat', function(event, element) {
+            // alert('Image format error message!');
         });
     </script>
 @endpush

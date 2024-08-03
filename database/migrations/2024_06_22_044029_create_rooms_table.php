@@ -14,19 +14,17 @@ return new class extends Migration
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
             $table->foreignId('roomtype_id')->constrained('roomtypes')->onDelete('cascade');
-            $table->string('title')->nullable();
-            $table->string('occupancy')->nullable();
-            $table->string('bed_type')->nullable();
+            $table->string('title');
             $table->string('image')->default('default_room.jpg');
-            $table->longText('description')->nullable();
-            $table->string('price')->nullable();
+            $table->longText('description');
+            $table->string('price');
             $table->boolean('is_wifi')->default(true);
             $table->boolean('is_ac')->default(true);
             $table->boolean('is_tv')->default(true);
-            $table->boolean('balcony')->default(false);
-            $table->boolean('mini_fridge')->default(false);
-            $table->boolean('kitchenette')->default(false);
-            $table->boolean('living_area')->default(false);
+            $table->boolean('is_balcony')->default(false);
+            $table->boolean('is_mini_fridge')->default(false);
+            $table->boolean('is_kitchenette')->default(false);
+            $table->boolean('is_living_area')->default(false);
             $table->timestamps();
         });
     }

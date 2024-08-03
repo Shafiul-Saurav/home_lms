@@ -158,7 +158,19 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     // Room Route
     // Ajax Call Active
     Route::get('check/room/is_wifi/{room_id}', [RoomController::class, 'checkActiveWifi'])
-        ->name('room.is_wifi.ajax');
+    ->name('room.is_wifi.ajax');
+    Route::get('check/room/is_ac/{room_id}', [RoomController::class, 'checkActiveAC'])
+    ->name('room.is_ac.ajax');
+    Route::get('check/room/is_tv/{room_id}', [RoomController::class, 'checkActiveTV'])
+    ->name('room.is_tv.ajax');
+    Route::get('check/room/is_balcony/{room_id}', [RoomController::class, 'checkActiveBalcony'])
+    ->name('room.is_balcony.ajax');
+    Route::get('check/room/is_mini_fridge/{room_id}', [RoomController::class, 'checkActiveMiniFridge'])
+    ->name('room.is_mini_fridge.ajax');
+    Route::get('check/room/is_kitchenette/{room_id}', [RoomController::class, 'checkActiveKitchenette'])
+    ->name('room.is_kitchenette.ajax');
+    Route::get('check/room/is_living_area/{room_id}', [RoomController::class, 'checkActiveLivingArea'])
+    ->name('room.is_living_area.ajax');
     Route::resource('rooms', RoomController::class);
 
     // Department Route

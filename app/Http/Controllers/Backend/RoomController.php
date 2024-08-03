@@ -6,6 +6,7 @@ use App\Models\Room;
 use App\Models\Roomtype;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RoomStoreUpdateRequest;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
@@ -34,7 +35,7 @@ class RoomController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RoomStoreUpdateRequest $request)
     {
         // dd($request->all());
 
@@ -71,7 +72,7 @@ class RoomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(RoomStoreUpdateRequest $request, string $id)
     {
         $room = Room::where('id', $id)->first();
         $room->update([
@@ -200,13 +201,118 @@ class RoomController extends Controller
         ]);
     }
 
-    // public function uploadImage(Request $request)
-    // {
-    //     if ($request->hasFile('image')) {
-    //         $path = $request->file('image')->store('rooms', 'public');
-    //         return response()->json(['url' => Storage::url($path)]);
-    //     }
-    //     return response()->json(['error' => 'No image uploaded'], 400);
-    // }
+    public function checkActiveAC($room_id)
+    {
+        $room = Room::find($room_id);
+        if (!$room) {
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Room not found'
+            ], 404);
+        }
+
+        $room->is_ac = $room->is_ac ? 0 : 1;
+        $room->save();
+
+        return response()->json([
+            'type' => 'success',
+            'message' => 'AC status updated'
+        ]);
+    }
+
+    public function checkActiveTV($room_id)
+    {
+        $room = Room::find($room_id);
+        if (!$room) {
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Room not found'
+            ], 404);
+        }
+
+        $room->is_tv = $room->is_tv ? 0 : 1;
+        $room->save();
+
+        return response()->json([
+            'type' => 'success',
+            'message' => 'TV status updated'
+        ]);
+    }
+
+    public function checkActiveBalcony($room_id)
+    {
+        $room = Room::find($room_id);
+        if (!$room) {
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Room not found'
+            ], 404);
+        }
+
+        $room->is_balcony = $room->is_balcony ? 0 : 1;
+        $room->save();
+
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Balcony status updated'
+        ]);
+    }
+
+    public function checkActiveMiniFridge($room_id)
+    {
+        $room = Room::find($room_id);
+        if (!$room) {
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Room not found'
+            ], 404);
+        }
+
+        $room->is_mini_fridge = $room->is_mini_fridge ? 0 : 1;
+        $room->save();
+
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Mini Fridge status updated'
+        ]);
+    }
+
+    public function checkActiveKitchenette($room_id)
+    {
+        $room = Room::find($room_id);
+        if (!$room) {
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Room not found'
+            ], 404);
+        }
+
+        $room->is_kitchenette = $room->is_kitchenette ? 0 : 1;
+        $room->save();
+
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Kitchenette status updated'
+        ]);
+    }
+
+    public function checkActiveLivingArea($room_id)
+    {
+        $room = Room::find($room_id);
+        if (!$room) {
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Room not found'
+            ], 404);
+        }
+
+        $room->is_living_area = $room->is_living_area ? 0 : 1;
+        $room->save();
+
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Living Area status updated'
+        ]);
+    }
 
 }
