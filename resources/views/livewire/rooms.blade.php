@@ -49,7 +49,7 @@
             @endforelse
             <div class="col-lg-12">
                 <div class="page-navigation-area">
-                    {{ $rooms->links() }}
+                    {{ $rooms->links(data: ['scrollTo' => false]) }}
                 </div>
             </div>
         </div>

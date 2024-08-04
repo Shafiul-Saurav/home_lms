@@ -18,7 +18,6 @@
                         Home
                     </a>
                 </li>
-                <li>Pages</li>
                 <li>Rooms</li>
             </ul>
         </div>
