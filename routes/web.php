@@ -27,6 +27,7 @@ use App\Http\Controllers\Frontend\ProfileImageController;
 use App\Http\Controllers\Trash\DepartmentTrashController;
 use App\Http\Controllers\Trash\PermissionTrashController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
+use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\WebsiteController;
 
 /*
@@ -49,6 +50,7 @@ use App\Http\Controllers\Frontend\WebsiteController;
 Route::get('/', [WebsiteController::class, 'home'])->name('home');
 Route::get('rooms', [WebsiteController::class, 'rooms'])->name('rooms');
 Route::get('room/details/{id}', [WebsiteController::class, 'roomDetails'])->name('room.details');
+Route::get('booking/{id}', [WebsiteController::class, 'booking'])->name('booking');
 
 Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
     Route::get('/dashboard', [ProfileController::class, 'userDashboard'])->name('user.dashboard');
@@ -58,6 +60,9 @@ Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
     Route::post('myupdate/password', [ProfileController::class, 'updatePassword'])->name('mypostupdate.password');
 
     Route::post('image/crop',[ProfileImageController::class, 'crop'])->name('image.crop');
+
+    Route::post('booking/store', [BookingController::class, 'bookingStore'])->name('booking.store');
+
 });
 
 Route::middleware([

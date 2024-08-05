@@ -378,6 +378,16 @@
         autoclose: true
     });
 
+    // Date Picker 3 JS
+    $('#datetimepicker-4').datepicker({
+        weekStart: 0,
+        todayBtn: "linked",
+        language: "es",
+        orientation: "bottom auto",
+        keyboardNavigation: false,
+        autoclose: true
+    });
+
     // Click Event JS
     $('.go-top').on('click', function() {
         $("html, body").animate({
@@ -467,7 +477,7 @@
         });
     });
 
-    // Popup Video JS 
+    // Popup Video JS
     $('.popup-youtube, .popup-vimeo').magnificPopup({
         disableOn: 300,
         type: 'iframe',

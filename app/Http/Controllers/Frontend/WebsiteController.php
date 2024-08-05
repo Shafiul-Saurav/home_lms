@@ -24,4 +24,10 @@ class WebsiteController extends Controller
         $room = Room::findOrFail($id);
         return view('frontend.pages.rooms.room_details', compact('room'));
     }
+
+    public function booking($id)
+    {
+        $room = Room::findOrFail($id);
+        return view('frontend.pages.booking.booking', compact('room'));
+    }
 }
