@@ -24,8 +24,6 @@ class Rooms extends Component
 
     public function filterRooms()
     {
-        logger("Checkin Date: {$this->checkin_date}");
-        logger("Checkout Date: {$this->checkout_date}");
 
         $this->validate([
             'checkin_date' => 'required|date|after_or_equal:today',

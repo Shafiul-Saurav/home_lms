@@ -16,6 +16,7 @@ use App\Http\Controllers\Trash\StuffTrashController;
 use App\Http\Controllers\Backend\CopyrightController;
 use App\Http\Controllers\Trash\ModuleTrashController;
 use App\Http\Controllers\Backend\AdminLoginController;
+use App\Http\Controllers\Backend\BookingController as BackendBookingController;
 use App\Http\Controllers\Backend\BreadcrumbController;
 use App\Http\Controllers\Backend\DepartmentController;
 use App\Http\Controllers\Backend\HomeSliderController;
@@ -61,7 +62,9 @@ Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
 
     Route::post('image/crop',[ProfileImageController::class, 'crop'])->name('image.crop');
 
+    Route::get('booking_history', [BookingController::class, 'bookingHistory'])->name('booking.history');
     Route::post('booking/store', [BookingController::class, 'bookingStore'])->name('booking.store');
+    Route::post('/booking/cancel/{id}', [BookingController::class, 'cancelBooking'])->name('booking.cancel');
 
 });
 
@@ -200,4 +203,7 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::post('staff_payment/save/{id}', [StuffController::class, 'staffPaymentSave'])->name('staff.payment.save');
     Route::delete('staff_payment/delete/{id}', [StuffController::class, 'staffPaymentDelete'])->name('staff.payment.delete');
     Route::resource('staffs', StuffController::class);
+
+    //Bookin Route
+    Route::resource('bookings', BackendBookingController::class);
 });

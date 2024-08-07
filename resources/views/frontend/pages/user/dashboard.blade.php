@@ -170,6 +170,10 @@
                             </div>
                             <div>
                                 <h4 class="text_custom">Welcome Back, {{ Auth::user()->name }}!</h4>
+                                <a href="{{ route('booking.history') }}" class="default-btn btn-sm">
+                                    Booking History
+                                    <i class="flaticon-right"></i>
+                                </a>
                             </div>
                         </div>
                     </div>

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('total_adults');
             $table->string('total_children');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

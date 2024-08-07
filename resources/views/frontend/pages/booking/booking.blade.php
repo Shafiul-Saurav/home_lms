@@ -43,10 +43,18 @@
                                         <div class="select-box">
                                             <i class='bx bx-calendar'></i>
                                             <div class="input-group">
-                                                <input type="date" name="checkin_date" class="form-control" placeholder="Checkin Date">
+                                                <input type="date" name="checkin_date" class="form-control
+                                                @error('checkin_date')
+                                                    is-invalid
+                                                @enderror" placeholder="Checkin Date">
                                                 <span class="input-group-addon">
                                                     <i class="glyphicon glyphicon-th"></i>
                                                 </span>
+                                                @error('checkin_date')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
@@ -54,10 +62,18 @@
                                         <div class="select-box">
                                             <i class='bx bx-calendar'></i>
                                             <div class="input-group"> <!-- public/assets/frontend/js/custom.js 380Line -->
-                                                <input type="date" name="checkout_date" class="form-control" placeholder="Checkout Date">
+                                                <input type="date" name="checkout_date" class="form-control
+                                                @error('checkout_date')
+                                                    is-invalid
+                                                @enderror" placeholder="Checkout Date">
                                                 <span class="input-group-addon">
                                                     <i class="glyphicon glyphicon-th"></i>
                                                 </span>
+                                                @error('checkout_date')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
@@ -65,10 +81,18 @@
                                         <div class="select-box">
                                             <i class='bx bx-user'></i>
                                             <div class="input-group">
-                                                <input type="text" name="total_adults" class="form-control" placeholder="Total Adult">
+                                                <input type="text" name="total_adults" class="form-control
+                                                @error('total_adults')
+                                                    is-invalid
+                                                @enderror" placeholder="Total Adult">
                                                 <span class="input-group-addon">
                                                     <i class="glyphicon glyphicon-th"></i>
                                                 </span>
+                                                @error('total_adults')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
@@ -76,10 +100,18 @@
                                         <div class="select-box">
                                             <i class='bx bx-group'></i>
                                             <div class="input-group">
-                                                <input type="text" name="total_children" class="form-control" placeholder="Total Children">
+                                                <input type="text" name="total_children" class="form-control
+                                                @error('total_children')
+                                                    is-invalid
+                                                @enderror" placeholder="Total Children">
                                                 <span class="input-group-addon">
                                                     <i class="glyphicon glyphicon-th"></i>
                                                 </span>
+                                                @error('total_children')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
                                         </div>
                                     </div>
