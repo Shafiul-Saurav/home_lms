@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BookingStoreRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserBookingConfirmationMail;
+use App\Http\Requests\BookingStoreRequest;
+use App\Mail\AdminBookingNotificationMail;
 
 class BookingController extends Controller
 {
@@ -35,7 +38,7 @@ class BookingController extends Controller
         }
 
         // Create new booking
-        Booking::create([
+        $booking = Booking::create([
             'user_id' => Auth::user()->id,
             'room_id' => $request->room_id,
             'checkin_date' => $request->checkin_date,
@@ -43,6 +46,13 @@ class BookingController extends Controller
             'total_adults' => $request->total_adults,
             'total_children' => $request->total_children,
         ]);
+
+        // Send confirmation email to user
+        Mail::to(Auth::user()->email)->send(new UserBookingConfirmationMail($booking));
+
+        // Send notification email to admin
+        $adminEmail = 'shafiulsaurav8@gmail.com'; // Replace with the actual admin email
+        Mail::to($adminEmail)->send(new AdminBookingNotificationMail($booking));
 
         return redirect()->back()->with('message', 'Room has been booked successfully 🙂');
     }

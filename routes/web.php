@@ -30,6 +30,7 @@ use App\Http\Controllers\Trash\PermissionTrashController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\WebsiteController;
+use App\Http\Controllers\Trash\BookingTrashController;
 
 /*
 |--------------------------------------------------------------------------
@@ -205,5 +206,10 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::resource('staffs', StuffController::class);
 
     //Bookin Route
+    Route::get('/bookings/trash', [BookingTrashController::class, 'trash'])->name('bookings.trash');
+    Route::get('/bookings/restore/{id}', [BookingTrashController::class, 'restore'])
+    ->name('bookings.restore');
+    Route::delete('/bookings/forcedelete/{id}', [BookingTrashController::class, 'forceDelete'])
+    ->name('bookings.forcedelete');
     Route::resource('bookings', BackendBookingController::class);
 });

@@ -72,6 +72,9 @@ class BookingController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $booking = Booking::findOrFail($id);
+        $booking->delete();
+
+        return redirect()->back()->with('warning', 'Booking Deleted Successfully');
     }
 }

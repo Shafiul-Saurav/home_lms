@@ -161,7 +161,7 @@
                         <span class="side-menu__label ms-3">Booking</span><i class="fa-solid fa-angle-right"></i></a>
                     <ul class="slide-menu">
                         <li><a href="{{ route('bookings.index') }}" class="slide-item {{Request::routeIs('bookings.index') ? 'active' : ''}}"> List</a></li>
-                        <li><a href="{{ route('staffs.trash') }}" class="slide-item {{Request::routeIs('staffs.trash') ? 'active' : ''}}"> Trash</a></li>
+                        <li><a href="{{ route('bookings.trash') }}" class="slide-item {{Request::routeIs('bookings.trash') ? 'active' : ''}}"> Trash</a></li>
                     </ul>
                 </li>
                 <li class="slide">
