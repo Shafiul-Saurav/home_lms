@@ -15,6 +15,7 @@
         <li>Check-out Date: {{ $booking->checkout_date }}</li>
         <li>Total Adults: {{ $booking->total_adults }}</li>
         <li>Total Children: {{ $booking->total_children }}</li>
+        <li>Total Children: {{ $booking->total_children }}</li>
     </ul>
 
     <p>Thank you for booking with us! We look forward to your stay.</p>

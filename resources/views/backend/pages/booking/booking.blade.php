@@ -40,12 +40,13 @@
                                     <th class="border-bottom-0">Name</th>
                                     <th class="border-bottom-0">Email</th>
                                     <th class="border-bottom-0">Phone</th>
-                                    <th class="border-bottom-0">Room Type</th>
+                                    {{-- <th class="border-bottom-0">Room Type</th> --}}
                                     <th class="border-bottom-0">Room No.</th>
-                                    <th class="border-bottom-0">Total Adults</th>
+                                    {{-- <th class="border-bottom-0">Total Adults</th>
                                     <th class="border-bottom-0">Total Children</th>
                                     <th class="border-bottom-0">Arrival Date</th>
-                                    <th class="border-bottom-0">Departure Date</th>
+                                    <th class="border-bottom-0">Departure Date</th> --}}
+                                    <th class="border-bottom-0">Status</th>
                                     <th class="border-bottom-0">Actions</th>
                                 </tr>
                             </thead>
@@ -59,12 +60,20 @@
                                         <td>{{ $booking->user->name??null }}</td>
                                         <td>{{ $booking->user->email??null }}</td>
                                         <td>{{ $booking->user->profile->phone??null }}</td>
-                                        <td>{{ $booking->room->roomtype->title??null }}</td>
+                                        {{-- <td>{{ $booking->room->roomtype->title??null }}</td> --}}
                                         <td>{{ $booking->room->title??null }}</td>
-                                        <td>{{ $booking->total_adults??null }}</td>
+                                        <td>
+                                            <div class="material-switch">
+                                                <input id="user-{{ $booking->id }}" class="toggle-class" name="payment_status"
+                                                    type="checkbox" {{ $booking->payment_status ? 'checked' : '' }}
+                                                    data-id="{{ $booking->id }}">
+                                                <label for="user-{{ $booking->id }}" class="label-success"></label>
+                                            </div>
+                                        </td>
+                                        {{-- <td>{{ $booking->total_adults??null }}</td>
                                         <td>{{ $booking->total_children??null }}</td>
                                         <td>{{ $booking->checkin_date??null }}</td>
-                                        <td>{{ $booking->checkout_date??null }}</td>
+                                        <td>{{ $booking->checkout_date??null }}</td> --}}
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
@@ -104,4 +113,26 @@
 
 @push('backend_script')
     @include('backend.pages.common.script')
+    <script>
+        $(document).on('change', '.toggle-class', function() {
+                var item_id = $(this).data('id');
+
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: `/admin/check/booking/payment_status/${item_id}`,
+                    success: function(response) {
+                        console.log(response);
+                        Swal.fire({
+                            title: response.message,
+                            text: response.message,
+                            icon: response.type,
+                        });
+                    },
+                    error: function(err) {
+                        console.error(err);
+                    }
+                });
+            });
+    </script>
 @endpush

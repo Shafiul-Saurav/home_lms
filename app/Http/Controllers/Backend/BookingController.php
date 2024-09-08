@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Backend;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserBookingConfirmationMail;
 
 class BookingController extends Controller
 {
@@ -76,5 +79,26 @@ class BookingController extends Controller
         $booking->delete();
 
         return redirect()->back()->with('warning', 'Booking Deleted Successfully');
+    }
+
+    public function checkActivePaymentStatus($booking_id)
+    {
+        $booking = Booking::find($booking_id);
+        if (!$booking) {
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Booking not found'
+            ], 404);
+        }
+
+        // Toggle the is_active status
+        $booking->payment_status = $booking->payment_status ? 0 : 1;
+        $booking->save();
+        // Send confirmation email to user
+        Mail::to($booking->user->email)->send(new UserBookingConfirmationMail($booking));
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Status Updated'
+        ]);
     }
 }

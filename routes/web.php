@@ -7,20 +7,23 @@ use App\Http\Controllers\Backend\RoomController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\StuffController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\Backend\ModuleController;
 use App\Http\Controllers\Trash\RoleTrashController;
 use App\Http\Controllers\Trash\UserTrashController;
 use App\Http\Controllers\Backend\RoomTypeController;
+use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\ProfileController;
+use App\Http\Controllers\Frontend\WebsiteController;
 use App\Http\Controllers\Trash\StuffTrashController;
 use App\Http\Controllers\Backend\CopyrightController;
 use App\Http\Controllers\Trash\ModuleTrashController;
 use App\Http\Controllers\Backend\AdminLoginController;
-use App\Http\Controllers\Backend\BookingController as BackendBookingController;
 use App\Http\Controllers\Backend\BreadcrumbController;
 use App\Http\Controllers\Backend\DepartmentController;
 use App\Http\Controllers\Backend\HomeSliderController;
 use App\Http\Controllers\Backend\PermissionController;
+use App\Http\Controllers\Trash\BookingTrashController;
 use App\Http\Controllers\Backend\LogoFaviconController;
 use App\Http\Controllers\Backend\WebsiteLinkController;
 use App\Http\Controllers\Frontend\UserLogoutController;
@@ -28,9 +31,7 @@ use App\Http\Controllers\Frontend\ProfileImageController;
 use App\Http\Controllers\Trash\DepartmentTrashController;
 use App\Http\Controllers\Trash\PermissionTrashController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
-use App\Http\Controllers\Frontend\BookingController;
-use App\Http\Controllers\Frontend\WebsiteController;
-use App\Http\Controllers\Trash\BookingTrashController;
+use App\Http\Controllers\Backend\BookingController as BackendBookingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +67,10 @@ Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
     Route::get('booking_history', [BookingController::class, 'bookingHistory'])->name('booking.history');
     Route::post('booking/store', [BookingController::class, 'bookingStore'])->name('booking.store');
     Route::post('/booking/cancel/{id}', [BookingController::class, 'cancelBooking'])->name('booking.cancel');
+
+    //Payment Getway Route
+    Route::get('stripe', [StripePaymentController::class, 'stripe']);
+    Route::post('stripe', [StripePaymentController::class, 'stripePost'])->name('stripe.post');
 
 });
 
@@ -211,5 +216,8 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     ->name('bookings.restore');
     Route::delete('/bookings/forcedelete/{id}', [BookingTrashController::class, 'forceDelete'])
     ->name('bookings.forcedelete');
+    // Ajax Call Active
+    Route::get('check/booking/payment_status/{booking_id}', [BackendBookingController::class, 'checkActivePaymentStatus'])
+    ->name('booking.payment_status.ajax');
     Route::resource('bookings', BackendBookingController::class);
 });

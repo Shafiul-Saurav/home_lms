@@ -22,6 +22,7 @@ class BookingController extends Controller
 
     public function bookingStore(BookingStoreRequest $request)
     {
+        // dd($request->all());
         // Check if the room is already booked between the specified dates
         $existingBooking = Booking::where('room_id', $request->room_id)
             ->where(function($query) use ($request) {
@@ -38,23 +39,24 @@ class BookingController extends Controller
         }
 
         // Create new booking
-        $booking = Booking::create([
-            'user_id' => Auth::user()->id,
-            'room_id' => $request->room_id,
-            'checkin_date' => $request->checkin_date,
-            'checkout_date' => $request->checkout_date,
-            'total_adults' => $request->total_adults,
-            'total_children' => $request->total_children,
-        ]);
+        // $booking = Booking::create([
+        //     'user_id' => Auth::user()->id,
+        //     'room_id' => $request->room_id,
+        //     'checkin_date' => $request->checkin_date,
+        //     'checkout_date' => $request->checkout_date,
+        //     'total_adults' => $request->total_adults,
+        //     'total_children' => $request->total_children,
+        //     'total_amount' => $request->total_amount,
+        // ]);
 
-        // Send confirmation email to user
-        Mail::to(Auth::user()->email)->send(new UserBookingConfirmationMail($booking));
+        // // Send confirmation email to user
+        // Mail::to(Auth::user()->email)->send(new UserBookingConfirmationMail($booking));
 
-        // Send notification email to admin
-        $adminEmail = 'shafiulsaurav8@gmail.com'; // Replace with the actual admin email
-        Mail::to($adminEmail)->send(new AdminBookingNotificationMail($booking));
+        // // Send notification email to admin
+        // $adminEmail = 'shafiulsaurav8@gmail.com'; // Replace with the actual admin email
+        // Mail::to($adminEmail)->send(new AdminBookingNotificationMail($booking));
 
-        return redirect()->back()->with('message', 'Room has been booked successfully 🙂');
+        // return redirect()->back()->with('message', 'Room has been booked successfully 🙂');
     }
 
     public function cancelBooking($id)

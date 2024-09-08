@@ -36,9 +36,10 @@
                         <div class="d-table-cell">
                             <div class="book-from books-froms">
                                 <h3>Book your Table</h3>
-                                <form action="{{ route('booking.store') }}" method="POST">
+                                <form action="{{ url('user/stripe') }}">
                                     @csrf
                                     <input type="hidden" name="room_id" value="{{ $room->id }}">
+                                    <input type="hidden" name="total_amount" value="{{ $room->price }}">
                                     <div class="form-group">
                                         <div class="select-box">
                                             <i class='bx bx-calendar'></i>
