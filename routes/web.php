@@ -185,6 +185,8 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     ->name('room.is_kitchenette.ajax');
     Route::get('check/room/is_living_area/{room_id}', [RoomController::class, 'checkActiveLivingArea'])
     ->name('room.is_living_area.ajax');
+    // Delete a single multiple image by ajax
+    Route::delete('/room/image/{id}', [RoomController::class, 'deleteRoomImage'])->name('room.image.delete');
     Route::resource('rooms', RoomController::class);
 
     // Department Route

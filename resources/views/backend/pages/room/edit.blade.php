@@ -4,6 +4,43 @@
 
 @push('backend_style')
     @include('backend.pages.common.style')
+    <style>
+        .multi_img {
+            position: relative;
+        }
+
+        .remove_icon {
+            position: absolute;
+            top: 0;
+            right: 1px;
+            opacity: 0;
+            z-index: 999;
+        }
+        .remove_icon .delete-image {
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+        }
+        .remove_icon .delete-image i{
+            font-size: 22px;
+        }
+
+        .multi_img:hover .remove_icon {
+            opacity: 1;
+            transition: all 0.5s ease;
+        }
+
+        .multi_img img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            transition: opacity 0.5s ease;
+        }
+
+        .multi_img img:hover {
+            opacity: 0.5;
+        }
+    </style>
 @endpush
 
 @section('backend_content')
@@ -110,13 +147,22 @@
                             <div class="col-12 mb-3">
                                 <ul class="list-inline">
                                     @foreach ($room->roomImages as $roomImage)
-                                        <li class="list-inline-item">
-                                            <img src="{{ asset('uploads/rooms') }}/{{ $roomImage->multiple_image }}"
-                                                alt="" style="height: 100px">
+                                        <li class="list-inline-item multi_img" id="room-image-{{ $roomImage->id }}">
+                                            <img src="{{ asset('uploads/rooms/' . $roomImage->multiple_image) }}"
+                                                alt="" style="height: 95px">
+                                            <div class="remove_icon">
+                                                <button type="button"
+                                                    class="btn-outline-warning border show_confirm delete-image p-0"
+                                                    data-id="{{ $roomImage->id }}" data-toggle="tooltip"
+                                                    data-placement="top" data-bs-original-title="Delete">
+                                                    <i class="fa-regular fa-circle-xmark"></i>
+                                                </button>
+                                            </div>
                                         </li>
                                     @endforeach
                                 </ul>
                             </div>
+
 
                             <div class="col-12 mb-3">
                                 <div class="form-group">
@@ -187,6 +233,59 @@
         });
         drEvent.on('dropify.error.imageFormat', function(event, element) {
             // alert('Image format error message!');
+        });
+    </script>
+    <script>
+        $(document).on('click', '.delete-image', function(e) {
+            e.preventDefault();
+
+            var imageId = $(this).data('id');
+            var url = '{{ route('room.image.delete', ':id') }}';
+            url = url.replace(':id', imageId);
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            // Remove the image element from the page
+                            $('#room-image-' + imageId).remove();
+                            Swal.fire(
+                                'Deleted!',
+                                'Your image has been deleted.',
+                                'success'
+                            );
+                        },
+                        error: function(xhr) {
+                            console.error(xhr.responseText);
+                            Swal.fire(
+                                'Error!',
+                                'Something went wrong. Please try again.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
         });
     </script>
 @endpush

@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Backend;
 
 use App\Models\Room;
 use App\Models\Roomtype;
+use App\Models\RoomImage;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\RoomStoreUpdateRequest;
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\RoomStoreUpdateRequest;
 
 class RoomController extends Controller
 {
@@ -152,13 +153,13 @@ class RoomController extends Controller
 
         if ($request->hasFile('multiple_image')) {
             // Optionally, delete old images here if necessary
-            foreach ($room->roomImages as $roomImage) {
-                $image_path = public_path('uploads/rooms/' . $roomImage->multiple_image);
-                if (file_exists($image_path)) {
-                    unlink($image_path);
-                }
-                $roomImage->delete();
-            }
+            // foreach ($room->roomImages as $roomImage) {
+            //     $image_path = public_path('uploads/rooms/' . $roomImage->multiple_image);
+            //     if (file_exists($image_path)) {
+            //         unlink($image_path);
+            //     }
+            //     $roomImage->delete();
+            // }
 
             foreach ($request->file('multiple_image') as $uploaded_photo) {
                 if ($uploaded_photo->isValid()) {
@@ -179,6 +180,22 @@ class RoomController extends Controller
                 }
             }
         }
+    }
+
+    public function deleteRoomImage($id)
+    {
+        $roomImage = RoomImage::findOrFail($id);
+
+        // Delete the image file from the public directory if it exists
+        $imagePath = public_path('uploads/rooms/' . $roomImage->multiple_image);
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+
+        // Delete the record from the database
+        $roomImage->delete();
+
+        return response()->json(['success' => 'Image deleted successfully.']);
     }
 
     public function checkActiveWifi($room_id)
