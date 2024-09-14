@@ -90,22 +90,22 @@
                         @csrf
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-12">
-                                <button class="default-btn" type="submit">
+                                <a href="{{ route('login.provider', ['provider' => 'google']) }}" class="default-btn" type="submit">
                                     Google
                                     <i class="bx bxl-google"></i>
-                                </button>
+                                </a>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12">
-                                <button class="default-btn" type="submit">
+                                <a href="{{ route('login.provider', ['provider' => 'facebook']) }}" class="default-btn" type="submit">
                                     Facebook
                                     <i class="bx bxl-facebook"></i>
-                                </button>
+                                </a>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12">
-                                <button class="default-btn" type="submit">
+                                <a href="{{ route('login.provider', ['provider' => 'twitter']) }}" class="default-btn" type="submit">
                                     Twitter
                                     <i class="bx bxl-twitter"></i>
-                                </button>
+                                </a>
                             </div>
                             <div class="col-12">
                                 <div class="form-group">

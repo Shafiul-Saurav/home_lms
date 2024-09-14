@@ -24,6 +24,7 @@ use App\Http\Controllers\Backend\DepartmentController;
 use App\Http\Controllers\Backend\HomeSliderController;
 use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Trash\BookingTrashController;
+use App\Http\Controllers\Auth\SocialiteLoginController;
 use App\Http\Controllers\Backend\LogoFaviconController;
 use App\Http\Controllers\Backend\WebsiteLinkController;
 use App\Http\Controllers\Frontend\UserLogoutController;
@@ -72,6 +73,13 @@ Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
     Route::get('stripe', [StripePaymentController::class, 'stripe']);
     Route::post('stripe', [StripePaymentController::class, 'stripePost'])->name('stripe.post');
 
+});
+
+//Socialite Login Routes
+Route::group(['as' => 'login.', 'prefix' => 'login'], function() {
+    Route::get('/{provider}', [SocialiteLoginController::class, 'redirectToProvider'])->name('provider');
+    Route::get('/{provider}/callback', [SocialiteLoginController::class, 'handleProviderCallback'])
+    ->name('provider.callback');
 });
 
 Route::middleware([
