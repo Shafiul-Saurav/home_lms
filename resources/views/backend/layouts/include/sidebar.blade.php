@@ -157,11 +157,19 @@
                     {{Request::routeIs('staffs.trash') ? 'is-expanded' : ''}}">
                     <a class="side-menu__item {{Request::routeIs('bookings.index') ? 'active' : ''}}
                     {{Request::routeIs('staffs.trash') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
-                        <i class="fa-solid fa-clipboard-user fa-fw"></i>
+                    <i class="fa-solid fa-book"></i>
                         <span class="side-menu__label ms-3">Booking</span><i class="fa-solid fa-angle-right"></i></a>
                     <ul class="slide-menu">
                         <li><a href="{{ route('bookings.index') }}" class="slide-item {{Request::routeIs('bookings.index') ? 'active' : ''}}"> List</a></li>
                         <li><a href="{{ route('bookings.trash') }}" class="slide-item {{Request::routeIs('bookings.trash') ? 'active' : ''}}"> Trash</a></li>
+                    </ul>
+                </li>
+                <li class="slide {{Request::routeIs('about.index') ? 'is-expanded' : ''}}">
+                    <a class="side-menu__item {{Request::routeIs('about.index') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
+                    <i class="fa-solid fa-user-pen"></i>
+                        <span class="side-menu__label ms-3">About Us</span><i class="fa-solid fa-angle-right"></i></a>
+                    <ul class="slide-menu">
+                        <li><a href="{{ route('about.index') }}" class="slide-item {{Request::routeIs('bookings.index') ? 'active' : ''}}">About Us Settings</a></li>
                     </ul>
                 </li>
                 <li class="slide">

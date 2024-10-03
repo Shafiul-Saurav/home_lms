@@ -25,6 +25,7 @@ use App\Http\Controllers\Backend\HomeSliderController;
 use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Trash\BookingTrashController;
 use App\Http\Controllers\Auth\SocialiteLoginController;
+use App\Http\Controllers\Backend\AboutController;
 use App\Http\Controllers\Backend\LogoFaviconController;
 use App\Http\Controllers\Backend\WebsiteLinkController;
 use App\Http\Controllers\Frontend\UserLogoutController;
@@ -173,6 +174,10 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     | General Setting End                      |
     |------------------------------------------|
     */
+
+    //About Setting Start
+    Route::resource('about', AboutController::class);
+    //About Setting End
 
     // Room Type Route
     Route::resource('room_types', RoomTypeController::class);
