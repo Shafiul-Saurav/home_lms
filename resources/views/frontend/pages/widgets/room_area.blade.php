@@ -8,70 +8,27 @@
             <div class="row">
                 <div class="col-lg-4">
                     <ul class="tabs">
+                        @foreach ($room_types as $room_type)
                         <li class="single-rooms">
-                            <img src="{{asset('assets/frontend')}}/img/rooms/button-img-1.jpg" alt="Image">
+                            <img src="{{ asset('uploads/room_types') }}/{{ $room_type->sm_image }}" alt="Image">
                             <div class="room-content">
-                                <h3>Double Room</h3>
-                                <span>From $75.9/night</span>
+                                <h3>{{ $room_type->title }}</h3>
+                                <span>{{ $room_type->occupancy }}</span>
                             </div>
                         </li>
-                        <li class="single-rooms">
-                            <img src="{{asset('assets/frontend')}}/img/rooms/button-img-2.jpg" alt="Image">
-                            <div class="room-content">
-                                <h3>Luxury Room</h3>
-                                <span>From $50.9/night</span>
-                            </div>
-                        </li>
-                        <li class="single-rooms">
-                            <img src="{{asset('assets/frontend')}}/img/rooms/button-img-3.jpg" alt="Image">
-                            <div class="room-content">
-                                <h3>Best Room</h3>
-                                <span>From $70.9/night</span>
-                            </div>
-                        </li>
-                        <li class="single-rooms">
-                            <img src="{{asset('assets/frontend')}}/img/rooms/button-img-4.jpg" alt="Image">
-                            <div class="room-content">
-                                <h3>Classic Room</h3>
-                                <span>From $95.9/night</span>
-                            </div>
-                        </li>
-                        <li class="single-rooms">
-                            <img src="{{asset('assets/frontend')}}/img/rooms/button-img-5.jpg" alt="Image">
-                            <div class="room-content">
-                                <h3>Budget Room</h3>
-                                <span>From $95.9/night</span>
-                            </div>
-                        </li>
+                        @endforeach
+
                     </ul>
                 </div>
                 <div class="col-lg-8">
                     <div class="tab_content">
+                        @foreach ($room_types as $room_type)
                         <div class="tabs_item">
-                            <div class="our-rooms-single-img room-bg-1" style="background-image: url('{{ asset('assets/frontend/img/rooms/rooms-1.jpg') }}')">
+                            <div class="our-rooms-single-img room-bg-1" style="background-image: url('{{ asset('uploads/room_types') }}/{{ $room_type->lg_image }}')">
                             </div>
                             <span class="preview-item">The Preview Of Double Room</span>
                         </div>
-                        <div class="tabs_item">
-                            <div class="our-rooms-single-img room-bg-2" style="background-image: url('{{ asset('assets/frontend/img/rooms/rooms-2.jpg') }}')">
-                            </div>
-                            <span class="preview-item">The Preview Of Luxury Room</span>
-                        </div>
-                        <div class="tabs_item">
-                            <div class="our-rooms-single-img room-bg-3" style="background-image: url('{{ asset('assets/frontend/img/rooms/rooms-3.jpg') }}')">
-                            </div>
-                            <span class="preview-item">The Preview Of Best Room</span>
-                        </div>
-                        <div class="tabs_item">
-                            <div class="our-rooms-single-img room-bg-4" style="background-image: url('{{ asset('assets/frontend/img/rooms/rooms-4.jpg') }}')">
-                            </div>
-                            <span class="preview-item">The Preview Of Classic Room</span>
-                        </div>
-                        <div class="tabs_item">
-                            <div class="our-rooms-single-img room-bg-5" style="background-image: url('{{ asset('assets/frontend/img/rooms/rooms-5.jpg') }}')">
-                            </div>
-                            <span class="preview-item">The Preview Of Budget Room</span>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

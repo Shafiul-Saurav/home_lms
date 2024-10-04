@@ -59,6 +59,7 @@
                                     <input type="file" name="about_image" class="dropify" data-default-file="{{ asset($about->about_image??null) }}" data-height="200" data-max-width="650" data-max-height="510" data-allowed-file-extensions="png jpg"/>
                                 </div>
                             </div>
+                            <img src="{{ asset('uploads/abouts') }}/{{ $about->about_image }}" alt="Image">
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="description">Description</label>

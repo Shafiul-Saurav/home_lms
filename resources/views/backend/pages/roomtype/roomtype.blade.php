@@ -28,7 +28,7 @@
                     <h3 class="card-title">Create Room Type</h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('room_types.store') }}" method="POST">
+                    <form action="{{ route('room_types.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-row">
                             <div class="col-12 mb-3">
@@ -84,6 +84,34 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="sm_image">Small Image <span class="text-danger">*</span></label>
+                                    <input type="file" name="sm_image" class="dropify" data-default-file=""
+                                        data-max-width="400" data-show-errors="true"
+                                        data-errors-position="outside" data-max-height="420"
+                                        data-allowed-file-extensions="png jpg" required/>
+                                    @if ($errors->has('sm_image'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('sm_image') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="lg_image">Large Image <span class="text-danger">*</span></label>
+                                    <input type="file" name="lg_image" class="dropify" data-default-file=""
+                                        data-max-width="740" data-show-errors="true"
+                                        data-errors-position="outside" data-max-height="710"
+                                        data-allowed-file-extensions="png jpg" required/>
+                                    @if ($errors->has('lg_image'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('lg_image') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -175,4 +203,27 @@
 
 @push('backend_script')
     @include('backend.pages.common.script')
+
+    <script>
+        var drEvent = $('.dropify').dropify();
+
+        drEvent.on('dropify.error.fileSize', function(event, element) {
+            // alert('Filesize error message!');
+        });
+        drEvent.on('dropify.error.minWidth', function(event, element) {
+            // alert('Min width error message!');
+        });
+        drEvent.on('dropify.error.maxWidth', function(event, element) {
+            // alert('Max width error message!');
+        });
+        drEvent.on('dropify.error.minHeight', function(event, element) {
+            // alert('Min height error message!');
+        });
+        drEvent.on('dropify.error.maxHeight', function(event, element) {
+            // alert('Max height error message!');
+        });
+        drEvent.on('dropify.error.imageFormat', function(event, element) {
+            // alert('Image format error message!');
+        });
+    </script>
 @endpush

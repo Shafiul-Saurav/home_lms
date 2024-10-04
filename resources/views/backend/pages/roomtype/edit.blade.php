@@ -29,7 +29,7 @@
                     <a href="{{ route('room_types.index') }}" class="btn btn-info"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('room_types.update', $room_type->id) }}" method="POST">
+                    <form action="{{ route('room_types.update', $room_type->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="form-row">
@@ -86,6 +86,34 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="sm_image">Small Image <span class="text-danger">*</span></label>
+                                    <input type="file" name="sm_image" class="dropify" data-default-file="{{ asset('uploads/room_types') }}/{{ $room_type->sm_image }}"
+                                        data-max-width="400" data-show-errors="true"
+                                        data-errors-position="outside" data-max-height="420"
+                                        data-allowed-file-extensions="png jpg"/>
+                                    @if ($errors->has('sm_image'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('sm_image') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="lg_image">Large Image <span class="text-danger">*</span></label>
+                                    <input type="file" name="lg_image" class="dropify" data-default-file="{{ asset('uploads/room_types') }}/{{ $room_type->lg_image }}"
+                                        data-max-width="740" data-show-errors="true"
+                                        data-errors-position="outside" data-max-height="710"
+                                        data-allowed-file-extensions="png jpg"/>
+                                    @if ($errors->has('lg_image'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('lg_image') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
                         </div>

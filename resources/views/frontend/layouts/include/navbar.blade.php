@@ -21,79 +21,9 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="javascript:void(0)" class="nav-link dropdown-toggle">
-                                        Pages
-                                        <i class='bx bx-chevron-down'></i>
-                                    </a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item">
-                                        <a href="about.html" class="nav-link">About Us</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="team.html" class="nav-link">Team</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="pricing.html" class="nav-link">Pricing</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="faq.html" class="nav-link">FAQ</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link dropdown-toggle">
-                                                Shop
-                                                <i class='bx bx-chevron-down'></i>
-                                            </a>
-                                        <ul class="dropdown-menu">
-                                            <li class="nav-item">
-                                                <a href="product-grid.html" class="nav-link">Product Grid</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="checkout.html" class="nav-link">Checkout</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="cart.html" class="nav-link">Cart</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="single-product.html" class="nav-link">Single Product</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="testimonial.html" class="nav-link">Testimonial</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link dropdown-toggle">
-                                                User
-                                                <i class='bx bx-chevron-down'></i>
-                                            </a>
-                                        <ul class="dropdown-menu">
-                                            <li class="nav-item">
-                                                <a href="log-in.html" class="nav-link">Log In</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="sign-up.html" class="nav-link">Sign Up</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="recover-password.html" class="nav-link">Recover Password</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="book-table.html" class="nav-link">Book Table</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="terms-conditions.html" class="nav-link">Terms Conditions</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="privacy-policy.html" class="nav-link">Privacy Policy</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="coming-soon.html" class="nav-link">Coming Soon</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="404.html" class="nav-link">404 Error</a>
-                                    </li>
-                                </ul>
+                                <a href="{{ route('about') }}" class="nav-link {{Request::routeIs('about') ? 'activePage' : ''}}">
+                                    About Us
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('rooms') }}" class="nav-link {{Request::routeIs('rooms') ? 'activePage' : ''}}">
