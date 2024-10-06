@@ -8,6 +8,19 @@
 
 @section('backend_content')
     <div class="row row-sm">
+        <div class="col-12">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Roles</h1>
+                </div>
+                <div class="ms-auto pageheader-btn">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Roles</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">

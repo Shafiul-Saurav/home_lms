@@ -169,7 +169,15 @@
                     <i class="fa-solid fa-user-pen"></i>
                         <span class="side-menu__label ms-3">About Us</span><i class="fa-solid fa-angle-right"></i></a>
                     <ul class="slide-menu">
-                        <li><a href="{{ route('about.index') }}" class="slide-item {{Request::routeIs('bookings.index') ? 'active' : ''}}">About Us Settings</a></li>
+                        <li><a href="{{ route('about.index') }}" class="slide-item {{Request::routeIs('about.index') ? 'active' : ''}}">About Us Settings</a></li>
+                    </ul>
+                </li>
+                <li class="slide {{Request::routeIs('services.index') ? 'is-expanded' : ''}}">
+                    <a class="side-menu__item {{Request::routeIs('services.index') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
+                    <i class="fa-brands fa-servicestack"></i>
+                        <span class="side-menu__label ms-3">Services</span><i class="fa-solid fa-angle-right"></i></a>
+                    <ul class="slide-menu">
+                        <li><a href="{{ route('services.index') }}" class="slide-item {{Request::routeIs('services.index') ? 'active' : ''}}">Services Settings</a></li>
                     </ul>
                 </li>
                 <li class="slide">

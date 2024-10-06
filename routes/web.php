@@ -34,6 +34,8 @@ use App\Http\Controllers\Trash\DepartmentTrashController;
 use App\Http\Controllers\Trash\PermissionTrashController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\BookingController as BackendBookingController;
+use App\Http\Controllers\Backend\ServiceController;
+use App\Http\Controllers\Trash\ServiceTrashController;
 
 /*
 |--------------------------------------------------------------------------
@@ -236,4 +238,16 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::get('check/booking/payment_status/{booking_id}', [BackendBookingController::class, 'checkActivePaymentStatus'])
     ->name('booking.payment_status.ajax');
     Route::resource('bookings', BackendBookingController::class);
+
+
+    //Service Route
+    Route::get('/services/trash', [ServiceTrashController::class, 'trash'])->name('services.trash');
+    Route::get('/services/restore/{id}', [ServiceTrashController::class, 'restore'])
+    ->name('services.restore');
+    Route::delete('/services/forcedelete/{id}', [ServiceTrashController::class, 'forceDelete'])
+    ->name('services.forcedelete');
+    // Ajax Call Active
+    Route::get('check/service/is_active/{service_id}', [ServiceController::class, 'checkActiveActive'])
+    ->name('service.is_active.ajax');
+    Route::resource('services', ServiceController::class);
 });
