@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Models\Room;
+use App\Models\About;
+use App\Models\Service;
+use App\Models\Roomtype;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\About;
-use App\Models\Roomtype;
 
 class WebsiteController extends Controller
 {
@@ -30,6 +31,13 @@ class WebsiteController extends Controller
     public function rooms()
     {
         return view('frontend.pages.rooms.rooms');
+    }
+
+    public function services()
+    {
+        $services = Service::get();
+        $room_types = Roomtype::get();
+        return view('frontend.pages.services.services', compact('services', 'room_types'));
     }
 
     public function roomDetails($id)

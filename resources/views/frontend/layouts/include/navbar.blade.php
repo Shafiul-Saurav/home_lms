@@ -31,6 +31,11 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{ route('services') }}" class="nav-link {{Request::routeIs('services') ? 'activePage' : ''}}">
+                                    Services
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="#" class="nav-link dropdown-toggle">
                                         Gallery
                                         <i class='bx bx-chevron-down'></i>
@@ -50,29 +55,6 @@
                                     </li>
                                     <li class="nav-item">
                                         <a href="gallery-masonry.html" class="nav-link">Gallery Masonry</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link dropdown-toggle">
-                                        Services
-                                        <i class='bx bx-chevron-down'></i>
-                                    </a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item">
-                                        <a href="service-style-one.html" class="nav-link">Service Style One</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="service-style-two.html" class="nav-link">Service Style Two</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="service-style-three.html" class="nav-link">Service Style Three</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="service-style-four.html" class="nav-link">Service Style Four</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="service-details.html" class="nav-link">Service Details</a>
                                     </li>
                                 </ul>
                             </li>
