@@ -106,4 +106,24 @@ class ServiceController extends Controller
             'message' => 'Status Updated'
         ]);
     }
+
+    public function checkActiveHome($service_id)
+    {
+        $service = Service::find($service_id);
+        if (!$service) {
+            return response()->json([
+                'type' => 'error',
+                'message' => 'User not found'
+            ], 404);
+        }
+
+        // Toggle the is_home status
+        $service->is_home = $service->is_home ? 0 : 1;
+        $service->save();
+
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Status Updated'
+        ]);
+    }
 }

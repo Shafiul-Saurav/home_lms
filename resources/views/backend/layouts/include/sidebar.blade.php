@@ -180,6 +180,57 @@
                         <li><a href="{{ route('services.index') }}" class="slide-item {{Request::routeIs('services.index') ? 'active' : ''}}">Services Settings</a></li>
                     </ul>
                 </li>
+                <li class="slide {{Request::routeIs('photocategories.index') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('photocategories.trash') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('permissions.index') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('permissions.trash') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('roles.index') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('roles.trash') ? 'is-expanded' : ''}}">
+                    <a class="side-menu__item {{Request::routeIs('photocategories.index') ? 'active' : ''}}
+                        {{Request::routeIs('photocategories.trash') ? 'active' : ''}}
+                        {{Request::routeIs('permissions.index') ? 'active' : ''}}
+                        {{Request::routeIs('permissions.trash') ? 'active' : ''}}
+                        {{Request::routeIs('roles.index') ? 'active' : ''}}
+                        {{Request::routeIs('roles.trash') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
+                        <i class="fa-solid fa-table-cells"></i>
+                        <span class="side-menu__label ms-3">Gallery</span><i class="fa-solid fa-angle-right"></i>
+                    </a>
+                    <ul class="slide-menu">
+                        <li class="sub-slide {{Request::routeIs('photocategories.index') ? 'is-expanded' : ''}}
+                            {{Request::routeIs('photocategories.trash') ? 'is-expanded' : ''}}">
+                            <a class="sub-side-menu__item {{Request::routeIs('photocategories.index') ? 'active' : ''}}
+                                {{Request::routeIs('photocategories.trash') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
+                                    class="sub-side-menu__label">Photo Category Setting</span><i
+                                    class="sub-angle fa fa-angle-right"></i></a>
+                            <ul class="sub-slide-menu">
+                                <li><a class="sub-slide-item {{Request::routeIs('photocategories.index') ? 'active' : ''}}" href="{{ route('photocategories.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{Request::routeIs('photocategories.trash') ? 'active' : ''}}" href="{{ route('photocategories.trash') }}">Trash</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-slide {{Request::routeIs('permissions.index') ? 'is-expanded' : ''}}
+                        {{Request::routeIs('permissions.trash') ? 'is-expanded' : ''}}">
+                            <a class="sub-side-menu__item {{Request::routeIs('permissions.index') ? 'active' : ''}}
+                        {{Request::routeIs('permissions.trash') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
+                                    class="sub-side-menu__label">Permission Setting</span><i
+                                    class="sub-angle fa fa-angle-right"></i></a>
+                            <ul class="sub-slide-menu">
+                                <li><a class="sub-slide-item {{Request::routeIs('permissions.index') ? 'active' : ''}}" href="{{ route('permissions.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{Request::routeIs('permissions.trash') ? 'active' : ''}}" href="{{ route('permissions.trash') }}">Trash</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-slide {{Request::routeIs('roles.index') ? 'is-expanded' : ''}}
+                        {{Request::routeIs('roles.trash') ? 'is-expanded' : ''}}">
+                            <a class="sub-side-menu__item {{Request::routeIs('roles.index') ? 'active' : ''}}
+                        {{Request::routeIs('roles.trash') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
+                                    class="sub-side-menu__label">Role Setting</span><i
+                                    class="sub-angle fa fa-angle-right"></i></a>
+                            <ul class="sub-slide-menu">
+                                <li><a class="sub-slide-item {{Request::routeIs('roles.index') ? 'active' : ''}}" href="{{ route('roles.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{Request::routeIs('roles.trash') ? 'active' : ''}}" href="{{ route('roles.trash') }}">Trash</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
                 <li class="slide">
                     <a class="side-menu__item" data-bs-toggle="slide" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M12,2C6.4771729,2,2,6.4771729,2,12s4.4771729,10,10,10c5.5201416-0.0064697,9.9935303-4.4798584,10-10C22,6.4771729,17.5228271,2,12,2z M19.7819214,7.5h-9.2255249l2.5594482-4.4225464C15.9681396,3.4337769,18.4015503,5.1206055,19.7819214,7.5z M14.0211182,8.5l2.0198364,3.503479L14.0192871,15.5H9.9798584l-2.0228882-3.5084229L9.9776611,8.5H14.0211182z M12,3c0.0019531,0,0.0038452,0.0003052,0.0057983,0.0003052L7.380249,10.991272L4.8326416,6.5727539C6.4761353,4.4058838,9.0706177,3,12,3z M3,12c0-1.6405029,0.4459839-3.1737671,1.2128296-4.49823L8.8244019,15.5H3.7061157C3.2515259,14.4241333,3,13.2414551,3,12z M4.2138672,16.5h9.2272339l-2.5576782,4.423584C8.0288696,20.5695801,5.5935059,18.8815918,4.2138672,16.5z M12,21c-0.0021362,0-0.0041504-0.0003052-0.0062866-0.0003052l4.6235962-7.996582l2.550354,4.4237671C17.524231,19.5939941,14.9295654,21,12,21z M15.1746826,8.5h5.1159668C20.7460938,9.5758057,20.9986572,10.7584839,21,12c0,1.6407471-0.446106,3.1741943-1.2131348,4.4987183L15.1746826,8.5z"/></svg>

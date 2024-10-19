@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('photocategories', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('service_icon');
-            $table->longText('description');
+            $table->string('category_name');
+            $table->string('category_slug');
             $table->boolean('is_active')->default(false);
             $table->boolean('is_home')->default(false);
             $table->timestamps();
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('photocategories');
     }
 };

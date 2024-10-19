@@ -1,6 +1,6 @@
 @extends('backend.layouts.master')
 
-@section('title', 'Services')
+@section('title', 'Photo Category')
 
 @push('backend_style')
     @include('backend.pages.common.style')
@@ -11,12 +11,12 @@
         <div class="col-12">
             <div class="page-header">
                 <div>
-                    <h1 class="page-title">Services</h1>
+                    <h1 class="page-title">Photo Category</h1>
                 </div>
                 <div class="ms-auto pageheader-btn">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Services</li>
+                        <li class="breadcrumb-item active" aria-current="page">Photo Category</li>
                     </ol>
                 </div>
             </div>
@@ -25,46 +25,26 @@
         <div class="col-lg-12 col-md-12">
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
-                    <h3 class="card-title">Create Service</h3>
-                    <a href="{{ route('services.trash') }}" class="btn btn-sm btn-outline-warning border"><i
+                    <h3 class="card-title">Create Photo Category</h3>
+                    <a href="{{ route('photocategories.trash') }}" class="btn btn-sm btn-outline-warning border"><i
                             class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('services.store') }}" method="POST">
+                    <form action="{{ route('photocategories.store') }}" method="POST">
                         @csrf
                         <div class="form-row">
                             <div class="col-12 mb-3">
                                 <div class="form-group">
-                                    <label for="title">Service Name</label>
-                                    <input type="text" name="title" class="form-control @error('title')
+                                    <label for="category_name">Name</label>
+                                    <input type="text" name="category_name" class="form-control @error('category_name')
                                         is-invalid
-                                    @enderror" id="title"
-                                        value="{{ old('title') }}" required>
-                                    @error('title')
+                                    @enderror" id="category_name"
+                                        value="{{ old('category_name') }}" required>
+                                    @error('category_name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
-                                </div>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <div class="form-group">
-                                    <label for="service_icon">Service Icon</label>
-                                    <input type="text" name="service_icon" class="form-control @error('service_icon')
-                                        is-invalid
-                                    @enderror" id="service_icon"
-                                        value="{{ old('service_icon') }}" required>
-                                    @error('service_icon')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <textarea name="description" id="summernote" cols="30" rows="10" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +58,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header border-bottom">
-                    <h3 class="card-title">Service List</h3>
+                    <h3 class="card-title">Photo Category List</h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -87,56 +67,54 @@
                                 <tr>
                                     <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">Last Updated</th>
-                                    <th class="border-bottom-0">Service Name</th>
-                                    {{-- <th class="border-bottom-0">Service Icon</th> --}}
+                                    <th class="border-bottom-0">Category Name</th>
                                     <th class="border-bottom-0">Home Page</th>
                                     <th class="border-bottom-0">Status</th>
                                     <th class="border-bottom-0">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($services as $service)
+                                @foreach ($categories as $category)
                                     <tr>
                                         <td>
-                                            <strong>{{ $services->firstItem() + $loop->index }}</strong>
+                                            <strong>{{ $categories->firstItem() + $loop->index }}</strong>
                                         </td>
-                                        <td>{{ $service->updated_at->format('d-M-Y') }}</td>
-                                        <td>{{ $service->title }}</td>
-                                        {{-- <td>{{ $service->service_icon }}</td> --}}
+                                        <td>{{ $category->updated_at->format('d-M-Y') }}</td>
+                                        <td>{{ $category->category_name }}</td>
                                         <td>
                                             <div class="material-switch">
-                                                <input id="home-{{ $service->id }}" class="toggle-class-home" name="is_home"
-                                                    type="checkbox" {{ $service->is_home ? 'checked' : '' }}
-                                                    data-id="{{ $service->id }}">
-                                                <label for="home-{{ $service->id }}" class="label-success"></label>
+                                                <input id="home-{{ $category->id }}" class="toggle-class-home" name="is_home"
+                                                    type="checkbox" {{ $category->is_home ? 'checked' : '' }}
+                                                    data-id="{{ $category->id }}">
+                                                <label for="home-{{ $category->id }}" class="label-success"></label>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="material-switch">
-                                                <input id="active-{{ $service->id }}" class="toggle-class-active" name="is_active"
-                                                    type="checkbox" {{ $service->is_active ? 'checked' : '' }}
-                                                    data-id="{{ $service->id }}">
-                                                <label for="active-{{ $service->id }}" class="label-success"></label>
+                                                <input id="active-{{ $category->id }}" class="toggle-class-active" name="is_active"
+                                                    type="checkbox" {{ $category->is_active ? 'checked' : '' }}
+                                                    data-id="{{ $category->id }}">
+                                                <label for="active-{{ $category->id }}" class="label-success"></label>
                                             </div>
                                         </td>
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
-                                                    <a href="{{ route('services.show', $service->id) }}" class="btn btn-sm btn-outline-primary border me-2"
+                                                    <a href="{{ route('photocategories.show', $category->id) }}" class="btn btn-sm btn-outline-primary border me-2"
                                                         data-toggle="tooltip" data-placement="top"
                                                         data-bs-original-title="View">
                                                         <i class="fa-solid fa-eye"></i>
                                                     </a>
                                                 </div>
                                                 <div>
-                                                    <a href="{{ route('services.edit', $service->id) }}"
+                                                    <a href="{{ route('photocategories.edit', $category->category_slug) }}"
                                                         class="btn btn-sm btn-outline-secondary border me-2"
                                                         data-toggle="tooltip" data-placement="top"
                                                         data-bs-original-title="Edit"><i class="fa-solid fa-pen fa-fw"></i>
                                                     </a>
                                                 </div>
                                                 <div>
-                                                    <form action="{{ route('services.destroy', $service->id) }}"
+                                                    <form action="{{ route('photocategories.destroy', $category->category_slug) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
@@ -172,7 +150,7 @@
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: `/admin/check/service/is_home/${item_id}`,
+                    url: `/admin/check/photocategory/is_home/${item_id}`,
                     success: function(response) {
                         console.log(response);
                         Swal.fire({
@@ -192,7 +170,7 @@
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: `/admin/check/service/is_active/${item_id}`,
+                    url: `/admin/check/photocategory/is_active/${item_id}`,
                     success: function(response) {
                         console.log(response);
                         Swal.fire({

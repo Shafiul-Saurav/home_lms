@@ -35,7 +35,7 @@ class WebsiteController extends Controller
 
     public function services()
     {
-        $services = Service::get();
+        $services = Service::where('is_active', 1)->get();
         $room_types = Roomtype::get();
         return view('frontend.pages.services.services', compact('services', 'room_types'));
     }

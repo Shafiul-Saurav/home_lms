@@ -34,7 +34,9 @@ use App\Http\Controllers\Trash\DepartmentTrashController;
 use App\Http\Controllers\Trash\PermissionTrashController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\BookingController as BackendBookingController;
+use App\Http\Controllers\Backend\PhotoCategoryController;
 use App\Http\Controllers\Backend\ServiceController;
+use App\Http\Controllers\Trash\PhotoCategoryTrashController;
 use App\Http\Controllers\Trash\ServiceTrashController;
 
 /*
@@ -250,5 +252,21 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     // Ajax Call Active
     Route::get('check/service/is_active/{service_id}', [ServiceController::class, 'checkActiveActive'])
     ->name('service.is_active.ajax');
+    Route::get('check/service/is_home/{service_id}', [ServiceController::class, 'checkActiveHome'])
+    ->name('service.is_home.ajax');
     Route::resource('services', ServiceController::class);
+
+
+    //Photo Category Route
+    Route::get('/photocategories/trash', [PhotoCategoryTrashController::class, 'trash'])->name('photocategories.trash');
+    Route::get('/photocategories/restore/{id}', [PhotoCategoryTrashController::class, 'restore'])
+    ->name('photocategories.restore');
+    Route::delete('/photocategories/forcedelete/{id}', [PhotoCategoryTrashController::class, 'forceDelete'])
+    ->name('photocategories.forcedelete');
+    // Ajax Call Active
+    Route::get('check/photocategory/is_active/{category_id}', [PhotoCategoryController::class, 'checkActiveActive'])
+    ->name('category.is_active.ajax');
+    Route::get('check/photocategory/is_home/{category_id}', [PhotoCategoryController::class, 'checkActiveHome'])
+    ->name('category.is_home.ajax');
+    Route::resource('photocategories', PhotoCategoryController::class);
 });
