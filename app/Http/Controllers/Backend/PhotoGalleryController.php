@@ -53,7 +53,9 @@ class PhotoGalleryController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $gallery = Photogallery::findOrFail($id);
+
+        return view('backend.pages.photogallery.view', compact('gallery'));
     }
 
     /**
