@@ -11,4 +11,9 @@ class Photocategory extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = ['id'];
+
+    public function photoGalleries()
+    {
+        return $this->hasMany(Photogallery::class, 'category_id', 'id');
+    }
 }

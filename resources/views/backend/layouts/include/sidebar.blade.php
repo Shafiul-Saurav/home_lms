@@ -182,14 +182,14 @@
                 </li>
                 <li class="slide {{Request::routeIs('photocategories.index') ? 'is-expanded' : ''}}
                     {{Request::routeIs('photocategories.trash') ? 'is-expanded' : ''}}
-                    {{Request::routeIs('permissions.index') ? 'is-expanded' : ''}}
-                    {{Request::routeIs('permissions.trash') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('photogalleries.index') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('photogalleries.trash') ? 'is-expanded' : ''}}
                     {{Request::routeIs('roles.index') ? 'is-expanded' : ''}}
                     {{Request::routeIs('roles.trash') ? 'is-expanded' : ''}}">
                     <a class="side-menu__item {{Request::routeIs('photocategories.index') ? 'active' : ''}}
                         {{Request::routeIs('photocategories.trash') ? 'active' : ''}}
-                        {{Request::routeIs('permissions.index') ? 'active' : ''}}
-                        {{Request::routeIs('permissions.trash') ? 'active' : ''}}
+                        {{Request::routeIs('photogalleries.index') ? 'active' : ''}}
+                        {{Request::routeIs('photogalleries.trash') ? 'active' : ''}}
                         {{Request::routeIs('roles.index') ? 'active' : ''}}
                         {{Request::routeIs('roles.trash') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
                         <i class="fa-solid fa-table-cells"></i>
@@ -207,15 +207,15 @@
                                 <li><a class="sub-slide-item {{Request::routeIs('photocategories.trash') ? 'active' : ''}}" href="{{ route('photocategories.trash') }}">Trash</a></li>
                             </ul>
                         </li>
-                        <li class="sub-slide {{Request::routeIs('permissions.index') ? 'is-expanded' : ''}}
-                        {{Request::routeIs('permissions.trash') ? 'is-expanded' : ''}}">
-                            <a class="sub-side-menu__item {{Request::routeIs('permissions.index') ? 'active' : ''}}
-                        {{Request::routeIs('permissions.trash') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
-                                    class="sub-side-menu__label">Permission Setting</span><i
+                        <li class="sub-slide {{Request::routeIs('photogalleries.index') ? 'is-expanded' : ''}}
+                        {{Request::routeIs('photogalleries.trash') ? 'is-expanded' : ''}}">
+                            <a class="sub-side-menu__item {{Request::routeIs('photogalleries.index') ? 'active' : ''}}
+                        {{Request::routeIs('photogalleries.trash') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
+                                    class="sub-side-menu__label">Photo Gallery Setting</span><i
                                     class="sub-angle fa fa-angle-right"></i></a>
                             <ul class="sub-slide-menu">
-                                <li><a class="sub-slide-item {{Request::routeIs('permissions.index') ? 'active' : ''}}" href="{{ route('permissions.index') }}">List</a></li>
-                                <li><a class="sub-slide-item {{Request::routeIs('permissions.trash') ? 'active' : ''}}" href="{{ route('permissions.trash') }}">Trash</a></li>
+                                <li><a class="sub-slide-item {{Request::routeIs('photogalleries.index') ? 'active' : ''}}" href="{{ route('photogalleries.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{Request::routeIs('photogalleries.trash') ? 'active' : ''}}" href="{{ route('photogalleries.trash') }}">Trash</a></li>
                             </ul>
                         </li>
                         <li class="sub-slide {{Request::routeIs('roles.index') ? 'is-expanded' : ''}}
