@@ -36,25 +36,16 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link dropdown-toggle">
+                                <a href="#" class="nav-link dropdown-toggle {{Request::routeIs('photo.gallery') ? 'activePage' : ''}}">
                                         Gallery
                                         <i class='bx bx-chevron-down'></i>
                                     </a>
                                 <ul class="dropdown-menu">
                                     <li class="nav-item">
-                                        <a href="gallery-columns-two.html" class="nav-link">Gallery Columns Two</a>
+                                        <a href="{{ route('photo.gallery') }}" class="nav-link {{Request::routeIs('photo.gallery') ? 'activePage' : ''}}">Photo Gallery</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="gallery-columns-three.html" class="nav-link">Gallery Columns Three</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="gallery-columns-four.html" class="nav-link">Gallery Columns Four</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="gallery-light-box.html" class="nav-link">Gallery Light Box</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="gallery-masonry.html" class="nav-link">Gallery Masonry</a>
+                                        <a href="" class="nav-link">Video Gallery</a>
                                     </li>
                                 </ul>
                             </li>

@@ -6,7 +6,9 @@ use App\Models\Room;
 use App\Models\About;
 use App\Models\Service;
 use App\Models\Roomtype;
+use App\Models\Photogallery;
 use Illuminate\Http\Request;
+use App\Models\Photocategory;
 use App\Http\Controllers\Controller;
 
 class WebsiteController extends Controller
@@ -38,6 +40,13 @@ class WebsiteController extends Controller
         $services = Service::where('is_active', 1)->get();
         $room_types = Roomtype::get();
         return view('frontend.pages.services.services', compact('services', 'room_types'));
+    }
+
+    public function photoGallery()
+    {
+        $galleries = Photogallery::where('is_active', 1)->get();
+        $categories = Photocategory::get();
+        return view('frontend.pages.gallery.photogallery', compact('galleries', 'categories'));
     }
 
     public function roomDetails($id)

@@ -62,6 +62,7 @@ Route::get('/', [WebsiteController::class, 'home'])->name('home');
 Route::get('about', [WebsiteController::class, 'about'])->name('about');
 Route::get('rooms', [WebsiteController::class, 'rooms'])->name('rooms');
 Route::get('services', [WebsiteController::class, 'services'])->name('services');
+Route::get('photogallery', [WebsiteController::class, 'photoGallery'])->name('photo.gallery');
 Route::get('room/details/{id}', [WebsiteController::class, 'roomDetails'])->name('room.details');
 Route::get('booking/{id}', [WebsiteController::class, 'booking'])->name('booking');
 
