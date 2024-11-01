@@ -36,7 +36,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link dropdown-toggle {{Request::routeIs('photo.gallery') ? 'activePage' : ''}}">
+                                <a href="#" class="nav-link dropdown-toggle {{Request::routeIs('photo.gallery') ? 'activePage' : ''}} {{Request::routeIs('video.gallery') ? 'activePage' : ''}}">
                                         Gallery
                                         <i class='bx bx-chevron-down'></i>
                                     </a>
@@ -45,33 +45,10 @@
                                         <a href="{{ route('photo.gallery') }}" class="nav-link {{Request::routeIs('photo.gallery') ? 'activePage' : ''}}">Photo Gallery</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="" class="nav-link">Video Gallery</a>
+                                        <a href="{{ route('video.gallery') }}" class="nav-link {{Request::routeIs('video.gallery') ? 'activePage' : ''}}">Video Gallery</a>
                                     </li>
                                 </ul>
                             </li>
-                            {{-- <li class="nav-item">
-                                <a href="#" class="nav-link dropdown-toggle">
-                                        News
-                                        <i class='bx bx-chevron-down'></i>
-                                    </a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item">
-                                        <a href="news-grid.html" class="nav-link">News Grid</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="news-columns-two.html" class="nav-link">News Columns Two</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="news-left-sidebar.html" class="nav-link">News Left Sidebar</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="news-right-sidebar.html" class="nav-link">News Right Sidebar</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="news-details.html" class="nav-link">News Details</a>
-                                    </li>
-                                </ul>
-                            </li> --}}
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     Contacts

@@ -59,7 +59,7 @@
                                             style="background-image: url('{{ asset('uploads/photogalleries') }}/{{ $gallery->gall_image }}'); background-size: cover; background-position: center;">
                                             <div class="price-wrap">
                                                 <span class="price-text">Price</span>
-                                                <span class="price">{{ $gallery->price }}</span>
+                                                <span class="price">${{ $gallery->price }}</span>
                                             </div>
                                         </div>
                                     </div>

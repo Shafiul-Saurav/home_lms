@@ -5,10 +5,12 @@ use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\RoomController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\AboutController;
 use App\Http\Controllers\Backend\StuffController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\Backend\ModuleController;
+use App\Http\Controllers\Backend\ServiceController;
 use App\Http\Controllers\Trash\RoleTrashController;
 use App\Http\Controllers\Trash\UserTrashController;
 use App\Http\Controllers\Backend\RoomTypeController;
@@ -24,22 +26,22 @@ use App\Http\Controllers\Backend\DepartmentController;
 use App\Http\Controllers\Backend\HomeSliderController;
 use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Trash\BookingTrashController;
+use App\Http\Controllers\Trash\ServiceTrashController;
 use App\Http\Controllers\Auth\SocialiteLoginController;
-use App\Http\Controllers\Backend\AboutController;
 use App\Http\Controllers\Backend\LogoFaviconController;
 use App\Http\Controllers\Backend\WebsiteLinkController;
 use App\Http\Controllers\Frontend\UserLogoutController;
+use App\Http\Controllers\Backend\PhotoGalleryController;
+use App\Http\Controllers\Backend\VideoGalleryController;
+use App\Http\Controllers\Backend\PhotoCategoryController;
 use App\Http\Controllers\Frontend\ProfileImageController;
 use App\Http\Controllers\Trash\DepartmentTrashController;
 use App\Http\Controllers\Trash\PermissionTrashController;
+use App\Http\Controllers\Trash\PhotoGalleryTrashController;
+use App\Http\Controllers\Trash\VideoGalleryTrashController;
+use App\Http\Controllers\Trash\PhotoCategoryTrashController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\BookingController as BackendBookingController;
-use App\Http\Controllers\Backend\PhotoCategoryController;
-use App\Http\Controllers\Backend\PhotoGalleryController;
-use App\Http\Controllers\Backend\ServiceController;
-use App\Http\Controllers\Trash\PhotoCategoryTrashController;
-use App\Http\Controllers\Trash\PhotoGalleryTrashController;
-use App\Http\Controllers\Trash\ServiceTrashController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,6 +65,7 @@ Route::get('about', [WebsiteController::class, 'about'])->name('about');
 Route::get('rooms', [WebsiteController::class, 'rooms'])->name('rooms');
 Route::get('services', [WebsiteController::class, 'services'])->name('services');
 Route::get('photogallery', [WebsiteController::class, 'photoGallery'])->name('photo.gallery');
+Route::get('videogallery', [WebsiteController::class, 'videoGallery'])->name('video.gallery');
 Route::get('room/details/{id}', [WebsiteController::class, 'roomDetails'])->name('room.details');
 Route::get('booking/{id}', [WebsiteController::class, 'booking'])->name('booking');
 
@@ -285,4 +288,18 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::get('check/photogallery/is_home/{gallery_id}', [PhotoGalleryController::class, 'checkActiveHome'])
     ->name('gallery.is_home.ajax');
     Route::resource('photogalleries', PhotoGalleryController::class);
+
+
+    //Video Gallery Route
+    Route::get('/videogalleries/trash', [VideoGalleryTrashController::class, 'trash'])->name('videogalleries.trash');
+    Route::get('/videogalleries/restore/{id}', [VideoGalleryTrashController::class, 'restore'])
+    ->name('videogalleries.restore');
+    Route::delete('/videogalleries/forcedelete/{id}', [VideoGalleryTrashController::class, 'forceDelete'])
+    ->name('videogalleries.forcedelete');
+    // Ajax Call Active
+    Route::get('check/videogallery/is_active/{video_id}', [VideoGalleryController::class, 'checkActiveActive'])
+    ->name('gallery.is_active.ajax');
+    Route::get('check/videogallery/is_home/{video_id}', [VideoGalleryController::class, 'checkActiveHome'])
+    ->name('gallery.is_home.ajax');
+    Route::resource('videogalleries', VideoGalleryController::class);
 });

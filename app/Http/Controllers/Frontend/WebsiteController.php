@@ -7,6 +7,7 @@ use App\Models\About;
 use App\Models\Service;
 use App\Models\Roomtype;
 use App\Models\Photogallery;
+use App\Models\Videogallery;
 use Illuminate\Http\Request;
 use App\Models\Photocategory;
 use App\Http\Controllers\Controller;
@@ -47,6 +48,12 @@ class WebsiteController extends Controller
         $galleries = Photogallery::where('is_active', 1)->get();
         $categories = Photocategory::get();
         return view('frontend.pages.gallery.photogallery', compact('galleries', 'categories'));
+    }
+
+    public function videoGallery()
+    {
+        $videos = Videogallery::get();
+        return view('frontend.pages.gallery.videogallery', compact('videos'));
     }
 
     public function roomDetails($id)

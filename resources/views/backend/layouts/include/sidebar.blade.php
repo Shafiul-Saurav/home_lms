@@ -184,14 +184,14 @@
                     {{Request::routeIs('photocategories.trash') ? 'is-expanded' : ''}}
                     {{Request::routeIs('photogalleries.index') ? 'is-expanded' : ''}}
                     {{Request::routeIs('photogalleries.trash') ? 'is-expanded' : ''}}
-                    {{Request::routeIs('roles.index') ? 'is-expanded' : ''}}
-                    {{Request::routeIs('roles.trash') ? 'is-expanded' : ''}}">
+                    {{Request::routeIs('videogalleries.index') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('videogalleries.trash') ? 'is-expanded' : ''}}">
                     <a class="side-menu__item {{Request::routeIs('photocategories.index') ? 'active' : ''}}
                         {{Request::routeIs('photocategories.trash') ? 'active' : ''}}
                         {{Request::routeIs('photogalleries.index') ? 'active' : ''}}
                         {{Request::routeIs('photogalleries.trash') ? 'active' : ''}}
-                        {{Request::routeIs('roles.index') ? 'active' : ''}}
-                        {{Request::routeIs('roles.trash') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
+                        {{Request::routeIs('videogalleries.index') ? 'active' : ''}}
+                        {{Request::routeIs('videogalleries.trash') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
                         <i class="fa-solid fa-table-cells"></i>
                         <span class="side-menu__label ms-3">Gallery</span><i class="fa-solid fa-angle-right"></i>
                     </a>
@@ -218,15 +218,15 @@
                                 <li><a class="sub-slide-item {{Request::routeIs('photogalleries.trash') ? 'active' : ''}}" href="{{ route('photogalleries.trash') }}">Trash</a></li>
                             </ul>
                         </li>
-                        <li class="sub-slide {{Request::routeIs('roles.index') ? 'is-expanded' : ''}}
-                        {{Request::routeIs('roles.trash') ? 'is-expanded' : ''}}">
-                            <a class="sub-side-menu__item {{Request::routeIs('roles.index') ? 'active' : ''}}
-                        {{Request::routeIs('roles.trash') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
-                                    class="sub-side-menu__label">Role Setting</span><i
+                        <li class="sub-slide {{Request::routeIs('videogalleries.index') ? 'is-expanded' : ''}}
+                        {{Request::routeIs('videogalleries.trash') ? 'is-expanded' : ''}}">
+                            <a class="sub-side-menu__item {{Request::routeIs('videogalleries.index') ? 'active' : ''}}
+                        {{Request::routeIs('videogalleries.trash') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
+                                    class="sub-side-menu__label">Video Gallery Setting</span><i
                                     class="sub-angle fa fa-angle-right"></i></a>
                             <ul class="sub-slide-menu">
-                                <li><a class="sub-slide-item {{Request::routeIs('roles.index') ? 'active' : ''}}" href="{{ route('roles.index') }}">List</a></li>
-                                <li><a class="sub-slide-item {{Request::routeIs('roles.trash') ? 'active' : ''}}" href="{{ route('roles.trash') }}">Trash</a></li>
+                                <li><a class="sub-slide-item {{Request::routeIs('videogalleries.index') ? 'active' : ''}}" href="{{ route('videogalleries.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{Request::routeIs('videogalleries.trash') ? 'active' : ''}}" href="{{ route('videogalleries.trash') }}">Trash</a></li>
                             </ul>
                         </li>
                     </ul>
