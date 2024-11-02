@@ -42,6 +42,9 @@ use App\Http\Controllers\Trash\VideoGalleryTrashController;
 use App\Http\Controllers\Trash\PhotoCategoryTrashController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\BookingController as BackendBookingController;
+use App\Http\Controllers\Backend\TestimonialController;
+use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
+use App\Http\Controllers\Trash\TestimonialTrashController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,6 +88,10 @@ Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
     //Payment Getway Route
     Route::get('stripe', [StripePaymentController::class, 'stripe']);
     Route::post('stripe', [StripePaymentController::class, 'stripePost'])->name('stripe.post');
+
+    //Testimonial Route
+    Route::get('testimonial_view', [FrontendTestimonialController::class, 'testimonialView'])->name('testimonial.view');
+    Route::post('testimonial_store', [FrontendTestimonialController::class, 'testimonialStore'])->name('testimonial.store');
 
 });
 
@@ -298,8 +305,21 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     ->name('videogalleries.forcedelete');
     // Ajax Call Active
     Route::get('check/videogallery/is_active/{video_id}', [VideoGalleryController::class, 'checkActiveActive'])
-    ->name('gallery.is_active.ajax');
+    ->name('videogallery.is_active.ajax');
     Route::get('check/videogallery/is_home/{video_id}', [VideoGalleryController::class, 'checkActiveHome'])
-    ->name('gallery.is_home.ajax');
+    ->name('videogallery.is_home.ajax');
     Route::resource('videogalleries', VideoGalleryController::class);
+
+    //Testimonial Route
+    Route::get('/testimonials/trash', [TestimonialTrashController::class, 'trash'])->name('testimonials.trash');
+    Route::get('/testimonials/restore/{id}', [TestimonialTrashController::class, 'restore'])
+    ->name('testimonials.restore');
+    Route::delete('/testimonials/forcedelete/{id}', [TestimonialTrashController::class, 'forceDelete'])
+    ->name('testimonials.forcedelete');
+    // Ajax Call Active
+    Route::get('check/testimonial/is_active/{testimonial_id}', [TestimonialController::class, 'checkActiveActive'])
+    ->name('testimonial.is_active.ajax');
+    Route::get('check/testimonial/is_home/{testimonial_id}', [TestimonialController::class, 'checkActiveHome'])
+    ->name('testimonial.is_home.ajax');
+    Route::resource('testimonials', TestimonialController::class);
 });

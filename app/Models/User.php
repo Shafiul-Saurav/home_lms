@@ -88,4 +88,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Booking::class);
     }
+
+    //Relationship with Testimonial
+    public function testimonial()
+    {
+        return $this->hasOne(Testimonial::class);
+    }
 }

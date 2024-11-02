@@ -11,6 +11,7 @@ use App\Models\Videogallery;
 use Illuminate\Http\Request;
 use App\Models\Photocategory;
 use App\Http\Controllers\Controller;
+use App\Models\Testimonial;
 
 class WebsiteController extends Controller
 {
@@ -19,8 +20,10 @@ class WebsiteController extends Controller
     {
         $about = About::latest('id')->first();
         $room_types = Roomtype::get();
+        $testimonials = Testimonial::with('user')->limit(20)->get();
+        //->where('rating', 5)
 
-        return view('frontend.pages.home', compact('about', 'room_types'));
+        return view('frontend.pages.home', compact('about', 'room_types', 'testimonials'));
     }
 
     public function about()

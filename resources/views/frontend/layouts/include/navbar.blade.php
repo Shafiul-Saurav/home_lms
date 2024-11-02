@@ -88,6 +88,10 @@
                                 </a>
                             </li>
                             @endguest
+                            <a href="{{ route('testimonial.view') }}" class="default-btn btn_custom align-self-center">
+                                Review
+                                <i class="flaticon-right"></i>
+                            </a>
                         </ul>
                         <!-- Start Other Option -->
                         <div class="others-option">
@@ -103,3 +107,9 @@
         </div>
     </div>
 </div>
+<style>
+.btn_custom {
+    padding: 4px 15px;
+    height: 38px;
+}
+</style>

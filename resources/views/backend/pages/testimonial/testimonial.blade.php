@@ -1,6 +1,6 @@
 @extends('backend.layouts.master')
 
-@section('title', 'Video Gallery')
+@section('title', 'Testimonials')
 
 @push('backend_style')
     @include('backend.pages.common.style')
@@ -11,60 +11,13 @@
         <div class="col-12">
             <div class="page-header">
                 <div>
-                    <h1 class="page-title">Video Gallery</h1>
+                    <h1 class="page-title">Testimonials</h1>
                 </div>
                 <div class="ms-auto pageheader-btn">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Video Gallery</li>
+                        <li class="breadcrumb-item active" aria-current="page">Testimonials</li>
                     </ol>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-12 col-md-12">
-            <div class="card">
-                <div class="card-header border-bottom d-flex justify-content-between">
-                    <h3 class="card-title">Create Video Gallery</h3>
-                    <a href="{{ route('videogalleries.trash') }}" class="btn btn-sm btn-outline-warning border"><i
-                            class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
-                </div>
-                <div class="card-body">
-                    <form action="{{ route('videogalleries.store') }}" method="POST">
-                        @csrf
-                        <div class="form-row">
-                            <div class="col-12 mb-3">
-                                <div class="form-group">
-                                    <label for="title">Title <span class="text-danger">*</span></label>
-                                    <input type="text" name="title" class="form-control @error('title')
-                                        is-invalid
-                                    @enderror" id="title"
-                                        value="{{ old('title') }}" required>
-                                    @error('title')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <div class="form-group">
-                                    <label for="description">Description <span class="text-danger">*</span></label>
-                                    <textarea name="description"
-                                        class="form-control @error('description')
-                                        is-invalid
-                                    @enderror"
-                                        id="description" cols="30" rows="5">{{ old('description') }}</textarea>
-                                    @error('description')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary" type="submit">Create</button>
-                    </form>
                 </div>
             </div>
         </div>
@@ -72,8 +25,10 @@
     <div class="row row-sm">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header border-bottom">
-                    <h3 class="card-title">Video Gallery List</h3>
+                <div class="card-header border-bottom d-flex justify-content-between">
+                    <h3 class="card-title">Testimonial List</h3>
+                    <a href="{{ route('testimonials.trash') }}" class="btn btn-sm btn-outline-warning border"><i
+                            class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -82,56 +37,66 @@
                                 <tr>
                                     <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">Last Updated</th>
-                                    <th class="border-bottom-0">Title</th>
-                                    <th class="border-bottom-0">Video</th>
+                                    <th class="border-bottom-0">User Name</th>
+                                    <th class="border-bottom-0">Profile</th>
+                                    <th class="border-bottom-0">Review</th>
+                                    <th class="border-bottom-0">Rating</th>
                                     <th class="border-bottom-0">Home Page</th>
                                     <th class="border-bottom-0">Status</th>
                                     <th class="border-bottom-0">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($videos as $video)
+                                @foreach ($testimonials as $testimonial)
                                     <tr>
                                         <td>
-                                            <strong>{{ $videos->firstItem() + $loop->index }}</strong>
+                                            <strong>{{ $testimonials->firstItem() + $loop->index }}</strong>
                                         </td>
-                                        <td>{{ $video->updated_at->format('d-M-Y') }}</td>
-                                        <td>{{ $video->title }}</td>
-                                        <td>{!! $video->description !!}</td>
+                                        <td>{{ $testimonial->updated_at->format('d-M-Y') }}</td>
+                                        <td>{{ $testimonial->user->name }}</td>
+                                        <td>
+                                            @if ($testimonial->user->profile->profileImage??null)
+                                                <div class="avatar-container">
+                                                    <img alt="avatar"
+                                                        src="{{ asset($testimonial->user->profile->profileImage->profile_image??null) }}"
+                                                        class="rounded-circle" style="width:30px; height: 30px">
+                                                </div>
+                                            @else
+                                                <div class="avatar-container">
+                                                    <img alt="avatar" src="{{ asset('profile/default_profile.png') }}"
+                                                    class="rounded-circle" style="width:30px; height: 30px">
+                                                </div>
+                                            @endif
+                                        </td>
+                                        <td>{{ $testimonial->review }}</td>
+                                        <td>{{ $testimonial->rating }}</td>
                                         <td>
                                             <div class="material-switch">
-                                                <input id="home-{{ $video->id }}" class="toggle-class-home" name="is_home"
-                                                    type="checkbox" {{ $video->is_home ? 'checked' : '' }}
-                                                    data-id="{{ $video->id }}">
-                                                <label for="home-{{ $video->id }}" class="label-success"></label>
+                                                <input id="home-{{ $testimonial->id }}" class="toggle-class-home" name="is_home"
+                                                    type="checkbox" {{ $testimonial->is_home ? 'checked' : '' }}
+                                                    data-id="{{ $testimonial->id }}">
+                                                <label for="home-{{ $testimonial->id }}" class="label-success"></label>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="material-switch">
-                                                <input id="active-{{ $video->id }}" class="toggle-class-active" name="is_active"
-                                                    type="checkbox" {{ $video->is_active ? 'checked' : '' }}
-                                                    data-id="{{ $video->id }}">
-                                                <label for="active-{{ $video->id }}" class="label-success"></label>
+                                                <input id="active-{{ $testimonial->id }}" class="toggle-class-active" name="is_active"
+                                                    type="checkbox" {{ $testimonial->is_active ? 'checked' : '' }}
+                                                    data-id="{{ $testimonial->id }}">
+                                                <label for="active-{{ $testimonial->id }}" class="label-success"></label>
                                             </div>
                                         </td>
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
-                                                    <a href="{{ route('photogalleries.show', $video->id) }}" class="btn btn-sm btn-outline-primary border me-2"
+                                                    <a href="{{ route('testimonials.show', $testimonial->id) }}" class="btn btn-sm btn-outline-primary border me-2"
                                                         data-toggle="tooltip" data-placement="top"
                                                         data-bs-original-title="View">
                                                         <i class="fa-solid fa-eye"></i>
                                                     </a>
                                                 </div>
                                                 <div>
-                                                    <a href="{{ route('videogalleries.edit', $video->id) }}"
-                                                        class="btn btn-sm btn-outline-secondary border me-2"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        data-bs-original-title="Edit"><i class="fa-solid fa-pen fa-fw"></i>
-                                                    </a>
-                                                </div>
-                                                <div>
-                                                    <form action="{{ route('videogalleries.destroy', $video->id) }}"
+                                                    <form action="{{ route('testimonials.destroy', $testimonial->id) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
@@ -167,7 +132,7 @@
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: `/admin/check/videogallery/is_home/${item_id}`,
+                    url: `/admin/check/testimonial/is_home/${item_id}`,
                     success: function(response) {
                         console.log(response);
                         Swal.fire({
@@ -187,7 +152,7 @@
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: `/admin/check/videogallery/is_active/${item_id}`,
+                    url: `/admin/check/testimonial/is_active/${item_id}`,
                     success: function(response) {
                         console.log(response);
                         Swal.fire({

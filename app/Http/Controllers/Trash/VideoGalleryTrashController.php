@@ -28,7 +28,7 @@ class VideoGalleryTrashController extends Controller
         $gallery = Videogallery::onlyTrashed()->findOrFail($id);
         $gallery->forceDelete();
 
-        return redirect()->back()->with('error', 'Video Gallery Permanently');
+        return redirect()->back()->with('error', 'Video Gallery Deleted Permanently');
 
     }
 }

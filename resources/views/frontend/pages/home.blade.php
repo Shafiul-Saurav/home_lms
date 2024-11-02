@@ -3,7 +3,14 @@
 @section('title', 'Home')
 
 @push('frontend_style')
-
+<style>
+    .single_testimonial ul li .text_warning{
+        color: #f4a708;
+    }
+    .single_testimonial ul li .text_light{
+        color: #ccc;
+    }
+</style>
 @endpush
 
 @section('frontend_content')
