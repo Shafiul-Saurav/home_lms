@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\Testimonial;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TestimonialStoreRequest;
 use Illuminate\Support\Facades\Auth;
 
 class TestimonialController extends Controller
@@ -14,7 +15,7 @@ class TestimonialController extends Controller
         return view('frontend.pages.review.review');
     }
 
-    public function testimonialStore(Request $request)
+    public function testimonialStore(TestimonialStoreRequest $request)
     {
         // dd($request->all());
 

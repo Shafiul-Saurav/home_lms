@@ -48,7 +48,7 @@
                                         <a href="{{ route('video.gallery') }}" class="nav-link {{Request::routeIs('video.gallery') ? 'activePage' : ''}}">Video Gallery</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{ route('video.gallery') }}" class="nav-link {{Request::routeIs('video.gallery') ? 'activePage' : ''}}"></a>
+                                        <a href="{{ route('video.gallery') }}" class="nav-link {{Request::routeIs('video.gallery') ? 'activePage' : ''}}">News</a>
                                     </li>
                                 </ul>
                             </li>

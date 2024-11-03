@@ -42,8 +42,10 @@ use App\Http\Controllers\Trash\VideoGalleryTrashController;
 use App\Http\Controllers\Trash\PhotoCategoryTrashController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\BookingController as BackendBookingController;
+use App\Http\Controllers\Backend\PostCategoryController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
+use App\Http\Controllers\Trash\PostCategoryTrashController;
 use App\Http\Controllers\Trash\TestimonialTrashController;
 
 /*
@@ -322,4 +324,18 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::get('check/testimonial/is_home/{testimonial_id}', [TestimonialController::class, 'checkActiveHome'])
     ->name('testimonial.is_home.ajax');
     Route::resource('testimonials', TestimonialController::class);
+
+
+    //Post Category Route
+    Route::get('/postcategories/trash', [PostCategoryTrashController::class, 'trash'])->name('postcategories.trash');
+    Route::get('/postcategories/restore/{id}', [PostCategoryTrashController::class, 'restore'])
+    ->name('postcategories.restore');
+    Route::delete('/postcategories/forcedelete/{id}', [PostCategoryTrashController::class, 'forceDelete'])
+    ->name('postcategories.forcedelete');
+    // Ajax Call Active
+    Route::get('check/category/is_active/{category_id}', [PostCategoryController::class, 'checkActiveActive'])
+    ->name('category.is_active.ajax');
+    Route::get('check/category/is_home/{category_id}', [PostCategoryController::class, 'checkActiveHome'])
+    ->name('category.is_home.ajax');
+    Route::resource('postcategories', PostCategoryController::class);
 });

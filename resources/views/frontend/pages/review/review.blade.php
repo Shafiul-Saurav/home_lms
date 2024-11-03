@@ -57,15 +57,36 @@
                                             <span data-value="4" class="star">&#9733;</span>
                                             <span data-value="5" class="star">&#9733;</span>
                                         </div>
-                                        <input type="hidden" name="rating" id="rating-input">
+                                        <input type="hidden" class="form-control @error('rating')
+                                        is-invalid
+                                    @enderror" name="rating" id="rating-input">
+                                    @error('rating')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="review" class="form-label">Your Review</label>
-                                        <input class="form-control" type="text" name="review" placeholder="Your Review">
+                                        <input class="form-control @error('review')
+                                        is-invalid
+                                    @enderror" type="text" name="review" placeholder="Your Review" value="{{ old('review') }}">
+                                    @error('review')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="short_description" class="form-label">Shortly Describe Why?</label>
-                                        <textarea class="form-control" name="short_description" id="" cols="3" rows="2"></textarea>
+                                        <textarea class="form-control @error('short_description')
+                                        is-invalid
+                                    @enderror" name="short_description" id="" cols="3" rows="2">{{ old('short_description') }}</textarea>
+                                    @error('short_description')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                     </div>
                                 </div>
                                 <div class="col-12">
