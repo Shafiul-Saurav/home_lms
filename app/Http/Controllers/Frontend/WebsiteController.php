@@ -30,8 +30,8 @@ class WebsiteController extends Controller
     {
         $about = About::latest('id')->first();
         $room_types = Roomtype::get();
-
-        return view('frontend.pages.about.about_page', compact('about', 'room_types'));
+        $testimonials = Testimonial::with('user')->limit(20)->get();
+        return view('frontend.pages.about.about_page', compact('about', 'room_types', 'testimonials'));
     }
 
     public function rooms()

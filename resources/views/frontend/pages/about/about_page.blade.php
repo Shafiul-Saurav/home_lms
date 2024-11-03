@@ -179,90 +179,32 @@
                 <h2>What customers say</h2>
             </div>
             <div class="testimonials-wrap owl-carousel owl-theme">
-                <div class="single-testimonials"
-                    style="background-image: url('{{ asset('assets/frontend/img/testimonials/testimonials-bg.png') }}')">
-                    <ul>
-                        <li>
-                            <i class="bx bxs-star"></i>
-                        </li>
-                        <li>
-                            <i class="bx bxs-star"></i>
-                        </li>
-                        <li>
-                            <i class="bx bxs-star"></i>
-                        </li>
-                        <li>
-                            <i class="bx bxs-star"></i>
-                        </li>
-                        <li>
-                            <i class="bx bxs-star"></i>
-                        </li>
-                    </ul>
-                    <h3>Excellent Room</h3>
-                    <p>“Awesome yksum dolor sit ametco elit, sed do eiusmod tempor incididunt et md do eiusmoeiusmod tempor
-                        inte emamnsecacing eiusmoeiusmod”</p>
-                    <div class="testimonials-content">
-                        <img src="{{ asset('assets/frontend') }}/img/testimonials/2.jpg" alt="Image">
-                        <h4>Ayman Jenis</h4>
-                        <span>CEO@Leasuely</span>
+                @forelse ($testimonials as $testimonial)
+                    <div class="single-testimonials single_testimonial"
+                        style="background-image: url('{{ asset('assets/frontend/img/testimonials/testimonials-bg.png') }}')">
+                        <ul>
+                            @for ($i = 1; $i <= 5; $i++)
+                                <li class=""><i
+                                        class="bx bxs-star {{ $i <= $testimonial->rating ? 'text_warning' : 'text_light' }}"></i>
+                                </li>
+                            @endfor
+                        </ul>
+                        <h3>{{ $testimonial->review }}</h3>
+                        <p>“{{ $testimonial->short_description }}”</p>
+                        <div class="testimonials-content">
+                            @if ($testimonial->user->profile->profileImage ?? null)
+                                <img src="{{ asset($testimonial->user->profile->profileImage->profile_image ?? null) }}"
+                                    alt="Image">
+                            @else
+                                <img src="{{ asset('profile/default_profile.png') }}" alt="Image">
+                            @endif
+                            <h4>{{ $testimonial->user->name ?? null }}</h4>
+                            <span>{{ $testimonial->user->email ?? null }}</span>
+                        </div>
                     </div>
-                </div>
-                <div class="single-testimonials"
-                    style="background-image: url('{{ asset('assets/frontend/img/testimonials/testimonials-bg.png') }}')">
-                    <ul>
-                        <li>
-                            <i class="bx bxs-star"></i>
-                        </li>
-                        <li>
-                            <i class="bx bxs-star"></i>
-                        </li>
-                        <li>
-                            <i class="bx bxs-star"></i>
-                        </li>
-                        <li>
-                            <i class="bx bxs-star"></i>
-                        </li>
-                        <li>
-                            <i class="bx bxs-star"></i>
-                        </li>
-                    </ul>
-                    <h3>Excellent hotel</h3>
-                    <p>“Awesome yksum dolor sit ametco elit, sed do eiusmod tempor incididunt et md do eiusmoeiusmod tempor
-                        inte emamnsecacing eiusmoeiusmod”</p>
-                    <div class="testimonials-content">
-                        <img src="{{ asset('assets/frontend') }}/img/testimonials/3.jpg" alt="Image">
-                        <h4>Ayman Jenis</h4>
-                        <span>CEO@Leasuely</span>
-                    </div>
-                </div>
-                <div class="single-testimonials"
-                    style="background-image: url('{{ asset('assets/frontend/img/testimonials/testimonials-bg.png') }}')">
-                    <ul>
-                        <li>
-                            <i class="bx bxs-star"></i>
-                        </li>
-                        <li>
-                            <i class="bx bxs-star"></i>
-                        </li>
-                        <li>
-                            <i class="bx bxs-star"></i>
-                        </li>
-                        <li>
-                            <i class="bx bxs-star"></i>
-                        </li>
-                        <li>
-                            <i class="bx bxs-star"></i>
-                        </li>
-                    </ul>
-                    <h3>Excellent Swimming</h3>
-                    <p>“Awesome yksum dolor sit ametco elit, sed do eiusmod tempor incididunt et md do eiusmoeiusmod tempor
-                        inte emamnsecacing eiusmoeiusmod”</p>
-                    <div class="testimonials-content">
-                        <img src="{{ asset('assets/frontend') }}/img/testimonials/1.jpg" alt="Image">
-                        <h4>Ayman Jenis</h4>
-                        <span>CEO@Leasuely</span>
-                    </div>
-                </div>
+                @empty
+
+                @endforelse
             </div>
         </div>
     </section>
