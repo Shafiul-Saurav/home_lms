@@ -60,7 +60,7 @@
 
 @extends('frontend.layouts.master')
 
-@section('title', 'Home')
+@section('title', 'Register')
 
 @push('frontend_style')
 

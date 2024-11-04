@@ -49,7 +49,7 @@
 
 @extends('frontend.layouts.master')
 
-@section('title', 'Home')
+@section('title', 'Login')
 
 @push('frontend_style')
 
