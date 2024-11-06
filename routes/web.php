@@ -43,9 +43,11 @@ use App\Http\Controllers\Trash\PhotoCategoryTrashController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\BookingController as BackendBookingController;
 use App\Http\Controllers\Backend\PostCategoryController;
+use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
 use App\Http\Controllers\Trash\PostCategoryTrashController;
+use App\Http\Controllers\Trash\PostTrashController;
 use App\Http\Controllers\Trash\TestimonialTrashController;
 
 /*
@@ -68,11 +70,14 @@ use App\Http\Controllers\Trash\TestimonialTrashController;
 Route::get('/', [WebsiteController::class, 'home'])->name('home');
 Route::get('about', [WebsiteController::class, 'about'])->name('about');
 Route::get('rooms', [WebsiteController::class, 'rooms'])->name('rooms');
+Route::get('room/details/{id}', [WebsiteController::class, 'roomDetails'])->name('room.details');
+Route::get('booking/{id}', [WebsiteController::class, 'booking'])->name('booking');
 Route::get('services', [WebsiteController::class, 'services'])->name('services');
 Route::get('photogallery', [WebsiteController::class, 'photoGallery'])->name('photo.gallery');
 Route::get('videogallery', [WebsiteController::class, 'videoGallery'])->name('video.gallery');
-Route::get('room/details/{id}', [WebsiteController::class, 'roomDetails'])->name('room.details');
-Route::get('booking/{id}', [WebsiteController::class, 'booking'])->name('booking');
+Route::get('news', [WebsiteController::class, 'search'])->name('news.search');
+Route::get('news/details/{id}', [WebsiteController::class, 'newsDetails'])->name('news.details');
+
 
 Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
     Route::get('/dashboard', [ProfileController::class, 'userDashboard'])->name('user.dashboard');
@@ -338,4 +343,17 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::get('check/category/is_home/{category_id}', [PostCategoryController::class, 'checkActiveHome'])
     ->name('category.is_home.ajax');
     Route::resource('postcategories', PostCategoryController::class);
+
+    //Post Route
+    Route::get('/posts/trash', [PostTrashController::class, 'trash'])->name('posts.trash');
+    Route::get('/posts/restore/{id}', [PostTrashController::class, 'restore'])
+    ->name('posts.restore');
+    Route::delete('/posts/forcedelete/{id}', [PostTrashController::class, 'forceDelete'])
+    ->name('posts.forcedelete');
+    // Ajax Call Active
+    Route::get('check/post/is_active/{post_id}', [PostController::class, 'checkActiveActive'])
+    ->name('post.is_active.ajax');
+    Route::get('check/post/is_home/{post_id}', [PostController::class, 'checkActiveHome'])
+    ->name('post.is_home.ajax');
+    Route::resource('posts', PostController::class);
 });

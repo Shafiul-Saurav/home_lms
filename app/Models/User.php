@@ -94,4 +94,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Testimonial::class);
     }
+
+    //Relationship with Post
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }

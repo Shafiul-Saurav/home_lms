@@ -36,7 +36,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link dropdown-toggle {{Request::routeIs('photo.gallery') ? 'activePage' : ''}} {{Request::routeIs('video.gallery') ? 'activePage' : ''}}">
+                                <a href="#" class="nav-link dropdown-toggle {{Request::routeIs('photo.gallery') ? 'activePage' : ''}} {{Request::routeIs('video.gallery') ? 'activePage' : ''}} {{Request::routeIs('news.search') ? 'activePage' : ''}}">
                                         Gallery
                                         <i class='bx bx-chevron-down'></i>
                                     </a>
@@ -48,7 +48,7 @@
                                         <a href="{{ route('video.gallery') }}" class="nav-link {{Request::routeIs('video.gallery') ? 'activePage' : ''}}">Video Gallery</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{ route('video.gallery') }}" class="nav-link {{Request::routeIs('video.gallery') ? 'activePage' : ''}}">News</a>
+                                        <a href="{{ route('news.search') }}" class="nav-link {{Request::routeIs('news.search') ? 'activePage' : ''}}">News</a>
                                     </li>
                                 </ul>
                             </li>

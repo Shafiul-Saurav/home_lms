@@ -242,12 +242,12 @@
                 </li>
                 <li class="slide {{Request::routeIs('postcategories.index') ? 'is-expanded' : ''}}
                     {{Request::routeIs('postcategories.trash') ? 'is-expanded' : ''}}
-                    {{Request::routeIs('photogalleries.index') ? 'is-expanded' : ''}}
-                    {{Request::routeIs('photogalleries.trash') ? 'is-expanded' : ''}}">
+                    {{Request::routeIs('posts.index') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('posts.trash') ? 'is-expanded' : ''}}">
                     <a class="side-menu__item {{Request::routeIs('postcategories.index') ? 'active' : ''}}
                         {{Request::routeIs('postcategories.trash') ? 'active' : ''}}
-                        {{Request::routeIs('photogalleries.index') ? 'active' : ''}}
-                        {{Request::routeIs('photogalleries.trash') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
+                        {{Request::routeIs('posts.index') ? 'active' : ''}}
+                        {{Request::routeIs('posts.trash') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
                         <i class="fa-brands fa-blogger-b"></i>
                         <span class="side-menu__label ms-3">Blog</span><i class="fa-solid fa-angle-right"></i>
                     </a>
@@ -263,15 +263,15 @@
                                 <li><a class="sub-slide-item {{Request::routeIs('postcategories.trash') ? 'active' : ''}}" href="{{ route('postcategories.trash') }}">Trash</a></li>
                             </ul>
                         </li>
-                        <li class="sub-slide {{Request::routeIs('photogalleries.index') ? 'is-expanded' : ''}}
-                        {{Request::routeIs('photogalleries.trash') ? 'is-expanded' : ''}}">
-                            <a class="sub-side-menu__item {{Request::routeIs('photogalleries.index') ? 'active' : ''}}
-                        {{Request::routeIs('photogalleries.trash') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
+                        <li class="sub-slide {{Request::routeIs('posts.index') ? 'is-expanded' : ''}}
+                        {{Request::routeIs('posts.trash') ? 'is-expanded' : ''}}">
+                            <a class="sub-side-menu__item {{Request::routeIs('posts.index') ? 'active' : ''}}
+                        {{Request::routeIs('posts.trash') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
                                     class="sub-side-menu__label">Post Setting</span><i
                                     class="sub-angle fa fa-angle-right"></i></a>
                             <ul class="sub-slide-menu">
-                                <li><a class="sub-slide-item {{Request::routeIs('photogalleries.index') ? 'active' : ''}}" href="{{ route('photogalleries.index') }}">List</a></li>
-                                <li><a class="sub-slide-item {{Request::routeIs('photogalleries.trash') ? 'active' : ''}}" href="{{ route('photogalleries.trash') }}">Trash</a></li>
+                                <li><a class="sub-slide-item {{Request::routeIs('posts.index') ? 'active' : ''}}" href="{{ route('posts.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{Request::routeIs('posts.trash') ? 'active' : ''}}" href="{{ route('posts.trash') }}">Trash</a></li>
                             </ul>
                         </li>
                     </ul>

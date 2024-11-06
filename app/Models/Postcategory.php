@@ -11,4 +11,10 @@ class Postcategory extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = ['id'];
+
+    //Relationship with Post
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'category_id', 'id');
+    }
 }

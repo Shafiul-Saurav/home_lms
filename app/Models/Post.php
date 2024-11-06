@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Testimonial extends Model
+class Post extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -16,5 +16,11 @@ class Testimonial extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    //Relationship with Postcategory
+    public function postCategory()
+    {
+        return $this->belongsTo(Postcategory::class, 'category_id', 'id');
     }
 }
