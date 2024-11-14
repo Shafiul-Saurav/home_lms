@@ -100,7 +100,10 @@ class WebsiteController extends Controller
         // Get the next post
         $nextPost = Post::where('id', '>', $post->id)->orderBy('id', 'asc')->first();
 
-        return view('frontend.pages.news.news_details', compact('post', 'popularPosts', 'postCategories', 'previousPost', 'nextPost'));
+        // Paginate the comments for the post (excluding replies)
+        $comments = $post->comments()->whereNull('parent_id')->paginate(5);
+
+        return view('frontend.pages.news.news_details', compact('post', 'popularPosts', 'postCategories', 'previousPost', 'nextPost', 'comments'));
     }
 
 }

@@ -23,4 +23,15 @@ class Post extends Model
     {
         return $this->belongsTo(Postcategory::class, 'category_id', 'id');
     }
+
+    //Relationship with Comment
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->whereNull('parent_id');
+    }
+
+    // public function paginatedComments($perPage = 1)
+    // {
+    //     return $this->comments()->where('parent_id', null)->paginate($perPage);
+    // }
 }

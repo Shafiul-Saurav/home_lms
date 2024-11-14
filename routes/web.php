@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\PageController;
+use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\RoomController;
 use App\Http\Controllers\Backend\UserController;
@@ -11,10 +12,12 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\Backend\ModuleController;
 use App\Http\Controllers\Backend\ServiceController;
+use App\Http\Controllers\Trash\PostTrashController;
 use App\Http\Controllers\Trash\RoleTrashController;
 use App\Http\Controllers\Trash\UserTrashController;
 use App\Http\Controllers\Backend\RoomTypeController;
 use App\Http\Controllers\Frontend\BookingController;
+use App\Http\Controllers\Frontend\CommentController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\WebsiteController;
 use App\Http\Controllers\Trash\StuffTrashController;
@@ -29,26 +32,24 @@ use App\Http\Controllers\Trash\BookingTrashController;
 use App\Http\Controllers\Trash\ServiceTrashController;
 use App\Http\Controllers\Auth\SocialiteLoginController;
 use App\Http\Controllers\Backend\LogoFaviconController;
+use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\WebsiteLinkController;
 use App\Http\Controllers\Frontend\UserLogoutController;
 use App\Http\Controllers\Backend\PhotoGalleryController;
+use App\Http\Controllers\Backend\PostCategoryController;
 use App\Http\Controllers\Backend\VideoGalleryController;
 use App\Http\Controllers\Backend\PhotoCategoryController;
 use App\Http\Controllers\Frontend\ProfileImageController;
 use App\Http\Controllers\Trash\DepartmentTrashController;
 use App\Http\Controllers\Trash\PermissionTrashController;
+use App\Http\Controllers\Trash\TestimonialTrashController;
 use App\Http\Controllers\Trash\PhotoGalleryTrashController;
+use App\Http\Controllers\Trash\PostCategoryTrashController;
 use App\Http\Controllers\Trash\VideoGalleryTrashController;
 use App\Http\Controllers\Trash\PhotoCategoryTrashController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\BookingController as BackendBookingController;
-use App\Http\Controllers\Backend\PostCategoryController;
-use App\Http\Controllers\Backend\PostController;
-use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
-use App\Http\Controllers\Trash\PostCategoryTrashController;
-use App\Http\Controllers\Trash\PostTrashController;
-use App\Http\Controllers\Trash\TestimonialTrashController;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,7 +101,11 @@ Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
     Route::get('testimonial_view', [FrontendTestimonialController::class, 'testimonialView'])->name('testimonial.view');
     Route::post('testimonial_store', [FrontendTestimonialController::class, 'testimonialStore'])->name('testimonial.store');
 
+
 });
+
+//Comment Route
+Route::resource('posts.comments', CommentController::class)->only(['store', 'update', 'destroy'])->middleware('auth');
 
 //Socialite Login Routes
 Route::group(['as' => 'login.', 'prefix' => 'login'], function() {
