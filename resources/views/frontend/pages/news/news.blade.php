@@ -101,20 +101,22 @@
                         <h3 class="widget-title">Popular Posts</h3>
                         <div class="post-wrap">
                             @forelse ($popularPosts as $post)
-                            <article class="item">
-                                <a href="news-details.html" class="thumb">
-                                    <span class="fullimage cover" style="background-image: url('{{ asset('uploads/posts') }}/{{ $post->post_image }}'); background-size: cover; background-position: center;" role="img"></span>
-                                </a>
-                                <div class="info">
-                                    <time datetime="2024-06-30">March 05, 2024</time>
-                                    <h4 class="title usmall">
-                                        <a href="news-details.html">
-                                            Celebrating Decade Years Of Hotel In 2024
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div class="clear"></div>
-                            </article>
+                                <article class="item">
+                                    <a href="{{ route('news.details', ['id' => $post->id]) }}" class="thumb">
+                                        <span class="fullimage cover"
+                                            style="background-image: url('{{ asset('uploads/posts') }}/{{ $post->post_image }}'); background-size: cover; background-position: center;"
+                                            role="img"></span>
+                                    </a>
+                                    <div class="info">
+                                        <time datetime="2024-06-30">{{ $post->created_at->format('M d, Y') }}</time>
+                                        <h4 class="title usmall">
+                                            <a href="{{ route('news.details', ['id' => $post->id]) }}">
+                                                {{ $post->title }}
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div class="clear"></div>
+                                </article>
                             @empty
                                 No Post Found
                             @endforelse

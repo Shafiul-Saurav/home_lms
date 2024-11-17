@@ -31,6 +31,7 @@ use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Trash\BookingTrashController;
 use App\Http\Controllers\Trash\ServiceTrashController;
 use App\Http\Controllers\Auth\SocialiteLoginController;
+use App\Http\Controllers\Backend\AdminProfileController;
 use App\Http\Controllers\Backend\LogoFaviconController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\WebsiteLinkController;
@@ -139,6 +140,11 @@ Route::prefix('admin')->group(function(){
 Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::get('/dashboard', [BackendHomeController::class, 'adminDashboard'])->name('admin.dashboard');
     Route::post('/logout', [AdminLoginController::class, 'adminLogout'])->name('admin.logout');
+
+    //Super Admin, Admin, Moderator Profile Route
+    Route::get('/profile', [AdminProfileController::class, 'adminProfile'])->name('admin.profile');
+    Route::post('/profile', [AdminProfileController::class, 'adminProfileStore'])->name('admin.profile.store');
+
 
     // Module Route
     Route::get('modules/trash', [ModuleTrashController::class, 'trash'])

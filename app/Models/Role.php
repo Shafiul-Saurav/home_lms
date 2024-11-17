@@ -15,7 +15,7 @@ class Role extends Model
     //Relationship with User
     public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class, 'role_id', 'id');
     }
 
     //Relationship with Permission

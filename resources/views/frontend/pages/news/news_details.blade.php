@@ -147,8 +147,14 @@
                                         <div class="comment-body comment-respond">
                                             <footer class="comment-meta">
                                                 <div class="comment-author vcard d-flex justify-content-between">
-                                                    <img src="{{ asset($comment->user->profile->profileImage->profile_image ?? null) }}"
+                                                    @if ($comment->user->profile->profileImage??null)
+                                                        <img src="{{$comment->user->profile->profileImage ? asset($comment->user->profile->profileImage->profile_image ?? null) : asset('profile/default_profile.png') }}"
                                                         class="avatar" alt="avatar">
+                                                    @else
+                                                        <img src="{{$comment->user->profile_photo_path ? asset($comment->user->profile_photo_path) : asset('assets/backend/images/faces/admin.png') }}"
+                                                        class="avatar" alt="avatar">
+                                                    @endif
+
                                                     <b class="fn">{{ $comment->user->name }}</b>
                                                     <span class="says">says:</span>
                                                     <div class="d-flex">
@@ -258,8 +264,15 @@
                                                                 <footer class="comment-meta">
                                                                     <div
                                                                         class="comment-author vcard d-flex justify-content-between">
-                                                                        <img src="{{ asset($reply->user->profile->profileImage->profile_image ?? null) }}"
+                                                                        @if ($reply->user->profile->profileImage??null)
+                                                                            <img src="{{$reply->user->profile->profileImage ? asset($reply->user->profile->profileImage->profile_image ?? null) : asset('profile/default_profile.png') }}"
                                                                             class="avatar" alt="avatar">
+                                                                        @else
+                                                                            <img src="{{$reply->user->profile_photo_path ? asset($reply->user->profile_photo_path) : asset('assets/backend/images/faces/admin.png') }}"
+                                                                            class="avatar" alt="avatar">
+                                                                        @endif
+                                                                        {{-- <img src="{{ asset($reply->user->profile->profileImage->profile_image ?? null) }}"
+                                                                            class="avatar" alt="avatar"> --}}
                                                                         <b class="fn">{{ $reply->user->name }}</b>
                                                                         <span class="says">says:</span>
 
@@ -380,16 +393,16 @@
                             <div class="post-wrap">
                                 @forelse ($popularPosts as $post)
                                     <article class="item">
-                                        <a href="news-details.html" class="thumb">
+                                        <a href="{{ route('news.details', ['id' => $post->id]) }}" class="thumb">
                                             <span class="fullimage cover"
                                                 style="background-image: url('{{ asset('uploads/posts') }}/{{ $post->post_image }}'); background-size: cover; background-position: center;"
                                                 role="img"></span>
                                         </a>
                                         <div class="info">
-                                            <time datetime="2024-06-30">March 05, 2024</time>
+                                            <time datetime="2024-06-30">{{ $post->created_at->format('M d, Y') }}</time>
                                             <h4 class="title usmall">
-                                                <a href="news-details.html">
-                                                    Celebrating Decade Years Of Hotel In 2024
+                                                <a href="{{ route('news.details', ['id' => $post->id]) }}">
+                                                    {{ $post->title }}
                                                 </a>
                                             </h4>
                                         </div>
