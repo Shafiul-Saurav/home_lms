@@ -54,7 +54,7 @@
                                         <li>
                                             <a href="{{ route('news.details', ['id' => $post->id]) }}">
                                                 <i class="flaticon-conversation"></i>
-                                                Comment
+                                                comment: {{ $post->comments->count() }}
                                             </a>
                                         </li>
                                     </ul>

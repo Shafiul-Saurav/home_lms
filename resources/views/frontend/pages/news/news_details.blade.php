@@ -373,13 +373,13 @@
                                     </li>
                                 @endforeach
                             </ol>
-                            {{-- @php
-                            $post->comments->paginate(1);
-                        @endphp --}}
+
+                            <!-- Pagination Start-->
                             <div class="col-lg-12">
                             <div class="page-navigation-area">
                                 {{ $comments->links() }}
                             </div>
+                            <!-- Pagination End-->
                         </div>
                         </div>
                         <!-- Comment Area End-->
