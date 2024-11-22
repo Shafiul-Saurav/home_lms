@@ -50,7 +50,9 @@ use App\Http\Controllers\Trash\VideoGalleryTrashController;
 use App\Http\Controllers\Trash\PhotoCategoryTrashController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\BookingController as BackendBookingController;
+use App\Http\Controllers\Backend\FaqController;
 use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
+use App\Http\Controllers\Trash\FaqTrashController;
 
 /*
 |--------------------------------------------------------------------------
@@ -367,4 +369,12 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::get('check/post/is_home/{post_id}', [PostController::class, 'checkActiveHome'])
     ->name('post.is_home.ajax');
     Route::resource('posts', PostController::class);
+
+    //FAQ Route
+    Route::get('/faqs/trash', [FaqTrashController::class, 'trash'])->name('faqs.trash');
+    Route::get('/faqs/restore/{id}', [FaqTrashController::class, 'restore'])
+    ->name('faqs.restore');
+    Route::delete('/faqs/forcedelete/{id}', [FaqTrashController::class, 'forceDelete'])
+    ->name('faqs.forcedelete');
+    Route::resource('faqs', FaqController::class);
 });

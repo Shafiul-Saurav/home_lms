@@ -154,7 +154,7 @@
                     </ul>
                 </li>
                 <li class="slide {{Request::routeIs('bookings.index') ? 'is-expanded' : ''}}
-                    {{Request::routeIs('staffs.trash') ? 'is-expanded' : ''}}">
+                    {{Request::routeIs('bookings.trash') ? 'is-expanded' : ''}}">
                     <a class="side-menu__item {{Request::routeIs('bookings.index') ? 'active' : ''}}
                     {{Request::routeIs('staffs.trash') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
                     <i class="fa-solid fa-book"></i>
@@ -261,6 +261,42 @@
                             <ul class="sub-slide-menu">
                                 <li><a class="sub-slide-item {{Request::routeIs('postcategories.index') ? 'active' : ''}}" href="{{ route('postcategories.index') }}">List</a></li>
                                 <li><a class="sub-slide-item {{Request::routeIs('postcategories.trash') ? 'active' : ''}}" href="{{ route('postcategories.trash') }}">Trash</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-slide {{Request::routeIs('posts.index') ? 'is-expanded' : ''}}
+                        {{Request::routeIs('posts.trash') ? 'is-expanded' : ''}}">
+                            <a class="sub-side-menu__item {{Request::routeIs('posts.index') ? 'active' : ''}}
+                        {{Request::routeIs('posts.trash') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
+                                    class="sub-side-menu__label">Post Setting</span><i
+                                    class="sub-angle fa fa-angle-right"></i></a>
+                            <ul class="sub-slide-menu">
+                                <li><a class="sub-slide-item {{Request::routeIs('posts.index') ? 'active' : ''}}" href="{{ route('posts.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{Request::routeIs('posts.trash') ? 'active' : ''}}" href="{{ route('posts.trash') }}">Trash</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="slide {{Request::routeIs('faqs.index') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('faqs.trash') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('posts.index') ? 'is-expanded' : ''}}
+                    {{Request::routeIs('posts.trash') ? 'is-expanded' : ''}}">
+                    <a class="side-menu__item {{Request::routeIs('faqs.index') ? 'active' : ''}}
+                        {{Request::routeIs('faqs.trash') ? 'active' : ''}}
+                        {{Request::routeIs('posts.index') ? 'active' : ''}}
+                        {{Request::routeIs('posts.trash') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
+                        <i class="fa-brands fa-blogger-b"></i>
+                        <span class="side-menu__label ms-3">Company Policy</span><i class="fa-solid fa-angle-right"></i>
+                    </a>
+                    <ul class="slide-menu">
+                        <li class="sub-slide {{Request::routeIs('faqs.index') ? 'is-expanded' : ''}}
+                            {{Request::routeIs('faqs.trash') ? 'is-expanded' : ''}}">
+                            <a class="sub-side-menu__item {{Request::routeIs('faqs.index') ? 'active' : ''}}
+                                {{Request::routeIs('faqs.trash') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
+                                    class="sub-side-menu__label">FAQ Setting</span><i
+                                    class="sub-angle fa fa-angle-right"></i></a>
+                            <ul class="sub-slide-menu">
+                                <li><a class="sub-slide-item {{Request::routeIs('faqs.index') ? 'active' : ''}}" href="{{ route('faqs.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{Request::routeIs('faqs.trash') ? 'active' : ''}}" href="{{ route('faqs.trash') }}">Trash</a></li>
                             </ul>
                         </li>
                         <li class="sub-slide {{Request::routeIs('posts.index') ? 'is-expanded' : ''}}
