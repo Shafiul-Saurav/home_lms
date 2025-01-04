@@ -81,6 +81,7 @@ Route::get('photogallery', [WebsiteController::class, 'photoGallery'])->name('ph
 Route::get('videogallery', [WebsiteController::class, 'videoGallery'])->name('video.gallery');
 Route::get('news', [WebsiteController::class, 'search'])->name('news.search');
 Route::get('news/details/{id}', [WebsiteController::class, 'newsDetails'])->name('news.details');
+Route::get('faqs', [WebsiteController::class, 'faq'])->name('faq.page');
 
 
 Route::prefix('user')->middleware('auth', 'is_user')->group(function(){

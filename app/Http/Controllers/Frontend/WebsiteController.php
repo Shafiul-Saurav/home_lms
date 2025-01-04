@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\Faq;
 use App\Models\Post;
 use App\Models\Room;
 use App\Models\About;
@@ -9,11 +10,11 @@ use App\Models\Service;
 use App\Models\Roomtype;
 use App\Models\Testimonial;
 use App\Models\Photogallery;
+use App\Models\Postcategory;
 use App\Models\Videogallery;
 use Illuminate\Http\Request;
 use App\Models\Photocategory;
 use App\Http\Controllers\Controller;
-use App\Models\Postcategory;
 
 class WebsiteController extends Controller
 {
@@ -43,8 +44,9 @@ class WebsiteController extends Controller
 
     public function roomDetails($id)
     {
+        $faqs = Faq::get();
         $room = Room::findOrFail($id);
-        return view('frontend.pages.rooms.room_details', compact('room'));
+        return view('frontend.pages.rooms.room_details', compact('room', 'faqs'));
     }
 
     public function booking($id)
@@ -105,5 +107,13 @@ class WebsiteController extends Controller
 
         return view('frontend.pages.news.news_details', compact('post', 'popularPosts', 'postCategories', 'previousPost', 'nextPost', 'comments'));
     }
+
+    public function faq()
+    {
+        $faqs = Faq::get();
+        return view('frontend.pages.company_policy.faq', compact('faqs'));
+    }
+
+
 
 }

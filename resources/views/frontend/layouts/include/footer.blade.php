@@ -88,7 +88,7 @@
                                     </a>
                             </li>
                             <li>
-                                <a href="faq.html">
+                                <a href="{{ route('faq.page') }}">
                                         <i class="right-icon bx bx-chevrons-right"></i>
                                         FAQ
                                     </a>

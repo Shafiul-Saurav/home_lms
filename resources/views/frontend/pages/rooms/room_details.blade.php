@@ -168,50 +168,18 @@
                                         <div class="col-lg-12">
                                             <div class="faq-accordion">
                                                 <ul class="accordion">
-                                                    <li class="accordion-item">
-                                                        <a class="accordion-title active" href="javascript:void(0)">
-                                                            <i class='bx bx-chevron-down'></i>
-                                                            Is Reception Open 24 Hours?
-                                                        </a>
-                                                        <p class="accordion-content show">Lorem ipsum dolor, sit amet
-                                                            consectetur adipisicing elit. Quis deleniti nisi necessitatibus,
-                                                            dolores voluptates quam blanditiis fugiat doloremque? Excepturi,
-                                                            minus rem error aut necessitatibus quasi voluptates assumenda
-                                                            ipsum provident tenetur? Lorem.</p>
-                                                    </li>
-                                                    <li class="accordion-item">
-                                                        <a class="accordion-title" href="javascript:void(0)">
-                                                            <i class='bx bx-chevron-down'></i>
-                                                            Can I Leave My Luggage?
-                                                        </a>
-                                                        <p class="accordion-content">Lorem ipsum dolor, sit amet
-                                                            consectetur adipisicing elit. Quis deleniti nisi necessitatibus,
-                                                            dolores voluptates quam blanditiis fugiat doloremque? Excepturi,
-                                                            minus rem error aut necessitatibus quasi voluptates assumenda
-                                                            ipsum provident tenetur? Lorem.</p>
-                                                    </li>
-                                                    <li class="accordion-item">
-                                                        <a class="accordion-title" href="javascript:void(0)">
-                                                            <i class='bx bx-chevron-down'></i>
-                                                            Which One Is The Nearest Airport?
-                                                        </a>
-                                                        <p class="accordion-content">Lorem ipsum dolor, sit amet
-                                                            consectetur adipisicing elit. Quis deleniti nisi necessitatibus,
-                                                            dolores voluptates quam blanditiis fugiat doloremque? Excepturi,
-                                                            minus rem error aut necessitatibus quasi voluptates assumenda
-                                                            ipsum provident tenetur? Lorem.</p>
-                                                    </li>
-                                                    <li class="accordion-item">
-                                                        <a class="accordion-title" href="javascript:void(0)">
-                                                            <i class='bx bx-chevron-down'></i>
-                                                            Can I Rent A Car At The Hotel Nearby?
-                                                        </a>
-                                                        <p class="accordion-content">Lorem ipsum dolor, sit amet
-                                                            consectetur adipisicing elit. Quis deleniti nisi necessitatibus,
-                                                            dolores voluptates quam blanditiis fugiat doloremque? Excepturi,
-                                                            minus rem error aut necessitatibus quasi voluptates assumenda
-                                                            ipsum provident tenetur? Lorem.</p>
-                                                    </li>
+                                                    @foreach ($faqs as $index => $faq)
+                                                        <li class="accordion-item">
+                                                            <a class="accordion-title {{ $loop->first ? 'active' : '' }}" href="javascript:void(0)">
+                                                                <i class='bx bx-chevron-down'></i>
+                                                                {{ $faq->faq_question }}
+                                                            </a>
+
+                                                            <div class="accordion-content {{ $loop->first ? 'show' : '' }}">
+                                                                <p>{{ $faq->faq_answer }}</p>
+                                                            </div>
+                                                        </li>
+                                                    @endforeach
                                                 </ul>
                                             </div>
                                         </div>
