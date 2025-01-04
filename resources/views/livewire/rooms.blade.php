@@ -4,7 +4,7 @@
         <div class="container">
             <form wire:submit.prevent="filterRooms" class="check-form">
                 <div class="row align-items-center">
-                    <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-4 col-sm-6">
                         <div class="check-content">
                             <p>Arrival Date</p>
                             <div class="form-group">
@@ -20,7 +20,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-4 col-sm-6">
                         <div class="check-content">
                             <p>Departure Date</p>
                             <div class="form-group">
@@ -35,7 +35,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <div class="check-btn check-content mb-0">
                             <button class="default-btn" type="submit">
                                 Check Availability

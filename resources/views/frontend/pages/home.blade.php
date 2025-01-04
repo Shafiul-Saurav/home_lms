@@ -19,7 +19,7 @@
     <!-- End Ecorik Slider Area -->
 
     <!-- Start Check Area -->
-    @include('frontend.pages.widgets.check_area')
+    @include('frontend.pages.widgets.check_area') <!-- Panding -->
     <!-- End Check Section -->
 
     <!-- Start Explore Area -->
@@ -27,11 +27,11 @@
     <!-- End Explore Area -->
 
     <!-- End Facilities Area -->
-    @include('frontend.pages.widgets.facilities_area')
+    @include('frontend.pages.widgets.facilities_area') <!-- Panding -->
     <!-- End Facilities Area -->
 
     <!-- End Incredible Area -->
-    @include('frontend.pages.widgets.incredible_area')
+    @include('frontend.pages.widgets.incredible_area') <!-- Panding -->
     <!-- End Incredible Area -->
 
     <!-- Start Our Rooms Area -->
@@ -39,19 +39,19 @@
     <!-- End Our Rooms Area -->
 
     <!-- Start City View Area -->
-    @include('frontend.pages.widgets.city_view_area')
+    @include('frontend.pages.widgets.city_view_area') <!-- Panding -->
     <!-- End City View Area -->
 
     <!-- Start Exclusive Area -->
-    @include('frontend.pages.widgets.exclusive_area')
+    @include('frontend.pages.widgets.exclusive_area') <!-- Panding -->
     <!-- End Exclusive Area -->
 
     <!-- Start Booking Area -->
-    @include('frontend.pages.widgets.booking_area')
+    @include('frontend.pages.widgets.booking_area') <!-- Panding -->
     <!-- End Booking Area -->
 
     <!-- Start Restaurants Area -->
-    @include('frontend.pages.widgets.restaurant_area')
+    @include('frontend.pages.widgets.restaurant_area') <!-- Panding -->
     <!-- End Restaurants Area -->
 
     <!-- start Testimonials Area -->

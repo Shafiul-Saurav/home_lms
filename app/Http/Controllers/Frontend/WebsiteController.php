@@ -8,7 +8,9 @@ use App\Models\Room;
 use App\Models\About;
 use App\Models\Service;
 use App\Models\Roomtype;
+use App\Models\HomeSlider;
 use App\Models\Testimonial;
+use App\Models\WebsiteLink;
 use App\Models\Photogallery;
 use App\Models\Postcategory;
 use App\Models\Videogallery;
@@ -21,12 +23,18 @@ class WebsiteController extends Controller
 
     public function home()
     {
+        $homeSliders = HomeSlider::latest('id')->get();
+        $website_link = WebsiteLink::first();
         $about = About::latest('id')->first();
         $room_types = Roomtype::get();
         $testimonials = Testimonial::with('user')->limit(20)->get();
         //->where('rating', 5)
 
-        return view('frontend.pages.home', compact('about', 'room_types', 'testimonials'));
+        $posts = Post::with(['postCategory', 'user'])
+        ->where('is_home', 1)
+        ->latest('id')->limit(3)->get();
+
+        return view('frontend.pages.home', compact('homeSliders', 'website_link', 'about', 'room_types', 'testimonials', 'posts'));
     }
 
     public function about()
