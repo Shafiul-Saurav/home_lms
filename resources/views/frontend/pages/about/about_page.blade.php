@@ -14,11 +14,10 @@
                 <h2>{{ $about->title ?? null }}</h2>
                 <ul>
                     <li>
-                        <a href="index.html">
+                        <a href="{{ route('home') }}">
                             Home
                         </a>
                     </li>
-                    <li>{{ $about->title ?? null }}</li>
                     <li>{{ $about->title ?? null }}</li>
                 </ul>
             </div>

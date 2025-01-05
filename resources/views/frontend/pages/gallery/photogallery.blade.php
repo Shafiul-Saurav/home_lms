@@ -14,7 +14,7 @@
                 <h2>Photo Gallery</h2>
                 <ul>
                     <li>
-                        <a href="index.html">
+                        <a href="{{ route('home') }}">
                             Home
                         </a>
                     </li>

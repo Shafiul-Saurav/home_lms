@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backend\FaqController;
 use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\RoleController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\Backend\StuffController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\Backend\ModuleController;
+use App\Http\Controllers\Trash\FaqTrashController;
 use App\Http\Controllers\Backend\ServiceController;
 use App\Http\Controllers\Trash\PostTrashController;
 use App\Http\Controllers\Trash\RoleTrashController;
@@ -18,6 +20,7 @@ use App\Http\Controllers\Trash\UserTrashController;
 use App\Http\Controllers\Backend\RoomTypeController;
 use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\CommentController;
+use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\WebsiteController;
 use App\Http\Controllers\Trash\StuffTrashController;
@@ -31,11 +34,11 @@ use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Trash\BookingTrashController;
 use App\Http\Controllers\Trash\ServiceTrashController;
 use App\Http\Controllers\Auth\SocialiteLoginController;
-use App\Http\Controllers\Backend\AdminProfileController;
 use App\Http\Controllers\Backend\LogoFaviconController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\WebsiteLinkController;
 use App\Http\Controllers\Frontend\UserLogoutController;
+use App\Http\Controllers\Backend\AdminProfileController;
 use App\Http\Controllers\Backend\PhotoGalleryController;
 use App\Http\Controllers\Backend\PostCategoryController;
 use App\Http\Controllers\Backend\VideoGalleryController;
@@ -49,10 +52,9 @@ use App\Http\Controllers\Trash\PostCategoryTrashController;
 use App\Http\Controllers\Trash\VideoGalleryTrashController;
 use App\Http\Controllers\Trash\PhotoCategoryTrashController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
+use App\Http\Controllers\Backend\ContactController as BackendContactController;
 use App\Http\Controllers\Backend\BookingController as BackendBookingController;
-use App\Http\Controllers\Backend\FaqController;
 use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
-use App\Http\Controllers\Trash\FaqTrashController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,6 +84,7 @@ Route::get('videogallery', [WebsiteController::class, 'videoGallery'])->name('vi
 Route::get('news', [WebsiteController::class, 'search'])->name('news.search');
 Route::get('news/details/{id}', [WebsiteController::class, 'newsDetails'])->name('news.details');
 Route::get('faqs', [WebsiteController::class, 'faq'])->name('faq.page');
+Route::get('contacts', [WebsiteController::class, 'contact'])->name('contact.page');
 
 Route::get('bookingSuccess/{id}', [WebsiteController::class, 'bookingSuccess'])->name('booking.success');
 
@@ -107,7 +110,6 @@ Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
     Route::get('testimonial_view', [FrontendTestimonialController::class, 'testimonialView'])->name('testimonial.view');
     Route::post('testimonial_store', [FrontendTestimonialController::class, 'testimonialStore'])->name('testimonial.store');
 
-
 });
 
 //Comment Route
@@ -129,6 +131,9 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+//Contact Route
+Route::post('contact_store', [ContactController::class, 'contactStore'])->name('contact.store');
 
 /*
 |--------------------------------------------------------------------------
@@ -380,4 +385,7 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::delete('/faqs/forcedelete/{id}', [FaqTrashController::class, 'forceDelete'])
     ->name('faqs.forcedelete');
     Route::resource('faqs', FaqController::class);
+
+    //Contact Route
+    Route::resource('contact', BackendContactController::class);
 });

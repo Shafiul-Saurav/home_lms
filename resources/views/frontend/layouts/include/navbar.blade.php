@@ -53,7 +53,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ route('contact.page') }}"  class="nav-link {{Request::routeIs('contact.page') ? 'activePage' : ''}}">
                                     Contacts
                                 </a>
                             </li>

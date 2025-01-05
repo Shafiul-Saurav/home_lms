@@ -284,7 +284,7 @@
                         {{Request::routeIs('faqs.trash') ? 'active' : ''}}
                         {{Request::routeIs('posts.index') ? 'active' : ''}}
                         {{Request::routeIs('posts.trash') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
-                        <i class="fa-brands fa-blogger-b"></i>
+                        <i class="fa-classic fa-solid fa-fan fa-fw"></i>
                         <span class="side-menu__label ms-3">Company Policy</span><i class="fa-solid fa-angle-right"></i>
                     </a>
                     <ul class="slide-menu">
@@ -310,6 +310,14 @@
                                 <li><a class="sub-slide-item {{Request::routeIs('posts.trash') ? 'active' : ''}}" href="{{ route('posts.trash') }}">Trash</a></li>
                             </ul>
                         </li>
+                    </ul>
+                </li>
+                <li class="slide {{Request::routeIs('contact.index') ? 'is-expanded' : ''}}">
+                    <a class="side-menu__item {{Request::routeIs('contact.index') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
+                        <i class="fa-classic fa-solid fa-envelope fa-fw"></i>
+                        <span class="side-menu__label ms-3">Contact</span><i class="fa-solid fa-angle-right"></i></a>
+                    <ul class="slide-menu">
+                        <li><a href="{{ route('contact.index') }}" class="slide-item {{Request::routeIs('contact.index') ? 'active' : ''}}">Contact Settings</a></li>
                     </ul>
                 </li>
                 <li class="slide">

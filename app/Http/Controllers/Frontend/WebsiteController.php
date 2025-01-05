@@ -135,6 +135,12 @@ class WebsiteController extends Controller
 
     }
 
+    public function contact()
+    {
+        // $faqs = Faq::get();
+        return view('frontend.pages.contact.contact');
+    }
+
 
 
 
