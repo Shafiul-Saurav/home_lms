@@ -24,19 +24,19 @@ class BookingController extends Controller
     {
         // dd($request->all());
         // Check if the room is already booked between the specified dates
-        $existingBooking = Booking::where('room_id', $request->room_id)
-            ->where(function($query) use ($request) {
-                $query->whereBetween('checkin_date', [$request->checkin_date, $request->checkout_date])
-                      ->orWhereBetween('checkout_date', [$request->checkin_date, $request->checkout_date])
-                      ->orWhere(function($query) use ($request) {
-                          $query->where('checkin_date', '<', $request->checkin_date)
-                                ->where('checkout_date', '>', $request->checkout_date);
-                      });
-            })->exists();
+        // $existingBooking = Booking::where('room_id', $request->room_id)
+        //     ->where(function($query) use ($request) {
+        //         $query->whereBetween('checkin_date', [$request->checkin_date, $request->checkout_date])
+        //               ->orWhereBetween('checkout_date', [$request->checkin_date, $request->checkout_date])
+        //               ->orWhere(function($query) use ($request) {
+        //                   $query->where('checkin_date', '<', $request->checkin_date)
+        //                         ->where('checkout_date', '>', $request->checkout_date);
+        //               });
+        //     })->exists();
 
-        if ($existingBooking) {
-            return redirect()->back()->with('error', 'This room is already booked for the selected dates.');
-        }
+        // if ($existingBooking) {
+        //     return redirect()->back()->with('error', 'This room is already booked for the selected dates.');
+        // }
 
         // Create new booking
         // $booking = Booking::create([

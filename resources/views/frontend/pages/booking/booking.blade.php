@@ -117,7 +117,7 @@
                                         </div>
                                     </div>
                                     <button type="submit" class="default-btn">
-                                        Find A Table
+                                        Book Now
                                         <i class="flaticon-right"></i>
                                     </button>
                                 </form>

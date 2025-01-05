@@ -6,6 +6,7 @@ use App\Models\Faq;
 use App\Models\Post;
 use App\Models\Room;
 use App\Models\About;
+use App\Models\Booking;
 use App\Models\Service;
 use App\Models\Roomtype;
 use App\Models\HomeSlider;
@@ -17,6 +18,7 @@ use App\Models\Videogallery;
 use Illuminate\Http\Request;
 use App\Models\Photocategory;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class WebsiteController extends Controller
 {
@@ -121,6 +123,19 @@ class WebsiteController extends Controller
         $faqs = Faq::get();
         return view('frontend.pages.company_policy.faq', compact('faqs'));
     }
+
+    public function bookingSuccess($id)
+    {
+        $booking = Booking::findOrFail($id);
+        if (Auth::user()->id == $booking->user_id) {
+            return view('frontend.pages.success.booking_success', compact('booking'));
+        } else {
+            return redirect()->route('booking.history')->with('error', 'You have no permission to perform this actions!');
+        }
+
+    }
+
+
 
 
 

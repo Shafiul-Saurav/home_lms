@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('checkin_date');
             $table->date('checkout_date');
             $table->integer('total_adults')->default(1);
-            $table->integer('total_children')->default(0);
+            $table->integer('total_children')->nullable();
             $table->decimal('total_amount', 10, 2); // For storing the amount paid for the booking
             $table->boolean('payment_status')->default(false);
             $table->timestamps();
