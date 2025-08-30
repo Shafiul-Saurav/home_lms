@@ -6,7 +6,7 @@
                 <button class="header-user">
                     <i class="fas fa-bars"></i>
                 </button>
-                <a href="https://barggee.com"><img loading="lazy" src="https://barggee.com/uploads/1c05f672-b9b0-4839-838c-fecb72237370/logo.png" alt="Online Shopping In Bangladesh With Home Delivery"></a>
+                <a href="{{ url('/') }}"><img loading="lazy" src="{{ asset($logo_fav->logo??'uploads/logos/default.png') }}" alt="{{ $logo_fav->web_name ?? 'Online Shopping In Bangladesh With Home Delivery' }}"></a>
                 <button class="header-src">
                     <a href="https://barggee.com/checkout" class="header-widget header-cart" title="Cartlist">
                         <i class="fas fa-shopping-basket"></i>
@@ -14,7 +14,7 @@
                     </a>
                 </button>
             </div>
-            <a class="header-logo" href="https://barggee.com"><img loading="lazy" src="https://barggee.com/uploads/1c05f672-b9b0-4839-838c-fecb72237370/logo.png" alt="Online Shopping In Bangladesh With Home Delivery"></a>
+            <a class="header-logo" href="{{ url('/') }}"><img loading="lazy" src="{{ asset($logo_fav->logo??'uploads/logos/default.png') }}" alt="{{ $logo_fav->web_name ?? 'Online Shopping In Bangladesh With Home Delivery' }}"></a>
             <form class="header-form active" action="https://barggee.com/search">
                 <input type="text" placeholder="Search anything..." name="q" id="search" /><button>
                     <i class="fas fa-search"></i>

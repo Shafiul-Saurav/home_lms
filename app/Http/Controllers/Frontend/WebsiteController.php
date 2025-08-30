@@ -17,11 +17,21 @@ use App\Models\Postcategory;
 use App\Models\Videogallery;
 use Illuminate\Http\Request;
 use App\Models\Photocategory;
+use App\Models\LogoFavicon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 
 class WebsiteController extends Controller
 {
+    protected $logo_fav;
+
+    public function __construct()
+    {
+        // Fetch logo/favicon data and share with all views
+        $this->logo_fav = LogoFavicon::first();
+        View::share('logo_fav', $this->logo_fav);
+    }
 
     public function home()
     {
@@ -36,7 +46,10 @@ class WebsiteController extends Controller
         ->where('is_home', 1)
         ->latest('id')->limit(3)->get();
 
-        return view('frontend.pages.home', compact('homeSliders', 'website_link', 'about', 'room_types', 'testimonials', 'posts'));
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
+
+        return view('frontend.pages.home', compact('homeSliders', 'website_link', 'about', 'room_types', 'testimonials', 'posts', 'logo_fav'));
     }
 
     public function home2nd()
@@ -49,45 +62,59 @@ class WebsiteController extends Controller
         $about = About::latest('id')->first();
         $room_types = Roomtype::get();
         $testimonials = Testimonial::with('user')->limit(20)->get();
-        return view('frontend.pages.about.about_page', compact('about', 'room_types', 'testimonials'));
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
+        return view('frontend.pages.about.about_page', compact('about', 'room_types', 'testimonials', 'logo_fav'));
     }
 
     public function rooms()
     {
-        return view('frontend.pages.rooms.rooms');
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
+        return view('frontend.pages.rooms.rooms', compact('logo_fav'));
     }
 
     public function roomDetails($id)
     {
         $faqs = Faq::get();
         $room = Room::findOrFail($id);
-        return view('frontend.pages.rooms.room_details', compact('room', 'faqs'));
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
+        return view('frontend.pages.rooms.room_details', compact('room', 'faqs', 'logo_fav'));
     }
 
     public function booking($id)
     {
         $room = Room::findOrFail($id);
-        return view('frontend.pages.booking.booking', compact('room'));
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
+        return view('frontend.pages.booking.booking', compact('room', 'logo_fav'));
     }
 
     public function services()
     {
         $services = Service::where('is_active', 1)->get();
         $room_types = Roomtype::get();
-        return view('frontend.pages.services.services', compact('services', 'room_types'));
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
+        return view('frontend.pages.services.services', compact('services', 'room_types', 'logo_fav'));
     }
 
     public function photoGallery()
     {
         $galleries = Photogallery::where('is_active', 1)->get();
         $categories = Photocategory::get();
-        return view('frontend.pages.gallery.photogallery', compact('galleries', 'categories'));
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
+        return view('frontend.pages.gallery.photogallery', compact('galleries', 'categories', 'logo_fav'));
     }
 
     public function videoGallery()
     {
         $videos = Videogallery::get();
-        return view('frontend.pages.gallery.videogallery', compact('videos'));
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
+        return view('frontend.pages.gallery.videogallery', compact('videos', 'logo_fav'));
     }
 
     public function search(Request $request)
@@ -102,7 +129,10 @@ class WebsiteController extends Controller
         $popularPosts = Post::latest('id')->limit(5)->get();
         $postCategories = Postcategory::get();
 
-        return view('frontend.pages.news.news', compact('posts', 'popularPosts', 'postCategories'));
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
+
+        return view('frontend.pages.news.news', compact('posts', 'popularPosts', 'postCategories', 'logo_fav'));
     }
 
     public function newsDetails($id)
@@ -120,20 +150,27 @@ class WebsiteController extends Controller
         // Paginate the comments for the post (excluding replies)
         $comments = $post->comments()->whereNull('parent_id')->paginate(5);
 
-        return view('frontend.pages.news.news_details', compact('post', 'popularPosts', 'postCategories', 'previousPost', 'nextPost', 'comments'));
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
+
+        return view('frontend.pages.news.news_details', compact('post', 'popularPosts', 'postCategories', 'previousPost', 'nextPost', 'comments', 'logo_fav'));
     }
 
     public function faq()
     {
         $faqs = Faq::get();
-        return view('frontend.pages.company_policy.faq', compact('faqs'));
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
+        return view('frontend.pages.company_policy.faq', compact('faqs', 'logo_fav'));
     }
 
     public function bookingSuccess($id)
     {
         $booking = Booking::findOrFail($id);
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
         if (Auth::user()->id == $booking->user_id) {
-            return view('frontend.pages.success.booking_success', compact('booking'));
+            return view('frontend.pages.success.booking_success', compact('booking', 'logo_fav'));
         } else {
             return redirect()->route('booking.history')->with('error', 'You have no permission to perform this actions!');
         }
@@ -142,8 +179,10 @@ class WebsiteController extends Controller
 
     public function contact()
     {
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
         // $faqs = Faq::get();
-        return view('frontend.pages.contact.contact');
+        return view('frontend.pages.contact.contact', compact('logo_fav'));
     }
 
 

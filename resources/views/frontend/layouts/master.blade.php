@@ -4,19 +4,19 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-    <title>Barggee | @yield('title', 'Online Shopping In Bangladesh With Home Delivery')</title>
+    <title>{{ $logo_fav->web_name ?? 'Barggee' }} | @yield('title', 'Online Shopping In Bangladesh With Home Delivery')</title>
     <meta name="robots" content="all" />
     <meta name="keywords" content="Online Shopping In Bangladesh With Home Delivery" />
     <meta name="description" content="Online Shopping In Bangladesh With Home Delivery" />
-    <meta property="og:url" content="https://barggee.com" />
+    <meta property="og:url" content="{{ url('/') }}" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Barggee" />
+    <meta property="og:title" content="{{ $logo_fav->web_name ?? 'Barggee' }}" />
     <meta property="og:description" content="Online Shopping In Bangladesh With Home Delivery" />
-    <meta property="og:image" content="https://barggee.com/uploads/1c05f672-b9b0-4839-838c-fecb72237370/logo.png" />
-    <meta property="og:image:secure_url" content="https://barggee.com/uploads/1c05f672-b9b0-4839-838c-fecb72237370/logo.png" />
+    <meta property="og:image" content="{{ asset($logo_fav->logo??'uploads/logos/default.png') }}" />
+    <meta property="og:image:secure_url" content="{{ asset($logo_fav->logo??'uploads/logos/default.png') }}" />
     <meta property="og:description" content="Online Shopping In Bangladesh With Home Delivery" />
-    <link rel="icon" href="https://barggee.com/uploads/1c05f672-b9b0-4839-838c-fecb72237370/favicon.png" sizes="192x192" />
-    <link rel="apple-touch-icon" href="https://barggee.com/favicon.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset($logo_fav->favicon??'uploads/favicons/default.png') }}"/>
+    <link rel="apple-touch-icon" href="{{ asset($logo_fav->favicon??'uploads/favicons/default.png') }}" />
     
     <!-- Styles -->
     @include('frontend.layouts.include.style')

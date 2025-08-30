@@ -3,9 +3,9 @@
         <div class="row">
             <div class="col-sm-6 col-xl-3">
                 <div class="footer-widget">
-                    <a class="footer-logo" href="https://barggee.com"><img loading="lazy" src="https://barggee.com/uploads/1c05f672-b9b0-4839-838c-fecb72237370/logo.png" alt="logo" class="w-50"></a>
+                    <a class="footer-logo" href="{{ url('/') }}"><img loading="lazy" src="{{ asset($logo_fav->logo??'uploads/logos/default.png') }}" alt="logo" class="w-50"></a>
                     <p class="footer-desc">
-                        barggee.com | Online Shopping In Bangladesh With Home Delivery
+                        {{ $logo_fav->web_name ?? 'barggee.com' }} | Online Shopping In Bangladesh With Home Delivery
                     </p>
                 </div>
             </div>
@@ -58,7 +58,7 @@
         <div class="col-12">
             <div class="p-2 bg-primary text-center">
                 <p class="footer-copytext">
-                    All Rights Reserved barggee.com 2024 <span class="copy-tj"> | Designed and Developed by <a href="https://techjodo.com" target="_blank">Techjodo</a></span>
+                    All Rights Reserved {{ $logo_fav->web_name ?? 'barggee.com' }} 2024 <span class="copy-tj"> | Designed and Developed by <a href="https://techjodo.com" target="_blank">Techjodo</a></span>
                 </p>
             </div>
         </div>
