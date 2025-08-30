@@ -17,6 +17,7 @@ use App\Http\Controllers\Backend\ServiceController;
 use App\Http\Controllers\Trash\PostTrashController;
 use App\Http\Controllers\Trash\RoleTrashController;
 use App\Http\Controllers\Trash\UserTrashController;
+use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\RoomTypeController;
 use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\CommentController;
@@ -38,6 +39,7 @@ use App\Http\Controllers\Backend\LogoFaviconController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\WebsiteLinkController;
 use App\Http\Controllers\Frontend\UserLogoutController;
+use App\Http\Controllers\Trash\CategoryTrashController;
 use App\Http\Controllers\Backend\AdminProfileController;
 use App\Http\Controllers\Backend\PhotoGalleryController;
 use App\Http\Controllers\Backend\PostCategoryController;
@@ -52,8 +54,8 @@ use App\Http\Controllers\Trash\PostCategoryTrashController;
 use App\Http\Controllers\Trash\VideoGalleryTrashController;
 use App\Http\Controllers\Trash\PhotoCategoryTrashController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
-use App\Http\Controllers\Backend\ContactController as BackendContactController;
 use App\Http\Controllers\Backend\BookingController as BackendBookingController;
+use App\Http\Controllers\Backend\ContactController as BackendContactController;
 use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
 
 /*
@@ -388,4 +390,14 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
 
     //Contact Route
     Route::resource('contact', BackendContactController::class);
+
+    //Category Route
+    Route::get('/categories/trash', [CategoryTrashController::class, 'trash'])->name('categories.trash');
+    Route::get('/categories/restore/{id}', [CategoryTrashController::class, 'restore'])
+    ->name('categories.restore');
+    Route::delete('/categories/forcedelete/{id}', [CategoryTrashController::class, 'forceDelete'])
+    ->name('categories.forcedelete');
+    Route::get('check/category/is_active/{category_id}', [CategoryController::class, 'checkActiveActive'])
+    ->name('category.is_active.ajax');
+    Route::resource('categories', CategoryController::class);
 });
