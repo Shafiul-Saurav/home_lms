@@ -26,6 +26,8 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Category</h3>
+                    <a href="{{ route('categories.trash') }}" class="btn btn-sm btn-outline-warning border"><i
+                            class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">

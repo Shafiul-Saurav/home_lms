@@ -98,9 +98,9 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
 
         // Delete file if exists
-        if ($category->file && file_exists(public_path('uploads/categories/' . $category->file))) {
-            unlink(public_path('uploads/categories/' . $category->file));
-        }
+        // if ($category->file && file_exists(public_path('uploads/categories/' . $category->file))) {
+        //     unlink(public_path('uploads/categories/' . $category->file));
+        // }
 
         $category->delete();
         return redirect()->back()->with('warning', 'Category Deleted Successfully');
@@ -115,7 +115,7 @@ class CategoryController extends Controller
     public function image_upload($request, $category_id)
     {
         $category = Category::findOrFail($category_id);
-        
+
         if ($request->hasFile('file')) {
             if ($category->file && $category->file != 'default_category_image.jpg') {
                 //delete old photo
@@ -125,19 +125,19 @@ class CategoryController extends Controller
                     unlink(public_path($old_photo_location));
                 }
             }
-            
+
             $photo_location = 'uploads/categories/';
             $uploaded_photo = $request->file('file');
             $new_photo_name = $category->id . '.' . $uploaded_photo->getClientOriginalExtension();
             $new_photo_location = $photo_location . $new_photo_name;
-            
+
             // Create directory if it doesn't exist
             if (!file_exists(public_path($photo_location))) {
                 mkdir(public_path($photo_location), 0755, true);
             }
-            
+
             Image::make($uploaded_photo)->resize(300, 300)->save(public_path($new_photo_location), 80);
-            
+
             $category->update([
                 'file' => $new_photo_name,
             ]);
