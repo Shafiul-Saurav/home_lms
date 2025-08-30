@@ -41,7 +41,7 @@ class WebsiteController extends Controller
 
     public function home2nd()
     {
-        return view('frontend2nd.pages.home');
+        return view('frontend.pages.home');
     }
 
     public function about()

@@ -1,37 +1,82 @@
-<!-- Jquery Min JS -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-<script src="{{asset('assets/frontend')}}/js/jquery.min.js"></script>
-<!-- Bootstrap Bundle Min JS -->
-<script src="{{asset('assets/frontend')}}/js/bootstrap.bundle.min.js"></script>
-<!-- Meanmenu Min JS -->
-<script src="{{asset('assets/frontend')}}/js/meanmenu.min.js"></script>
-<!-- Owl Carousel Min JS -->
-<script src="{{asset('assets/frontend')}}/js/owl.carousel.min.js"></script>
-<!-- Wow Min JS -->
-<script src="{{asset('assets/frontend')}}/js/wow.min.js"></script>
-<!-- Nice Select Min JS -->
-<script src="{{asset('assets/frontend')}}/js/nice-select.min.js"></script>
-<!-- Magnific Popup Min JS -->
-<script src="{{asset('assets/frontend')}}/js/magnific-popup.min.js"></script>
-<!-- Mixitup JS -->
-<script src="{{asset('assets/frontend')}}/js/mixitup.min.js"></script>
-<!-- Appear Min JS -->
-<script src="{{asset('assets/frontend')}}/js/appear.min.js"></script>
-<!-- Odometer Min JS -->
-<script src="{{asset('assets/frontend')}}/js/odometer.min.js"></script>
-<!-- Datepicker Min JS -->
-<script src="{{asset('assets/frontend')}}/js/bootstrap-datepicker.min.js"></script>
-<!-- Ofi Min JS -->
-<script src="{{asset('assets/frontend')}}/js/ofi.min.js"></script>
-<!-- jarallax Min JS -->
-<script src="{{asset('assets/frontend')}}/js/jarallax.min.js"></script>
-<!-- Form Validator Min JS -->
-<script src="{{asset('assets/frontend')}}/js/form-validator.min.js"></script>
-<!-- Contact JS -->
-<script src="{{asset('assets/frontend')}}/js/contact-form-script.js"></script>
-<!-- Ajaxchimp Min JS -->
-<script src="{{asset('assets/frontend')}}/js/ajaxchimp.min.js"></script>
-<!-- Custom JS -->
-<script src="{{asset('assets/frontend')}}/js/custom.js"></script>
+<script data-pagespeed-no-defer src="https://barggee.com/frontend/vendor/bootstrap/jquery-1.12.4.min.js"></script>
+<script src="https://barggee.com/frontend/vendor/bootstrap/bootstrap.min.js"></script>
+<script src="https://barggee.com/frontend/vendor/slickslider/slick.min.js"></script>
+<script src="https://barggee.com/frontend/js/main.js"></script>
+<script src="https://barggee.com/frontend/js/sweet-alert.min.js"></script>
+<script src="https://barggee.com/vendor/livewire/livewire.min.js?id=df3a17f2" data-csrf="8KWLaGDS1qcFRMcDBevjYtQ493Vbq6jf4zLohILO" data-update-uri="/livewire/update" data-navigate-once="true"></script>
 
-@stack('frontend_script')
+<script>
+    function addToCart(id, title, price) {
+        $.ajax({
+            url: "https://barggee.com/api/capi",
+            type: "GET",
+            data: {
+                'track': "track",
+                'event': "AddToCart",
+                'current_url': "https://barggee.com",
+                'client_ip_address': "210.87.69.185",
+                'data': {
+                    'content_name': title,
+                    'content_ids': id,
+                    'content_type': 'product',
+                    'currency': 'BDT',
+                    'contents': [{
+                        'id': id,
+                        'title': title,
+                        'item_price': price,
+                        'quantity': 1,
+                    }],
+                    'value': price,
+                    'num_items': 1,
+                    'event_url': "https://barggee.com",
+                },
+                "eventID": "AddToCart.1.1756266966",
+                "event_id": "AddToCart.1756266966",
+            },
+            success: (function(data) {
+                fbq('track', 'AddToCart', data, {
+                    eventID: data.event_id
+                });
+                console.log('AddToCart server event run successfully');
+            })
+        });
+    }
+
+    function orderNow(id, title, price) {
+        $.ajax({
+            url: "https://barggee.com/api/capi",
+            type: "GET",
+            data: {
+                'track': "track",
+                'event': "AddToCart",
+                'current_url': "https://barggee.com",
+                'client_ip_address': "210.87.69.185",
+                'data': {
+                    'content_name': title,
+                    'content_ids': id,
+                    'content_type': 'product',
+                    'currency': 'BDT',
+                    'contents': [{
+                        'id': id,
+                        'title': title,
+                        'item_price': price,
+                        'quantity': 1,
+                    }],
+                    'value': price,
+                    'num_items': 1,
+                    'event_url': "https://barggee.com",
+                },
+                "eventID": "AddToCart.1.1756266966",
+                "event_id": "AddToCart.1756266966",
+            },
+            success: (function(data) {
+                fbq('track', 'AddToCart', data, {
+                    eventID: data.event_id
+                });
+                console.log('AddToCart server event run successfully');
+            })
+        });
+    }
+</script>
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
