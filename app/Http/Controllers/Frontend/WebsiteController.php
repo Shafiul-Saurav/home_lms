@@ -39,6 +39,11 @@ class WebsiteController extends Controller
         return view('frontend.pages.home', compact('homeSliders', 'website_link', 'about', 'room_types', 'testimonials', 'posts'));
     }
 
+    public function home2nd()
+    {
+        return view('frontend2nd.pages.home');
+    }
+
     public function about()
     {
         $about = About::latest('id')->first();

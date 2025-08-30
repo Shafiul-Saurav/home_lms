@@ -73,7 +73,7 @@ use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialCo
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', [WebsiteController::class, 'home'])->name('home');
+Route::get('/', [WebsiteController::class, 'home2nd'])->name('home');
 Route::get('about', [WebsiteController::class, 'about'])->name('about');
 Route::get('rooms', [WebsiteController::class, 'rooms'])->name('rooms');
 Route::get('room/details/{id}', [WebsiteController::class, 'roomDetails'])->name('room.details');
