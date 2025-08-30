@@ -7,6 +7,7 @@ use App\Models\Module;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\RoleStoreRequest;
 use App\Http\Requests\RoleUpdateRequest;
 
@@ -18,7 +19,7 @@ class RoleController extends Controller
     public function index()
     {
         //authorize this user to access/give access to admin dashboard
-        // Gate::authorize('index-role');
+        Gate::authorize('index-role');
 
         $roles = Role::with(['permissions:id,permission_name,permission_slug'])
         ->select(['id', 'role_name', 'role_slug', 'role_note', 'is_deletable', 'updated_at'])
@@ -44,7 +45,7 @@ class RoleController extends Controller
     public function store(RoleStoreRequest $request)
     {
         //authorize this user to access/give access to admin dashboard
-        // Gate::authorize('create-role');
+        Gate::authorize('create-role');
 
         Role::updateOrCreate([
             'role_name' => $request->role_name,
@@ -69,7 +70,7 @@ class RoleController extends Controller
     public function edit(string $role_slug)
     {
         //authorize this user to access/give access to admin dashboard
-        // Gate::authorize('edit-role');
+        Gate::authorize('edit-role');
 
         $role = Role::where('role_slug', $role_slug)->first();
         $modules = Module::with(['permissions:id,module_id,permission_name,permission_slug'])
@@ -84,7 +85,7 @@ class RoleController extends Controller
     public function update(RoleUpdateRequest $request, string $role_slug)
     {
         //authorize this user to access/give access to admin dashboard
-        // Gate::authorize('edit-role');
+        Gate::authorize('edit-role');
 
         // dd($request->all(), $role_slug);
         $role = Role::where('role_slug', $role_slug)->first();
@@ -105,7 +106,7 @@ class RoleController extends Controller
     public function destroy(string $role_slug)
     {
         //authorize this user to access/give access to admin dashboard
-        // Gate::authorize('delete-role');
+        Gate::authorize('delete-role');
 
         $role = Role::where('role_slug', $role_slug)->first();
         if ($role->is_deletable){

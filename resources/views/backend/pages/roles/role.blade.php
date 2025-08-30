@@ -87,7 +87,7 @@
                                 </div> --}}
                                 <label class="colorinput mb-3">
                                     <input name="color" type="checkbox" value="pink" class="colorinput-input" id="saurav">
-                                    <span class="colorinput-color bg-pink"></span>
+                                    <span class="colorinput-color bg-pink">Select All</span>
                                 </label>
                             </div>
                             <div class="col-12">

@@ -23,7 +23,7 @@ class BookingController extends Controller
     public function bookingStore(BookingStoreRequest $request)
     {
         // dd($request->all());
-        // Check if the room is already booked between the specified dates
+        // // Check if the room is already booked between the specified dates
         // $existingBooking = Booking::where('room_id', $request->room_id)
         //     ->where(function($query) use ($request) {
         //         $query->whereBetween('checkin_date', [$request->checkin_date, $request->checkout_date])
@@ -38,7 +38,7 @@ class BookingController extends Controller
         //     return redirect()->back()->with('error', 'This room is already booked for the selected dates.');
         // }
 
-        // Create new booking
+        // // Create new booking
         // $booking = Booking::create([
         //     'user_id' => Auth::user()->id,
         //     'room_id' => $request->room_id,
