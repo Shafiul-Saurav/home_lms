@@ -229,7 +229,7 @@
                             <h6 class="product-price">
                                 <span class="new-price mr-2 bold"><b>  Tk 790</b></span> <del class="old-price"> Tk 990</del>
                             </h6>
-                            <button class="btn btn-block border-0 btn-secondary w-100 p-1" onclick="addToCart(108,'Snail Shaped Hand Wash Dispenser Bottle',790.00)" wire:click="orderNow(108)">
+                            <button class="btn btn-block border-0 btn-secondary w-100 p-1" style="background: linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%); border: none; color: white; transition: all 0.3s ease;" onclick="addToCart(108,'Snail Shaped Hand Wash Dispenser Bottle',790.00)" wire:click="orderNow(108)">
                                 অর্ডার করুন
                             </button>
                         </div>

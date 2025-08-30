@@ -16,18 +16,18 @@
                         <li>
                             <i class="fas fa-envelope"></i>
                             <p>
-                                <span>barggeee@gmail.com</span>
+                                <span>{{ $website_link->email ?? 'barggeee@gmail.com' }}</span>
                             </p>
                         </li>
                         <li>
                             <i class="fas fa-phone"></i>
                             <p>
-                                <span>01859084364</span>
+                                <span>{{ $website_link->number ?? '01859084364' }}</span>
                             </p>
                         </li>
                         <li>
                             <i class="fas fa-map"></i>
-                            <p><span>Dhaka, Bangladesh</span></p>
+                            <p><span>{{ $website_link->address ?? '01859084364' }}</span></p>
                         </li>
                     </ul>
                 </div>

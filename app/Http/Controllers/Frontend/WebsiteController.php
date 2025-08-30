@@ -31,6 +31,10 @@ class WebsiteController extends Controller
         // Fetch logo/favicon data and share with all views
         $this->logo_fav = LogoFavicon::first();
         View::share('logo_fav', $this->logo_fav);
+        
+        // Fetch website link data and share with all views
+        $website_link = WebsiteLink::first();
+        View::share('website_link', $website_link);
     }
 
     public function home()
