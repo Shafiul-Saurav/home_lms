@@ -71,8 +71,8 @@
     
     <style>
         :root {
-            --primary: #ec741f;
-            --primary-hover: red;
+            --primary: #684EFF;
+            --primary-hover: #5A3CE0;
             --secondary: green;
             --secondary-hover: #9828c7;
             --text2: white;

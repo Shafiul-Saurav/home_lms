@@ -42,7 +42,7 @@
                                     <h6 class="product-price">
                                         <span class="new-price mr-2 bold"><b>  Tk 460</b></span> <del class="old-price"> Tk 790</del>
                                     </h6>
-                                    <button class="btn btn-block border-0 btn-secondary w-100 p-1" onclick="addToCart(42,'Rfid Credit Card Holder 1',460.00)" wire:click="orderNow(42)">
+                                    <button class="btn btn-block border-0 w-100 p-1" style="background: linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%); border: none; color: white; transition: all 0.3s ease;" onclick="addToCart(42,'Rfid Credit Card Holder 1',460.00)" wire:click="orderNow(42)" onmouseover="this.style.background='linear-gradient(90deg, #7a25d9 51.99%, #e64a4a 100%)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)';" onmouseout="this.style.background='linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
                                         অর্ডার করুন
                                     </button>
                                 </div>
@@ -63,7 +63,7 @@
                                     <h6 class="product-price">
                                         <span class="new-price mr-2 bold"><b>  Tk 790</b></span> <del class="old-price"> Tk 990</del>
                                     </h6>
-                                    <button class="btn btn-block border-0 btn-secondary w-100 p-1" onclick="addToCart(105,'Cartoon Felt Hand bag',790.00)" wire:click="orderNow(105)">
+                                    <button class="btn btn-block border-0 w-100 p-1" style="background: linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%); border: none; color: white; transition: all 0.3s ease;" onclick="addToCart(105,'Cartoon Felt Hand bag',790.00)" wire:click="orderNow(105)" onmouseover="this.style.background='linear-gradient(90deg, #7a25d9 51.99%, #e64a4a 100%)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)';" onmouseout="this.style.background='linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
                                         অর্ডার করুন
                                     </button>
                                 </div>
@@ -84,7 +84,7 @@
                                     <h6 class="product-price">
                                         <span class="new-price mr-2 bold"><b>  Tk 790</b></span> <del class="old-price"> Tk 1,090</del>
                                     </h6>
-                                    <button class="btn btn-block border-0 btn-secondary w-100 p-1" onclick="addToCart(46,'Ice silk face protection cycling hood',790.00)" wire:click="orderNow(46)">
+                                    <button class="btn btn-block border-0 w-100 p-1" style="background: linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%); border: none; color: white; transition: all 0.3s ease;" onclick="addToCart(46,'Ice silk face protection cycling hood',790.00)" wire:click="orderNow(46)" onmouseover="this.style.background='linear-gradient(90deg, #7a25d9 51.99%, #e64a4a 100%)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)';" onmouseout="this.style.background='linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
                                         অর্ডার করুন
                                     </button>
                                 </div>
@@ -105,7 +105,7 @@
                                     <h6 class="product-price">
                                         <span class="new-price mr-2 bold"><b>  Tk 990</b></span> <del class="old-price"> Tk 1,990</del>
                                     </h6>
-                                    <button class="btn btn-block border-0 btn-secondary w-100 p-1" onclick="addToCart(45,'Smartwatch Silicon Variant T900 Ultra2 Pro ',990.00)" wire:click="orderNow(45)">
+                                    <button class="btn btn-block border-0 w-100 p-1" style="background: linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%); border: none; color: white; transition: all 0.3s ease;" onclick="addToCart(45,'Smartwatch Silicon Variant T900 Ultra2 Pro ',990.00)" wire:click="orderNow(45)" onmouseover="this.style.background='linear-gradient(90deg, #7a25d9 51.99%, #e64a4a 100%)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)';" onmouseout="this.style.background='linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
                                         অর্ডার করুন
                                     </button>
                                 </div>
@@ -126,7 +126,7 @@
                                     <h6 class="product-price">
                                         <span class="new-price mr-2 bold"><b>  Tk 990</b></span> <del class="old-price"> Tk 1,290</del>
                                     </h6>
-                                    <button class="btn btn-block border-0 btn-secondary w-100 p-1" onclick="addToCart(34,'Holder for Toothbrushes and Toothpaste Dispenser-UV Sterilizer ',990.00)" wire:click="orderNow(34)">
+                                    <button class="btn btn-block border-0 w-100 p-1" style="background: linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%); border: none; color: white; transition: all 0.3s ease;" onclick="addToCart(34,'Holder for Toothbrushes and Toothpaste Dispenser-UV Sterilizer ',990.00)" wire:click="orderNow(34)" onmouseover="this.style.background='linear-gradient(90deg, #7a25d9 51.99%, #e64a4a 100%)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)';" onmouseout="this.style.background='linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
                                         অর্ডার করুন
                                     </button>
                                 </div>
@@ -166,7 +166,7 @@
                             <h6 class="product-price">
                                 <span class="new-price mr-2 bold"><b>  Tk 790</b></span> <del class="old-price"> Tk 1,090</del>
                             </h6>
-                            <button class="btn btn-block border-0 btn-secondary w-100 p-1" onclick="addToCart(111,'Screen Top Shelf Mount TV',790.00)" wire:click="orderNow(111)">
+                            <button class="btn btn-block border-0 w-100 p-1" style="background: linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%); border: none; color: white; transition: all 0.3s ease;" onclick="addToCart(111,'Screen Top Shelf Mount TV',790.00)" wire:click="orderNow(111)" onmouseover="this.style.background='linear-gradient(90deg, #7a25d9 51.99%, #e64a4a 100%)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)';" onmouseout="this.style.background='linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
                                 অর্ডার করুন
                             </button>
                         </div>
@@ -187,7 +187,7 @@
                             <h6 class="product-price">
                                 <span class="new-price mr-2 bold"><b>  Tk 690</b></span> <del class="old-price"> Tk 930</del>
                             </h6>
-                            <button class="btn btn-block border-0 btn-secondary w-100 p-1" onclick="addToCart(110,'Telescopic Adjustable Length Shoe Horn',690.00)" wire:click="orderNow(110)">
+                            <button class="btn btn-block border-0 w-100 p-1" style="background: linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%); border: none; color: white; transition: all 0.3s ease;" onclick="addToCart(110,'Telescopic Adjustable Length Shoe Horn',690.00)" wire:click="orderNow(110)" onmouseover="this.style.background='linear-gradient(90deg, #7a25d9 51.99%, #e64a4a 100%)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)';" onmouseout="this.style.background='linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
                                 অর্ডার করুন
                             </button>
                         </div>
@@ -208,7 +208,7 @@
                             <h6 class="product-price">
                                 <span class="new-price mr-2 bold"><b>  Tk 590</b></span> <del class="old-price"> Tk 990</del>
                             </h6>
-                            <button class="btn btn-block border-0 btn-secondary w-100 p-1" onclick="addToCart(109,'Remote Storage Holder( Pack of 2 Pieces)',590.00)" wire:click="orderNow(109)">
+                            <button class="btn btn-block border-0 w-100 p-1" style="background: linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%); border: none; color: white; transition: all 0.3s ease;" onclick="addToCart(109,'Remote Storage Holder( Pack of 2 Pieces)',590.00)" wire:click="orderNow(109)" onmouseover="this.style.background='linear-gradient(90deg, #7a25d9 51.99%, #e64a4a 100%)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)';" onmouseout="this.style.background='linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
                                 অর্ডার করুন
                             </button>
                         </div>
