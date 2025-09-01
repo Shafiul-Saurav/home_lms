@@ -4,6 +4,47 @@
 
 @push('backend_style')
     @include('backend.pages.common.style')
+    <style>
+        .multi_img {
+            position: relative;
+            width: 95px;
+            height: 95px;
+            overflow: hidden;
+        }
+
+        .remove_icon {
+            position: absolute;
+            top: 0;
+            right: 1px;
+            opacity: 0;
+            z-index: 999;
+        }
+        .remove_icon .delete-image {
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+        }
+        .remove_icon .delete-image i{
+            font-size: 22px;
+        }
+
+        .multi_img:hover .remove_icon {
+            opacity: 1;
+            transition: all 0.5s ease;
+        }
+
+        .multi_img img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.5s ease;
+        }
+
+        .multi_img img:hover {
+            opacity: 0.5;
+        }
+    </style>
 @endpush
 
 @section('backend_content')
@@ -219,18 +260,20 @@
                                     </div>
                                     
                                     @if ($product->productImages->count() > 0)
-                                        <div class="row mt-3">
+                                        <ul class="list-inline mt-3">
                                             @foreach ($product->productImages as $image)
-                                                <div class="col-md-3 mb-2" id="image-container-{{ $image->id }}">
-                                                    <div class="position-relative">
-                                                        <img src="{{ asset('uploads/products') }}/{{ $image->multiple_image }}" alt="" class="img-fluid">
-                                                        <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 delete-image" data-id="{{ $image->id }}">
-                                                            <i class="fa fa-times"></i>
+                                                <li class="list-inline-item multi_img" id="product-image-{{ $image->id }}">
+                                                    <img src="{{ asset('uploads/products') }}/{{ $image->multiple_image }}" alt="" style="height: 95px">
+                                                    <div class="remove_icon">
+                                                        <button type="button" class="btn-outline-warning border show_confirm delete-image p-0" 
+                                                            data-id="{{ $image->id }}" data-toggle="tooltip" 
+                                                            data-placement="top" data-bs-original-title="Delete">
+                                                            <i class="fa-regular fa-circle-xmark"></i>
                                                         </button>
                                                     </div>
-                                                </div>
+                                                </li>
                                             @endforeach
-                                        </div>
+                                        </ul>
                                     @endif
                                 </div>
                             </div>
@@ -264,7 +307,9 @@
                 });
 
                 // Delete existing image
-                $(document).on('click', '.delete-image', function() {
+                $(document).on('click', '.delete-image', function(e) {
+                    e.preventDefault();
+
                     var imageId = $(this).data('id');
                     var url = "{{ route('product.image.delete', ':id') }}";
                     url = url.replace(':id', imageId);
@@ -286,17 +331,18 @@
                                     "_token": "{{ csrf_token() }}",
                                 },
                                 success: function(response) {
-                                    $('#image-container-' + imageId).remove();
+                                    $('#product-image-' + imageId).remove();
                                     Swal.fire(
                                         'Deleted!',
-                                        response.success,
+                                        'Your image has been deleted.',
                                         'success'
                                     );
                                 },
                                 error: function(xhr) {
+                                    console.error(xhr.responseText);
                                     Swal.fire(
                                         'Error!',
-                                        'Error deleting image',
+                                        'Something went wrong. Please try again.',
                                         'error'
                                     );
                                 }
@@ -318,6 +364,13 @@
                         $('#size').val('');
                     }
                 });
+            });
+        </script>
+        <script>
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
             });
         </script>
     @endpush

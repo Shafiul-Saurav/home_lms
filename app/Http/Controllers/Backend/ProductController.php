@@ -203,12 +203,12 @@ class ProductController extends Controller
             $photo_location = public_path('uploads/products/');
             $uploaded_photo = $request->file('image');
             $new_photo_name = $product->id . '.' . $uploaded_photo->getClientOriginalExtension();
-            
+
             // Create directory if it doesn't exist
             if (!file_exists($photo_location)) {
                 mkdir($photo_location, 0755, true);
             }
-            
+
             $new_photo_location = $photo_location . $new_photo_name;
             Image::make($uploaded_photo)->resize(380, 400)->save($new_photo_location, 80);
 
@@ -235,16 +235,16 @@ class ProductController extends Controller
                     // Handle each multiple image upload
                     $photo_location = public_path('uploads/products/');
                     $new_photo_name = $product->id . '_' . time() . '_' . uniqid() . '.' . $uploaded_photo->getClientOriginalExtension();
-                    
+
                     // Create directory if it doesn't exist
                     if (!file_exists($photo_location)) {
                         mkdir($photo_location, 0755, true);
                     }
-                    
+
                     $new_photo_location = $photo_location . $new_photo_name;
 
                     // Resize and save the image
-                    Image::make($uploaded_photo)->resize(760, 400)->save($new_photo_location, 80);
+                    Image::make($uploaded_photo)->resize(400, 400)->save($new_photo_location, 80);
 
                     // Save image to ProductImage model
                     $product->productImages()->create([
