@@ -68,6 +68,8 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Edit Product</h3>
+                    <a href="{{ route('products.index') }}" class="btn btn-info"><i class="fa-solid fa-angles-left fa-fw"></i>
+                        Back</a>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">

@@ -26,6 +26,8 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Product</h3>
+                    <a href="{{ route('products.trash') }}" class="btn btn-sm btn-outline-warning border"><i
+                            class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
@@ -273,22 +275,36 @@
                                                 <label for="product-{{ $product->id }}" class="label-success"></label>
                                             </div>
                                         </td>
-                                        <td>
-                                            <div class="d-flex">
-                                                <a href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-info me-2">
-                                                    <i class="fa fa-eye"></i>
-                                                </a>
-                                                <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-primary me-2">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                                <form action="{{ route('products.destroy', $product->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger"
-                                                        onclick="return confirm('Are you sure you want to delete this product?')">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </form>
+                                        <td class="text-center">
+                                            <div class="action-btns d-flex align-items-center">
+                                                <div>
+                                                    <a href="{{ route('products.show', $product->id) }}" 
+                                                        class="btn btn-sm btn-outline-primary border me-2"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        data-bs-original-title="View">
+                                                        <i class="fa-solid fa-eye"></i>
+                                                    </a>
+                                                </div>
+                                                <div>
+                                                    <a href="{{ route('products.edit', $product->id) }}" 
+                                                        class="btn btn-sm btn-outline-secondary border me-2"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        data-bs-original-title="Edit">
+                                                        <i class="fa-solid fa-pen fa-fw"></i>
+                                                    </a>
+                                                </div>
+                                                <div>
+                                                    <form action="{{ route('products.destroy', $product->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" 
+                                                            class="btn btn-sm btn-outline-warning border show_confirm"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            data-bs-original-title="Delete">
+                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>

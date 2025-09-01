@@ -34,6 +34,7 @@ use App\Http\Controllers\Backend\DepartmentController;
 use App\Http\Controllers\Backend\HomeSliderController;
 use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Trash\BookingTrashController;
+use App\Http\Controllers\Trash\ProductTrashController;
 use App\Http\Controllers\Trash\ServiceTrashController;
 use App\Http\Controllers\Auth\SocialiteLoginController;
 use App\Http\Controllers\Backend\LogoFaviconController;
@@ -403,6 +404,9 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::resource('categories', CategoryController::class);
 
     //Product Route
+    Route::get('/products/trash', [ProductTrashController::class, 'trash'])->name('products.trash');
+    Route::get('/products/restore/{id}', [ProductTrashController::class, 'restore'])->name('products.restore');
+    Route::delete('/products/forcedelete/{id}', [ProductTrashController::class, 'forceDelete'])->name('products.forcedelete');
     Route::get('check/product/is_active/{product_id}', [ProductController::class, 'checkActiveActive'])
     ->name('product.is_active.ajax');
     // Delete a single multiple image by ajax

@@ -18,7 +18,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('category')->latest('id')->paginate(100);
+        $products = Product::with('category')->whereNull('deleted_at')->latest('id')->paginate(100);
         $categories = Category::where('is_active', 1)->get();
         return view('backend.pages.product.product', compact('products', 'categories'));
     }
@@ -155,30 +155,10 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        // Delete main product image if it exists and is not the default
-        if ($product->image && $product->image != 'default_product.jpg') {
-            $photo_location = public_path('uploads/products/' . $product->image);
-            if (file_exists($photo_location)) {
-                unlink($photo_location);
-            }
-        }
-
-        // Delete multiple product images and their associated files
-        foreach ($product->productImages as $productImage) {
-            $image_path = public_path('uploads/products/' . $productImage->multiple_image);
-            if (file_exists($image_path)) {
-                unlink($image_path);
-                Log::info('Product image deleted: ' . $image_path);
-            } else {
-                Log::warning('Product image not found or could not delete: ' . $image_path);
-            }
-            $productImage->delete();
-        }
-
-        // Delete the product record
+        // Soft delete the product record (don't delete files yet)
         $product->delete();
 
-        return redirect()->back()->with('error', 'Product deleted successfully');
+        return redirect()->back()->with('error', 'Product moved to trash successfully');
     }
 
     /**

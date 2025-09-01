@@ -358,12 +358,13 @@
                                 <li><a href="{{ route('categories.trash') }}" class="sub-slide-item {{Request::routeIs('categories.trash') ? 'active' : ''}}">Trash</a></li>
                             </ul>
                         </li>
-                        <li class="sub-slide {{Request::routeIs('products.index') ? 'is-expanded' : ''}}">
-                            <a class="sub-side-menu__item {{Request::routeIs('products.index') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
+                        <li class="sub-slide {{Request::routeIs('products.index') ? 'is-expanded' : ''}} {{Request::routeIs('products.trash') ? 'is-expanded' : ''}}">
+                            <a class="sub-side-menu__item {{Request::routeIs('products.index') ? 'active' : ''}} {{Request::routeIs('products.trash') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
                                     class="sub-side-menu__label">Product Setting</span><i
                                     class="sub-angle fa fa-angle-right"></i></a>
                             <ul class="sub-slide-menu">
                                 <li><a href="{{ route('products.index') }}" class="sub-slide-item {{Request::routeIs('products.index') ? 'active' : ''}}">List</a></li>
+                                <li><a href="{{ route('products.trash') }}" class="sub-slide-item {{Request::routeIs('products.trash') ? 'active' : ''}}">Trash</a></li>
                             </ul>
                         </li>
                     </ul>
