@@ -339,9 +339,11 @@
                     </ul>
                 </li>
                 <li class="slide {{Request::routeIs('categories.index') ? 'is-expanded' : ''}}
-                {{Request::routeIs('categories.trash') ? 'is-expanded' : ''}}">
+                {{Request::routeIs('categories.trash') ? 'is-expanded' : ''}}
+                {{Request::routeIs('products.index') ? 'is-expanded' : ''}}">
                     <a class="side-menu__item {{Request::routeIs('categories.index') ? 'active' : ''}}
-                    {{Request::routeIs('categories.trash') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
+                    {{Request::routeIs('categories.trash') ? 'active' : ''}}
+                    {{Request::routeIs('products.index') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
                         <i class="fa-solid fa-boxes-stacked fa-fw"></i>
                         <span class="side-menu__label ms-3">Product Management</span><i class="fa-solid fa-angle-right"></i></a>
                     <ul class="slide-menu">
@@ -354,6 +356,14 @@
                             <ul class="sub-slide-menu">
                                 <li><a href="{{ route('categories.index') }}" class="sub-slide-item {{Request::routeIs('categories.index') ? 'active' : ''}}">List</a></li>
                                 <li><a href="{{ route('categories.trash') }}" class="sub-slide-item {{Request::routeIs('categories.trash') ? 'active' : ''}}">Trash</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-slide {{Request::routeIs('products.index') ? 'is-expanded' : ''}}">
+                            <a class="sub-side-menu__item {{Request::routeIs('products.index') ? 'active' : ''}}" data-bs-toggle="sub-slide" href="#"><span
+                                    class="sub-side-menu__label">Product Setting</span><i
+                                    class="sub-angle fa fa-angle-right"></i></a>
+                            <ul class="sub-slide-menu">
+                                <li><a href="{{ route('products.index') }}" class="sub-slide-item {{Request::routeIs('products.index') ? 'active' : ''}}">List</a></li>
                             </ul>
                         </li>
                     </ul>

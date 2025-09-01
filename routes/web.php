@@ -13,6 +13,7 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\Backend\ModuleController;
 use App\Http\Controllers\Trash\FaqTrashController;
+use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\ServiceController;
 use App\Http\Controllers\Trash\PostTrashController;
 use App\Http\Controllers\Trash\RoleTrashController;
@@ -400,4 +401,11 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::get('check/category/is_active/{category_id}', [CategoryController::class, 'checkActiveActive'])
     ->name('category.is_active.ajax');
     Route::resource('categories', CategoryController::class);
+
+    //Product Route
+    Route::get('check/product/is_active/{product_id}', [ProductController::class, 'checkActiveActive'])
+    ->name('product.is_active.ajax');
+    // Delete a single multiple image by ajax
+    Route::delete('/product/image/{id}', [ProductController::class, 'deleteProductImage'])->name('product.image.delete');
+    Route::resource('products', ProductController::class);
 });
