@@ -23,4 +23,36 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class);
     }
+
+    // Accessor for discount percentage
+    public function getDiscountPercentageAttribute()
+    {
+        if ($this->discount_amount > 0) {
+            if ($this->discount_type == 'percentage') {
+                return $this->discount_amount;
+            } else {
+                return round(($this->discount_amount / $this->sell_price) * 100);
+            }
+        }
+        return 0;
+    }
+
+    // Accessor for sale price
+    public function getSalePriceAttribute()
+    {
+        if ($this->discount_percentage > 0) {
+            if ($this->discount_type == 'percentage') {
+                return $this->sell_price - ($this->sell_price * $this->discount_percentage / 100);
+            } else {
+                return $this->sell_price - $this->discount_amount;
+            }
+        }
+        return $this->sell_price;
+    }
+
+    // Accessor for regular price
+    public function getRegularPriceAttribute()
+    {
+        return $this->sell_price;
+    }
 }

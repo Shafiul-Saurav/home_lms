@@ -18,6 +18,7 @@ use App\Models\Videogallery;
 use Illuminate\Http\Request;
 use App\Models\Photocategory;
 use App\Models\LogoFavicon;
+use App\Models\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -31,7 +32,7 @@ class WebsiteController extends Controller
         // Fetch logo/favicon data and share with all views
         $this->logo_fav = LogoFavicon::first();
         View::share('logo_fav', $this->logo_fav);
-        
+
         // Fetch website link data and share with all views
         $website_link = WebsiteLink::first();
         View::share('website_link', $website_link);
@@ -50,15 +51,13 @@ class WebsiteController extends Controller
         ->where('is_home', 1)
         ->latest('id')->limit(3)->get();
 
+        // Fetch products
+        $products = \App\Models\Product::where('is_active', 1)->where('is_stock', 1)->latest('id')->get();
+
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
 
-        return view('frontend.pages.home', compact('homeSliders', 'website_link', 'about', 'room_types', 'testimonials', 'posts', 'logo_fav'));
-    }
-
-    public function home2nd()
-    {
-        return view('frontend.pages.home');
+        return view('frontend.pages.home', compact('homeSliders', 'website_link', 'about', 'room_types', 'testimonials', 'posts', 'products', 'logo_fav'));
     }
 
     public function about()
@@ -179,6 +178,16 @@ class WebsiteController extends Controller
             return redirect()->route('booking.history')->with('error', 'You have no permission to perform this actions!');
         }
 
+    }
+
+    public function productDetails($id)
+    {
+        $product = Product::with('productImages')->findOrFail($id);
+        
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
+
+        return view('frontend.pages.product.details', compact('product', 'logo_fav'));
     }
 
     public function contact()
