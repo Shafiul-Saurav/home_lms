@@ -7,9 +7,12 @@ use App\Models\Post;
 use App\Models\Room;
 use App\Models\About;
 use App\Models\Booking;
+use App\Models\Product;
 use App\Models\Service;
+use App\Models\Category;
 use App\Models\Roomtype;
 use App\Models\HomeSlider;
+use App\Models\LogoFavicon;
 use App\Models\Testimonial;
 use App\Models\WebsiteLink;
 use App\Models\Photogallery;
@@ -17,8 +20,6 @@ use App\Models\Postcategory;
 use App\Models\Videogallery;
 use Illuminate\Http\Request;
 use App\Models\Photocategory;
-use App\Models\LogoFavicon;
-use App\Models\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -183,7 +184,7 @@ class WebsiteController extends Controller
     public function productDetails($id)
     {
         $product = Product::with('productImages', 'category')->findOrFail($id);
-        
+
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
 
@@ -194,7 +195,7 @@ class WebsiteController extends Controller
     {
         $category = Category::with('products.productImages')->findOrFail($id);
         $products = $category->products()->where('is_active', 1)->where('is_stock', 1)->paginate(12);
-        
+
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
 

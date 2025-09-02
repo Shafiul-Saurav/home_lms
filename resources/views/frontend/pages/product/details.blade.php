@@ -68,13 +68,13 @@
                         <div class="mb-2">
                             <!-- Stock status could be added here if available -->
                         </div>
-                        
+
                         <button class="btn-jump btn btn-secondary bg-secondary btn-block w-100 text-white border-0 p-2"
                             onClick="addToCart({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})"
                             wire:click="orderNow({{ $product->id }})">
                             <i class="fas fa-shopping-basket"></i> অর্ডার করুন
                         </button>
-                        
+
                         <button wire:click="addToCart({{ $product->id }})"
                             onclick="addToCart({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})"
                             class="btn-block w-100 btn btn-primary bg-primary text-white border-0 p-2 mt-2">
@@ -106,11 +106,11 @@
                                 বিঃদ্রঃ- ছবি এবং বর্ণনার সাথে পণ্যের মিল থাকা সত্যেও আপনি পণ্য গ্রহন করতে না চাইলে কুরিয়ার চার্জ 150 টাকা কুরিয়ার ডেলিভারি ম্যানকে প্রদান করে পণ্য সাথে সাথে রিটার্ন করবেন। পরে কোন কমপ্লেইন/রিটার্ন গ্রহণযোগ্য নয়!
                             </span>
                         </div>
-                        
+
                         <div class="details-meta">
                             <p>Product Code: <span>{{ $product->sku ?? 'N/A' }}</span></p>
                         </div>
-                        
+
                         <div class="details-list-group">
                             <label class="details-list-title">tags:</label>
                             <div class="details-tag-list d-inline-block">
@@ -126,7 +126,7 @@
             </div>
         </div>
     </section>
-    
+
     <section class="inner-section mb-5 product-details-content">
         <div class="container">
             <div class="row">
@@ -137,12 +137,12 @@
                         <li><a href="#tab-review" class="tab-link" data-bs-toggle="tab">রিভিউ</a></li>
                     </ul>
                     <hr class="m-0">
-                    
+
                     <div class="tab-content">
                         <div class="tab-pane fade active show p-3 bg-white" id="tab-desc">
                             {!! $product->description !!}
                         </div>
-                        
+
                         <div class="tab-pane fade p-3 bg-white" id="tab-spec">
                             <ul>
                                 <li>আপনার যত প্রশ্ন আছে তা বর্ননার সাথে মিলিয়ে অথবা আমাদের কাছ থেকে জেনে পন্য অর্ডার করুন।</li>
@@ -154,7 +154,7 @@
                                 <li>পণ্য সার্ভিস করতে যাওয়া আসা বা পাঠানো এবং রিটার্ন করার খরজ আপনাকে বহন করতে হবে।</li>
                             </ul>
                         </div>
-                        
+
                         <div class="tab-pane fade p-3 bg-white" id="tab-review">
                             <!-- Reviews section - can be implemented later -->
                             <p>রিভিউ সংযুক্ত করা হবে।</p>
@@ -193,7 +193,7 @@
                 },
             ],
         });
-        
+
         $(".details-preview").not('.slick-initialized').slick({
             slidesToShow: 1,
             slidesToScroll: 1,
