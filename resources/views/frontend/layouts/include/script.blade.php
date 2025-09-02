@@ -7,13 +7,16 @@
 
 <script>
     function addToCart(id, title, price) {
+        // Get current page URL
+        var currentUrl = window.location.href;
+        
         $.ajax({
             url: "https://barggee.com/api/capi",
             type: "GET",
             data: {
                 'track': "track",
                 'event': "AddToCart",
-                'current_url': "https://barggee.com",
+                'current_url': currentUrl,
                 'client_ip_address': "210.87.69.185",
                 'data': {
                     'content_name': title,
@@ -28,7 +31,7 @@
                     }],
                     'value': price,
                     'num_items': 1,
-                    'event_url': "https://barggee.com",
+                    'event_url': currentUrl,
                 },
                 "eventID": "AddToCart.1.1756266966",
                 "event_id": "AddToCart.1756266966",
@@ -43,13 +46,16 @@
     }
 
     function orderNow(id, title, price) {
+        // Get current page URL
+        var currentUrl = window.location.href;
+        
         $.ajax({
             url: "https://barggee.com/api/capi",
             type: "GET",
             data: {
                 'track': "track",
                 'event': "AddToCart",
-                'current_url': "https://barggee.com",
+                'current_url': currentUrl,
                 'client_ip_address': "210.87.69.185",
                 'data': {
                     'content_name': title,
@@ -64,7 +70,7 @@
                     }],
                     'value': price,
                     'num_items': 1,
-                    'event_url': "https://barggee.com",
+                    'event_url': currentUrl,
                 },
                 "eventID": "AddToCart.1.1756266966",
                 "event_id": "AddToCart.1756266966",
@@ -80,3 +86,5 @@
 </script>
 <!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+@stack('forntendscript')

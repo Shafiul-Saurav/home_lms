@@ -182,12 +182,23 @@ class WebsiteController extends Controller
 
     public function productDetails($id)
     {
-        $product = Product::with('productImages')->findOrFail($id);
+        $product = Product::with('productImages', 'category')->findOrFail($id);
         
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
 
         return view('frontend.pages.product.details', compact('product', 'logo_fav'));
+    }
+
+    public function categoryProducts($id)
+    {
+        $category = Category::with('products.productImages')->findOrFail($id);
+        $products = $category->products()->where('is_active', 1)->where('is_stock', 1)->paginate(12);
+        
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
+
+        return view('frontend.pages.category.products', compact('category', 'products', 'logo_fav'));
     }
 
     public function contact()

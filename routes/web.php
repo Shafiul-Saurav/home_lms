@@ -90,6 +90,7 @@ Route::get('news/details/{id}', [WebsiteController::class, 'newsDetails'])->name
 Route::get('faqs', [WebsiteController::class, 'faq'])->name('faq.page');
 Route::get('contacts', [WebsiteController::class, 'contact'])->name('contact.page');
 Route::get('product/{id}', [WebsiteController::class, 'productDetails'])->name('product.details');
+Route::get('category/{id}/products', [WebsiteController::class, 'categoryProducts'])->name('category.products');
 
 Route::get('bookingSuccess/{id}', [WebsiteController::class, 'bookingSuccess'])->name('booking.success');
 

@@ -3,3 +3,5 @@
 <link rel="stylesheet" href="https://barggee.com/frontend/vendor/slickslider/slick.min.css" />
 <link rel="stylesheet" href="https://barggee.com/frontend/css/all.css" />
 <link rel="stylesheet" href="https://barggee.com/frontend/css/custom.css" />
+
+@stack('forntendstyle')

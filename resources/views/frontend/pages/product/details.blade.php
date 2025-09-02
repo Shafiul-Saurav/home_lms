@@ -2,218 +2,252 @@
 
 @section('title', $product->name)
 
-@section('frontend_content')
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-4">
-            <!-- Main Image Display with Zoom -->
-            <div class="product-image-detail mb-3 position-relative" style="overflow: hidden;">
-                @if($product->productImages->first())
-                    <img id="mainImage" src="{{ asset('uploads/products/' . $product->productImages->first()->multiple_image) }}"
-                         class="img-fluid rounded main-product-image"
-                         alt="{{ $product->name }}"
-                         data-zoom-image="{{ asset('uploads/products/' . $product->productImages->first()->multiple_image) }}"
-                         style="width: 100%; height: 400px; object-fit: cover; cursor: zoom-in;">
-                @else
-                    <img id="mainImage" src="https://via.placeholder.com/500x500.png?text=No+Image"
-                         class="img-fluid rounded main-product-image"
-                         alt="{{ $product->name }}"
-                         style="width: 100%; height: 400px; object-fit: cover;">
-                @endif
-            </div>
-
-            <!-- Thumbnail Slider -->
-            @if($product->productImages->count() > 1)
-            <div class="product-thumbnails mt-2">
-                <div class="row g-2">
-                    @foreach($product->productImages as $index => $image)
-                    <div class="col-3">
-                        <img src="{{ asset('uploads/products/' . $image->multiple_image) }}"
-                             class="img-thumbnail thumbnail-image {{ $index === 0 ? 'active' : '' }}"
-                             alt="{{ $product->name }}"
-                             onclick="changeImage('{{ asset('uploads/products/' . $image->multiple_image) }}')"
-                             style="cursor: pointer; height: 80px; width: 100%; object-fit: cover; border: 2px solid #ddd;">
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-            @endif
-        </div>
-        <div class="col-md-8">
-            <h2>{{ $product->name }}</h2>
-            <div class="product-price">
-                @if($product->discount_percentage > 0)
-                    <span class="new-price"><b>Tk {{ number_format($product->sale_price) }}</b></span>
-                    <del class="old-price">Tk {{ number_format($product->regular_price) }}</del>
-                    <span class="discount">({{ $product->discount_percentage }}% off)</span>
-                @else
-                    <span class="price"><b>Tk {{ number_format($product->sale_price) }}</b></span>
-                @endif
-            </div>
-            <div class="mt-3">
-                <p>{!! $product->description !!}</p>
-            </div>
-            <div class="mt-4">
-                <button class="btn btn-primary btn-lg" onclick="addToCart({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})">
-                    Add to Cart
-                </button>
-                <button class="btn btn-success btn-lg" wire:click="orderNow({{ $product->id }})">
-                    Buy Now
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Related Products Section -->
-    <div class="row mt-5">
-        <div class="col-12">
-            <h4>Related Products</h4>
-            <div class="row g-3">
-                @php
-                    $relatedProducts = \App\Models\Product::where('category_id', $product->category_id)
-                        ->where('id', '!=', $product->id)
-                        ->where('is_active', 1)
-                        ->where('is_stock', 1)
-                        ->limit(4)
-                        ->get();
-                @endphp
-                @foreach($relatedProducts as $relatedProduct)
-                <div class="col-md-3 col-6">
-                    <div class="product-card shadow-sm rounded h-100">
-                        <div class="product-media position-relative">
-                            <a href="{{ route('product.details', $relatedProduct->id) }}">
-                                @if($relatedProduct->productImages->first())
-                                    <img loading="lazy" src="{{ asset('uploads/products/' . $relatedProduct->productImages->first()->multiple_image) }}" alt="{{ $relatedProduct->name }}" class="img-fluid" style="height: 200px; width: 100%; object-fit: cover;">
-                                @else
-                                    <img loading="lazy" src="https://via.placeholder.com/200x200.png?text=No+Image" alt="{{ $relatedProduct->name }}" class="img-fluid" style="height: 200px; width: 100%; object-fit: cover;">
-                                @endif
-                            </a>
-                            @if($relatedProduct->discount_percentage > 0)
-                                <div class="badge bg-danger position-absolute" style="top: 10px; right: 10px;"><span class="red">-{{ $relatedProduct->discount_percentage }}%</span></div>
-                            @endif
-                        </div>
-                        <div class="product-content p-2">
-                            <h6 class="product-name mb-1">
-                                <a href="{{ route('product.details', $relatedProduct->id) }}" class="text-decoration-none">{{ substr($relatedProduct->name, 0, 30) }}{{ strlen($relatedProduct->name) > 30 ? '...' : '' }}</a>
-                            </h6>
-                            <h6 class="product-price mb-0">
-                                @if($relatedProduct->discount_percentage > 0)
-                                    <span class="new-price fw-bold">Tk {{ number_format($relatedProduct->sale_price) }}</span>
-                                    <del class="old-price small text-muted ms-1">Tk {{ number_format($relatedProduct->regular_price) }}</del>
-                                @else
-                                    <span class="price fw-bold">Tk {{ number_format($relatedProduct->sale_price) }}</span>
-                                @endif
-                            </h6>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-
-                @if($relatedProducts->count() == 0)
-                <div class="col-12">
-                    <p class="text-muted text-center">No related products found.</p>
-                </div>
-                @endif
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-function changeImage(imageSrc) {
-    const mainImage = document.getElementById('mainImage');
-    mainImage.src = imageSrc;
-    mainImage.setAttribute('data-zoom-image', imageSrc);
-
-    // Update active class on thumbnails
-    const thumbnails = document.querySelectorAll('.thumbnail-image');
-    thumbnails.forEach(thumb => thumb.classList.remove('active'));
-    event.target.classList.add('active');
-}
-
-// Simple zoom effect on hover
-document.addEventListener('DOMContentLoaded', function() {
-    const mainImage = document.querySelector('.main-product-image');
-    if (mainImage) {
-        let scale = 1;
-        mainImage.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.1)';
-            this.style.transition = 'transform 0.3s ease';
-        });
-
-        mainImage.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1)';
-        });
-
-        mainImage.addEventListener('mousemove', function(e) {
-            // Simple pan effect
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            const xPercent = x / rect.width;
-            const yPercent = y / rect.height;
-
-            const xOffset = (xPercent - 0.5) * 20;
-            const yOffset = (yPercent - 0.5) * 20;
-
-            this.style.transform = `scale(1.1) translate(${xOffset}px, ${yOffset}px)`;
-        });
-    }
-});
-</script>
-
+@push('forntendstyle')
 <style>
-.thumbnail-image.active {
-    border: 2px solid #007bff !important;
-    opacity: 1;
+.details-preview li {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1/1;
 }
 
-.thumbnail-image {
-    opacity: 0.7;
-    transition: opacity 0.3s, border-color 0.3s;
-    border: 2px solid #ddd;
+.details-preview li img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    aspect-ratio: 1/1;
 }
 
-.thumbnail-image:hover {
-    opacity: 1;
-    border-color: #007bff !important;
+.details-thumb li {
+    aspect-ratio: 1/1;
 }
 
-.main-product-image {
-    transition: transform 0.3s ease;
-    display: block;
-}
-
-.product-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important;
-}
-
-.product-name a {
-    transition: color 0.2s ease;
-}
-
-.product-name a:hover {
-    color: #007bff !important;
-}
-
-@media (max-width: 768px) {
-    .main-product-image {
-        height: 300px !important;
-    }
-
-    .thumbnail-image {
-        height: 60px !important;
-    }
-
-    .product-card .product-media img {
-        height: 150px !important;
-    }
+.details-thumb li img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 </style>
+@endpush
+
+@section('frontend_content')
+    <!-- Product Details Section -->
+    <section class="inner-section mb-5 mt-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="details-gallery">
+                        <ul class="details-preview mb-1" wire:ignore>
+                            @foreach($product->productImages as $image)
+                            <li style="display: grid; place-items: center;">
+                                <img loading="lazy" src="{{ asset('uploads/products/' . $image->multiple_image) }}" alt="{{ $product->name }}">
+                            </li>
+                            @endforeach
+                        </ul>
+                        <ul class="details-thumb mb-1">
+                            @foreach($product->productImages as $image)
+                            <li>
+                                <img loading="lazy" src="{{ asset('uploads/products/' . $image->multiple_image) }}" alt="{{ $product->name }}">
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="details-content">
+                        <h4 class="details-name">{{ $product->name }}</h4>
+
+                        <h3 class="details-price">
+                            @if($product->discount_percentage > 0)
+                                <span class="new-price mr-2 bold"><b>Tk {{ number_format($product->sale_price) }}</b></span>
+                                <del class="old-price">Tk {{ number_format($product->regular_price) }}</del>
+                            @else
+                                <span class="price mr-2 bold"><b>Tk {{ number_format($product->sale_price) }}</b></span>
+                            @endif
+                        </h3>
+
+                        <div class="mb-2">
+                            <!-- Stock status could be added here if available -->
+                        </div>
+                        
+                        <button class="btn-jump btn btn-secondary bg-secondary btn-block w-100 text-white border-0 p-2"
+                            onClick="addToCart({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})"
+                            wire:click="orderNow({{ $product->id }})">
+                            <i class="fas fa-shopping-basket"></i> অর্ডার করুন
+                        </button>
+                        
+                        <button wire:click="addToCart({{ $product->id }})"
+                            onclick="addToCart({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})"
+                            class="btn-block w-100 btn btn-primary bg-primary text-white border-0 p-2 mt-2">
+                            <i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন
+                        </button>
+
+                        <a href="tel:01859084364" class="btn btn-info btn-block w-100 border-0 p-2 mb-2 mt-2">
+                            <i class="fa fa-phone-alt"></i> কল করুন : 01859084364
+                        </a>
+
+                        <div class="mt-2 mb-3">
+                            <table class="table lead">
+                                <tbody>
+                                    <tr>
+                                        <td class="font-weight-bold">কুরিয়ার ডেলিভারি খরচ</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ঢাকায় ডেলিভারি খরচ</td>
+                                        <td>৳ 80</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ঢাকার বাইরের ডেলিভারি খরচ</td>
+                                        <td>৳ 150</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <span style="color: rgb(255, 0, 0);">
+                                বিঃদ্রঃ- ছবি এবং বর্ণনার সাথে পণ্যের মিল থাকা সত্যেও আপনি পণ্য গ্রহন করতে না চাইলে কুরিয়ার চার্জ 150 টাকা কুরিয়ার ডেলিভারি ম্যানকে প্রদান করে পণ্য সাথে সাথে রিটার্ন করবেন। পরে কোন কমপ্লেইন/রিটার্ন গ্রহণযোগ্য নয়!
+                            </span>
+                        </div>
+                        
+                        <div class="details-meta">
+                            <p>Product Code: <span>{{ $product->sku ?? 'N/A' }}</span></p>
+                        </div>
+                        
+                        <div class="details-list-group">
+                            <label class="details-list-title">tags:</label>
+                            <div class="details-tag-list d-inline-block">
+                                @if($product->category)
+                                <a href="{{ route('category.products', $product->category->id) }}">
+                                    <span class="badge bg-success display-1 mr-2">{{ $product->category->name }}</span>
+                                </a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="inner-section mb-5 product-details-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="nav nav-tabs justify-content-start">
+                        <li><a href="#tab-desc" class="tab-link active" data-bs-toggle="tab">পণ্যের বিস্তারিত</a></li>
+                        <li><a href="#tab-spec" class="tab-link" data-bs-toggle="tab">ডেলিভারি এবং রিটার্ন পলিসি</a></li>
+                        <li><a href="#tab-review" class="tab-link" data-bs-toggle="tab">রিভিউ</a></li>
+                    </ul>
+                    <hr class="m-0">
+                    
+                    <div class="tab-content">
+                        <div class="tab-pane fade active show p-3 bg-white" id="tab-desc">
+                            {!! $product->description !!}
+                        </div>
+                        
+                        <div class="tab-pane fade p-3 bg-white" id="tab-spec">
+                            <ul>
+                                <li>আপনার যত প্রশ্ন আছে তা বর্ননার সাথে মিলিয়ে অথবা আমাদের কাছ থেকে জেনে পন্য অর্ডার করুন।</li>
+                                <li>ছবি এবং বর্ণনার সাথে পন্যের মিল থাকলে পণ্য ফেরত নেয়া হবে না ।</li>
+                                <li>তবে আপনি চাইলে আপনার গ্রহন করা পন্যের সম মুল্যের কি বা বেশি মুল্যের পণ্য নিতে পারবেন (যে টাকা বেশি হবে তা প্রদান করতে হবে ) ।</li>
+                                <li>কম মুল্যের পণ্য নেয়া যাবে না ।</li>
+                                <li>পণ্য আনা নেয়ার খরচ আপনাকে দিতে হবে।</li>
+                                <li>যে সকল পন্যে ওয়ারেন্টি আছে তার ওয়ারেন্টি সার্ভিস আমরা প্রদান করবো।তবে কিছু কিছু ক্ষেত্রে পন্যের ব্রান্ড আপনাকে সার্ভিস প্রদান করবে তবে সে ক্ষেত্রে আপনার নিকটস্থ সার্ভিস পয়েন্ট থেকে সার্ভিস নিতে পারবেন।</li>
+                                <li>পণ্য সার্ভিস করতে যাওয়া আসা বা পাঠানো এবং রিটার্ন করার খরজ আপনাকে বহন করতে হবে।</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tab-pane fade p-3 bg-white" id="tab-review">
+                            <!-- Reviews section - can be implemented later -->
+                            <p>রিভিউ সংযুক্ত করা হবে।</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection
+
+@push('forntendscript')
+<script>
+    // Initialize Slick sliders for product gallery
+    $(document).ready(function() {
+        $(".details-thumb").not('.slick-initialized').slick({
+            slidesToShow: 6,
+            slidesToScroll: 1,
+            asNavFor: ".details-preview",
+            dots: !1,
+            arrows: true,
+            infinite: true,
+            autoplay: true,
+            focusOnSelect: !0,
+            responsive: [
+                { breakpoint: 1200, settings: { slidesToShow: 3, slidesToScroll: 1 } },
+                { breakpoint: 992, settings: { slidesToShow: 5, slidesToScroll: 1 } },
+                { breakpoint: 768, settings: { slidesToShow: 4, slidesToScroll: 1 } },
+                {
+                    breakpoint: 576,
+                    settings: { slidesToShow: 5, slidesToScroll: 1},
+                },
+                {
+                    breakpoint: 400,
+                    settings: { slidesToShow: 5, slidesToScroll: 1 },
+                },
+            ],
+        });
+        
+        $(".details-preview").not('.slick-initialized').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: true,
+            infinite: true,
+            autoplay: true,
+            fade: true,
+            asNavFor: ".details-thumb",
+            prevArrow: '<i class="fa fa-arrow-right dandik"></i>',
+            nextArrow: '<i class="fa fa-arrow-left bamdik"></i>',
+            responsive: [
+                {
+                    breakpoint: 576,
+                    settings: { slidesToShow: 1, slidesToScroll: 1, arrows: !0 },
+                },
+            ]
+        });
+
+        Livewire.hook('message.processed', component => {
+            $(".details-thumb").not('.slick-initialized').slick('setPosition');
+            $(".details-preview").not('.slick-initialized').slick('setPosition');
+        });
+    });
+
+    // Track product view
+    $(document).ready(function() {
+        $.ajax({
+            url: "https://barggee.com/api/capi",
+            type: "GET",
+            data: {
+                'track' : "track",
+                'event' : "ViewContent",
+                'current_url' : window.location.href,
+                'data' : {
+                    'content_name': '{{ $product->name }}',
+                    'content_ids': [{{ $product->id }}],
+                    'content_type' : 'product',
+                    'currency' : 'BDT',
+                    'contents':[{
+                        "id": {{ $product->id }},
+                        "title": "{{ $product->name }}",
+                        "item_price": "{{ $product->sale_price }}",
+                        "quantity": 1
+                    }],
+                    'value' : {{ $product->sale_price }},
+                    'num_items': 1,
+                    'event_url' : window.location.href,
+                },
+            },
+            success: (function (data) {
+                fbq('track', 'ViewContent', data, { eventID: data.event_id });
+                console.log('ViewContent server event run successfully');
+            })
+        });
+    });
+</script>
+@endpush
