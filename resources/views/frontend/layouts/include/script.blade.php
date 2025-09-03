@@ -6,81 +6,109 @@
 <script src="https://barggee.com/vendor/livewire/livewire.min.js?id=df3a17f2" data-csrf="8KWLaGDS1qcFRMcDBevjYtQ493Vbq6jf4zLohILO" data-update-uri="/livewire/update" data-navigate-once="true"></script>
 
 <script>
-    function addToCart(id, title, price) {
+    function addToCart(productId, productName, price) {
         // Get current page URL
         var currentUrl = window.location.href;
         
+        // Add to custom shopping cart
         $.ajax({
-            url: "https://barggee.com/api/capi",
-            type: "GET",
+            url: "/cart/add",
+            type: "POST",
             data: {
-                'track': "track",
-                'event': "AddToCart",
-                'current_url': currentUrl,
-                'client_ip_address': "210.87.69.185",
-                'data': {
-                    'content_name': title,
-                    'content_ids': id,
-                    'content_type': 'product',
-                    'currency': 'BDT',
-                    'contents': [{
-                        'id': id,
-                        'title': title,
-                        'item_price': price,
-                        'quantity': 1,
-                    }],
-                    'value': price,
-                    'num_items': 1,
-                    'event_url': currentUrl,
-                },
-                "eventID": "AddToCart.1.1756266966",
-                "event_id": "AddToCart.1756266966",
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                product_id: productId,
+                quantity: 1
             },
-            success: (function(data) {
-                fbq('track', 'AddToCart', data, {
-                    eventID: data.event_id
+            success: function(response) {
+                if (response.success) {
+                    // Update cart count in header
+                    $('.cart-count').text(response.cartCount);
+                    
+                    // Show success message
+                    Swal.fire({
+                        title: 'Added to Cart!',
+                        text: productName + ' has been added to your cart.',
+                        icon: 'success',
+                        timer: 1500,
+                        showConfirmButton: false,
+                    });
+                    
+                    // Track with Facebook Pixel
+                    $.ajax({
+                        url: "https://barggee.com/api/capi",
+                        type: "GET",
+                        data: {
+                            'track': "track",
+                            'event': "AddToCart",
+                            'current_url': currentUrl,
+                            'client_ip_address': "210.87.69.185",
+                            'data': {
+                                'content_name': productName,
+                                'content_ids': productId,
+                                'content_type': 'product',
+                                'currency': 'BDT',
+                                'contents': [{
+                                    'id': productId,
+                                    'title': productName,
+                                    'item_price': price,
+                                    'quantity': 1,
+                                }],
+                                'value': price,
+                                'num_items': 1,
+                                'event_url': currentUrl,
+                            },
+                            "eventID": "AddToCart.1.1756266966",
+                            "event_id": "AddToCart.1756266966",
+                        },
+                        success: (function(data) {
+                            fbq('track', 'AddToCart', data, {
+                                eventID: data.event_id
+                            });
+                            console.log('AddToCart server event run successfully');
+                        })
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'There was an error adding the product to your cart.',
+                    icon: 'error',
+                    timer: 1500,
+                    showConfirmButton: false,
                 });
-                console.log('AddToCart server event run successfully');
-            })
+            }
         });
     }
 
-    function orderNow(id, title, price) {
-        // Get current page URL
-        var currentUrl = window.location.href;
-        
+    function orderNow(productId, productName, price) {
+        // Add to cart and redirect to checkout
         $.ajax({
-            url: "https://barggee.com/api/capi",
-            type: "GET",
+            url: "/cart/add",
+            type: "POST",
             data: {
-                'track': "track",
-                'event': "AddToCart",
-                'current_url': currentUrl,
-                'client_ip_address': "210.87.69.185",
-                'data': {
-                    'content_name': title,
-                    'content_ids': id,
-                    'content_type': 'product',
-                    'currency': 'BDT',
-                    'contents': [{
-                        'id': id,
-                        'title': title,
-                        'item_price': price,
-                        'quantity': 1,
-                    }],
-                    'value': price,
-                    'num_items': 1,
-                    'event_url': currentUrl,
-                },
-                "eventID": "AddToCart.1.1756266966",
-                "event_id": "AddToCart.1756266966",
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                product_id: productId,
+                quantity: 1
             },
-            success: (function(data) {
-                fbq('track', 'AddToCart', data, {
-                    eventID: data.event_id
+            success: function(response) {
+                if (response.success) {
+                    // Update cart count in header
+                    $('.cart-count').text(response.cartCount);
+                    
+                    // Redirect to cart page
+                    window.location.href = "/cart";
+                }
+            },
+            error: function(xhr, status, error) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'There was an error adding the product to your cart.',
+                    icon: 'error',
+                    timer: 1500,
+                    showConfirmButton: false,
                 });
-                console.log('AddToCart server event run successfully');
-            })
+            }
         });
     }
 </script>

@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\RoomController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\AboutController;
 use App\Http\Controllers\Backend\StuffController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\Backend\ModuleController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\WebsiteController;
 use App\Http\Controllers\Trash\StuffTrashController;
 use App\Http\Controllers\Backend\CopyrightController;
+use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Trash\ModuleTrashController;
 use App\Http\Controllers\Backend\AdminLoginController;
 use App\Http\Controllers\Backend\BreadcrumbController;
@@ -90,6 +92,21 @@ Route::get('news/details/{id}', [WebsiteController::class, 'newsDetails'])->name
 Route::get('faqs', [WebsiteController::class, 'faq'])->name('faq.page');
 Route::get('contacts', [WebsiteController::class, 'contact'])->name('contact.page');
 Route::get('product/{id}', [WebsiteController::class, 'productDetails'])->name('product.details');
+
+// Cart routes
+Route::prefix('cart')->name('cart.')->group(function () {
+    Route::get('/', [CartController::class, 'index'])->name('index');
+    Route::post('/add', [CartController::class, 'add'])->name('add');
+    Route::post('/update/{id}', [CartController::class, 'update'])->name('update');
+    Route::delete('/remove/{id}', [CartController::class, 'remove'])->name('remove');
+    Route::delete('/clear', [CartController::class, 'clear'])->name('clear');
+});
+
+// Checkout routes
+Route::prefix('checkout')->name('checkout.')->group(function () {
+    Route::get('/', [CheckoutController::class, 'index'])->name('index');
+    Route::post('/process', [CheckoutController::class, 'process'])->name('process');
+});
 Route::get('category/{id}/products', [WebsiteController::class, 'categoryProducts'])->name('category.products');
 
 Route::get('bookingSuccess/{id}', [WebsiteController::class, 'bookingSuccess'])->name('booking.success');

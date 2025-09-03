@@ -69,14 +69,11 @@
                             <!-- Stock status could be added here if available -->
                         </div>
 
-                        <button class="btn-jump btn btn-secondary bg-secondary btn-block w-100 text-white border-0 p-2"
-                            onClick="addToCart({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})"
-                            wire:click="orderNow({{ $product->id }})">
+                        <button class="btn-jump btn btn-secondary bg-secondary btn-block w-100  text-white border-0 p-2"
+                            onClick="addToCart({{ $product->id }}, '{{ $product->name }}', {{ $product->sale_price }})">
                             <i class="fas fa-shopping-basket"></i> অর্ডার করুন
                         </button>
-
-                        <button wire:click="addToCart({{ $product->id }})"
-                            onclick="addToCart({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})"
+                        <button onclick="addToCart({{ $product->id }}, '{{ $product->name }}', {{ $product->sale_price }})"
                             class="btn-block w-100 btn btn-primary bg-primary text-white border-0 p-2 mt-2">
                             <i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন
                         </button>
