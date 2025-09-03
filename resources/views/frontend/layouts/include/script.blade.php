@@ -33,40 +33,17 @@
                         showConfirmButton: false,
                     });
                     
-                    // Track with Facebook Pixel
-                    $.ajax({
-                        url: "https://barggee.com/api/capi",
-                        type: "GET",
-                        data: {
-                            'track': "track",
-                            'event': "AddToCart",
-                            'current_url': currentUrl,
-                            'client_ip_address': "210.87.69.185",
-                            'data': {
-                                'content_name': productName,
-                                'content_ids': productId,
-                                'content_type': 'product',
-                                'currency': 'BDT',
-                                'contents': [{
-                                    'id': productId,
-                                    'title': productName,
-                                    'item_price': price,
-                                    'quantity': 1,
-                                }],
-                                'value': price,
-                                'num_items': 1,
-                                'event_url': currentUrl,
-                            },
-                            "eventID": "AddToCart.1.1756266966",
-                            "event_id": "AddToCart.1756266966",
-                        },
-                        success: (function(data) {
-                            fbq('track', 'AddToCart', data, {
-                                eventID: data.event_id
-                            });
-                            console.log('AddToCart server event run successfully');
-                        })
-                    });
+                    // Track with Facebook Pixel (removed external API call)
+                    if (typeof fbq !== 'undefined') {
+                        fbq('track', 'AddToCart', {
+                            content_name: productName,
+                            content_ids: productId,
+                            content_type: 'product',
+                            currency: 'BDT',
+                            value: price
+                        });
+                    }
+                    console.log('AddToCart event tracked locally');
                 }
             },
             error: function(xhr, status, error) {
@@ -111,6 +88,24 @@
             }
         });
     }
+    
+    // Function to update cart count on page load
+    function updateCartCount() {
+        $.ajax({
+            url: "/cart/add",
+            type: "GET",
+            success: function(response) {
+                if (response.success && response.cartCount !== undefined) {
+                    $('.cart-count').text(response.cartCount);
+                }
+            }
+        });
+    }
+    
+    // Update cart count when page loads
+    $(document).ready(function() {
+        updateCartCount();
+    });
 </script>
 <!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>

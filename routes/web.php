@@ -96,7 +96,7 @@ Route::get('product/{id}', [WebsiteController::class, 'productDetails'])->name('
 // Cart routes
 Route::prefix('cart')->name('cart.')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('index');
-    Route::post('/add', [CartController::class, 'add'])->name('add');
+    Route::match(['get', 'post'], '/add', [CartController::class, 'add'])->name('add');
     Route::post('/update/{id}', [CartController::class, 'update'])->name('update');
     Route::delete('/remove/{id}', [CartController::class, 'remove'])->name('remove');
     Route::delete('/clear', [CartController::class, 'clear'])->name('clear');

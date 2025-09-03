@@ -70,10 +70,10 @@
                         </div>
 
                         <button class="btn-jump btn btn-secondary bg-secondary btn-block w-100  text-white border-0 p-2"
-                            onClick="addToCart({{ $product->id }}, '{{ $product->name }}', {{ $product->sale_price }})">
+                            onClick="addToCart({{ $product->id }}, '{{ addslashes($product->name) }}', {{ $product->sale_price }})">
                             <i class="fas fa-shopping-basket"></i> অর্ডার করুন
                         </button>
-                        <button onclick="addToCart({{ $product->id }}, '{{ $product->name }}', {{ $product->sale_price }})"
+                        <button onclick="addToCart({{ $product->id }}, '{{ addslashes($product->name) }}', {{ $product->sale_price }})"
                             class="btn-block w-100 btn btn-primary bg-primary text-white border-0 p-2 mt-2">
                             <i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন
                         </button>
@@ -217,34 +217,8 @@
 
     // Track product view
     $(document).ready(function() {
-        $.ajax({
-            url: "https://barggee.com/api/capi",
-            type: "GET",
-            data: {
-                'track' : "track",
-                'event' : "ViewContent",
-                'current_url' : window.location.href,
-                'data' : {
-                    'content_name': '{{ $product->name }}',
-                    'content_ids': [{{ $product->id }}],
-                    'content_type' : 'product',
-                    'currency' : 'BDT',
-                    'contents':[{
-                        "id": {{ $product->id }},
-                        "title": "{{ $product->name }}",
-                        "item_price": "{{ $product->sale_price }}",
-                        "quantity": 1
-                    }],
-                    'value' : {{ $product->sale_price }},
-                    'num_items': 1,
-                    'event_url' : window.location.href,
-                },
-            },
-            success: (function (data) {
-                fbq('track', 'ViewContent', data, { eventID: data.event_id });
-                console.log('ViewContent server event run successfully');
-            })
-        });
+        // Removed external tracking API calls
+        console.log('Product view tracked locally');
     });
 </script>
 @endpush

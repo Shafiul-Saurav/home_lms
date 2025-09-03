@@ -8,9 +8,9 @@
                 </button>
                 <a href="{{ url('/') }}"><img loading="lazy" src="{{ asset($logo_fav->logo??'uploads/logos/default.png') }}" alt="{{ $logo_fav->web_name ?? 'Online Shopping In Bangladesh With Home Delivery' }}"></a>
                 <button class="header-src">
-                    <a href="https://barggee.com/checkout" class="header-widget header-cart" title="Cartlist">
+                    <a href="{{ route('cart.index') }}" class="header-widget header-cart" title="Cartlist">
                         <i class="fas fa-shopping-basket"></i>
-                        <sup>0</sup>
+                        <sup class="cart-count">0</sup>
                     </a>
                 </button>
             </div>
@@ -23,9 +23,9 @@
             <div class="header-widget-group">
                 <div wire:snapshot="{&quot;data&quot;:[],&quot;memo&quot;:{&quot;id&quot;:&quot;Iddx3ze2rX7NQtpdlG3c&quot;,&quot;name&quot;:&quot;cart-count&quot;,&quot;path&quot;:&quot;\/&quot;,&quot;method&quot;:&quot;GET&quot;,&quot;children&quot;:[],&quot;scripts&quot;:[],&quot;assets&quot;:[],&quot;errors&quot;:[],&quot;locale&quot;:&quot;en&quot;},&quot;checksum&quot;:&quot;51347b9c76deebb4e60edc552a12e5422db7f401d4c3fc3b21c50acbe602fd63&quot;}"
                     wire:effects="{&quot;listeners&quot;:[&quot;CartCount&quot;]}" wire:id="Iddx3ze2rX7NQtpdlG3c">
-                    <a href="https://barggee.com/checkout" class="header-widget header-cart" title="Cartlist">
+                    <a href="{{ route('cart.index') }}" class="header-widget header-cart" title="Cartlist">
                         <i class="fas fa-shopping-basket"></i>
-                        <sup>0</sup>
+                        <sup class="cart-count">0</sup>
                         <span>
                             total price
                             <small>0 TK</small>

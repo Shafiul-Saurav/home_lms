@@ -2,18 +2,13 @@
 
 namespace App\Services;
 
-use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class CartService
 {
-    protected $sessionId;
-
-    public function __construct()
-    {
-        $this->sessionId = Session::getId();
-    }
+    private $sessionKey = 'cart_items';
 
     /**
      * Add product to cart
@@ -22,27 +17,36 @@ class CartService
     {
         $product = Product::findOrFail($productId);
         
+        // Get current cart items
+        $cartItems = $this->getCart();
+        
         // Check if product already in cart
-        $cartItem = Cart::where('session_id', $this->sessionId)
-                        ->where('product_id', $productId)
-                        ->first();
+        $existingItemKey = null;
+        foreach ($cartItems as $key => $item) {
+            if ($item['product_id'] == $productId) {
+                $existingItemKey = $key;
+                break;
+            }
+        }
 
-        if ($cartItem) {
+        if ($existingItemKey !== null) {
             // Update quantity
-            $cartItem->quantity += $quantity;
-            $cartItem->save();
+            $cartItems[$existingItemKey]['quantity'] += $quantity;
         } else {
             // Create new cart item
-            Cart::create([
-                'session_id' => $this->sessionId,
+            $cartItems[] = [
+                'id' => Str::uuid()->toString(), // Generate a unique ID for the cart item
                 'product_id' => $productId,
                 'product_name' => $product->name,
                 'price' => $product->sale_price,
                 'quantity' => $quantity
-            ]);
+            ];
         }
 
-        return $this->getCart();
+        // Save cart items to session
+        Session::put($this->sessionKey, $cartItems);
+
+        return $cartItems;
     }
 
     /**
@@ -50,11 +54,20 @@ class CartService
      */
     public function remove($cartId)
     {
-        Cart::where('session_id', $this->sessionId)
-            ->where('id', $cartId)
-            ->delete();
+        $cartItems = $this->getCart();
+        
+        // Filter out the item with the given ID
+        $cartItems = array_filter($cartItems, function($item) use ($cartId) {
+            return $item['id'] != $cartId;
+        });
+        
+        // Re-index array
+        $cartItems = array_values($cartItems);
 
-        return $this->getCart();
+        // Save cart items to session
+        Session::put($this->sessionKey, $cartItems);
+
+        return $cartItems;
     }
 
     /**
@@ -66,11 +79,20 @@ class CartService
             return $this->remove($cartId);
         }
 
-        Cart::where('session_id', $this->sessionId)
-            ->where('id', $cartId)
-            ->update(['quantity' => $quantity]);
+        $cartItems = $this->getCart();
+        
+        // Find and update the item with the given ID
+        foreach ($cartItems as &$item) {
+            if ($item['id'] == $cartId) {
+                $item['quantity'] = $quantity;
+                break;
+            }
+        }
 
-        return $this->getCart();
+        // Save cart items to session
+        Session::put($this->sessionKey, $cartItems);
+
+        return $cartItems;
     }
 
     /**
@@ -78,9 +100,7 @@ class CartService
      */
     public function getCart()
     {
-        return Cart::where('session_id', $this->sessionId)
-                   ->with('product.productImages')
-                   ->get();
+        return Session::get($this->sessionKey, []);
     }
 
     /**
@@ -92,7 +112,7 @@ class CartService
         $total = 0;
 
         foreach ($cartItems as $item) {
-            $total += $item->price * $item->quantity;
+            $total += $item['price'] * $item['quantity'];
         }
 
         return $total;
@@ -103,7 +123,14 @@ class CartService
      */
     public function getCount()
     {
-        return Cart::where('session_id', $this->sessionId)->sum('quantity');
+        $cartItems = $this->getCart();
+        $count = 0;
+
+        foreach ($cartItems as $item) {
+            $count += $item['quantity'];
+        }
+
+        return $count;
     }
 
     /**
@@ -111,6 +138,6 @@ class CartService
      */
     public function clear()
     {
-        Cart::where('session_id', $this->sessionId)->delete();
+        Session::forget($this->sessionKey);
     }
 }

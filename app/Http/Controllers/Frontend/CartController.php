@@ -25,6 +25,9 @@ class CartController extends Controller
         $cartTotal = $this->cartService->getTotal();
         $cartCount = $this->cartService->getCount();
 
+        // Convert array to collection for compatibility with the view
+        $cartItems = collect($cartItems);
+
         return view('frontend.pages.cart.index', compact('cartItems', 'cartTotal', 'cartCount'));
     }
 
@@ -33,6 +36,16 @@ class CartController extends Controller
      */
     public function add(Request $request)
     {
+        // If it's a GET request, just return the cart count
+        if ($request->isMethod('get')) {
+            $cartCount = $this->cartService->getCount();
+
+            return response()->json([
+                'success' => true,
+                'cartCount' => $cartCount
+            ]);
+        }
+
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1'
@@ -44,6 +57,19 @@ class CartController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Product added to cart successfully!',
+            'cartCount' => $cartCount
+        ]);
+    }
+
+    /**
+     * Get cart count
+     */
+    public function getCartCount()
+    {
+        $cartCount = $this->cartService->getCount();
+
+        return response()->json([
+            'success' => true,
             'cartCount' => $cartCount
         ]);
     }
@@ -98,4 +124,6 @@ class CartController extends Controller
             'message' => 'Cart cleared successfully!'
         ]);
     }
+
+
 }

@@ -22,16 +22,19 @@
                 </div>
                 <div class="card-body">
                     @foreach($cartItems as $item)
-                    <div class="row mb-4 pb-4 border-bottom" data-cart-id="{{ $item->id }}">
+                    <div class="row mb-4 pb-4 border-bottom" data-cart-id="{{ $item['id'] }}">
                         <div class="col-md-3">
-                            @if($item->product && $item->product->productImages->first())
-                                <img src="{{ asset('uploads/products/' . $item->product->productImages->first()->multiple_image) }}" 
-                                     alt="{{ $item->product_name }}" 
+                            @php
+                                $product = \App\Models\Product::find($item['product_id']);
+                            @endphp
+                            @if($product && $product->productImages->first())
+                                <img src="{{ asset('uploads/products/' . $product->productImages->first()->multiple_image) }}" 
+                                     alt="{{ $item['product_name'] }}" 
                                      class="img-fluid rounded" 
                                      style="height: 120px; width: 100%; object-fit: cover;">
                             @else
                                 <img src="https://via.placeholder.com/150x150.png?text=No+Image" 
-                                     alt="{{ $item->product_name }}" 
+                                     alt="{{ $item['product_name'] }}" 
                                      class="img-fluid rounded" 
                                      style="height: 120px; width: 100%; object-fit: cover;">
                             @endif
@@ -39,11 +42,11 @@
                         <div class="col-md-9">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <h5 class="mb-1">{{ $item->product_name }}</h5>
-                                    <p class="mb-2 text-muted">Price: Tk {{ number_format($item->price) }}</p>
+                                    <h5 class="mb-1">{{ $item['product_name'] }}</h5>
+                                    <p class="mb-2 text-muted">Price: Tk {{ number_format($item['price']) }}</p>
                                 </div>
                                 <div>
-                                    <button class="btn btn-sm btn-outline-danger remove-item" data-id="{{ $item->id }}">
+                                    <button class="btn btn-sm btn-outline-danger remove-item" data-id="{{ $item['id'] }}">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
@@ -51,15 +54,15 @@
                             
                             <div class="d-flex align-items-center mt-3">
                                 <div class="input-group" style="width: 150px;">
-                                    <button class="btn btn-outline-secondary decrement" type="button" data-id="{{ $item->id }}">-</button>
+                                    <button class="btn btn-outline-secondary decrement" type="button" data-id="{{ $item['id'] }}">-</button>
                                     <input type="text" class="form-control text-center quantity-input" 
-                                           value="{{ $item->quantity }}" 
-                                           data-id="{{ $item->id }}" 
+                                           value="{{ $item['quantity'] }}" 
+                                           data-id="{{ $item['id'] }}" 
                                            style="max-width: 60px;">
-                                    <button class="btn btn-outline-secondary increment" type="button" data-id="{{ $item->id }}">+</button>
+                                    <button class="btn btn-outline-secondary increment" type="button" data-id="{{ $item['id'] }}">+</button>
                                 </div>
                                 <div class="ms-4">
-                                    <strong>Total: Tk <span class="item-total">{{ number_format($item->price * $item->quantity) }}</span></strong>
+                                    <strong>Total: Tk <span class="item-total">{{ number_format($item['price'] * $item['quantity']) }}</span></strong>
                                 </div>
                             </div>
                         </div>
