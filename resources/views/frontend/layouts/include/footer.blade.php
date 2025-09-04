@@ -3,9 +3,9 @@
         <div class="row">
             <div class="col-sm-6 col-xl-3">
                 <div class="footer-widget">
-                    <a class="footer-logo" href="{{ url('/') }}"><img loading="lazy" src="{{ asset($logo_fav->logo??'uploads/logos/default.png') }}" alt="logo" class="w-50"></a>
+                    <a class="footer-logo" href="{{ route('home') }}"><img loading="lazy" src="{{ asset($logo_fav->logo?? null) }}" alt="logo" class="w-50"></a>
                     <p class="footer-desc">
-                        {{ $logo_fav->web_name ?? 'barggee.com' }} | Online Shopping In Bangladesh With Home Delivery
+                        {{ $logo_fav->web_name ?? null }} | Online Shopping In Bangladesh With Home Delivery
                     </p>
                 </div>
             </div>
@@ -16,18 +16,18 @@
                         <li>
                             <i class="fas fa-envelope"></i>
                             <p>
-                                <span>{{ $website_link->email ?? 'barggeee@gmail.com' }}</span>
+                                <span>{{ $website_link->email ?? null }}</span>
                             </p>
                         </li>
                         <li>
                             <i class="fas fa-phone"></i>
                             <p>
-                                <span>{{ $website_link->number ?? '01859084364' }}</span>
+                                <span>{{ $website_link->number ?? null }}</span>
                             </p>
                         </li>
                         <li>
                             <i class="fas fa-map"></i>
-                            <p><span>{{ $website_link->address ?? '01859084364' }}</span></p>
+                            <p><span>{{ $website_link->address ?? null }}</span></p>
                         </li>
                     </ul>
                 </div>

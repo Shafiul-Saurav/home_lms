@@ -18,58 +18,13 @@
     <meta property="og:description" content="Online Shopping In Bangladesh With Home Delivery" />
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset($logo_fav->favicon??'uploads/favicons/default.png') }}"/>
     <link rel="apple-touch-icon" href="{{ asset($logo_fav->favicon??'uploads/favicons/default.png') }}" />
-    
+
     <!-- Styles -->
     @include('frontend.layouts.include.style')
-    
+
     <!-- Livewire Styles -->
     @livewireStyles
-    
-    <style>
-        [wire\:loading][wire\:loading],
-        [wire\:loading\.delay][wire\:loading\.delay],
-        [wire\:loading\.inline-block][wire\:loading\.inline-block],
-        [wire\:loading\.inline][wire\:loading\.inline],
-        [wire\:loading\.block][wire\:loading\.block],
-        [wire\:loading\.flex][wire\:loading\.flex],
-        [wire\:loading\.table][wire\:loading\.table],
-        [wire\:loading\.grid][wire\:loading\.grid],
-        [wire\:loading\.inline-flex][wire\:loading\.inline-flex] {
-            display: none;
-        }
 
-        [wire\:loading\.delay\.none][wire\:loading\.delay\.none],
-        [wire\:loading\.delay\.shortest][wire\:loading\.delay\.shortest],
-        [wire\:loading\.delay\.shorter][wire\:loading\.delay\.shorter],
-        [wire\:loading\.delay\.short][wire\:loading\.delay\.short],
-        [wire\:loading\.delay\.default][wire\:loading\.delay\.default],
-        [wire\:loading\.delay\.long][wire\:loading\.delay\.long],
-        [wire\:loading\.delay\.longer][wire\:loading\.delay\.longer],
-        [wire\:loading\.delay\.longest][wire\:loading\.delay\.longest] {
-            display: none;
-        }
-
-        [wire\:offline][wire\:offline] {
-            display: none;
-        }
-
-        [wire\:dirty]:not(textarea):not(input):not(select) {
-            display: none;
-        }
-
-        :root {
-            --livewire-progress-bar-color: #2299dd;
-        }
-
-        [x-cloak] {
-            display: none !important;
-        }
-
-        [wire\:cloak] {
-            display: none !important;
-        }
-    </style>
-    
     <style>
         :root {
             --primary: #684EFF;
@@ -97,7 +52,7 @@
             }
         }
     </style>
-    
+
     <script>
         ! function(f, b, e, v, n, t, s) {
             if (f.fbq) return;
@@ -121,7 +76,7 @@
     </script>
     <noscript><img height='1' width='1' style='display:none'
             src='https://www.facebook.com/tr?id=481472354618096&ev=PageView&noscript=1' /></noscript>
-            
+
     <style>
         /* First-level dropdown */
         .navbar-list li {
@@ -187,17 +142,17 @@
     <div class="shadow-lg">
         <!-- Header -->
         @include('frontend.layouts.include.header')
-        
+
         <!-- Navigation -->
         @include('frontend.layouts.include.navbar')
     </div>
-    
+
     <!-- Mobile Sidebar -->
     @include('frontend.layouts.include.sidebar')
-    
+
     <!-- Main Content -->
     @yield('frontend_content')
-    
+
     <!-- Intro Section -->
     <section class="intro-part  d-none d-lg-block">
         <div class="container">
@@ -249,15 +204,15 @@
             </div>
         </div>
     </section>
-    
+
     <!-- Footer -->
     @include('frontend.layouts.include.footer')
-    
+
     <!-- Scripts -->
     @include('frontend.layouts.include.script')
-    
+
     @livewireScripts
-    
+
     <script>
         window.addEventListener('swal:modal', event => {
             Swal.fire({

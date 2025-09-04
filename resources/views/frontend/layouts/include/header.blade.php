@@ -6,7 +6,7 @@
                 <button class="header-user">
                     <i class="fas fa-bars"></i>
                 </button>
-                <a href="{{ url('/') }}"><img loading="lazy" src="{{ asset($logo_fav->logo??'uploads/logos/default.png') }}" alt="{{ $logo_fav->web_name ?? 'Online Shopping In Bangladesh With Home Delivery' }}"></a>
+                <a href="{{ route('home') }}"><img loading="lazy" src="{{ asset($logo_fav->logo??'uploads/logos/default.png') }}" alt="{{ $logo_fav->web_name ?? 'Online Shopping In Bangladesh With Home Delivery' }}"></a>
                 <button class="header-src">
                     <a href="{{ route('cart.index') }}" class="header-widget header-cart" title="Cartlist">
                         <i class="fas fa-shopping-basket"></i>
@@ -14,8 +14,8 @@
                     </a>
                 </button>
             </div>
-            <a class="header-logo" href="{{ url('/') }}"><img loading="lazy" src="{{ asset($logo_fav->logo??'uploads/logos/default.png') }}" alt="{{ $logo_fav->web_name ?? 'Online Shopping In Bangladesh With Home Delivery' }}"></a>
-            <form class="header-form active" action="https://barggee.com/search">
+            <a class="header-logo" href="{{ route('home') }}"><img loading="lazy" src="{{ asset($logo_fav->logo??'uploads/logos/default.png') }}" alt="{{ $logo_fav->web_name ?? 'Online Shopping In Bangladesh With Home Delivery' }}"></a>
+            <form class="header-form active" action="">
                 <input type="text" placeholder="Search anything..." name="q" id="search" /><button>
                     <i class="fas fa-search"></i>
                 </button>
