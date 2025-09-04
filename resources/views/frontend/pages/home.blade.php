@@ -7,13 +7,11 @@
     wire:effects="[]" wire:id="ZzlUJZyBnfHurO1heCrL">
     <div class="container mt-1 mb-4 slider-full-width">
         <section class="home-index-slider slider-arrow slider-dots">
-            <!--[if BLOCK]><![endif]--><a href="https://barggee.com/product-category/home-and-living"><img class="w-100 rounded-lg" loading="lazy" src="https://invoicingbd.com/uploads/1c05f672-b9b0-4839-838c-fecb72237370/94/67b6232aaaf65_kitchen-utensils-herbs-jars-clean-countertop-perfect-cooking-culinary-arts-home-decor_963414-34892---Copy.jpg"></a>
+            <!--[if BLOCK]><![endif]--><a href=""><img class="w-100 rounded-lg" loading="lazy" src=""></a>
             <!--[if ENDBLOCK]><![endif]-->
         </section>
     </div>
-    <!--[if BLOCK]><![endif]-->
-    <!--[if ENDBLOCK]><![endif]-->
-    <!--[if BLOCK]><![endif]-->
+
     <section class="section newitem-part mb-1" wire:loading.class>
         <div class="container mb-3">
             <div class="row">
@@ -35,7 +33,7 @@
                                         @if($product->productImages->first())
                                             <img loading="lazy" src="{{ asset('uploads/products/' . $product->productImages->first()->multiple_image) }}" alt="{{ $product->name }}" />
                                         @else
-                                            <img loading="lazy" src="https://via.placeholder.com/300x300.png?text=No+Image" alt="{{ $product->name }}" />
+                                            <img loading="lazy" src="" alt="{{ $product->name }}" />
                                         @endif
                                     </a>
                                     @if($product->discount_percentage > 0)
@@ -47,7 +45,7 @@
                                         <a href="{{ route('product.details', $product->id) }}">{{ $product->name }}</a>
                                     </h6>
                                     <h6 class="product-price">
-                                        <span class="new-price mr-2 bold"><b>  Tk {{ number_format($product->sale_price) }}</b></span> 
+                                        <span class="new-price mr-2 bold"><b>  Tk {{ number_format($product->sale_price) }}</b></span>
                                         @if($product->discount_percentage > 0)
                                             <del class="old-price"> Tk {{ number_format($product->regular_price) }}</del>
                                         @endif
@@ -86,7 +84,7 @@
                                 @if($product->productImages->first())
                                     <img loading="lazy" src="{{ asset('uploads/products/' . $product->productImages->first()->multiple_image) }}" alt="{{ $product->name }}" />
                                 @else
-                                    <img loading="lazy" src="https://via.placeholder.com/300x300.png?text=No+Image" alt="{{ $product->name }}" />
+                                    <img loading="lazy" src="" alt="{{ $product->name }}" />
                                 @endif
                             </a>
                             @if($product->discount_percentage > 0)
@@ -98,7 +96,7 @@
                                 <a href="{{ route('product.details', $product->id) }}">{{ $product->name }}</a>
                             </h6>
                             <h6 class="product-price">
-                                <span class="new-price mr-2 bold"><b>  Tk {{ number_format($product->sale_price) }}</b></span> 
+                                <span class="new-price mr-2 bold"><b>  Tk {{ number_format($product->sale_price) }}</b></span>
                                 @if($product->discount_percentage > 0)
                                     <del class="old-price"> Tk {{ number_format($product->regular_price) }}</del>
                                 @endif

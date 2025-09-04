@@ -122,22 +122,11 @@
     @endif
 </div>
 
-<style>
-.quantity-input::-webkit-outer-spin-button,
-.quantity-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.quantity-input[type=number] {
-    -moz-appearance: textfield;
-}
-</style>
-
+@push('frontendscript')
 <script>
 $(document).ready(function() {
     // Update quantity
-    $('.increment, .decrement').on('click', function() {
+    $(document).on('click', '.increment, .decrement', function() {
         var itemId = $(this).data('id');
         var input = $('.quantity-input[data-id="' + itemId + '"]');
         var currentValue = parseInt(input.val());
@@ -149,7 +138,7 @@ $(document).ready(function() {
     });
     
     // Manual input change
-    $('.quantity-input').on('change', function() {
+    $(document).on('change', '.quantity-input', function() {
         var itemId = $(this).data('id');
         var newValue = parseInt($(this).val());
         
@@ -161,13 +150,13 @@ $(document).ready(function() {
     });
     
     // Remove item
-    $('.remove-item').on('click', function() {
+    $(document).on('click', '.remove-item', function() {
         var itemId = $(this).data('id');
         removeItem(itemId);
     });
     
     // Clear cart
-    $('#clear-cart').on('click', function() {
+    $(document).on('click', '#clear-cart', function() {
         if (confirm('Are you sure you want to clear your cart?')) {
             clearCart();
         }
@@ -223,9 +212,10 @@ $(document).ready(function() {
     function removeItem(itemId) {
         $.ajax({
             url: '/cart/remove/' + itemId,
-            method: 'DELETE',
+            method: 'POST',
             data: {
-                _token: $('meta[name="csrf-token"]').attr('content')
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                _method: 'DELETE'
             },
             success: function(response) {
                 if (response.success) {
@@ -272,9 +262,10 @@ $(document).ready(function() {
     function clearCart() {
         $.ajax({
             url: '/cart/clear',
-            method: 'DELETE',
+            method: 'POST',
             data: {
-                _token: $('meta[name="csrf-token"]').attr('content')
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                _method: 'DELETE'
             },
             success: function(response) {
                 if (response.success) {
@@ -303,4 +294,17 @@ $(document).ready(function() {
     }
 });
 </script>
+@endpush
+
+<style>
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity-input[type=number] {
+    -moz-appearance: textfield;
+}
+</style>
 @endsection

@@ -1,9 +1,8 @@
-<script data-pagespeed-no-defer src="https://barggee.com/frontend/vendor/bootstrap/jquery-1.12.4.min.js"></script>
-<script src="https://barggee.com/frontend/vendor/bootstrap/bootstrap.min.js"></script>
-<script src="https://barggee.com/frontend/vendor/slickslider/slick.min.js"></script>
-<script src="https://barggee.com/frontend/js/main.js"></script>
-<script src="https://barggee.com/frontend/js/sweet-alert.min.js"></script>
-<script src="https://barggee.com/vendor/livewire/livewire.min.js?id=df3a17f2" data-csrf="8KWLaGDS1qcFRMcDBevjYtQ493Vbq6jf4zLohILO" data-update-uri="/livewire/update" data-navigate-once="true"></script>
+<script data-pagespeed-no-defer src="{{ asset('assets/frontend/frontend/vendor/bootstrap/jquery-1.12.4.min.js') }}"></script>
+<script src="{{ asset('assets/frontend/frontend/vendor/bootstrap/bootstrap.min.js') }}"></script>
+<script src="{{ asset('assets/frontend/frontend/vendor/slickslider/slick.min.js') }}"></script>
+<script src="{{ asset('assets/frontend/frontend/js/main.js') }}"></script>
+<script src="{{ asset('assets/frontend/frontend/js/sweet-alert.min.js') }}"></script>
 
 <script>
     function addToCart(productId, productName, price) {
@@ -110,4 +109,4 @@
 <!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
-@stack('forntendscript')
+@stack('frontendscript')

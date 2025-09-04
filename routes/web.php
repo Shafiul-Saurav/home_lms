@@ -98,8 +98,8 @@ Route::prefix('cart')->name('cart.')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('index');
     Route::match(['get', 'post'], '/add', [CartController::class, 'add'])->name('add');
     Route::post('/update/{id}', [CartController::class, 'update'])->name('update');
-    Route::delete('/remove/{id}', [CartController::class, 'remove'])->name('remove');
-    Route::delete('/clear', [CartController::class, 'clear'])->name('clear');
+    Route::post('/remove/{id}', [CartController::class, 'remove'])->name('remove');
+    Route::post('/clear', [CartController::class, 'clear'])->name('clear');
 });
 
 // Checkout routes
