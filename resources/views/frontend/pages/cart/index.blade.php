@@ -28,14 +28,14 @@
                                 $product = \App\Models\Product::find($item['product_id']);
                             @endphp
                             @if($product && $product->productImages->first())
-                                <img src="{{ asset('uploads/products/' . $product->productImages->first()->multiple_image) }}" 
-                                     alt="{{ $item['product_name'] }}" 
-                                     class="img-fluid rounded" 
+                                <img src="{{ asset('uploads/products/' . $product->productImages->first()->multiple_image) }}"
+                                     alt="{{ $item['product_name'] }}"
+                                     class="img-fluid rounded"
                                      style="height: 120px; width: 100%; object-fit: cover;">
                             @else
-                                <img src="https://via.placeholder.com/150x150.png?text=No+Image" 
-                                     alt="{{ $item['product_name'] }}" 
-                                     class="img-fluid rounded" 
+                                <img src=""
+                                     alt="{{ $item['product_name'] }}"
+                                     class="img-fluid rounded"
                                      style="height: 120px; width: 100%; object-fit: cover;">
                             @endif
                         </div>
@@ -51,13 +51,13 @@
                                     </button>
                                 </div>
                             </div>
-                            
+
                             <div class="d-flex align-items-center mt-3">
                                 <div class="input-group" style="width: 150px;">
                                     <button class="btn btn-outline-secondary decrement" type="button" data-id="{{ $item['id'] }}">-</button>
-                                    <input type="text" class="form-control text-center quantity-input" 
-                                           value="{{ $item['quantity'] }}" 
-                                           data-id="{{ $item['id'] }}" 
+                                    <input type="text" class="form-control text-center quantity-input"
+                                           value="{{ $item['quantity'] }}"
+                                           data-id="{{ $item['id'] }}"
                                            style="max-width: 60px;">
                                     <button class="btn btn-outline-secondary increment" type="button" data-id="{{ $item['id'] }}">+</button>
                                 </div>
@@ -81,7 +81,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-lg-4">
             <div class="card shadow-sm">
                 <div class="card-header bg-white">
@@ -131,37 +131,37 @@ $(document).ready(function() {
         var input = $('.quantity-input[data-id="' + itemId + '"]');
         var currentValue = parseInt(input.val());
         var newValue = $(this).hasClass('increment') ? currentValue + 1 : currentValue - 1;
-        
+
         if (newValue < 1) newValue = 1;
-        
+
         updateQuantity(itemId, newValue);
     });
-    
+
     // Manual input change
     $(document).on('change', '.quantity-input', function() {
         var itemId = $(this).data('id');
         var newValue = parseInt($(this).val());
-        
+
         if (isNaN(newValue) || newValue < 1) {
             newValue = 1;
         }
-        
+
         updateQuantity(itemId, newValue);
     });
-    
+
     // Remove item
     $(document).on('click', '.remove-item', function() {
         var itemId = $(this).data('id');
         removeItem(itemId);
     });
-    
+
     // Clear cart
     $(document).on('click', '#clear-cart', function() {
         if (confirm('Are you sure you want to clear your cart?')) {
             clearCart();
         }
     });
-    
+
     // Update quantity function
     function updateQuantity(itemId, quantity) {
         $.ajax({
@@ -175,17 +175,17 @@ $(document).ready(function() {
                 if (response.success) {
                     // Update input value
                     $('.quantity-input[data-id="' + itemId + '"]').val(quantity);
-                    
+
                     // Update item total
                     var itemPrice = parseFloat($('.quantity-input[data-id="' + itemId + '"]').closest('.row').find('.text-muted').text().replace('Price: Tk ', '').replace(/,/g, ''));
                     var itemTotal = itemPrice * quantity;
                     $('.quantity-input[data-id="' + itemId + '"]').closest('.row').find('.item-total').text(itemTotal.toLocaleString());
-                    
+
                     // Update cart totals
                     $('#cart-subtotal').text(response.cartTotal.toLocaleString());
                     $('#cart-total').text((response.cartTotal + 80).toLocaleString());
                     $('.cart-count').text(response.cartCount);
-                    
+
                     // Show success message
                     Swal.fire({
                         icon: 'success',
@@ -207,27 +207,26 @@ $(document).ready(function() {
             }
         });
     }
-    
+
     // Remove item function
     function removeItem(itemId) {
         $.ajax({
             url: '/cart/remove/' + itemId,
-            method: 'POST',
+            method: 'DELETE',
             data: {
-                _token: $('meta[name="csrf-token"]').attr('content'),
-                _method: 'DELETE'
+                _token: $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
                 if (response.success) {
                     // Remove item from DOM
                     $('[data-cart-id="' + itemId + '"]').fadeOut(300, function() {
                         $(this).remove();
-                        
+
                         // Update cart totals
                         $('#cart-subtotal').text(response.cartTotal.toLocaleString());
                         $('#cart-total').text((response.cartTotal + 80).toLocaleString());
                         $('.cart-count').text(response.cartCount);
-                        
+
                         // Show success message
                         Swal.fire({
                             icon: 'success',
@@ -236,7 +235,7 @@ $(document).ready(function() {
                             timer: 1500,
                             showConfirmButton: false
                         });
-                        
+
                         // If cart is empty, refresh page
                         if (response.cartCount == 0) {
                             setTimeout(function() {
@@ -257,15 +256,14 @@ $(document).ready(function() {
             }
         });
     }
-    
+
     // Clear cart function
     function clearCart() {
         $.ajax({
             url: '/cart/clear',
-            method: 'POST',
+            method: 'DELETE',
             data: {
-                _token: $('meta[name="csrf-token"]').attr('content'),
-                _method: 'DELETE'
+                _token: $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
                 if (response.success) {

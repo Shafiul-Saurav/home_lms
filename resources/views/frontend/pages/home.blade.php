@@ -50,7 +50,7 @@
                                             <del class="old-price"> Tk {{ number_format($product->regular_price) }}</del>
                                         @endif
                                     </h6>
-                                    <button class="btn btn-block border-0 w-100 p-1" style="background: linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%); border: none; color: white; transition: all 0.3s ease;" onclick="addToCart({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})" wire:click="orderNow({{ $product->id }})" onmouseover="this.style.background='linear-gradient(90deg, #7a25d9 51.99%, #e64a4a 100%)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)';" onmouseout="this.style.background='linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                                    <button class="btn btn-block border-0 w-100 p-1" style="background: linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%); border: none; color: white; transition: all 0.3s ease;" onclick="addToCart({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})" onmouseover="this.style.background='linear-gradient(90deg, #7a25d9 51.99%, #e64a4a 100%)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)';" onmouseout="this.style.background='linear-gradient(90deg, #8E2EF5 51.99%, #FF5A5A 100%)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
                                         অর্ডার করুন
                                     </button>
                                 </div>
