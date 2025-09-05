@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\RoomController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\AboutController;
+use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\StuffController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -107,6 +108,7 @@ Route::prefix('checkout')->name('checkout.')->group(function () {
     Route::get('/', [CheckoutController::class, 'index'])->name('index');
     Route::post('/process', [CheckoutController::class, 'process'])->name('process');
 });
+Route::get('order/confirmation/{order}', [CheckoutController::class, 'confirmation'])->name('order.confirmation');
 Route::get('category/{id}/products', [WebsiteController::class, 'categoryProducts'])->name('category.products');
 
 Route::get('bookingSuccess/{id}', [WebsiteController::class, 'bookingSuccess'])->name('booking.success');
@@ -408,6 +410,9 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::delete('/faqs/forcedelete/{id}', [FaqTrashController::class, 'forceDelete'])
     ->name('faqs.forcedelete');
     Route::resource('faqs', FaqController::class);
+
+    //Order Route
+    Route::resource('orders', OrderController::class);
 
     //Contact Route
     Route::resource('contact', BackendContactController::class);
