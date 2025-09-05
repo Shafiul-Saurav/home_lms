@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Services\CartService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class CheckoutController extends Controller
 {
@@ -29,6 +30,9 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
         }
 
+        // Convert array to collection for compatibility with the view
+        $cartItems = collect($cartItems);
+
         return view('frontend.pages.checkout.index', compact('cartItems', 'cartTotal', 'cartCount'));
     }
 
@@ -38,13 +42,10 @@ class CheckoutController extends Controller
     public function process(Request $request)
     {
         $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'name' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
             'phone' => 'required|string|max:20',
             'address' => 'required|string',
-            'city' => 'required|string|max:255',
-            'zip_code' => 'required|string|max:10',
         ]);
 
         // Here you would process the order
