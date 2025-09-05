@@ -233,7 +233,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" form="checkout-form" class="btn btn-success w-100 btn-lg mt-3">
+                    <button type="submit" form="checkout-form" class="btn btn-success w-100 btn-sm mt-3">
                         <i class="fas fa-lock me-2"></i>Place Order
                     </button>
 
