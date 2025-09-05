@@ -1,6 +1,8 @@
 .btn-outline-primary {
     color: var(--primary) !important;
-    border: 2px dashed var(--secondary) !important
+}
+.btn-outline-primary:hover {
+    background-color: #fff !important;
 }
 
 .btn-check:active+.btn-outline-primary,
@@ -206,7 +208,7 @@
 
 /* Custom navbar hover styles - using higher specificity to override media queries */
 .navbar-content .navbar-list .navbar-item .navbar-link:hover {
-    color: #5A3CE0 !important;
+    color: #fff !important;
 }
 
 a.navbar-link:hover {

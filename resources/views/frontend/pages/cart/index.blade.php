@@ -3,7 +3,396 @@
 @section('title', 'Shopping Cart')
 
 @section('frontend_content')
-<div class="container mt-4">
+<style>
+/* Enhanced cart page styling */
+.cart-page-container {
+    padding: 2rem 0;
+}
+
+.cart-header {
+    margin-bottom: 2rem;
+}
+
+.cart-header h2 {
+    font-weight: 700;
+    color: #333;
+}
+
+.breadcrumb {
+    background: #f8f9fa;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+}
+
+/* Cart table styling */
+.cart-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    overflow: hidden;
+}
+
+.cart-table thead th {
+    background: #f8f9fa;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    text-align: left;
+    color: #333;
+    border-radius: 0;
+}
+
+.cart-table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.cart-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Product image in table */
+.product-image-table {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+}
+
+/* Product info in table */
+.product-info-table h5 {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    font-size: 1rem;
+}
+
+.product-info-table .product-category {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+.product-price-table {
+    font-weight: 500;
+    color: #6c757d;
+    margin-bottom: 0;
+    font-size: 0.9rem;
+}
+
+/* Quantity controls in table */
+.quantity-controls-table {
+    display: flex;
+    width: 100px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.btn-quantity-table {
+    background: linear-gradient(135deg, #00a6ff, #7b2fff);
+    border: 1px solid #dee2e6;
+    color: white;
+    font-weight: bold;
+    padding: 0;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    font-size: 0.75rem;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+}
+
+.btn-quantity-table:hover {
+    background: linear-gradient(135deg, #0095e6, #6a28e6);
+    border-color: #adb5bd;
+    color: white;
+}
+
+.btn-quantity-table:active {
+    transform: scale(0.95);
+}
+
+.btn-decrement-table {
+    border-radius: 0.25rem 0 0 0.25rem;
+}
+
+.btn-increment-table {
+    border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.quantity-input-table {
+    border-left: none;
+    border-right: none;
+    background: #fff;
+    font-weight: 500;
+    padding: 0.25rem;
+    text-align: center;
+    flex: 1;
+    font-size: 0.875rem;
+    width: 40px;
+    height: 30px;
+    min-width: 40px;
+    min-height: 30px;
+}
+
+/* Remove item button in table */
+.remove-item-table {
+    transition: all 0.2s ease-in-out;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: #dc3545;
+    font-size: 1.2rem;
+    min-width: 30px;
+    min-height: 30px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.remove-item-table:hover {
+    transform: scale(1.1);
+    color: #a71d2a;
+}
+
+.remove-item-table i {
+    font-size: 1.2rem;
+}
+
+/* Item total in table */
+.item-total-table {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Card enhancements */
+.card {
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+.card-header {
+    background: #f8f9fa;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-weight: 600;
+    padding: 1rem 1.5rem;
+    color: #333;
+}
+
+.card-header h5 {
+    color: #333;
+}
+
+/* Continue Shopping and Clear Cart buttons */
+.btn-outline-primary, .btn-outline-danger {
+    border-radius: 0.5rem;
+    font-weight: 500;
+    padding: 0.5rem 1.25rem;
+    transition: all 0.2s ease-in-out;
+    border-width: 2px;
+    font-size: 0.9rem;
+}
+
+.btn-outline-primary:hover {
+    background: #0d6efd;
+    border-color: #0d6efd;
+    color: white;
+}
+
+.btn-outline-danger:hover {
+    background: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+/* Checkout button */
+.btn-success {
+    border-radius: 0.5rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 0.25rem 0.5rem rgba(25, 135, 84, 0.2);
+    border: none;
+    font-size: 0.9rem;
+    background: linear-gradient(135deg, #00a6ff, #7b2fff);
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #0095e6, #6a28e6);
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 166, 255, 0.3);
+    color: white;
+}
+
+/* Order summary */
+.order-summary .card-body {
+    padding: 1.25rem;
+}
+
+.order-summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+}
+
+.order-summary-divider {
+    margin: 0.75rem 0;
+}
+
+.order-total {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+/* Empty cart styling */
+.empty-cart {
+    background: #f8f9fa;
+    border-radius: 0.75rem;
+    margin-top: 2rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+.empty-cart i {
+    font-size: 3rem;
+    color: #ced4da;
+    margin-bottom: 1rem;
+}
+
+.empty-cart h3 {
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    font-size: 1.5rem;
+}
+
+.empty-cart p {
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+.btn-start-shopping {
+    border-radius: 0.5rem;
+    font-weight: 500;
+    padding: 0.5rem 1.25rem;
+    transition: all 0.2s ease-in-out;
+    font-size: 0.9rem;
+    background: linear-gradient(135deg, #00a6ff, #7b2fff);
+    border: none;
+    color: white;
+}
+
+.btn-start-shopping:hover {
+    background: linear-gradient(135deg, #0095e6, #6a28e6);
+    transform: translateY(-2px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 166, 255, 0.3);
+    color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .cart-table thead {
+        display: none;
+    }
+    
+    .cart-table, .cart-table tbody, .cart-table tr, .cart-table td {
+        display: block;
+    }
+    
+    .cart-table tr {
+        margin-bottom: 1rem;
+        border-radius: 0.75rem;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        padding: 0.75rem;
+        background: #fff;
+    }
+    
+    .cart-table tbody tr:last-child {
+        margin-bottom: 0;
+    }
+    
+    .cart-table td {
+        padding: 0.5rem 0;
+        border: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .cart-table td:before {
+        content: attr(data-label) ": ";
+        font-weight: 600;
+        margin-right: 1rem;
+        min-width: 80px;
+        font-size: 0.875rem;
+    }
+    
+    .quantity-controls-table {
+        width: 90px !important;
+    }
+    
+    .order-summary {
+        margin-top: 1.5rem;
+    }
+    
+    .empty-cart {
+        padding: 1.5rem 1rem;
+    }
+    
+    .product-image-table {
+        width: 60px;
+        height: 50px;
+    }
+}
+
+/* Focus states for accessibility */
+.btn-quantity-table:focus,
+.remove-item-table:focus {
+    outline: 2px solid #0d6efd;
+    outline-offset: 2px;
+}
+
+.quantity-input-table::-webkit-outer-spin-button,
+.quantity-input-table::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity-input-table[type=number] {
+    -moz-appearance: textfield;
+}
+
+.quantity-input-table::-webkit-outer-spin-button,
+.quantity-input-table::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity-input-table[type=number] {
+    -moz-appearance: textfield;
+}
+</style>
+
+<div class="container cart-page-container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
@@ -11,112 +400,136 @@
         </ol>
     </nav>
 
-    <h2 class="mb-4">Your Shopping Cart</h2>
+    <div class="cart-header">
+        <h2>Your Shopping Cart</h2>
+    </div>
 
     @if($cartItems->count() > 0)
     <div class="row">
         <div class="col-lg-8">
             <div class="card shadow-sm">
-                <div class="card-header bg-white">
+                <div class="card-header">
                     <h5 class="mb-0">Cart Items ({{ $cartCount }} items)</h5>
                 </div>
-                <div class="card-body">
-                    @foreach($cartItems as $item)
-                    <div class="row mb-4 pb-4 border-bottom" data-cart-id="{{ $item['id'] }}">
-                        <div class="col-md-3">
-                            @php
-                                $product = \App\Models\Product::find($item['product_id']);
-                            @endphp
-                            @if($product && $product->productImages->first())
-                                <img src="{{ asset('uploads/products/' . $product->productImages->first()->multiple_image) }}"
-                                     alt="{{ $item['product_name'] }}"
-                                     class="img-fluid rounded"
-                                     style="height: 120px; width: 100%; object-fit: cover;">
-                            @else
-                                <img src=""
-                                     alt="{{ $item['product_name'] }}"
-                                     class="img-fluid rounded"
-                                     style="height: 120px; width: 100%; object-fit: cover;">
-                            @endif
-                        </div>
-                        <div class="col-md-9">
-                            <div class="d-flex justify-content-between">
-                                <div>
-                                    <h5 class="mb-1">{{ $item['product_name'] }}</h5>
-                                    <p class="mb-2 text-muted">Price: Tk {{ number_format($item['price']) }}</p>
-                                </div>
-                                <div>
-                                    <button class="btn btn-sm btn-outline-danger remove-item" data-id="{{ $item['id'] }}">
-                                        <i class="fas fa-trash"></i>
+                <div class="card-body p-0">
+                    <table class="cart-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($cartItems as $item)
+                            <tr data-cart-id="{{ $item['id'] }}">
+                                <td data-label="Product">
+                                    <div class="d-flex align-items-center">
+                                        @php
+                                            $product = \App\Models\Product::find($item['product_id']);
+                                        @endphp
+                                        @if($product && $product->productImages->first())
+                                            <img src="{{ asset('uploads/products/' . $product->productImages->first()->multiple_image) }}" 
+                                                 alt="{{ $item['product_name'] }}" 
+                                                 class="img-fluid rounded product-image-table">
+                                        @else
+                                            <img src="https://via.placeholder.com/80x60.png?text=No+Image" 
+                                                 alt="{{ $item['product_name'] }}" 
+                                                 class="img-fluid rounded product-image-table">
+                                        @endif
+                                        <div class="ms-2 product-info-table">
+                                            <h5 class="mb-0">{{ $item['product_name'] }}</h5>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Category">
+                                    @if($product)
+                                        <p class="mb-0 product-info-table product-category">{{ $product->category->name ?? 'N/A' }}</p>
+                                    @else
+                                        <p class="mb-0 product-info-table product-category">N/A</p>
+                                    @endif
+                                </td>
+                                <td data-label="Price">
+                                    <p class="mb-0 product-price-table">Tk {{ number_format($item['price']) }}</p>
+                                </td>
+                                <td data-label="Quantity">
+                                    <div class="quantity-controls-table">
+                                        <button class="btn btn-quantity-table btn-decrement-table" type="button" data-id="{{ $item['id'] }}">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="text" class="form-control text-center quantity-input-table" 
+                                               value="{{ $item['quantity'] }}" 
+                                               data-id="{{ $item['id'] }}" 
+                                               readonly>
+                                        <button class="btn btn-quantity-table btn-increment-table" type="button" data-id="{{ $item['id'] }}">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td data-label="Total">
+                                    <strong class="item-total-table">Tk <span class="item-total">{{ number_format($item['price'] * $item['quantity']) }}</span></strong>
+                                </td>
+                                <td data-label="Action">
+                                    <button class="remove-item-table" data-id="{{ $item['id'] }}">
+                                        <i class="fas fa-times"></i>
                                     </button>
-                                </div>
-                            </div>
-
-                            <div class="d-flex align-items-center mt-3">
-                                <div class="input-group" style="width: 150px;">
-                                    <button class="btn btn-outline-secondary decrement" type="button" data-id="{{ $item['id'] }}">-</button>
-                                    <input type="text" class="form-control text-center quantity-input"
-                                           value="{{ $item['quantity'] }}"
-                                           data-id="{{ $item['id'] }}"
-                                           style="max-width: 60px;">
-                                    <button class="btn btn-outline-secondary increment" type="button" data-id="{{ $item['id'] }}">+</button>
-                                </div>
-                                <div class="ms-4">
-                                    <strong>Total: Tk <span class="item-total">{{ number_format($item['price'] * $item['quantity']) }}</span></strong>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-                <div class="card-footer bg-white">
+                <div class="card-footer">
                     <div class="d-flex justify-content-between align-items-center">
                         <a href="{{ route('home') }}" class="btn btn-outline-primary">
-                            <i class="fas fa-arrow-left me-2"></i>Continue Shopping
+                            <i class="fas fa-arrow-left me-1"></i>Continue Shopping
                         </a>
                         <button id="clear-cart" class="btn btn-outline-danger">
-                            <i class="fas fa-trash me-2"></i>Clear Cart
+                            <i class="fas fa-trash me-1"></i>Clear Cart
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="col-lg-4">
+        
+        <div class="col-lg-4 order-summary">
             <div class="card shadow-sm">
-                <div class="card-header bg-white">
+                <div class="card-header">
                     <h5 class="mb-0">Order Summary</h5>
                 </div>
                 <div class="card-body">
-                    <div class="d-flex justify-content-between mb-2">
+                    <div class="order-summary-item">
                         <span>Subtotal:</span>
                         <span>Tk <span id="cart-subtotal">{{ number_format($cartTotal) }}</span></span>
                     </div>
-                    <div class="d-flex justify-content-between mb-2">
+                    <div class="order-summary-item">
                         <span>Shipping:</span>
                         <span>Tk 80</span>
                     </div>
-                    <hr>
-                    <div class="d-flex justify-content-between mb-3">
-                        <h5 class="mb-0">Total:</h5>
-                        <h5 class="mb-0">Tk <span id="cart-total">{{ number_format($cartTotal + 80) }}</span></h5>
+                    <hr class="order-summary-divider">
+                    <div class="order-summary-item">
+                        <h5 class="mb-0 order-total">Total:</h5>
+                        <h5 class="mb-0 order-total">Tk <span id="cart-total">{{ number_format($cartTotal + 80) }}</span></h5>
                     </div>
-                    <a href="{{ route('checkout.index') }}" class="btn btn-success w-100 btn-lg">
-                        <i class="fas fa-lock me-2"></i>Proceed to Checkout
+                    <a href="{{ route('checkout.index') }}" class="btn btn-success w-100 btn-lg mt-3">
+                        <i class="fas fa-lock me-1"></i>Proceed to Checkout
                     </a>
                 </div>
             </div>
         </div>
     </div>
     @else
-    <div class="text-center py-5">
-        <div class="mb-4">
-            <i class="fas fa-shopping-cart text-muted" style="font-size: 4rem;"></i>
+    <div class="empty-cart">
+        <div>
+            <i class="fas fa-shopping-cart"></i>
         </div>
-        <h3 class="mb-3">Your cart is empty</h3>
-        <p class="mb-4 text-muted">Looks like you haven't added any items to your cart yet.</p>
-        <a href="{{ route('home') }}" class="btn btn-primary btn-lg">
-            <i class="fas fa-shopping-bag me-2"></i>Start Shopping
+        <h3>Your cart is empty</h3>
+        <p>Looks like you haven't added any items to your cart yet.</p>
+        <a href="{{ route('home') }}" class="btn btn-primary btn-lg btn-start-shopping">
+            <i class="fas fa-shopping-bag me-1"></i>Start Shopping
         </a>
     </div>
     @endif
@@ -126,42 +539,42 @@
 <script>
 $(document).ready(function() {
     // Update quantity
-    $(document).on('click', '.increment, .decrement', function() {
+    $(document).on('click', '.btn-increment-table, .btn-decrement-table', function() {
         var itemId = $(this).data('id');
-        var input = $('.quantity-input[data-id="' + itemId + '"]');
+        var input = $('.quantity-input-table[data-id="' + itemId + '"]');
         var currentValue = parseInt(input.val());
-        var newValue = $(this).hasClass('increment') ? currentValue + 1 : currentValue - 1;
-
+        var newValue = $(this).hasClass('btn-increment-table') ? currentValue + 1 : currentValue - 1;
+        
         if (newValue < 1) newValue = 1;
-
+        
         updateQuantity(itemId, newValue);
     });
-
+    
     // Manual input change
-    $(document).on('change', '.quantity-input', function() {
+    $(document).on('change', '.quantity-input-table', function() {
         var itemId = $(this).data('id');
         var newValue = parseInt($(this).val());
-
+        
         if (isNaN(newValue) || newValue < 1) {
             newValue = 1;
         }
-
+        
         updateQuantity(itemId, newValue);
     });
-
+    
     // Remove item
-    $(document).on('click', '.remove-item', function() {
+    $(document).on('click', '.remove-item-table', function() {
         var itemId = $(this).data('id');
         removeItem(itemId);
     });
-
+    
     // Clear cart
     $(document).on('click', '#clear-cart', function() {
         if (confirm('Are you sure you want to clear your cart?')) {
             clearCart();
         }
     });
-
+    
     // Update quantity function
     function updateQuantity(itemId, quantity) {
         $.ajax({
@@ -174,18 +587,18 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     // Update input value
-                    $('.quantity-input[data-id="' + itemId + '"]').val(quantity);
-
+                    $('.quantity-input-table[data-id="' + itemId + '"]').val(quantity);
+                    
                     // Update item total
-                    var itemPrice = parseFloat($('.quantity-input[data-id="' + itemId + '"]').closest('.row').find('.text-muted').text().replace('Price: Tk ', '').replace(/,/g, ''));
+                    var itemPrice = parseFloat($('.quantity-input-table[data-id="' + itemId + '"]').closest('tr').find('.product-price-table').text().replace('Price: Tk ', '').replace('Tk ', '').replace(/,/g, ''));
                     var itemTotal = itemPrice * quantity;
-                    $('.quantity-input[data-id="' + itemId + '"]').closest('.row').find('.item-total').text(itemTotal.toLocaleString());
-
+                    $('.quantity-input-table[data-id="' + itemId + '"]').closest('tr').find('.item-total').text(itemTotal.toLocaleString());
+                    
                     // Update cart totals
                     $('#cart-subtotal').text(response.cartTotal.toLocaleString());
                     $('#cart-total').text((response.cartTotal + 80).toLocaleString());
                     $('.cart-count').text(response.cartCount);
-
+                    
                     // Show success message
                     Swal.fire({
                         icon: 'success',
@@ -207,7 +620,7 @@ $(document).ready(function() {
             }
         });
     }
-
+    
     // Remove item function
     function removeItem(itemId) {
         $.ajax({
@@ -221,12 +634,12 @@ $(document).ready(function() {
                     // Remove item from DOM
                     $('[data-cart-id="' + itemId + '"]').fadeOut(300, function() {
                         $(this).remove();
-
+                        
                         // Update cart totals
                         $('#cart-subtotal').text(response.cartTotal.toLocaleString());
                         $('#cart-total').text((response.cartTotal + 80).toLocaleString());
                         $('.cart-count').text(response.cartCount);
-
+                        
                         // Show success message
                         Swal.fire({
                             icon: 'success',
@@ -235,7 +648,7 @@ $(document).ready(function() {
                             timer: 1500,
                             showConfirmButton: false
                         });
-
+                        
                         // If cart is empty, refresh page
                         if (response.cartCount == 0) {
                             setTimeout(function() {
@@ -256,7 +669,7 @@ $(document).ready(function() {
             }
         });
     }
-
+    
     // Clear cart function
     function clearCart() {
         $.ajax({
@@ -293,16 +706,4 @@ $(document).ready(function() {
 });
 </script>
 @endpush
-
-<style>
-.quantity-input::-webkit-outer-spin-button,
-.quantity-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.quantity-input[type=number] {
-    -moz-appearance: textfield;
-}
-</style>
 @endsection
