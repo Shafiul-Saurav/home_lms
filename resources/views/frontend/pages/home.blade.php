@@ -2,6 +2,153 @@
 
 @section('title', 'Home')
 
+@push('frontendstyle')
+<style>
+    /* Home page specific styles */
+    .product-card {
+        transition: all 0.3s ease;
+    }
+    
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    
+    .product-media {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .product-image {
+        transition: transform 0.3s ease;
+    }
+    
+    .product-card:hover .product-image {
+        transform: scale(1.05);
+    }
+    
+    .product-content {
+        padding: 1rem;
+    }
+    
+    .product-name a {
+        color: #333;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s ease;
+    }
+    
+    .product-name a:hover {
+        color: #684EFF;
+    }
+    
+    .product-price {
+        margin: 0.5rem 0;
+        font-size: 1.1rem;
+    }
+    
+    .new-price {
+        color: #684EFF;
+        font-weight: 700;
+    }
+    
+    .old-price {
+        color: #999;
+        text-decoration: line-through;
+        font-size: 0.9rem;
+    }
+    
+    .btn-order {
+        background: linear-gradient(135deg, #00a6ff, #7b2fff);
+        border: none;
+        color: white;
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+    
+    .btn-order:hover {
+        background: linear-gradient(135deg, #0095e6, #6a28e6);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        color: white;
+    }
+    
+    .btn-order:active {
+        transform: translateY(0);
+    }
+    
+    .new-slider li {
+        margin: 0 10px;
+    }
+    
+    .section {
+        margin-bottom: 2rem;
+    }
+    
+    .section h4 {
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 1rem;
+        position: relative;
+        padding-bottom: 10px;
+    }
+    
+    .section h4:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: #684EFF;
+        border-radius: 3px;
+    }
+    
+    .intro-part {
+        background: #f8f9fa;
+        padding: 2rem 0;
+        margin-top: 2rem;
+    }
+    
+    .intro-wrap {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease;
+    }
+    
+    .intro-wrap:hover {
+        transform: translateY(-5px);
+    }
+    
+    .intro-icon {
+        margin-right: 1rem;
+        font-size: 1.5rem;
+        color: #684EFF;
+    }
+    
+    .intro-content h5 {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+    
+    .intro-content p {
+        font-size: 0.9rem;
+        color: #666;
+        margin: 0;
+    }
+    
+    @media (max-width: 768px) {
+        .intro-wrap {
+            margin-bottom: 1rem;
+        }
+    }
+</style>
+@endpush
+
 @section('frontend_content')
     <div>
         <section class="section newitem-part mb-1">
@@ -47,11 +194,8 @@
                                                         {{ number_format($product->regular_price) }}</del>
                                                 @endif
                                             </h6>
-                                            <button class="btn btn-block border-0 w-100 p-1"
-                                                style="background: linear-gradient(135deg, #00a6ff, #7b2fff); border: none; color: white; transition: all 0.3s ease;"
-                                                onclick="addToCart({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})"
-                                                onmouseover="this.style.background='linear-gradient(135deg, #0095e6, #6a28e6)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)';"
-                                                onmouseout="this.style.background='linear-gradient(135deg, #00a6ff, #7b2fff)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                                            <button class="btn btn-block border-0 w-100 p-1 btn-order"
+                                                onclick="addToCart({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})">
                                                 অর্ডার করুন
                                             </button>
                                         </div>
@@ -102,12 +246,9 @@
                                             <del class="old-price"> Tk {{ number_format($product->regular_price) }}</del>
                                         @endif
                                     </h6>
-                                    <button class="btn btn-block border-0 w-100 p-1"
-                                        style="background: linear-gradient(135deg, #00a6ff, #7b2fff); border: none; color: white; transition: all 0.3s ease;"
+                                    <button class="btn btn-block border-0 w-100 p-1 btn-order"
                                         onclick="addToCart({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})"
-                                        wire:click="orderNow({{ $product->id }})"
-                                        onmouseover="this.style.background='linear-gradient(135deg, #0095e6, #6a28e6)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)';"
-                                        onmouseout="this.style.background='linear-gradient(135deg, #00a6ff, #7b2fff)'; this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                                        wire:click="orderNow({{ $product->id }})">
                                         অর্ডার করুন
                                     </button>
                                 </div>

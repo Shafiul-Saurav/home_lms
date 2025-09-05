@@ -2,7 +2,7 @@
 
 @section('title', 'Shopping Cart')
 
-@section('frontend_content')
+@push('frontendstyle')
 <style>
 /* Enhanced cart page styling */
 thead tr th:first-child {
@@ -396,7 +396,9 @@ thead tr th:last-child {
     color: #684eff;
 }
 </style>
+@endpush
 
+@section('frontend_content')
 <div class="container cart-page-container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">

@@ -2,7 +2,7 @@
 
 @section('title', 'Checkout')
 
-@section('frontend_content')
+@push('frontendstyle')
 <style>
 /* Enhanced checkout page styling to match cart page */
 .checkout-page-container {
@@ -140,7 +140,9 @@
     outline-offset: 2px;
 }
 </style>
+@endpush
 
+@section('frontend_content')
 <div class="container checkout-page-container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
