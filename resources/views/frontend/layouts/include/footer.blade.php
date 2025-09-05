@@ -58,7 +58,7 @@
         <div class="col-12">
             <div class="p-2 bg-primary text-center">
                 <p class="footer-copytext">
-                    All Rights Reserved {{ $logo_fav->web_name ?? 'barggee.com' }} 2024 <span class="copy-tj"> | Designed and Developed by <a href="https://techjodo.com" target="_blank">Techjodo</a></span>
+                    All Rights Reserved {{ $logo_fav->web_name ?? null }} 2024 <span class="copy-tj"> | Designed and Developed by <a href="" target="_blank">Shaftech</a></span>
                 </p>
             </div>
         </div>
