@@ -105,10 +105,10 @@
                             <tbody>
                                 @foreach($order->orderItems as $item)
                                 <tr>
-                                    <td>{{ $item->product_name }}</td>
-                                    <td>Tk {{ number_format($item->price) }}</td>
-                                    <td>{{ $item->quantity }}</td>
-                                    <td>Tk {{ number_format($item->total) }}</td>
+                                    <td class="text-light">{{ $item->product_name }}</td>
+                                    <td class="text-light">Tk {{ number_format($item->price) }}</td>
+                                    <td class="text-light">{{ $item->quantity }}</td>
+                                    <td class="text-light">Tk {{ number_format($item->total) }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

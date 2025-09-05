@@ -370,10 +370,12 @@
                     </ul>
                 </li>
                 <li class="slide {{Request::routeIs('orders.index') ? 'is-expanded' : ''}} {{Request::routeIs('orders.show') ? 'is-expanded' : ''}}">
-                    <a class="side-menu__item {{Request::routeIs('orders.index') ? 'active' : ''}} {{Request::routeIs('orders.show') ? 'active' : ''}}" data-bs-toggle="slide" href="{{ route('orders.index') }}">
+                    <a class="side-menu__item {{Request::routeIs('orders.index') ? 'active' : ''}} {{Request::routeIs('orders.show') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
                         <i class="fa-solid fa-shopping-cart fa-fw"></i>
-                        <span class="side-menu__label ms-3">Orders</span>
-                    </a>
+                        <span class="side-menu__label ms-3">Order Management</span><i class="fa-solid fa-angle-right"></i></a>
+                    <ul class="slide-menu">
+                        <li><a href="{{ route('orders.index') }}" class="slide-item {{Request::routeIs('orders.index') ? 'active' : ''}}">List</a></li>
+                    </ul>
                 </li>
                 <li class="slide">
                     <a class="side-menu__item" data-bs-toggle="slide" href="#">
