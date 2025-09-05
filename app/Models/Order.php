@@ -55,10 +55,13 @@ class Order extends Model
     }
 
     /**
-     * Generate a unique order number.
+     * Generate a unique order number with date prefix.
+     * Format: DDMMYYYY + 6-digit unique number
      */
     public static function generateOrderNumber()
     {
-        return 'ORD-' . strtoupper(uniqid());
+        $datePrefix = now()->format('dmY'); // DDMMYYYY format
+        $uniqueNumber = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT); // 6-digit unique number
+        return $datePrefix . $uniqueNumber;
     }
 }
