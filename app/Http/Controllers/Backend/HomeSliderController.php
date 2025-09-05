@@ -107,7 +107,7 @@ class HomeSliderController extends Controller
             $uploaded_photo = $request->file('slider_image');
             $new_photo_name = $home_slider->id . '.' . $uploaded_photo->getClientOriginalExtension();
             $new_photo_location = $photo_location . $new_photo_name;
-            Image::make($uploaded_photo)->resize(1920,1080)->save(base_path($new_photo_location), 40);
+            Image::make($uploaded_photo)->resize(1920,576)->save(base_path($new_photo_location), 40);
             //$user = User::find($home_slider->id);
             $check = $home_slider->update([
                 'slider_image' => $new_photo_name,
