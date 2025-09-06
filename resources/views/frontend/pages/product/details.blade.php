@@ -2,7 +2,7 @@
 
 @section('title', $product->name)
 
-@push('forntendstyle')
+@push('frontendstyle')
 <style>
 .details-preview li {
     display: grid;
@@ -19,12 +19,99 @@
 
 .details-thumb li {
     aspect-ratio: 1/1;
+    padding: 5px;
+    cursor: pointer;
 }
 
 .details-thumb li img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border: 2px solid transparent;
+}
+
+.details-thumb li.slick-current img {
+    border-color: #684EFF;
+}
+
+/* Slick slider arrows customization */
+.details-preview .slick-prev,
+.details-preview .slick-next {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    z-index: 10;
+}
+
+.details-preview .slick-prev:before,
+.details-preview .slick-next:before {
+    color: white;
+    font-size: 20px;
+}
+
+.details-preview .slick-prev {
+    left: 10px;
+}
+
+.details-preview .slick-next {
+    right: 10px;
+}
+
+.details-thumb .slick-prev,
+.details-thumb .slick-next {
+    width: 30px;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    z-index: 10;
+}
+
+.details-thumb .slick-prev:before,
+.details-thumb .slick-next:before {
+    color: white;
+    font-size: 16px;
+}
+
+.details-thumb .slick-prev {
+    left: 5px;
+}
+
+.details-thumb .slick-next {
+    right: 5px;
+}
+
+/* Ensure proper spacing for thumbnails */
+.details-thumb {
+    margin-top: 15px;
+}
+
+.details-thumb .slick-slide {
+    margin: 0 5px;
+}
+
+/* Make sure slick arrows are visible */
+.slick-prev, .slick-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 10;
+}
+
+.slick-prev:hover, .slick-next:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.slick-prev:before, .slick-next:before {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    display: inline-block;
+}
+
+.slick-disabled {
+    opacity: 0.5;
+    pointer-events: none;
 }
 </style>
 @endpush
@@ -36,21 +123,21 @@
             <div class="row">
                 <div class="col-lg-5">
                     <div class="details-gallery">
-                        <ul class="details-preview mb-1" wire:ignore>
-                            @foreach($product->productImages as $image)
-                            <li style="display: grid; place-items: center;">
-                                <img loading="lazy" src="{{ asset('uploads/products/' . $image->multiple_image) }}" alt="{{ $product->name }}">
-                            </li>
-                            @endforeach
-                        </ul>
-                        <ul class="details-thumb mb-1">
-                            @foreach($product->productImages as $image)
-                            <li>
-                                <img loading="lazy" src="{{ asset('uploads/products/' . $image->multiple_image) }}" alt="{{ $product->name }}">
-                            </li>
-                            @endforeach
-                        </ul>
-                    </div>
+                    <ul class="details-preview mb-1" wire:ignore>
+                        @foreach($product->productImages as $image)
+                        <li>
+                            <img loading="lazy" src="{{ asset('uploads/products/' . $image->multiple_image) }}" alt="{{ $product->name }}">
+                        </li>
+                        @endforeach
+                    </ul>
+                    <ul class="details-thumb mb-1">
+                        @foreach($product->productImages as $image)
+                        <li>
+                            <img loading="lazy" src="{{ asset('uploads/products/' . $image->multiple_image) }}" alt="{{ $product->name }}">
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
                 </div>
                 <div class="col-lg-7">
                     <div class="details-content">
@@ -163,62 +250,109 @@
     </section>
 @endsection
 
-@push('forntendscript')
+@push('frontendscript')
 <script>
-    // Initialize Slick sliders for product gallery
-    $(document).ready(function() {
-        $(".details-thumb").not('.slick-initialized').slick({
-            slidesToShow: 6,
-            slidesToScroll: 1,
-            asNavFor: ".details-preview",
-            dots: !1,
-            arrows: true,
-            infinite: true,
-            autoplay: true,
-            focusOnSelect: !0,
-            responsive: [
-                { breakpoint: 1200, settings: { slidesToShow: 3, slidesToScroll: 1 } },
-                { breakpoint: 992, settings: { slidesToShow: 5, slidesToScroll: 1 } },
-                { breakpoint: 768, settings: { slidesToShow: 4, slidesToScroll: 1 } },
-                {
-                    breakpoint: 576,
-                    settings: { slidesToShow: 5, slidesToScroll: 1},
-                },
-                {
-                    breakpoint: 400,
-                    settings: { slidesToShow: 5, slidesToScroll: 1 },
-                },
-            ],
-        });
-
-        $(".details-preview").not('.slick-initialized').slick({
+    // Initialize Slick sliders for product gallery with a more robust approach
+    function initializeProductSliders() {
+        // Check if jQuery and Slick are available
+        if (typeof $ === 'undefined' || typeof $.fn.slick === 'undefined') {
+            setTimeout(initializeProductSliders, 500);
+            return;
+        }
+        
+        // Check if we have images to sliderize
+        if ($('.details-preview li').length === 0) {
+            return;
+        }
+        
+        // Destroy existing instances if they exist
+        if ($('.details-preview').hasClass('slick-initialized')) {
+            $('.details-preview').slick('unslick');
+        }
+        
+        if ($('.details-thumb').hasClass('slick-initialized')) {
+            $('.details-thumb').slick('unslick');
+        }
+        
+        // Initialize the preview slider (main image)
+        $('.details-preview').not('.slick-initialized').slick({
             slidesToShow: 1,
             slidesToScroll: 1,
             arrows: true,
             infinite: true,
-            autoplay: true,
+            autoplay: false,
             fade: true,
-            asNavFor: ".details-thumb",
-            prevArrow: '<i class="fa fa-arrow-right dandik"></i>',
-            nextArrow: '<i class="fa fa-arrow-left bamdik"></i>',
+            asNavFor: '.details-thumb',
+            prevArrow: '<button type="button" class="slick-prev"><i class="fas fa-chevron-left"></i></button>',
+            nextArrow: '<button type="button" class="slick-next"><i class="fas fa-chevron-right"></i></button>'
+        });
+        
+        // Initialize the thumbnail slider
+        $('.details-thumb').not('.slick-initialized').slick({
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            asNavFor: '.details-preview',
+            dots: false,
+            arrows: true,
+            centerMode: false,
+            focusOnSelect: true,
+            vertical: false,
+            infinite: true,
+            prevArrow: '<button type="button" class="slick-prev"><i class="fas fa-chevron-left"></i></button>',
+            nextArrow: '<button type="button" class="slick-next"><i class="fas fa-chevron-right"></i></button>',
             responsive: [
                 {
-                    breakpoint: 576,
-                    settings: { slidesToShow: 1, slidesToScroll: 1, arrows: !0 },
+                    breakpoint: 1200,
+                    settings: {
+                        slidesToShow: 4
+                    }
                 },
+                {
+                    breakpoint: 992,
+                    settings: {
+                        slidesToShow: 5
+                    }
+                },
+                {
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 4
+                    }
+                },
+                {
+                    breakpoint: 576,
+                    settings: {
+                        slidesToShow: 3
+                    }
+                },
+                {
+                    breakpoint: 400,
+                    settings: {
+                        slidesToShow: 2
+                    }
+                }
             ]
         });
-
-        Livewire.hook('message.processed', component => {
-            $(".details-thumb").not('.slick-initialized').slick('setPosition');
-            $(".details-preview").not('.slick-initialized').slick('setPosition');
-        });
-    });
-
-    // Track product view
+    }
+    
+    // Initialize on document ready
     $(document).ready(function() {
-        // Removed external tracking API calls
-        console.log('Product view tracked locally');
+        initializeProductSliders();
     });
+    
+    // Also initialize on window load for safety
+    $(window).on('load', function() {
+        setTimeout(initializeProductSliders, 100);
+    });
+    
+    // Reinitialize after Livewire updates if applicable
+    if (typeof Livewire !== 'undefined') {
+        Livewire.hook('message.processed', (message, component) => {
+            setTimeout(initializeProductSliders, 100);
+        });
+    }
+    
+    // Fallback for dynamic content
+    setTimeout(initializeProductSliders, 2000);
 </script>
 @endpush
