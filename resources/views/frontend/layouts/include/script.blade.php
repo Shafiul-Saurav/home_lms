@@ -105,6 +105,19 @@
     $(document).ready(function() {
         updateCartCount();
     });
+    
+    // Enhanced notification bar animation
+    document.addEventListener('DOMContentLoaded', function() {
+        const notificationText = document.querySelector('.notification-text');
+        if (notificationText) {
+            // Clone the notification items for continuous scrolling effect
+            const items = notificationText.querySelectorAll('.notification-item');
+            items.forEach(item => {
+                const clone = item.cloneNode(true);
+                notificationText.appendChild(clone);
+            });
+        }
+    });
 </script>
 <!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>

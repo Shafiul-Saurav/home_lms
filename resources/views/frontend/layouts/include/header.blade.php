@@ -1,6 +1,175 @@
 <header class="header-part position-relative">
+    <style>
+        /* Beautiful Header Notification Bar */
+        .header-notification-bar {
+            background: linear-gradient(90deg, #684EFF 0%, #8E2EF5 100%);
+            color: white;
+            padding: 8px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header-notification-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.1) 100%);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .notification-icon {
+            font-size: 18px;
+            margin-right: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .notification-text {
+            display: flex;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .notification-item {
+            white-space: nowrap;
+            padding: 0 20px;
+            animation: scrollText 30s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes scrollText {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Reduced Header Height Styles - Subtle Reduction */
+        .header-content {
+            padding: 15px 0 !important; /* Reduced from 18px to 15px (17% reduction) */
+        }
+
+        .header-logo img {
+            max-height: 100px !important; /* Slightly reduced logo height */
+        }
+
+        .header-form input {
+            height: 40px !important; /* Slightly reduced form input height */
+        }
+
+        .header-form button {
+            height: 40px !important; /* Slightly reduced form button height */
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .notification-content {
+                padding: 0 10px;
+            }
+
+            .notification-icon {
+                font-size: 16px;
+                margin-right: 10px;
+            }
+
+            .notification-item {
+                font-size: 14px;
+                padding: 0 15px;
+            }
+
+            .header-content {
+                padding: 8px 0 !important; /* Reduced from 10px to 8px (20% reduction) */
+            }
+
+            .header-logo img {
+                max-height: 45px !important;
+            }
+
+            .header-form input {
+                height: 35px !important;
+            }
+
+            .header-form button {
+                height: 35px !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-notification-bar {
+                padding: 6px 0;
+            }
+
+            .notification-content {
+                padding: 0 5px;
+            }
+
+            .notification-icon {
+                font-size: 14px;
+                margin-right: 8px;
+            }
+
+            .notification-item {
+                font-size: 12px;
+                padding: 0 10px;
+            }
+
+            .header-content {
+                padding: 8px 0 !important; /* Reduced from 10px to 8px (20% reduction) */
+            }
+
+            .header-logo img {
+                max-height: 40px !important;
+            }
+
+            .header-form {
+                max-width: 170px !important;
+            }
+
+            .header-form input {
+                height: 32px !important;
+                font-size: 13px !important;
+            }
+
+            .header-form button {
+                height: 32px !important;
+                width: 35px !important;
+            }
+        }
+    </style>
+
     <div class="container">
-        <marquee class="d-flex" scrolldelay="6">Online Shop এ আপনাকে স্বাগতম। বাংলাদেশের বিশ্বস্ত অনলাইন শপ। সারা দেশে ক্যাশ অন ডেলিভারি (৪৮ থেকে ৭২ ঘণ্টার মধ্যে নিশ্চিত ডেলিভারি) সকাল ১০ টা থেকে রাত ১০ পর্যন্ত। হট লাইন: 01859084364</marquee>
+        <!-- Beautiful Marquee/Notification Bar -->
+        <div class="header-notification-bar">
+            <div class="notification-content">
+                <i class="fas fa-bell notification-icon"></i>
+                <div class="notification-text">
+                    <span class="notification-item">🎉 Online Shop এ আপনাকে স্বাগতম! বাংলাদেশের বিশ্বস্ত অনলাইন শপ।</span>
+                    <span class="notification-item">🚚 সারা দেশে ক্যাশ অন ডেলিভারি (৪৮ থেকে ৭২ ঘণ্টার মধ্যে নিশ্চিত ডেলিভারি)</span>
+                    <span class="notification-item">⏰ সকাল ১০ টা থেকে রাত ১০ পর্যন্ত খোলা</span>
+                    <span class="notification-item">📞 হট লাইন: 01859084364</span>
+                </div>
+            </div>
+        </div>
+
         <div class="header-content">
             <div class="header-media-group">
                 <button class="header-user">
