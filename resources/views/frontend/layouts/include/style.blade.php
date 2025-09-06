@@ -30,6 +30,26 @@
             transform: scale(.8);
         }
     }
+
+    /* Gradient button style */
+    .btn-gradient {
+        background: linear-gradient(135deg, #00a6ff, #7b2fff);
+        border: none;
+        color: white;
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+
+    .btn-gradient:hover {
+        background: linear-gradient(135deg, #0095e6, #6a28e6);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        color: white;
+    }
+
+    .btn-gradient:active {
+        transform: translateY(0);
+    }
 </style>
 
 <style>

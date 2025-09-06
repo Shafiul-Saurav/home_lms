@@ -264,7 +264,7 @@
                                                         {{ number_format($product->regular_price) }}</del>
                                                 @endif
                                             </h6>
-                                            <button class="btn btn-block border-0 w-100 p-1 btn-order"
+                                            <button class="btn btn-block border-0 w-100 p-1 btn-gradient"
                                                 onclick="addToCart({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})">
                                                 অর্ডার করুন
                                             </button>
@@ -316,7 +316,7 @@
                                             <del class="old-price"> Tk {{ number_format($product->regular_price) }}</del>
                                         @endif
                                     </h6>
-                                    <button class="btn btn-block border-0 w-100 p-1 btn-order"
+                                    <button class="btn btn-block border-0 w-100 p-1 btn-gradient"
                                         onclick="addToCart({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})"
                                         wire:click="orderNow({{ $product->id }})">
                                         অর্ডার করুন

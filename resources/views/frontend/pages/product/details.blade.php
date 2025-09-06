@@ -156,7 +156,7 @@
                             <!-- Stock status could be added here if available -->
                         </div>
 
-                        <button class="btn-jump btn btn-secondary bg-secondary btn-block w-100  text-white border-0 p-2"
+                        <button class="btn btn-block border-0 w-100 p-2 btn-gradient"
                             onClick="addToCart({{ $product->id }}, '{{ addslashes($product->name) }}', {{ $product->sale_price }})">
                             <i class="fas fa-shopping-basket"></i> অর্ডার করুন
                         </button>
@@ -259,21 +259,21 @@
             setTimeout(initializeProductSliders, 500);
             return;
         }
-        
+
         // Check if we have images to sliderize
         if ($('.details-preview li').length === 0) {
             return;
         }
-        
+
         // Destroy existing instances if they exist
         if ($('.details-preview').hasClass('slick-initialized')) {
             $('.details-preview').slick('unslick');
         }
-        
+
         if ($('.details-thumb').hasClass('slick-initialized')) {
             $('.details-thumb').slick('unslick');
         }
-        
+
         // Initialize the preview slider (main image)
         $('.details-preview').not('.slick-initialized').slick({
             slidesToShow: 1,
@@ -286,7 +286,7 @@
             prevArrow: '<button type="button" class="slick-prev"><i class="fas fa-chevron-left"></i></button>',
             nextArrow: '<button type="button" class="slick-next"><i class="fas fa-chevron-right"></i></button>'
         });
-        
+
         // Initialize the thumbnail slider
         $('.details-thumb').not('.slick-initialized').slick({
             slidesToShow: 5,
@@ -334,24 +334,24 @@
             ]
         });
     }
-    
+
     // Initialize on document ready
     $(document).ready(function() {
         initializeProductSliders();
     });
-    
+
     // Also initialize on window load for safety
     $(window).on('load', function() {
         setTimeout(initializeProductSliders, 100);
     });
-    
+
     // Reinitialize after Livewire updates if applicable
     if (typeof Livewire !== 'undefined') {
         Livewire.hook('message.processed', (message, component) => {
             setTimeout(initializeProductSliders, 100);
         });
     }
-    
+
     // Fallback for dynamic content
     setTimeout(initializeProductSliders, 2000);
 </script>
