@@ -224,25 +224,6 @@ thead tr th:last-child {
     color: white;
 }
 
-/* Checkout button */
-.btn-success {
-    border-radius: 0.5rem;
-    font-weight: 600;
-    padding: 0.5rem 1rem;
-    transition: all 0.2s ease-in-out;
-    box-shadow: 0 0.25rem 0.5rem rgba(25, 135, 84, 0.2);
-    border: none;
-    font-size: 0.9rem;
-    background: linear-gradient(135deg, #00a6ff, #7b2fff);
-}
-
-.btn-success:hover {
-    background: linear-gradient(135deg, #0095e6, #6a28e6);
-    transform: translateY(-2px);
-    box-shadow: 0 0.5rem 1rem rgba(0, 166, 255, 0.3);
-    color: white;
-}
-
 /* Order summary */
 .order-summary .card-body {
     padding: 1.25rem;
@@ -289,24 +270,6 @@ thead tr th:last-child {
     color: #6c757d;
     margin-bottom: 1.5rem;
     font-size: 1rem;
-}
-
-.btn-start-shopping {
-    border-radius: 0.5rem;
-    font-weight: 500;
-    padding: 0.5rem 1.25rem;
-    transition: all 0.2s ease-in-out;
-    font-size: 0.9rem;
-    background: linear-gradient(135deg, #00a6ff, #7b2fff);
-    border: none;
-    color: white;
-}
-
-.btn-start-shopping:hover {
-    background: linear-gradient(135deg, #0095e6, #6a28e6);
-    transform: translateY(-2px);
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 166, 255, 0.3);
-    color: white;
 }
 
 /* Responsive adjustments */
@@ -519,7 +482,7 @@ thead tr th:last-child {
                         <h5 class="mb-0 order-total">Total:</h5>
                         <h5 class="mb-0 order-total">Tk <span id="cart-total">{{ number_format($cartTotal + 80) }}</span></h5>
                     </div>
-                    <a href="{{ route('checkout.index') }}" class="btn btn-success w-100 btn-lg mt-3">
+                    <a href="{{ route('checkout.index') }}" class="btn btn-gradient py-2 w-100 mt-3">
                         <i class="fas fa-lock me-1"></i>Proceed to Checkout
                     </a>
                 </div>
@@ -533,7 +496,7 @@ thead tr th:last-child {
         </div>
         <h3>Your cart is empty</h3>
         <p>Looks like you haven't added any items to your cart yet.</p>
-        <a href="{{ route('home') }}" class="btn btn-primary btn-lg btn-start-shopping">
+        <a href="{{ route('home') }}" class="btn btn-gradient btn-lg">
             <i class="fas fa-shopping-bag me-1"></i>Start Shopping
         </a>
     </div>

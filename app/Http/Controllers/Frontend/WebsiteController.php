@@ -209,9 +209,4 @@ class WebsiteController extends Controller
         // $faqs = Faq::get();
         return view('frontend.pages.contact.contact', compact('logo_fav'));
     }
-
-
-
-
-
 }

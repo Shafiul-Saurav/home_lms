@@ -58,25 +58,6 @@
         font-size: 0.9rem;
     }
 
-    .btn-order {
-        background: linear-gradient(135deg, #00a6ff, #7b2fff);
-        border: none;
-        color: white;
-        transition: all 0.3s ease;
-        font-weight: 500;
-    }
-
-    .btn-order:hover {
-        background: linear-gradient(135deg, #0095e6, #6a28e6);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        color: white;
-    }
-
-    .btn-order:active {
-        transform: translateY(0);
-    }
-
     .new-slider li {
         margin: 0 10px;
     }

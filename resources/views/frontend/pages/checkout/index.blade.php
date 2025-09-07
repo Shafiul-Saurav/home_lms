@@ -112,24 +112,6 @@
     font-size: 1rem;
 }
 
-.btn-start-shopping {
-    border-radius: 0.5rem;
-    font-weight: 500;
-    padding: 0.5rem 1.25rem;
-    transition: all 0.2s ease-in-out;
-    font-size: 0.9rem;
-    background: linear-gradient(135deg, #00a6ff, #7b2fff);
-    border: none;
-    color: white;
-}
-
-.btn-start-shopping:hover {
-    background: linear-gradient(135deg, #0095e6, #6a28e6);
-    transform: translateY(-2px);
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 166, 255, 0.3);
-    color: white;
-}
-
 .breadcrumb-item+.breadcrumb-item::before {
     color: #684eff;
 }
@@ -256,7 +238,7 @@
         </div>
         <h3>Your cart is empty</h3>
         <p>You need to add items to your cart before checking out.</p>
-        <a href="{{ route('home') }}" class="btn btn-primary btn-lg btn-start-shopping">
+        <a href="{{ route('home') }}" class="btn btn-gradient btn-lg">
             <i class="fas fa-shopping-bag me-1"></i>Start Shopping
         </a>
     </div>

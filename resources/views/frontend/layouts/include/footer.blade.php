@@ -3,7 +3,11 @@
         <div class="row">
             <div class="col-sm-6 col-xl-3">
                 <div class="footer-widget">
-                    <a class="footer-logo" href="{{ route('home') }}"><img loading="lazy" src="{{ asset($logo_fav->logo?? null) }}" alt="logo" class="w-50"></a>
+                    @php
+                        $logo_fav = \App\Models\LogoFavicon::first();
+                        $website_link = \App\Models\WebsiteLink::first();
+                    @endphp
+                    <a class="footer-logo" href="{{ route('home') }}"><img loading="lazy" src="{{ asset($logo_fav->logo ?? null) }}" alt="logo" class="w-50"></a>
                     <p class="footer-desc">
                         {{ $logo_fav->web_name ?? null }} | Online Shopping In Bangladesh With Home Delivery
                     </p>
