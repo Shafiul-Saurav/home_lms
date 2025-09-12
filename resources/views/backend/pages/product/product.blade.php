@@ -45,7 +45,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            
+
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="category_id">Category</label>
@@ -123,7 +123,7 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="purchase_price">Purchase Price <span class="text-danger">*</span></label>
-                                    <input type="number" step="0.01" name="purchase_price" class="form-control @error('purchase_price') is-invalid @enderror" 
+                                    <input type="number" step="0.01" name="purchase_price" class="form-control @error('purchase_price') is-invalid @enderror"
                                         id="purchase_price" value="{{ old('purchase_price') }}" required>
                                     @error('purchase_price')
                                         <span class="invalid-feedback" role="alert">
@@ -136,7 +136,7 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="sell_price">Sell Price <span class="text-danger">*</span></label>
-                                    <input type="number" step="0.01" name="sell_price" class="form-control @error('sell_price') is-invalid @enderror" 
+                                    <input type="number" step="0.01" name="sell_price" class="form-control @error('sell_price') is-invalid @enderror"
                                         id="sell_price" value="{{ old('sell_price') }}" required>
                                     @error('sell_price')
                                         <span class="invalid-feedback" role="alert">
@@ -165,7 +165,7 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="discount_amount">Discount Amount</label>
-                                    <input type="number" step="0.01" name="discount_amount" class="form-control @error('discount_amount') is-invalid @enderror" 
+                                    <input type="number" step="0.01" name="discount_amount" class="form-control @error('discount_amount') is-invalid @enderror"
                                         id="discount_amount" value="{{ old('discount_amount') }}">
                                     @error('discount_amount')
                                         <span class="invalid-feedback" role="alert">
@@ -190,7 +190,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-12 mb-3">
                                 <div class="form-group">
                                     <label for="image">Main Image</label>
                                     <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" id="image">
@@ -278,7 +278,7 @@
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
-                                                    <a href="{{ route('products.show', $product->id) }}" 
+                                                    <a href="{{ route('products.show', $product->id) }}"
                                                         class="btn btn-sm btn-outline-primary border me-2"
                                                         data-toggle="tooltip" data-placement="top"
                                                         data-bs-original-title="View">
@@ -286,7 +286,7 @@
                                                     </a>
                                                 </div>
                                                 <div>
-                                                    <a href="{{ route('products.edit', $product->id) }}" 
+                                                    <a href="{{ route('products.edit', $product->id) }}"
                                                         class="btn btn-sm btn-outline-secondary border me-2"
                                                         data-toggle="tooltip" data-placement="top"
                                                         data-bs-original-title="Edit">
@@ -297,7 +297,7 @@
                                                     <form action="{{ route('products.destroy', $product->id) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" 
+                                                        <button type="submit"
                                                             class="btn btn-sm btn-outline-warning border show_confirm"
                                                             data-toggle="tooltip" data-placement="top"
                                                             data-bs-original-title="Delete">
@@ -328,7 +328,7 @@
                     var product_id = $(this).data('id');
                     var url = "{{ route('product.is_active.ajax', ':product_id') }}";
                     url = url.replace(':product_id', product_id);
-                    
+
                     $.ajax({
                         type: "GET",
                         url: url,
