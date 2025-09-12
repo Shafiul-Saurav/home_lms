@@ -230,8 +230,8 @@
                 </div>
             </div>
             <div class="container">
-                <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6">
-                    @foreach ($products->take(6) as $product)
+                <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6" id="products-container">
+                    @foreach ($products as $product)
                         <div class="col">
                             <div class="product-card shadow-lg">
                                 <div class="product-media">
@@ -276,54 +276,87 @@
                             <nav role="navigation" aria-label="Pagination Navigation"
                                 class="flex items-center justify-between">
                                 <div class="flex justify-between flex-1 sm:hidden">
-                                    <span
-                                        class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5 rounded-md dark:text-gray-600 dark:bg-gray-800 dark:border-gray-600">
-                                        &laquo; Previous
-                                    </span>
+                                    @if ($products->previousPageUrl())
+                                        <a href="{{ $products->previousPageUrl() }}"
+                                            class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:focus:border-blue-700 dark:active:bg-gray-700 dark:active:text-gray-300">
+                                            &laquo; Previous
+                                        </a>
+                                    @else
+                                        <span
+                                            class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5 rounded-md dark:text-gray-600 dark:bg-gray-800 dark:border-gray-600">
+                                            &laquo; Previous
+                                        </span>
+                                    @endif
 
-
-                                    <a href="#"
-                                        class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:focus:border-blue-700 dark:active:bg-gray-700 dark:active:text-gray-300">
-                                        Next &raquo;
-                                    </a>
-
+                                    @if ($products->nextPageUrl())
+                                        <a href="{{ $products->nextPageUrl() }}"
+                                            class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:focus:border-blue-700 dark:active:bg-gray-700 dark:active:text-gray-300">
+                                            Next &raquo;
+                                        </a>
+                                    @else
+                                        <span
+                                            class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5 rounded-md dark:text-gray-600 dark:bg-gray-800 dark:border-gray-600">
+                                            Next &raquo;
+                                        </span>
+                                    @endif
                                 </div>
 
                                 <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                                     <div>
                                         <p class="text-sm text-gray-700 leading-5 dark:text-gray-400">
                                             Showing
-                                            <span class="font-medium">1</span> to
-                                            <span class="font-medium">{{ $products->count() }}</span>
-
+                                            <span class="font-medium">{{ $products->firstItem() }}</span> to
+                                            <span class="font-medium">{{ $products->lastItem() }}</span>
                                             of
-                                            <span class="font-medium">{{ $products->count() }}</span> results
+                                            <span class="font-medium">{{ $products->total() }}</span> results
                                         </p>
                                     </div>
 
                                     <div>
                                         <span class="relative z-0 inline-flex rtl:flex-row-reverse shadow-sm rounded-md">
-                                            <span aria-disabled="true" aria-label="&amp;laquo; Previous">
-                                                <span
-                                                    class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default rounded-l-md leading-5 dark:bg-gray-800 dark:border-gray-600"
-                                                    aria-hidden="true">
+                                            @if ($products->previousPageUrl())
+                                                <a href="{{ $products->previousPageUrl() }}" class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600" aria-label="Previous">
                                                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path fill-rule="evenodd"
-                                                            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                                                            clip-rule="evenodd" />
+                                                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </a>
+                                            @else
+                                                <span class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default rounded-l-md leading-5 dark:bg-gray-800 dark:border-gray-600" aria-hidden="true">
+                                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
                                                     </svg>
                                                 </span>
-                                            </span>
-                                            <span aria-current="page">
-                                                <span
-                                                    class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5 dark:bg-gray-800 dark:border-gray-600">1</span>
-                                            </span>
+                                            @endif
+
+                                            @for ($i = 1; $i <= $products->lastPage(); $i++)
+                                                @if ($i == $products->currentPage())
+                                                    <span aria-current="page">
+                                                        <span class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-blue-600 bg-blue-50 border border-gray-300 cursor-default leading-5 dark:bg-gray-800 dark:border-gray-600">{{ $i }}</span>
+                                                    </span>
+                                                @else
+                                                    <a href="{{ $products->url($i) }}" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:active:text-gray-300" aria-label="Page {{ $i }}">
+                                                        {{ $i }}
+                                                    </a>
+                                                @endif
+                                            @endfor
+
+                                            @if ($products->nextPageUrl())
+                                                <a href="{{ $products->nextPageUrl() }}" class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600" aria-label="Next">
+                                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </a>
+                                            @else
+                                                <span class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default rounded-r-md leading-5 dark:bg-gray-800 dark:border-gray-600" aria-hidden="true">
+                                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </span>
+                                            @endif
                                         </span>
                                     </div>
                                 </div>
                             </nav>
-
-
                         </div>
                     </div>
                 </div>
@@ -345,6 +378,33 @@
                 keyboard: true
             });
         }
+        
+        // Handle pagination links with AJAX
+        $(document).on('click', '.pagination a', function(e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            var page = url.split('page=')[1] || 1;
+            
+            // Show loading indicator
+            $('#products-container').html('<div class="col-12 text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>');
+            
+            // Fetch new products
+            $.ajax({
+                url: '{{ route("products.load") }}',
+                type: 'GET',
+                data: { page: page },
+                dataType: 'html',
+                success: function(data) {
+                    // Replace the products section with new data
+                    $('.recent-part .container').find('.row').eq(1).html(data);
+                },
+                error: function() {
+                    alert('Failed to load products. Please try again.');
+                    // Reload the page as fallback
+                    window.location.reload();
+                }
+            });
+        });
     });
 </script>
 @endpush
