@@ -85,43 +85,6 @@
         border-radius: 3px;
     }
 
-    .intro-part {
-        background: #f8f9fa;
-        padding: 2rem 0;
-        margin-top: 2rem;
-    }
-
-    .intro-wrap {
-        display: flex;
-        align-items: center;
-        padding: 1rem;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        transition: transform 0.3s ease;
-    }
-
-    .intro-wrap:hover {
-        transform: translateY(-5px);
-    }
-
-    .intro-icon {
-        margin-right: 1rem;
-        font-size: 1.5rem;
-        color: #684EFF;
-    }
-
-    .intro-content h5 {
-        font-weight: 600;
-        margin-bottom: 0.25rem;
-    }
-
-    .intro-content p {
-        font-size: 0.9rem;
-        color: #666;
-        margin: 0;
-    }
-
     /* Home Slider Carousel Styles */
     .home-slider-part {
         position: relative;
@@ -151,7 +114,7 @@
         .intro-wrap {
             margin-bottom: 1rem;
         }
-        
+
         .home-slider-part .carousel-item {
             height: 175px !important;
         }
@@ -189,9 +152,9 @@
                 <div class="carousel-inner relative w-full overflow-hidden">
                     @foreach($homeSliders as $index => $slider)
                     <div class="carousel-item {{ $index == 0 ? 'active' : '' }} relative float-left w-full">
-                        <div class="relative overflow-hidden bg-cover bg-no-repeat" 
-                             style="background-image: url('{{ asset('uploads/home_slider/' . $slider->slider_image) }}'); 
-                                    background-size: cover; 
+                        <div class="relative overflow-hidden bg-cover bg-no-repeat"
+                             style="background-image: url('{{ asset('uploads/home_slider/' . $slider->slider_image) }}');
+                                    background-size: cover;
                                     background-position: center;
                                     height: 250px;">
                         </div>

@@ -27,11 +27,11 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border: 2px solid transparent;
+    border: 1px solid #684EFF;
 }
 
 .details-thumb li.slick-current img {
-    border-color: #684EFF;
+    border-color: red;
 }
 
 /* Slick slider arrows customization */
@@ -39,7 +39,7 @@
 .details-preview .slick-next {
     width: 40px;
     height: 40px;
-    background: rgba(0, 0, 0, 0.5);
+    background: #684eff;
     border-radius: 50%;
     z-index: 10;
 }
@@ -62,7 +62,7 @@
 .details-thumb .slick-next {
     width: 30px;
     height: 30px;
-    background: rgba(0, 0, 0, 0.5);
+    background: #684eff;
     border-radius: 50%;
     z-index: 10;
 }
@@ -100,7 +100,7 @@
 }
 
 .slick-prev:hover, .slick-next:hover {
-    background: rgba(0, 0, 0, 0.7);
+    background: #5a3ce0;
 }
 
 .slick-prev:before, .slick-next:before {
