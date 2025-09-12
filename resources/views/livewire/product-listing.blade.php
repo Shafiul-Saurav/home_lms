@@ -30,8 +30,7 @@
                             @endif
                         </h6>
                         <button class="btn btn-block border-0 w-100 p-1 btn-gradient"
-                            onclick="addToCart({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})"
-                            wire:click="orderNow({{ $product->id }})">
+                            onclick="addToCart({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})">
                             অর্ডার করুন
                         </button>
                     </div>
@@ -52,14 +51,14 @@
                             </span>
                         @else
                             <button wire:click="previousPage" wire:loading.attr="disabled"
-                                class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:focus:border-blue-700 dark:active:bg-gray-700 dark:active:text-gray-300">
+                                class="relative inline-flex items-center px-4 py-2 text-sm font-medium bg-[#684EFF] border border-[#684EFF] leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:focus:border-blue-700 dark:active:bg-gray-700 dark:active:text-gray-300">
                                 &laquo; Previous
                             </button>
                         @endif
 
                         @if ($products->hasMorePages())
                             <button wire:click="nextPage" wire:loading.attr="disabled"
-                                class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:focus:border-blue-700 dark:active:bg-gray-700 dark:active:text-gray-300">
+                                class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium bg-[#684EFF] border border-[#684EFF] leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:focus:border-blue-700 dark:active:bg-gray-700 dark:active:text-gray-300">
                                 Next &raquo;
                             </button>
                         @else
@@ -90,7 +89,7 @@
                                         </svg>
                                     </span>
                                 @else
-                                    <button wire:click="previousPage" wire:loading.attr="disabled" class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600" aria-label="Previous">
+                                    <button wire:click="previousPage" wire:loading.attr="disabled" class="relative inline-flex items-center px-2 py-2 text-sm font-medium bg-[#684EFF] border border-[#684EFF] rounded-l-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600" aria-label="Previous">
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
                                         </svg>
@@ -100,7 +99,7 @@
                                 @for ($i = 1; $i <= $products->lastPage(); $i++)
                                     @if ($i == $products->currentPage())
                                         <span aria-current="page">
-                                            <span class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-white bg-[#684EFF] border border-[#684EFF] cursor-default leading-5">{{ $i }}</span>
+                                            <span class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium bg-[#684EFF] border border-[#684EFF] cursor-default leading-5">{{ $i }}</span>
                                         </span>
                                     @else
                                         <button wire:click="gotoPage({{ $i }})" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 hover:text-gray-500 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:text-gray-300 dark:active:bg-gray-700 dark:active:text-gray-300" aria-label="Page {{ $i }}">
@@ -110,7 +109,7 @@
                                 @endfor
 
                                 @if ($products->hasMorePages())
-                                    <button wire:click="nextPage" wire:loading.attr="disabled" class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600" aria-label="Next">
+                                    <button wire:click="nextPage" wire:loading.attr="disabled" class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium bg-[#684EFF] border border-[#684EFF] rounded-r-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600" aria-label="Next">
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                                         </svg>
