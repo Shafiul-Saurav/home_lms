@@ -17,7 +17,7 @@ class ProductListing extends Component
         $products = Product::where('is_active', 1)
             ->where('is_stock', 1)
             ->latest('id')
-            ->paginate(6);
+            ->paginate(12);
 
         return view('livewire.product-listing', [
             'products' => $products,

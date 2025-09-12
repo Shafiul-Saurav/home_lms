@@ -53,7 +53,7 @@ class WebsiteController extends Controller
         ->latest('id')->limit(3)->get();
 
         // Fetch products with pagination
-        $products = \App\Models\Product::where('is_active', 1)->where('is_stock', 1)->latest('id')->paginate(6);
+        $products = Product::where('is_active', 1)->where('is_stock', 1)->latest('id')->paginate(12);
 
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
