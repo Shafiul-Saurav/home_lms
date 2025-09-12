@@ -53,26 +53,12 @@ class WebsiteController extends Controller
         ->latest('id')->limit(3)->get();
 
         // Fetch products with pagination
-        $products = Product::where('is_active', 1)->where('is_stock', 1)->latest('id')->paginate(12);
+        $products = \App\Models\Product::where('is_active', 1)->where('is_stock', 1)->latest('id')->paginate(6);
 
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
 
         return view('frontend.pages.home', compact('homeSliders', 'website_link', 'about', 'room_types', 'testimonials', 'posts', 'products', 'logo_fav'));
-    }
-
-    public function loadProducts(Request $request)
-    {
-        // Fetch products with pagination
-        $page = $request->get('page', 1);
-        $products = \App\Models\Product::where('is_active', 1)->where('is_stock', 1)->latest('id')->paginate(12, ['*'], 'page', $page);
-
-        // Return only the products section for AJAX requests
-        if ($request->ajax()) {
-            return view('frontend.pages.partials.products', compact('products'));
-        }
-
-        return redirect()->route('home');
     }
 
     public function about()
