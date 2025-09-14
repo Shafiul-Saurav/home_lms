@@ -69,6 +69,10 @@
             padding: 0 20px;
         }
 
+        .gap-item {
+            padding: 0 100px;
+        }
+
         @keyframes marquee {
             0% { transform: translateX(0); }
             90% { transform: translateX(-50%); }
@@ -177,18 +181,21 @@
                     <div class="notification-marquee">
                         <span class="notification-item">🎉 Online Shop এ আপনাকে স্বাগতম! বাংলাদেশের বিশ্বস্ত অনলাইন শপ।</span>
                         <span class="notification-item">🚚 সারা দেশে ক্যাশ অন ডেলিভারি (৪৮ থেকে ৭২ ঘণ্টার মধ্যে নিশ্চিত ডেলিভারি)</span>
-                        <span class="notification-item">⏰ সকাল ১০ টা থেকে রাত ১০ পর্যন্ত খোলা</span>
+                        <span class="notification-item">⏰ সকাল ১০ টা থেকে রাত ৮ পর্যন্ত খোলা</span>
                         <span class="notification-item">📞 হট লাইন: 01859084364</span>
-                        <!-- Duplicate items for seamless looping -->
+                        <!-- Gap element for 2-3 second delay -->
+                        <span class="notification-item gap-item"></span>
                         <span class="notification-item">🎉 Online Shop এ আপনাকে স্বাগতম! বাংলাদেশের বিশ্বস্ত অনলাইন শপ।</span>
                         <span class="notification-item">🚚 সারা দেশে ক্যাশ অন ডেলিভারি (৪৮ থেকে ৭২ ঘণ্টার মধ্যে নিশ্চিত ডেলিভারি)</span>
-                        <span class="notification-item">⏰ সকাল ১০ টা থেকে রাত ১০ পর্যন্ত খোলা</span>
+                        <span class="notification-item">⏰ সকাল ১০ টা থেকে রাত ৮ পর্যন্ত খোলা</span>
                         <span class="notification-item">📞 হট লাইন: 01859084364</span>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
+<div class="container">
         <div class="header-content">
             <div class="header-media-group">
                 <button class="header-user">
