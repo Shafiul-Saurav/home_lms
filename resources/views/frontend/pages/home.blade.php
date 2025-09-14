@@ -94,14 +94,70 @@
         width: 12px;
         height: 12px;
         border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.5);
+        background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white for inactive dots */
         margin: 0 5px;
         transition: all 0.3s ease;
     }
 
     .carousel-indicators .active {
-        background-color: white;
+        background-color: white; /* Pure white for active dot */
         transform: scale(1.2);
+    }
+
+    @media (max-width: 768px) {
+        .carousel-indicators {
+            bottom: 5px !important; /* Move dots lower on mobile */
+        }
+        
+        .carousel-indicators button {
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white for inactive dots */
+        }
+        
+        .carousel-indicators .active {
+            background-color: white;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .carousel-indicators {
+            bottom: 0px !important; /* Move dots even lower on extra small screens */
+        }
+    }
+
+    /* Smooth carousel transition */
+    .carousel-item {
+        transition: opacity 0.5s ease-in-out;
+    }
+
+    .carousel-item-next,
+    .carousel-item-prev,
+    .carousel-item.active {
+        display: block;
+    }
+
+    .carousel-fade .carousel-item {
+        opacity: 0;
+        transition-property: opacity;
+        transform: none;
+    }
+
+    .carousel-fade .carousel-item.active {
+        opacity: 1;
+    }
+
+    .carousel-fade .carousel-item-next.carousel-item-start,
+    .carousel-fade .carousel-item-prev.carousel-item-end {
+        opacity: 1;
+    }
+
+    .carousel-fade .carousel-item-next,
+    .carousel-fade .carousel-item-prev,
+    .carousel-fade .carousel-item.active,
+    .carousel-fade .carousel-item-start,
+    .carousel-fade .carousel-item-end {
+        transform: none;
     }
 
     @media (max-width: 992px) {
@@ -132,16 +188,16 @@
     <div>
         <!-- Home Slider Carousel -->
         @if($homeSliders && $homeSliders->count() > 0)
-        <section class="section home-slider-part mb-4">
+        <section class="section home-slider-part mb-0 bg-white">
             <div id="homeCarousel" class="carousel slide carousel-fade relative" data-bs-ride="carousel">
                 <!-- Indicators -->
-                <div class="carousel-indicators absolute right-0 bottom-0 left-0 flex justify-center p-0 mb-4">
+                <div class="carousel-indicators absolute right-0 bottom-0 left-0 flex justify-center p-0 mb-2">
                     @foreach($homeSliders as $index => $slider)
                     <button
                         type="button"
                         data-bs-target="#homeCarousel"
                         data-bs-slide-to="{{ $index }}"
-                        class="{{ $index == 0 ? 'active' : '' }} rounded-full h-3 w-3 bg-white border-0"
+                        class="{{ $index == 0 ? 'active' : '' }} rounded-full h-3 w-3 border-0"
                         aria-current="{{ $index == 0 ? 'true' : 'false' }}"
                         aria-label="Slide {{ $index + 1 }}">
                     </button>
@@ -243,7 +299,7 @@
         var carouselElement = document.querySelector('#homeCarousel');
         if (carouselElement) {
             var carousel = new bootstrap.Carousel(carouselElement, {
-                interval: 5000, // 5 seconds
+                interval: 3000, // Changed to 2.5 seconds for faster transitions
                 pause: 'hover',
                 wrap: true,
                 keyboard: true
