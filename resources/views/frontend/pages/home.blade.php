@@ -3,222 +3,223 @@
 @section('title', 'Home')
 
 @push('frontendstyle')
-<style>
-    /* Home page specific styles */
-    .product-card {
-        transition: all 0.3s ease;
-    }
-
-    .product-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-    }
-
-    .product-media {
-        position: relative;
-        overflow: hidden;
-    }
-
-    .product-image {
-        transition: transform 0.3s ease;
-    }
-
-    .product-card:hover .product-image {
-        transform: scale(1.05);
-    }
-
-    .product-content {
-        padding: 1rem;
-    }
-
-    .product-name a {
-        color: #333;
-        text-decoration: none;
-        font-weight: 600;
-        transition: color 0.2s ease;
-    }
-
-    .product-name a:hover {
-        color: #684EFF;
-    }
-
-    .product-price {
-        margin: 0.5rem 0;
-        font-size: 1.1rem;
-    }
-
-    .new-price {
-        color: #684EFF;
-        font-weight: 700;
-    }
-
-    .old-price {
-        color: #999;
-        text-decoration: line-through;
-        font-size: 0.9rem;
-    }
-
-    .new-slider li {
-        margin: 0 10px;
-    }
-
-    .section {
-        margin-bottom: 2rem;
-    }
-
-    .section h4 {
-        font-weight: 700;
-        color: #333;
-        margin-bottom: 1rem;
-        position: relative;
-        padding-bottom: 10px;
-    }
-
-    .section h4:after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 50px;
-        height: 3px;
-        background: #684EFF;
-        border-radius: 3px;
-    }
-
-    /* Home Slider Carousel Styles */
-    .home-slider-part {
-        position: relative;
-    }
-
-    .carousel-indicators button {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white for inactive dots */
-        margin: 0 5px;
-        transition: all 0.3s ease;
-    }
-
-    .carousel-indicators .active {
-        background-color: white; /* Pure white for active dot */
-        transform: scale(1.2);
-    }
-
-    @media (max-width: 768px) {
-        .carousel-indicators {
-            bottom: 5px !important; /* Move dots lower on mobile */
+    <style>
+        /* Home page specific styles */
+        .product-card {
+            transition: all 0.3s ease;
         }
-        
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .product-media {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image {
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .product-name a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .product-name a:hover {
+            color: #684EFF;
+        }
+
+        .product-price {
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        .new-price {
+            color: #684EFF;
+            font-weight: 700;
+        }
+
+        .old-price {
+            color: #999;
+            text-decoration: line-through;
+            font-size: 0.9rem;
+        }
+
+        .new-slider li {
+            margin: 0 4px;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section h4 {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section h4:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: #684EFF;
+            border-radius: 3px;
+        }
+
+        /* Home Slider Carousel Styles */
+        .home-slider-part {
+            position: relative;
+        }
+
         .carousel-indicators button {
-            width: 10px;
-            height: 10px;
-            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white for inactive dots */
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            /* Semi-transparent white for inactive dots */
+            margin: 0 5px;
+            transition: all 0.3s ease;
         }
-        
+
         .carousel-indicators .active {
             background-color: white;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .carousel-indicators {
-            bottom: 0px !important; /* Move dots even lower on extra small screens */
-        }
-    }
-
-    /* Smooth carousel transition */
-    .carousel-item {
-        transition: opacity 0.5s ease-in-out;
-    }
-
-    .carousel-item-next,
-    .carousel-item-prev,
-    .carousel-item.active {
-        display: block;
-    }
-
-    .carousel-fade .carousel-item {
-        opacity: 0;
-        transition-property: opacity;
-        transform: none;
-    }
-
-    .carousel-fade .carousel-item.active {
-        opacity: 1;
-    }
-
-    .carousel-fade .carousel-item-next.carousel-item-start,
-    .carousel-fade .carousel-item-prev.carousel-item-end {
-        opacity: 1;
-    }
-
-    .carousel-fade .carousel-item-next,
-    .carousel-fade .carousel-item-prev,
-    .carousel-fade .carousel-item.active,
-    .carousel-fade .carousel-item-start,
-    .carousel-fade .carousel-item-end {
-        transform: none;
-    }
-
-    @media (max-width: 992px) {
-        .home-slider-part .carousel-item {
-            height: 200px !important;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .intro-wrap {
-            margin-bottom: 1rem;
+            transform: scale(1.2);
         }
 
-        .home-slider-part .carousel-item {
-            height: 175px !important;
-        }
-    }
+        @media (max-width: 768px) {
+            .header-media-group{
+                text-align: center !important;
+            }
+            .header-media-group img{
+                width: 30% !important;
+            }
 
-    @media (max-width: 576px) {
-        .home-slider-part .carousel-item {
-            height: 125px !important;
+            .carousel-indicators {
+                bottom: 5px !important;
+            }
+
+            .carousel-indicators button {
+                width: 10px;
+                height: 10px;
+                background-color: rgba(255, 255, 255, 0.5);
+            }
+
+            .carousel-indicators .active {
+                background-color: white;
+            }
         }
-    }
-</style>
+
+        /* Smooth carousel transition */
+        .carousel-item {
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .carousel-item-next,
+        .carousel-item-prev,
+        .carousel-item.active {
+            display: block;
+        }
+
+        .carousel-fade .carousel-item {
+            opacity: 0;
+            transition-property: opacity;
+            transform: none;
+        }
+
+        .carousel-fade .carousel-item.active {
+            opacity: 1;
+        }
+
+        .carousel-fade .carousel-item-next.carousel-item-start,
+        .carousel-fade .carousel-item-prev.carousel-item-end {
+            opacity: 1;
+        }
+
+        .carousel-fade .carousel-item-next,
+        .carousel-fade .carousel-item-prev,
+        .carousel-fade .carousel-item.active,
+        .carousel-fade .carousel-item-start,
+        .carousel-fade .carousel-item-end {
+            transform: none;
+        }
+
+        @media (max-width: 992px) {
+            .home-slider-part .carousel-item {
+                height: 200px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .intro-wrap {
+                margin-bottom: 1rem;
+            }
+
+            .home-slider-part .carousel-item {
+                height: 175px !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-media-group img{
+                width: 100% !important;
+            }
+            .home-slider-part .carousel-item {
+                height: 125px !important;
+            }
+
+            .carousel-indicators {
+                bottom: 0px !important;
+            }
+        }
+    </style>
 @endpush
 
 @section('frontend_content')
     <div>
         <!-- Home Slider Carousel -->
-        @if($homeSliders && $homeSliders->count() > 0)
-        <section class="section home-slider-part mb-0 bg-white">
-            <div id="homeCarousel" class="carousel slide carousel-fade relative" data-bs-ride="carousel">
-                <!-- Indicators -->
-                <div class="carousel-indicators absolute right-0 bottom-0 left-0 flex justify-center p-0 mb-2">
-                    @foreach($homeSliders as $index => $slider)
-                    <button
-                        type="button"
-                        data-bs-target="#homeCarousel"
-                        data-bs-slide-to="{{ $index }}"
-                        class="{{ $index == 0 ? 'active' : '' }} rounded-full h-3 w-3 border-0"
-                        aria-current="{{ $index == 0 ? 'true' : 'false' }}"
-                        aria-label="Slide {{ $index + 1 }}">
-                    </button>
-                    @endforeach
-                </div>
+        @if ($homeSliders && $homeSliders->count() > 0)
+            <section class="section home-slider-part mb-0 bg-white">
+                <div id="homeCarousel" class="carousel slide carousel-fade relative" data-bs-ride="carousel">
+                    <!-- Indicators -->
+                    <div class="carousel-indicators absolute right-0 bottom-0 left-0 flex justify-center p-0 mb-2">
+                        @foreach ($homeSliders as $index => $slider)
+                            <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="{{ $index }}"
+                                class="{{ $index == 0 ? 'active' : '' }} rounded-full h-3 w-3 border-0"
+                                aria-current="{{ $index == 0 ? 'true' : 'false' }}" aria-label="Slide {{ $index + 1 }}">
+                            </button>
+                        @endforeach
+                    </div>
 
-                <!-- Slides -->
-                <div class="carousel-inner relative w-full overflow-hidden">
-                    @foreach($homeSliders as $index => $slider)
-                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }} relative float-left w-full">
-                        <div class="relative overflow-hidden bg-cover bg-no-repeat"
-                             style="background-image: url('{{ asset('uploads/home_slider/' . $slider->slider_image) }}');
+                    <!-- Slides -->
+                    <div class="carousel-inner relative w-full overflow-hidden">
+                        @foreach ($homeSliders as $index => $slider)
+                            <div class="carousel-item {{ $index == 0 ? 'active' : '' }} relative float-left w-full">
+                                <div class="relative overflow-hidden bg-cover bg-no-repeat"
+                                    style="background-image: url('{{ asset('uploads/home_slider/' . $slider->slider_image) }}');
                                     background-size: cover;
                                     background-position: center;
                                     height: 250px;">
-                        </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
-                    @endforeach
                 </div>
-            </div>
-        </section>
+            </section>
         @endif
 
         <section class="section newitem-part mb-1 bg-white py-5">
@@ -234,7 +235,7 @@
                     <div class="col">
                         <ul class="new-slider">
                             @foreach ($products->take(5) as $product)
-                                <li>
+                                <li class="py-2">
                                     <div class="product-card shadow-sm rounded-lg">
                                         <div class="product-media">
                                             <a class="product-image" href="{{ route('product.details', $product->id) }}">
@@ -293,18 +294,18 @@
 @endsection
 
 @push('frontendscript')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize carousel with custom options
-        var carouselElement = document.querySelector('#homeCarousel');
-        if (carouselElement) {
-            var carousel = new bootstrap.Carousel(carouselElement, {
-                interval: 3000, // Changed to 2.5 seconds for faster transitions
-                pause: 'hover',
-                wrap: true,
-                keyboard: true
-            });
-        }
-    });
-</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize carousel with custom options
+            var carouselElement = document.querySelector('#homeCarousel');
+            if (carouselElement) {
+                var carousel = new bootstrap.Carousel(carouselElement, {
+                    interval: 3000, // Changed to 2.5 seconds for faster transitions
+                    pause: 'hover',
+                    wrap: true,
+                    keyboard: true
+                });
+            }
+        });
+    </script>
 @endpush

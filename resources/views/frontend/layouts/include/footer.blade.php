@@ -1,3 +1,20 @@
+<style>
+    .footer-logo img {
+            width: 150px;
+        }
+    @media (max-width: 768px) {
+        .footer-logo img {
+            width: 120px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .footer-logo img {
+            width: 120px;
+        }
+    }
+</style>
+
 <footer class="footer-part">
     <div class="container  d-block">
         <div class="row">
@@ -7,7 +24,8 @@
                         $logo_fav = \App\Models\LogoFavicon::first();
                         $website_link = \App\Models\WebsiteLink::first();
                     @endphp
-                    <a class="footer-logo" href="{{ route('home') }}"><img loading="lazy" src="{{ asset($logo_fav->logo ?? null) }}" alt="logo" class="w-50"></a>
+                    <a class="footer-logo" href="{{ route('home') }}"><img loading="lazy"
+                            src="{{ asset($logo_fav->logo ?? null) }}" alt="logo" class="img-fluid"></a>
                     <p class="footer-desc">
                         {{ $logo_fav->web_name ?? null }} | Online Shopping In Bangladesh With Home Delivery
                     </p>
@@ -62,7 +80,8 @@
         <div class="col-12">
             <div class="p-2 bg-primary text-center">
                 <p class="footer-copytext">
-                    All Rights Reserved {{ $logo_fav->web_name ?? null }} 2024 <span class="copy-tj"> | Designed and Developed by <a href="" target="_blank">Shaftech</a></span>
+                    All Rights Reserved {{ $logo_fav->web_name ?? null }} 2024 <span class="copy-tj"> | Designed and
+                        Developed by <a href="" target="_blank">Shaftech</a></span>
                 </p>
             </div>
         </div>

@@ -31,10 +31,6 @@
         transform: scale(1.05);
     }
 
-    .product-content {
-        padding: 1rem;
-    }
-
     .product-name a {
         color: #333;
         text-decoration: none;

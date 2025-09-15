@@ -80,7 +80,7 @@
                             </p>
                         </div>
 
-                        <div>
+                        <div class="d-flex justify-content-center w-100">
                             <span class="relative z-0 inline-flex rtl:flex-row-reverse shadow-sm rounded-md">
                                 @if ($products->onFirstPage())
                                     <span class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default rounded-l-md leading-5 dark:bg-gray-800 dark:border-gray-600" aria-hidden="true">
@@ -128,4 +128,21 @@
             </div>
         </div>
     </div>
+
+    <style>
+        @media (max-width: 640px) {
+            .sm\:hidden .relative.inline-flex.items-center.px-4.py-2,
+            .sm\:hidden .relative.inline-flex.items-center.px-4.py-2.ml-3 {
+                display: block;
+                width: 100%;
+                margin: 5px 0 !important;
+                text-align: center;
+            }
+
+            .sm\:hidden .flex.justify-between.flex-1 {
+                display: block;
+                text-align: center;
+            }
+        }
+    </style>
 </div>
