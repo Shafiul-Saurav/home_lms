@@ -421,7 +421,7 @@ thead tr th:last-child {
                                         @endif
                                     </div>
                                 </td>
-                                <td data-label="Category">
+                                <td data-label="Name">
                                     @if($product)
                                         <p class="mb-0 product-info-table product-category">{{ $product->name ?? 'N/A' }}</p>
                                     @else
