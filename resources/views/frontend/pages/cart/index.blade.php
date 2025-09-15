@@ -300,6 +300,7 @@ thead tr th:last-child {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        text-align: left;
     }
 
     .cart-table td:before {
@@ -308,6 +309,12 @@ thead tr th:last-child {
         margin-right: 1rem;
         min-width: 80px;
         font-size: 0.875rem;
+        text-align: left;
+    }
+
+    .cart-table td > *:not(:before) {
+        flex: 1;
+        text-align: left;
     }
 
     .quantity-controls-table {
