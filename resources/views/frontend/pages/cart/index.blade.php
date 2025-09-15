@@ -311,7 +311,8 @@ thead tr th:last-child {
     }
 
     .quantity-controls-table {
-        width: 90px !important;
+        width: 100px;
+        max-width: 100px;
     }
 
     .order-summary {

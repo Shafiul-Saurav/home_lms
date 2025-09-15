@@ -184,9 +184,9 @@
                         <table class="table">
                             <thead class="bg-light">
                                 <tr>
-                                    <th>Product</th>
-                                    <th>Qty</th>
-                                    <th class="text-end">Total</th>
+                                    <th class="text-light">Product</th>
+                                    <th class="text-light">Qty</th>
+                                    <th class="text-light">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
