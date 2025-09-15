@@ -118,6 +118,88 @@
             });
         }
     });
+    
+    // Search functionality
+    $(document).ready(function() {
+        let searchTimeout;
+        const searchInput = $('#search');
+        const suggestionsContainer = $('#search-suggestions');
+        
+        searchInput.on('input', function() {
+            const query = $(this).val().trim();
+            
+            // Clear previous timeout
+            clearTimeout(searchTimeout);
+            
+            // Hide suggestions if query is empty
+            if (query.length === 0) {
+                suggestionsContainer.hide();
+                return;
+            }
+            
+            // Delay the search request
+            searchTimeout = setTimeout(function() {
+                if (query.length >= 2) {
+                    $.ajax({
+                        url: '/search/suggestions',
+                        method: 'GET',
+                        data: { q: query },
+                        success: function(response) {
+                            if (response.products && response.products.length > 0) {
+                                let suggestionsHtml = '';
+                                response.products.forEach(function(product) {
+                                    suggestionsHtml += `
+                                        <div class="search-suggestion-item p-2 border-bottom hover-bg-light cursor-pointer" data-url="/product/${product.id}">
+                                            <div class="d-flex align-items-center">
+                                                ${product.image ? 
+                                                    `<img src="/uploads/products/${product.image}" alt="${product.name}" class="img-fluid rounded mr-2" style="width: 40px; height: 40px; object-fit: cover;">` : 
+                                                    `<div class="bg-light rounded mr-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                                        <i class="fas fa-image"></i>
+                                                    </div>`}
+                                                <div>
+                                                    <div class="font-weight-bold">${product.name.length > 40 ? product.name.substring(0, 40) + '...' : product.name}</div>
+                                                    <div class="text-primary font-weight-bold">Tk ${parseInt(product.sale_price).toLocaleString()}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
+                                });
+                                
+                                suggestionsContainer.html(suggestionsHtml);
+                                suggestionsContainer.show();
+                            } else {
+                                suggestionsContainer.html('<div class="p-3 text-center text-muted">No products found</div>');
+                                suggestionsContainer.show();
+                            }
+                        },
+                        error: function() {
+                            suggestionsContainer.hide();
+                        }
+                    });
+                }
+            }, 300); // 300ms delay
+        });
+        
+        // Hide suggestions when clicking outside
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('.header-form').length) {
+                suggestionsContainer.hide();
+            }
+        });
+        
+        // Handle suggestion click
+        $(document).on('click', '.search-suggestion-item', function() {
+            const url = $(this).data('url');
+            if (url) {
+                window.location.href = url;
+            }
+        });
+        
+        // Hide suggestions on form submit
+        $('.header-form').on('submit', function() {
+            suggestionsContainer.hide();
+        });
+    });
 </script>
 <!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>

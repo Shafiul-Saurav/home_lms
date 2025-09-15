@@ -88,12 +88,40 @@
             max-height: 100px !important; /* Slightly reduced logo height */
         }
 
+        .header-form {
+            position: relative;
+            width: 100%;
+        }
+
         .header-form input {
             height: 40px !important; /* Slightly reduced form input height */
+            width: 100%;
+            padding-right: 40px;
         }
 
         .header-form button {
             height: 40px !important; /* Slightly reduced form button height */
+            position: absolute;
+            right: 0;
+            top: 0;
+            border: none;
+            background: #684EFF;
+            color: white;
+            width: 40px;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        /* Search Suggestions Styles */
+        .search-suggestions-dropdown {
+            display: none;
+        }
+        
+        .hover-bg-light:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .cursor-pointer {
+            cursor: pointer;
         }
 
         /* Responsive styles */
@@ -213,10 +241,12 @@
                 </button>
             </div>
             <a class="header-logo" href="{{ route('home') }}"><img loading="lazy" src="{{ asset($logo_fav->logo ?? 'uploads/logos/default.png') }}" alt="{{ $logo_fav->web_name ?? 'Online Shopping In Bangladesh With Home Delivery' }}"></a>
-            <form class="header-form active" action="">
-                <input type="text" placeholder="Search anything..." name="q" id="search" /><button>
+            <form class="header-form active" action="{{ route('search.results') }}" method="GET">
+                <input type="text" placeholder="Search anything..." name="q" id="search" autocomplete="off" />
+                <button type="submit">
                     <i class="fas fa-search"></i>
                 </button>
+                <div id="search-suggestions" class="search-suggestions-dropdown position-absolute w-100 bg-white shadow rounded mt-1" style="display: none; z-index: 1000; max-height: 300px; overflow-y: auto; top: 100%; left: 0;"></div>
             </form>
             <div class="header-widget-group">
                 <a href="{{ route('cart.index') }}" class="header-widget header-cart" title="Cartlist">

@@ -209,4 +209,39 @@ class WebsiteController extends Controller
         // $faqs = Faq::get();
         return view('frontend.pages.contact.contact', compact('logo_fav'));
     }
+
+    public function searchResults(Request $request)
+    {
+        $query = $request->get('q');
+
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
+
+        return view('frontend.pages.search.results', compact('query', 'logo_fav'));
+    }
+
+    public function searchSuggestions(Request $request)
+    {
+        $query = $request->get('q');
+        $products = collect();
+
+        if ($query && strlen($query) >= 2) {
+            $products = Product::where('name', 'like', '%' . $query . '%')
+                ->orWhere('description', 'like', '%' . $query . '%')
+                ->where('is_active', 1)
+                ->where('is_stock', 1)
+                ->limit(10)
+                ->get()
+                ->map(function ($product) {
+                    return [
+                        'id' => $product->id,
+                        'name' => $product->name,
+                        'sale_price' => $product->sale_price,
+                        'image' => $product->productImages->first() ? $product->productImages->first()->multiple_image : null
+                    ];
+                });
+        }
+
+        return response()->json(['products' => $products]);
+    }
 }
