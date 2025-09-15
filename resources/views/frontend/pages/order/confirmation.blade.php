@@ -94,7 +94,7 @@
                     </div>
 
                     <div class="text-center">
-                        <a href="{{ route('home') }}" class="btn btn-primary">Continue Shopping</a>
+                        <a href="{{ route('home') }}" class="btn btn-gradient">Continue Shopping</a>
                     </div>
                 </div>
             </div>
