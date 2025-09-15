@@ -8,7 +8,7 @@
         <div class="col-md-8">
             <div class="card shadow-sm">
                 <div class="card-header text-white" style="background-color: #684eff;">
-                    <h4 class="mb-0 text-center">Order Confirmation</h4>
+                    <h4 class="mb-0 text-center text-light">Order Confirmation</h4>
                 </div>
                 <div class="card-body">
                     <div class="text-center mb-4">
@@ -59,10 +59,10 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Product</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total</th>
+                                        <th class="text-light">Product</th>
+                                        <th class="text-light">Price</th>
+                                        <th class="text-light">Quantity</th>
+                                        <th class="text-light">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>

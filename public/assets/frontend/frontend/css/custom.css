@@ -93,9 +93,6 @@
     .header-media-group a img {
         max-height: 60px
     }
-    .details-preview li img {
-        width: 80%;
-    }
     .slick-list {
         max-height: 500px;
         position: relative;
@@ -103,9 +100,6 @@
         overflow: hidden;
         margin: 0;
         padding: 0;
-    }
-    .details-thumb li {
-        display: none !important;
     }
     .header-content {
         padding: 5px 0;
@@ -180,9 +174,6 @@
         margin: 0;
         padding: 0;
     }
-    .details-preview li img {
-        width: 70%;
-    }
     .btn-outline-primary {
         font-size: 11px;
     }
@@ -194,9 +185,6 @@
         color: var(--text);
         margin-right: 25px;
         font-size: 14px;
-    }
-    .details-thumb li {
-        display: none !important;
     }
     .table>:not(caption)>*>* {
         padding: 0rem 0rem;
