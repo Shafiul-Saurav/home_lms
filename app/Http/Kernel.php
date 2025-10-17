@@ -2,8 +2,9 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\IsSystemAdmin;
 use App\Http\Middleware\IsUser;
+use App\Http\Middleware\IsSystemAdmin;
+use App\Http\Middleware\AuthGatesMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -23,6 +24,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        AuthGatesMiddleware::class,
     ];
 
     /**

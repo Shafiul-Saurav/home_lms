@@ -12,6 +12,7 @@ use App\Models\Roomtype;
 use Carbon\CarbonPeriod;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
@@ -19,7 +20,7 @@ class HomeController extends Controller
     public function adminDashboard()
     {
         // Optional: Authorize user to access admin dashboard
-        // Gate::authorize('access-dashboard');
+        Gate::authorize('access-dashboard');
 
         // Fetch data for dashboard entities
         $roles = Role::count();
