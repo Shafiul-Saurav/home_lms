@@ -93,7 +93,7 @@
                                             <strong>{{ $categories->firstItem() + $loop->index }}</strong>
                                         </td>
                                         <td>{{ $category->updated_at->format('d-M-Y') }}</td>
-                                        <td>{{ $category->name }}</td>
+                                        <td>{!! $category->name !!}</td>
                                         <td>
                                             @if($category->file)
                                                 <img src="{{ asset('uploads/categories/'.$category->file) }}" alt="Category Image" width="50">

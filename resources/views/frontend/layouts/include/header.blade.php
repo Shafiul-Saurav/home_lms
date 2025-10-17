@@ -109,17 +109,28 @@
             color: white;
             width: 40px;
             border-radius: 0 4px 4px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        
+
+        .header-form button i {
+            color: white !important;
+        }
+
+        .header-form button:hover i {
+            color: white !important;
+        }
+
         /* Search Suggestions Styles */
         .search-suggestions-dropdown {
             display: none;
         }
-        
+
         .hover-bg-light:hover {
             background-color: #f8f9fa;
         }
-        
+
         .cursor-pointer {
             cursor: pointer;
         }
@@ -154,6 +165,9 @@
 
             .header-form button {
                 height: 35px !important;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
 
@@ -178,6 +192,7 @@
 
             .header-content {
                 padding: 8px 0 !important; /* Reduced from 10px to 8px (20% reduction) */
+                align-items: center;
             }
 
             .header-logo img {
@@ -196,6 +211,14 @@
             .header-form button {
                 height: 32px !important;
                 width: 35px !important;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .header-media-group {
+                display: flex;
+                align-items: center;
             }
         }
     </style>
@@ -209,14 +232,14 @@
                     <div class="notification-marquee">
                         <span class="notification-item">🎉 Online Shop এ আপনাকে স্বাগতম! বাংলাদেশের বিশ্বস্ত অনলাইন শপ।</span>
                         <span class="notification-item">🚚 সারা দেশে ক্যাশ অন ডেলিভারি (৪৮ থেকে ৭২ ঘণ্টার মধ্যে নিশ্চিত ডেলিভারি)</span>
-                        <span class="notification-item">⏰ সকাল ১০ টা থেকে রাত ৮ পর্যন্ত খোলা</span>
-                        <span class="notification-item">📞 হট লাইন: 01859084364</span>
+                        {{-- <span class="notification-item">⏰ সকাল ১০ টা থেকে রাত ৮ পর্যন্ত খোলা</span> --}}
+                        {{-- <span class="notification-item">📞 হট লাইন: 01859084364</span> --}}
                         <!-- Gap element for 2-3 second delay -->
                         <span class="notification-item gap-item"></span>
                         <span class="notification-item">🎉 Online Shop এ আপনাকে স্বাগতম! বাংলাদেশের বিশ্বস্ত অনলাইন শপ।</span>
                         <span class="notification-item">🚚 সারা দেশে ক্যাশ অন ডেলিভারি (৪৮ থেকে ৭২ ঘণ্টার মধ্যে নিশ্চিত ডেলিভারি)</span>
-                        <span class="notification-item">⏰ সকাল ১০ টা থেকে রাত ৮ পর্যন্ত খোলা</span>
-                        <span class="notification-item">📞 হট লাইন: 01859084364</span>
+                        {{-- <span class="notification-item">⏰ সকাল ১০ টা থেকে রাত ৮ পর্যন্ত খোলা</span> --}}
+                        {{-- <span class="notification-item">📞 হট লাইন: 01859084364</span> --}}
                     </div>
                 </div>
             </div>
@@ -224,7 +247,7 @@
     </div>
 
 <div class="container">
-        <div class="header-content">
+        <div class="header-content d-flex align-items-center">
             <div class="header-media-group">
                 <button class="header-user">
                     <i class="fas fa-bars"></i>

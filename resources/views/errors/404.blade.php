@@ -3,7 +3,7 @@
 @section('title', '404')
 
 @push('frontend_style')
-    @include('frontend.pages.common.style')
+    @include('frontend.layouts.include.style')
 @endpush
 
 @section('frontend_content')
@@ -46,5 +46,5 @@
 @endsection
 
 @push('frontend_script')
-    @include('frontend.pages.common.script')
+    @include('frontend.layouts.include.script')
 @endpush

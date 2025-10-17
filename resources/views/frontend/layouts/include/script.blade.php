@@ -149,7 +149,7 @@
                                 let suggestionsHtml = '';
                                 response.products.forEach(function(product) {
                                     suggestionsHtml += `
-                                        <div class="search-suggestion-item p-2 border-bottom hover-bg-light cursor-pointer" data-url="/product/${product.id}">
+                                        <div class="search-suggestion-item p-2 border-bottom hover-bg-light cursor-pointer" data-url="/product/${product.slug}">
                                             <div class="d-flex align-items-center">
                                                 ${product.image ? 
                                                     `<img src="/uploads/products/${product.image}" alt="${product.name}" class="img-fluid rounded mr-2" style="width: 40px; height: 40px; object-fit: cover;">` : 

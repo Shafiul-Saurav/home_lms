@@ -169,6 +169,18 @@
                             <label for="address" class="form-label">Address *</label>
                             <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
                         </div>
+
+                        <div class="mb-3">
+                            <label for="delivery_location" class="form-label">Delivery Location *</label>
+                            <select class="form-control" id="delivery_location" name="delivery_location" required>
+                                <option value="">Select Delivery Location</option>
+                                <option value="inside_dhaka">Inside Dhaka (Tk 70)</option>
+                                <option value="outside_dhaka">Outside Dhaka (Tk 120)</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Hidden input to store the calculated shipping cost -->
+                        <input type="hidden" id="shipping_cost" name="shipping_cost" value="0">
                     </form>
                 </div>
             </div>
@@ -208,12 +220,12 @@
                         </div>
                         <div class="order-summary-item">
                             <span>Shipping:</span>
-                            <span>Tk 80</span>
+                            <span id="shipping-cost">Tk 0</span>
                         </div>
                         <hr class="order-summary-divider">
                         <div class="order-summary-item">
                             <h5 class="mb-0 order-total">Total:</h5>
-                            <h5 class="mb-0 order-total">Tk {{ number_format($cartTotal + 80) }}</h5>
+                            <h5 class="mb-0 order-total" id="total-cost">Tk {{ number_format($cartTotal) }}</h5>
                         </div>
                     </div>
 
@@ -245,3 +257,52 @@
     @endif
 </div>
 @endsection
+
+@push('frontendscript')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const deliveryLocation = document.getElementById('delivery_location');
+        const shippingCostDisplay = document.getElementById('shipping-cost');
+        const totalCostDisplay = document.getElementById('total-cost');
+        const checkoutForm = document.getElementById('checkout-form');
+        const shippingCostInput = document.getElementById('shipping_cost');
+
+        // Get the subtotal from the page
+        const subtotalText = document.querySelector('.order-summary-item span:nth-child(2)').textContent;
+        const subtotal = parseFloat(subtotalText.replace(/[^0-9.]/g, '')) || 0;
+
+        // Update shipping cost and total when delivery location changes
+        deliveryLocation.addEventListener('change', function() {
+            let shipping = 0;
+
+            if (this.value === 'inside_dhaka') {
+                shipping = 70;
+            } else if (this.value === 'outside_dhaka') {
+                shipping = 120;
+            }
+
+            // Update shipping cost display
+            shippingCostDisplay.textContent = 'Tk ' + shipping.toLocaleString();
+            
+            // Store shipping cost in hidden input
+            shippingCostInput.value = shipping;
+
+            // Update total cost display
+            const total = subtotal + shipping;
+            totalCostDisplay.textContent = 'Tk ' + total.toLocaleString();
+        });
+
+        // Handle form submission
+        checkoutForm.addEventListener('submit', function(e) {
+            if (!deliveryLocation.value) {
+                e.preventDefault();
+                alert('Please select a delivery location.');
+                return false;
+            }
+            
+            // Remove delivery location from form data before submitting
+            deliveryLocation.removeAttribute('name');
+        });
+    });
+</script>
+@endpush

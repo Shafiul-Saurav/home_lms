@@ -13,8 +13,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::with('orderItems')->orderBy('created_at', 'desc')->get();
-        return view('backend.orders.index', compact('orders'));
+        $orders = Order::with('orderItems')->orderBy('id', 'desc')->paginate(1000);
+        return view('backend.pages.orders.index', compact('orders'));
     }
 
     /**
@@ -22,8 +22,20 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
+        $order->load('orderItems.product.productImages');
+        $website_link = \App\Models\WebsiteLink::first();
+        $logo_favicon = \App\Models\LogoFavicon::first();
+        
+        return view('backend.pages.orders.show', compact('order', 'website_link', 'logo_favicon'));
+    }
+
+    /**
+     * Show the form for editing the specified order.
+     */
+    public function edit(Order $order)
+    {
         $order->load('orderItems.product');
-        return view('backend.orders.show', compact('order'));
+        return view('backend.pages.orders.edit', compact('order'));
     }
 
     /**
@@ -39,5 +51,15 @@ class OrderController extends Controller
         $order->save();
 
         return redirect()->back()->with('success', 'Order status updated successfully.');
+    }
+
+    /**
+     * Remove the specified order from storage.
+     */
+    public function destroy(Order $order)
+    {
+        $order->delete();
+
+        return redirect()->route('orders.index')->with('success', 'Order deleted successfully.');
     }
 }

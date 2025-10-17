@@ -410,15 +410,10 @@ thead tr th:last-child {
                                         @php
                                             $product = \App\Models\Product::find($item['product_id']);
                                         @endphp
-                                        @if($product && $product->productImages->first())
-                                            <img src="{{ asset('uploads/products/' . $product->productImages->first()->multiple_image) }}"
-                                                 alt="{{ $item['product_name'] }}"
-                                                 class="img-fluid rounded product-image-table">
-                                        @else
-                                            <img src=""
-                                                 alt="{{ $item['product_name'] }}"
-                                                 class="img-fluid rounded product-image-table">
-                                        @endif
+                                        {{-- @if($product && $product->productImages->first()) --}}
+                                            <img src="{{ asset('uploads/products') }}/{{ $product->image }}" alt=""
+                                                    style="height: 60px">
+                                        {{-- @endif --}}
                                     </div>
                                 </td>
                                 <td data-label="Name">
@@ -481,14 +476,10 @@ thead tr th:last-child {
                         <span>Subtotal:</span>
                         <span>Tk <span id="cart-subtotal">{{ number_format($cartTotal) }}</span></span>
                     </div>
-                    <div class="order-summary-item">
-                        <span>Shipping:</span>
-                        <span>Tk 80</span>
-                    </div>
                     <hr class="order-summary-divider">
                     <div class="order-summary-item">
                         <h5 class="mb-0 order-total">Total:</h5>
-                        <h5 class="mb-0 order-total">Tk <span id="cart-total">{{ number_format($cartTotal + 80) }}</span></h5>
+                        <h5 class="mb-0 order-total">Tk <span id="cart-total">{{ number_format($cartTotal) }}</span></h5>
                     </div>
                     <a href="{{ route('checkout.index') }}" class="btn btn-gradient py-2 w-100 mt-3">
                         <i class="fas fa-lock me-1"></i>Proceed to Checkout
@@ -572,7 +563,7 @@ $(document).ready(function() {
 
                     // Update cart totals
                     $('#cart-subtotal').text(response.cartTotal.toLocaleString());
-                    $('#cart-total').text((response.cartTotal + 80).toLocaleString());
+                    $('#cart-total').text(response.cartTotal.toLocaleString());
                     $('.cart-count').text(response.cartCount);
 
                     // Show success message
@@ -613,7 +604,7 @@ $(document).ready(function() {
 
                         // Update cart totals
                         $('#cart-subtotal').text(response.cartTotal.toLocaleString());
-                        $('#cart-total').text((response.cartTotal + 80).toLocaleString());
+                        $('#cart-total').text(response.cartTotal.toLocaleString());
                         $('.cart-count').text(response.cartCount);
 
                         // Show success message

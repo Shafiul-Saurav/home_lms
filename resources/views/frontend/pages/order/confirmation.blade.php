@@ -49,6 +49,18 @@
                                     <th>Address:</th>
                                     <td>{{ $order->address }}</td>
                                 </tr>
+                                <tr>
+                                    <th>Delivery Location:</th>
+                                    <td>
+                                        @if($order->delivery_location === 'inside_dhaka')
+                                            Inside Dhaka
+                                        @elseif($order->delivery_location === 'outside_dhaka')
+                                            Outside Dhaka
+                                        @else
+                                            Not specified
+                                        @endif
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                     </div>

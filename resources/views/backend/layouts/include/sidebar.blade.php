@@ -3,8 +3,8 @@
     <div class="app-sidebar">
         <div class="side-header">
             <a class="header-brand1" href="{{ route('admin.dashboard') }}">
-                <img src="{{ asset($logo_fav->logo??null) }}" class="header-brand-img desktop-logo pt-0" alt="logo" style="width: 60px; height: 60px;">
-                <img src="{{ asset($logo_fav->logo??null) }}" class="header-brand-img light-logo1" alt="logo" style="width: 60px; height: 60px;">
+                <img src="{{ asset($logo_fav->logo??null) }}" class="header-brand-img desktop-logo pt-0" alt="logo" style="width: 100%; height: 60px;">
+                <img src="{{ asset($logo_fav->logo??null) }}" class="header-brand-img light-logo1" alt="logo" style="width: 100%; height: 60px;">
             </a><!-- LOGO -->
         </div>
         <div class="main-sidemenu">
@@ -112,7 +112,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="slide {{Request::routeIs('room_types.index') ? 'is-expanded' : ''}}
+                {{-- <li class="slide {{Request::routeIs('room_types.index') ? 'is-expanded' : ''}}
                 {{Request::routeIs('rooms.index') ? 'is-expanded' : ''}}">
                     <a class="side-menu__item {{Request::routeIs('room_types.index') ? 'active' : ''}}
                 {{Request::routeIs('rooms.index') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
@@ -123,7 +123,7 @@
                         <li><a href="{{ route('room_types.index') }}" class="slide-item {{Request::routeIs('room_types.index') ? 'active' : ''}}">Room Type Setting</a></li>
                         <li><a href="{{ route('rooms.index') }}" class="slide-item {{Request::routeIs('rooms.index') ? 'active' : ''}}">Room Setting</a></li>
                     </ul>
-                </li>
+                </li> --}}
                 {{-- <li class="slide">
                     <a class="side-menu__item has-link" data-bs-toggle="slide" href="landing.html" target="_blank">
                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M21.6,2.7c0-0.2-0.2-0.3-0.4-0.4c-3.8-1-7.9,0.3-10.4,3.3L9.5,7.1L6.8,6.4C5.7,6,4.6,6.5,4.1,7.5L2,11.2c0,0,0,0.1-0.1,0.1c-0.1,0.3,0.1,0.5,0.4,0.6l3.4,0.7c-0.3,0.9-0.6,1.8-0.7,2.7c0,0.2,0,0.3,0.1,0.4l3,2.9c0.1,0.1,0.2,0.1,0.4,0.1c0,0,0,0,0,0c0.9-0.1,1.9-0.3,2.8-0.6l0.7,3.3c0,0.2,0.3,0.4,0.5,0.4c0.1,0,0.2,0,0.2-0.1l3.7-2.1c0.9-0.5,1.3-1.6,1.1-2.6l-0.7-2.9l1.4-1.3C21.3,10.5,22.6,6.5,21.6,2.7z M3.2,11.1L4.9,8c0.3-0.6,0.9-0.8,1.5-0.6l2.3,0.6L7.7,9.2c-0.6,0.8-1.2,1.6-1.6,2.5L3.2,11.1z M16,19l-3.1,1.8l-0.6-2.9c0.9-0.4,1.7-1,2.5-1.6l1.3-1.2l0.6,2.3C16.7,18,16.5,18.7,16,19z M17.6,12.3l-3.5,3.2c-1.5,1.3-3.4,2.1-5.4,2.3l-2.6-2.6c0.3-2,1.1-3.9,2.4-5.4L10.1,8c0,0,0.1-0.1,0.1-0.1l1.4-1.6c2.2-2.6,5.8-3.8,9.1-3.1C21.4,6.6,20.3,10.1,17.6,12.3z M16.4,5.6c-1.1,0-1.9,0.9-1.9,1.9s0.9,1.9,1.9,1.9c1.1,0,1.9-0.9,1.9-1.9C18.3,6.5,17.5,5.6,16.4,5.6z M16.4,8.5c-0.5,0-0.9-0.4-0.9-0.9c0-0.5,0.4-0.9,0.9-0.9c0.5,0,0.9,0.4,0.9,0.9C17.3,8.1,16.9,8.5,16.4,8.5z"/></svg>
@@ -131,7 +131,7 @@
                         <span class="badge badge-sm bg-secondary badge-hide">new</span>
                     </a>
                 </li> --}}
-                <li class="slide {{Request::routeIs('departments.index') ? 'is-expanded' : ''}}
+                {{-- <li class="slide {{Request::routeIs('departments.index') ? 'is-expanded' : ''}}
                 {{Request::routeIs('departments.trash') ? 'is-expanded' : ''}}">
                     <a class="side-menu__item {{Request::routeIs('departments.index') ? 'active' : ''}}
                      {{Request::routeIs('departments.trash') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
@@ -163,7 +163,7 @@
                         <li><a href="{{ route('bookings.index') }}" class="slide-item {{Request::routeIs('bookings.index') ? 'active' : ''}}"> List</a></li>
                         <li><a href="{{ route('bookings.trash') }}" class="slide-item {{Request::routeIs('bookings.trash') ? 'active' : ''}}"> Trash</a></li>
                     </ul>
-                </li>
+                </li> --}}
                 <li class="slide {{Request::routeIs('about.index') ? 'is-expanded' : ''}}">
                     <a class="side-menu__item {{Request::routeIs('about.index') ? 'active' : ''}}" data-bs-toggle="slide" href="#">
                     <i class="fa-solid fa-user-pen"></i>
@@ -320,7 +320,7 @@
                         <li><a href="{{ route('contact.index') }}" class="slide-item {{Request::routeIs('contact.index') ? 'active' : ''}}">Contact Settings</a></li>
                     </ul>
                 </li>
-                <li class="slide">
+                {{-- <li class="slide">
                     <a class="side-menu__item" data-bs-toggle="slide" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M12,2C6.4771729,2,2,6.4771729,2,12s4.4771729,10,10,10c5.5201416-0.0064697,9.9935303-4.4798584,10-10C22,6.4771729,17.5228271,2,12,2z M19.7819214,7.5h-9.2255249l2.5594482-4.4225464C15.9681396,3.4337769,18.4015503,5.1206055,19.7819214,7.5z M14.0211182,8.5l2.0198364,3.503479L14.0192871,15.5H9.9798584l-2.0228882-3.5084229L9.9776611,8.5H14.0211182z M12,3c0.0019531,0,0.0038452,0.0003052,0.0057983,0.0003052L7.380249,10.991272L4.8326416,6.5727539C6.4761353,4.4058838,9.0706177,3,12,3z M3,12c0-1.6405029,0.4459839-3.1737671,1.2128296-4.49823L8.8244019,15.5H3.7061157C3.2515259,14.4241333,3,13.2414551,3,12z M4.2138672,16.5h9.2272339l-2.5576782,4.423584C8.0288696,20.5695801,5.5935059,18.8815918,4.2138672,16.5z M12,21c-0.0021362,0-0.0041504-0.0003052-0.0062866-0.0003052l4.6235962-7.996582l2.550354,4.4237671C17.524231,19.5939941,14.9295654,21,12,21z M15.1746826,8.5h5.1159668C20.7460938,9.5758057,20.9986572,10.7584839,21,12c0,1.6407471-0.446106,3.1741943-1.2131348,4.4987183L15.1746826,8.5z"/></svg>
                         <span class="side-menu__label">Icons</span><i class="fa-solid fa-angle-right"></i></a>
@@ -337,7 +337,7 @@
                         <li><a href="icons9.html" class="slide-item">Typicons Icons</a></li>
                         <li><a href="icons10.html" class="slide-item">Weather Icons</a></li>
                     </ul>
-                </li>
+                </li> --}}
                 <li class="slide {{Request::routeIs('categories.index') ? 'is-expanded' : ''}}
                 {{Request::routeIs('categories.trash') ? 'is-expanded' : ''}}
                 {{Request::routeIs('products.index') ? 'is-expanded' : ''}}">
@@ -377,7 +377,7 @@
                         <li><a href="{{ route('orders.index') }}" class="slide-item {{Request::routeIs('orders.index') ? 'active' : ''}}">List</a></li>
                     </ul>
                 </li>
-                <li class="slide">
+                {{-- <li class="slide">
                     <a class="side-menu__item" data-bs-toggle="slide" href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M12.1124268,2.0010986C7.6941528,1.9389648,4.0620728,5.4703979,4,9.8886719c0,5.4482422,7.3642578,11.7285156,7.6777344,11.9931641C11.7677002,21.958313,11.881958,22.0001831,12,22c0.118042,0.0001831,0.2322998-0.041687,0.3222656-0.1181641C12.6357422,21.6171875,20,15.3369141,20,9.8886719C19.9391479,5.5579224,16.4431763,2.0619507,12.1124268,2.0010986z M12,20.8339844C10.5839844,19.5625,5,14.2666016,5,9.8886719C5.0353394,6.0553589,8.166626,2.973877,12,3c3.833374-0.026123,6.9647217,3.0553589,7,6.8886719C19,14.2626953,13.414978,19.5615234,12,20.8339844z M12,7c-1.6568604,0-3,1.3431396-3,3s1.3431396,3,3,3c1.6561279-0.0018311,2.9981689-1.3438721,3-3C15,8.3431396,13.6568604,7,12,7z M12,12c-1.1045532,0-2-0.8954468-2-2s0.8954468-2,2-2c1.1040039,0.0014038,1.9985962,0.8959961,2,2C14,11.1045532,13.1045532,12,12,12z"/></svg>
                         <span class="side-menu__label">Maps</span><i class="fa-solid fa-angle-right"></i></a>
@@ -643,7 +643,7 @@
                     width="24" height="24" viewBox="0 0 24 24">
                     <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z" />
                 </svg>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>

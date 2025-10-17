@@ -3,14 +3,14 @@
         <div class="row">
             <div class="col-lg-12">
                 <h4 class="mb-4">Search Results for "{{ $searchQuery }}"</h4>
-                
+
                 @if($products->count() > 0)
                     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6">
                         @foreach ($products as $product)
                             <div class="col mb-4">
                                 <div class="product-card shadow-lg h-100">
                                     <div class="product-media">
-                                        <a class="product-image" href="{{ route('product.details', $product->id) }}">
+                                        <a class="product-image" href="{{ route('product.details', $product->slug) }}">
                                             @if ($product->productImages->first())
                                                 <img loading="lazy"
                                                     src="{{ asset('uploads/products/' . $product->productImages->first()->multiple_image) }}"
@@ -26,7 +26,7 @@
                                     </div>
                                     <div class="product-content">
                                         <h6 class="product-name">
-                                            <a href="{{ route('product.details', $product->id) }}">{{ $product->name }}</a>
+                                            <a href="{{ route('product.details', $product->slug) }}">{{ $product->name }}</a>
                                         </h6>
                                         <h6 class="product-price">
                                             <span class="new-price mr-2 bold"><b> Tk
@@ -35,16 +35,13 @@
                                                 <del class="old-price"> Tk {{ number_format($product->regular_price) }}</del>
                                             @endif
                                         </h6>
-                                        <button class="btn btn-block border-0 w-100 p-1 btn-gradient"
-                                            onclick="addToCart({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})">
-                                            অর্ডার করুন
-                                        </button>
+                                        @livewire('buy-now-button', ['productId' => $product->id, 'productName' => $product->name, 'price' => $product->sale_price])
                                     </div>
                                 </div>
                             </div>
                         @endforeach
                     </div>
-                    
+
                     <div class="row mt-4">
                         <div class="col-lg-12">
                             <div class="section-btn-25">
@@ -61,7 +58,7 @@
             </div>
         </div>
     </div>
-    
+
     <style>
         .product-card {
             transition: all 0.3s ease;
@@ -112,7 +109,7 @@
             font-size: 0.9rem;
         }
     </style>
-    
+
     <script>
         function addToCart(productId, productName, productPrice) {
             // Add to cart functionality

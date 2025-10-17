@@ -50,6 +50,7 @@ class CheckoutController extends Controller
             'email' => 'nullable|email|max:255',
             'phone' => 'required|string|max:20',
             'address' => 'required|string',
+            'shipping_cost' => 'required|numeric|min:0',
         ]);
 
         // Get cart items
@@ -62,6 +63,9 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
         }
 
+        // Get shipping cost from the form
+        $shippingCost = $request->shipping_cost;
+
         // Create order
         $order = new Order();
         $order->user_id = Auth::check() ? Auth::id() : null;
@@ -71,8 +75,8 @@ class CheckoutController extends Controller
         $order->phone = $request->phone;
         $order->address = $request->address;
         $order->subtotal = $cartTotal;
-        $order->shipping_cost = 80;
-        $order->total = $cartTotal + 80;
+        $order->shipping_cost = $shippingCost;
+        $order->total = $cartTotal + $shippingCost;
         $order->status = 'pending';
         $order->save();
 

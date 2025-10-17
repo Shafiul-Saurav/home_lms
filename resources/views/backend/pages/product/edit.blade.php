@@ -88,7 +88,21 @@
                                     @enderror
                                 </div>
                             </div>
-                            
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="slug">Slug</label>
+                                    <input type="text" name="slug" class="form-control @error('slug') is-invalid @enderror" id="slug"
+                                        value="{{ old('slug', $product->slug) }}">
+                                    <small class="form-text text-muted">Leave empty to keep the current slug or enter a new one.</small>
+                                    @error('slug')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="category_id">Category</label>
@@ -96,7 +110,7 @@
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
-                                                {{ $category->name }}
+                                                {!! $category->name !!}
                                             </option>
                                         @endforeach
                                     </select>
@@ -111,7 +125,7 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" class="form-control @error('description') is-invalid @enderror" id="description"
+                                    <textarea name="description" id="summernote" class="form-control @error('description') is-invalid @enderror"
                                         rows="4">{{ old('description', $product->description) }}</textarea>
                                     @error('description')
                                         <span class="invalid-feedback" role="alert">
@@ -166,7 +180,7 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="purchase_price">Purchase Price <span class="text-danger">*</span></label>
-                                    <input type="number" step="0.01" name="purchase_price" class="form-control @error('purchase_price') is-invalid @enderror" 
+                                    <input type="number" step="0.01" name="purchase_price" class="form-control @error('purchase_price') is-invalid @enderror"
                                         id="purchase_price" value="{{ old('purchase_price', $product->purchase_price) }}" required>
                                     @error('purchase_price')
                                         <span class="invalid-feedback" role="alert">
@@ -179,7 +193,7 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="sell_price">Sell Price <span class="text-danger">*</span></label>
-                                    <input type="number" step="0.01" name="sell_price" class="form-control @error('sell_price') is-invalid @enderror" 
+                                    <input type="number" step="0.01" name="sell_price" class="form-control @error('sell_price') is-invalid @enderror"
                                         id="sell_price" value="{{ old('sell_price', $product->sell_price) }}" required>
                                     @error('sell_price')
                                         <span class="invalid-feedback" role="alert">
@@ -208,7 +222,7 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="discount_amount">Discount Amount</label>
-                                    <input type="number" step="0.01" name="discount_amount" class="form-control @error('discount_amount') is-invalid @enderror" 
+                                    <input type="number" step="0.01" name="discount_amount" class="form-control @error('discount_amount') is-invalid @enderror"
                                         id="discount_amount" value="{{ old('discount_amount', $product->discount_amount) }}">
                                     @error('discount_amount')
                                         <span class="invalid-feedback" role="alert">
@@ -242,10 +256,29 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
-                                    
+
                                     @if ($product->image)
                                         <div class="mt-2">
                                             <img src="{{ asset('uploads/products') }}/{{ $product->image }}" alt="" style="height: 100px">
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="video">Product Video</label>
+                                    <input type="file" name="video" class="form-control @error('video') is-invalid @enderror" id="video">
+                                    @error('video')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                    <small class="form-text text-muted">Upload a product video (mp4, mov, avi, wmv, flv). Max size: 27MB</small>
+
+                                    @if ($product->video)
+                                        <div class="mt-2">
+                                            <a href="{{ asset('uploads/products/' . $product->video) }}" target="_blank">View Current Video</a>
                                         </div>
                                     @endif
                                 </div>
@@ -260,15 +293,15 @@
                                             <button type="button" class="btn btn-secondary addImageField">+</button>
                                         </div>
                                     </div>
-                                    
+
                                     @if ($product->productImages->count() > 0)
                                         <ul class="list-inline mt-3">
                                             @foreach ($product->productImages as $image)
                                                 <li class="list-inline-item multi_img" id="product-image-{{ $image->id }}">
                                                     <img src="{{ asset('uploads/products') }}/{{ $image->multiple_image }}" alt="" style="height: 95px">
                                                     <div class="remove_icon">
-                                                        <button type="button" class="btn-outline-warning border show_confirm delete-image p-0" 
-                                                            data-id="{{ $image->id }}" data-toggle="tooltip" 
+                                                        <button type="button" class="btn-outline-warning border show_confirm delete-image p-0"
+                                                            data-id="{{ $image->id }}" data-toggle="tooltip"
                                                             data-placement="top" data-bs-original-title="Delete">
                                                             <i class="fa-regular fa-circle-xmark"></i>
                                                         </button>
@@ -315,7 +348,7 @@
                     var imageId = $(this).data('id');
                     var url = "{{ route('product.image.delete', ':id') }}";
                     url = url.replace(':id', imageId);
-                    
+
                     Swal.fire({
                         title: 'Are you sure?',
                         text: "You won't be able to revert this!",

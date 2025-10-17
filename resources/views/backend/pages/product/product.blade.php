@@ -48,12 +48,26 @@
 
                             <div class="col-12 mb-3">
                                 <div class="form-group">
+                                    <label for="slug">Slug (Optional - Auto-generated if left empty)</label>
+                                    <input type="text" name="slug" class="form-control @error('slug') is-invalid @enderror" id="slug"
+                                        value="{{ old('slug') }}">
+                                    <small class="form-text text-muted">If left empty, a slug will be automatically generated from the product name.</small>
+                                    @error('slug')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
                                     <label for="category_id">Category</label>
                                     <select name="category_id" class="form-control @error('category_id') is-invalid @enderror" id="category_id">
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                                {{ $category->name }}
+                                                {!! $category->name !!}
                                             </option>
                                         @endforeach
                                     </select>
@@ -68,7 +82,7 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" class="form-control @error('description') is-invalid @enderror" id="description"
+                                    <textarea name="description" id="summernote" class="form-control @error('description') is-invalid @enderror"
                                         rows="4">{{ old('description') }}</textarea>
                                     @error('description')
                                         <span class="invalid-feedback" role="alert">
@@ -202,6 +216,19 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="video">Product Video</label>
+                                    <input type="file" name="video" class="form-control @error('video') is-invalid @enderror" id="video">
+                                    @error('video')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                    <small class="form-text text-muted">Upload a product video (mp4, mov, avi, wmv, flv). Max size: 27MB</small>
+                                </div>
+                            </div>
+
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="multiple_image">Multiple Images</label>
@@ -231,43 +258,43 @@
                         <table id="file-datatable" class="table table-bordered text-nowrap key-buttons border-bottom w-100">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">#</th>
-                                    <th class="border-bottom-0">Name</th>
-                                    <th class="border-bottom-0">Category</th>
-                                    <th class="border-bottom-0">Image</th>
-                                    <th class="border-bottom-0">Purchase Price</th>
-                                    <th class="border-bottom-0">Sell Price</th>
-                                    <th class="border-bottom-0">In Stock</th>
-                                    <th class="border-bottom-0">Status</th>
-                                    <th class="border-bottom-0">Actions</th>
+                                    <th class="border-bottom-0" width="5%">#</th>
+                                    <th class="border-bottom-0" width="15%">Name</th>
+                                    <th class="border-bottom-0" width="10%">Category</th>
+                                    <th class="border-bottom-0" width="10%">Image</th>
+                                    <th class="border-bottom-0" width="10%">Purchase Price</th>
+                                    <th class="border-bottom-0" width="10%">Sell Price</th>
+                                    <th class="border-bottom-0" width="10%">In Stock</th>
+                                    <th class="border-bottom-0" width="10%">Status</th>
+                                    <th class="border-bottom-0" width="20%">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($products as $product)
                                     <tr>
-                                        <td>
+                                        <td width="5%">
                                             <strong>{{ $products->firstItem() + $loop->index }}</strong>
                                         </td>
-                                        <td>{{ $product->name }}</td>
-                                        <td>{{ $product->category ? $product->category->name : 'N/A' }}</td>
-                                        <td>
+                                        <td width="15%">{{ $product->name }}</td>
+                                        <td width="10%">{!! $product->category ? $product->category->name : 'N/A' !!}</td>
+                                        <td width="10%">
                                             @if ($product->image)
                                                 <img src="{{ asset('uploads/products') }}/{{ $product->image }}" alt=""
-                                                    style="height: 100px">
+                                                    style="height: 50px">
                                             @else
                                                 <span>No Image</span>
                                             @endif
                                         </td>
-                                        <td>{{ $product->purchase_price }}</td>
-                                        <td>{{ $product->sell_price }}</td>
-                                        <td>
+                                        <td width="10%">{{ $product->purchase_price }}</td>
+                                        <td width="10%">{{ $product->sell_price }}</td>
+                                        <td width="10%">
                                             @if ($product->is_stock)
                                                 <span class="badge bg-success">In Stock</span>
                                             @else
                                                 <span class="badge bg-danger">Out of Stock</span>
                                             @endif
                                         </td>
-                                        <td>
+                                        <td width="10%">
                                             <div class="material-switch">
                                                 <input id="product-{{ $product->id }}" class="toggle-class" name="is_active"
                                                     type="checkbox" {{ $product->is_active ? 'checked' : '' }}
@@ -275,11 +302,11 @@
                                                 <label for="product-{{ $product->id }}" class="label-success"></label>
                                             </div>
                                         </td>
-                                        <td class="text-center">
-                                            <div class="action-btns d-flex align-items-center">
+                                        <td width="20%" class="text-center">
+                                            <div class="action-btns d-flex align-items-center justify-content-center">
                                                 <div>
                                                     <a href="{{ route('products.show', $product->id) }}"
-                                                        class="btn btn-sm btn-outline-primary border me-2"
+                                                        class="btn btn-sm btn-outline-primary border me-1"
                                                         data-toggle="tooltip" data-placement="top"
                                                         data-bs-original-title="View">
                                                         <i class="fa-solid fa-eye"></i>
@@ -287,7 +314,7 @@
                                                 </div>
                                                 <div>
                                                     <a href="{{ route('products.edit', $product->id) }}"
-                                                        class="btn btn-sm btn-outline-secondary border me-2"
+                                                        class="btn btn-sm btn-outline-secondary border me-1"
                                                         data-toggle="tooltip" data-placement="top"
                                                         data-bs-original-title="Edit">
                                                         <i class="fa-solid fa-pen fa-fw"></i>
@@ -322,8 +349,8 @@
         @include('backend.pages.common.script')
         <script>
             $(document).ready(function() {
-                // Toggle active status
-                $('.toggle-class').change(function() {
+                // Toggle active status using event delegation
+                $(document).on('change', '.toggle-class', function() {
                     var is_active = $(this).prop('checked') ? 1 : 0;
                     var product_id = $(this).data('id');
                     var url = "{{ route('product.is_active.ajax', ':product_id') }}";

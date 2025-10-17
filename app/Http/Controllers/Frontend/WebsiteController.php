@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Helpers\SeoHelper;
 use App\Models\Faq;
 use App\Models\Post;
 use App\Models\Room;
@@ -45,7 +46,7 @@ class WebsiteController extends Controller
         $website_link = WebsiteLink::first();
         $about = About::latest('id')->first();
         $room_types = Roomtype::get();
-        $testimonials = Testimonial::with('user')->limit(20)->get();
+        $testimonials = Testimonial::with('user')->limit(12)->get();
         //->where('rating', 5)
 
         $posts = Post::with(['postCategory', 'user'])
@@ -53,7 +54,7 @@ class WebsiteController extends Controller
         ->latest('id')->limit(3)->get();
 
         // Fetch products with pagination
-        $products = Product::where('is_active', 1)->where('is_stock', 1)->latest('id')->paginate(12);
+        $products = Product::where('is_stock', 1)->latest('id')->paginate(20);
 
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
@@ -181,20 +182,52 @@ class WebsiteController extends Controller
 
     }
 
-    public function productDetails($id)
+    public function productDetails($slug)
     {
-        $product = Product::with('productImages', 'category')->findOrFail($id);
+        $product = Product::with('productImages', 'category')->where('slug', $slug)->first();
+
+        // Check if product exists
+        if (!$product) {
+            abort(404);
+        }
+
+        // Fetch related products (same category, excluding current product)
+        $relatedProducts = Product::with('productImages')
+            ->where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->where('is_stock', 1)
+            ->inRandomOrder()
+            ->limit(6)
+            ->get();
 
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
 
-        return view('frontend.pages.product.details', compact('product', 'logo_fav'));
+        // Fetch website link data
+        $website_link = WebsiteLink::first();
+
+        // Generate SEO data
+        $seoData = [
+            'title' => SeoHelper::generateTitle($product->name, $logo_fav->web_name ?? 'MeenaMart'),
+            'description' => SeoHelper::generateDescription($product->description ?? $product->name),
+            'keywords' => SeoHelper::generateKeywords($product->name, $product->category->name ?? null, ['online shopping', 'bangladesh']),
+            'ogData' => SeoHelper::generateProductOpenGraph($product, $logo_fav->web_name ?? 'MeenaMart'),
+            'structuredData' => SeoHelper::generateProductStructuredData($product, $logo_fav->web_name ?? 'MeenaMart'),
+            'canonicalUrl' => SeoHelper::generateCanonicalUrl(route('product.details', $product->slug)),
+            'breadcrumbs' => SeoHelper::generateBreadcrumbsStructuredData([
+                ['name' => 'Home', 'url' => url('/')],
+                ['name' => $product->category->name ?? 'Products', 'url' => $product->category ? url('/category/' . $product->category->id) : null],
+                ['name' => $product->name],
+            ])
+        ];
+
+        return view('frontend.pages.product.details', compact('product', 'relatedProducts', 'logo_fav', 'website_link', 'seoData'));
     }
 
     public function categoryProducts($id)
     {
         $category = Category::with('products.productImages')->findOrFail($id);
-        $products = $category->products()->where('is_active', 1)->where('is_stock', 1)->paginate(12);
+        $products = $category->products()->where('is_stock', 1)->paginate(12);
 
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
@@ -235,6 +268,7 @@ class WebsiteController extends Controller
                 ->map(function ($product) {
                     return [
                         'id' => $product->id,
+                        'slug' => $product->slug,
                         'name' => $product->name,
                         'sale_price' => $product->sale_price,
                         'image' => $product->productImages->first() ? $product->productImages->first()->multiple_image : null

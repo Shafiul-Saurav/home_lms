@@ -81,6 +81,7 @@ use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialCo
 */
 
 Route::get('/', [WebsiteController::class, 'home'])->name('home');
+Route::get('/sitemap.xml', [App\Http\Controllers\Frontend\SitemapController::class, 'index']);
 Route::get('about', [WebsiteController::class, 'about'])->name('about');
 Route::get('rooms', [WebsiteController::class, 'rooms'])->name('rooms');
 Route::get('room/details/{id}', [WebsiteController::class, 'roomDetails'])->name('room.details');
@@ -92,7 +93,7 @@ Route::get('news', [WebsiteController::class, 'search'])->name('news.search');
 Route::get('news/details/{id}', [WebsiteController::class, 'newsDetails'])->name('news.details');
 Route::get('faqs', [WebsiteController::class, 'faq'])->name('faq.page');
 Route::get('contacts', [WebsiteController::class, 'contact'])->name('contact.page');
-Route::get('product/{id}', [WebsiteController::class, 'productDetails'])->name('product.details');
+Route::get('product/{slug}', [WebsiteController::class, 'productDetails'])->name('product.details');
 
 // Cart routes
     Route::prefix('cart')->name('cart.')->group(function () {

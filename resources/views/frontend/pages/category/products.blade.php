@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title', $category->name . ' Products')
+@section('title', strip_tags($category->name) . ' Products | ' . config('app.name'))
 
 @push('frontendstyle')
 <style>
@@ -110,7 +110,7 @@
                 <div class="container mb-3">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h4>{{ $category->name }} Products</h4>
+                            <h4>{!! $category->name !!} Products</h4>
                         </div>
                     </div>
                 </div>
@@ -120,7 +120,7 @@
                         <div class="col-md-3 col-6 col-lg-2">
                             <div class="product-card shadow-sm rounded-lg">
                                 <div class="product-media">
-                                    <a class="product-image" href="{{ route('product.details', $product->id) }}">
+                                    <a class="product-image" href="{{ route('product.details', $product->slug) }}">
                                         @if($product->productImages->first())
                                             <img loading="lazy" src="{{ asset('uploads/products/' . $product->productImages->first()->multiple_image) }}" alt="{{ $product->name }}" class="product-image" />
                                         @else
@@ -133,7 +133,7 @@
                                 </div>
                                 <div class="product-content">
                                     <h6 class="product-name">
-                                        <a href="{{ route('product.details', $product->id) }}">{{ $product->name }}</a>
+                                        <a href="{{ route('product.details', $product->slug) }}">{{ $product->name }}</a>
                                     </h6>
                                     <h6 class="product-price">
                                         <span class="new-price mr-2 bold"><b> Tk {{ number_format($product->sale_price) }}</b></span>
@@ -141,10 +141,7 @@
                                             <del class="old-price"> Tk {{ number_format($product->regular_price) }}</del>
                                         @endif
                                     </h6>
-                                    <button class="btn btn-block border-0 w-100 p-1 btn-gradient"
-                                        onclick="addToCart({{ $product->id }},'{{ $product->name }}',{{ $product->sale_price }})">
-                                        অর্ডার করুন
-                                    </button>
+                                    @livewire('buy-now-button', ['productId' => $product->id, 'productName' => $product->name, 'price' => $product->sale_price])
                                 </div>
                             </div>
                         </div>

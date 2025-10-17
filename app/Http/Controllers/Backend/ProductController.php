@@ -40,14 +40,16 @@ class ProductController extends Controller
         // Validation
         $request->validate([
             'name' => 'required|string|unique:products|max:255',
+            'slug' => 'nullable|string|unique:products|max:255',
             'description' => 'nullable|string',
             'type' => 'nullable|string|in:normal,variable',
             'category_id' => 'nullable|exists:categories,id',
             'purchase_price' => 'required|numeric|min:0',
             'sell_price' => 'required|numeric|min:0',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+            'video' => 'nullable|file|mimes:mp4,mov,avi,wmv,flv|max:27648', // 27MB limit
             'multiple_image' => 'nullable',
-            'multiple_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'multiple_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'color' => 'nullable|string|max:50',
             'size' => 'nullable|string|max:50',
             'discount_type' => 'nullable|string|in:percentage,fixed',
@@ -60,7 +62,7 @@ class ProductController extends Controller
 
         $product = Product::create([
             'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'slug' => $request->slug ?? Str::slug($request->name),
             'description' => $request->description,
             'type' => $request->type,
             'category_id' => $request->category_id,
@@ -71,10 +73,11 @@ class ProductController extends Controller
             'discount_type' => $request->discount_type,
             'discount_amount' => $request->discount_amount,
             'is_stock' => $request->is_stock,
-            'is_active' => 1, // Default to active
+            'is_active' => 0, // Default to active
         ]);
 
         $this->image_upload($request, $product->id);
+        $this->video_upload($request, $product->id);
         $this->multiple_image_upload($request, $product->id);
 
         return redirect()->back()->with('message', 'Product Created Successfully 🙂');
@@ -107,14 +110,16 @@ class ProductController extends Controller
         // Validation
         $request->validate([
             'name' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:products,slug,' . $id,
             'description' => 'nullable|string',
             'type' => 'nullable|string|in:normal,variable',
             'category_id' => 'nullable|exists:categories,id',
             'purchase_price' => 'required|numeric|min:0',
             'sell_price' => 'required|numeric|min:0',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+            'video' => 'nullable|file|mimes:mp4,mov,avi,wmv,flv|max:27648', // 27MB limit
             'multiple_image' => 'nullable',
-            'multiple_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'multiple_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'color' => 'nullable|string|max:50',
             'size' => 'nullable|string|max:50',
             'discount_type' => 'nullable|string|in:percentage,fixed',
@@ -129,7 +134,7 @@ class ProductController extends Controller
 
         $product->update([
             'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'slug' => $request->slug ?? Str::slug($request->name),
             'description' => $request->description,
             'type' => $request->type,
             'category_id' => $request->category_id,
@@ -143,6 +148,7 @@ class ProductController extends Controller
         ]);
 
         $this->image_upload($request, $product->id);
+        $this->video_upload($request, $product->id);
         $this->multiple_image_upload($request, $product->id);
 
         return redirect()->route('products.index')->with('message', 'Product Updated Successfully 🙂');
@@ -190,10 +196,54 @@ class ProductController extends Controller
             }
 
             $new_photo_location = $photo_location . $new_photo_name;
-            Image::make($uploaded_photo)->resize(380, 400)->save($new_photo_location, 80);
+
+            // Handle WebP format properly
+            if ($uploaded_photo->getClientOriginalExtension() == 'webp') {
+                Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location);
+            } else {
+                Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location, 80);
+            }
 
             $product->update([
                 'image' => $new_photo_name,
+            ]);
+        }
+    }
+
+    /**
+     * Store/Update the video file.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $product_id
+     * @return void
+     */
+    public function video_upload($request, $product_id)
+    {
+        $product = Product::findOrFail($product_id);
+
+        if ($request->hasFile('video')) {
+            // Delete old video if exists
+            if ($product->video) {
+                $video_location = public_path('uploads/products/' . $product->video);
+                if (file_exists($video_location)) {
+                    unlink($video_location);
+                }
+            }
+
+            $video_location = public_path('uploads/products/');
+            $uploaded_video = $request->file('video');
+            $new_video_name = $product->id . '_video.' . $uploaded_video->getClientOriginalExtension();
+
+            // Create directory if it doesn't exist
+            if (!file_exists($video_location)) {
+                mkdir($video_location, 0755, true);
+            }
+
+            // Move the uploaded video to the products directory
+            $uploaded_video->move($video_location, $new_video_name);
+
+            $product->update([
+                'video' => $new_video_name,
             ]);
         }
     }
@@ -224,7 +274,12 @@ class ProductController extends Controller
                     $new_photo_location = $photo_location . $new_photo_name;
 
                     // Resize and save the image
-                    Image::make($uploaded_photo)->resize(400, 400)->save($new_photo_location, 80);
+                    // Handle WebP format properly
+                    if ($uploaded_photo->getClientOriginalExtension() == 'webp') {
+                        Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location);
+                    } else {
+                        Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location, 80);
+                    }
 
                     // Save image to ProductImage model
                     $product->productImages()->create([

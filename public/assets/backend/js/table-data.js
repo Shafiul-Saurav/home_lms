@@ -24,6 +24,10 @@ $(function (e) {
 	var table = $('#file-datatable').DataTable({
 		buttons: ['copy', 'excel', 'pdf', 'colvis'],
 		responsive: true,
+		order: [[6, 'desc']], // Sort by the Date column (0-indexed, so 6 is the 7th column) in descending order
+		columnDefs: [
+			{ type: 'date', targets: 6 } // Specify column 6 as date type for proper sorting
+		],
 		language: {
 			searchPlaceholder: 'Search...',
 			sSearch: '',

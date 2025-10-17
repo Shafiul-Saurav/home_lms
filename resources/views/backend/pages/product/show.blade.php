@@ -131,6 +131,16 @@
                             @else
                                 <p>No additional images available</p>
                             @endif
+                            
+                            <h5 class="mt-4">Product Video</h5>
+                            @if ($product->video)
+                                <video width="100%" height="240" controls>
+                                    <source src="{{ asset('uploads/products/' . $product->video) }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            @else
+                                <p>No product video available</p>
+                            @endif
                         </div>
                     </div>
                 </div>

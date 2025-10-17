@@ -14,7 +14,7 @@
             @foreach($categories as $category)
             <li>
                 <a class="navbar-link" href="{{ route('category.products', $category->id) }}">
-                    {{ $category->name }}
+                    {!! $category->name !!}
                 </a>
             </li>
             @endforeach
