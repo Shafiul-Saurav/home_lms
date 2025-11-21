@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\StuffController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\Backend\ModuleController;
 use App\Http\Controllers\Trash\FaqTrashController;
@@ -83,6 +84,7 @@ use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialCo
 */
 
 Route::get('/', [WebsiteController::class, 'home'])->name('home');
+Route::get('/landingpage', [LandingPageController::class, 'index'])->name('landingpage.index');
 Route::get('/sitemap.xml', [App\Http\Controllers\Frontend\SitemapController::class, 'index']);
 Route::get('about', [WebsiteController::class, 'about'])->name('about');
 Route::get('rooms', [WebsiteController::class, 'rooms'])->name('rooms');
