@@ -6,6 +6,7 @@ use App\Models\Module;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ModuleStoreUpdateRequest;
 
 class ModuleController extends Controller
@@ -16,7 +17,7 @@ class ModuleController extends Controller
     public function index()
     {
         //authorize this user to access/give access to admin dashboard
-        // Gate::authorize('index-module');
+        Gate::authorize('index-module');
 
         $modules = Module::latest('id')->select(['id', 'module_name', 'module_slug', 'updated_at'])->paginate(100);
         return view('backend.pages.modules.module', compact('modules'));
@@ -37,7 +38,7 @@ class ModuleController extends Controller
     {
         // dd($request->all());
         //authorize this user to access/give access to admin dashboard
-        // Gate::authorize('create-module');
+        Gate::authorize('create-module');
 
         Module::create([
             'module_name' => $request->module_name,
@@ -61,7 +62,7 @@ class ModuleController extends Controller
     public function edit(string $module_slug)
     {
         //authorize this user to access/give access to admin dashboard
-        // Gate::authorize('edit-module');
+        Gate::authorize('edit-module');
 
         $module = Module::where('module_slug', $module_slug)->first();
         return view('backend.pages.modules.edit', compact('module'));
@@ -74,7 +75,7 @@ class ModuleController extends Controller
     {
         // dd($request->module_slug);
         //authorize this user to access/give access to admin dashboard
-        // Gate::authorize('edit-module');
+        Gate::authorize('edit-module');
 
         $module = Module::where('module_slug', $module_slug)->first();
 
@@ -92,7 +93,7 @@ class ModuleController extends Controller
     public function destroy(string $module_slug)
     {
         //authorize this user to access/give access to admin dashboard
-        // Gate::authorize('delete-module');
+        Gate::authorize('delete-module');
 
         $module = Module::where('module_slug', $module_slug)->first();
         $module->delete();

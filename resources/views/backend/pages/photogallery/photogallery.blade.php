@@ -26,8 +26,10 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Photo Gallery</h3>
+                    @can('delete-photo-gallery')
                     <a href="{{ route('photogalleries.trash') }}" class="btn btn-sm btn-outline-warning border"><i
                             class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <form action="{{ route('photogalleries.store') }}" method="POST" enctype="multipart/form-data">
@@ -134,9 +136,15 @@
                                     <th class="border-bottom-0">Image</th>
                                     <th class="border-bottom-0">Category Name</th>
                                     <th class="border-bottom-0">Title</th>
+                                    @can('edit-photo-gallery')
                                     <th class="border-bottom-0">Home Page</th>
+                                    @endcan
+                                    @can('edit-photo-gallery')
                                     <th class="border-bottom-0">Status</th>
+                                    @endcan
+                                    @canany(['edit-photo-gallery', 'delete-photo-gallery'])
                                     <th class="border-bottom-0">Actions</th>
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -152,6 +160,7 @@
                                         </td>
                                         <td>{{ $gallery->photoCategory->category_name }}</td>
                                         <td>{{ $gallery->title }}</td>
+                                        @can('edit-photo-gallery')
                                         <td>
                                             <div class="material-switch">
                                                 <input id="home-{{ $gallery->id }}" class="toggle-class-home" name="is_home"
@@ -160,6 +169,8 @@
                                                 <label for="home-{{ $gallery->id }}" class="label-success"></label>
                                             </div>
                                         </td>
+                                        @endcan
+                                        @can('edit-photo-gallery')
                                         <td>
                                             <div class="material-switch">
                                                 <input id="active-{{ $gallery->id }}" class="toggle-class-active" name="is_active"
@@ -168,6 +179,8 @@
                                                 <label for="active-{{ $gallery->id }}" class="label-success"></label>
                                             </div>
                                         </td>
+                                        @endcan
+                                        @canany(['edit-photo-gallery', 'delete-photo-gallery'])
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
@@ -199,6 +212,7 @@
                                                 </div>
                                             </div>
                                         </td>
+                                        @endcanany
                                     </tr>
                                 @endforeach
                             </tbody>

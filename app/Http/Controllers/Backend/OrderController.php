@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class OrderController extends Controller
 {
@@ -13,6 +14,8 @@ class OrderController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-order');
+        
         $orders = Order::with('orderItems')->orderBy('id', 'desc')->paginate(1000);
         return view('backend.pages.orders.index', compact('orders'));
     }
@@ -22,6 +25,8 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
+        Gate::authorize('index-order');
+        
         $order->load('orderItems.product.productImages');
         $website_link = \App\Models\WebsiteLink::first();
         $logo_favicon = \App\Models\LogoFavicon::first();
@@ -34,6 +39,8 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
+        Gate::authorize('edit-order');
+        
         $order->load('orderItems.product');
         return view('backend.pages.orders.edit', compact('order'));
     }
@@ -43,6 +50,8 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
+        Gate::authorize('edit-order');
+        
         $request->validate([
             'status' => 'required|in:pending,confirmed,processing,shipped,delivered,cancelled'
         ]);
@@ -58,6 +67,8 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
+        Gate::authorize('delete-order');
+        
         $order->delete();
 
         return redirect()->route('orders.index')->with('success', 'Order deleted successfully.');

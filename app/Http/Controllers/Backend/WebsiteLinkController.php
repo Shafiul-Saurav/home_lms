@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\WebsiteLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 class WebsiteLinkController extends Controller
 {
@@ -14,6 +15,7 @@ class WebsiteLinkController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-weblink');
         $website_link = WebsiteLink::first();
 
         return view('backend.pages.general.website_link.website_link', compact('website_link'));
@@ -32,6 +34,7 @@ class WebsiteLinkController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('edit-weblink');
         // dd($request->all());
         $website_link = WebsiteLink::firstOrNew([]);
 

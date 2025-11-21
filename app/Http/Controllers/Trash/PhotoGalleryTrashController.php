@@ -6,17 +6,22 @@ use App\Models\Photogallery;
 use Illuminate\Http\Request;
 use App\Models\Photocategory;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 
 class PhotoGalleryTrashController extends Controller
 {
     public function trash()
     {
+        Gate::authorize('delete-photo-gallery');
+        
         $galleries = Photogallery::onlyTrashed()->with(['photoCategory'])->latest('id')->paginate(100);
         return view('backend.pages.photogallery.trash', compact('galleries'));
     }
 
     public function restore(string $id)
     {
+        Gate::authorize('delete-photo-gallery');
+        
         $gallery = Photogallery::onlyTrashed()->findOrFail($id);
         $gallery->restore();
 
@@ -26,6 +31,8 @@ class PhotoGalleryTrashController extends Controller
 
     public function forceDelete(string $id)
     {
+        Gate::authorize('delete-photo-gallery');
+        
         $gallery = Photogallery::onlyTrashed()->findOrFail($id);
 
         // Delete main room image if it's not the default

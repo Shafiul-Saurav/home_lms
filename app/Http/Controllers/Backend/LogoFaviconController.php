@@ -6,6 +6,7 @@ use App\Models\LogoFavicon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 class LogoFaviconController extends Controller
 {
@@ -14,6 +15,7 @@ class LogoFaviconController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-logo-fav');
         $logo_fav = LogoFavicon::first();
         $logo_favs = LogoFavicon::all();
 
@@ -33,6 +35,8 @@ class LogoFaviconController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('edit-logo-fav');
+
         // dd($request->all());
         $logo_fav = LogoFavicon::firstOrNew([]);
 

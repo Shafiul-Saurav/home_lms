@@ -26,8 +26,10 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Product</h3>
+                    @can('delete-product')
                     <a href="{{ route('products.trash') }}" class="btn btn-sm btn-outline-warning border"><i
                             class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
@@ -265,8 +267,12 @@
                                     <th class="border-bottom-0" width="10%">Purchase Price</th>
                                     <th class="border-bottom-0" width="10%">Sell Price</th>
                                     <th class="border-bottom-0" width="10%">In Stock</th>
+                                    @can('edit-product')
                                     <th class="border-bottom-0" width="10%">Status</th>
+                                    @endcan
+                                    @canany(['edit-product', 'delete-product'])
                                     <th class="border-bottom-0" width="20%">Actions</th>
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -294,6 +300,7 @@
                                                 <span class="badge bg-danger">Out of Stock</span>
                                             @endif
                                         </td>
+                                        @can('edit-product')
                                         <td width="10%">
                                             <div class="material-switch">
                                                 <input id="product-{{ $product->id }}" class="toggle-class" name="is_active"
@@ -302,6 +309,8 @@
                                                 <label for="product-{{ $product->id }}" class="label-success"></label>
                                             </div>
                                         </td>
+                                        @endcan
+                                        @canany(['edit-product', 'delete-product'])
                                         <td width="20%" class="text-center">
                                             <div class="action-btns d-flex align-items-center justify-content-center">
                                                 <div>
@@ -334,11 +343,11 @@
                                                 </div>
                                             </div>
                                         </td>
+                                        @endcanany
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        {{ $products->links() }}
                     </div>
                 </div>
             </div>

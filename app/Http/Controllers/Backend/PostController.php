@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -16,6 +17,8 @@ class PostController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-post');
+        
         $posts = Post::with('postCategory')->latest('id')->paginate(1000);
         $postCategories = Postcategory::get();
 
@@ -35,6 +38,8 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create-post');
+        
         // dd($request->all());
 
         $post = Post::create([
@@ -64,6 +69,8 @@ class PostController extends Controller
      */
     public function edit(string $id)
     {
+        Gate::authorize('edit-post');
+        
         $post = Post::findOrFail($id);
         $postCategories = Postcategory::get();
         return view('backend.pages.post.edit', compact('post', 'postCategories'));
@@ -74,6 +81,8 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        Gate::authorize('edit-post');
+        
         $post = Post::findOrFail($id);
 
         $post->update([
@@ -94,6 +103,8 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete-post');
+        
         $post = Post::findOrFail($id);
 
         $post->delete();

@@ -26,8 +26,10 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Post</h3>
+                    @can('delete-post')
                     <a href="{{ route('posts.trash') }}" class="btn btn-sm btn-outline-warning border"><i
                             class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
@@ -149,9 +151,15 @@
                                     <th class="border-bottom-0">Category</th>
                                     <th class="border-bottom-0">Post Title</th>
                                     <th class="border-bottom-0">Image</th>
+                                    @can('edit-post')
                                     <th class="border-bottom-0">Home Page</th>
+                                    @endcan
+                                    @can('edit-post')
                                     <th class="border-bottom-0">Status</th>
+                                    @endcan
+                                    @canany(['edit-post', 'delete-post'])
                                     <th class="border-bottom-0">Actions</th>
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -167,6 +175,7 @@
                                             <img src="{{ asset('uploads/posts') }}/{{ $post->post_image }}" alt=""
                                                 style="height: 100px">
                                         </td>
+                                        @can('edit-post')
                                         <td>
                                             <div class="material-switch">
                                                 <input id="home-{{ $post->id }}" class="toggle-class-home" name="is_home"
@@ -175,6 +184,8 @@
                                                 <label for="home-{{ $post->id }}" class="label-success"></label>
                                             </div>
                                         </td>
+                                        @endcan
+                                        @can('edit-post')
                                         <td>
                                             <div class="material-switch">
                                                 <input id="active-{{ $post->id }}" class="toggle-class-active" name="is_active"
@@ -183,6 +194,8 @@
                                                 <label for="active-{{ $post->id }}" class="label-success"></label>
                                             </div>
                                         </td>
+                                        @endcan
+                                        @canany(['edit-post', 'delete-post'])
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
@@ -214,6 +227,7 @@
                                                 </div>
                                             </div>
                                         </td>
+                                        @endcanany
                                     </tr>
                                 @endforeach
                             </tbody>

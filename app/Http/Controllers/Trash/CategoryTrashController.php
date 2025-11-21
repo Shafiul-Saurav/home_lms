@@ -5,17 +5,22 @@ namespace App\Http\Controllers\Trash;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 
 class CategoryTrashController extends Controller
 {
     public function trash()
     {
+        Gate::authorize('delete-product-category');
+        
         $categories = Category::onlyTrashed()->latest('id')->paginate(50);
         return view('backend.pages.category.trash', compact('categories'));
     }
 
     public function restore(string $id)
     {
+        Gate::authorize('delete-product-category');
+        
         $category = Category::onlyTrashed()->findOrFail($id);
         $category->restore();
 
@@ -24,6 +29,8 @@ class CategoryTrashController extends Controller
 
     public function forceDelete(string $id)
     {
+        Gate::authorize('delete-product-category');
+        
         $category = Category::onlyTrashed()->findOrFail($id);
 
         // Delete category image if it exists

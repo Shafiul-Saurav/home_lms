@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="en" dir="ltr">
     <head>
+        @php
+            $logo_fav = App\Models\LogoFavicon::first();
+        @endphp
         <!-- META DATA -->
         <meta charset="UTF-8">
         <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
@@ -10,7 +13,7 @@
         <meta name="keywords" content="admin,admin dashboard,admin panel,admin template,bootstrap,clean,dashboard,flat,jquery,modern,responsive,premium admin templates,responsive admin,ui,ui kit.">
 
         <!-- FAVICON -->
-        <link rel="shortcut icon" type="image/x-icon" href="https://php.spruko.com/noa/noa/assets/images/brand/favicon.ico" />
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset($logo_fav->favicon??null) }}" />
 
         <!-- TITLE -->
         <title>Dashboard | Login</title>
@@ -44,7 +47,7 @@
 				<!-- CONTAINER OPEN -->
 				<div class="col col-login mx-auto text-center">
 					<a href="{{ route('admin.dashboard') }}" class="text-center">
-						<img src="{{asset('assets/backend')}}/images/brand/logo.png" class="header-brand-img" alt="">
+						<img src="{{ asset($logo_fav->logo??null) }}" class="header-brand-img" alt="logo" style="width: 200px; height: auto; max-height: 80px;">
 					</a>
 				</div>
 				<div class="container-login100">

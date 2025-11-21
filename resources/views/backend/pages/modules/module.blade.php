@@ -26,7 +26,9 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Module</h3>
+                    @can('delete-module')
                     <a href="{{ route('modules.trash') }}" class="btn btn-sm btn-outline-warning border"><i class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <form action="{{ route('modules.store') }}" method="POST">
@@ -67,9 +69,9 @@
                                     <th class="border-bottom-0">Last Updated</th>
                                     <th class="border-bottom-0">Module Name</th>
                                     <th class="border-bottom-0">Module Slug</th>
-                                    {{-- @can('edit-module') --}}
+                                    @canany(['edit-module', 'delete-module'])
                                     <th class="border-bottom-0">Action</th>
-                                    {{-- @endcan --}}
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -81,15 +83,9 @@
                                     <td>{{ $module->updated_at->format('d-M-Y') }}</td>
                                     <td>{{ $module->module_name }}</td>
                                     <td>{{ $module->module_slug }}</td>
-                                    {{-- @can('edit-module') --}}
+                                    @canany(['edit-module', 'delete-module'])
                                     <td class="text-center">
                                         <div class="action-btns d-flex align-items-center">
-                                            <div>
-                                                <a href="" class="btn btn-sm btn-outline-primary border me-2" data-toggle="tooltip"
-                                                    data-placement="top" data-bs-original-title="View">
-                                                    <i class="fa-solid fa-eye"></i>
-                                                </a>
-                                            </div>
                                             {{-- @can('edit-module') --}}
                                             <div>
                                                 <a href="{{ route('modules.edit', $module->module_slug) }}"
@@ -113,7 +109,7 @@
                                             {{-- @endcan --}}
                                         </div>
                                     </td>
-                                    {{-- @endcan --}}
+                                    @endcanany
                                 </tr>
                                 @endforeach
 

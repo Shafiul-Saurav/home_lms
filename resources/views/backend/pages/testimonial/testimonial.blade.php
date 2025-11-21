@@ -27,8 +27,10 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Testimonial List</h3>
+                    @can('delete-testimonial')
                     <a href="{{ route('testimonials.trash') }}" class="btn btn-sm btn-outline-warning border"><i
                             class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -41,9 +43,15 @@
                                     <th class="border-bottom-0">Profile</th>
                                     <th class="border-bottom-0">Review</th>
                                     <th class="border-bottom-0">Rating</th>
+                                    @can('edit-testimonial')
                                     <th class="border-bottom-0">Home Page</th>
+                                    @endcan
+                                    @can('edit-testimonial')
                                     <th class="border-bottom-0">Status</th>
+                                    @endcan
+                                    @canany(['delete-testimonial'])
                                     <th class="border-bottom-0">Actions</th>
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -70,6 +78,7 @@
                                         </td>
                                         <td>{{ $testimonial->review }}</td>
                                         <td>{{ $testimonial->rating }}</td>
+                                        @can('edit-testimonial')
                                         <td>
                                             <div class="material-switch">
                                                 <input id="home-{{ $testimonial->id }}" class="toggle-class-home" name="is_home"
@@ -78,6 +87,8 @@
                                                 <label for="home-{{ $testimonial->id }}" class="label-success"></label>
                                             </div>
                                         </td>
+                                        @endcan
+                                        @can('edit-testimonial')
                                         <td>
                                             <div class="material-switch">
                                                 <input id="active-{{ $testimonial->id }}" class="toggle-class-active" name="is_active"
@@ -86,6 +97,8 @@
                                                 <label for="active-{{ $testimonial->id }}" class="label-success"></label>
                                             </div>
                                         </td>
+                                        @endcan
+                                        @canany(['delete-testimonial'])
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
@@ -110,6 +123,7 @@
                                                 </div>
                                             </div>
                                         </td>
+                                        @endcanany
                                     </tr>
                                 @endforeach
                             </tbody>

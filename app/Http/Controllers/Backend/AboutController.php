@@ -6,6 +6,7 @@ use App\Models\About;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 class AboutController extends Controller
 {
@@ -14,6 +15,8 @@ class AboutController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-about');
+        
         $about = About::first();
         return view('backend.pages.about.about', compact('about'));
     }
@@ -31,6 +34,8 @@ class AboutController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('edit-about');
+        
         // dd($request->all());
         $about = About::firstOrNew();
         $about->title = $request->title;

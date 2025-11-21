@@ -7,6 +7,7 @@ use App\Models\Permission;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\PermissionStoreUpdateRequest;
 
 class PermissionController extends Controller

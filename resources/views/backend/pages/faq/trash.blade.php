@@ -39,7 +39,9 @@
                                     <th class="border-bottom-0">Last Updated</th>
                                     <th class="border-bottom-0">Question</th>
                                     <th class="border-bottom-0">Answer</th>
+                                    @canany(['delete-faq'])
                                     <th class="border-bottom-0">Actions</th>
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,6 +53,7 @@
                                         <td>{{ $faq->updated_at->format('d-M-Y') }}</td>
                                         <td>{{ $faq->faq_question }}</td>
                                         <td>{{ $faq->faq_answer }}</td>
+                                        @canany(['delete-faq'])
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
@@ -72,6 +75,7 @@
                                                 </div>
                                             </div>
                                         </td>
+                                        @endcanany
                                     </tr>
                                 @endforeach
                             </tbody>

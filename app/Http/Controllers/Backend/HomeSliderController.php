@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\HomeSlider;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Gate;
 
 class HomeSliderController extends Controller
 {
@@ -14,6 +15,7 @@ class HomeSliderController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-home-slider');
         $home_sliders = HomeSlider::latest('id')->paginate(50);
         return view('backend.pages.general.home_slider.home_slider', compact('home_sliders'));
     }
@@ -31,6 +33,7 @@ class HomeSliderController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create-home-slider');
         // dd($request->all());
         $home_slider = HomeSlider::create([
             'title' => $request->title,
@@ -54,6 +57,7 @@ class HomeSliderController extends Controller
      */
     public function edit(string $id)
     {
+        Gate::authorize('edit-home-slider');
         $home_slider = HomeSlider::where('id', $id)->first();
         return view('backend.pages.general.home_slider.edit', compact('home_slider'));
     }
@@ -63,6 +67,7 @@ class HomeSliderController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        Gate::authorize('edit-home-slider');
         $home_slider = HomeSlider::where('id', $id)->first();
         $home_slider->update([
             'title' => $request->title,
@@ -77,6 +82,7 @@ class HomeSliderController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete-home-slider');
         $home_slider = HomeSlider::where('id', $id)->first();
         if($home_slider->slider_image != 'default_home_slider.jpg'){
             $photo_location = 'uploads/home_slider/'.$home_slider->slider_image;

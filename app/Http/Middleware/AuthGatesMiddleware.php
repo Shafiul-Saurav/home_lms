@@ -20,15 +20,19 @@ class AuthGatesMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = Auth::user();
-        if ($user) {
-            $permissions = Permission::all();
-            foreach ($permissions as $key => $permission) {
-                Gate::define($permission->permission_slug, function(User $user) use($permission) {
+        // Define gates for all permissions to ensure they exist
+        $permissions = Permission::all();
+        foreach ($permissions as $key => $permission) {
+            Gate::define($permission->permission_slug, function($user = null) use($permission) {
+                // Only check permission if user is authenticated and is a User instance
+                if ($user && $user instanceof User) {
                     return $user->hasPermission($permission->permission_slug);
-                });
-            }
+                }
+                // If no authenticated user or invalid user type, deny access
+                return false;
+            });
         }
+        
         return $next($request);
     }
 }

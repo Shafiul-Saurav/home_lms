@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 
 class ServiceController extends Controller
 {
@@ -13,6 +14,8 @@ class ServiceController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-service');
+        
         $services = Service::latest('id')->paginate(100);
         return view('backend.pages.services.services', compact('services'));
     }
@@ -30,6 +33,8 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create-service');
+        
         // dd($request->all());
         Service::create([
             'title' => $request->title,
@@ -55,6 +60,8 @@ class ServiceController extends Controller
      */
     public function edit(string $id)
     {
+        Gate::authorize('edit-service');
+        
         $service = Service::findOrFail($id);
 
         return view('backend.pages.services.edit', compact('service'));
@@ -65,6 +72,8 @@ class ServiceController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        Gate::authorize('edit-service');
+        
         $service = Service::findOrFail($id);
         $service->update([
             'title' => $request->title,
@@ -80,6 +89,8 @@ class ServiceController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete-service');
+        
         $service = Service::findOrFail($id);
         $service->delete();
 

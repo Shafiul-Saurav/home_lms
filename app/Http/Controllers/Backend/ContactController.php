@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ContactController extends Controller
 {
@@ -13,6 +14,8 @@ class ContactController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-contact');
+        
         $contacts = Contact::latest('id')->paginate(1000);
         return view('backend.pages.contact.contact', compact('contacts'));
     }
@@ -38,6 +41,8 @@ class ContactController extends Controller
      */
     public function show(string $id)
     {
+        Gate::authorize('view-contact');
+        
         $contact = Contact::findOrFail($id);
         return view('backend.pages.contact.view', compact('contact'));
     }
@@ -63,6 +68,8 @@ class ContactController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete-contact');
+        
         $contact = Contact::findOrFail($id);
         $contact->delete();
 

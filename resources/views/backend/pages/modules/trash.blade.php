@@ -38,9 +38,9 @@
                                     <th class="border-bottom-0">Last Updated</th>
                                     <th class="border-bottom-0">Module Name</th>
                                     <th class="border-bottom-0">Module Slug</th>
-                                    {{-- @can('edit-module') --}}
+                                    @canany(['delete-module'])
                                     <th class="border-bottom-0">Action</th>
-                                    {{-- @endcan --}}
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,7 +52,7 @@
                                     <td>{{ $module->updated_at->format('d-M-Y') }}</td>
                                     <td>{{ $module->module_name }}</td>
                                     <td>{{ $module->module_slug }}</td>
-                                    {{-- @can('delete-module') --}}
+                                    @canany(['delete-module'])
                                     <td class="text-center">
                                         <div class="action-btns d-flex align-items-center">
                                             {{-- @can('delete-module') --}}
@@ -62,8 +62,8 @@
                                                     data-placement="top" data-bs-original-title="Restore"><i class="fa-solid fa-store"></i>
                                                 </a>
                                             </div>
-                                            {{-- @endcan
-                                            @can('delete-module') --}}
+                                            {{-- @endcan --}}
+                                            {{-- @can('delete-module') --}}
                                             <div>
                                                 <form action="{{ route('modules.forcedelete', ['module_slug' => $module->module_slug]) }}"
                                                     method="POST">
@@ -78,7 +78,7 @@
                                             {{-- @endcan --}}
                                         </div>
                                     </td>
-                                    {{-- @endcan --}}
+                                    @endcanany
                                 </tr>
                                 @endforeach
                             </tbody>

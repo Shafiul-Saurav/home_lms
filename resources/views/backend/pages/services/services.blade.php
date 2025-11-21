@@ -26,8 +26,10 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Service</h3>
+                    @can('delete-service')
                     <a href="{{ route('services.trash') }}" class="btn btn-sm btn-outline-warning border"><i
                             class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <form action="{{ route('services.store') }}" method="POST">
@@ -89,9 +91,15 @@
                                     <th class="border-bottom-0">Last Updated</th>
                                     <th class="border-bottom-0">Service Name</th>
                                     {{-- <th class="border-bottom-0">Service Icon</th> --}}
+                                    @can('edit-service')
                                     <th class="border-bottom-0">Home Page</th>
+                                    @endcan
+                                    @can('edit-service')
                                     <th class="border-bottom-0">Status</th>
+                                    @endcan
+                                    @canany(['edit-service', 'delete-service'])
                                     <th class="border-bottom-0">Actions</th>
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -103,6 +111,7 @@
                                         <td>{{ $service->updated_at->format('d-M-Y') }}</td>
                                         <td>{{ $service->title }}</td>
                                         {{-- <td>{{ $service->service_icon }}</td> --}}
+                                        @can('edit-service')
                                         <td>
                                             <div class="material-switch">
                                                 <input id="home-{{ $service->id }}" class="toggle-class-home" name="is_home"
@@ -111,6 +120,8 @@
                                                 <label for="home-{{ $service->id }}" class="label-success"></label>
                                             </div>
                                         </td>
+                                        @endcan
+                                        @can('edit-service')
                                         <td>
                                             <div class="material-switch">
                                                 <input id="active-{{ $service->id }}" class="toggle-class-active" name="is_active"
@@ -119,6 +130,8 @@
                                                 <label for="active-{{ $service->id }}" class="label-success"></label>
                                             </div>
                                         </td>
+                                        @endcan
+                                        @canany(['edit-service', 'delete-service'])
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
@@ -150,6 +163,7 @@
                                                 </div>
                                             </div>
                                         </td>
+                                        @endcanany
                                     </tr>
                                 @endforeach
                             </tbody>

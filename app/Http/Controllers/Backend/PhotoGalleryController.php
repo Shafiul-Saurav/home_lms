@@ -8,6 +8,7 @@ use App\Models\Photocategory;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PhotoGalleryStoreRequest;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Gate;
 
 class PhotoGalleryController extends Controller
 {
@@ -16,6 +17,8 @@ class PhotoGalleryController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-photo-gallery');
+        
         $galleries = Photogallery::with(['photoCategory'])->latest('id')->paginate(100);
         $categories = Photocategory::get();
         return view('backend.pages.photogallery.photogallery', compact('categories', 'galleries'));
@@ -34,6 +37,8 @@ class PhotoGalleryController extends Controller
      */
     public function store(PhotoGalleryStoreRequest $request)
     {
+        Gate::authorize('create-photo-gallery');
+        
         // dd($request->all());
 
         $gallery = Photogallery::create([
@@ -63,6 +68,8 @@ class PhotoGalleryController extends Controller
      */
     public function edit(string $id)
     {
+        Gate::authorize('edit-photo-gallery');
+        
         $gallery = Photogallery::findOrFail($id);
         $categories = Photocategory::get();
         return view('backend.pages.photogallery.edit', compact('gallery', 'categories'));
@@ -73,6 +80,8 @@ class PhotoGalleryController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        Gate::authorize('edit-photo-gallery');
+        
         // dd($request->all());
 
         $gallery = Photogallery::findOrFail($id);
@@ -93,6 +102,8 @@ class PhotoGalleryController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete-photo-gallery');
+        
         $gallery = Photogallery::findOrFail($id);
         $gallery->delete();
 

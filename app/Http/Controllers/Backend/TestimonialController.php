@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Testimonial;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class TestimonialController extends Controller
 {
@@ -13,6 +14,8 @@ class TestimonialController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-testimonial');
+        
         $testimonials = Testimonial::with('user')->latest('id')->paginate(10000);
         return view('backend.pages.testimonial.testimonial', compact('testimonials'));
     }
@@ -38,6 +41,8 @@ class TestimonialController extends Controller
      */
     public function show(string $id)
     {
+        Gate::authorize('index-testimonial');
+        
         $testimonial = Testimonial::findOrFail($id);
         return view('backend.pages.testimonial.view', compact('testimonial'));
     }
@@ -63,6 +68,8 @@ class TestimonialController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete-testimonial');
+        
         $testimonial = Testimonial::findOrFail($id);
 
         $testimonial->delete();

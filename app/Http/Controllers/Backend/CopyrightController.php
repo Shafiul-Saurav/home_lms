@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Copyright;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CopyrightController extends Controller
 {
@@ -13,6 +14,7 @@ class CopyrightController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-copyright');
         $copyright = Copyright::first();
 
         return view('backend.pages.general.copyright.copyright', compact('copyright'));
@@ -31,6 +33,7 @@ class CopyrightController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('edit-copyright');
         // dd($request->all());
         $copyright = Copyright::firstOrNew([]);
 

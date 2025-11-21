@@ -26,8 +26,10 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create User</h3>
+                    @can('delete-user')
                     <a href="{{ route('users.trash') }}" class="btn btn-sm btn-outline-warning border"><i
                             class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <form action="{{ route('users.store') }}" method="POST">
@@ -128,12 +130,12 @@
                                     {{-- <th class="border-bottom-0">Profile</th> --}}
                                     <th class="border-bottom-0">User Name</th>
                                     <th class="border-bottom-0">User Email</th>
-                                    {{-- @can('edit-user') --}}
+                                    @can('edit-user')
                                     <th class="border-bottom-0">User Status</th>
-                                    {{-- @endcan
-                                    @can('edit-user') --}}
+                                    @endcan
+                                    @canany(['edit-user', 'delete-user'])
                                     <th class="border-bottom-0">Actions</th>
-                                    {{-- @endcan --}}
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -165,6 +167,7 @@
                                         </td> --}}
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
+                                        @can('edit-user')
                                         <td>
                                             <div class="material-switch">
                                                 <input id="user-{{ $user->id }}" class="toggle-class" name="is_active" type="checkbox"
@@ -172,16 +175,10 @@
                                                 <label for="user-{{ $user->id }}" class="label-success"></label>
                                             </div>
                                         </td>
-                                        {{-- @can('edit-user') --}}
+                                        @endcan
+                                        @canany(['edit-user', 'delete-user'])
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
-                                                <div>
-                                                    <a href="" class="btn btn-sm btn-outline-primary border me-2"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        data-bs-original-title="View">
-                                                        <i class="fa-solid fa-eye"></i>
-                                                    </a>
-                                                </div>
                                                 {{-- @can('edit-user') --}}
                                                 @if ($user->email != 'admin@admin.com')
                                                     <div>
@@ -193,8 +190,8 @@
                                                         </a>
                                                     </div>
                                                 @endif
-                                                {{-- @endcan
-                                            @can('delete-user') --}}
+                                                {{-- @endcan --}}
+                                                {{-- @can('delete-user') --}}
                                                 @if ($user->email != 'admin@admin.com')
                                                     <div>
                                                         <form action="{{ route('users.destroy', $user->id) }}"
@@ -213,7 +210,7 @@
                                                 {{-- @endcan --}}
                                             </div>
                                         </td>
-                                        {{-- @endcan --}}
+                                        @endcanany
                                     </tr>
                                 @endforeach
 

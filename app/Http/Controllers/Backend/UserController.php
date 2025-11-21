@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -16,7 +17,7 @@ class UserController extends Controller
     public function index()
     {
         //authorize this user to access/give access to admin dashboard
-        // Gate::authorize('index-user');
+        Gate::authorize('index-user');
 
         $users = User::with(['role:id,role_name,role_slug'])
         ->select(['id', 'role_id', 'name', 'email', 'is_active', 'updated_at'])
@@ -41,7 +42,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //authorize this user to access/give access to admin dashboard
-        // Gate::authorize('create-user');
+        Gate::authorize('create-user');
 
         // dd($request->all());
         User::create([
@@ -68,7 +69,7 @@ class UserController extends Controller
     public function edit(string $id)
     {
         //authorize this user to access/give access to admin dashboard
-        // Gate::authorize('edit-user');
+        Gate::authorize('edit-user');
 
         $user = User::where('id', $id)->first();
         $roles = Role::where('is_deletable', 1)->select(['id', 'role_name'])->get();
@@ -82,7 +83,7 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         //authorize this user to access/give access to admin dashboard
-        // Gate::authorize('edit-user');
+        Gate::authorize('edit-user');
 
         // dd($request->all(), $id);
         $user = User::where('id', $id)->first();
@@ -102,7 +103,7 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //authorize this user to access/give access to admin dashboard
-        // Gate::authorize('delete-user');
+        Gate::authorize('delete-user');
 
         // dd($id);
         $user = User::where('id', $id)->first();

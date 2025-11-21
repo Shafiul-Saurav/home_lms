@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Trash;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 
 class PermissionTrashController extends Controller
 {
     public function trash()
     {
-        //authorize this user to access/give access to admin dashboard
-        // Gate::authorize('delete-permission');
+        Gate::authorize('delete-permission');
 
         $permissions = Permission::onlyTrashed()->with(['module:id,module_name,module_slug'])->latest('id')
         ->select(['id', 'module_id','permission_name', 'permission_slug', 'updated_at'])->paginate(20);
@@ -21,8 +21,7 @@ class PermissionTrashController extends Controller
 
     public function restore($permission_slug)
     {
-        //authorize this user to access/give access to admin dashboard
-        // Gate::authorize('delete-permission');
+        Gate::authorize('delete-permission');
 
         $permission = Permission::onlyTrashed()->where('permission_slug', $permission_slug)->first();
         $permission->restore();
@@ -32,8 +31,7 @@ class PermissionTrashController extends Controller
 
     public function forceDelete($permission_slug)
     {
-        //authorize this user to access/give access to admin dashboard
-        // Gate::authorize('delete-permission');
+        Gate::authorize('delete-permission');
 
         $permission = Permission::onlyTrashed()->where('permission_slug', $permission_slug)->first();
         $permission->forceDelete();

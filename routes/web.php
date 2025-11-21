@@ -50,6 +50,7 @@ use App\Http\Controllers\Backend\PhotoGalleryController;
 use App\Http\Controllers\Backend\PostCategoryController;
 use App\Http\Controllers\Backend\VideoGalleryController;
 use App\Http\Controllers\Backend\PhotoCategoryController;
+use App\Http\Controllers\Backend\PrivacyPolicyController;
 use App\Http\Controllers\Frontend\ProfileImageController;
 use App\Http\Controllers\Trash\DepartmentTrashController;
 use App\Http\Controllers\Trash\PermissionTrashController;
@@ -58,6 +59,7 @@ use App\Http\Controllers\Trash\PhotoGalleryTrashController;
 use App\Http\Controllers\Trash\PostCategoryTrashController;
 use App\Http\Controllers\Trash\VideoGalleryTrashController;
 use App\Http\Controllers\Trash\PhotoCategoryTrashController;
+use App\Http\Controllers\Backend\TermsAndConditionsController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\BookingController as BackendBookingController;
 use App\Http\Controllers\Backend\ContactController as BackendContactController;
@@ -253,6 +255,14 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     //About Setting Start
     Route::resource('about', AboutController::class);
     //About Setting End
+
+    //Privacy Policy Setting Start
+    Route::resource('privacy_policy', PrivacyPolicyController::class);
+    //Privacy Policy Setting End
+
+    //Terms & Conditions Setting Start
+    Route::resource('terms_and_conditions', TermsAndConditionsController::class);
+    //Terms & Conditions Setting End
 
     // Room Type Route
     Route::resource('room_types', RoomTypeController::class);

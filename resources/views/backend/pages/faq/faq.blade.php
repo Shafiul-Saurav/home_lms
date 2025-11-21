@@ -26,8 +26,10 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create FAQ</h3>
+                    @can('delete-faq')
                     <a href="{{ route('faqs.trash') }}" class="btn btn-sm btn-outline-warning border"><i
                             class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <form action="{{ route('faqs.store') }}" method="POST">
@@ -84,7 +86,9 @@
                                     <th class="border-bottom-0">Last Updated</th>
                                     <th class="border-bottom-0">Question</th>
                                     <th class="border-bottom-0">Answer</th>
+                                    @canany(['edit-faq', 'delete-faq'])
                                     <th class="border-bottom-0">Actions</th>
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -96,6 +100,7 @@
                                         <td>{{ $faq->updated_at->format('d-M-Y') }}</td>
                                         <td>{{ $faq->faq_question }}</td>
                                         <td>{{ $faq->faq_answer }}</td>
+                                        @canany(['edit-faq', 'delete-faq'])
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
@@ -127,6 +132,7 @@
                                                 </div>
                                             </div>
                                         </td>
+                                        @endcanany
                                     </tr>
                                 @endforeach
                             </tbody>

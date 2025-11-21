@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Gate;
 
 class CategoryController extends Controller
 {
@@ -15,6 +16,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-product-category');
+        
         $categories = Category::latest('id')->paginate('50');
         return view('backend.pages.category.category', compact('categories'));
     }
@@ -32,6 +35,8 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create-product-category');
+        
         // Validation
         $request->validate([
             'name' => 'required|string|max:255',
@@ -62,6 +67,8 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
+        Gate::authorize('edit-product-category');
+        
         $category = Category::findOrFail($id);
 
         return view('backend.pages.category.edit', compact('category'));
@@ -72,6 +79,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        Gate::authorize('edit-product-category');
+        
         // Validation
         $request->validate([
             'name' => 'required|string|max:255',
@@ -95,6 +104,8 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete-product-category');
+        
         $category = Category::findOrFail($id);
 
         // Delete file if exists

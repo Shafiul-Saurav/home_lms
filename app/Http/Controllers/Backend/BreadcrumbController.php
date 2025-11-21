@@ -6,6 +6,7 @@ use App\Models\PageName;
 use App\Models\Breadcrumb;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 
 class BreadcrumbController extends Controller
 {
@@ -14,6 +15,7 @@ class BreadcrumbController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-banner');
         $breadcrumbs = Breadcrumb::latest('id')->paginate(50);
         $pages = PageName::get();
         return view('backend.pages.general.breadcrumb.breadcrumb', compact('breadcrumbs', 'pages'));
@@ -32,6 +34,7 @@ class BreadcrumbController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create-banner');
         // dd($request->all());
 
         $imageNameOne = null;
@@ -65,6 +68,7 @@ class BreadcrumbController extends Controller
      */
     public function edit(string $id)
     {
+        Gate::authorize('edit-banner');
         $breadcrumb = Breadcrumb::where('id', $id)->first();
         $pages = PageName::get();
 
@@ -76,6 +80,7 @@ class BreadcrumbController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        Gate::authorize('edit-banner');
         // dd($request->all());
         $breadcrumb = Breadcrumb::findOrFail($id);
 
@@ -102,6 +107,7 @@ class BreadcrumbController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete-banner');
         $breadcrumb = Breadcrumb::where('id', $id)->first();
         if($breadcrumb->banner != 'default_banner.jpg'){
             $photo_location_one = 'banner/'.$breadcrumb->banner;

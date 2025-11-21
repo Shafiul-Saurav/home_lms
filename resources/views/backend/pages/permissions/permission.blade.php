@@ -26,8 +26,10 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Permission</h3>
+                    @can('delete-permission')
                     <a href="{{ route('permissions.trash') }}" class="btn btn-sm btn-outline-warning border"><i
                             class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <form action="{{ route('permissions.store') }}" method="POST">
@@ -90,9 +92,9 @@
                                     <th class="border-bottom-0">Module Name</th>
                                     <th class="border-bottom-0">Permission Name</th>
                                     <th class="border-bottom-0">Permission Slug</th>
-                                    {{-- @can('edit-permission') --}}
+                                    @canany(['edit-permission', 'delete-permission'])
                                     <th class="border-bottom-0">Actions</th>
-                                    {{-- @endcan --}}
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -105,16 +107,9 @@
                                         <td>{{ $permission->module->module_name }}</td>
                                         <td>{{ $permission->permission_name }}</td>
                                         <td>{{ $permission->permission_slug }}</td>
-                                        {{-- @can('edit-permission') --}}
+                                        @canany(['edit-permission', 'delete-permission'])
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
-                                                <div>
-                                                    <a href="" class="btn btn-sm btn-outline-primary border me-2"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        data-bs-original-title="View">
-                                                        <i class="fa-solid fa-eye"></i>
-                                                    </a>
-                                                </div>
                                                 {{-- @can('edit-permission') --}}
                                                 <div>
                                                     <a href="{{ route('permissions.edit', $permission->permission_slug) }}"
@@ -123,8 +118,8 @@
                                                         data-bs-original-title="Edit"><i class="fa-solid fa-pen fa-fw"></i>
                                                     </a>
                                                 </div>
-                                                {{-- @endcan
-                                                @can('delete-permission') --}}
+                                                {{-- @endcan --}}
+                                                {{-- @can('delete-permission') --}}
                                                 <div>
                                                     <form action="{{ route('permissions.destroy', $permission->permission_slug) }}"
                                                         method="POST">
@@ -141,7 +136,7 @@
                                                 {{-- @endcan --}}
                                             </div>
                                         </td>
-                                        {{-- @endcan --}}
+                                        @endcanany
                                     </tr>
                                 @endforeach
 

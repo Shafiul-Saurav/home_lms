@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Gate;
 
 class ProductController extends Controller
 {
@@ -18,6 +19,8 @@ class ProductController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-product');
+        
         $products = Product::with('category')->whereNull('deleted_at')->latest('id')->paginate(100);
         $categories = Category::where('is_active', 1)->get();
         return view('backend.pages.product.product', compact('products', 'categories'));
@@ -28,6 +31,8 @@ class ProductController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create-product');
+        
         $categories = Category::where('is_active', 1)->get();
         return view('backend.pages.product.create', compact('categories'));
     }
@@ -37,6 +42,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create-product');
+        
         // Validation
         $request->validate([
             'name' => 'required|string|unique:products|max:255',
@@ -97,6 +104,8 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
+        Gate::authorize('edit-product');
+        
         $product = Product::findOrFail($id);
         $categories = Category::where('is_active', 1)->get();
         return view('backend.pages.product.edit', compact('product', 'categories'));
@@ -107,6 +116,8 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        Gate::authorize('edit-product');
+        
         // Validation
         $request->validate([
             'name' => 'required|string|max:255',
@@ -159,6 +170,8 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete-product');
+        
         $product = Product::findOrFail($id);
 
         // Soft delete the product record (don't delete files yet)

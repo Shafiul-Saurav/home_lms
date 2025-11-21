@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Videogallery;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class VideoGalleryController extends Controller
 {
@@ -13,6 +14,8 @@ class VideoGalleryController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-video-gallery');
+        
         $videos = Videogallery::latest('id')->paginate(50);
         return view('backend.pages.videogallery.videogallery', compact('videos'));
     }
@@ -30,6 +33,8 @@ class VideoGalleryController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create-video-gallery');
+        
         // dd($request->all());
 
         Videogallery::create([
@@ -53,6 +58,8 @@ class VideoGalleryController extends Controller
      */
     public function edit(string $id)
     {
+        Gate::authorize('edit-video-gallery');
+        
         $video = Videogallery::findOrFail($id);
         return view('backend.pages.videogallery.edit', compact('video'));
     }
@@ -62,6 +69,8 @@ class VideoGalleryController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        Gate::authorize('edit-video-gallery');
+        
         // dd($request->all());
         $video = Videogallery::findOrFail($id);
         $video->update([
@@ -77,6 +86,8 @@ class VideoGalleryController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete-video-gallery');
+        
         $video = Videogallery::findOrFail($id);
         $video->delete();
 

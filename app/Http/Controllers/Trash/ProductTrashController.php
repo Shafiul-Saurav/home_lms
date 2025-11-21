@@ -7,17 +7,22 @@ use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Gate;
 
 class ProductTrashController extends Controller
 {
     public function trash()
     {
+        Gate::authorize('delete-product');
+        
         $products = Product::onlyTrashed()->with('category')->latest('id')->paginate(100);
         return view('backend.pages.product.trash', compact('products'));
     }
 
     public function restore(string $id)
     {
+        Gate::authorize('delete-product');
+        
         $product = Product::onlyTrashed()->findOrFail($id);
         $product->restore();
 
@@ -26,6 +31,8 @@ class ProductTrashController extends Controller
 
     public function forceDelete(string $id)
     {
+        Gate::authorize('delete-product');
+        
         $product = Product::onlyTrashed()->findOrFail($id);
 
         // Delete main product image if it exists and is not the default

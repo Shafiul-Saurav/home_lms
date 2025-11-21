@@ -26,8 +26,10 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Category</h3>
+                    @can('delete-product-category')
                     <a href="{{ route('categories.trash') }}" class="btn btn-sm btn-outline-warning border"><i
                             class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
@@ -82,8 +84,12 @@
                                     <th class="border-bottom-0">Last Updated</th>
                                     <th class="border-bottom-0">Category Name</th>
                                     <th class="border-bottom-0">File</th>
+                                    @can('edit-product-category')
                                     <th class="border-bottom-0">Status</th>
+                                    @endcan
+                                    @canany(['edit-product-category', 'delete-product-category'])
                                     <th class="border-bottom-0">Actions</th>
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -101,6 +107,7 @@
                                                 No Image
                                             @endif
                                         </td>
+                                        @can('edit-product-category')
                                         <td>
                                             <div class="material-switch">
                                                 <input id="active-{{ $category->id }}" class="toggle-class-active" name="is_active"
@@ -109,6 +116,8 @@
                                                 <label for="active-{{ $category->id }}" class="label-success"></label>
                                             </div>
                                         </td>
+                                        @endcan
+                                        @canany(['edit-product-category', 'delete-product-category'])
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
@@ -133,6 +142,7 @@
                                                 </div>
                                             </div>
                                         </td>
+                                        @endcanany
                                     </tr>
                                 @endforeach
                             </tbody>

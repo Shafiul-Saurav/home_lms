@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\PageName;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PageController extends Controller
 {
@@ -13,6 +14,7 @@ class PageController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-page');
         $pages = PageName::latest('id')->paginate(50);
         return view('backend.pages.general.page.page', compact('pages'));
     }
@@ -30,6 +32,7 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create-page');
         // dd($request->all());
 
         PageName::create([
@@ -52,6 +55,7 @@ class PageController extends Controller
      */
     public function edit(string $id)
     {
+        Gate::authorize('edit-page');
         $page = PageName::where('id', $id)->first();
         return view('backend.pages.general.page.edit', compact('page'));
     }
@@ -61,6 +65,7 @@ class PageController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        Gate::authorize('edit-page');
         $page = PageName::where('id', $id)->first();
         $page->update([
             'page' => $request->page
@@ -74,6 +79,7 @@ class PageController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete-page');
         $page = PageName::where('id', $id)->first();
 
         $page->delete();

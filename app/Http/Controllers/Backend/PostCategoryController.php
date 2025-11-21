@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Postcategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PostCategoryController extends Controller
 {
@@ -13,6 +14,8 @@ class PostCategoryController extends Controller
      */
     public function index()
     {
+        Gate::authorize('index-post-category');
+        
         $categories = Postcategory::latest('id')->paginate('50');
         return view('backend.pages.postcategory.postcategory', compact('categories'));
     }
@@ -30,6 +33,8 @@ class PostCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create-post-category');
+        
         // dd($request->all());
         Postcategory::create([
             'title' => $request->title,
@@ -51,6 +56,8 @@ class PostCategoryController extends Controller
      */
     public function edit(string $id)
     {
+        Gate::authorize('edit-post-category');
+        
         $category = Postcategory::findOrFail($id);
 
         return view('backend.pages.postcategory.edit', compact('category'));
@@ -61,6 +68,8 @@ class PostCategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        Gate::authorize('edit-post-category');
+        
         // dd($request->all());
         $category = Postcategory::findOrFail($id);
 
@@ -75,6 +84,8 @@ class PostCategoryController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('delete-post-category');
+        
         $category = Postcategory::findOrFail($id);
 
         $category->delete();

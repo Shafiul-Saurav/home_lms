@@ -55,7 +55,10 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-secondary" type="submit">Update</button>
+                        @can('edit-logo-fav')
+                            <button class="btn btn-secondary" type="submit">Update</button>
+                        @endcan
+
                     </form>
                 </div>
             </div>
