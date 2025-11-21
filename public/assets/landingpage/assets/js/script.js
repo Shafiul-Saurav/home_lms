@@ -24,12 +24,14 @@ $(document).ready(function(){
     // Quantity buttons functionality
     $('#increaseQty').click(function() {
         var currentVal = parseInt($('#quantity').val());
+        if(isNaN(currentVal)) currentVal = 1;
         $('#quantity').val(currentVal + 1);
         updateTotal();
     });
 
     $('#decreaseQty').click(function() {
         var currentVal = parseInt($('#quantity').val());
+        if(isNaN(currentVal)) currentVal = 1;
         if(currentVal > 1) {
             $('#quantity').val(currentVal - 1);
             updateTotal();
@@ -37,9 +39,9 @@ $(document).ready(function(){
     });
 
     // Update total price when quantity changes
-    $('#quantity').change(function() {
+    $('#quantity').on('input change', function() {
         var val = parseInt($(this).val());
-        if(val < 1) {
+        if(isNaN(val) || val < 1) {
             $(this).val(1);
             updateTotal();
         } else {

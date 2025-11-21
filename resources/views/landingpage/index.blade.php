@@ -11,7 +11,7 @@
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="{{ asset('landingpage/assets/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/landingpage/assets/css/style.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -40,7 +40,7 @@
                 <div class="text-center">
                     <h3 class="text-success">আয়ুর্বেদিক বিশেষজ্ঞ এবং আয়ুর্বেদিক গবেষকরা দীর্ঘদিন গবেষণা করে এটি
                         প্রস্তুত করেছে।</h3>
-                    <a href="{{ route('order.index') }}" class="btn btn-success btn-lg mt-3">অর্ডার করুন</a>
+                    <a href="#" class="btn btn-success btn-lg mt-3">অর্ডার করুন</a>
                 </div>
             </div>
         </div>
@@ -77,22 +77,22 @@
         </div>
         <div class="row">
             <div class="col-md-4 mb-4">
-                <img src="{{ asset('landingpage/assets/images/1-2-1-1024x759.jpg') }}" class="img-fluid" alt="Benefit 1">
+                <img src="{{ asset('assets/landingpage/assets/images/1-2-1-1024x759.jpg') }}" class="img-fluid" alt="Benefit 1">
             </div>
             <div class="col-md-4">
-                <img src="{{ asset('landingpage/assets/images/2-3-1-1024x759.jpg') }}" class="img-fluid" alt="Benefit 2">
+                <img src="{{ asset('assets/landingpage/assets/images/2-3-1-1024x759.jpg') }}" class="img-fluid" alt="Benefit 2">
             </div>
             <div class="col-md-4">
-                <img src="{{ asset('landingpage/assets/images/3-2-1-1024x759.jpg') }}" class="img-fluid" alt="Benefit 3">
+                <img src="{{ asset('assets/landingpage/assets/images/3-2-1-1024x759.jpg') }}" class="img-fluid" alt="Benefit 3">
             </div>
             <div class="col-md-4">
-                <img src="{{ asset('landingpage/assets/images/4-2-1-1024x759.jpg') }}" class="img-fluid" alt="Benefit 4">
+                <img src="{{ asset('assets/landingpage/assets/images/4-2-1-1024x759.jpg') }}" class="img-fluid" alt="Benefit 4">
             </div>
             <div class="col-md-4">
-                <img src="{{ asset('landingpage/assets/images/5-5-1-1024x759.jpg') }}" class="img-fluid" alt="Benefit 5">
+                <img src="{{ asset('assets/landingpage/assets/images/5-5-1-1024x759.jpg') }}" class="img-fluid" alt="Benefit 5">
             </div>
             <div class="col-md-4">
-                <img src="{{ asset('landingpage/assets/images/6-5-1-1024x759.jpg') }}" class="img-fluid" alt="Benefit 6">
+                <img src="{{ asset('assets/landingpage/assets/images/6-5-1-1024x759.jpg') }}" class="img-fluid" alt="Benefit 6">
             </div>
         </div>
         <div class="row">
@@ -141,7 +141,7 @@
         <div class="row">
             <div class="col-md-12 text-center mt-4">
                 <div class="certificate-card border border-3 rounded-4 border-success">
-                    <img src="{{ asset('landingpage/assets/images/certificate-main.webp') }}" class="img-fluid rounded-4" alt="Certificate">
+                    <img src="{{ asset('assets/landingpage/assets/images/certificate-main.webp') }}" class="img-fluid rounded-4" alt="Certificate">
                 </div>
             </div>
         </div>
@@ -159,22 +159,22 @@
             <div class="col-md-12">
                 <div class="owl-carousel owl-theme" id="customerReviews">
                     <div class="item">
-                        <img src="{{ asset('landingpage/assets/images/1.webp') }}" class="img-fluid rounded-4" alt="Customer Review 1">
+                        <img src="{{ asset('assets/landingpage/assets/images/1.webp') }}" class="img-fluid rounded-4" alt="Customer Review 1">
                     </div>
                     <div class="item">
-                        <img src="{{ asset('landingpage/assets/images/2.webp') }}" class="img-fluid rounded-4" alt="Customer Review 2">
+                        <img src="{{ asset('assets/landingpage/assets/images/2.webp') }}" class="img-fluid rounded-4" alt="Customer Review 2">
                     </div>
                     <div class="item">
-                        <img src="{{ asset('landingpage/assets/images/3.webp') }}" class="img-fluid rounded-4" alt="Customer Review 3">
+                        <img src="{{ asset('assets/landingpage/assets/images/3.webp') }}" class="img-fluid rounded-4" alt="Customer Review 3">
                     </div>
                     <div class="item">
-                        <img src="{{ asset('landingpage/assets/images/4.webp') }}" class="img-fluid rounded-4" alt="Customer Review 4">
+                        <img src="{{ asset('assets/landingpage/assets/images/4.webp') }}" class="img-fluid rounded-4" alt="Customer Review 4">
                     </div>
                     <div class="item">
-                        <img src="{{ asset('landingpage/assets/images/5.webp') }}" class="img-fluid rounded-4" alt="Customer Review 5">
+                        <img src="{{ asset('assets/landingpage/assets/images/5.webp') }}" class="img-fluid rounded-4" alt="Customer Review 5">
                     </div>
                     <div class="item">
-                        <img src="{{ asset('landingpage/assets/images/6.webp') }}" class="img-fluid rounded-4" alt="Customer Review 6">
+                        <img src="{{ asset('assets/landingpage/assets/images/6.webp') }}" class="img-fluid rounded-4" alt="Customer Review 6">
                     </div>
                 </div>
             </div>
@@ -187,7 +187,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <img src="{{ asset('landingpage/assets/images/cover-1-1536x674.webp') }}" class="img-fluid rounded-4" alt="Cover Image">
+                    <img src="{{ asset('assets/landingpage/assets/images/cover-1-1536x674.webp') }}" class="img-fluid rounded-4" alt="Cover Image">
                 </div>
             </div>
             <div class="row mt-4">
@@ -200,7 +200,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="text-center">
-                        <a href="{{ route('order.index') }}" class="btn btn-success btn-lg mt-3">অর্ডার করুন</a>
+                        <a href="#" class="btn btn-success btn-lg mt-3">অর্ডার করুন</a>
                     </div>
                 </div>
             </div>
@@ -267,7 +267,7 @@
                                         <input type="checkbox" class="form-check-input me-3" id="productCheck" name="product_id" value="1" checked>
                                     </div>
                                     <div class="col-1 px-1 text-center">
-                                        <img src="{{ asset('landingpage/assets/images/1-2-1-1024x759.jpg') }}" class="img-fluid me-3"
+                                        <img src="{{ asset('assets/landingpage/assets/images/1-2-1-1024x759.jpg') }}" class="img-fluid me-3"
                                             alt="Product" style="max-width: 30px; height: 30px">
                                     </div>
                                     <div class="col-4 px-1 text-center">
@@ -278,8 +278,8 @@
                                         <div class="input-group w-auto">
                                             <button class="btn btn-outline-success" type="button"
                                                 id="decreaseQty">-</button>
-                                            <input type="number" class="form-control text-center" value="1" id="quantity" name="quantity"
-                                                style="width: 40px;" min="1">
+                                            <input type="text" class="form-control text-center" value="1" id="quantity" name="quantity"
+                                                style="width: 40px; text-align: center; -moz-appearance: textfield; -webkit-appearance: none;" min="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                             <button class="btn btn-outline-success" type="button"
                                                 id="increaseQty">+</button>
                                         </div>
@@ -347,7 +347,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- START: CTA Banner Section -->
-    <div class="cta-banner" style="background-image: url('{{ asset('landingpage/assets/images/cta-banner.jpg') }}'); background-size: cover; background-position: center; padding: 100px 0 50px 0;">
+    <div class="cta-banner" style="background-image: url('{{ asset('assets/landingpage/assets/images/cta-banner.jpg') }}'); background-size: cover; background-position: center; padding: 100px 0 50px 0;">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
@@ -376,7 +376,7 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <script src="{{ asset('landingpage/assets/js/script.js') }}"></script>
+    <script src="{{ asset('assets/landingpage/assets/js/script.js') }}"></script>
 </body>
 
 </html>
