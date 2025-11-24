@@ -40,8 +40,8 @@ class LandingPageController extends Controller
             'main_heading' => 'nullable|string|max:500',
             'main_description' => 'nullable|string',
             'video' => 'nullable|file|mimes:mp4,mov,avi,wmv,flv|max:27648', // 27MB limit
-            'main_call_to_action_text' => 'nullable|string|max:255',
-            'main_call_to_action_url' => 'nullable|url',
+            // 'main_call_to_action_text' => 'nullable|string|max:255',
+            // 'main_call_to_action_url' => 'nullable|url',
             'benefits_title' => 'nullable|string|max:500',
             'benefits_list' => 'nullable|array',
             'benefits_list.*' => 'string|max:500',
@@ -49,28 +49,20 @@ class LandingPageController extends Controller
             'why_buy_images' => 'nullable',
             'why_buy_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'why_buy_description' => 'nullable|string',
-            'why_buy_call_to_action_text' => 'nullable|string|max:255',
-            'why_buy_call_to_action_url' => 'nullable|url',
+            // 'why_buy_call_to_action_text' => 'nullable|string|max:255',
+            // 'why_buy_call_to_action_url' => 'nullable|url',
             'usage_title' => 'nullable|string|max:500',
             'usage_instructions' => 'nullable|string',
-            'usage_call_to_action_text' => 'nullable|string|max:255',
-            'usage_call_to_action_url' => 'nullable|url',
+            // 'usage_call_to_action_text' => 'nullable|string|max:255',
+            // 'usage_call_to_action_url' => 'nullable|url',
             'certificate_title' => 'nullable|string|max:500',
             'certificate_subtitle' => 'nullable|string|max:500',
             'certificate_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'reviews_title' => 'nullable|string|max:500',
-            'customer_reviews' => 'nullable|array',
-            'customer_reviews.*' => 'string|max:500',
-            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'cover_description' => 'nullable|string',
-            'original_price' => 'nullable|string|max:50',
-            'offer_price' => 'nullable|string|max:50',
-            'pricing_subtitle' => 'nullable|string|max:500',
             'cta_banner_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'cta_banner_text' => 'nullable|string|max:500',
             'cta_banner_phone' => 'nullable|string|max:50',
-            'cta_banner_call_to_action_text' => 'nullable|string|max:255',
-            'cta_banner_call_to_action_url' => 'nullable|url',
+            // 'cta_banner_call_to_action_text' => 'nullable|string|max:255',
+            // 'cta_banner_call_to_action_url' => 'nullable|url',
             'footer_text' => 'nullable|string|max:500',
             'is_active' => 'boolean',
             'section_visibility' => 'nullable|array',
@@ -81,30 +73,24 @@ class LandingPageController extends Controller
         $landingPageData = [
             'main_heading' => $request->main_heading,
             'main_description' => $request->main_description,
-            'main_call_to_action_text' => $request->main_call_to_action_text,
-            'main_call_to_action_url' => $request->main_call_to_action_url,
+            // 'main_call_to_action_text' => $request->main_call_to_action_text,
+            // 'main_call_to_action_url' => $request->main_call_to_action_url,
             'benefits_title' => $request->benefits_title,
             'benefits_list' => $request->benefits_list,
             'why_buy_title' => $request->why_buy_title,
             'why_buy_description' => $request->why_buy_description,
-            'why_buy_call_to_action_text' => $request->why_buy_call_to_action_text,
-            'why_buy_call_to_action_url' => $request->why_buy_call_to_action_url,
+            // 'why_buy_call_to_action_text' => $request->why_buy_call_to_action_text,
+            // 'why_buy_call_to_action_url' => $request->why_buy_call_to_action_url,
             'usage_title' => $request->usage_title,
             'usage_instructions' => $request->usage_instructions,
-            'usage_call_to_action_text' => $request->usage_call_to_action_text,
-            'usage_call_to_action_url' => $request->usage_call_to_action_url,
+            // 'usage_call_to_action_text' => $request->usage_call_to_action_text,
+            // 'usage_call_to_action_url' => $request->usage_call_to_action_url,
             'certificate_title' => $request->certificate_title,
             'certificate_subtitle' => $request->certificate_subtitle,
-            'reviews_title' => $request->reviews_title,
-            'customer_reviews' => $request->customer_reviews,
-            'cover_description' => $request->cover_description,
-            'original_price' => $request->original_price,
-            'offer_price' => $request->offer_price,
-            'pricing_subtitle' => $request->pricing_subtitle,
             'cta_banner_text' => $request->cta_banner_text,
             'cta_banner_phone' => $request->cta_banner_phone,
-            'cta_banner_call_to_action_text' => $request->cta_banner_call_to_action_text,
-            'cta_banner_call_to_action_url' => $request->cta_banner_call_to_action_url,
+            // 'cta_banner_call_to_action_text' => $request->cta_banner_call_to_action_text,
+            // 'cta_banner_call_to_action_url' => $request->cta_banner_call_to_action_url,
             'footer_text' => $request->footer_text,
             'is_active' => $request->is_active ?? false,
             'section_visibility' => $request->section_visibility,
@@ -113,10 +99,18 @@ class LandingPageController extends Controller
         $landingPage = LandingPage::create($landingPageData);
 
         // Handle file uploads
-        $this->video_upload($request, $landingPage->id);
-        $this->certificate_image_upload($request, $landingPage->id);
-        $this->cta_banner_image_upload($request, $landingPage->id);
-        $this->why_buy_images_upload($request, $landingPage->id);
+        if ($request->hasFile('video')) {
+            $this->video_upload($request, $landingPage->id);
+        }
+        if ($request->hasFile('certificate_image')) {
+            $this->certificate_image_upload($request, $landingPage->id);
+        }
+        if ($request->hasFile('cta_banner_image')) {
+            $this->cta_banner_image_upload($request, $landingPage->id);
+        }
+        if ($request->hasFile('why_buy_images')) {
+            $this->why_buy_images_upload($request, $landingPage->id);
+        }
 
         // Sync products to the landing page
         if ($request->has('product_ids')) {
@@ -156,8 +150,8 @@ class LandingPageController extends Controller
             'main_heading' => 'nullable|string|max:500',
             'main_description' => 'nullable|string',
             'video' => 'nullable|file|mimes:mp4,mov,avi,wmv,flv|max:27648', // 27MB limit
-            'main_call_to_action_text' => 'nullable|string|max:255',
-            'main_call_to_action_url' => 'nullable|url',
+            // 'main_call_to_action_text' => 'nullable|string|max:255',
+            // 'main_call_to_action_url' => 'nullable|url',
             'benefits_title' => 'nullable|string|max:500',
             'benefits_list' => 'nullable|array',
             'benefits_list.*' => 'string|max:500',
@@ -165,28 +159,20 @@ class LandingPageController extends Controller
             'why_buy_images' => 'nullable',
             'why_buy_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'why_buy_description' => 'nullable|string',
-            'why_buy_call_to_action_text' => 'nullable|string|max:255',
-            'why_buy_call_to_action_url' => 'nullable|url',
+            // 'why_buy_call_to_action_text' => 'nullable|string|max:255',
+            // 'why_buy_call_to_action_url' => 'nullable|url',
             'usage_title' => 'nullable|string|max:500',
             'usage_instructions' => 'nullable|string',
-            'usage_call_to_action_text' => 'nullable|string|max:255',
-            'usage_call_to_action_url' => 'nullable|url',
+            // 'usage_call_to_action_text' => 'nullable|string|max:255',
+            // 'usage_call_to_action_url' => 'nullable|url',
             'certificate_title' => 'nullable|string|max:500',
             'certificate_subtitle' => 'nullable|string|max:500',
             'certificate_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'reviews_title' => 'nullable|string|max:500',
-            'customer_reviews' => 'nullable|array',
-            'customer_reviews.*' => 'string|max:500',
-            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'cover_description' => 'nullable|string',
-            'original_price' => 'nullable|string|max:50',
-            'offer_price' => 'nullable|string|max:50',
-            'pricing_subtitle' => 'nullable|string|max:500',
             'cta_banner_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'cta_banner_text' => 'nullable|string|max:500',
             'cta_banner_phone' => 'nullable|string|max:50',
-            'cta_banner_call_to_action_text' => 'nullable|string|max:255',
-            'cta_banner_call_to_action_url' => 'nullable|url',
+            // 'cta_banner_call_to_action_text' => 'nullable|string|max:255',
+            // 'cta_banner_call_to_action_url' => 'nullable|url',
             'footer_text' => 'nullable|string|max:500',
             'is_active' => 'boolean',
             'section_visibility' => 'nullable|array',
@@ -199,30 +185,24 @@ class LandingPageController extends Controller
         $landingPageData = [
             'main_heading' => $request->main_heading,
             'main_description' => $request->main_description,
-            'main_call_to_action_text' => $request->main_call_to_action_text,
-            'main_call_to_action_url' => $request->main_call_to_action_url,
+            // 'main_call_to_action_text' => $request->main_call_to_action_text,
+            // 'main_call_to_action_url' => $request->main_call_to_action_url,
             'benefits_title' => $request->benefits_title,
             'benefits_list' => $request->benefits_list,
             'why_buy_title' => $request->why_buy_title,
             'why_buy_description' => $request->why_buy_description,
-            'why_buy_call_to_action_text' => $request->why_buy_call_to_action_text,
-            'why_buy_call_to_action_url' => $request->why_buy_call_to_action_url,
+            // 'why_buy_call_to_action_text' => $request->why_buy_call_to_action_text,
+            // 'why_buy_call_to_action_url' => $request->why_buy_call_to_action_url,
             'usage_title' => $request->usage_title,
             'usage_instructions' => $request->usage_instructions,
-            'usage_call_to_action_text' => $request->usage_call_to_action_text,
-            'usage_call_to_action_url' => $request->usage_call_to_action_url,
+            // 'usage_call_to_action_text' => $request->usage_call_to_action_text,
+            // 'usage_call_to_action_url' => $request->usage_call_to_action_url,
             'certificate_title' => $request->certificate_title,
             'certificate_subtitle' => $request->certificate_subtitle,
-            'reviews_title' => $request->reviews_title,
-            'customer_reviews' => $request->customer_reviews,
-            'cover_description' => $request->cover_description,
-            'original_price' => $request->original_price,
-            'offer_price' => $request->offer_price,
-            'pricing_subtitle' => $request->pricing_subtitle,
             'cta_banner_text' => $request->cta_banner_text,
             'cta_banner_phone' => $request->cta_banner_phone,
-            'cta_banner_call_to_action_text' => $request->cta_banner_call_to_action_text,
-            'cta_banner_call_to_action_url' => $request->cta_banner_call_to_action_url,
+            // 'cta_banner_call_to_action_text' => $request->cta_banner_call_to_action_text,
+            // 'cta_banner_call_to_action_url' => $request->cta_banner_call_to_action_url,
             'footer_text' => $request->footer_text,
             'is_active' => $request->is_active ?? false,
             'section_visibility' => $request->section_visibility,
@@ -231,10 +211,18 @@ class LandingPageController extends Controller
         $landingPage->update($landingPageData);
 
         // Handle file uploads
-        $this->video_upload($request, $landingPage->id);
-        $this->certificate_image_upload($request, $landingPage->id);
-        $this->cta_banner_image_upload($request, $landingPage->id);
-        $this->why_buy_images_upload($request, $landingPage->id);
+        if ($request->hasFile('video')) {
+            $this->video_upload($request, $landingPage->id);
+        }
+        if ($request->hasFile('certificate_image')) {
+            $this->certificate_image_upload($request, $landingPage->id);
+        }
+        if ($request->hasFile('cta_banner_image')) {
+            $this->cta_banner_image_upload($request, $landingPage->id);
+        }
+        if ($request->hasFile('why_buy_images')) {
+            $this->why_buy_images_upload($request, $landingPage->id);
+        }
 
         // Sync products to the landing page
         if ($request->has('product_ids')) {
@@ -270,8 +258,8 @@ class LandingPageController extends Controller
 
         if ($request->hasFile('video')) {
             // Delete old video if exists
-            if ($landingPage->video) {
-                $video_location = public_path('uploads/landingpages/' . $landingPage->video);
+            if ($landingPage->video_url) {
+                $video_location = public_path('uploads/landingpages/' . $landingPage->video_url);
                 if (file_exists($video_location)) {
                     unlink($video_location);
                 }
@@ -290,7 +278,7 @@ class LandingPageController extends Controller
             $uploaded_video->move($video_location, $new_video_name);
 
             $landingPage->update([
-                'video' => $new_video_name,
+                'video_url' => $new_video_name,
             ]);
         }
     }

@@ -8,13 +8,13 @@
         .form-group {
             margin-bottom: 1.5rem;
         }
-        
+
         .section-divider {
             border-top: 2px solid #dee2e6;
             margin: 2rem 0;
             padding-top: 1rem;
         }
-        
+
         .section-title {
             font-size: 1.25rem;
             margin-bottom: 1rem;
@@ -49,12 +49,12 @@
                 <div class="card-body">
                     <form action="{{ route('landingpages.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        
+
                         <div class="row">
                             <div class="col-12">
                                 <h4 class="section-title">Main Header Section</h4>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="main_heading">Main Heading <span class="text-danger">*</span></label>
@@ -66,7 +66,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="video">Main Video</label>
@@ -79,8 +79,8 @@
                                     <small class="form-text text-muted">Upload a video file (mp4, mov, avi, wmv, flv). Max size: 27MB</small>
                                 </div>
                             </div>
-                            
-                            <div class="col-md-6">
+
+                            {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="main_call_to_action_text">Main CTA Text</label>
                                     <input type="text" name="main_call_to_action_text" class="form-control @error('main_call_to_action_text') is-invalid @enderror" id="main_call_to_action_text" value="{{ old('main_call_to_action_text') }}">
@@ -90,9 +90,9 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
-                            
-                            <div class="col-md-6">
+                            </div> --}}
+
+                            {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="main_call_to_action_url">Main CTA URL</label>
                                     <input type="url" name="main_call_to_action_url" class="form-control @error('main_call_to_action_url') is-invalid @enderror" id="main_call_to_action_url" value="{{ old('main_call_to_action_url') }}">
@@ -102,8 +102,8 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
-                            
+                            </div> --}}
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="main_description">Main Description</label>
@@ -116,14 +116,14 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="section-divider"></div>
-                        
+
                         <div class="row">
                             <div class="col-12">
                                 <h4 class="section-title">Benefits Section</h4>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="benefits_title">Benefits Title</label>
@@ -135,7 +135,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="benefits_list">Benefits List (Enter each benefit on a new line)</label>
@@ -148,14 +148,14 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="section-divider"></div>
-                        
+
                         <div class="row">
                             <div class="col-12">
                                 <h4 class="section-title">Why Buy Section</h4>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="why_buy_title">Why Buy Title</label>
@@ -167,31 +167,8 @@
                                     @enderror
                                 </div>
                             </div>
-                            
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="why_buy_call_to_action_text">Why Buy CTA Text</label>
-                                    <input type="text" name="why_buy_call_to_action_text" class="form-control @error('why_buy_call_to_action_text') is-invalid @enderror" id="why_buy_call_to_action_text" value="{{ old('why_buy_call_to_action_text') }}">
-                                    @error('why_buy_call_to_action_text')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="why_buy_call_to_action_url">Why Buy CTA URL</label>
-                                    <input type="url" name="why_buy_call_to_action_url" class="form-control @error('why_buy_call_to_action_url') is-invalid @enderror" id="why_buy_call_to_action_url" value="{{ old('why_buy_call_to_action_url') }}">
-                                    @error('why_buy_call_to_action_url')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            
+
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="why_buy_description">Why Buy Description</label>
@@ -203,7 +180,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="why_buy_images">Why Buy Images</label>
@@ -222,14 +199,14 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="section-divider"></div>
-                        
+
                         <div class="row">
                             <div class="col-12">
                                 <h4 class="section-title">Usage Instructions Section</h4>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="usage_title">Usage Title</label>
@@ -241,31 +218,8 @@
                                     @enderror
                                 </div>
                             </div>
-                            
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="usage_call_to_action_text">Usage CTA Text</label>
-                                    <input type="text" name="usage_call_to_action_text" class="form-control @error('usage_call_to_action_text') is-invalid @enderror" id="usage_call_to_action_text" value="{{ old('usage_call_to_action_text') }}">
-                                    @error('usage_call_to_action_text')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="usage_call_to_action_url">Usage CTA URL</label>
-                                    <input type="url" name="usage_call_to_action_url" class="form-control @error('usage_call_to_action_url') is-invalid @enderror" id="usage_call_to_action_url" value="{{ old('usage_call_to_action_url') }}">
-                                    @error('usage_call_to_action_url')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            
+
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="usage_instructions">Usage Instructions</label>
@@ -278,14 +232,14 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="section-divider"></div>
-                        
+
                         <div class="row">
                             <div class="col-12">
                                 <h4 class="section-title">Certificate Section</h4>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="certificate_title">Certificate Title</label>
@@ -297,7 +251,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="certificate_subtitle">Certificate Subtitle</label>
@@ -309,7 +263,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="certificate_image">Certificate Image</label>
@@ -322,114 +276,14 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="section-divider"></div>
-                        
-                        <div class="row">
-                            <div class="col-12">
-                                <h4 class="section-title">Customer Reviews Section</h4>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="reviews_title">Reviews Title</label>
-                                    <input type="text" name="reviews_title" class="form-control @error('reviews_title') is-invalid @enderror" id="reviews_title" value="{{ old('reviews_title') }}">
-                                    @error('reviews_title')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="customer_reviews">Customer Reviews (Enter each review on a new line)</label>
-                                    <textarea name="customer_reviews[]" id="customer_reviews" class="form-control @error('customer_reviews') is-invalid @enderror" rows="4" placeholder="Enter one review per line">{{ old('customer_reviews') ? implode("\n", old('customer_reviews')) : '' }}</textarea>
-                                    @error('customer_reviews')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="section-divider"></div>
-                        
-                        <div class="row">
-                            <div class="col-12">
-                                <h4 class="section-title">Cover & Pricing Section</h4>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="cover_image">Cover Image Path</label>
-                                    <input type="text" name="cover_image" class="form-control @error('cover_image') is-invalid @enderror" id="cover_image" value="{{ old('cover_image') }}">
-                                    @error('cover_image')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="original_price">Original Price</label>
-                                    <input type="text" name="original_price" class="form-control @error('original_price') is-invalid @enderror" id="original_price" value="{{ old('original_price') }}">
-                                    @error('original_price')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="offer_price">Offer Price</label>
-                                    <input type="text" name="offer_price" class="form-control @error('offer_price') is-invalid @enderror" id="offer_price" value="{{ old('offer_price') }}">
-                                    @error('offer_price')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="pricing_subtitle">Pricing Subtitle</label>
-                                    <input type="text" name="pricing_subtitle" class="form-control @error('pricing_subtitle') is-invalid @enderror" id="pricing_subtitle" value="{{ old('pricing_subtitle') }}">
-                                    @error('pricing_subtitle')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="cover_description">Cover Description</label>
-                                    <textarea name="cover_description" id="cover_description" class="form-control @error('cover_description') is-invalid @enderror" rows="3">{{ old('cover_description') }}</textarea>
-                                    @error('cover_description')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="section-divider"></div>
-                        
+
                         <div class="row">
                             <div class="col-12">
                                 <h4 class="section-title">CTA Banner Section</h4>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="cta_banner_image">CTA Banner Image</label>
@@ -441,7 +295,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="cta_banner_phone">CTA Banner Phone</label>
@@ -453,7 +307,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="cta_banner_text">CTA Banner Text</label>
@@ -465,39 +319,16 @@
                                     @enderror
                                 </div>
                             </div>
-                            
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="cta_banner_call_to_action_text">CTA Banner CTA Text</label>
-                                    <input type="text" name="cta_banner_call_to_action_text" class="form-control @error('cta_banner_call_to_action_text') is-invalid @enderror" id="cta_banner_call_to_action_text" value="{{ old('cta_banner_call_to_action_text') }}">
-                                    @error('cta_banner_call_to_action_text')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="cta_banner_call_to_action_url">CTA Banner CTA URL</label>
-                                    <input type="url" name="cta_banner_call_to_action_url" class="form-control @error('cta_banner_call_to_action_url') is-invalid @enderror" id="cta_banner_call_to_action_url" value="{{ old('cta_banner_call_to_action_url') }}">
-                                    @error('cta_banner_call_to_action_url')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
+
                         </div>
-                        
+
                         <div class="section-divider"></div>
-                        
+
                         <div class="row">
                             <div class="col-12">
                                 <h4 class="section-title">Products Association</h4>
                             </div>
-                            
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="product_ids">Associated Products</label>
@@ -515,14 +346,14 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="section-divider"></div>
-                        
+
                         <div class="row">
                             <div class="col-12">
                                 <h4 class="section-title">Footer & Settings</h4>
                             </div>
-                            
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="footer_text">Footer Text</label>
@@ -534,7 +365,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="form-check">
@@ -549,7 +380,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -600,7 +431,7 @@
                     newField.className = 'd-flex justify-content-between mb-2';
                     newField.id = 'whyBuyImageField' + fieldCount;
                     newField.innerHTML = `
-                        <input type="file" name="why_buy_images[]" class="form-control me-4" accept="image/*" />
+                        <input type="file" name="why_buy_images[]" class="form-control me-2" accept="image/*" />
                         <button type="button" class="btn btn-danger removeWhyBuyImageField">-</button>
                     `;
                     document.getElementById('whyBuyImageFields').appendChild(newField);
