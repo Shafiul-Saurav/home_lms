@@ -269,6 +269,12 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
 
     // Landing Page Route
     Route::resource('landingpages', BackendLandingPageController::class);
+    // Delete a single landing page image by ajax
+    Route::delete('/landingpage/image/{id}', [BackendLandingPageController::class, 'deleteLandingPageImage'])->name('landingpage.image.delete');
+    // Delete the landing page video
+    Route::delete('/landingpage/{id}/video', [BackendLandingPageController::class, 'deleteLandingPageVideo'])->name('landingpage.video.delete');
+    // Delete a single landing page image
+    Route::delete('/landingpage/{id}/image', [BackendLandingPageController::class, 'deleteLandingPageSingleImage'])->name('landingpage.single.image.delete');
 
     // Room Type Route
     Route::resource('room_types', RoomTypeController::class);

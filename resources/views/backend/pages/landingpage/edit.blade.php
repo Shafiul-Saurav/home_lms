@@ -20,6 +20,46 @@
             margin-bottom: 1rem;
             color: #495057;
         }
+
+        .multi_img {
+            position: relative;
+            width: 95px;
+            height: 95px;
+            overflow: hidden;
+        }
+
+        .remove_icon {
+            position: absolute;
+            top: 0;
+            right: 1px;
+            opacity: 0;
+            z-index: 999;
+        }
+        .remove_icon .delete-image {
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+        }
+        .remove_icon .delete-image i{
+            font-size: 22px;
+        }
+
+        .multi_img:hover .remove_icon {
+            opacity: 1;
+            transition: all 0.5s ease;
+        }
+
+        .multi_img img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.5s ease;
+        }
+
+        .multi_img img:hover {
+            opacity: 0.5;
+        }
     </style>
 @endpush
 
@@ -85,6 +125,12 @@
                                                     <source src="{{ asset('uploads/landingpages/' . $landingPage->video_url) }}" type="video/mp4">
                                                     Your browser does not support the video tag.
                                                 </video>
+                                                <div class="mt-2">
+                                                    <a href="{{ asset('uploads/landingpages/' . $landingPage->video_url) }}" target="_blank">View Current Video</a>
+                                                    <button type="button" class="btn btn-danger btn-sm ml-2 delete-video" data-id="{{ $landingPage->id }}">
+                                                        <i class="fa-solid fa-trash"></i> Delete Video
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     @endif
@@ -196,20 +242,27 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="why_buy_images">Why Buy Images</label>
-                                    <div id="whyBuyImageFields">
-                                        @if($landingPage->whyBuyImages->count() > 0)
-                                            @foreach($landingPage->whyBuyImages as $index => $image)
-                                                <div class="d-flex justify-content-between mb-2" id="whyBuyImageField{{ $index }}">
-                                                    <input type="file" name="why_buy_images[]" class="form-control me-2" accept="image/*" />
-                                                    <button type="button" class="btn btn-danger removeWhyBuyImageField">-</button>
-                                                </div>
+                                    @if($landingPage->whyBuyImages->count() > 0)
+                                        <ul class="list-inline mt-3">
+                                            @foreach($landingPage->whyBuyImages as $image)
+                                                <li class="list-inline-item multi_img" id="why-buy-image-{{ $image->id }}">
+                                                    <img src="{{ asset('uploads/landingpages') }}/{{ $image->image_path }}" alt="" style="height: 95px">
+                                                    <div class="remove_icon">
+                                                        <button type="button" class="btn-outline-warning border show_confirm delete-image p-0"
+                                                            data-id="{{ $image->id }}" data-toggle="tooltip"
+                                                            data-placement="top" data-bs-original-title="Delete">
+                                                            <i class="fa-regular fa-circle-xmark"></i>
+                                                        </button>
+                                                    </div>
+                                                </li>
                                             @endforeach
-                                        @else
-                                            <div class="d-flex justify-content-between mb-2" id="whyBuyImageField0">
-                                                <input type="file" name="why_buy_images[]" class="form-control me-2" accept="image/*" />
-                                                <button type="button" class="btn btn-secondary addWhyBuyImageField">+</button>
-                                            </div>
-                                        @endif
+                                        </ul>
+                                    @endif
+                                    <div id="whyBuyImageFields" class="mt-3">
+                                        <div class="d-flex justify-content-between mb-2" id="whyBuyImageField0">
+                                            <input type="file" name="why_buy_images[]" class="form-control me-4" multiple accept="image/*" />
+                                            <button type="button" class="btn btn-secondary addWhyBuyImageField">+</button>
+                                        </div>
                                     </div>
                                     <small class="form-text text-muted">Upload multiple images. Click the + button to add more image fields.</small>
                                     @error('why_buy_images')
@@ -299,6 +352,11 @@
                                             <label>Current Image:</label>
                                             <div>
                                                 <img src="{{ asset('uploads/landingpages/' . $landingPage->certificate_image) }}" alt="Current Certificate Image" style="max-width: 200px; max-height: 150px;">
+                                                <div class="mt-2">
+                                                    <button type="button" class="btn btn-danger btn-sm delete-single-image" data-id="{{ $landingPage->id }}" data-field="certificate_image">
+                                                        <i class="fa-solid fa-trash"></i> Delete Image
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     @endif
@@ -327,6 +385,11 @@
                                             <label>Current Image:</label>
                                             <div>
                                                 <img src="{{ asset('uploads/landingpages/' . $landingPage->cta_banner_image) }}" alt="Current CTA Banner Image" style="max-width: 200px; max-height: 150px;">
+                                                <div class="mt-2">
+                                                    <button type="button" class="btn btn-danger btn-sm delete-single-image" data-id="{{ $landingPage->id }}" data-field="cta_banner_image">
+                                                        <i class="fa-solid fa-trash"></i> Delete Image
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     @endif
@@ -468,7 +531,7 @@
                     newField.className = 'd-flex justify-content-between mb-2';
                     newField.id = 'whyBuyImageField' + fieldCount;
                     newField.innerHTML = `
-                        <input type="file" name="why_buy_images[]" class="form-control me-2" accept="image/*" />
+                        <input type="file" name="why_buy_images[]" class="form-control me-4" multiple accept="image/*" />
                         <button type="button" class="btn btn-danger removeWhyBuyImageField">-</button>
                     `;
                     document.getElementById('whyBuyImageFields').appendChild(newField);
@@ -481,6 +544,145 @@
                     e.target.closest('.d-flex').remove();
                 }
             });
+        });
+
+        // Delete existing why buy images
+        $(document).ready(function() {
+            // Delete existing why buy image
+            $(document).on('click', '.delete-image', function(e) {
+                e.preventDefault();
+
+                var imageId = $(this).data('id');
+                var url = "{{ route('landingpage.image.delete', ':id') }}";
+                url = url.replace(':id', imageId);
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: 'DELETE',
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                            },
+                            success: function(response) {
+                                $('#why-buy-image-' + imageId).remove();
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your image has been deleted.',
+                                    'success'
+                                );
+                            },
+                            error: function(xhr) {
+                                console.error(xhr.responseText);
+                                Swal.fire(
+                                    'Error!',
+                                    'Something went wrong. Please try again.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Delete video
+            $(document).on('click', '.delete-video', function(e) {
+                e.preventDefault();
+
+                var landingPageId = $(this).data('id');
+                var url = "{{ route('landingpage.video.delete', ':id') }}";
+                url = url.replace(':id', landingPageId);
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: 'DELETE',
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                            },
+                            success: function(response) {
+                                // Reload the page or remove the video element
+                                location.reload();
+                            },
+                            error: function(xhr) {
+                                console.error(xhr.responseText);
+                                Swal.fire(
+                                    'Error!',
+                                    'Something went wrong. Please try again.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Delete single image (certificate_image or cta_banner_image)
+            $(document).on('click', '.delete-single-image', function(e) {
+                e.preventDefault();
+
+                var landingPageId = $(this).data('id');
+                var field = $(this).data('field');
+                var url = "{{ route('landingpage.single.image.delete', ':id') }}";
+                url = url.replace(':id', landingPageId);
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: 'DELETE',
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                "field": field
+                            },
+                            success: function(response) {
+                                // Reload the page or remove the image element
+                                location.reload();
+                            },
+                            error: function(xhr) {
+                                console.error(xhr.responseText);
+                                Swal.fire(
+                                    'Error!',
+                                    'Something went wrong. Please try again.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
         });
     </script>
 @endpush

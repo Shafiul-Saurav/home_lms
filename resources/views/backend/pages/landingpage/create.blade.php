@@ -186,7 +186,7 @@
                                     <label for="why_buy_images">Why Buy Images</label>
                                     <div id="whyBuyImageFields">
                                         <div class="d-flex justify-content-between mb-2" id="whyBuyImageField0">
-                                            <input type="file" name="why_buy_images[]" class="form-control me-4" accept="image/*" />
+                                            <input type="file" name="why_buy_images[]" class="form-control me-4" multiple accept="image/*" />
                                             <button type="button" class="btn btn-secondary addWhyBuyImageField">+</button>
                                         </div>
                                     </div>
@@ -431,7 +431,7 @@
                     newField.className = 'd-flex justify-content-between mb-2';
                     newField.id = 'whyBuyImageField' + fieldCount;
                     newField.innerHTML = `
-                        <input type="file" name="why_buy_images[]" class="form-control me-2" accept="image/*" />
+                        <input type="file" name="why_buy_images[]" class="form-control me-4" multiple accept="image/*" />
                         <button type="button" class="btn btn-danger removeWhyBuyImageField">-</button>
                     `;
                     document.getElementById('whyBuyImageFields').appendChild(newField);

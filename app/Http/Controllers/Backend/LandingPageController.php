@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Models\LandingPage;
 use App\Models\Product;
+use App\Models\LandingPage;
 use Illuminate\Http\Request;
+use App\Models\LandingPageImage;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 class LandingPageController extends Controller
 {
@@ -243,6 +244,80 @@ class LandingPageController extends Controller
         $landingPage->delete();
 
         return redirect()->route('landingpages.index')->with('message', 'Landing Page Deleted Successfully 🙂');
+    }
+
+    /**
+     * Delete a single landing page image.
+     */
+    public function deleteLandingPageImage($id)
+    {
+        $landingPageImage = LandingPageImage::findOrFail($id);
+
+        // Delete the image file from the public directory if it exists
+        $imagePath = public_path('uploads/landingpages/' . $landingPageImage->image_path);
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+
+        // Delete the record from the database
+        $landingPageImage->delete();
+
+        return response()->json(['success' => 'Image deleted successfully.']);
+    }
+
+    /**
+     * Delete the video file.
+     */
+    public function deleteLandingPageVideo($id)
+    {
+        $landingPage = LandingPage::findOrFail($id);
+
+        // Delete the video file from the public directory if it exists
+        if ($landingPage->video_url) {
+            $videoPath = public_path('uploads/landingpages/' . $landingPage->video_url);
+            if (file_exists($videoPath)) {
+                unlink($videoPath);
+            }
+
+            // Update the database to remove the video reference
+            $landingPage->update([
+                'video_url' => null,
+            ]);
+
+            return response()->json(['success' => 'Video deleted successfully.']);
+        }
+
+        return response()->json(['error' => 'No video found.'], 404);
+    }
+
+    /**
+     * Delete a single image field (like certificate_image or cta_banner_image).
+     */
+    public function deleteLandingPageSingleImage(Request $request, $id)
+    {
+        $request->validate([
+            'field' => 'required|in:certificate_image,cta_banner_image'
+        ]);
+
+        $landingPage = LandingPage::findOrFail($id);
+        $field = $request->field;
+
+        // Delete the image file from the public directory if it exists
+        if ($landingPage->$field) {
+            $imagePath = public_path('uploads/landingpages/' . $landingPage->$field);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+
+            // Update the database to remove the image reference
+            $landingPage->update([
+                $field => null,
+            ]);
+
+            return response()->json(['success' => 'Image deleted successfully.']);
+        }
+
+        return response()->json(['error' => 'No image found.'], 404);
     }
 
     /**
