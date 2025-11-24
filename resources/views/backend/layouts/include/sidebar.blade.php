@@ -56,29 +56,29 @@
                             @endcan
 
                             @can('index-page')
-                            <li><a href="{{ route('pages.index') }}"
-                                    class="slide-item {{ Request::routeIs('pages.index') ? 'active' : '' }}">Page
-                                    Create</a></li>
+                                <li><a href="{{ route('pages.index') }}"
+                                        class="slide-item {{ Request::routeIs('pages.index') ? 'active' : '' }}">Page
+                                        Create</a></li>
                             @endcan
                             @can('index-banner')
-                            <li><a href="{{ route('breadcrumb.index') }}"
-                                    class="slide-item {{ Request::routeIs('breadcrumb.index') ? 'active' : '' }}">Breadcrumb/Banner
-                                    Setting</a></li>
+                                <li><a href="{{ route('breadcrumb.index') }}"
+                                        class="slide-item {{ Request::routeIs('breadcrumb.index') ? 'active' : '' }}">Breadcrumb/Banner
+                                        Setting</a></li>
                             @endcan
                             @can('index-weblink')
-                            <li><a href="{{ route('website_link.index') }}"
-                                    class="slide-item {{ Request::routeIs('website_link.index') ? 'active' : '' }}">Website
-                                    Link Setting</a></li>
+                                <li><a href="{{ route('website_link.index') }}"
+                                        class="slide-item {{ Request::routeIs('website_link.index') ? 'active' : '' }}">Website
+                                        Link Setting</a></li>
                             @endcan
                             @can('index-home-slider')
-                            <li><a href="{{ route('home_slider.index') }}"
-                                    class="slide-item {{ Request::routeIs('home_slider.index') ? 'active' : '' }}">Home
-                                    Slider Setting</a></li>
+                                <li><a href="{{ route('home_slider.index') }}"
+                                        class="slide-item {{ Request::routeIs('home_slider.index') ? 'active' : '' }}">Home
+                                        Slider Setting</a></li>
                             @endcan
                             @can('index-copyright')
-                            <li><a href="{{ route('copyright.index') }}"
-                                    class="slide-item {{ Request::routeIs('copyright.index') ? 'active' : '' }}">Copyright
-                                    Setting</a></li>
+                                <li><a href="{{ route('copyright.index') }}"
+                                        class="slide-item {{ Request::routeIs('copyright.index') ? 'active' : '' }}">Copyright
+                                        Setting</a></li>
                             @endcan
                         </ul>
                     </li>
@@ -420,6 +420,25 @@
                         </ul>
                     </li>
                 @endcan
+                {{-- @can('index-landing-page') --}}
+                    <li
+                        class="slide {{ Request::routeIs('landingpages.index') ? 'is-expanded' : '' }}
+                {{ Request::routeIs('landingpages.trash') ? 'is-expanded' : '' }}">
+                        <a class="side-menu__item {{ Request::routeIs('landingpages.index') ? 'active' : '' }}
+                    {{ Request::routeIs('landingpages.trash') ? 'active' : '' }}"
+                            data-bs-toggle="slide" href="#">
+                            <i class="fa-solid fa-window-restore fa-fw"></i>
+                            <span class="side-menu__label ms-3">Landing Page Management</span><i
+                                class="fa-solid fa-angle-right"></i></a>
+                        <ul class="slide-menu">
+                            {{-- @can('index-landing-page') --}}
+                                <li><a href="{{ route('landingpages.index') }}"
+                                        class="slide-item {{ Request::routeIs('landingpages.index') ? 'active' : '' }}">List</a>
+                                </li>
+                            {{-- @endcan --}}
+                        </ul>
+                    </li>
+                {{-- @endcan --}}
                 @can('index-order')
                     <li
                         class="slide {{ Request::routeIs('orders.index') ? 'is-expanded' : '' }} {{ Request::routeIs('orders.show') ? 'is-expanded' : '' }}">

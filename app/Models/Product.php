@@ -18,6 +18,14 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
+    // Relationship with Landing Pages (Many-to-Many)
+    public function landingPages()
+    {
+        return $this->belongsToMany(LandingPage::class, 'landingpage_product')
+                    ->withPivot(['order', 'is_featured'])
+                    ->withTimestamps();
+    }
+
     // Relationship with ProductImage
     public function productImages()
     {

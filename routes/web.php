@@ -65,6 +65,7 @@ use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\BookingController as BackendBookingController;
 use App\Http\Controllers\Backend\ContactController as BackendContactController;
 use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
+use App\Http\Controllers\Backend\LandingPageController as BackendLandingPageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -265,6 +266,9 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     //Terms & Conditions Setting Start
     Route::resource('terms_and_conditions', TermsAndConditionsController::class);
     //Terms & Conditions Setting End
+
+    // Landing Page Route
+    Route::resource('landingpages', BackendLandingPageController::class);
 
     // Room Type Route
     Route::resource('room_types', RoomTypeController::class);
