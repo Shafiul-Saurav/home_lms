@@ -240,10 +240,53 @@ class LandingPageController extends Controller
      */
     public function destroy(string $id)
     {
-        $landingPage = LandingPage::findOrFail($id);
+        $landingPage = LandingPage::with('landingPageImages')->findOrFail($id);
+
+        // Delete associated files before deleting the record
+        $this->deleteAssociatedFiles($landingPage);
+
         $landingPage->delete();
 
         return redirect()->route('landingpages.index')->with('message', 'Landing Page Deleted Successfully 🙂');
+    }
+
+    /**
+     * Delete all associated files for a landing page.
+     */
+    protected function deleteAssociatedFiles($landingPage)
+    {
+        // Delete main video if exists
+        if ($landingPage->video_url) {
+            $videoPath = public_path('uploads/landingpages/' . $landingPage->video_url);
+            if (file_exists($videoPath)) {
+                unlink($videoPath);
+            }
+        }
+
+        // Delete certificate image if exists
+        if ($landingPage->certificate_image) {
+            $imagePath = public_path('uploads/landingpages/' . $landingPage->certificate_image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+
+        // Delete CTA banner image if exists
+        if ($landingPage->cta_banner_image) {
+            $imagePath = public_path('uploads/landingpages/' . $landingPage->cta_banner_image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+
+        // Delete all related images from the landing_page_images table
+        foreach ($landingPage->landingPageImages as $image) {
+            $imagePath = public_path('uploads/landingpages/' . $image->image_path);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+            $image->delete(); // Delete the database record
+        }
     }
 
     /**
