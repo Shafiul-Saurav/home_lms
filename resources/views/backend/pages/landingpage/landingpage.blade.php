@@ -55,7 +55,7 @@
                                         <td>{{ $landingPage->created_at->format('d M, Y h:i A') }}</td>
                                         <td>
                                             <div class="d-flex">
-                                                <a href="{{ route('landingpages.show', $landingPage->id) }}" class="btn btn-sm btn-primary me-2" title="View">
+                                                <a href="{{ route('landingpage.show', $landingPage->id) }}" class="btn btn-sm btn-primary me-2" title="View">
                                                     <i class="fa-solid fa-eye"></i>
                                                 </a>
                                                 <a href="{{ route('landingpages.edit', $landingPage->id) }}" class="btn btn-sm btn-info me-2" title="Edit">

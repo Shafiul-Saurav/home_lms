@@ -322,7 +322,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="cta_banner_phone">CTA Banner Phone</label>
                                     <input type="text" name="cta_banner_phone" class="form-control @error('cta_banner_phone') is-invalid @enderror" id="cta_banner_phone" value="{{ old('cta_banner_phone') }}">
@@ -332,7 +332,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="col-md-6">
                                 <div class="form-group">

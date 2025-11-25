@@ -355,14 +355,14 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- START: CTA Banner Section -->
-    @if($landingPage->cta_banner_image || $landingPage->cta_banner_text || $landingPage->cta_banner_phone)
+    @if($landingPage->cta_banner_image || $landingPage->cta_banner_text)
     <div class="cta-banner" style="background-image: url('{{ $landingPage->cta_banner_image ? asset('uploads/landingpages/' . $landingPage->cta_banner_image) : asset('assets/landingpage/assets/images/cta-banner.jpg') }}'); background-size: cover; background-position: center; padding: 100px 0 50px 0;">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
                     <h2 class="text-success">{{ $landingPage->cta_banner_text ?? 'Call for free consultation' }}</h2>
-                    <a href="tel:{{ $landingPage->cta_banner_phone ?? '01901-092655' }}" class="text-success">
-                        <h1><i class="fas fa-phone-alt fa-flip-horizontal me-2"></i>{{ $landingPage->cta_banner_phone ?? '01901-092655' }}</a></h1>
+                    <a href="https://wa.me/8801849382288" class="text-success">
+                        <h1><i class="fab fa-whatsapp fa-flip-horizontal me-2"></i>+8801849382288</a></h1>
                 </div>
             </div>
         </div>
