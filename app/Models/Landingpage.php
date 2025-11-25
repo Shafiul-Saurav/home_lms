@@ -44,6 +44,14 @@ class LandingPage extends Model
                     ->orderBy('order');
     }
 
+    // Relationship for Review Images
+    public function reviewImages()
+    {
+        return $this->hasMany(LandingPageReviewImage::class, 'landingpage_id')
+                    ->where('section_type', 'review')
+                    ->orderBy('order');
+    }
+
     protected $casts = [
         'benefits_list' => 'array',
         'customer_reviews' => 'array',

@@ -281,6 +281,32 @@
 
                         <div class="row">
                             <div class="col-12">
+                                <h4 class="section-title">Review Images Section</h4>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="review_images">Review Images (Screenshots)</label>
+                                    <div id="reviewImageFields" class="mt-3">
+                                        <div class="d-flex justify-content-between mb-2" id="reviewImageField0">
+                                            <input type="file" name="review_images[]" class="form-control me-4" accept="image/*" />
+                                            <button type="button" class="btn btn-secondary addReviewImageField">+</button>
+                                        </div>
+                                    </div>
+                                    <small class="form-text text-muted">Upload multiple images. Click the + button to add more image fields.</small>
+                                    @error('review_images')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-divider"></div>
+
+                        <div class="row">
+                            <div class="col-12">
                                 <h4 class="section-title">CTA Banner Section</h4>
                             </div>
 
@@ -441,6 +467,28 @@
             // Remove Why Buy Image field
             document.addEventListener('click', function(e) {
                 if (e.target.classList.contains('removeWhyBuyImageField')) {
+                    e.target.closest('.d-flex').remove();
+                }
+            });
+
+            // Add Review Image field
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('addReviewImageField')) {
+                    const fieldCount = document.querySelectorAll('#reviewImageFields .d-flex').length;
+                    const newField = document.createElement('div');
+                    newField.className = 'd-flex justify-content-between mb-2';
+                    newField.id = 'reviewImageField' + fieldCount;
+                    newField.innerHTML = `
+                        <input type="file" name="review_images[]" class="form-control me-4" accept="image/*" />
+                        <button type="button" class="btn btn-danger removeReviewImageField">-</button>
+                    `;
+                    document.getElementById('reviewImageFields').appendChild(newField);
+                }
+            });
+
+            // Remove Review Image field
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('removeReviewImageField')) {
                     e.target.closest('.d-flex').remove();
                 }
             });

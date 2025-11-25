@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
 use Intervention\Image\Facades\Image;
+use App\Models\LandingPageReviewImage;
 use Illuminate\Support\Facades\Storage;
 
 class LandingPageController extends Controller
@@ -69,6 +70,8 @@ class LandingPageController extends Controller
             'section_visibility' => 'nullable|array',
             'product_ids' => 'nullable|array',
             'product_ids.*' => 'exists:products,id',
+            'review_images' => 'nullable',
+            'review_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
         ]);
 
         $landingPageData = [
@@ -111,6 +114,9 @@ class LandingPageController extends Controller
         }
         if ($request->hasFile('why_buy_images')) {
             $this->why_buy_images_upload($request, $landingPage->id);
+        }
+        if ($request->hasFile('review_images')) {
+            $this->review_images_upload($request, $landingPage->id);
         }
 
         // Sync products to the landing page
@@ -179,6 +185,8 @@ class LandingPageController extends Controller
             'section_visibility' => 'nullable|array',
             'product_ids' => 'nullable|array',
             'product_ids.*' => 'exists:products,id',
+            'review_images' => 'nullable',
+            'review_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
         ]);
 
         $landingPage = LandingPage::findOrFail($id);
@@ -223,6 +231,9 @@ class LandingPageController extends Controller
         }
         if ($request->hasFile('why_buy_images')) {
             $this->why_buy_images_upload($request, $landingPage->id);
+        }
+        if ($request->hasFile('review_images')) {
+            $this->review_images_upload($request, $landingPage->id);
         }
 
         // Sync products to the landing page
@@ -287,6 +298,15 @@ class LandingPageController extends Controller
             }
             $image->delete(); // Delete the database record
         }
+
+        // Delete all related review images from the landing_page_review_images table
+        foreach ($landingPage->reviewImages as $reviewImage) {
+            $imagePath = public_path('uploads/landingpages/' . $reviewImage->image_path);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+            $reviewImage->delete(); // Delete the database record
+        }
     }
 
     /**
@@ -306,6 +326,25 @@ class LandingPageController extends Controller
         $landingPageImage->delete();
 
         return response()->json(['success' => 'Image deleted successfully.']);
+    }
+
+    /**
+     * Delete a single landing page review image.
+     */
+    public function deleteLandingPageReviewImage($id)
+    {
+        $landingPageReviewImage = LandingPageReviewImage::findOrFail($id);
+
+        // Delete the image file from the public directory if it exists
+        $imagePath = public_path('uploads/landingpages/' . $landingPageReviewImage->image_path);
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+
+        // Delete the record from the database
+        $landingPageReviewImage->delete();
+
+        return response()->json(['success' => 'Review image deleted successfully.']);
     }
 
     /**
@@ -537,6 +576,61 @@ class LandingPageController extends Controller
                     $landingPage->landingPageImages()->create([
                         'image_path' => $new_photo_name,
                         'section_type' => 'why_buy',
+                        'order' => $index, // Store the order of the image
+                    ]);
+                }
+            }
+        }
+    }
+
+    /**
+     * Store multiple images for the Review section.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $landingPage_id
+     * @return void
+     */
+    protected function review_images_upload($request, $landingPage_id)
+    {
+        $landingPage = LandingPage::findOrFail($landingPage_id);
+
+        if ($request->hasFile('review_images')) {
+            // Delete old review_images from database and files
+            $oldImages = $landingPage->reviewImages; // Use the relationship method
+            foreach ($oldImages as $oldImage) {
+                $imagePath = public_path('uploads/landingpages/' . $oldImage->image_path);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+                $oldImage->delete(); // Delete the record from database
+            }
+
+            // Upload and save new images
+            foreach ($request->file('review_images') as $index => $uploaded_photo) {
+                if ($uploaded_photo->isValid()) {
+                    // Handle each multiple image upload
+                    $photo_location = public_path('uploads/landingpages/');
+                    $new_photo_name = $landingPage->id . '_review_' . time() . '_' . uniqid() . '.' . $uploaded_photo->getClientOriginalExtension();
+
+                    // Create directory if it doesn't exist
+                    if (!file_exists($photo_location)) {
+                        mkdir($photo_location, 0755, true);
+                    }
+
+                    $new_photo_location = $photo_location . $new_photo_name;
+
+                    // Resize and save the image
+                    // Handle WebP format properly
+                    if ($uploaded_photo->getClientOriginalExtension() == 'webp') {
+                        Image::make($uploaded_photo)->resize(800, 600)->save($new_photo_location);
+                    } else {
+                        Image::make($uploaded_photo)->resize(800, 600)->save($new_photo_location, 80);
+                    }
+
+                    // Save image record to the new landing_page_review_images table
+                    $landingPage->reviewImages()->create([
+                        'image_path' => $new_photo_name,
+                        'section_type' => 'review',
                         'order' => $index, // Store the order of the image
                     ]);
                 }

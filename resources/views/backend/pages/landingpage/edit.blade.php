@@ -368,6 +368,51 @@
 
                         <div class="row">
                             <div class="col-12">
+                                <h4 class="section-title">Review Images Section</h4>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @if($landingPage->reviewImages->count() > 0)
+                                        <label>Current Review Images:</label>
+                                        <ul class="list-unstyled mt-2" id="reviewImagesList">
+                                            @foreach($landingPage->reviewImages as $reviewImage)
+                                                <li class="position-relative multi_img mb-2" style="display: inline-block; width: 150px; height: 150px;">
+                                                    <img src="{{ asset('uploads/landingpages/' . $reviewImage->image_path) }}" alt="Review Image" class="img-fluid h-100 w-100">
+                                                    <div class="remove_icon">
+                                                        <button type="button" class="btn-outline-danger border delete-review-image p-0"
+                                                            data-id="{{ $reviewImage->id }}"
+                                                            data-toggle="tooltip"
+                                                            data-placement="top"
+                                                            data-bs-original-title="Delete">
+                                                            <i class="fa-regular fa-circle-xmark"></i>
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                    <label class="mt-3">Add New Review Images (Screenshots)</label>
+                                    <div id="reviewImageFields" class="mt-3">
+                                        <div class="d-flex justify-content-between mb-2" id="reviewImageField0">
+                                            <input type="file" name="review_images[]" class="form-control me-4" accept="image/*" />
+                                            <button type="button" class="btn btn-secondary addReviewImageField">+</button>
+                                        </div>
+                                    </div>
+                                    <small class="form-text text-muted">Upload multiple images. Click the + button to add more image fields.</small>
+                                    @error('review_images')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-divider"></div>
+
+                        <div class="row">
+                            <div class="col-12">
                                 <h4 class="section-title">CTA Banner Section</h4>
                             </div>
 
@@ -663,6 +708,74 @@
                             success: function(response) {
                                 // Reload the page or remove the image element
                                 location.reload();
+                            },
+                            error: function(xhr) {
+                                console.error(xhr.responseText);
+                                Swal.fire(
+                                    'Error!',
+                                    'Something went wrong. Please try again.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Add new review image field
+            var reviewImageFieldCount = 1;
+            $(document).on('click', '.addReviewImageField', function(e) {
+                e.preventDefault();
+
+                var reviewImageField = `
+                    <div class="d-flex justify-content-between mb-2" id="reviewImageField${reviewImageFieldCount}">
+                        <input type="file" name="review_images[]" class="form-control me-4" accept="image/*" />
+                        <button type="button" class="btn btn-danger removeReviewImageField">-</button>
+                    </div>
+                `;
+
+                $('#reviewImageFields').append(reviewImageField);
+                reviewImageFieldCount++;
+            });
+
+            // Remove review image field
+            $(document).on('click', '.removeReviewImageField', function(e) {
+                e.preventDefault();
+                $(this).closest('div[id^="reviewImageField"]').remove();
+            });
+
+            // Delete review image
+            $(document).on('click', '.delete-review-image', function(e) {
+                e.preventDefault();
+
+                var imageId = $(this).data('id');
+                var url = "{{ route('landingpage.review.image.delete', ':id') }}";
+                url = url.replace(':id', imageId);
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: 'DELETE',
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                            },
+                            success: function(response) {
+                                // Remove the image element from the page
+                                $(`button[data-id="${imageId}"]`).closest('li').remove();
+                                Swal.fire(
+                                    'Deleted!',
+                                    'The review image has been deleted.',
+                                    'success'
+                                );
                             },
                             error: function(xhr) {
                                 console.error(xhr.responseText);

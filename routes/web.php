@@ -276,6 +276,9 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     // Delete a single landing page image
     Route::delete('/landingpage/{id}/image', [BackendLandingPageController::class, 'deleteLandingPageSingleImage'])->name('landingpage.single.image.delete');
 
+    // Delete a single landing page review image
+    Route::delete('/landingpage/review/image/{id}', [BackendLandingPageController::class, 'deleteLandingPageReviewImage'])->name('landingpage.review.image.delete');
+
     // Room Type Route
     Route::resource('room_types', RoomTypeController::class);
 
