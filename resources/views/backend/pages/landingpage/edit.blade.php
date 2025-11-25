@@ -4,6 +4,7 @@
 
 @push('backend_style')
     @include('backend.pages.common.style')
+    <link href="{{asset('assets/backend')}}/plugins/select2/css/select2.min.css" rel="stylesheet" />
     <style>
         .form-group {
             margin-bottom: 1.5rem;
@@ -59,6 +60,10 @@
 
         .multi_img img:hover {
             opacity: 0.5;
+        }
+
+        .select2-container {
+            width: 100% !important;
         }
     </style>
 @endpush
@@ -487,7 +492,20 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
-                                    <small class="form-text text-muted">Hold Ctrl/Cmd to select multiple products</small>
+                                    <!-- Display selected products as tags -->
+                                    @if(count($selectedProductIds) > 0)
+                                        <div class="mt-2">
+                                            <strong>Currently Selected Products:</strong>
+                                            <div class="selected-products-tags mt-2">
+                                                @foreach($landingPage->products as $product)
+                                                    <span class="badge badge-success bg-success me-2 mb-1" style="font-size: 14px; padding: 6px 12px;">
+                                                        {{ $product->name }}
+                                                        <a href="#" class="remove-product ms-2" data-product-id="{{ $product->id }}" style="color: white; text-decoration: none;" onclick="removeProduct({{ $product->id }}); return false;">&times;</a>
+                                                    </span>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -797,5 +815,31 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Set the selected values BEFORE initializing Select2
+            var selectedValues = <?php echo json_encode($selectedProductIds); ?>;
+
+            // Initialize Select2 for product selection
+            $('#product_ids').select2({
+                placeholder: 'Select products...',
+                allowClear: true,
+                width: '100%'
+            });
+
+            // Set the selected values after initialization and trigger change
+            $('#product_ids').val(selectedValues).trigger('change');
+        });
+
+        function removeProduct(productId) {
+            // Remove the product from the select dropdown
+            $('#product_ids option[value="' + productId + '"]').prop('selected', false);
+            // Trigger change event to update Select2
+            $('#product_ids').trigger('change');
+            // Remove the tag visually
+            $('[data-product-id="' + productId + '"]').closest('span').remove();
+        }
     </script>
 @endpush

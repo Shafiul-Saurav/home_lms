@@ -85,7 +85,11 @@ use App\Http\Controllers\Backend\LandingPageController as BackendLandingPageCont
 */
 
 Route::get('/', [WebsiteController::class, 'home'])->name('home');
+// Static landing page route (could be for a default landing page)
 Route::get('/landingpage', [LandingPageController::class, 'index'])->name('landingpage.index');
+
+// Dynamic landing page route with ID parameter
+Route::get('/landingpage/{id}', [LandingPageController::class, 'index'])->name('landingpage.show');
 Route::get('/sitemap.xml', [App\Http\Controllers\Frontend\SitemapController::class, 'index']);
 Route::get('about', [WebsiteController::class, 'about'])->name('about');
 Route::get('rooms', [WebsiteController::class, 'rooms'])->name('rooms');

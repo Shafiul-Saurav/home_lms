@@ -368,7 +368,6 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
-                                    <small class="form-text text-muted">Hold Ctrl/Cmd to select multiple products</small>
                                 </div>
                             </div>
                         </div>
