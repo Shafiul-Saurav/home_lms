@@ -189,8 +189,8 @@
             </div>
             <div class="row mt-4">
                 <div class="col-md-12 text-center">
-                    <h3 class="text-white">Original Price: {{ $landingPage->products->first()->purchase_price ?? 'N/A' }} BDT</h3>
-                    <h2 class="text-light display-4 my-3 offer-price">Offer Price: {{ $landingPage->products->first()->sell_price ?? 'N/A' }} BDT</h2>
+                    <h3 class="text-white">Original Price: {{ number_format($landingPage->products->first()->purchase_price ?? 0, 2) }} BDT</h3>
+                    <h2 class="text-light display-4 my-3 offer-price">Offer Price: {{ number_format($landingPage->products->first()->sell_price ?? 0, 2) }} BDT</h2>
                     <h4 class="text-white">{{ $landingPage->footer_text ?? '( Free Delivery Across Bangladesh )' }}</h4>
                 </div>
             </div>
@@ -290,15 +290,21 @@
                                             </div>
                                         </div>
                                         <div class="col-2">
-                                            {{ $product->selling_price ?? 890 }}
+                                            {{ number_format($product->sell_price ?? 0, 2) }}
                                         </div>
                                     </div>
+                                    <!-- Hidden span to pass product price and discount info to JavaScript -->
+                                    <span id="product-price" style="display: none;"
+                                          data-price="{{ $product->sell_price ?? 0 }}"
+                                          data-original-price="{{ $product->purchase_price ?? 0 }}"
+                                          data-discount-type="{{ $product->discount_type ?? '' }}"
+                                          data-discount-amount="{{ $product->discount_amount ?? 0 }}"></span>
                                     <div class="row mt-5 mb-3">
                                         <div class="col-6">
-                                            <p class="mb-0">Price per unit:</p>
+                                            <p class="mb-0">Discounted Price per unit:</p>
                                         </div>
                                         <div class="col-6 text-end">
-                                            <p class="mb-0"><strong>{{ $product->sell_price ?? 890 }} BDT</strong></p>
+                                            <p class="mb-0"><strong>{{ number_format($product->sell_price ?? 0, 2) }} BDT</strong></p>
                                         </div>
                                     </div>
                                     <hr>
@@ -307,7 +313,7 @@
                                             <p class="mb-0">Subtotal:</p>
                                         </div>
                                         <div class="col-6 text-end">
-                                            <p class="mb-0"><strong>{{ $product->sell_price ?? 890 }} BDT</strong></p>
+                                            <p class="mb-0"><strong>{{ number_format($product->sell_price ?? 0, 2) }} BDT</strong></p>
                                         </div>
                                     </div>
                                     <hr>
@@ -325,7 +331,7 @@
                                             <p class="mb-0">Total:</p>
                                         </div>
                                         <div class="col-6 text-end">
-                                            <p class="mb-0"><strong>{{ $product->sell_price ?? 890 }} BDT</strong></p>
+                                            <p class="mb-0"><strong>{{ number_format($product->sell_price ?? 0, 2) }} BDT</strong></p>
                                         </div>
                                     </div>
                                 @else
@@ -388,6 +394,113 @@
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script src="{{ asset('assets/landingpage/assets/js/script.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Prevent original event handlers from interfering by removing them
+            $('#increaseQty, #decreaseQty').off('click');
+            $('#quantity').off('input change');
+
+            // Custom function to calculate and update prices
+            function updatePriceCalculations() {
+                // Get the product info from the data attribute
+                var originalPrice = parseFloat($('#product-price').data('original-price')) || 0;
+                var discountType = $('#product-price').data('discount-type') || '';
+                var discountAmount = parseFloat($('#product-price').data('discount-amount')) || 0;
+
+                // Calculate the actual price per unit based on discount
+                var pricePerUnit = originalPrice;
+
+                if(discountType === 'percentage') {
+                    // Apply percentage discount
+                    pricePerUnit = originalPrice - (originalPrice * (discountAmount / 100));
+                } else if(discountType === 'fixed') {
+                    // Apply fixed amount discount
+                    pricePerUnit = originalPrice - discountAmount;
+                } else {
+                    // If no discount type is specified, use the sell_price
+                    pricePerUnit = parseFloat($('#product-price').data('price')) || originalPrice;
+                }
+
+                // Ensure price doesn't go below 0
+                pricePerUnit = Math.max(pricePerUnit, 0);
+
+                var quantity = parseInt($('#quantity').val());
+                if(isNaN(quantity) || quantity < 1) {
+                    quantity = 1;
+                    $('#quantity').val(quantity);
+                }
+
+                // Calculate subtotal
+                var subtotal = pricePerUnit * quantity;
+
+                // Determine shipping cost based on delivery area
+                var shipping = 0;
+                var selectedDeliveryArea = $('#deliveryArea').val();
+                if(selectedDeliveryArea === 'dhaka-city') {
+                    shipping = 70; // 70 BDT for Inside Dhaka
+                } else if(selectedDeliveryArea === 'dhaka-outside') {
+                    shipping = 120; // 120 BDT for Outside Dhaka
+                }
+
+                // Calculate total
+                var total = subtotal + shipping;
+
+                // Update the values in the UI using text labels instead of fixed indices
+                $('.col-6.text-end').each(function() {
+                    var label = $(this).prev().text().trim();
+                    if(label === 'Subtotal:') {
+                        $(this).find('strong').text(subtotal.toFixed(2) + ' BDT');
+                    } else if(label === 'Shipping:') {
+                        $(this).find('strong').text(shipping.toFixed(2) + ' BDT');
+                    } else if(label === 'Total:') {
+                        $(this).find('strong').text(total.toFixed(2) + ' BDT');
+                    }
+                });
+
+                // Also update the "Discounted Price per unit" display
+                $('.col-6').each(function() {
+                    if($(this).text().trim() === 'Discounted Price per unit:') {
+                        $(this).next().find('strong').text(pricePerUnit.toFixed(2) + ' BDT');
+                    }
+                });
+            }
+
+            // Set up our own event handlers for quantity buttons
+            $('#increaseQty').on('click', function() {
+                var currentVal = parseInt($('#quantity').val());
+                if(isNaN(currentVal)) currentVal = 1;
+                $('#quantity').val(currentVal + 1);
+                updatePriceCalculations();
+            });
+
+            $('#decreaseQty').on('click', function() {
+                var currentVal = parseInt($('#quantity').val());
+                if(isNaN(currentVal)) currentVal = 1;
+                if(currentVal > 1) {
+                    $('#quantity').val(currentVal - 1);
+                    updatePriceCalculations();
+                }
+            });
+
+            // Update when quantity input changes
+            $('#quantity').on('input change', function() {
+                var val = parseInt($(this).val());
+                if(isNaN(val) || val < 1) {
+                    $(this).val(1);
+                }
+                updatePriceCalculations();
+            });
+
+            // Also update when delivery area changes
+            $('#deliveryArea').on('change', function() {
+                updatePriceCalculations();
+            });
+
+            // Initialize the calculations on page load
+            updatePriceCalculations();
+        });
+    </script>
 </body>
 
 </html>

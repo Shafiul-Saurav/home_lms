@@ -57,9 +57,9 @@ $(document).ready(function(){
         var total = subtotal + shipping;
 
         // Update the values in the UI
-        $('.col-6.text-end').eq(1).find('p').eq(0).html('<strong>' + subtotal + ' টাকা</strong>'); // Subtotal
-        $('.col-6.text-end').eq(2).find('p').eq(0).html('<strong>' + shipping + ' টাকা</strong>'); // Shipping
-        $('.col-6.text-end').eq(3).find('p').eq(0).html('<strong>' + total + ' টাকা</strong>'); // Total
+        $('.col-6.text-end').eq(1).find('p').eq(0).html('<strong>' + subtotal + ' BDT</strong>'); // Subtotal
+        $('.col-6.text-end').eq(2).find('p').eq(0).html('<strong>' + shipping + ' BDT</strong>'); // Shipping
+        $('.col-6.text-end').eq(3).find('p').eq(0).html('<strong>' + total + ' BDT</strong>'); // Total
     }
 
     // Initialize total on page load
