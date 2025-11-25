@@ -12,7 +12,7 @@
 .heading-text {
     text-align: center !important;
     padding: 1rem 0 !important;
-    background-color: #198754 !important; /* bg-success */
+    background-color: #684EFF !important; /* Primary purple color from frontend */
     color: white !important;
     border-radius: 1rem !important; /* rounded-4 */
     font-weight: 700 !important;
@@ -23,7 +23,7 @@ input:focus,
 textarea:focus,
 select:focus {
     box-shadow: none !important;
-    outline: 2px solid #198754 !important;
+    outline: 2px solid #684EFF !important;
 }
 
 /* Input field padding styles - exclude checkboxes and quantity inputs */
@@ -56,6 +56,7 @@ input[type="radio"],
     box-shadow: 0 8px 16px rgba(0,0,0,0.2) !important;
     overflow: hidden;
     display: inline-block;
+    border: 3px solid #684EFF !important; /* Purple theme color */
 }
 
 
@@ -72,7 +73,7 @@ input[type="radio"],
     display: block;
     width: 100%;
     height: auto;
-    border: 3px solid #198754 !important; /* Success color */
+    border: 3px solid #684EFF !important; /* Primary purple color from frontend */
     border-radius: 20px !important; /* rounded-4 equivalent */
     box-shadow: 0 8px 16px rgba(0,0,0,0.2) !important;
 }
@@ -94,7 +95,7 @@ input[type="radio"],
 
 .owl-prev,
 .owl-next {
-    background: #198754 !important;
+    background: #684EFF !important;
     color: white !important;
     border-radius: 50% !important;
     width: 40px !important;
@@ -110,7 +111,7 @@ input[type="radio"],
 
 .owl-prev:hover,
 .owl-next:hover {
-    background: #157347 !important;
+    background: #573df0 !important; /* Darker shade of the purple */
 }
 
 
@@ -121,4 +122,20 @@ input[type="radio"],
 /* Order section */
 .order-card {
     box-shadow: 0 8px 16px rgba(0,0,0,0.2) !important;
+}
+
+/* Gradient Button Style */
+.btn-gradient {
+    background: linear-gradient(135deg, #00a6ff, #7b2fff);
+    border: none;
+    color: white;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.btn-gradient:hover {
+    background: linear-gradient(135deg, #008ae0, #6a1fcf);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }

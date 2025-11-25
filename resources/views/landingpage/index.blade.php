@@ -45,7 +45,7 @@
             <div class="col-md-12">
                 <div class="text-center">
                     {!! $landingPage->main_description !!}
-                    <a href="#" class="btn btn-success btn-lg mt-3">অর্ডার করুন</a>
+                    <a href="#" class="btn btn-gradient btn-lg mt-3">অর্ডার করুন</a>
                 </div>
             </div>
         </div>
@@ -93,7 +93,7 @@
             <div class="col-md-12">
                 <h2 class="text-center py-4">{{ $landingPage->why_buy_description }}</h2>
                 <div class="text-center">
-                    <a href="#" class="btn btn-success btn-lg mt-3">অর্ডার করুন</a>
+                    <a href="#" class="btn btn-gradient btn-lg mt-3">অর্ডার করুন</a>
                 </div>
             </div>
         </div>
@@ -120,7 +120,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="text-center">
-                    <a href="#" class="btn btn-success btn-lg mt-3">অর্ডার করুন</a>
+                    <a href="#" class="btn btn-gradient btn-lg mt-3">অর্ডার করুন</a>
                 </div>
             </div>
         </div>
@@ -133,14 +133,14 @@
     <div class="container py-5">
         <div class="row">
             <div class="col-md-12 text-center">
-                <h1 class="text-success">{{ $landingPage->certificate_title ?? 'Certificate Title' }}</h1>
-                <h3 class="text-muted">{{ $landingPage->certificate_subtitle ?? 'Certificate Subtitle' }}</h3>
+                <h1 style="color: #684EFF;">{{ $landingPage->certificate_title ?? 'Certificate Title' }}</h1>
+                <h3 style="color: #684EFF;">{{ $landingPage->certificate_subtitle ?? 'Certificate Subtitle' }}</h3>
             </div>
         </div>
         @if($landingPage->certificate_image)
         <div class="row">
             <div class="col-md-12 text-center mt-4">
-                <div class="certificate-card border border-3 rounded-4 border-success">
+                <div class="certificate-card border border-3 rounded-4" style="border-color: #684EFF !important;">
                     <img src="{{ asset('uploads/landingpages/' . $landingPage->certificate_image) }}" class="img-fluid rounded-4" alt="Certificate">
                 </div>
             </div>
@@ -190,14 +190,14 @@
             <div class="row mt-4">
                 <div class="col-md-12 text-center">
                     <h3 class="text-white">Original Price: {{ $landingPage->products->first()->purchase_price ?? 'N/A' }} BDT</h3>
-                    <h2 class="text-warning display-4 my-3 offer-price">Offer Price: {{ $landingPage->products->first()->sell_price ?? 'N/A' }} BDT</h2>
+                    <h2 class="text-light display-4 my-3 offer-price">Offer Price: {{ $landingPage->products->first()->sell_price ?? 'N/A' }} BDT</h2>
                     <h4 class="text-white">{{ $landingPage->footer_text ?? '( Free Delivery Across Bangladesh )' }}</h4>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="text-center">
-                        <a href="#" class="btn btn-success btn-lg mt-3">অর্ডার করুন</a>
+                        <a href="#" class="btn btn-gradient btn-lg mt-3">অর্ডার করুন</a>
                     </div>
                 </div>
             </div>
@@ -213,7 +213,7 @@
                 <h2 class="heading-text">To order, write your name, full address and mobile number in the form below. Then click on the 'Order Now' button to complete your order.</h2>
             </div>
         </div>
-        <div class="row mt-4 order-card rounded-4 border border-3 border-success">
+        <div class="row mt-4 order-card rounded-4 border border-3" style="border-color: #684EFF !important;">
             <div class="col-md-12">
                 <form id="orderForm" action="" method="POST">
                     @csrf
@@ -332,7 +332,7 @@
                                     <p>No product associated with this landing page.</p>
                                 @endif
                                 <div class="d-grid">
-                                    <button type="submit" class="btn btn-success btn-lg">Confirm Order</button>
+                                    <button type="submit" class="btn btn-gradient btn-lg">Confirm Order</button>
                                 </div>
                             </div>
                         </div>
@@ -371,7 +371,7 @@
     <!-- END: CTA Banner Section -->
 
     <!-- START: Footer Section -->
-    <footer class="footer bg-success text-white py-3">
+    <footer class="footer" style="background-color: #684EFF; color: white; padding: 1rem 0;">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
