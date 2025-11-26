@@ -4,7 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Dynamic Landing Page')</title>
+    @php
+        $logo_fav = \App\Models\LogoFavicon::first();
+    @endphp
+    <title>@yield('title', ($landingPage->main_heading ? $landingPage->main_heading . ' | ' : '') . ($logo_fav->web_name ?? 'Dynamic Landing Page'))</title>
+    <meta name="description" content="{{ $landingPage->main_description ? strip_tags($landingPage->main_description) : ($logo_fav->web_name ?? 'Online Shopping In Bangladesh With Home Delivery') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
@@ -12,6 +16,9 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="{{ asset('assets/landingpage/assets/css/style.css') }}" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon"
+        href="{{ asset($logo_fav->favicon ?? 'uploads/favicons/default.png') }}" />
 </head>
 
 <body>
@@ -264,21 +271,20 @@
                                     @endphp
                                     <div class="row d-flex align-items-center mb-3">
                                         <div class="col-1 px-1 text-center">
-                                            <input type="checkbox" class="form-check-input me-3" id="productCheck" name="product_id" value="{{ $product->id }}" checked>
-                                        </div>
-                                        <div class="col-1 px-1 text-center">
                                             @if($product->image)
                                                 <img src="{{ asset('uploads/products/' . $product->image) }}" class="img-fluid me-3"
-                                                    alt="{{ $product->name }}" style="max-width: 30px; height: 30px">
+                                                    alt="{{ $product->name }}" style="max-width: 40px; height: 40px">
                                             @else
                                                 <img src="{{ asset('assets/landingpage/assets/images/1-2-1-1024x759.jpg') }}" class="img-fluid me-3"
-                                                    alt="{{ $product->name }}" style="max-width: 30px; height: 30px">
+                                                    alt="{{ $product->name }}" style="max-width: 40px; height: 40px">
                                             @endif
+                                            <!-- Hidden input to pass product ID to the form -->
+                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
                                         </div>
-                                        <div class="col-4 px-1 text-center">
+                                        <div class="col-5 px-1 text-center">
                                             <p style="font-size: 12px;" class="mb-1">{{ $product->name ?? 'Product Name' }}</p>
                                         </div>
-                                        <div class="col-4 d-flex align-items-center px-1">
+                                        <div class="col-5 d-flex align-items-center justify-content-center px-1">
                                             <span class="me-2 d-none d-sm-block">Qty:</span>
                                             <div class="input-group w-auto">
                                                 <button class="btn btn-outline-success" type="button"
@@ -289,7 +295,7 @@
                                                     id="increaseQty">+</button>
                                             </div>
                                         </div>
-                                        <div class="col-2">
+                                        <div class="col-1">
                                             {{ number_format($product->sell_price ?? 0, 2) }}
                                         </div>
                                     </div>
@@ -367,8 +373,11 @@
             <div class="row">
                 <div class="col-md-12 text-center">
                     <h2 class="text-success">{{ $landingPage->cta_banner_text ?? 'Call for free consultation' }}</h2>
-                    <a href="https://wa.me/8801849382288" class="text-success">
-                        <h1><i class="fab fa-whatsapp fa-flip-horizontal me-2"></i>+8801849382288</a></h1>
+                    @php
+                        $website_link = \App\Models\WebsiteLink::first();
+                    @endphp
+                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $website_link->number ?? '8801849382288') }}" class="text-success" target="_blank">
+                        <h1><i class="fab fa-whatsapp fa-flip-horizontal me-2"></i>{{ $website_link->number ?? '+8801849382288' }}</a></h1>
                 </div>
             </div>
         </div>
@@ -381,7 +390,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <p class="mb-0">&copy; <script>document.write(new Date().getFullYear());</script> {{ $landingPage->footer_text ?? 'All Rights Reserved' }}. | Designed and Developed by Shafiul Saurav</p>
+                    @php
+                        $logo_fav = \App\Models\LogoFavicon::first();
+                        $website_link = \App\Models\WebsiteLink::first();
+                    @endphp
+                    <p class="mb-0">&copy; <script>document.write(new Date().getFullYear());</script> {{ $logo_fav->web_name ?? 'All Rights Reserved' }}. | Designed and Developed by Shafiul Saurav</p>
                 </div>
             </div>
         </div>
