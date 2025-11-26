@@ -9,6 +9,25 @@
     @endphp
     <title>@yield('title', ($landingPage->main_heading ? $landingPage->main_heading . ' | ' : '') . ($logo_fav->web_name ?? 'Dynamic Landing Page'))</title>
     <meta name="description" content="{{ $landingPage->main_description ? strip_tags($landingPage->main_description) : ($logo_fav->web_name ?? 'Online Shopping In Bangladesh With Home Delivery') }}">
+
+    <!-- Primary Meta Tags -->
+    <meta name="robots" content="all" />
+    <meta name="keywords" content="Landing Page, {{ $logo_fav->web_name ?? 'Online Shopping, Bangladesh, Home Delivery' }}" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:title" content="{{ $landingPage->main_heading ?? $logo_fav->web_name ?? 'Landing Page' }}" />
+    <meta property="og:description" content="{{ $landingPage->main_description ? strip_tags($landingPage->main_description) : ($logo_fav->web_name ?? 'Online Shopping In Bangladesh With Home Delivery') }}" />
+    <meta property="og:image" content="{{ $landingPage->products->first()->image ? asset('uploads/products/' . $landingPage->products->first()->image) : asset($logo_fav->logo ?? 'uploads/logos/default.png') }}" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url()->current() }}">
+    <meta property="twitter:title" content="{{ $landingPage->main_heading ?? $logo_fav->web_name ?? 'Landing Page' }}">
+    <meta property="twitter:description" content="{{ $landingPage->main_description ? strip_tags($landingPage->main_description) : ($logo_fav->web_name ?? 'Online Shopping In Bangladesh With Home Delivery') }}">
+    <meta property="twitter:image" content="{{ $landingPage->products->first()->image ? asset('uploads/products/' . $landingPage->products->first()->image) : asset($logo_fav->logo ?? 'uploads/logos/default.png') }}">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
@@ -394,7 +413,7 @@
                         $logo_fav = \App\Models\LogoFavicon::first();
                         $website_link = \App\Models\WebsiteLink::first();
                     @endphp
-                    <p class="mb-0">&copy; <script>document.write(new Date().getFullYear());</script> {{ $logo_fav->web_name ?? 'All Rights Reserved' }}. | Designed and Developed by Shafiul Saurav</p>
+                    <p class="mb-0">&copy; All Rights Reserved {{ $logo_fav->web_name ?? 'All Rights Reserved' }} <script>document.write(new Date().getFullYear());</script>. | Designed and Developed by <a class="text-white" href="" target="_blank">Shafiul Saurav</a></p>
                 </div>
             </div>
         </div>

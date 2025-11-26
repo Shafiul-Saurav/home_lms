@@ -80,7 +80,7 @@
         <div class="col-12">
             <div class="p-2 bg-primary text-center">
                 <p class="footer-copytext">
-                    All Rights Reserved {{ $logo_fav->web_name ?? null }} 2024 <span class="copy-tj"> | Designed and
+                    &copy; All Rights Reserved {{ $logo_fav->web_name ?? null }} 2025 <span class="copy-tj"> | Designed and
                         Developed by <a href="" target="_blank">Shafiul Saurav</a></span>
                 </p>
             </div>
