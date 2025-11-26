@@ -190,7 +190,7 @@
             <div class="row mt-4">
                 <div class="col-md-12 text-center">
                     <h3 class="text-white">Original Price: {{ number_format($landingPage->products->first()->purchase_price ?? 0, 2) }} BDT</h3>
-                    <h2 class="text-light display-4 my-3 offer-price">Offer Price: {{ number_format($landingPage->products->first()->sell_price ?? 0, 2) }} BDT</h2>
+                    <h2 class="text-light display-4 my-3 offer-price">Offer Price: {{ number_format($landingPage->products->first()->sale_price ?? 0, 2) }} BDT</h2>
                     <h4 class="text-white">{{ $landingPage->footer_text ?? '( Free Delivery Across Bangladesh )' }}</h4>
                 </div>
             </div>
@@ -279,7 +279,7 @@
                                             <p style="font-size: 12px;" class="mb-1">{{ $product->name ?? 'Product Name' }}</p>
                                         </div>
                                         <div class="col-4 d-flex align-items-center px-1">
-                                            <span class="me-2">Qty:</span>
+                                            <span class="me-2 d-none d-sm-block">Qty:</span>
                                             <div class="input-group w-auto">
                                                 <button class="btn btn-outline-success" type="button"
                                                     id="decreaseQty">-</button>
