@@ -42,36 +42,38 @@
 
 <body>
     <!-- START: Main Header Section -->
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 mt-2">
-                <h2 class="heading-text">{{ $landingPage->main_heading ?? 'Default Heading' }}</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="video-container text-center py-3">
-                    <div class="embed-responsive embed-responsive-16by9 rounded-4 overflow-hidden">
-                        @if($landingPage->video_url)
-                            <video width="100%" height="500" controls class="embed-responsive-item rounded-4" preload="metadata">
-                                <source src="{{ asset('uploads/landingpages/' . $landingPage->video_url) }}" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        @else
-                            <!-- Default video or placeholder if no video uploaded -->
-                            <iframe class="embed-responsive-item rounded-4" width="100%" height="500"
-                                src="https://www.youtube.com/embed/_Do4haI6aUY?start=1" frameborder="0"
-                                allowfullscreen></iframe>
-                        @endif
+    <div class="header-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center mb-4">
+                    <h2 class="heading-text">{{ $landingPage->main_heading ?? 'Default Heading' }}</h2>
+                    <div class="col-md-8 mx-auto">
+                        <div class="video-container text-center">
+                            <div class="embed-responsive embed-responsive-16by9 rounded-4 overflow-hidden">
+                                @if($landingPage->video_url)
+                                    <video width="100%" height="500" controls class="embed-responsive-item rounded-4" preload="metadata">
+                                        <source src="{{ asset('uploads/landingpages/' . $landingPage->video_url) }}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                @else
+                                    <!-- Default video or placeholder if no video uploaded -->
+                                    <iframe class="embed-responsive-item rounded-4" width="100%" height="500"
+                                        src="https://www.youtube.com/embed/_Do4haI6aUY?start=1" frameborder="0"
+                                        allowfullscreen></iframe>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="text-center">
-                    {!! $landingPage->main_description !!}
-                    <a href="#" class="btn btn-gradient btn-lg mt-3">অর্ডার করুন</a>
+            <div class="row">
+                <div class="col-md-10 mx-auto">
+                    <div class="text-center">
+                        <div class="main-description mb-5">
+                            <h4>{!! $landingPage->main_description !!}</h4>
+                        </div>
+                        <a href="#" class="btn btn-gradient btn-lg mt-3 px-5 py-3 fs-5">অর্ডার করুন</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -201,29 +203,23 @@
 
     <!-- START: Product Information Section -->
     @if($landingPage->products && $landingPage->products->count() > 0)
-    <div class="bg-success py-5">
+    <div class="py-5" style="background: linear-gradient(135deg, #28a745 0%, #219a3a 100%);">
         <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
+            <div class="row g-5 align-items-center">
+                <div class="col-md-6 text-center">
                     @if($landingPage->products->first()->image)
-                        <img src="{{ asset('uploads/products/' . $landingPage->products->first()->image) }}" class="img-fluid rounded-4" alt="{{ $landingPage->products->first()->name }}">
+                        <img src="{{ asset('uploads/products/' . $landingPage->products->first()->image) }}" class="img-fluid rounded-4 shadow-lg" alt="{{ $landingPage->products->first()->name }}" style="max-width: 400px; transition: transform 0.3s ease;">
                     @else
                         <!-- Default placeholder if no product image provided -->
-                        <img src="{{ asset('assets/landingpage/assets/images/cover-1-1536x674.webp') }}" class="img-fluid rounded-4" alt="Product Image">
+                        <img src="{{ asset('assets/landingpage/assets/images/cover-1-1536x674.webp') }}" class="img-fluid rounded-4 shadow-lg" alt="Product Image" style="max-width: 400px;">
                     @endif
                 </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-md-12 text-center">
-                    <h3 class="text-white">Original Price: {{ number_format($landingPage->products->first()->purchase_price ?? 0, 2) }} BDT</h3>
-                    <h2 class="text-light display-4 my-3 offer-price">Offer Price: {{ number_format($landingPage->products->first()->sale_price ?? 0, 2) }} BDT</h2>
-                    <h4 class="text-white">{{ $landingPage->footer_text ?? '( Free Delivery Across Bangladesh )' }}</h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="text-center">
-                        <a href="#" class="btn btn-gradient btn-lg mt-3">অর্ডার করুন</a>
+                <div class="col-md-6 text-center text-md-start">
+                    <h3 class="text-white mb-3">Original Price: <del>{{ number_format($landingPage->products->first()->purchase_price ?? 0, 2) }} BDT</del></h3>
+                    <h2 class="text-light display-4 fw-bold my-3 offer-price">Offer Price: {{ number_format($landingPage->products->first()->sale_price ?? 0, 2) }} BDT</h2>
+                    <h4 class="text-white mb-4">{{ $landingPage->footer_text ?? '( Free Delivery Across Bangladesh )' }}</h4>
+                    <div class="d-grid d-md-block">
+                        <a href="#" class="btn btn-gradient btn-lg px-5 py-3 fs-5">অর্ডার করুন</a>
                     </div>
                 </div>
             </div>

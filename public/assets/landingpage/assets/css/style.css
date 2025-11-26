@@ -12,10 +12,155 @@
 .heading-text {
     text-align: center !important;
     padding: 1rem 0 !important;
-    background-color: #684EFF !important; /* Primary purple color from frontend */
+    background: linear-gradient(135deg, #684EFF, #7b2fff) !important; /* Gradient background */
     color: white !important;
     border-radius: 1rem !important; /* rounded-4 */
     font-weight: 700 !important;
+    position: relative !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+    margin: 1.5rem 0 !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+}
+
+/* Enhanced header section */
+.header-section {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%) !important;
+    padding: 2rem 0 !important;
+    border-radius: 0 0 2rem 2rem !important;
+    margin-bottom: 2rem !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08) !important;
+    position: relative !important;
+}
+
+/* Animated underline for headings */
+.heading-text::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -10px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 60px !important;
+    height: 3px !important;
+    background: linear-gradient(90deg, transparent, #684EFF, transparent) !important;
+    border-radius: 50% !important;
+}
+
+/* Video container enhancements */
+.video-container {
+    border-radius: 1.5rem !important;
+    overflow: hidden !important;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15) !important;
+    position: relative !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.video-container:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2) !important;
+}
+
+/* Button enhancements */
+.btn-gradient {
+    background: linear-gradient(135deg, #00a6ff, #7b2fff);
+    border: none;
+    color: white;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(123, 47, 255, 0.4);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #7b2fff, #00a6ff);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.btn-gradient:hover::before {
+    opacity: 1;
+}
+
+.btn-gradient:hover {
+    background: transparent;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(123, 47, 255, 0.6);
+}
+
+/* Input field focus styles - remove box shadow and set outline */
+input:focus,
+textarea:focus,
+select:focus {
+    box-shadow: none !important;
+    outline: 2px solid #684EFF !important;
+}
+
+/* Input field padding styles - exclude checkboxes and quantity inputs */
+input:not([type="checkbox"]):not([type="radio"]):not(#quantity),
+textarea,
+select {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+}
+
+/* Maintain normal padding for checkboxes, radio buttons, and quantity input */
+input[type="checkbox"],
+input[type="radio"],
+#quantity {
+    padding-top: 0.375rem !important;
+    padding-bottom: 0.375rem !important;
+}
+
+/* Offer Price Text Styling */
+.offer-price {
+    font-weight: bold !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+    position: relative !important;
+    display: inline-block !important;
+}
+
+.offer-price::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -10px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 3px !important;
+    background: linear-gradient(90deg, transparent, #684EFF, transparent) !important;
+    border-radius: 50% !important;
+}
+
+/* Benefit card styles */
+.benefit-card {
+    transition: all 0.3s ease !important;
+    border: 1px solid #e0e0ff !important;
+}
+
+.benefit-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 10px 25px rgba(104, 78, 255, 0.15) !important;
+    border-color: #684EFF !important;
+}
+
+/* Why buy card styles */
+.why-buy-card {
+    transition: all 0.3s ease !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
+}
+
+.why-buy-card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 15px 30px rgba(104, 78, 255, 0.2) !important;
 }
 
 /* Input field focus styles - remove box shadow and set outline */
