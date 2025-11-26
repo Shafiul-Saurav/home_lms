@@ -129,7 +129,7 @@ input[type="radio"],
     display: inline-block !important;
 }
 
-.offer-price::before {
+/* .offer-price::before {
     content: '' !important;
     position: absolute !important;
     top: -10px !important;
@@ -138,7 +138,7 @@ input[type="radio"],
     height: 3px !important;
     background: linear-gradient(90deg, transparent, #684EFF, transparent) !important;
     border-radius: 50% !important;
-}
+} */
 
 /* Benefit card styles */
 .benefit-card {

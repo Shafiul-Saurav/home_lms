@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\StuffController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\LandingPageOrderController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\Backend\ModuleController;
@@ -119,6 +120,11 @@ Route::prefix('checkout')->name('checkout.')->group(function () {
     Route::post('/process', [CheckoutController::class, 'process'])->name('process');
 });
 Route::get('order/confirmation/{order}', [CheckoutController::class, 'confirmation'])->name('order.confirmation');
+
+// Landing Page Order routes
+Route::prefix('landingpage')->name('landingpage.')->group(function () {
+    Route::post('/order/process', [LandingPageOrderController::class, 'process'])->name('order.process');
+});
 Route::get('category/{id}/products', [WebsiteController::class, 'categoryProducts'])->name('category.products');
 Route::get('search', [WebsiteController::class, 'searchResults'])->name('search.results');
 Route::get('search/suggestions', [WebsiteController::class, 'searchSuggestions'])->name('search.suggestions');

@@ -372,10 +372,10 @@
                             </div>
                         </div>
 
-                        <div class="section-divider"></div>
+                        {{-- <div class="section-divider"></div> --}}
 
                         <div class="row">
-                            <div class="col-12">
+                            {{-- <div class="col-12">
                                 <h4 class="section-title">Footer & Settings</h4>
                             </div>
 
@@ -389,7 +389,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="col-md-12">
                                 <div class="form-group">

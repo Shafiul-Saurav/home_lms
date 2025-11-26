@@ -38,6 +38,61 @@
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon"
         href="{{ asset($logo_fav->favicon ?? 'uploads/favicons/default.png') }}" />
+
+    <!-- Custom Product Hover Effects -->
+    <style>
+        /* Hover effects for Why Buy images */
+        .why-buy-image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .why-buy-image-container img {
+            transition: transform 0.3s ease, filter 0.3s ease;
+            width: 100%;
+            height: auto;
+        }
+
+        .why-buy-image-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .why-buy-image-container:hover img {
+            transform: scale(1.05);
+            filter: brightness(1.05);
+        }
+
+        /* Overlay effect */
+        .why-buy-image-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(104, 78, 255, 0.2));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .why-buy-image-container:hover::before {
+            opacity: 1;
+        }
+
+        /* Zoom effect */
+        .why-buy-image-zoom {
+            transition: all 0.3s ease;
+        }
+
+        .why-buy-image-zoom:hover {
+            transform: scale(1.03);
+        }
+    </style>
 </head>
 
 <body>
@@ -46,7 +101,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center mb-4">
-                    <h2 class="heading-text">{{ $landingPage->main_heading ?? 'Default Heading' }}</h2>
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5">
+                        <div class="mb-4 mb-lg-0">
+                             <a href="{{ route('home') }}"><img style="width: 200px" loading="lazy" src="{{ asset($logo_fav->logo ?? 'uploads/logos/default.png') }}" alt="{{ $logo_fav->web_name ?? 'Online Shopping In Bangladesh With Home Delivery' }}"></a>
+                        </div>
+                        <div>
+                            <h1 class="display-4 fw-bold mb-4">{{ $landingPage->main_heading ?? 'Amazing Product' }}</h1>
+                        </div>
+                    </div>
                     <div class="col-md-8 mx-auto">
                         <div class="video-container text-center">
                             <div class="embed-responsive embed-responsive-16by9 rounded-4 overflow-hidden">
@@ -72,7 +134,7 @@
                         <div class="main-description mb-5">
                             <h4>{!! $landingPage->main_description !!}</h4>
                         </div>
-                        <a href="#" class="btn btn-gradient btn-lg mt-3 px-5 py-3 fs-5">অর্ডার করুন</a>
+                        <a href="javascript:void(0);" class="btn btn-gradient btn-lg mt-3 px-4 py-2 order-btn">অর্ডার করুন</a>
                     </div>
                 </div>
             </div>
@@ -111,7 +173,9 @@
         <div class="row">
             @foreach($landingPage->whyBuyImages as $image)
                 <div class="col-md-4 mb-4">
-                    <img src="{{ asset('uploads/landingpages/' . $image->image_path) }}" class="img-fluid" alt="Why Buy Image">
+                    <div class="why-buy-image-container">
+                        <img src="{{ asset('uploads/landingpages/' . $image->image_path) }}" class="img-fluid why-buy-image-zoom" alt="Why Buy Image">
+                    </div>
                 </div>
             @endforeach
         </div>
@@ -121,7 +185,7 @@
             <div class="col-md-12">
                 <h2 class="text-center py-4">{{ $landingPage->why_buy_description }}</h2>
                 <div class="text-center">
-                    <a href="#" class="btn btn-gradient btn-lg mt-3">অর্ডার করুন</a>
+                    <a href="javascript:void(0);" class="btn btn-gradient btn-lg mt-3 px-4 py-2 order-btn">অর্ডার করুন</a>
                 </div>
             </div>
         </div>
@@ -148,7 +212,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="text-center">
-                    <a href="#" class="btn btn-gradient btn-lg mt-3">অর্ডার করুন</a>
+                    <a href="javascript:void(0);" class="btn btn-gradient btn-lg mt-3 px-4 py-2 order-btn">অর্ডার করুন</a>
                 </div>
             </div>
         </div>
@@ -203,7 +267,7 @@
 
     <!-- START: Product Information Section -->
     @if($landingPage->products && $landingPage->products->count() > 0)
-    <div class="py-5" style="background: linear-gradient(135deg, #28a745 0%, #219a3a 100%);">
+    <div class="py-5" style="background: oklch(78.5% 0.115 274.713);">
         <div class="container">
             <div class="row g-5 align-items-center">
                 <div class="col-md-6 text-center">
@@ -216,10 +280,10 @@
                 </div>
                 <div class="col-md-6 text-center text-md-start">
                     <h3 class="text-white mb-3">Original Price: <del>{{ number_format($landingPage->products->first()->purchase_price ?? 0, 2) }} BDT</del></h3>
-                    <h2 class="text-light display-4 fw-bold my-3 offer-price">Offer Price: {{ number_format($landingPage->products->first()->sale_price ?? 0, 2) }} BDT</h2>
+                    <h2 class="display-4 fw-bold my-3 offer-price" style="color: oklch(81% 0.117 11.638);">Offer Price: {{ number_format($landingPage->products->first()->sale_price ?? 0, 2) }} BDT</h2>
                     <h4 class="text-white mb-4">{{ $landingPage->footer_text ?? '( Free Delivery Across Bangladesh )' }}</h4>
                     <div class="d-grid d-md-block">
-                        <a href="#" class="btn btn-gradient btn-lg px-5 py-3 fs-5">অর্ডার করুন</a>
+                        <a href="javascript:void(0);" class="btn btn-gradient btn-lg px-4 py-2 order-btn">অর্ডার করুন</a>
                     </div>
                 </div>
             </div>
@@ -229,7 +293,7 @@
     <!-- END: Product Information Section -->
 
     <!-- START: Order Form Section -->
-    <div class="container py-5">
+    <div class="container py-5" id="order-form-section">
         <div class="row">
             <div class="col-md-12">
                 <h2 class="heading-text">To order, write your name, full address and mobile number in the form below. Then click on the 'Order Now' button to complete your order.</h2>
@@ -237,46 +301,80 @@
         </div>
         <div class="row mt-4 order-card rounded-4 border border-3" style="border-color: #684EFF !important;">
             <div class="col-md-12">
-                <form id="orderForm" action="" method="POST">
+                <form id="orderForm" action="{{ route('landingpage.order.process') }}" method="POST">
                     @csrf
                     <div class="p-4">
                         <div class="row">
                             <div class="col-md-6">
                                 <h4>Billing details</h4>
                                 <div class="mb-3">
-                                    <label for="billingName" class="form-label">Write your name *</label>
-                                    <input type="text" class="form-control" id="billingName" name="billingName" placeholder="Write your name" value="{{ old('billingName') }}">
-                                    @error('billingName')
+                                    <label for="name" class="form-label">Write your name *</label>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Write your name" value="{{ old('name') }}" required>
+                                    @error('name')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <label for="billingAddress" class="form-label">Write your address *</label>
-                                    <textarea class="form-control" id="billingAddress" name="billingAddress" rows="3"
-                                        placeholder="Write your address">{{ old('billingAddress') }}</textarea>
-                                    @error('billingAddress')
+                                    <label for="email" class="form-label">Email (Optional)</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ old('email') }}">
+                                    @error('email')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <label for="billingPhone" class="form-label">Write your mobile number *</label>
-                                    <input type="tel" class="form-control" id="billingPhone" name="billingPhone"
-                                        placeholder="Write your mobile number" value="{{ old('billingPhone') }}">
-                                    @error('billingPhone')
+                                    <label for="phone" class="form-label">Write your mobile number *</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone"
+                                        placeholder="Write your mobile number" value="{{ old('phone') }}" required>
+                                    @error('phone')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <label for="deliveryArea" class="form-label">Shipping</label>
-                                    <select class="form-select" id="deliveryArea" name="deliveryArea">
-                                        <option value="">Select</option>
-                                        <option value="dhaka-city" {{ old('deliveryArea') == 'dhaka-city' ? 'selected' : '' }}>Inside Dhaka</option>
-                                        <option value="dhaka-outside" {{ old('deliveryArea') == 'dhaka-outside' ? 'selected' : '' }}>Outside Dhaka</option>
+                                    <label for="address" class="form-label">Write your address *</label>
+                                    <textarea class="form-control" id="address" name="address" rows="3"
+                                        placeholder="Write your address">{{ old('address') }}</textarea>
+                                    @error('address')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="mb-3">
+                                    <label for="delivery_location" class="form-label">Delivery Location</label>
+                                    <select class="form-select" id="delivery_location" name="delivery_location" required>
+                                        <option value="">Select Delivery Location</option>
+                                        <option value="inside_dhaka" {{ old('delivery_location') == 'inside_dhaka' ? 'selected' : '' }}>Inside Dhaka (Tk 70)</option>
+                                        <option value="outside_dhaka" {{ old('delivery_location') == 'outside_dhaka' ? 'selected' : '' }}>Outside Dhaka (Tk 120)</option>
                                     </select>
-                                    @error('deliveryArea')
+                                    @error('delivery_location')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+                                <!-- Hidden input to store the calculated shipping cost -->
+                                <input type="hidden" id="shipping_cost" name="shipping_cost" value="0">
+
+                                <!-- Hidden input to pass the unit price (discounted price) -->
+                                @if($landingPage->products && $landingPage->products->count() > 0)
+                                    @php
+                                        $product = $landingPage->products->first();
+                                        // Calculate the actual price per unit based on discount
+                                        $originalPrice = $product->purchase_price ?? 0;
+                                        $discountType = $product->discount_type ?? '';
+                                        $discountAmount = $product->discount_amount ?? 0;
+
+                                        $unitPrice = $originalPrice;
+                                        if($discountType === 'percentage') {
+                                            $unitPrice = $originalPrice - ($originalPrice * ($discountAmount / 100));
+                                        } else if($discountType === 'fixed') {
+                                            $unitPrice = $originalPrice - $discountAmount;
+                                        } else {
+                                            $unitPrice = $product->sell_price ?? $originalPrice;
+                                        }
+
+                                        // Ensure price doesn't go below 0
+                                        $unitPrice = max($unitPrice, 0);
+                                    @endphp
+                                    <input type="hidden" name="unit_price" id="unit_price" value="{{ $unitPrice }}">
+                                @endif
                             </div>
                             <div class="col-md-6">
                                 <h4>Product Information</h4>
@@ -359,7 +457,7 @@
                                     <p>No product associated with this landing page.</p>
                                 @endif
                                 <div class="d-grid">
-                                    <button type="submit" class="btn btn-gradient btn-lg">Confirm Order</button>
+                                    <button type="submit" class="btn btn-gradient btn-lg px-4 py-2">Confirm Order</button>
                                 </div>
                             </div>
                         </div>
@@ -429,6 +527,11 @@
             $('#increaseQty, #decreaseQty').off('click');
             $('#quantity').off('input change');
 
+            // Get the subtotal from the page
+            const subtotalElement = $('.col-6:contains("Subtotal:")').next().find('strong');
+            const initialSubtotalText = subtotalElement.text();
+            const initialSubtotal = parseFloat(initialSubtotalText.replace(/[^0-9.]/g, '')) || 0;
+
             // Custom function to calculate and update prices
             function updatePriceCalculations() {
                 // Get the product info from the data attribute
@@ -462,14 +565,17 @@
                 // Calculate subtotal
                 var subtotal = pricePerUnit * quantity;
 
-                // Determine shipping cost based on delivery area
+                // Determine shipping cost based on delivery location
                 var shipping = 0;
-                var selectedDeliveryArea = $('#deliveryArea').val();
-                if(selectedDeliveryArea === 'dhaka-city') {
+                var selectedDeliveryLocation = $('#delivery_location').val();
+                if(selectedDeliveryLocation === 'inside_dhaka') {
                     shipping = 70; // 70 BDT for Inside Dhaka
-                } else if(selectedDeliveryArea === 'dhaka-outside') {
+                } else if(selectedDeliveryLocation === 'outside_dhaka') {
                     shipping = 120; // 120 BDT for Outside Dhaka
                 }
+
+                // Update shipping cost display
+                $('.col-6:contains("Shipping:")').next().find('strong').text(shipping.toFixed(2) + ' BDT');
 
                 // Calculate total
                 var total = subtotal + shipping;
@@ -492,6 +598,9 @@
                         $(this).next().find('strong').text(pricePerUnit.toFixed(2) + ' BDT');
                     }
                 });
+
+                // Store shipping cost in hidden input
+                $('#shipping_cost').val(shipping);
             }
 
             // Set up our own event handlers for quantity buttons
@@ -520,13 +629,44 @@
                 updatePriceCalculations();
             });
 
-            // Also update when delivery area changes
-            $('#deliveryArea').on('change', function() {
+            // Also update when delivery location changes
+            $('#delivery_location').on('change', function() {
                 updatePriceCalculations();
             });
 
             // Initialize the calculations on page load
             updatePriceCalculations();
+        });
+
+        // Handle form submission
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            const deliveryLocation = document.getElementById('delivery_location');
+
+            if (!deliveryLocation.value) {
+                e.preventDefault();
+                alert('Please select a delivery location.');
+                return false;
+            }
+
+            // Remove delivery location from form data before submitting (to use hidden shipping cost field)
+            deliveryLocation.removeAttribute('name');
+        });
+    </script>
+    <script>
+        // Smooth scroll to order form when order buttons are clicked
+        document.addEventListener('DOMContentLoaded', function() {
+            const orderButtons = document.querySelectorAll('.order-btn');
+            orderButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const orderSection = document.getElementById('order-form-section');
+                    if (orderSection) {
+                        orderSection.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
         });
     </script>
 </body>
