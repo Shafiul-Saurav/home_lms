@@ -1,0 +1,39 @@
+/*====================
+53. Affiliate css 
+======================*/
+
+.affiliate {
+  &-img {
+    position: relative;
+    width: 90%;
+
+    &::before {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 40%;
+      height: 100%;
+      background: var(--theme-color);
+      border-radius: 50px;
+      transform: skewY(30deg) rotate(5deg);
+      z-index: -1;
+    }
+
+    img {
+      border-radius: 50px;
+    }
+  }
+
+  &-percentage {
+    h1 {
+      color: var(--theme-color);
+      margin-bottom: 10px;
+    }
+
+    .level {
+      color: var(--color-dark);
+      font-weight: 500;
+    }
+  }
+}

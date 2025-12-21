@@ -1,0 +1,85 @@
+/*====================
+54. Invoice css 
+======================*/
+
+.invoice {
+  &-area {
+    position: relative;
+  }
+
+  &-container.not-print {
+    padding: 0 150px;
+  }
+
+  &-print {
+    text-align: right;
+    margin-bottom: 30px;
+  }
+
+  &-wrapper {
+    background: var(--color-white);
+    border-radius: 10px;
+    padding: 50px;
+  }
+
+  &-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &-width {
+    width: 40%;
+  }
+
+  &-logo img {
+    width: 180px;
+  }
+
+  &-date-box {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+  }
+
+  &-address-box {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+
+  &-address h5 {
+    margin-bottom: 8px;
+  }
+
+  &-table {
+    margin-top: 30px;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table,
+    td,
+    th {
+      border: 1px solid var(--border-info-color);
+    }
+
+    td,
+    th {
+      padding: 10px 20px;
+    }
+  }
+
+  &-bottom {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-info-color);
+    display: flex;
+    justify-content: space-between;
+
+    a {
+      color: var(--body-text-color);
+    }
+  }
+}

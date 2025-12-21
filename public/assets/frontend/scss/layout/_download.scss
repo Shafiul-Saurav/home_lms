@@ -1,0 +1,88 @@
+@use "../utils" as *;
+
+/*====================
+49. Download css
+======================*/
+
+.download {
+  &-wrap {
+    border-radius: 50px;
+    overflow: hidden;
+    @include bg-opacity(var(--color-green), 0.08);
+    position: relative;
+
+    &::before {
+      content: "";
+      @include position(absolute);
+      background-image: url(../img/shape/06.png);
+      @include bg-support;
+      opacity: 0.25;
+      z-index: -1;
+    }
+  }
+
+  &-content {
+    padding: 30px;
+
+    @media #{$max-767} {
+      padding: 40px 20px;
+    }
+
+    .site-heading {
+      .site-title {
+        @media #{$bet-992-1199} {
+          font-size: 35px;
+        }
+      }
+
+      p {
+        @media #{$bet-992-1199} {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &-btn {
+    display: flex;
+    gap: 14px;
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 13px 13px 10px;
+      width: 150px;
+      background: var(--gradient);
+      color: var(--color-white);
+      border-radius: 15px;
+      box-shadow: var(--box-shadow);
+
+      i {
+        font-size: 32px;
+      }
+
+      &.app-store {
+        background: var(--gradient2);
+      }
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+
+      span {
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 1;
+      }
+
+      h6 {
+        color: var(--color-white);
+        font-size: 15px;
+        margin-top: 5px;
+        line-height: 1;
+      }
+    }
+  }
+}

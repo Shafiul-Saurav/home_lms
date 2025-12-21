@@ -45,7 +45,6 @@ class WebsiteController extends Controller
         $homeSliders = HomeSlider::latest('id')->get();
         $website_link = WebsiteLink::first();
         $about = About::latest('id')->first();
-        $room_types = Roomtype::get();
         $testimonials = Testimonial::with('user')->limit(12)->get();
         //->where('rating', 5)
 
@@ -53,23 +52,19 @@ class WebsiteController extends Controller
         ->where('is_home', 1)
         ->latest('id')->limit(3)->get();
 
-        // Fetch products with pagination
-        $products = Product::where('is_stock', 1)->latest('id')->paginate(20);
-
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
 
-        return view('frontend.pages.home', compact('homeSliders', 'website_link', 'about', 'room_types', 'testimonials', 'posts', 'products', 'logo_fav'));
+        return view('frontend.layouts.master', compact('homeSliders', 'website_link', 'about', 'testimonials', 'posts', 'logo_fav'));
     }
 
     public function about()
     {
         $about = About::latest('id')->first();
-        $room_types = Roomtype::get();
         $testimonials = Testimonial::with('user')->limit(20)->get();
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
-        return view('frontend.pages.about.about_page', compact('about', 'room_types', 'testimonials', 'logo_fav'));
+        return view('frontend.pages.about.about_page', compact('about', 'testimonials', 'logo_fav'));
     }
 
     public function rooms()
@@ -77,32 +72,6 @@ class WebsiteController extends Controller
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
         return view('frontend.pages.rooms.rooms', compact('logo_fav'));
-    }
-
-    public function roomDetails($id)
-    {
-        $faqs = Faq::get();
-        $room = Room::findOrFail($id);
-        // Fetch logo/favicon data
-        $logo_fav = LogoFavicon::first();
-        return view('frontend.pages.rooms.room_details', compact('room', 'faqs', 'logo_fav'));
-    }
-
-    public function booking($id)
-    {
-        $room = Room::findOrFail($id);
-        // Fetch logo/favicon data
-        $logo_fav = LogoFavicon::first();
-        return view('frontend.pages.booking.booking', compact('room', 'logo_fav'));
-    }
-
-    public function services()
-    {
-        $services = Service::where('is_active', 1)->get();
-        $room_types = Roomtype::get();
-        // Fetch logo/favicon data
-        $logo_fav = LogoFavicon::first();
-        return view('frontend.pages.services.services', compact('services', 'room_types', 'logo_fav'));
     }
 
     public function photoGallery()
@@ -169,72 +138,6 @@ class WebsiteController extends Controller
         return view('frontend.pages.company_policy.faq', compact('faqs', 'logo_fav'));
     }
 
-    public function bookingSuccess($id)
-    {
-        $booking = Booking::findOrFail($id);
-        // Fetch logo/favicon data
-        $logo_fav = LogoFavicon::first();
-        if (Auth::user()->id == $booking->user_id) {
-            return view('frontend.pages.success.booking_success', compact('booking', 'logo_fav'));
-        } else {
-            return redirect()->route('booking.history')->with('error', 'You have no permission to perform this actions!');
-        }
-
-    }
-
-    public function productDetails($slug)
-    {
-        $product = Product::with('productImages', 'category')->where('slug', $slug)->first();
-
-        // Check if product exists
-        if (!$product) {
-            abort(404);
-        }
-
-        // Fetch related products (same category, excluding current product)
-        $relatedProducts = Product::with('productImages')
-            ->where('category_id', $product->category_id)
-            ->where('id', '!=', $product->id)
-            ->where('is_stock', 1)
-            ->inRandomOrder()
-            ->limit(6)
-            ->get();
-
-        // Fetch logo/favicon data
-        $logo_fav = LogoFavicon::first();
-
-        // Fetch website link data
-        $website_link = WebsiteLink::first();
-
-        // Generate SEO data
-        $seoData = [
-            'title' => SeoHelper::generateTitle($product->name, $logo_fav->web_name ?? 'MeenaMart'),
-            'description' => SeoHelper::generateDescription($product->description ?? $product->name),
-            'keywords' => SeoHelper::generateKeywords($product->name, $product->category->name ?? null, ['online shopping', 'bangladesh']),
-            'ogData' => SeoHelper::generateProductOpenGraph($product, $logo_fav->web_name ?? 'MeenaMart'),
-            'structuredData' => SeoHelper::generateProductStructuredData($product, $logo_fav->web_name ?? 'MeenaMart'),
-            'canonicalUrl' => SeoHelper::generateCanonicalUrl(route('product.details', $product->slug)),
-            'breadcrumbs' => SeoHelper::generateBreadcrumbsStructuredData([
-                ['name' => 'Home', 'url' => url('/')],
-                ['name' => $product->category->name ?? 'Products', 'url' => $product->category ? url('/category/' . $product->category->id) : null],
-                ['name' => $product->name],
-            ])
-        ];
-
-        return view('frontend.pages.product.details', compact('product', 'relatedProducts', 'logo_fav', 'website_link', 'seoData'));
-    }
-
-    public function categoryProducts($id)
-    {
-        $category = Category::with('products.productImages')->findOrFail($id);
-        $products = $category->products()->where('is_stock', 1)->paginate(12);
-
-        // Fetch logo/favicon data
-        $logo_fav = LogoFavicon::first();
-
-        return view('frontend.pages.category.products', compact('category', 'products', 'logo_fav'));
-    }
-
     public function contact()
     {
         // Fetch logo/favicon data
@@ -253,29 +156,4 @@ class WebsiteController extends Controller
         return view('frontend.pages.search.results', compact('query', 'logo_fav'));
     }
 
-    public function searchSuggestions(Request $request)
-    {
-        $query = $request->get('q');
-        $products = collect();
-
-        if ($query && strlen($query) >= 2) {
-            $products = Product::where('name', 'like', '%' . $query . '%')
-                ->orWhere('description', 'like', '%' . $query . '%')
-                ->where('is_active', 1)
-                ->where('is_stock', 1)
-                ->limit(10)
-                ->get()
-                ->map(function ($product) {
-                    return [
-                        'id' => $product->id,
-                        'slug' => $product->slug,
-                        'name' => $product->name,
-                        'sale_price' => $product->sale_price,
-                        'image' => $product->productImages->first() ? $product->productImages->first()->multiple_image : null
-                    ];
-                });
-        }
-
-        return response()->json(['products' => $products]);
-    }
 }

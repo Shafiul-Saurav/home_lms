@@ -1,0 +1,57 @@
+@use "../utils" as *;
+
+/*====================
+40. Step/process css  
+======================*/
+
+.process-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  .count {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    font-weight: 800;
+    font-size: 75px;
+    line-height: 80px;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 1px var(--border-info-color);
+    z-index: -1;
+  }
+
+  .icon {
+    width: 80px;
+    height: 80px;
+    line-height: 77px;
+    text-align: center;
+    background: var(--gradient2);
+    border-radius: 50px;
+    box-shadow: var(--box-shadow);
+
+    img {
+      width: 50px;
+      @include filter-white;
+    }
+  }
+
+  .content {
+    flex: 1;
+    background: var(--color-white);
+    box-shadow: var(--box-shadow);
+    border-radius: 20px;
+    padding: 20px;
+
+    h4 {
+      font-size: 20px;
+      color: var(--color-dark);
+    }
+
+    p {
+      color: var(--body-text-color);
+      margin-top: 10px;
+    }
+  }
+}

@@ -1,0 +1,38 @@
+/*====================
+50. Mail success css
+======================*/
+
+.mail-success {
+  position: relative;
+
+  &-content {
+    background: var(--color-white);
+    padding: 50px;
+    text-align: center;
+    border-radius: 30px;
+    box-shadow: var(--box-shadow);
+
+    h3 {
+      text-transform: capitalize;
+      color: var(--color-dark);
+    }
+
+    p {
+      color: var(--body-text-color);
+      margin-top: 15px;
+      margin-bottom: 30px;
+    }
+  }
+
+  &-icon {
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 35px;
+    color: var(--color-white);
+    background: var(--gradient);
+    margin: 0 auto;
+    border-radius: 50px;
+    margin-bottom: 20px;
+  }
+}

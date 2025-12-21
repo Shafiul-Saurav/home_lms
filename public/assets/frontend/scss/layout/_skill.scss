@@ -1,0 +1,70 @@
+@use "../utils" as *;
+
+/*====================
+42. Skill css
+======================*/
+
+.skill {
+  &-img {
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      right: 50px;
+      bottom: 0;
+      width: 80%;
+      height: 90%;
+      background: var(--theme-color2);
+      border-radius: 50px;
+      transform: rotate(5deg);
+      opacity: 0.12;
+      z-index: -1;
+
+      @media #{$max-767} {
+        right: 15px;
+      }
+    }
+
+    img {
+      width: 85%;
+      border-radius: 50px;
+    }
+  }
+
+  &-text {
+    margin-top: 10px;
+  }
+
+  &-progress {
+    margin-top: 25px;
+
+    .progress-item {
+      margin-bottom: 25px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      h5 {
+        font-size: 16px;
+        text-transform: capitalize;
+        font-weight: 600;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .progress {
+        height: 8px;
+        background: var(--theme-bg-light);
+        border-radius: 50px;
+
+        .progress-bar {
+          background: var(--gradient2);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+/*====================
+32. Partner css 
+======================*/
+
+.partner-area {
+  position: relative;
+}
+
+// partner-area 2
+.partner-area2.negative {
+  margin-top: -50px;
+}
+
+.partner-area2 .partner-wrapper {
+  position: relative;
+  padding: 25px 25px;
+  background: var(--color-white);
+  box-shadow: var(--box-shadow);
+  border-radius: 20px;
+  margin-right: 15px;
+  z-index: 1;
+}
+
+.partner-area2 .partner-title h5 {
+  color: var(--color-dark);
+  font-size: 21px;
+}
+
+.partner-area2 .partner-title span {
+  color: var(--theme-color);
+}

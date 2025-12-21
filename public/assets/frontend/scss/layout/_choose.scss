@@ -1,0 +1,65 @@
+@use "../utils" as *;
+
+/*====================
+33. Choose css 
+======================*/
+
+.choose {
+  &-content {
+    margin-right: 30px;
+
+    @media #{$max-767} {
+      margin-right: 0;
+    }
+  }
+
+  &-img {
+    margin-top: 36px;
+
+    img {
+      border-radius: 50px;
+    }
+  }
+
+  &-item {
+    background: var(--color-white);
+    box-shadow: var(--box-shadow);
+    padding: 28px;
+    border-radius: 50px;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 110px;
+      height: 110px;
+      background-image: url(../img/shape/05.png);
+      @include bg-support;
+    }
+
+    .icon {
+      width: 80px;
+      height: 80px;
+      line-height: 77px;
+      background: var(--gradient2);
+      box-shadow: var(--box-shadow);
+      border-radius: 50px;
+      margin-bottom: 20px;
+      text-align: center;
+
+      img {
+        width: 50px;
+        @include filter-white;
+      }
+    }
+
+    .info {
+      h5 {
+        color: var(--color-dark);
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

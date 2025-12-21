@@ -1,0 +1,108 @@
+@use "../utils" as *;
+
+/* ===================
+21. About css 
+====================== */
+
+.about-left {
+  position: relative;
+}
+
+.about-img {
+  &::before {
+    content: "";
+    position: absolute;
+    left: 25%;
+    bottom: 5%;
+    width: 200px;
+    height: 200px;
+    border: 10px solid var(--theme-color);
+    border-radius: 50%;
+    z-index: -1;
+  }
+
+  img {
+    border-radius: 200px;
+  }
+
+  .img-2 {
+    margin-left: -20px;
+    margin-top: 110px;
+    border: 10px solid var(--color-white);
+
+    @media #{$max-767} {
+      margin-top: 60px;
+      margin-left: -10px;
+    }
+  }
+}
+
+.about-right {
+  position: relative;
+  display: block;
+
+  @media #{$max-991} {
+    margin-top: 80px;
+  }
+}
+
+.about-experience {
+  background: var(--gradient2);
+  position: absolute;
+  right: 90px;
+  top: -15px;
+  padding: 14px 25px;
+  border-radius: 100px;
+  text-align: center;
+
+  @media #{$max-767} {
+    right: -7px;
+  }
+
+  h5 {
+    color: var(--color-white);
+    font-size: 40px;
+  }
+
+  p {
+    color: var(--color-white);
+    font-weight: 600;
+  }
+}
+
+.about-content {
+  margin-top: 25px;
+  margin-bottom: 35px;
+
+  .about-item {
+    display: flex;
+    gap: 12px;
+    background: var(--color-white);
+    box-shadow: var(--box-shadow);
+    border-radius: 20px;
+    padding: 15px;
+
+    .icon {
+      width: 65px;
+      height: 65px;
+      line-height: 65px;
+      text-align: center;
+      background: var(--theme-color);
+      border-radius: 50px;
+
+      img {
+        width: 45px;
+        filter: brightness(0) invert(1);
+      }
+    }
+
+    .content {
+      flex: 1;
+
+      h6 {
+        color: var(--color-dark);
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
