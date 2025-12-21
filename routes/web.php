@@ -5,25 +5,19 @@ use App\Http\Controllers\Backend\FaqController;
 use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\RoleController;
-use App\Http\Controllers\Backend\RoomController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\AboutController;
-use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\StuffController;
 use App\Http\Controllers\Frontend\CartController;
-use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\LandingPageOrderController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\Backend\ModuleController;
 use App\Http\Controllers\Trash\FaqTrashController;
-use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\ServiceController;
 use App\Http\Controllers\Trash\PostTrashController;
 use App\Http\Controllers\Trash\RoleTrashController;
 use App\Http\Controllers\Trash\UserTrashController;
-use App\Http\Controllers\Backend\CategoryController;
-use App\Http\Controllers\Backend\RoomTypeController;
 use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\CommentController;
 use App\Http\Controllers\Frontend\ContactController;
@@ -38,15 +32,12 @@ use App\Http\Controllers\Backend\BreadcrumbController;
 use App\Http\Controllers\Backend\DepartmentController;
 use App\Http\Controllers\Backend\HomeSliderController;
 use App\Http\Controllers\Backend\PermissionController;
-use App\Http\Controllers\Trash\BookingTrashController;
-use App\Http\Controllers\Trash\ProductTrashController;
 use App\Http\Controllers\Trash\ServiceTrashController;
 use App\Http\Controllers\Auth\SocialiteLoginController;
 use App\Http\Controllers\Backend\LogoFaviconController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\WebsiteLinkController;
 use App\Http\Controllers\Frontend\UserLogoutController;
-use App\Http\Controllers\Trash\CategoryTrashController;
 use App\Http\Controllers\Backend\AdminProfileController;
 use App\Http\Controllers\Backend\PhotoGalleryController;
 use App\Http\Controllers\Backend\PostCategoryController;
@@ -63,10 +54,8 @@ use App\Http\Controllers\Trash\VideoGalleryTrashController;
 use App\Http\Controllers\Trash\PhotoCategoryTrashController;
 use App\Http\Controllers\Backend\TermsAndConditionsController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
-use App\Http\Controllers\Backend\BookingController as BackendBookingController;
 use App\Http\Controllers\Backend\ContactController as BackendContactController;
 use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
-use App\Http\Controllers\Backend\LandingPageController as BackendLandingPageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,12 +75,7 @@ use App\Http\Controllers\Backend\LandingPageController as BackendLandingPageCont
 */
 
 Route::get('/', [WebsiteController::class, 'home'])->name('home');
-// Static landing page route (could be for a default landing page)
-Route::get('/landingpage', [LandingPageController::class, 'index'])->name('landingpage.index');
 
-// Dynamic landing page route with ID parameter
-Route::get('/landingpage/{id}', [LandingPageController::class, 'index'])->name('landingpage.show');
-Route::get('/sitemap.xml', [App\Http\Controllers\Frontend\SitemapController::class, 'index']);
 Route::get('about', [WebsiteController::class, 'about'])->name('about');
 Route::get('rooms', [WebsiteController::class, 'rooms'])->name('rooms');
 Route::get('room/details/{id}', [WebsiteController::class, 'roomDetails'])->name('room.details');
@@ -105,26 +89,6 @@ Route::get('faqs', [WebsiteController::class, 'faq'])->name('faq.page');
 Route::get('contacts', [WebsiteController::class, 'contact'])->name('contact.page');
 Route::get('product/{slug}', [WebsiteController::class, 'productDetails'])->name('product.details');
 
-// Cart routes
-    Route::prefix('cart')->name('cart.')->group(function () {
-        Route::get('/', [CartController::class, 'index'])->name('index');
-        Route::match(['get', 'post'], '/add', [CartController::class, 'add'])->name('add');
-        Route::post('/update/{id}', [CartController::class, 'update'])->name('update');
-        Route::delete('/remove/{id}', [CartController::class, 'remove'])->name('remove');
-        Route::delete('/clear', [CartController::class, 'clear'])->name('clear');
-    });
-
-// Checkout routes
-Route::prefix('checkout')->name('checkout.')->group(function () {
-    Route::get('/', [CheckoutController::class, 'index'])->name('index');
-    Route::post('/process', [CheckoutController::class, 'process'])->name('process');
-});
-Route::get('order/confirmation/{order}', [CheckoutController::class, 'confirmation'])->name('order.confirmation');
-
-// Landing Page Order routes
-Route::prefix('landingpage')->name('landingpage.')->group(function () {
-    Route::post('/order/process', [LandingPageOrderController::class, 'process'])->name('order.process');
-});
 Route::get('category/{id}/products', [WebsiteController::class, 'categoryProducts'])->name('category.products');
 Route::get('search', [WebsiteController::class, 'searchResults'])->name('search.results');
 Route::get('search/suggestions', [WebsiteController::class, 'searchSuggestions'])->name('search.suggestions');
@@ -140,10 +104,6 @@ Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
     Route::post('myupdate/password', [ProfileController::class, 'updatePassword'])->name('mypostupdate.password');
 
     Route::post('image/crop',[ProfileImageController::class, 'crop'])->name('image.crop');
-
-    Route::get('booking_history', [BookingController::class, 'bookingHistory'])->name('booking.history');
-    Route::post('booking/store', [BookingController::class, 'bookingStore'])->name('booking.store');
-    Route::post('/booking/cancel/{id}', [BookingController::class, 'cancelBooking'])->name('booking.cancel');
 
     //Payment Getway Route
     Route::get('stripe', [StripePaymentController::class, 'stripe']);
