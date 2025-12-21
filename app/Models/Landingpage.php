@@ -53,7 +53,6 @@ class LandingPage extends Model
     }
 
     protected $casts = [
-        'benefits_list' => 'array',
         'customer_reviews' => 'array',
         'section_visibility' => 'array',
         'is_active' => 'boolean',

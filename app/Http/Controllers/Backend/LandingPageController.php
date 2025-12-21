@@ -43,8 +43,7 @@ class LandingPageController extends Controller
             'main_description' => 'nullable|string',
             'video' => 'nullable|file|mimes:mp4,mov,avi,wmv,flv|max:27648', // 27MB limit
             'benefits_title' => 'nullable|string|max:500',
-            'benefits_list' => 'nullable|array',
-            'benefits_list.*' => 'string|max:500',
+            'benefits_list' => 'nullable|string',
             'why_buy_title' => 'nullable|string|max:500',
             'why_buy_images' => 'nullable',
             'why_buy_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
@@ -142,8 +141,7 @@ class LandingPageController extends Controller
             'main_description' => 'nullable|string',
             'video' => 'nullable|file|mimes:mp4,mov,avi,wmv,flv|max:27648', // 27MB limit
             'benefits_title' => 'nullable|string|max:500',
-            'benefits_list' => 'nullable|array',
-            'benefits_list.*' => 'string|max:500',
+            'benefits_list' => 'nullable|string',
             'why_buy_title' => 'nullable|string|max:500',
             'why_buy_images' => 'nullable',
             'why_buy_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
@@ -441,9 +439,9 @@ class LandingPageController extends Controller
 
             // Handle WebP format properly
             if ($uploaded_photo->getClientOriginalExtension() == 'webp') {
-                Image::make($uploaded_photo)->resize(800, 600)->save($new_photo_location);
+                Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location);
             } else {
-                Image::make($uploaded_photo)->resize(800, 600)->save($new_photo_location, 80);
+                Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location, 80);
             }
 
             $landingPage->update([
@@ -535,9 +533,9 @@ class LandingPageController extends Controller
                     // Resize and save the image
                     // Handle WebP format properly
                     if ($uploaded_photo->getClientOriginalExtension() == 'webp') {
-                        Image::make($uploaded_photo)->resize(800, 600)->save($new_photo_location);
+                        Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location);
                     } else {
-                        Image::make($uploaded_photo)->resize(800, 600)->save($new_photo_location, 80);
+                        Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location, 80);
                     }
 
                     // Save image record to the new landing_page_images table
@@ -590,9 +588,9 @@ class LandingPageController extends Controller
                     // Resize and save the image
                     // Handle WebP format properly
                     if ($uploaded_photo->getClientOriginalExtension() == 'webp') {
-                        Image::make($uploaded_photo)->resize(800, 600)->save($new_photo_location);
+                        Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location);
                     } else {
-                        Image::make($uploaded_photo)->resize(800, 600)->save($new_photo_location, 80);
+                        Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location, 80);
                     }
 
                     // Save image record to the new landing_page_review_images table

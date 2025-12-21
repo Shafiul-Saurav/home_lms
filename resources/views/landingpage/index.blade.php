@@ -143,17 +143,25 @@
     <!-- END: Main Header Section -->
 
     <!-- START: Benefits Section -->
-    @if($landingPage->benefits_title || ($landingPage->benefits_list && is_array($landingPage->benefits_list) && count($landingPage->benefits_list) > 0))
+    @if($landingPage->benefits_title || $landingPage->benefits_list)
     <div class="container py-5">
         <div class="row">
             <div class="col-md-12">
                 <h2 class="heading-text">{{ $landingPage->benefits_title ?? 'Benefits' }}</h2>
-                @if($landingPage->benefits_list && is_array($landingPage->benefits_list) && count($landingPage->benefits_list) > 0)
-                    <ul class="list-group list-group-flush">
-                        @foreach($landingPage->benefits_list as $benefit)
-                            <li class="list-group-item">{{ $benefit }}</li>
-                        @endforeach
-                    </ul>
+                @if($landingPage->benefits_list)
+                    @if(is_array($landingPage->benefits_list) && count($landingPage->benefits_list) > 0)
+                        <!-- Handle legacy array format -->
+                        <ul class="list-group list-group-flush">
+                            @foreach($landingPage->benefits_list as $benefit)
+                                <li class="list-group-item">{{ $benefit }}</li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <!-- Handle new HTML string format -->
+                        <div class="benefits-content">
+                            {!! $landingPage->benefits_list !!}
+                        </div>
+                    @endif
                 @endif
             </div>
         </div>

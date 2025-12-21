@@ -138,8 +138,8 @@
 
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="benefits_list">Benefits List (Enter each benefit on a new line)</label>
-                                    <textarea name="benefits_list[]" id="benefits_list" class="form-control @error('benefits_list') is-invalid @enderror" rows="4" placeholder="Enter one benefit per line">{{ old('benefits_list') ? implode("\n", old('benefits_list')) : '' }}</textarea>
+                                    <label for="benefits_list">Benefits Description</label>
+                                    <textarea name="benefits_list" id="summernote-benefits" class="form-control @error('benefits_list') is-invalid @enderror" rows="4" placeholder="Enter benefits with HTML formatting">{{ old('benefits_list') }}</textarea>
                                     @error('benefits_list')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -423,29 +423,21 @@
 @push('backend_script')
     @include('backend.pages.common.script')
     <script>
-        // Convert textareas with multiple values to arrays
-        document.addEventListener('DOMContentLoaded', function() {
-            const textAreas = document.querySelectorAll('textarea[name$="[]"]');
-            textAreas.forEach(function(textarea) {
-                textarea.addEventListener('blur', function() {
-                    const lines = this.value.split('\n');
-                    const filteredLines = lines.filter(line => line.trim() !== '');
-
-                    // Create a hidden input for each line
-                    this.parentNode.querySelectorAll('.dynamic-array-input').forEach(el => el.remove());
-
-                    filteredLines.forEach(function(line, index) {
-                        const input = document.createElement('input');
-                        input.type = 'hidden';
-                        input.name = textarea.name.replace('[]', '') + '[]';
-                        input.value = line.trim();
-                        input.className = 'dynamic-array-input';
-                        textarea.parentNode.appendChild(input);
-                    });
-                });
-
-                // Trigger the blur event on initial load
-                textarea.dispatchEvent(new Event('blur'));
+        $(document).ready(function() {
+            // Initialize Summernote for benefits
+            $('#summernote-benefits').summernote({
+                placeholder: 'Enter benefits with formatting...',
+                tabsize: 2,
+                height: 200,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
             });
 
             // Add Why Buy Image field
