@@ -75,7 +75,7 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Pages</a>
                                     <ul class="dropdown-menu fade-down">
-                                        <li><a class="dropdown-item" href="about.html">About Us</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('about') }}">About Us</a></li>
                                         <li><a class="dropdown-item" href="team.html">Our Team</a></li>
                                         <li class="dropdown-submenu">
                                             <a class="dropdown-item dropdown-toggle" href="#">Instructor</a>
@@ -153,7 +153,7 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Account</a>
                                     <ul class="dropdown-menu fade-down">
-                                        <li><a class="dropdown-item" href="dashboard.html">Dashboard</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('user.dashboard') }}">Dashboard</a></li>
                                         <li class="dropdown-submenu">
                                             <a class="dropdown-item dropdown-toggle" href="#">Instructor</a>
                                             <ul class="dropdown-menu">
