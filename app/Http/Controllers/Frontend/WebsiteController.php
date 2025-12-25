@@ -55,7 +55,7 @@ class WebsiteController extends Controller
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
 
-        return view('frontend.layouts.master', compact('homeSliders', 'website_link', 'about', 'testimonials', 'posts', 'logo_fav'));
+        return view('frontend.pages.home', compact('homeSliders', 'website_link', 'about', 'testimonials', 'posts', 'logo_fav'));
     }
 
     public function about()
