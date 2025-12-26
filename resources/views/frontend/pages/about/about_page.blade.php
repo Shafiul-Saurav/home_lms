@@ -8,15 +8,13 @@
 @section('frontend_content')
     <main class="main">
         <!-- breadcrumb -->
-        <div class="site-breadcrumb" style="background: url({{ asset('assets/frontend') }}/img/breadcrumb/01.png)">
-            <div class="container">
-                <h2 class="breadcrumb-title">About Us</h2>
-                <ul class="breadcrumb-menu">
-                    <li><a href="route('home')">Home</a></li>
-                    <li class="active">About Us</li>
-                </ul>
-            </div>
-        </div>
+        <x-frontend.pages.common.breadcrumb
+            :title="'About Us'"
+            :breadcrumb="[
+                ['name' => 'Home', 'url' => route('home')],
+                ['name' => 'About Us', 'url' => '#']
+            ]"
+        />
         <!-- breadcrumb end -->
 
         <!-- about area -->

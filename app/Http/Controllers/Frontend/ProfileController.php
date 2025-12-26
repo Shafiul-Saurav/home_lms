@@ -19,9 +19,9 @@ class ProfileController extends Controller
         $profile = Profile::where('user_id', Auth::user()->id)->first();
         if($profile) {
             $profileImage = ProfileImage::where('profile_id', Auth::user()->profile->id)->first();
-            return view('frontend.pages.user.dashboard', compact('user', 'profile', 'profileImage'));
+            return view('frontend.pages.account.dashboard', compact('user', 'profile', 'profileImage'));
         } else {
-            return view('frontend.pages.user.dashboard', compact('user', 'profile'));
+            return view('frontend.pages.account.dashboard', compact('user', 'profile'));
         }
     }
 

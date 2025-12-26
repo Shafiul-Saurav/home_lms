@@ -8,15 +8,7 @@
 @section('frontend_content')
     <main class="main">
         <!-- breadcrumb -->
-        <div class="site-breadcrumb" style="background: url({{ asset('assets/frontend') }}/img/breadcrumb/01.png)">
-            <div class="container">
-                <h2 class="breadcrumb-title">Dashboard</h2>
-                <ul class="breadcrumb-menu">
-                    <li><a href="route('home')">Home</a></li>
-                    <li class="active">Dashboard</li>
-                </ul>
-            </div>
-        </div>
+        <x-frontend.pages.common.breadcrumb :title="'Dashboard'" :breadcrumb="[['name' => 'Home', 'url' => route('home')], ['name' => 'Dashboard', 'url' => '#']]" />
         <!-- breadcrumb end -->
 
         <!-- user dashboard -->
@@ -135,7 +127,10 @@
                                     <a href="setting.html"><i class="far fa-gear icon"></i> Settings</a>
                                 </li>
                                 <li>
-                                    <a href="#"><i class="far fa-sign-out icon"></i> Logout</a>
+                                    <a href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit()"><i class="far fa-sign-out icon"></i> Logout</a>
+                                    <form action="{{ route('user.logout') }}" id="logoutForm" method="POST">
+                                        @csrf
+                                    </form>
                                 </li>
                             </ul>
                         </div>
@@ -195,47 +190,56 @@
                                         <div class="country-list">
                                             <ul>
                                                 <li>
-                                                    <img src="{{ asset('assets/frontend') }}/img/country/US.svg" alt="" />
+                                                    <img src="{{ asset('assets/frontend') }}/img/country/US.svg"
+                                                        alt="" />
                                                     <h6>United States</h6>
                                                     <span>$150</span>
                                                 </li>
                                                 <li>
-                                                    <img src="{{ asset('assets/frontend') }}/img/country/UK.svg" alt="" />
+                                                    <img src="{{ asset('assets/frontend') }}/img/country/UK.svg"
+                                                        alt="" />
                                                     <h6>United Kingdom</h6>
                                                     <span>$220</span>
                                                 </li>
                                                 <li>
-                                                    <img src="{{ asset('assets/frontend') }}/img/country/CA.svg" alt="" />
+                                                    <img src="{{ asset('assets/frontend') }}/img/country/CA.svg"
+                                                        alt="" />
                                                     <h6>Canada</h6>
                                                     <span>$340</span>
                                                 </li>
                                                 <li>
-                                                    <img src="{{ asset('assets/frontend') }}/img/country/JO.svg" alt="" />
+                                                    <img src="{{ asset('assets/frontend') }}/img/country/JO.svg"
+                                                        alt="" />
                                                     <h6>Jordan</h6>
                                                     <span>$180</span>
                                                 </li>
                                                 <li>
-                                                    <img src="{{ asset('assets/frontend') }}/img/country/BR.svg" alt="" />
+                                                    <img src="{{ asset('assets/frontend') }}/img/country/BR.svg"
+                                                        alt="" />
                                                     <h6>Brazil</h6>
                                                     <span>$110</span>
                                                 </li>
                                                 <li>
-                                                    <img src="{{ asset('assets/frontend') }}/img/country/UK.svg" alt="" />
+                                                    <img src="{{ asset('assets/frontend') }}/img/country/UK.svg"
+                                                        alt="" />
                                                     <h6>United Kingdom</h6>
                                                     <span>$140</span>
                                                 </li>
                                                 <li>
-                                                    <img src="{{ asset('assets/frontend') }}/img/country/CA.svg" alt="" />
+                                                    <img src="{{ asset('assets/frontend') }}/img/country/CA.svg"
+                                                        alt="" />
                                                     <h6>Canada</h6>
                                                     <span>$550</span>
                                                 </li>
                                                 <li>
-                                                    <img src="{{ asset('assets/frontend') }}/img/country/JO.svg" alt="" />
+                                                    <img src="{{ asset('assets/frontend') }}/img/country/JO.svg"
+                                                        alt="" />
                                                     <h6>Jordan</h6>
                                                     <span>$270</span>
                                                 </li>
                                                 <li>
-                                                    <img src="{{ asset('assets/frontend') }}/img/country/BR.svg" alt="" />
+                                                    <img src="{{ asset('assets/frontend') }}/img/country/BR.svg"
+                                                        alt="" />
                                                     <h6>Brazil</h6>
                                                     <span>$520</span>
                                                 </li>
