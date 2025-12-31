@@ -25,12 +25,6 @@
         min-width: 80px;
         text-align: center;
     }
-
-    .timer-text.expired {
-        color: #dc3545;
-        border-color: #dc3545;
-        background-color: #f8d7da;
-    }
 </style>
 @endpush
 
@@ -73,13 +67,10 @@
                                 <button type="submit" class="theme-btn"><span class="far fa-check-circle"></span> Verify OTP</button>
                             </div>
                         </form>
-                        <div class="otp-timer">
-                            <p>Your OTP expires in: <strong id="otp-countdown-timer" class="timer-text" data-time-left="{{ $timeLeft }}" data-cfemail="false">Calculating...</strong></p>
-                        </div>
                         <div class="auth-bottom">
                             <p class="auth-bottom-text">
                                 Didn't receive OTP?
-                                <a href="{{ route('password.request') }}" id="resend-link" style="pointer-events: none; opacity: 0.5;">Resend OTP</a>
+                                <a href="{{ route('password.request') }}">Resend OTP</a>
                             </p>
                         </div>
                     </div>
@@ -103,66 +94,14 @@
             }
         });
 
-        // Robust timer implementation with continuous monitoring
-        document.addEventListener('DOMContentLoaded', function() {
-            try {
-                console.log('Timer script loaded');
+        // Auto format OTP input to only accept numbers
+        document.getElementById('otp').addEventListener('input', function (e) {
+            // Remove any non-digit characters
+            this.value = this.value.replace(/\D/g, '');
 
-                const timerElement = document.getElementById('otp-countdown-timer');
-                if (timerElement) {
-                    console.log('Timer element found');
-
-                    // Get the time left from the data attribute
-                    let timeLeft = parseInt(timerElement.getAttribute('data-time-left'));
-                    console.log('Initial timeLeft:', timeLeft);
-
-                    // Store the original value to detect if it gets reset
-                    let originalValue = 'Calculating...';
-                    let lastUpdatedValue = null;
-
-                    function updateTimer() {
-                        if (timeLeft <= 0) {
-                            timerElement.textContent = 'OTP has expired!';
-                            timerElement.classList.add('expired');
-                            return;
-                        }
-
-                        const minutes = Math.floor(timeLeft / 60);
-                        const seconds = timeLeft % 60;
-                        const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
-                        // Update the display
-                        timerElement.textContent = formattedTime;
-                        lastUpdatedValue = formattedTime;
-
-                        console.log('Updated display to:', formattedTime);
-
-                        timeLeft--;
-                    }
-
-                    // Update immediately
-                    updateTimer();
-
-                    // Set up interval to update every second
-                    setInterval(function() {
-                        if (timeLeft > 0) {
-                            updateTimer();
-                        }
-                    }, 1000);
-
-                    // Also monitor for changes and restore if needed
-                    setInterval(function() {
-                        if (timeLeft > 0 && timerElement.textContent !== lastUpdatedValue) {
-                            console.log('Timer was reset, restoring value:', lastUpdatedValue);
-                            timerElement.textContent = lastUpdatedValue;
-                        }
-                    }, 500); // Check every 500ms for changes
-
-                } else {
-                    console.error('Timer element not found');
-                }
-            } catch (error) {
-                console.error('Error in timer script:', error);
+            // Limit to 6 digits
+            if (this.value.length > 6) {
+                this.value = this.value.substring(0, 6);
             }
         });
     </script>
