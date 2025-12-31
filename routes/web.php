@@ -56,6 +56,7 @@ use App\Http\Controllers\Backend\TermsAndConditionsController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\ContactController as BackendContactController;
 use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
+use App\Http\Controllers\Auth\OtpController;
 
 /*
 |--------------------------------------------------------------------------
@@ -366,3 +367,11 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::resource('contact', BackendContactController::class);
 
 });
+
+// OTP Routes for password reset
+Route::get('/forgot-password', [OtpController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('/forgot-password', [OtpController::class, 'sendOtp'])->name('password.email');
+Route::get('/otp/verify', [OtpController::class, 'showVerifyOtpForm'])->name('otp.verify.form');
+Route::post('/otp/verify', [OtpController::class, 'verifyOtp'])->name('otp.verify');
+Route::get('/reset-password', [OtpController::class, 'showResetPasswordForm'])->name('password.reset.form');
+Route::post('/reset-password', [OtpController::class, 'resetPassword'])->name('password.update');

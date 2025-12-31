@@ -45,8 +45,7 @@
                                 @enderror
                             </div>
                             <div class="auth-btn">
-                                <button type="submit" class="theme-btn"><span class="far fa-key"></span> Send Reset
-                                    Link</button>
+                                <button type="submit" class="theme-btn"><span class="far fa-key"></span> Send OTP</button>
                             </div>
                         </form>
                     </div>
