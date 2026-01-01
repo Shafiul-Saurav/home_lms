@@ -61,8 +61,15 @@ class OtpController extends Controller
             return redirect()->route('password.request')->with('error', 'No OTP found for this email. Please request a new one.');
         }
 
+        // Calculate time left, but ensure it starts from 10 minutes (600 seconds) if it's a fresh OTP
         $expiresAt = $otpRecord->expires_at;
-        $timeLeft = max(0, $expiresAt->timestamp - now()->timestamp); // Time left in seconds
+        $calculatedTimeLeft = max(0, $expiresAt->timestamp - now()->timestamp);
+
+        // If the OTP was just sent (within the last 30 seconds), start the timer from 10 minutes
+        // This accounts for the time it takes for the user to navigate to the page
+        $otpAge = now()->diffInSeconds($otpRecord->created_at);
+        $isFreshOtp = $otpAge <= 30;
+        $timeLeft = $isFreshOtp ? 600 : $calculatedTimeLeft;
 
         return view('auth.verify-otp', compact('email', 'expiresAt', 'timeLeft'));
     }
@@ -97,6 +104,37 @@ class OtpController extends Controller
         return redirect()->route('password.reset.form', [
             'email' => $request->email,
             'token' => $otpRecord->id
+        ]);
+    }
+
+    public function resendOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email'
+        ]);
+
+        // Generate 6-digit OTP
+        $otp = str_pad(random_int(100000, 999999), 6, '0', STR_PAD_LEFT);
+
+        // Set expiration time (10 minutes from now)
+        $expiresAt = now()->addMinutes(10);
+
+        // Delete any existing OTPs for this email
+        Otp::where('email', $request->email)->delete();
+
+        // Create new OTP
+        Otp::create([
+            'email' => $request->email,
+            'otp' => $otp,
+            'expires_at' => $expiresAt
+        ]);
+
+        // Send OTP via email
+        $this->sendOtpEmail($request->email, $otp);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'OTP resent successfully'
         ]);
     }
 
