@@ -188,7 +188,7 @@
                             <p class="auth-bottom-text">
                                 Didn't receive OTP?
                             </p>
-                            <button type="button" class="btn btn-outline-primary btn-sm resend-btn" id="resendBtn" disabled>
+                            <button type="button" class="btn btn-outline-primary btn-sm resend-btn" id="resendBtn">
                                 Resend OTP
                             </button>
                             <p class="text-muted mt-3 small">
@@ -208,19 +208,32 @@
 
         function startTimer() {
             const timerElement = document.getElementById('timer');
+            const resendBtn = document.getElementById('resendBtn');
 
             // Update the display immediately
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
             timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
+            // Initially disable the button if there's time remaining
+            if (timeLeft > 0) {
+                resendBtn.disabled = true;
+                resendBtn.classList.remove('btn-primary');
+                resendBtn.classList.add('btn-outline-primary');
+            } else {
+                // If no time left, enable the button
+                resendBtn.disabled = false;
+                resendBtn.classList.remove('btn-outline-primary');
+                resendBtn.classList.add('btn-primary');
+            }
+
             timerInterval = setInterval(() => {
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
                     timerElement.textContent = '00:00';
-                    document.getElementById('resendBtn').disabled = false;
-                    document.getElementById('resendBtn').classList.remove('btn-outline-primary');
-                    document.getElementById('resendBtn').classList.add('btn-primary');
+                    resendBtn.disabled = false;
+                    resendBtn.classList.remove('btn-outline-primary');
+                    resendBtn.classList.add('btn-primary');
                     return;
                 }
 
@@ -230,6 +243,18 @@
                 const seconds = timeLeft % 60;
 
                 timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                // Disable button while timer is running
+                if (timeLeft > 0) {
+                    resendBtn.disabled = true;
+                    resendBtn.classList.remove('btn-primary');
+                    resendBtn.classList.add('btn-outline-primary');
+                } else {
+                    // Enable button when timer reaches 0
+                    resendBtn.disabled = false;
+                    resendBtn.classList.remove('btn-outline-primary');
+                    resendBtn.classList.add('btn-primary');
+                }
             }, 1000);
         }
 
@@ -351,11 +376,13 @@
 
         // Resend OTP button functionality
         document.getElementById('resendBtn').addEventListener('click', function() {
+            const button = this; // Store reference to the button
+
             // Disable the button and show loading state
-            this.disabled = true;
-            this.innerHTML = 'Sending...';
-            this.classList.remove('btn-primary');
-            this.classList.add('btn-outline-primary');
+            button.disabled = true;
+            button.innerHTML = 'Sending...';
+            button.classList.remove('btn-primary');
+            button.classList.add('btn-outline-primary');
 
             // Make an AJAX request to resend the OTP
             fetch('{{ route("otp.resend") }}', {
@@ -382,28 +409,28 @@
                     startTimer();
 
                     // Re-enable button
-                    this.disabled = false;
-                    this.innerHTML = 'Resend OTP';
-                    this.classList.remove('btn-outline-primary');
-                    this.classList.add('btn-primary');
+                    button.disabled = false;
+                    button.innerHTML = 'Resend OTP';
+                    button.classList.remove('btn-outline-primary');
+                    button.classList.add('btn-primary');
 
                     // Show success message
                     alert('New OTP sent to your email!');
                 } else {
                     // Re-enable button
-                    this.disabled = false;
-                    this.innerHTML = 'Resend OTP';
-                    this.classList.remove('btn-outline-primary');
-                    this.classList.add('btn-primary');
+                    button.disabled = false;
+                    button.innerHTML = 'Resend OTP';
+                    button.classList.remove('btn-outline-primary');
+                    button.classList.add('btn-primary');
                     alert('Failed to send OTP. Please try again.');
                 }
             })
             .catch(error => {
                 // Re-enable button
-                this.disabled = false;
-                this.innerHTML = 'Resend OTP';
-                this.classList.remove('btn-outline-primary');
-                this.classList.add('btn-primary');
+                button.disabled = false;
+                button.innerHTML = 'Resend OTP';
+                button.classList.remove('btn-outline-primary');
+                button.classList.add('btn-primary');
                 alert('An error occurred. Please try again.');
             });
         });
