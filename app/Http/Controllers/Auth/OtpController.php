@@ -26,8 +26,8 @@ class OtpController extends Controller
         // Generate 6-digit OTP
         $otp = str_pad(random_int(100000, 999999), 6, '0', STR_PAD_LEFT);
 
-        // Set expiration time (10 minutes from now)
-        $expiresAt = now()->addMinutes(10);
+        // Set expiration time (1 minute from now)
+        $expiresAt = now()->addMinute();
 
         // Delete any existing OTPs for this email
         Otp::where('email', $request->email)->delete();
@@ -65,11 +65,11 @@ class OtpController extends Controller
         $expiresAt = $otpRecord->expires_at;
         $calculatedTimeLeft = max(0, $expiresAt->timestamp - now()->timestamp);
 
-        // If the OTP was just sent (within the last 30 seconds), start the timer from 10 minutes
+        // If the OTP was just sent (within the last 30 seconds), start the timer from 1 minute
         // This accounts for the time it takes for the user to navigate to the page
         $otpAge = now()->diffInSeconds($otpRecord->created_at);
         $isFreshOtp = $otpAge <= 30;
-        $timeLeft = $isFreshOtp ? 600 : $calculatedTimeLeft;
+        $timeLeft = $isFreshOtp ? 60 : $calculatedTimeLeft;
 
         return view('auth.verify-otp', compact('email', 'expiresAt', 'timeLeft'));
     }
@@ -116,8 +116,8 @@ class OtpController extends Controller
         // Generate 6-digit OTP
         $otp = str_pad(random_int(100000, 999999), 6, '0', STR_PAD_LEFT);
 
-        // Set expiration time (10 minutes from now)
-        $expiresAt = now()->addMinutes(10);
+        // Set expiration time (1 minute from now)
+        $expiresAt = now()->addMinute();
 
         // Delete any existing OTPs for this email
         Otp::where('email', $request->email)->delete();

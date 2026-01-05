@@ -174,7 +174,7 @@
                             <!-- Timer -->
                             <div class="otp-timer">
                                 <p class="mb-2">Time remaining:</p>
-                                <div class="timer-text" id="timer">10:00</div>
+                                <div class="timer-text" id="timer">01:00</div>
                             </div>
 
                             <div class="auth-btn">
@@ -192,7 +192,7 @@
                                 Resend OTP
                             </button>
                             <p class="text-muted mt-3 small">
-                                The OTP will expire in 10 minutes
+                                The OTP will expire in 1 minute
                             </p>
                         </div>
                     </div>
@@ -399,8 +399,8 @@
             .then(data => {
                 if (data.success) {
                     // Reset timer
-                    timeLeft = 600; // 10 minutes in seconds
-                    document.getElementById('timer').textContent = '10:00';
+                    timeLeft = 60; // 1 minute in seconds
+                    document.getElementById('timer').textContent = '01:00';
 
                     // Restart timer
                     if (timerInterval) {
