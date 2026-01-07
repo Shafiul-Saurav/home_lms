@@ -27,8 +27,8 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Category Trashed List</h3>
-                    <a href="{{ route('categories.index') }}" class="btn btn-info"><i
-                        class="fa-solid fa-angles-left fa-fw"></i>Back</a>
+                    <a href="{{ route('categories.index') }}" class="btn btn-info"><i class="fa-solid fa-angles-left fa-fw"></i>
+                        Back</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -37,8 +37,9 @@
                                 <tr>
                                     <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">Last Updated</th>
-                                    <th class="border-bottom-0">Image</th>
-                                    <th class="border-bottom-0">Category Name</th>
+                                    <th class="border-bottom-0">Name</th>
+                                    <th class="border-bottom-0">Slug</th>
+                                    <th class="border-bottom-0">File</th>
                                     <th class="border-bottom-0">Actions</th>
                                 </tr>
                             </thead>
@@ -49,15 +50,15 @@
                                             <strong>{{ $categories->firstItem() + $loop->index }}</strong>
                                         </td>
                                         <td>{{ $category->updated_at->format('d-M-Y') }}</td>
+                                        <td>{{ $category->name }}</td>
+                                        <td>{{ $category->slug }}</td>
                                         <td>
                                             @if($category->file)
-                                                <img src="{{ asset('uploads/categories/'.$category->file) }}" alt=""
-                                                    style="height: 100px">
+                                                <a href="{{ asset('uploads/categories/' . $category->file) }}" target="_blank">View File</a>
                                             @else
-                                                No Image
+                                                -
                                             @endif
                                         </td>
-                                        <td>{{ $category->name }}</td>
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>

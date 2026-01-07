@@ -26,7 +26,7 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Photo Category</h3>
-                    @can('delete-photo-category')
+                    @can('delete-gallery-category')
                     <a href="{{ route('photocategories.trash') }}" class="btn btn-sm btn-outline-warning border"><i
                             class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
                     @endcan
@@ -70,13 +70,13 @@
                                     <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">Last Updated</th>
                                     <th class="border-bottom-0">Category Name</th>
-                                    @can('edit-photo-category')
+                                    @can('edit-gallery-category')
                                     <th class="border-bottom-0">Home Page</th>
                                     @endcan
-                                    @can('edit-photo-category')
+                                    @can('edit-gallery-category')
                                     <th class="border-bottom-0">Status</th>
                                     @endcan
-                                    @canany(['edit-photo-category', 'delete-photo-category'])
+                                    @canany(['edit-gallery-category', 'delete-gallery-category'])
                                     <th class="border-bottom-0">Actions</th>
                                     @endcanany
                                 </tr>
@@ -89,7 +89,7 @@
                                         </td>
                                         <td>{{ $category->updated_at->format('d-M-Y') }}</td>
                                         <td>{{ $category->category_name }}</td>
-                                        @can('edit-photo-category')
+                                        @can('edit-gallery-category')
                                         <td>
                                             <div class="material-switch">
                                                 <input id="home-{{ $category->id }}" class="toggle-class-home" name="is_home"
@@ -99,7 +99,7 @@
                                             </div>
                                         </td>
                                         @endcan
-                                        @can('edit-photo-category')
+                                        @can('edit-gallery-category')
                                         <td>
                                             <div class="material-switch">
                                                 <input id="active-{{ $category->id }}" class="toggle-class-active" name="is_active"
@@ -109,7 +109,7 @@
                                             </div>
                                         </td>
                                         @endcan
-                                        @canany(['edit-photo-category', 'delete-photo-category'])
+                                        @canany(['edit-gallery-category', 'delete-gallery-category'])
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>

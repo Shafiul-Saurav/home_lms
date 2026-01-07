@@ -26,7 +26,7 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Category</h3>
-                    @can('delete-product-category')
+                    @can('delete-category')
                     <a href="{{ route('categories.trash') }}" class="btn btn-sm btn-outline-warning border"><i
                             class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
                     @endcan
@@ -51,7 +51,7 @@
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-group">
-                                    <label for="file">File (Optional)</label>
+                                    <label for="file">File</label>
                                     <input type="file" name="file" class="form-control @error('file')
                                         is-invalid
                                     @enderror" id="file">
@@ -60,6 +60,12 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-check">
+                                    <input type="checkbox" name="is_active" class="form-check-input" id="is_active" value="1" {{ old('is_active') ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="is_active">Active</label>
                                 </div>
                             </div>
                         </div>
@@ -82,12 +88,13 @@
                                 <tr>
                                     <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">Last Updated</th>
-                                    <th class="border-bottom-0">Category Name</th>
+                                    <th class="border-bottom-0">Name</th>
+                                    <th class="border-bottom-0">Slug</th>
                                     <th class="border-bottom-0">File</th>
-                                    @can('edit-product-category')
+                                    @can('edit-category')
                                     <th class="border-bottom-0">Status</th>
                                     @endcan
-                                    @canany(['edit-product-category', 'delete-product-category'])
+                                    @canany(['edit-category', 'delete-category'])
                                     <th class="border-bottom-0">Actions</th>
                                     @endcanany
                                 </tr>
@@ -99,15 +106,16 @@
                                             <strong>{{ $categories->firstItem() + $loop->index }}</strong>
                                         </td>
                                         <td>{{ $category->updated_at->format('d-M-Y') }}</td>
-                                        <td>{!! $category->name !!}</td>
+                                        <td>{{ $category->name }}</td>
+                                        <td>{{ $category->slug }}</td>
                                         <td>
                                             @if($category->file)
-                                                <img src="{{ asset('uploads/categories/'.$category->file) }}" alt="Category Image" width="50">
+                                                <a href="{{ asset('uploads/categories/' . $category->file) }}" target="_blank">View File</a>
                                             @else
-                                                No Image
+                                                -
                                             @endif
                                         </td>
-                                        @can('edit-product-category')
+                                        @can('edit-category')
                                         <td>
                                             <div class="material-switch">
                                                 <input id="active-{{ $category->id }}" class="toggle-class-active" name="is_active"
@@ -117,26 +125,34 @@
                                             </div>
                                         </td>
                                         @endcan
-                                        @canany(['edit-product-category', 'delete-product-category'])
+                                        @canany(['edit-category', 'delete-category'])
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
-                                                    <a href="{{ route('categories.edit', $category->id) }}"
-                                                        class="btn btn-sm btn-outline-secondary border me-2"
+                                                    <a href="{{ route('categories.show', $category->id) }}" class="btn btn-sm btn-outline-primary border me-2"
                                                         data-toggle="tooltip" data-placement="top"
-                                                        data-bs-original-title="Edit"><i class="fa-solid fa-pen fa-fw"></i>
+                                                        data-bs-original-title="View">
+                                                        <i class="fa-solid fa-eye"></i>
                                                     </a>
                                                 </div>
                                                 <div>
-                                                    <form action="{{ route('categories.destroy', $category->id) }}"
-                                                        method="POST">
+                                                    <a href="{{ route('categories.edit', $category->slug) }}"
+                                                        class="btn btn-sm btn-outline-secondary border me-2"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        data-bs-original-title="Edit">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                    </a>
+                                                </div>
+                                                <div>
+                                                    <form action="{{ route('categories.destroy', $category->slug) }}" method="POST"
+                                                        class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit"
-                                                            class="btn btn-sm btn-outline-warning border show_confirm"
+                                                            class="btn btn-sm btn-outline-danger border show_confirm"
                                                             data-toggle="tooltip" data-placement="top"
                                                             data-bs-original-title="Delete">
-                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                            <i class="fa-solid fa-trash"></i>
                                                         </button>
                                                     </form>
                                                 </div>
@@ -157,25 +173,37 @@
 
 @push('backend_script')
     @include('backend.pages.common.script')
-    <script>
+    
+    <script type="text/javascript">
         $(document).ready(function() {
-            $(document).on('change', '.toggle-class-active', function() {
-                var item_id = $(this).data('id');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            // Toggle active status
+            $('.toggle-class-active').change(function() {
+                var category_id = $(this).data('id');
+                var status = $(this).prop('checked') === true ? 1 : 0;
 
                 $.ajax({
-                    type: "GET",
+                    type: "POST",
                     dataType: "json",
-                    url: `/admin/check/category/is_active/${item_id}`,
-                    success: function(response) {
-                        console.log(response);
-                        Swal.fire({
-                            title: response.message,
-                            text: response.message,
-                            icon: response.type,
-                        });
+                    url: '/admin/categories/check-active/' + category_id,
+                    data: {
+                        'category_id': category_id,
+                        '_token': $('meta[name="csrf-token"]').attr('content')
                     },
-                    error: function(err) {
-                        console.error(err);
+                    success: function(data) {
+                        console.log(data);
+                        if (data.type === 'success') {
+                            // Show success message
+                            alert(data.message);
+                        } else {
+                            // Show error message
+                            alert(data.message);
+                        }
                     }
                 });
             });

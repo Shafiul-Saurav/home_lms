@@ -52,12 +52,15 @@
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
+                                                    @can('delete-gallery-category')
                                                     <a href="{{ route('photocategories.restore', ['id' => $category->id]) }}"
                                                         class="btn btn-sm btn-outline-success border me-2" data-toggle="tooltip"
                                                         data-placement="top" data-bs-original-title="Restore"><i class="fa-solid fa-store"></i>
                                                     </a>
+                                                    @endcan
                                                 </div>
                                                 <div>
+                                                    @can('delete-gallery-category')
                                                     <form action="{{ route('photocategories.forcedelete', ['id' => $category->id]) }}"
                                                         method="POST">
                                                         @csrf
@@ -67,6 +70,7 @@
                                                             <i class="fa-solid fa-radiation"></i>
                                                         </button>
                                                     </form>
+                                                    @endcan
                                                 </div>
                                             </div>
                                         </td>

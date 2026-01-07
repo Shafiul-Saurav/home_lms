@@ -43,6 +43,7 @@ use App\Http\Controllers\Backend\PhotoGalleryController;
 use App\Http\Controllers\Backend\PostCategoryController;
 use App\Http\Controllers\Backend\VideoGalleryController;
 use App\Http\Controllers\Backend\PhotoCategoryController;
+use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\PrivacyPolicyController;
 use App\Http\Controllers\Frontend\ProfileImageController;
 use App\Http\Controllers\Trash\DepartmentTrashController;
@@ -52,6 +53,7 @@ use App\Http\Controllers\Trash\PhotoGalleryTrashController;
 use App\Http\Controllers\Trash\PostCategoryTrashController;
 use App\Http\Controllers\Trash\VideoGalleryTrashController;
 use App\Http\Controllers\Trash\PhotoCategoryTrashController;
+use App\Http\Controllers\Trash\CategoryTrashController;
 use App\Http\Controllers\Backend\TermsAndConditionsController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\ContactController as BackendContactController;
@@ -288,6 +290,17 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::get('check/photocategory/is_home/{category_id}', [PhotoCategoryController::class, 'checkActiveHome'])
     ->name('category.is_home.ajax');
     Route::resource('photocategories', PhotoCategoryController::class);
+
+    // Category Route
+    Route::get('/categories/trash', [CategoryTrashController::class, 'trash'])->name('categories.trash');
+    Route::get('/categories/restore/{id}', [CategoryTrashController::class, 'restore'])
+    ->name('categories.restore');
+    Route::delete('/categories/forcedelete/{id}', [CategoryTrashController::class, 'forceDelete'])
+    ->name('categories.forcedelete');
+    // Ajax Call Active
+    Route::get('check/category/is_active/{category_id}', [CategoryController::class, 'checkActive'])
+    ->name('category.is_active.ajax');
+    Route::resource('categories', CategoryController::class);
 
     //Photo Gallery Route
     Route::get('/photogalleries/trash', [PhotoGalleryTrashController::class, 'trash'])->name('photogalleries.trash');

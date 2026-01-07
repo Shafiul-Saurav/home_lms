@@ -15,8 +15,8 @@ class PhotoCategoryController extends Controller
      */
     public function index()
     {
-        Gate::authorize('index-photo-category');
-        
+        Gate::authorize('index-gallery-category');
+
         $categories = Photocategory::latest('id')->paginate(30);
         return view('backend.pages.photocategory.photocategory', compact('categories'));
     }
@@ -34,8 +34,8 @@ class PhotoCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        Gate::authorize('create-photo-category');
-        
+        Gate::authorize('create-gallery-category');
+
         // dd($request->all());
 
         Photocategory::create([
@@ -60,8 +60,8 @@ class PhotoCategoryController extends Controller
      */
     public function edit(string $category_slug)
     {
-        Gate::authorize('edit-photo-category');
-        
+        Gate::authorize('edit-gallery-category');
+
         $category = Photocategory::where('category_slug', $category_slug)->first();
         return view('backend.pages.photocategory.edit', compact('category'));
     }
@@ -71,8 +71,8 @@ class PhotoCategoryController extends Controller
      */
     public function update(Request $request, string $category_slug)
     {
-        Gate::authorize('edit-photo-category');
-        
+        Gate::authorize('edit-gallery-category');
+
         // dd($request->all());
         $category = Photocategory::where('category_slug', $category_slug)->first();
 
@@ -89,8 +89,8 @@ class PhotoCategoryController extends Controller
      */
     public function destroy(string $category_slug)
     {
-        Gate::authorize('delete-photo-category');
-        
+        Gate::authorize('delete-gallery-category');
+
         $category = Photocategory::where('category_slug', $category_slug)->first();
         $category->delete();
 

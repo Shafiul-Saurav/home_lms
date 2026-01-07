@@ -16,7 +16,7 @@
                 <div class="ms-auto pageheader-btn">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Category</li>
+                        <li class="breadcrumb-item active" aria-current="page">Category Edit</li>
                     </ol>
                 </div>
             </div>
@@ -25,22 +25,23 @@
         <div class="col-lg-12 col-md-12">
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
-                    <h3 class="card-title">Edit Category</h3>
+                    <h3 class="card-title">Update Category</h3>
                     <a href="{{ route('categories.index') }}" class="btn btn-info"><i
-                        class="fa-solid fa-angles-left fa-fw"></i>Back</a>
+                            class="fa-solid fa-angles-left fa-fw"></i>Back</a>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('categories.update', $category->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('categories.update', $category->slug) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="form-row">
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="name">Name</label>
-                                    <input type="text" name="name" class="form-control @error('name')
+                                    <input type="text" name="name"
+                                        class="form-control @error('name')
                                         is-invalid
-                                    @enderror" id="name"
-                                        value="{{ $category->name }}" required>
+                                    @enderror"
+                                        id="name" value="{{ $category->name }}" required>
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -50,7 +51,7 @@
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-group">
-                                    <label for="file">File (Optional)</label>
+                                    <label for="file">File</label>
                                     <input type="file" name="file" class="form-control @error('file')
                                         is-invalid
                                     @enderror" id="file">
@@ -59,11 +60,19 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
+                                    
                                     @if($category->file)
                                         <div class="mt-2">
-                                            <img src="{{ asset('uploads/categories/'.$category->file) }}" alt="Current Image" width="100">
+                                            <p>Current File:</p>
+                                            <a href="{{ asset('uploads/categories/' . $category->file) }}" target="_blank">View Current File</a>
                                         </div>
                                     @endif
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-check">
+                                    <input type="checkbox" name="is_active" class="form-check-input" id="is_active" value="1" {{ $category->is_active ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="is_active">Active</label>
                                 </div>
                             </div>
                         </div>

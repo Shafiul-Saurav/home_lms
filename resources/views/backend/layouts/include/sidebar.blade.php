@@ -199,6 +199,38 @@
                         </ul>
                     </li>
                 @endcan
+                @can('index-product-category')
+                    <li
+                        class="slide {{ Request::routeIs('categories.index') ? 'is-expanded' : '' }}
+                    {{ Request::routeIs('categories.trash') ? 'is-expanded' : '' }}">
+                        <a class="side-menu__item {{ Request::routeIs('categories.index') ? 'active' : '' }}
+                        {{ Request::routeIs('categories.trash') ? 'active' : '' }}"
+                            data-bs-toggle="slide" href="#">
+                            <i class="fa-solid fa-boxes-stacked"></i>
+                            <span class="side-menu__label ms-3">Product Management</span><i class="fa-solid fa-angle-right"></i>
+                        </a>
+                        <ul class="slide-menu">
+                            @can('index-product-category')
+                                <li
+                                    class="sub-slide {{ Request::routeIs('categories.index') ? 'is-expanded' : '' }}
+                            {{ Request::routeIs('categories.trash') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('categories.index') ? 'active' : '' }}
+                                {{ Request::routeIs('categories.trash') ? 'active' : '' }}"
+                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Category
+                                            Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    <ul class="sub-slide-menu">
+                                        <li><a class="sub-slide-item {{ Request::routeIs('categories.index') ? 'active' : '' }}"
+                                                href="{{ route('categories.index') }}">List</a></li>
+                                        @can('delete-product-category')
+                                            <li><a class="sub-slide-item {{ Request::routeIs('categories.trash') ? 'active' : '' }}"
+                                                    href="{{ route('categories.trash') }}">Trash</a></li>
+                                        @endcan
+                                    </ul>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
                 @can('index-service')
                     <li class="slide {{ Request::routeIs('services.index') ? 'is-expanded' : '' }}">
                         <a class="side-menu__item {{ Request::routeIs('services.index') ? 'active' : '' }}"
@@ -233,7 +265,7 @@
                             <span class="side-menu__label ms-3">Gallery</span><i class="fa-solid fa-angle-right"></i>
                         </a>
                         <ul class="slide-menu">
-                            @can('index-photo-category')
+                            @can('index-gallery-category')
                                 <li
                                     class="sub-slide {{ Request::routeIs('photocategories.index') ? 'is-expanded' : '' }}
                             {{ Request::routeIs('photocategories.trash') ? 'is-expanded' : '' }}">
@@ -244,7 +276,7 @@
                                     <ul class="sub-slide-menu">
                                         <li><a class="sub-slide-item {{ Request::routeIs('photocategories.index') ? 'active' : '' }}"
                                                 href="{{ route('photocategories.index') }}">List</a></li>
-                                        @can('delete-photo-category')
+                                        @can('delete-gallery-category')
                                             <li><a class="sub-slide-item {{ Request::routeIs('photocategories.trash') ? 'active' : '' }}"
                                                     href="{{ route('photocategories.trash') }}">Trash</a></li>
                                         @endcan
