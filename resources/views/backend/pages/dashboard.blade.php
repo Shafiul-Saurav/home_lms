@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
+                {{-- <div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
                     <div class="card overflow-hidden">
                         <div class="card-body">
                             <div class="row">
@@ -54,8 +54,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
+                </div> --}}
+                {{-- <div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
                     <div class="card overflow-hidden">
                         <div class="card-body">
                             <div class="row">
@@ -71,7 +71,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
                     <div class="card overflow-hidden">
                         <div class="card-body">
@@ -123,7 +123,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
+                {{-- <div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
                     <div class="card overflow-hidden">
                         <div class="card-body">
                             <div class="row">
@@ -139,7 +139,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <!-- ROW-1 OPEN -->
             {{-- <div class="row">
@@ -174,110 +174,4 @@
     <script src="{{ asset('assets/backend') }}/plugins/chart/Chart.bundle.js"></script>
     <script src="{{ asset('assets/backend') }}/plugins/chart/utils.js"></script>
     <script src="{{ asset('assets/backend') }}/js/chart.js"></script>
-
-    <!-- NVD3-CHARTS JS -->
-    {{-- <script src="{{asset('assets/backend')}}/plugins/charts-nvd3/d3.min.js"></script>
-    <script src="{{asset('assets/backend')}}/plugins/charts-nvd3/nv.d3.js"></script>
-    <script src="{{asset('assets/backend')}}/plugins/charts-nvd3/stream_layers.js"></script>
-    <script src="{{asset('assets/backend')}}/js/nvd3.js"></script> --}}
-
-    <script>
-        const ctx = document.getElementById('myWeek');
-
-        // Get the data from the controller
-        const labels = @json($dateLabels);
-        const headings = @json($dateMonYear);
-        const bookingData = @json($bookingCounts);
-
-        // Get the current date
-        const currentDate = new Date();
-        const dayOfWeek = currentDate.getDay(); // 0 for Sunday, 1 for Monday, etc.
-
-        // Calculate the date for the most recent Sunday
-        const lastSunday = new Date(currentDate);
-        lastSunday.setDate(currentDate.getDate() - dayOfWeek);
-
-        // Generate background and border colors
-        const backgroundColors = [];
-        const borderColors = [];
-        for (let i = 0; i < 7; i++) {
-            const weekDay = new Date(lastSunday);
-            weekDay.setDate(lastSunday.getDate() + i);
-            if (weekDay.toDateString() === currentDate.toDateString()) {
-                backgroundColors.push('rgba(255, 99, 132, 0.9)'); // Highlight color
-                borderColors.push('rgb(255, 99, 132)'); // Highlight border
-            } else {
-                backgroundColors.push('rgba(63, 201, 183, 0.7)'); // Normal color
-                borderColors.push('rgb(63, 201, 183)'); // Normal border
-            }
-        }
-
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels, // Use the dynamically generated labels based on dates
-                datasets: [{
-                    label: '# of Bookings',
-                    data: bookingData, // Use the real data from the controller
-                    backgroundColor: backgroundColors, // Use customized background colors
-                    borderColor: borderColors, // Use customized border colors
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: `Bookings for the Week (${headings[0]})`, // Title with the week range
-                        font: {
-                            size: 18
-                        }
-                    }
-                }
-            }
-        });
-    </script>
-    <script>
-        const yearCtx = document.getElementById('myYear');
-
-        // Get the data for the yearly chart
-        const monthLabels = @json($monthLabels);
-        const bookingDataByMonth = @json($bookingCountsByMonth);
-
-        new Chart(yearCtx, {
-            type: 'bar',
-            data: {
-                labels: monthLabels, // Use the dynamically generated month labels
-                datasets: [{
-                    label: '# of Bookings',
-                    data: bookingDataByMonth, // Use the real data from the controller
-                    backgroundColor: 'rgba(63, 201, 183, 0.7)', // Normal color for all months
-                    borderColor: 'rgb(63, 201, 183)', // Normal border color
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: `Bookings for the Year (${headings[0]})`, // Title for the yearly chart
-                        font: {
-                            size: 18
-                        }
-                    }
-                }
-            }
-        });
-    </script>
-
 @endpush
