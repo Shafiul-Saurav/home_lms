@@ -24,6 +24,10 @@ class ProfileController extends Controller
             return view('frontend.pages.account.dashboard', compact('user', 'profile'));
         }
     }
+    public function myProfile()
+    {
+        return view('frontend.pages.account.myprofile');
+    }
 
     public function generalStore(Request $request)
     {

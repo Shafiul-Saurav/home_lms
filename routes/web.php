@@ -99,6 +99,7 @@ Route::get('bookingSuccess/{id}', [WebsiteController::class, 'bookingSuccess'])-
 
 Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
     Route::get('/dashboard', [ProfileController::class, 'userDashboard'])->name('user.dashboard');
+    Route::get('/myprofile', [ProfileController::class, 'myProfile'])->name('my.profile');
     Route::post('/logout', [UserLogoutController::class, 'logout'])->name('user.logout');
     Route::post('/general_store', [ProfileController::class, 'generalStore'])->name('general.store');
     Route::post('/profile_store', [ProfileController::class, 'profileStore'])->name('profile.store');
