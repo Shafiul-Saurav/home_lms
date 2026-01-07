@@ -44,6 +44,7 @@ use App\Http\Controllers\Backend\PostCategoryController;
 use App\Http\Controllers\Backend\VideoGalleryController;
 use App\Http\Controllers\Backend\PhotoCategoryController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\SubcategoryController;
 use App\Http\Controllers\Backend\PrivacyPolicyController;
 use App\Http\Controllers\Frontend\ProfileImageController;
 use App\Http\Controllers\Trash\DepartmentTrashController;
@@ -54,6 +55,7 @@ use App\Http\Controllers\Trash\PostCategoryTrashController;
 use App\Http\Controllers\Trash\VideoGalleryTrashController;
 use App\Http\Controllers\Trash\PhotoCategoryTrashController;
 use App\Http\Controllers\Trash\CategoryTrashController;
+use App\Http\Controllers\Trash\SubcategoryTrashController;
 use App\Http\Controllers\Backend\TermsAndConditionsController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\ContactController as BackendContactController;
@@ -301,6 +303,19 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::get('check/category/is_active/{category_id}', [CategoryController::class, 'checkActive'])
     ->name('category.is_active.ajax');
     Route::resource('categories', CategoryController::class);
+
+    // Subcategory Route
+    Route::get('/subcategories/trash', [SubcategoryTrashController::class, 'trash'])->name('subcategories.trash');
+    Route::get('/subcategories/restore/{id}', [SubcategoryTrashController::class, 'restore'])
+    ->name('subcategories.restore');
+    Route::delete('/subcategories/forcedelete/{id}', [SubcategoryTrashController::class, 'forceDelete'])
+    ->name('subcategories.forcedelete');
+    // Ajax Call Active
+    Route::get('check/subcategory/is_active/{subcategory_id}', [SubcategoryController::class, 'checkActive'])
+    ->name('subcategory.is_active.ajax');
+    Route::get('check/subcategory/is_home/{subcategory_id}', [SubcategoryController::class, 'checkHome'])
+    ->name('subcategory.is_home.ajax');
+    Route::resource('subcategories', SubcategoryController::class);
 
     //Photo Gallery Route
     Route::get('/photogalleries/trash', [PhotoGalleryTrashController::class, 'trash'])->name('photogalleries.trash');

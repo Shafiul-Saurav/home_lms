@@ -228,6 +228,24 @@
                                     </ul>
                                 </li>
                             @endcan
+                            @can('index-product-subcategory')
+                                <li
+                                    class="sub-slide {{ Request::routeIs('subcategories.index') ? 'is-expanded' : '' }}
+                            {{ Request::routeIs('subcategories.trash') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('subcategories.index') ? 'active' : '' }}
+                                {{ Request::routeIs('subcategories.trash') ? 'active' : '' }}"
+                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Subcategory
+                                            Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    <ul class="sub-slide-menu">
+                                        <li><a class="sub-slide-item {{ Request::routeIs('subcategories.index') ? 'active' : '' }}"
+                                                href="{{ route('subcategories.index') }}">List</a></li>
+                                        @can('delete-product-subcategory')
+                                            <li><a class="sub-slide-item {{ Request::routeIs('subcategories.trash') ? 'active' : '' }}"
+                                                    href="{{ route('subcategories.trash') }}">Trash</a></li>
+                                        @endcan
+                                    </ul>
+                                </li>
+                            @endcan
                         </ul>
                     </li>
                 @endcan
