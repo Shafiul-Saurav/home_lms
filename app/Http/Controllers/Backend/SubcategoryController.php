@@ -19,7 +19,7 @@ class SubcategoryController extends Controller
         Gate::authorize('index-product-subcategory');
 
         $subcategories = Subcategory::with('category')->latest('id')->paginate(30);
-        $categories = Category::where('is_active', 1)->get(); // Only active categories
+        $categories = Category::get();
         return view('backend.pages.subcategory.subcategory', compact('subcategories', 'categories'));
     }
 
@@ -175,5 +175,11 @@ class SubcategoryController extends Controller
             'type' => 'success',
             'message' => 'Status Updated'
         ]);
+    }
+
+    public function getSubcategoriesByCategory($category_id)
+    {
+        $subcategories = Subcategory::select(['id', 'name'])->where('category_id', $category_id)->get();
+        return response()->json($subcategories);
     }
 }

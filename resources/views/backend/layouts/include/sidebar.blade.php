@@ -246,6 +246,24 @@
                                     </ul>
                                 </li>
                             @endcan
+                            @can('index-product-childcategory')
+                                <li
+                                    class="sub-slide {{ Request::routeIs('childcategories.index') ? 'is-expanded' : '' }}
+                            {{ Request::routeIs('childcategories.trash') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('childcategories.index') ? 'active' : '' }}
+                                {{ Request::routeIs('childcategories.trash') ? 'active' : '' }}"
+                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Childcategory
+                                            Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    <ul class="sub-slide-menu">
+                                        <li><a class="sub-slide-item {{ Request::routeIs('childcategories.index') ? 'active' : '' }}"
+                                                href="{{ route('childcategories.index') }}">List</a></li>
+                                        @can('delete-product-childcategory')
+                                            <li><a class="sub-slide-item {{ Request::routeIs('childcategories.trash') ? 'active' : '' }}"
+                                                    href="{{ route('childcategories.trash') }}">Trash</a></li>
+                                        @endcan
+                                    </ul>
+                                </li>
+                            @endcan
                         </ul>
                     </li>
                 @endcan

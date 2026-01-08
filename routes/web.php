@@ -45,6 +45,7 @@ use App\Http\Controllers\Backend\VideoGalleryController;
 use App\Http\Controllers\Backend\PhotoCategoryController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubcategoryController;
+use App\Http\Controllers\Backend\ChildcategoryController;
 use App\Http\Controllers\Backend\PrivacyPolicyController;
 use App\Http\Controllers\Frontend\ProfileImageController;
 use App\Http\Controllers\Trash\DepartmentTrashController;
@@ -56,6 +57,7 @@ use App\Http\Controllers\Trash\VideoGalleryTrashController;
 use App\Http\Controllers\Trash\PhotoCategoryTrashController;
 use App\Http\Controllers\Trash\CategoryTrashController;
 use App\Http\Controllers\Trash\SubcategoryTrashController;
+use App\Http\Controllers\Trash\ChildcategoryTrashController;
 use App\Http\Controllers\Backend\TermsAndConditionsController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\ContactController as BackendContactController;
@@ -315,7 +317,28 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     ->name('subcategory.is_active.ajax');
     Route::get('check/subcategory/is_home/{subcategory_id}', [SubcategoryController::class, 'checkHome'])
     ->name('subcategory.is_home.ajax');
+
+    // Ajax Call for getting subcategories by category
+    Route::get('get-subcategories/{category_id}', [SubcategoryController::class, 'getSubcategoriesByCategory']);
+
     Route::resource('subcategories', SubcategoryController::class);
+
+    // Childcategory Route
+    Route::get('/childcategories/trash', [ChildcategoryTrashController::class, 'trash'])->name('childcategories.trash');
+    Route::get('/childcategories/restore/{id}', [ChildcategoryTrashController::class, 'restore'])
+    ->name('childcategories.restore');
+    Route::delete('/childcategories/forcedelete/{id}', [ChildcategoryTrashController::class, 'forceDelete'])
+    ->name('childcategories.forcedelete');
+    // Ajax Call Active
+    Route::get('check/childcategory/is_active/{childcategory_id}', [ChildcategoryController::class, 'checkActive'])
+    ->name('childcategories.checkActive');
+    Route::get('check/childcategory/is_home/{childcategory_id}', [ChildcategoryController::class, 'checkHome'])
+    ->name('childcategories.checkHome');
+
+    // Ajax Call for getting childcategories by subcategory
+    Route::get('get-childcategories/{subcategory_id}', [ChildcategoryController::class, 'getChildcategories']);
+
+    Route::resource('childcategories', ChildcategoryController::class);
 
     //Photo Gallery Route
     Route::get('/photogalleries/trash', [PhotoGalleryTrashController::class, 'trash'])->name('photogalleries.trash');

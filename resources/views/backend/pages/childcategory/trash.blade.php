@@ -1,6 +1,6 @@
 @extends('backend.layouts.master')
 
-@section('title', 'Category')
+@section('title', 'Childcategory')
 
 @push('backend_style')
     @include('backend.pages.common.style')
@@ -11,12 +11,12 @@
         <div class="col-12">
             <div class="page-header">
                 <div>
-                    <h1 class="page-title">Category</h1>
+                    <h1 class="page-title">Childcategory</h1>
                 </div>
                 <div class="ms-auto pageheader-btn">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Category</li>
+                        <li class="breadcrumb-item active" aria-current="page">Childcategory</li>
                     </ol>
                 </div>
             </div>
@@ -26,8 +26,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
-                    <h3 class="card-title">Category Trashed List</h3>
-                    <a href="{{ route('categories.index') }}" class="btn btn-info"><i class="fa-solid fa-angles-left fa-fw"></i>
+                    <h3 class="card-title">Childcategory Trashed List</h3>
+                    <a href="{{ route('childcategories.index') }}" class="btn btn-info"><i class="fa-solid fa-angles-left fa-fw"></i>
                         Back</a>
                 </div>
                 <div class="card-body">
@@ -37,6 +37,8 @@
                                 <tr>
                                     <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">Last Updated</th>
+                                    <th class="border-bottom-0">Category</th>
+                                    <th class="border-bottom-0">Subcategory</th>
                                     <th class="border-bottom-0">Name</th>
                                     <th class="border-bottom-0">Slug</th>
                                     <th class="border-bottom-0">File</th>
@@ -44,17 +46,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($categories as $category)
+                                @foreach ($childcategories as $childcategory)
                                     <tr>
                                         <td>
-                                            <strong>{{ $categories->firstItem() + $loop->index }}</strong>
+                                            <strong>{{ $childcategories->firstItem() + $loop->index }}</strong>
                                         </td>
-                                        <td>{{ $category->updated_at->format('d-M-Y') }}</td>
-                                        <td>{{ $category->name }}</td>
-                                        <td>{{ $category->slug }}</td>
+                                        <td>{{ $childcategory->updated_at->format('d-M-Y') }}</td>
+                                        <td>{{ $childcategory->category->name ?? '-' }}</td>
+                                        <td>{{ $childcategory->subcategory->name ?? '-' }}</td>
+                                        <td>{{ $childcategory->name }}</td>
+                                        <td>{{ $childcategory->slug }}</td>
                                         <td>
-                                            @if($category->file)
-                                                <a href="{{ asset('uploads/categories/' . $category->file) }}" target="_blank">View File</a>
+                                            @if($childcategory->file)
+                                                <a href="{{ asset('uploads/childcategories/' . $childcategory->file) }}" target="_blank">View File</a>
                                             @else
                                                 -
                                             @endif
@@ -62,16 +66,16 @@
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
-                                                    @can('delete-product-category')
-                                                    <a href="{{ route('categories.restore', ['id' => $category->id]) }}"
+                                                    @can('delete-product-childcategory')
+                                                    <a href="{{ route('childcategories.restore', ['id' => $childcategory->id]) }}"
                                                         class="btn btn-sm btn-outline-success border me-2" data-toggle="tooltip"
                                                         data-placement="top" data-bs-original-title="Restore"><i class="fa-solid fa-store"></i>
                                                     </a>
                                                     @endcan
                                                 </div>
                                                 <div>
-                                                    @can('delete-product-category')
-                                                    <form action="{{ route('categories.forcedelete', ['id' => $category->id]) }}"
+                                                    @can('delete-product-childcategory')
+                                                    <form action="{{ route('childcategories.forcedelete', ['id' => $childcategory->id]) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
