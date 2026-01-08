@@ -570,6 +570,107 @@
                 $(this).closest('.d-flex').remove();
             });
 
+            // Dependent dropdown functionality for categories
+            $('#category_id').on('change', function() {
+                var categoryId = $(this).val();
+
+                if(categoryId) {
+                    $.ajax({
+                        url: '/admin/get-subcategories/' + categoryId,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('#subcategory_id').empty();
+                            $('#subcategory_id').append('<option value="">Select Subcategory</option>');
+
+                            $.each(data, function(key, value) {
+                                $('#subcategory_id').append('<option value="' + value.id + '">' + value.name + '</option>');
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            alert('Error loading subcategories');
+                        }
+                    });
+                } else {
+                    $('#subcategory_id').empty();
+                    $('#subcategory_id').append('<option value="">Select Subcategory</option>');
+                }
+            });
+
+            $('#subcategory_id').on('change', function() {
+                var subcategoryId = $(this).val();
+
+                if(subcategoryId) {
+                    $.ajax({
+                        url: '/admin/get-childcategories/' + subcategoryId,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('#childcategory_id').empty();
+                            $('#childcategory_id').append('<option value="">Select Childcategory</option>');
+
+                            $.each(data, function(key, value) {
+                                $('#childcategory_id').append('<option value="' + value.id + '">' + value.name + '</option>');
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            alert('Error loading childcategories');
+                        }
+                    });
+                } else {
+                    $('#childcategory_id').empty();
+                    $('#childcategory_id').append('<option value="">Select Childcategory</option>');
+                }
+            });
+
+            // Load subcategories and childcategories on page load if category is already selected
+            var selectedCategoryId = $('#category_id').val();
+            if(selectedCategoryId) {
+                $.ajax({
+                    url: '/admin/get-subcategories/' + selectedCategoryId,
+                    type: "GET",
+                    dataType: "json",
+                    success: function(data) {
+                        $('#subcategory_id').empty();
+                        $('#subcategory_id').append('<option value="">Select Subcategory</option>');
+
+                        $.each(data, function(key, value) {
+                            var isSelected = (value.id == {{ old('subcategory_id', $product->subcategory_id) }}) ? 'selected' : '';
+                            $('#subcategory_id').append('<option value="' + value.id + '" ' + isSelected + '>' + value.name + '</option>');
+                        });
+
+                        // Now load childcategories if subcategory is selected
+                        var selectedSubcategoryId = {{ old('subcategory_id', $product->subcategory_id) }};
+                        if(selectedSubcategoryId) {
+                            $.ajax({
+                                url: '/admin/get-childcategories/' + selectedSubcategoryId,
+                                type: "GET",
+                                dataType: "json",
+                                success: function(childData) {
+                                    $('#childcategory_id').empty();
+                                    $('#childcategory_id').append('<option value="">Select Childcategory</option>');
+
+                                    $.each(childData, function(key, value) {
+                                        var isChildSelected = (value.id == {{ old('childcategory_id', $product->childcategory_id) }}) ? 'selected' : '';
+                                        $('#childcategory_id').append('<option value="' + value.id + '" ' + isChildSelected + '>' + value.name + '</option>');
+                                    });
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error(xhr.responseText);
+                                    alert('Error loading childcategories');
+                                }
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                        alert('Error loading subcategories');
+                    }
+                });
+            }
+
             // Delete individual image
             $(document).on('click', '.delete-image', function(e) {
                 e.preventDefault();

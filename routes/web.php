@@ -292,9 +292,9 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     ->name('photocategories.forcedelete');
     // Ajax Call Active
     Route::get('check/photocategory/is_active/{category_id}', [PhotoCategoryController::class, 'checkActiveActive'])
-    ->name('category.is_active.ajax');
+    ->name('photocategory.is_active.ajax');
     Route::get('check/photocategory/is_home/{category_id}', [PhotoCategoryController::class, 'checkActiveHome'])
-    ->name('category.is_home.ajax');
+    ->name('photocategory.is_home.ajax');
     Route::resource('photocategories', PhotoCategoryController::class);
 
     // Category Route
