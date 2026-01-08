@@ -485,236 +485,89 @@
 @push('backend_script')
     @include('backend.pages.common.script')
     <script>
-        $(document).ready(function() {
-            // Dependent dropdown functionality
-            $('#category_id').on('change', function() {
-                var categoryId = $(this).val();
+            $(document).ready(function() {
+                // Add multiple image field
+                $(document).on('click', '.addImageField', function() {
+                    var fieldCount = $('#multipleImageFields .d-flex').length;
+                    var newField = `
+                        <div class="d-flex justify-content-between mb-2" id="multipleImageField${fieldCount}">
+                            <input type="file" name="multiple_image[]" class="form-control me-4" />
+                            <button type="button" class="btn btn-danger removeImageField">-</button>
+                        </div>
+                    `;
+                    $('#multipleImageFields').append(newField);
+                });
 
-                if(categoryId) {
-                    $.ajax({
-                        url: '/admin/get-subcategories/' + categoryId,
-                        type: "GET",
-                        dataType: "json",
-                        success: function(data) {
-                            $('#subcategory_id').empty();
-                            $('#subcategory_id').append('<option value="">Select Subcategory</option>');
+                // Remove multiple image field
+                $(document).on('click', '.removeImageField', function() {
+                    $(this).closest('.d-flex').remove();
+                });
 
-                            $.each(data, function(key, value) {
-                                $('#subcategory_id').append('<option value="' + value.id + '">' + value.name + '</option>');
-                            });
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(xhr.responseText);
-                            alert('Error loading subcategories');
-                        }
-                    });
-                } else {
-                    $('#subcategory_id').empty();
-                    $('#subcategory_id').append('<option value="">Select Subcategory</option>');
-                }
-            });
+                // Delete existing image
+                $(document).on('click', '.delete-image', function(e) {
+                    e.preventDefault();
 
-            $('#subcategory_id').on('change', function() {
-                var subcategoryId = $(this).val();
+                    var imageId = $(this).data('id');
+                    var url = "{{ route('product.image.delete', ':id') }}";
+                    url = url.replace(':id', imageId);
 
-                if(subcategoryId) {
-                    $.ajax({
-                        url: '/admin/get-childcategories/' + subcategoryId,
-                        type: "GET",
-                        dataType: "json",
-                        success: function(data) {
-                            $('#childcategory_id').empty();
-                            $('#childcategory_id').append('<option value="">Select Childcategory</option>');
-
-                            $.each(data, function(key, value) {
-                                $('#childcategory_id').append('<option value="' + value.id + '">' + value.name + '</option>');
-                            });
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(xhr.responseText);
-                            alert('Error loading childcategories');
-                        }
-                    });
-                } else {
-                    $('#childcategory_id').empty();
-                    $('#childcategory_id').append('<option value="">Select Childcategory</option>');
-                }
-            });
-
-            // Variable product type handling
-            $('#product_type').on('change', function() {
-                var type = $(this).val();
-                if(type === 'variable') {
-                    $('#color_field').show();
-                    $('#size_field').show();
-                } else {
-                    $('#color_field').hide();
-                    $('#size_field').hide();
-                }
-            });
-
-            // Dynamic multiple image fields
-            let imageFieldCount = 1;
-            $(document).on('click', '.addImageField', function() {
-                const newField = `
-                    <div class="d-flex justify-content-between mb-2" id="multipleImageField${imageFieldCount}">
-                        <input type="file" name="multiple_image[]" class="form-control me-4" />
-                        <button type="button" class="btn btn-danger removeImageField">-</button>
-                    </div>
-                `;
-                $('#multipleImageFields').append(newField);
-                imageFieldCount++;
-            });
-
-            $(document).on('click', '.removeImageField', function() {
-                $(this).closest('.d-flex').remove();
-            });
-
-            // Dependent dropdown functionality for categories
-            $('#category_id').on('change', function() {
-                var categoryId = $(this).val();
-
-                if(categoryId) {
-                    $.ajax({
-                        url: '/admin/get-subcategories/' + categoryId,
-                        type: "GET",
-                        dataType: "json",
-                        success: function(data) {
-                            $('#subcategory_id').empty();
-                            $('#subcategory_id').append('<option value="">Select Subcategory</option>');
-
-                            $.each(data, function(key, value) {
-                                $('#subcategory_id').append('<option value="' + value.id + '">' + value.name + '</option>');
-                            });
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(xhr.responseText);
-                            alert('Error loading subcategories');
-                        }
-                    });
-                } else {
-                    $('#subcategory_id').empty();
-                    $('#subcategory_id').append('<option value="">Select Subcategory</option>');
-                }
-            });
-
-            $('#subcategory_id').on('change', function() {
-                var subcategoryId = $(this).val();
-
-                if(subcategoryId) {
-                    $.ajax({
-                        url: '/admin/get-childcategories/' + subcategoryId,
-                        type: "GET",
-                        dataType: "json",
-                        success: function(data) {
-                            $('#childcategory_id').empty();
-                            $('#childcategory_id').append('<option value="">Select Childcategory</option>');
-
-                            $.each(data, function(key, value) {
-                                $('#childcategory_id').append('<option value="' + value.id + '">' + value.name + '</option>');
-                            });
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(xhr.responseText);
-                            alert('Error loading childcategories');
-                        }
-                    });
-                } else {
-                    $('#childcategory_id').empty();
-                    $('#childcategory_id').append('<option value="">Select Childcategory</option>');
-                }
-            });
-
-            // Load subcategories and childcategories on page load if category is already selected
-            var selectedCategoryId = $('#category_id').val();
-            if(selectedCategoryId) {
-                $.ajax({
-                    url: '/admin/get-subcategories/' + selectedCategoryId,
-                    type: "GET",
-                    dataType: "json",
-                    success: function(data) {
-                        $('#subcategory_id').empty();
-                        $('#subcategory_id').append('<option value="">Select Subcategory</option>');
-
-                        $.each(data, function(key, value) {
-                            var isSelected = (value.id == {{ old('subcategory_id', $product->subcategory_id) }}) ? 'selected' : '';
-                            $('#subcategory_id').append('<option value="' + value.id + '" ' + isSelected + '>' + value.name + '</option>');
-                        });
-
-                        // Now load childcategories if subcategory is selected
-                        var selectedSubcategoryId = {{ old('subcategory_id', $product->subcategory_id) }};
-                        if(selectedSubcategoryId) {
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
                             $.ajax({
-                                url: '/admin/get-childcategories/' + selectedSubcategoryId,
-                                type: "GET",
-                                dataType: "json",
-                                success: function(childData) {
-                                    $('#childcategory_id').empty();
-                                    $('#childcategory_id').append('<option value="">Select Childcategory</option>');
-
-                                    $.each(childData, function(key, value) {
-                                        var isChildSelected = (value.id == {{ old('childcategory_id', $product->childcategory_id) }}) ? 'selected' : '';
-                                        $('#childcategory_id').append('<option value="' + value.id + '" ' + isChildSelected + '>' + value.name + '</option>');
-                                    });
+                                url: url,
+                                type: 'DELETE',
+                                data: {
+                                    "_token": "{{ csrf_token() }}",
                                 },
-                                error: function(xhr, status, error) {
+                                success: function(response) {
+                                    $('#product-image-' + imageId).remove();
+                                    Swal.fire(
+                                        'Deleted!',
+                                        'Your image has been deleted.',
+                                        'success'
+                                    );
+                                },
+                                error: function(xhr) {
                                     console.error(xhr.responseText);
-                                    alert('Error loading childcategories');
+                                    Swal.fire(
+                                        'Error!',
+                                        'Something went wrong. Please try again.',
+                                        'error'
+                                    );
                                 }
                             });
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
-                        alert('Error loading subcategories');
-                    }
+                    });
                 });
-            }
 
-            // Delete individual image
-            $(document).on('click', '.delete-image', function(e) {
-                e.preventDefault();
-
-                var imageId = $(this).data('id');
-                var url = "{{ route('product.image.delete', ':id') }}";
-                url = url.replace(':id', imageId);
-
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: url,
-                            type: 'DELETE',
-                            data: {
-                                "_token": "{{ csrf_token() }}",
-                            },
-                            success: function(response) {
-                                $('#product-image-' + imageId).remove();
-                                Swal.fire(
-                                    'Deleted!',
-                                    'Your image has been deleted.',
-                                    'success'
-                                );
-                            },
-                            error: function(xhr) {
-                                console.error(xhr.responseText);
-                                Swal.fire(
-                                    'Error!',
-                                    'Something went wrong. Please try again.',
-                                    'error'
-                                );
-                            }
-                        });
+                // Handle product type change
+                $('#product_type').change(function() {
+                    if ($(this).val() === 'variable') {
+                        $('#color_field').show();
+                        $('#size_field').show();
+                    } else {
+                        $('#color_field').hide();
+                        $('#size_field').hide();
+                        // Clear values when hidden
+                        $('#color').val('');
+                        $('#size').val('');
                     }
                 });
             });
-        });
-    </script>
+        </script>
+        <script>
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        </script>
 @endpush

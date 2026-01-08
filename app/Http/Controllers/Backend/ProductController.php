@@ -260,7 +260,7 @@ class ProductController extends Controller
         if ($product->image && Storage::disk('public')->exists('uploads/products/' . $product->image)) {
             Storage::disk('public')->delete('uploads/products/' . $product->image);
         }
-        
+
         if ($product->product_image && $product->product_image !== 'default_product.webp' && Storage::disk('public')->exists('uploads/products/' . $product->product_image)) {
             Storage::disk('public')->delete('uploads/products/' . $product->product_image);
         }
@@ -355,24 +355,20 @@ class ProductController extends Controller
     /**
      * Delete individual product image
      */
-    public function deleteImage($id)
+    public function deleteProductImage($id)
     {
-        $image = ProductImage::findOrFail($id);
+        $productImage = ProductImage::findOrFail($id);
 
-        // Delete the image file if it exists
-        if ($image->multiple_image) {
-            $image_path = public_path('uploads/products/' . $image->multiple_image);
-            if (file_exists($image_path)) {
-                unlink($image_path);
-            }
+        // Delete the image file from the public directory if it exists
+        $imagePath = public_path('uploads/products/' . $productImage->multiple_image);
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
         }
 
-        $image->delete();
+        // Delete the record from the database
+        $productImage->delete();
 
-        return response()->json([
-            'type' => 'success',
-            'message' => 'Image deleted successfully'
-        ]);
+        return response()->json(['success' => 'Image deleted successfully.']);
     }
 
     /**
