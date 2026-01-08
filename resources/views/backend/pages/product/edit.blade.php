@@ -547,6 +547,9 @@
 
                 // Load subcategories if category is already selected on page load
                 var selectedCategoryId = $('#category_id').val();
+                var selectedSubcategoryId = '{{ old('subcategory_id', $product->subcategory_id) }}';
+                var selectedChildcategoryId = '{{ old('childcategory_id', $product->childcategory_id) }}';
+
                 if(selectedCategoryId) {
                     $.ajax({
                         url: '/admin/get-subcategories/' + selectedCategoryId,
@@ -562,10 +565,16 @@
 
                             $('#subcategory_id').prop('disabled', false);
 
-                            // Load childcategories if subcategory is already selected
-                            var selectedSubcategoryId = $('#subcategory_id').val();
+                            // Now set the selected value after options are loaded
                             if(selectedSubcategoryId) {
-                                loadChildcategories(selectedSubcategoryId);
+                                $('#subcategory_id').val(selectedSubcategoryId);
+
+                                // Load childcategories for the selected subcategory
+                                if(selectedChildcategoryId) {
+                                    loadChildcategories(selectedSubcategoryId, selectedChildcategoryId);
+                                } else {
+                                    loadChildcategories(selectedSubcategoryId, null);
+                                }
                             }
                         }
                     });
@@ -575,7 +584,7 @@
                     var subcategoryId = $(this).val();
 
                     if(subcategoryId) {
-                        loadChildcategories(subcategoryId);
+                        loadChildcategories(subcategoryId, null); // Don't pre-select on change, just load options
                     } else {
                         $('#childcategory_id').empty();
                         $('#childcategory_id').append('<option value="">Select Child Category</option>');
@@ -583,7 +592,7 @@
                     }
                 });
 
-                function loadChildcategories(subcategoryId) {
+                function loadChildcategories(subcategoryId, selectedChildcategoryId = null) {
                     $.ajax({
                         url: '/admin/get-childcategories/' + subcategoryId,
                         type: "GET",
@@ -593,10 +602,15 @@
                             $('#childcategory_id').append('<option value="">Select Child Category</option>');
 
                             $.each(data, function(key, value) {
-                                $('#childcategory_id').append('<option value="' + value.id + '">' + value.name + '</option>');
+                                $('#childcategory_id').append('<option value="' + value.id + '" ' + (value.id == selectedChildcategoryId ? 'selected' : '') + '>' + value.name + '</option>');
                             });
 
                             $('#childcategory_id').prop('disabled', false);
+
+                            // If a childcategory was selected, enable the dropdown
+                            if(selectedChildcategoryId) {
+                                $('#childcategory_id').val(selectedChildcategoryId);
+                            }
                         },
                         error: function(xhr, status, error) {
                             console.error(xhr.responseText);
