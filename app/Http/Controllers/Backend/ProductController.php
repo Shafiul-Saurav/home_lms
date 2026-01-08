@@ -337,16 +337,6 @@ class ProductController extends Controller
     public function multiple_image_upload($request, $product_id)
     {
         if ($request->hasFile('multiple_image')) {
-            // delete old photos first
-            $multiple_images = ProductImage::where('product_id', $product_id)->get();
-            foreach ($multiple_images as $multiple_image) {
-                if ($multiple_image->multiple_image && Storage::disk('public')->exists('uploads/products/' . $multiple_image->multiple_image)) {
-                    Storage::disk('public')->delete('uploads/products/' . $multiple_image->multiple_image);
-                }
-                // delete old value of db table
-                $multiple_image->delete();
-            }
-
             $flag = 1; // Assign a flag variable
 
             foreach ($request->file('multiple_image') as $single_photo) {
@@ -360,6 +350,26 @@ class ProductController extends Controller
                 $flag++;
             }
         }
+    }
+
+    /**
+     * Delete individual product image
+     */
+    public function deleteImage($id)
+    {
+        $image = ProductImage::findOrFail($id);
+
+        // Delete the image file if it exists
+        if ($image->multiple_image && Storage::disk('public')->exists('uploads/products/' . $image->multiple_image)) {
+            Storage::disk('public')->delete('uploads/products/' . $image->multiple_image);
+        }
+
+        $image->delete();
+
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Image deleted successfully'
+        ]);
     }
 
     /**

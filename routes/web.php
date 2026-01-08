@@ -355,6 +355,9 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     ->name('product.is_active.ajax');
     Route::get('check/product/is_home/{product_id}', [ProductController::class, 'checkHome'])
     ->name('product.is_home.ajax');
+    // Delete individual image
+    Route::delete('/products/image/{id}', [ProductController::class, 'deleteImage'])
+    ->name('product.image.delete');
 
     Route::resource('products', ProductController::class);
 

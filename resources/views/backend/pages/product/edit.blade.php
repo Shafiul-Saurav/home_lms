@@ -454,17 +454,21 @@
                                         </div>
                                     </div>
 
-                                    @if($product->productImages->count() > 0)
-                                        <div class="mt-2">
-                                            <p>Current Multiple Images:</p>
-                                            <div class="row">
-                                                @foreach($product->productImages as $image)
-                                                    <div class="col-md-2 mb-2">
-                                                        <img src="{{ asset('uploads/products/' . $image->multiple_image) }}" alt="Product Image" style="width: 100%; height: auto;">
+                                    @if ($product->productImages->count() > 0)
+                                        <ul class="list-inline mt-3">
+                                            @foreach ($product->productImages as $image)
+                                                <li class="list-inline-item multi_img" id="product-image-{{ $image->id }}">
+                                                    <img src="{{ asset('uploads/products') }}/{{ $image->multiple_image }}" alt="" style="height: 95px">
+                                                    <div class="remove_icon">
+                                                        <button type="button" class="btn-outline-warning border show_confirm delete-image p-0"
+                                                            data-id="{{ $image->id }}" data-toggle="tooltip"
+                                                            data-placement="top" data-bs-original-title="Delete">
+                                                            <i class="fa-regular fa-circle-xmark"></i>
+                                                        </button>
                                                     </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
+                                                </li>
+                                            @endforeach
+                                        </ul>
                                     @endif
                                 </div>
                             </div>
@@ -564,6 +568,51 @@
 
             $(document).on('click', '.removeImageField', function() {
                 $(this).closest('.d-flex').remove();
+            });
+
+            // Delete individual image
+            $(document).on('click', '.delete-image', function(e) {
+                e.preventDefault();
+
+                var imageId = $(this).data('id');
+                var url = "{{ route('product.image.delete', ':id') }}";
+                url = url.replace(':id', imageId);
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: 'DELETE',
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                            },
+                            success: function(response) {
+                                $('#product-image-' + imageId).remove();
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your image has been deleted.',
+                                    'success'
+                                );
+                            },
+                            error: function(xhr) {
+                                console.error(xhr.responseText);
+                                Swal.fire(
+                                    'Error!',
+                                    'Something went wrong. Please try again.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
             });
         });
     </script>
