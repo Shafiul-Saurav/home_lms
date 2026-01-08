@@ -360,8 +360,11 @@ class ProductController extends Controller
         $image = ProductImage::findOrFail($id);
 
         // Delete the image file if it exists
-        if ($image->multiple_image && Storage::disk('public')->exists('uploads/products/' . $image->multiple_image)) {
-            Storage::disk('public')->delete('uploads/products/' . $image->multiple_image);
+        if ($image->multiple_image) {
+            $image_path = public_path('uploads/products/' . $image->multiple_image);
+            if (file_exists($image_path)) {
+                unlink($image_path);
+            }
         }
 
         $image->delete();
