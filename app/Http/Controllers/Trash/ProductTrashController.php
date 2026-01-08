@@ -15,7 +15,7 @@ class ProductTrashController extends Controller
     {
         Gate::authorize('delete-product');
 
-        $products = Product::onlyTrashed()->with('category')->latest('id')->paginate(100);
+        $products = Product::onlyTrashed()->with('category', 'subcategory', 'childcategory')->latest('id')->paginate(100);
         return view('backend.pages.product.trash', compact('products'));
     }
 

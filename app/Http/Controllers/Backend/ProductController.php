@@ -4,15 +4,13 @@ namespace App\Http\Controllers\Backend;
 
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\Subcategory;
-use App\Models\Childcategory;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Gate;
 
 class ProductController extends Controller
 {
@@ -23,7 +21,7 @@ class ProductController extends Controller
     {
         Gate::authorize('index-product');
 
-        $products = Product::with(['category', 'subcategory', 'childcategory'])->whereNull('deleted_at')->latest('id')->paginate(100);
+        $products = Product::with('category', 'subcategory', 'childcategory')->whereNull('deleted_at')->latest('id')->paginate(100);
         $categories = Category::where('is_active', 1)->get();
         return view('backend.pages.product.product', compact('products', 'categories'));
     }
@@ -36,9 +34,7 @@ class ProductController extends Controller
         Gate::authorize('create-product');
 
         $categories = Category::where('is_active', 1)->get();
-        $subcategories = Subcategory::where('is_active', 1)->get();
-        $childcategories = Childcategory::where('is_active', 1)->get();
-        return view('backend.pages.product.create', compact('categories', 'subcategories', 'childcategories'));
+        return view('backend.pages.product.create', compact('categories'));
     }
 
     /**
@@ -53,29 +49,26 @@ class ProductController extends Controller
             'name' => 'required|string|unique:products|max:255',
             'slug' => 'nullable|string|unique:products|max:255',
             'description' => 'nullable|string',
+            'short_description' => 'nullable|string',
+            'long_description' => 'nullable|string',
+            'additional_info' => 'nullable|string',
             'type' => 'nullable|string|in:normal,variable',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id',
             'subcategory_id' => 'nullable|exists:subcategories,id',
             'childcategory_id' => 'nullable|exists:childcategories,id',
             'purchase_price' => 'required|numeric|min:0',
             'sell_price' => 'required|numeric|min:0',
-            'product_price' => 'required|numeric|min:0',
-            'product_discount' => 'nullable|numeric|min:0',
             'product_quantity' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+            'video' => 'nullable|file|mimes:mp4,mov,avi,wmv,flv|max:27648', // 27MB limit
+            'multiple_image' => 'nullable',
+            'multiple_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'color' => 'nullable|string|max:50',
             'size' => 'nullable|string|max:50',
             'discount_type' => 'nullable|string|in:percentage,fixed',
             'discount_amount' => 'nullable|numeric|min:0',
             'is_stock' => 'required|boolean',
-            'is_active' => 'required|boolean',
-            'is_home' => 'required|boolean',
-            'product_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'multiple_image' => 'nullable',
-            'multiple_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'short_description' => 'nullable|string',
-            'long_description' => 'nullable|string',
-            'additional_info' => 'nullable|string',
+            'is_home' => 'nullable|boolean',
         ], [
             'type.in' => 'The product type must be either normal or variable.',
             'discount_type.in' => 'The discount type must be either percentage or fixed.',
@@ -85,29 +78,27 @@ class ProductController extends Controller
             'name' => $request->name,
             'slug' => $request->slug ?? Str::slug($request->name),
             'description' => $request->description,
+            'short_description' => $request->short_description,
+            'long_description' => $request->long_description,
+            'additional_info' => $request->additional_info,
             'type' => $request->type,
             'category_id' => $request->category_id,
             'subcategory_id' => $request->subcategory_id,
             'childcategory_id' => $request->childcategory_id,
             'purchase_price' => $request->purchase_price,
             'sell_price' => $request->sell_price,
-            'product_price' => $request->product_price,
-            'product_discount' => $request->product_discount,
             'product_quantity' => $request->product_quantity,
             'color' => $request->type === 'variable' ? $request->color : null,
             'size' => $request->type === 'variable' ? $request->size : null,
             'discount_type' => $request->discount_type,
             'discount_amount' => $request->discount_amount,
             'is_stock' => $request->is_stock,
-            'is_active' => $request->is_active,
-            'is_home' => $request->is_home,
-            'product_image' => $request->product_image ?? 'default_product.webp',
-            'short_description' => $request->short_description,
-            'long_description' => $request->long_description,
-            'additional_info' => $request->additional_info,
+            'is_home' => $request->is_home ?? 0,
+            'is_active' => 1, // Default to active
         ]);
 
         $this->image_upload($request, $product->id);
+        $this->video_upload($request, $product->id);
         $this->multiple_image_upload($request, $product->id);
 
         return redirect()->back()->with('message', 'Product Created Successfully 🙂');
@@ -118,7 +109,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::with(['category', 'subcategory', 'childcategory', 'productImages'])->findOrFail($id);
+        $product = Product::with('category', 'subcategory', 'childcategory', 'productImages')->findOrFail($id);
         return view('backend.pages.product.show', compact('product'));
     }
 
@@ -131,8 +122,19 @@ class ProductController extends Controller
 
         $product = Product::findOrFail($id);
         $categories = Category::where('is_active', 1)->get();
-        $subcategories = Subcategory::where('category_id', $product->category_id)->where('is_active', 1)->get();
-        $childcategories = Childcategory::where('subcategory_id', $product->subcategory_id)->where('is_active', 1)->get();
+
+        // Get subcategories based on selected category
+        $subcategories = [];
+        if($product->category_id) {
+            $subcategories = \App\Models\Subcategory::where('category_id', $product->category_id)->where('is_active', 1)->get();
+        }
+
+        // Get childcategories based on selected subcategory
+        $childcategories = [];
+        if($product->subcategory_id) {
+            $childcategories = \App\Models\Childcategory::where('subcategory_id', $product->subcategory_id)->where('is_active', 1)->get();
+        }
+
         return view('backend.pages.product.edit', compact('product', 'categories', 'subcategories', 'childcategories'));
     }
 
@@ -148,29 +150,26 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:products,slug,' . $id,
             'description' => 'nullable|string',
+            'short_description' => 'nullable|string',
+            'long_description' => 'nullable|string',
+            'additional_info' => 'nullable|string',
             'type' => 'nullable|string|in:normal,variable',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id',
             'subcategory_id' => 'nullable|exists:subcategories,id',
             'childcategory_id' => 'nullable|exists:childcategories,id',
             'purchase_price' => 'required|numeric|min:0',
             'sell_price' => 'required|numeric|min:0',
-            'product_price' => 'required|numeric|min:0',
-            'product_discount' => 'nullable|numeric|min:0',
             'product_quantity' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+            'video' => 'nullable|file|mimes:mp4,mov,avi,wmv,flv|max:27648', // 27MB limit
+            'multiple_image' => 'nullable',
+            'multiple_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'color' => 'nullable|string|max:50',
             'size' => 'nullable|string|max:50',
             'discount_type' => 'nullable|string|in:percentage,fixed',
             'discount_amount' => 'nullable|numeric|min:0',
             'is_stock' => 'required|boolean',
-            'is_active' => 'required|boolean',
-            'is_home' => 'required|boolean',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'product_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'multiple_image' => 'nullable',
-            'multiple_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'short_description' => 'nullable|string',
-            'long_description' => 'nullable|string',
-            'additional_info' => 'nullable|string',
+            'is_home' => 'nullable|boolean',
         ], [
             'type.in' => 'The product type must be either normal or variable.',
             'discount_type.in' => 'The discount type must be either percentage or fixed.',
@@ -182,28 +181,26 @@ class ProductController extends Controller
             'name' => $request->name,
             'slug' => $request->slug ?? Str::slug($request->name),
             'description' => $request->description,
+            'short_description' => $request->short_description,
+            'long_description' => $request->long_description,
+            'additional_info' => $request->additional_info,
             'type' => $request->type,
             'category_id' => $request->category_id,
             'subcategory_id' => $request->subcategory_id,
             'childcategory_id' => $request->childcategory_id,
             'purchase_price' => $request->purchase_price,
             'sell_price' => $request->sell_price,
-            'product_price' => $request->product_price,
-            'product_discount' => $request->product_discount,
             'product_quantity' => $request->product_quantity,
             'color' => $request->type === 'variable' ? $request->color : null,
             'size' => $request->type === 'variable' ? $request->size : null,
             'discount_type' => $request->discount_type,
             'discount_amount' => $request->discount_amount,
             'is_stock' => $request->is_stock,
-            'is_active' => $request->is_active,
-            'is_home' => $request->is_home,
-            'short_description' => $request->short_description,
-            'long_description' => $request->long_description,
-            'additional_info' => $request->additional_info,
+            'is_home' => $request->is_home ?? 0,
         ]);
 
         $this->image_upload($request, $product->id);
+        $this->video_upload($request, $product->id);
         $this->multiple_image_upload($request, $product->id);
 
         return redirect()->route('products.index')->with('message', 'Product Updated Successfully 🙂');
@@ -218,67 +215,10 @@ class ProductController extends Controller
 
         $product = Product::findOrFail($id);
 
-        // Soft delete the product record
+        // Soft delete the product record (don't delete files yet)
         $product->delete();
 
         return redirect()->back()->with('error', 'Product moved to trash successfully');
-    }
-
-    /**
-     * Restore the specified resource from trash.
-     */
-    public function restore($id)
-    {
-        Gate::authorize('delete-product');
-
-        $product = Product::withTrashed()->findOrFail($id);
-        $product->restore();
-
-        return redirect()->back()->with('info', 'Product Restored Successfully 🙂');
-    }
-
-    /**
-     * Force delete the specified resource from storage.
-     */
-    public function forceDelete(string $id)
-    {
-        Gate::authorize('delete-product');
-
-        $product = Product::withTrashed()->findOrFail($id);
-
-        // Delete product images if they exist
-        if ($product->productImages) {
-            foreach ($product->productImages as $image) {
-                if ($image->multiple_image && Storage::disk('public')->exists('uploads/products/' . $image->multiple_image)) {
-                    Storage::disk('public')->delete('uploads/products/' . $image->multiple_image);
-                }
-                $image->delete();
-            }
-        }
-
-        // Delete main images if they exist
-        if ($product->image && Storage::disk('public')->exists('uploads/products/' . $product->image)) {
-            Storage::disk('public')->delete('uploads/products/' . $product->image);
-        }
-
-        if ($product->product_image && $product->product_image !== 'default_product.webp' && Storage::disk('public')->exists('uploads/products/' . $product->product_image)) {
-            Storage::disk('public')->delete('uploads/products/' . $product->product_image);
-        }
-
-        $product->forceDelete();
-
-        return redirect()->back()->with('error', 'Product Deleted Permanently');
-    }
-
-    /**
-     * Display trashed products.
-     */
-    public function trash()
-    {
-        Gate::authorize('delete-product');
-
-        $products = Product::with(['category', 'subcategory', 'childcategory'])->onlyTrashed()->latest('id')->paginate(100);
-        return view('backend.pages.product.trash', compact('products'));
     }
 
     /**
@@ -300,60 +240,114 @@ class ProductController extends Controller
                 }
             }
 
+            $photo_location = public_path('uploads/products/');
             $uploaded_photo = $request->file('image');
-            $new_photo_name = $product->id . '_main_' . time() . '.' . $uploaded_photo->getClientOriginalExtension();
-            $new_photo_location = public_path('uploads/products/' . $new_photo_name);
-            Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location);
+            $new_photo_name = $product->id . '.' . $uploaded_photo->getClientOriginalExtension();
+
+            // Create directory if it doesn't exist
+            if (!file_exists($photo_location)) {
+                mkdir($photo_location, 0755, true);
+            }
+
+            $new_photo_location = $photo_location . $new_photo_name;
+
+            // Handle WebP format properly
+            if ($uploaded_photo->getClientOriginalExtension() == 'webp') {
+                Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location);
+            } else {
+                Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location, 80);
+            }
+
             $product->update([
                 'image' => $new_photo_name,
             ]);
         }
+    }
 
-        if ($request->hasFile('product_image')) {
-            if ($product->product_image && $product->product_image != 'default_product.webp') {
-                //delete old photo
-                $photo_location = public_path('uploads/products/' . $product->product_image);
-                if (file_exists($photo_location)) {
-                    unlink($photo_location);
+    /**
+     * Store/Update the video file.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $product_id
+     * @return void
+     */
+    public function video_upload($request, $product_id)
+    {
+        $product = Product::findOrFail($product_id);
+
+        if ($request->hasFile('video')) {
+            // Delete old video if exists
+            if ($product->video) {
+                $video_location = public_path('uploads/products/' . $product->video);
+                if (file_exists($video_location)) {
+                    unlink($video_location);
                 }
             }
 
-            $uploaded_photo = $request->file('product_image');
-            $new_photo_name = $product->id . '_product_' . time() . '.' . $uploaded_photo->getClientOriginalExtension();
-            $new_photo_location = public_path('uploads/products/' . $new_photo_name);
-            Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location);
+            $video_location = public_path('uploads/products/');
+            $uploaded_video = $request->file('video');
+            $new_video_name = $product->id . '_video.' . $uploaded_video->getClientOriginalExtension();
+
+            // Create directory if it doesn't exist
+            if (!file_exists($video_location)) {
+                mkdir($video_location, 0755, true);
+            }
+
+            // Move the uploaded video to the products directory
+            $uploaded_video->move($video_location, $new_video_name);
+
             $product->update([
-                'product_image' => $new_photo_name,
+                'video' => $new_video_name,
             ]);
         }
     }
 
     /**
-     * Store/Update the Multiple Image file.
+     * Store multiple images for the product.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $product_id
+     * @return void
      */
-    public function multiple_image_upload($request, $product_id)
+    protected function multiple_image_upload($request, $product_id)
     {
-        if ($request->hasFile('multiple_image')) {
-            $flag = 1; // Assign a flag variable
+        $product = Product::findOrFail($product_id);
 
-            foreach ($request->file('multiple_image') as $single_photo) {
-                $new_photo_name = $product_id . '-multiple-' . $flag . '.' . $single_photo->getClientOriginalExtension();
-                $new_photo_location = public_path('uploads/products/' . $new_photo_name);
-                Image::make($single_photo)->resize(800, 800)->save($new_photo_location);
-                ProductImage::create([
-                    'product_id' => $product_id,
-                    'multiple_image' => $new_photo_name,
-                ]);
-                $flag++;
+        if ($request->hasFile('multiple_image')) {
+            foreach ($request->file('multiple_image') as $uploaded_photo) {
+                if ($uploaded_photo->isValid()) {
+                    // Handle each multiple image upload
+                    $photo_location = public_path('uploads/products/');
+                    $new_photo_name = $product->id . '_' . time() . '_' . uniqid() . '.' . $uploaded_photo->getClientOriginalExtension();
+
+                    // Create directory if it doesn't exist
+                    if (!file_exists($photo_location)) {
+                        mkdir($photo_location, 0755, true);
+                    }
+
+                    $new_photo_location = $photo_location . $new_photo_name;
+
+                    // Resize and save the image
+                    // Handle WebP format properly
+                    if ($uploaded_photo->getClientOriginalExtension() == 'webp') {
+                        Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location);
+                    } else {
+                        Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location, 80);
+                    }
+
+                    // Save image to ProductImage model
+                    $product->productImages()->create([
+                        'multiple_image' => $new_photo_name,
+                    ]);
+                } else {
+                    Log::warning('Invalid image file: ' . $uploaded_photo->getClientOriginalName());
+                }
             }
         }
     }
 
     /**
-     * Delete individual product image
+     * Delete a single multiple image.
      */
     public function deleteProductImage($id)
     {
@@ -372,9 +366,35 @@ class ProductController extends Controller
     }
 
     /**
-     * Toggle active status
+     * Get subcategories by category ID for dependent dropdown
      */
-    public function checkActive($product_id)
+    public function getSubcategories($categoryId)
+    {
+        $subcategories = \App\Models\Subcategory::where('category_id', $categoryId)
+            ->where('is_active', 1)
+            ->select('id', 'name')
+            ->get();
+
+        return response()->json($subcategories);
+    }
+
+    /**
+     * Get childcategories by subcategory ID for dependent dropdown
+     */
+    public function getChildcategories($subcategoryId)
+    {
+        $childcategories = \App\Models\Childcategory::where('subcategory_id', $subcategoryId)
+            ->where('is_active', 1)
+            ->select('id', 'name')
+            ->get();
+
+        return response()->json($childcategories);
+    }
+
+    /**
+     * Toggle product active status.
+     */
+    public function checkActiveActive($product_id)
     {
         $product = Product::find($product_id);
         if (!$product) {
@@ -390,30 +410,7 @@ class ProductController extends Controller
 
         return response()->json([
             'type' => 'success',
-            'message' => 'Status Updated'
-        ]);
-    }
-
-    /**
-     * Toggle home status
-     */
-    public function checkHome($product_id)
-    {
-        $product = Product::find($product_id);
-        if (!$product) {
-            return response()->json([
-                'type' => 'error',
-                'message' => 'Product not found'
-            ], 404);
-        }
-
-        // Toggle the is_home status
-        $product->is_home = $product->is_home ? 0 : 1;
-        $product->save();
-
-        return response()->json([
-            'type' => 'success',
-            'message' => 'Home Status Updated'
+            'message' => 'Status Updated Successfully'
         ]);
     }
 }

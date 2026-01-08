@@ -103,7 +103,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <div class="form-group">
                                     <label for="category_id">Category</label>
                                     <select name="category_id" class="form-control @error('category_id') is-invalid @enderror" id="category_id">
@@ -122,10 +122,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <div class="form-group">
                                     <label for="subcategory_id">Subcategory</label>
-                                    <select name="subcategory_id" class="form-control @error('subcategory_id') is-invalid @enderror" id="subcategory_id">
+                                    <select name="subcategory_id" class="form-control @error('subcategory_id') is-invalid @enderror" id="subcategory_id" {{ $product->category_id ? '' : 'disabled' }}>
                                         <option value="">Select Subcategory</option>
                                         @foreach ($subcategories as $subcategory)
                                             <option value="{{ $subcategory->id }}" {{ old('subcategory_id', $product->subcategory_id) == $subcategory->id ? 'selected' : '' }}>
@@ -141,11 +141,11 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <div class="form-group">
-                                    <label for="childcategory_id">Childcategory</label>
-                                    <select name="childcategory_id" class="form-control @error('childcategory_id') is-invalid @enderror" id="childcategory_id">
-                                        <option value="">Select Childcategory</option>
+                                    <label for="childcategory_id">Child Category</label>
+                                    <select name="childcategory_id" class="form-control @error('childcategory_id') is-invalid @enderror" id="childcategory_id" {{ $product->subcategory_id ? '' : 'disabled' }}>
+                                        <option value="">Select Child Category</option>
                                         @foreach ($childcategories as $childcategory)
                                             <option value="{{ $childcategory->id }}" {{ old('childcategory_id', $product->childcategory_id) == $childcategory->id ? 'selected' : '' }}>
                                                 {!! $childcategory->name !!}
@@ -162,10 +162,77 @@
 
                             <div class="col-12 mb-3">
                                 <div class="form-group">
+                                    <label for="short_description">Short Description</label>
+                                    <textarea name="short_description" class="form-control @error('short_description') is-invalid @enderror"
+                                        rows="2">{{ old('short_description', $product->short_description) }}</textarea>
+                                    @error('short_description')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
                                     <label for="description">Description</label>
                                     <textarea name="description" id="summernote" class="form-control @error('description') is-invalid @enderror"
                                         rows="4">{{ old('description', $product->description) }}</textarea>
                                     @error('description')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="long_description">Long Description</label>
+                                    <textarea name="long_description" class="form-control @error('long_description') is-invalid @enderror"
+                                        rows="4">{{ old('long_description', $product->long_description) }}</textarea>
+                                    @error('long_description')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="additional_info">Additional Information</label>
+                                    <textarea name="additional_info" class="form-control @error('additional_info') is-invalid @enderror"
+                                        rows="3">{{ old('additional_info', $product->additional_info) }}</textarea>
+                                    @error('additional_info')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="product_quantity">Product Quantity <span class="text-danger">*</span></label>
+                                    <input type="text" name="product_quantity" class="form-control @error('product_quantity') is-invalid @enderror"
+                                        id="product_quantity" value="{{ old('product_quantity', $product->product_quantity) }}" required>
+                                    @error('product_quantity')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="is_home">Show on Home Page</label>
+                                    <select name="is_home" class="form-control @error('is_home') is-invalid @enderror" id="is_home">
+                                        <option value="0" {{ old('is_home', $product->is_home) == '0' ? 'selected' : '' }}>No</option>
+                                        <option value="1" {{ old('is_home', $product->is_home) == '1' ? 'selected' : '' }}>Yes</option>
+                                    </select>
+                                    @error('is_home')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -243,45 +310,6 @@
 
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    <label for="product_price">Product Price <span class="text-danger">*</span></label>
-                                    <input type="number" step="0.01" name="product_price" class="form-control @error('product_price') is-invalid @enderror"
-                                        id="product_price" value="{{ old('product_price', $product->product_price) }}" required>
-                                    @error('product_price')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <div class="form-group">
-                                    <label for="product_discount">Product Discount</label>
-                                    <input type="number" step="0.01" name="product_discount" class="form-control @error('product_discount') is-invalid @enderror"
-                                        id="product_discount" value="{{ old('product_discount', $product->product_discount) }}">
-                                    @error('product_discount')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <div class="form-group">
-                                    <label for="product_quantity">Product Quantity <span class="text-danger">*</span></label>
-                                    <input type="text" name="product_quantity" class="form-control @error('product_quantity') is-invalid @enderror"
-                                        id="product_quantity" value="{{ old('product_quantity', $product->product_quantity) }}" required>
-                                    @error('product_quantity')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <div class="form-group">
                                     <label for="discount_type">Discount Type</label>
                                     <select name="discount_type" class="form-control @error('discount_type') is-invalid @enderror" id="discount_type">
                                         <option value="">No Discount</option>
@@ -326,90 +354,6 @@
 
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    <label for="is_active">Active Status</label>
-                                    <select name="is_active" class="form-control @error('is_active') is-invalid @enderror" id="is_active" required>
-                                        <option value="1" {{ old('is_active', $product->is_active) == '1' ? 'selected' : '' }}>Active</option>
-                                        <option value="0" {{ old('is_active', $product->is_active) == '0' ? 'selected' : '' }}>Inactive</option>
-                                    </select>
-                                    @error('is_active')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <div class="form-group">
-                                    <label for="is_home">Show on Home</label>
-                                    <select name="is_home" class="form-control @error('is_home') is-invalid @enderror" id="is_home" required>
-                                        <option value="1" {{ old('is_home', $product->is_home) == '1' ? 'selected' : '' }}>Yes</option>
-                                        <option value="0" {{ old('is_home', $product->is_home) == '0' ? 'selected' : '' }}>No</option>
-                                    </select>
-                                    @error('is_home')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-12 mb-3">
-                                <div class="form-group">
-                                    <label for="product_image">Product Image</label>
-                                    <input type="file" name="product_image" class="form-control @error('product_image') is-invalid @enderror" id="product_image">
-                                    @error('product_image')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                    @if($product->product_image && $product->product_image != 'default_product.webp')
-                                        <div class="mt-2">
-                                            <p>Current Product Image:</p>
-                                            <img src="{{ asset('uploads/products/') }}/{{ $product->product_image }}" alt="{{ $product->name }}" style="max-width: 200px; max-height: 200px;">
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="col-12 mb-3">
-                                <div class="form-group">
-                                    <label for="short_description">Short Description</label>
-                                    <textarea name="short_description" id="short_description" class="form-control @error('short_description') is-invalid @enderror" rows="3">{{ old('short_description', $product->short_description) }}</textarea>
-                                    @error('short_description')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-12 mb-3">
-                                <div class="form-group">
-                                    <label for="long_description">Long Description</label>
-                                    <textarea name="long_description" id="long_description" class="form-control @error('long_description') is-invalid @enderror" rows="5">{{ old('long_description', $product->long_description) }}</textarea>
-                                    @error('long_description')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-12 mb-3">
-                                <div class="form-group">
-                                    <label for="additional_info">Additional Information</label>
-                                    <textarea name="additional_info" id="additional_info" class="form-control @error('additional_info') is-invalid @enderror" rows="5">{{ old('additional_info', $product->additional_info) }}</textarea>
-                                    @error('additional_info')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-12 mb-3">
-                                <div class="form-group">
                                     <label for="image">Main Image</label>
                                     <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" id="image">
                                     @error('image')
@@ -417,28 +361,29 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
-                                    @if($product->image)
+
+                                    @if ($product->image)
                                         <div class="mt-2">
-                                            <p>Current Main Image:</p>
-                                            <img src="{{ asset('uploads/products/' . $product->image) }}" alt="{{ $product->name }}" style="max-width: 200px; max-height: 200px;">
+                                            <img src="{{ asset('uploads/products') }}/{{ $product->image }}" alt="" style="height: 100px">
                                         </div>
                                     @endif
                                 </div>
                             </div>
 
-                            <div class="col-12 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    <label for="product_image">Product Image</label>
-                                    <input type="file" name="product_image" class="form-control @error('product_image') is-invalid @enderror" id="product_image">
-                                    @error('product_image')
+                                    <label for="video">Product Video</label>
+                                    <input type="file" name="video" class="form-control @error('video') is-invalid @enderror" id="video">
+                                    @error('video')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
-                                    @if($product->product_image && $product->product_image != 'default_product.webp')
+                                    <small class="form-text text-muted">Upload a product video (mp4, mov, avi, wmv, flv). Max size: 27MB</small>
+
+                                    @if ($product->video)
                                         <div class="mt-2">
-                                            <p>Current Product Image:</p>
-                                            <img src="{{ asset('uploads/products/' . $product->product_image) }}" alt="{{ $product->name }}" style="max-width: 200px; max-height: 200px;">
+                                            <a href="{{ asset('uploads/products/' . $product->video) }}" target="_blank">View Current Video</a>
                                         </div>
                                     @endif
                                 </div>
@@ -473,18 +418,16 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-secondary">Update</button>
+                        <button class="btn btn-primary" type="submit">Update</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <!-- End Row -->
-@endsection
 
-@push('backend_script')
-    @include('backend.pages.common.script')
-    <script>
+    @push('backend_script')
+        @include('backend.pages.common.script')
+        <script>
             $(document).ready(function() {
                 // Add multiple image field
                 $(document).on('click', '.addImageField', function() {
@@ -561,6 +504,106 @@
                         $('#size').val('');
                     }
                 });
+
+                // Dependent dropdown functionality
+                $('#category_id').on('change', function() {
+                    var categoryId = $(this).val();
+
+                    if(categoryId) {
+                        $.ajax({
+                            url: '/admin/get-subcategories/' + categoryId,
+                            type: "GET",
+                            dataType: "json",
+                            success: function(data) {
+                                $('#subcategory_id').empty();
+                                $('#subcategory_id').append('<option value="">Select Subcategory</option>');
+
+                                $.each(data, function(key, value) {
+                                    $('#subcategory_id').append('<option value="' + value.id + '">' + value.name + '</option>');
+                                });
+
+                                $('#subcategory_id').prop('disabled', false);
+
+                                // Also reset childcategory when category changes
+                                $('#childcategory_id').empty();
+                                $('#childcategory_id').append('<option value="">Select Child Category</option>');
+                                $('#childcategory_id').prop('disabled', true);
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(xhr.responseText);
+                                alert('Error loading subcategories');
+                            }
+                        });
+                    } else {
+                        $('#subcategory_id').empty();
+                        $('#subcategory_id').append('<option value="">Select Subcategory</option>');
+                        $('#subcategory_id').prop('disabled', true);
+
+                        $('#childcategory_id').empty();
+                        $('#childcategory_id').append('<option value="">Select Child Category</option>');
+                        $('#childcategory_id').prop('disabled', true);
+                    }
+                });
+
+                // Load subcategories if category is already selected on page load
+                var selectedCategoryId = $('#category_id').val();
+                if(selectedCategoryId) {
+                    $.ajax({
+                        url: '/admin/get-subcategories/' + selectedCategoryId,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('#subcategory_id').empty();
+                            $('#subcategory_id').append('<option value="">Select Subcategory</option>');
+
+                            $.each(data, function(key, value) {
+                                $('#subcategory_id').append('<option value="' + value.id + '">' + value.name + '</option>');
+                            });
+
+                            $('#subcategory_id').prop('disabled', false);
+
+                            // Load childcategories if subcategory is already selected
+                            var selectedSubcategoryId = $('#subcategory_id').val();
+                            if(selectedSubcategoryId) {
+                                loadChildcategories(selectedSubcategoryId);
+                            }
+                        }
+                    });
+                }
+
+                $('#subcategory_id').on('change', function() {
+                    var subcategoryId = $(this).val();
+
+                    if(subcategoryId) {
+                        loadChildcategories(subcategoryId);
+                    } else {
+                        $('#childcategory_id').empty();
+                        $('#childcategory_id').append('<option value="">Select Child Category</option>');
+                        $('#childcategory_id').prop('disabled', true);
+                    }
+                });
+
+                function loadChildcategories(subcategoryId) {
+                    $.ajax({
+                        url: '/admin/get-childcategories/' + subcategoryId,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('#childcategory_id').empty();
+                            $('#childcategory_id').append('<option value="">Select Child Category</option>');
+
+                            $.each(data, function(key, value) {
+                                $('#childcategory_id').append('<option value="' + value.id + '">' + value.name + '</option>');
+                            });
+
+                            $('#childcategory_id').prop('disabled', false);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            alert('Error loading child categories');
+                        }
+                    });
+                }
             });
         </script>
         <script>
@@ -570,4 +613,5 @@
                 }
             });
         </script>
-@endpush
+    @endpush
+@endsection

@@ -41,7 +41,7 @@
                                     <th class="border-bottom-0">Product Name</th>
                                     <th class="border-bottom-0">Category</th>
                                     <th class="border-bottom-0">Subcategory</th>
-                                    <th class="border-bottom-0">Childcategory</th>
+                                    <th class="border-bottom-0">Child Category</th>
                                     <th class="border-bottom-0">Actions</th>
                                 </tr>
                             </thead>

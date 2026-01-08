@@ -22,8 +22,6 @@ return new class extends Migration
             $table->string('type')->nullable();
             $table->decimal('purchase_price', 10, 2)->default(0);
             $table->decimal('sell_price', 10, 2)->default(0);
-            $table->unsignedMediumInteger('product_price')->default(0);
-            $table->unsignedMediumInteger('product_discount')->default(0)->nullable();
             $table->string('product_quantity');
             $table->string('color')->nullable();
             $table->string('discount_type')->nullable();
@@ -33,7 +31,6 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->boolean('is_home')->default(false);
             $table->string('image')->nullable();
-            $table->string('product_image')->nullable();
             $table->longText('short_description')->nullable();
             $table->longText('long_description')->nullable();
             $table->longText('additional_info')->nullable();

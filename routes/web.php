@@ -345,10 +345,10 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::resource('childcategories', ChildcategoryController::class);
 
     //Product Route
-    Route::get('/products/trash', [ProductController::class, 'trash'])->name('products.trash');
-    Route::get('/products/restore/{id}', [ProductController::class, 'restore'])
+    Route::get('/products/trash', [ProductTrashController::class, 'trash'])->name('products.trash');
+    Route::get('/products/restore/{id}', [ProductTrashController::class, 'restore'])
     ->name('products.restore');
-    Route::delete('/products/forcedelete/{id}', [ProductController::class, 'forceDelete'])
+    Route::delete('/products/forcedelete/{id}', [ProductTrashController::class, 'forceDelete'])
     ->name('products.forcedelete');
     // Ajax Call Active
     Route::get('check/product/is_active/{product_id}', [ProductController::class, 'checkActive'])
@@ -358,6 +358,10 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     // Delete individual image
     Route::delete('/product/image/{id}', [ProductController::class, 'deleteProductImage'])
     ->name('product.image.delete');
+
+    // Get subcategories and childcategories for dependent dropdown
+    Route::get('/admin/get-subcategories/{categoryId}', [ProductController::class, 'getSubcategories'])->name('get.subcategories');
+    Route::get('/admin/get-childcategories/{subcategoryId}', [ProductController::class, 'getChildcategories'])->name('get.childcategories');
 
     Route::resource('products', ProductController::class);
 

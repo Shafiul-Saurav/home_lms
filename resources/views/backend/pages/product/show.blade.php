@@ -50,7 +50,7 @@
                                     <td>{{ $product->subcategory ? $product->subcategory->name : 'N/A' }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Childcategory:</th>
+                                    <th>Child Category:</th>
                                     <td>{{ $product->childcategory ? $product->childcategory->name : 'N/A' }}</td>
                                 </tr>
                                 <tr>
@@ -66,20 +66,24 @@
                                     <td>{{ $product->size ?? 'N/A' }}</td>
                                 </tr>
                                 <tr>
+                                    <th>Product Quantity:</th>
+                                    <td>{{ $product->product_quantity ?? 'N/A' }}</td>
+                                </tr>
+                                <tr>
                                     <th>Description:</th>
                                     <td>{{ $product->description ?? 'N/A' }}</td>
                                 </tr>
                                 <tr>
                                     <th>Short Description:</th>
-                                    <td>{!! $product->short_description ?? 'N/A' !!}</td>
+                                    <td>{{ $product->short_description ?? 'N/A' }}</td>
                                 </tr>
                                 <tr>
                                     <th>Long Description:</th>
-                                    <td>{!! $product->long_description ?? 'N/A' !!}</td>
+                                    <td>{{ $product->long_description ?? 'N/A' }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Additional Information:</th>
-                                    <td>{!! $product->additional_info ?? 'N/A' !!}</td>
+                                    <th>Additional Info:</th>
+                                    <td>{{ $product->additional_info ?? 'N/A' }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -92,18 +96,6 @@
                                 <tr>
                                     <th>Sell Price:</th>
                                     <td>{{ $product->sell_price }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Product Price:</th>
-                                    <td>{{ $product->product_price }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Product Discount:</th>
-                                    <td>{{ $product->product_discount ?? 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Product Quantity:</th>
-                                    <td>{{ $product->product_quantity }}</td>
                                 </tr>
                                 <tr>
                                     <th>Discount Type:</th>
@@ -124,7 +116,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Active Status:</th>
+                                    <th>Status:</th>
                                     <td>
                                         @if ($product->is_active)
                                             <span class="badge bg-success">Active</span>
@@ -161,28 +153,27 @@
                             @endif
                         </div>
                         <div class="col-md-6">
-                            <h5>Product Image</h5>
-                            @if ($product->product_image && $product->product_image != 'default_product.webp')
-                                <img src="{{ asset('uploads/products') }}/{{ $product->product_image }}" alt="{{ $product->name }}" class="img-fluid">
-                            @else
-                                <p>No product image available</p>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="row mt-4">
-                        <div class="col-md-12">
                             <h5>Additional Images</h5>
                             @if ($product->productImages->count() > 0)
                                 <div class="row">
                                     @foreach ($product->productImages as $image)
-                                        <div class="col-md-3 mb-3">
+                                        <div class="col-md-4 mb-3">
                                             <img src="{{ asset('uploads/products') }}/{{ $image->multiple_image }}" alt="" class="img-fluid">
                                         </div>
                                     @endforeach
                                 </div>
                             @else
                                 <p>No additional images available</p>
+                            @endif
+
+                            <h5 class="mt-4">Product Video</h5>
+                            @if ($product->video)
+                                <video width="100%" height="240" controls>
+                                    <source src="{{ asset('uploads/products/' . $product->video) }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            @else
+                                <p>No product video available</p>
                             @endif
                         </div>
                     </div>
