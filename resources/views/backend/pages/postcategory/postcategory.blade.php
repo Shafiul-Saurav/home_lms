@@ -184,7 +184,7 @@
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: `/admin/check/category/is_active/${item_id}`,
+                    url: `/admin/check/postcategory/is_active/${item_id}`,
                     success: function(response) {
                         console.log(response);
                         Swal.fire({

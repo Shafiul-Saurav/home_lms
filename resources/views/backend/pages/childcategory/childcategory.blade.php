@@ -95,12 +95,6 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
-                                <div class="form-check">
-                                    <input type="checkbox" name="is_active" class="form-check-input" id="is_active" value="1" {{ old('is_active') ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="is_active">Active</label>
-                                </div>
-                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary" type="submit">Create</button>
                     </form>
@@ -126,6 +120,9 @@
                                     <th class="border-bottom-0">Name</th>
                                     <th class="border-bottom-0">Slug</th>
                                     <th class="border-bottom-0">File</th>
+                                    @can('edit-product-childcategory')
+                                    <th class="border-bottom-0">Home Page</th>
+                                    @endcan
                                     @can('edit-product-childcategory')
                                     <th class="border-bottom-0">Status</th>
                                     @endcan
@@ -155,6 +152,16 @@
                                         @can('edit-product-childcategory')
                                         <td>
                                             <div class="material-switch">
+                                                <input id="home-{{ $childcategory->id }}" class="toggle-class-home" name="is_home"
+                                                    type="checkbox" {{ $childcategory->is_home ? 'checked' : '' }}
+                                                    data-id="{{ $childcategory->id }}">
+                                                <label for="home-{{ $childcategory->id }}" class="label-success"></label>
+                                            </div>
+                                        </td>
+                                        @endcan
+                                        @can('edit-product-childcategory')
+                                        <td>
+                                            <div class="material-switch">
                                                 <input id="active-{{ $childcategory->id }}" class="toggle-class-active" name="is_active"
                                                     type="checkbox" {{ $childcategory->is_active ? 'checked' : '' }}
                                                     data-id="{{ $childcategory->id }}">
@@ -177,7 +184,7 @@
                                                         class="btn btn-sm btn-outline-secondary border me-2"
                                                         data-toggle="tooltip" data-placement="top"
                                                         data-bs-original-title="Edit">
-                                                        <i class="fa-solid fa-edit"></i>
+                                                        <i class="fa-solid fa-pen fa-fw"></i>
                                                     </a>
                                                 </div>
                                                 <div>
@@ -185,10 +192,10 @@
                                                         method="POST" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-outline-danger border show_confirm"
+                                                        <button type="submit" class="btn btn-sm btn-outline-warning border show_confirm"
                                                             data-toggle="tooltip" data-placement="top"
                                                             data-bs-original-title="Delete">
-                                                            <i class="fa-solid fa-trash"></i>
+                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
                                                         </button>
                                                     </form>
                                                 </div>
@@ -248,28 +255,76 @@
                 }
             });
 
+            // Toggle home status for table rows
+            $('.toggle-class-home').change(function() {
+                var childcategory_id = $(this).data('id');
+                var status = $(this).prop('checked') === true ? 1 : 0;
+
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: '/admin/check/childcategory/is_home/' + childcategory_id,
+                    data: {
+                        'childcategory_id': childcategory_id,
+                        '_token': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        if (data.type === 'success') {
+                            // Show success message
+                            Swal.fire({
+                                title: data.message,
+                                text: data.message,
+                                icon: data.type,
+                            });
+                        } else {
+                            // Show error message
+                            Swal.fire({
+                                title: data.message,
+                                text: data.message,
+                                icon: data.type,
+                            });
+                        }
+                    },
+                    error: function(err) {
+                        console.error(err);
+                    }
+                });
+            });
+
             // Toggle active status for table rows
             $('.toggle-class-active').change(function() {
-                var is_active = $(this).prop('checked') ? 1 : 0;
                 var childcategory_id = $(this).data('id');
+                var status = $(this).prop('checked') === true ? 1 : 0;
 
                 $.ajax({
                     type: "GET",
                     dataType: "json",
                     url: '/admin/check/childcategory/is_active/' + childcategory_id,
-                    success: function(response) {
-                        console.log(response);
-                        if(response.type === 'success') {
-                            // Success message can be shown here if needed
+                    data: {
+                        'childcategory_id': childcategory_id,
+                        '_token': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        if (data.type === 'success') {
+                            // Show success message
+                            Swal.fire({
+                                title: data.message,
+                                text: data.message,
+                                icon: data.type,
+                            });
                         } else {
-                            alert(response.message);
+                            // Show error message
+                            Swal.fire({
+                                title: data.message,
+                                text: data.message,
+                                icon: data.type,
+                            });
                         }
                     },
                     error: function(err) {
-                        if (err) {
-                            console.log(err);
-                            alert('Error updating status');
-                        }
+                        console.error(err);
                     }
                 });
             });

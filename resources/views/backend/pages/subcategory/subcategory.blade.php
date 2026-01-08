@@ -84,10 +84,6 @@
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-check">
-                                    <input type="checkbox" name="is_active" class="form-check-input" id="is_active" value="1" {{ old('is_active') ? 'checked' : 'checked' }}>
-                                    <label class="form-check-label" for="is_active">Active</label>
-                                </div>
-                                <div class="form-check">
                                     <input type="checkbox" name="is_home" class="form-check-input" id="is_home" value="1" {{ old('is_home') ? 'checked' : '' }}>
                                     <label class="form-check-label" for="is_home">Show on Home Page</label>
                                 </div>
@@ -179,7 +175,7 @@
                                                         class="btn btn-sm btn-outline-secondary border me-2"
                                                         data-toggle="tooltip" data-placement="top"
                                                         data-bs-original-title="Edit">
-                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                        <i class="fa-solid fa-pen fa-fw"></i>
                                                     </a>
                                                 </div>
                                                 <div>
@@ -188,10 +184,10 @@
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit"
-                                                            class="btn btn-sm btn-outline-danger border show_confirm"
+                                                            class="btn btn-sm btn-outline-warning border show_confirm"
                                                             data-toggle="tooltip" data-placement="top"
                                                             data-bs-original-title="Delete">
-                                                            <i class="fa-solid fa-trash"></i>
+                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
                                                         </button>
                                                     </form>
                                                 </div>

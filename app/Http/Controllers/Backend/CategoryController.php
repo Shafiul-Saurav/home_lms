@@ -137,4 +137,24 @@ class CategoryController extends Controller
             'message' => 'Status Updated'
         ]);
     }
+
+    public function checkHome($category_id)
+    {
+        $category = Category::find($category_id);
+        if (!$category) {
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Category not found'
+            ], 404);
+        }
+
+        // Toggle the is_home status
+        $category->is_home = $category->is_home ? 0 : 1;
+        $category->save();
+
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Home Status Updated'
+        ]);
+    }
 }

@@ -304,6 +304,8 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     // Ajax Call Active
     Route::get('check/category/is_active/{category_id}', [CategoryController::class, 'checkActive'])
     ->name('category.is_active.ajax');
+    Route::get('check/category/is_home/{category_id}', [CategoryController::class, 'checkHome'])
+    ->name('category.is_home.ajax');
     Route::resource('categories', CategoryController::class);
 
     // Subcategory Route
@@ -388,10 +390,10 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::delete('/postcategories/forcedelete/{id}', [PostCategoryTrashController::class, 'forceDelete'])
     ->name('postcategories.forcedelete');
     // Ajax Call Active
-    Route::get('check/category/is_active/{category_id}', [PostCategoryController::class, 'checkActiveActive'])
-    ->name('category.is_active.ajax');
-    Route::get('check/category/is_home/{category_id}', [PostCategoryController::class, 'checkActiveHome'])
-    ->name('category.is_home.ajax');
+    Route::get('check/postcategory/is_active/{category_id}', [PostCategoryController::class, 'checkActiveActive'])
+    ->name('postcategory.is_active.ajax');
+    Route::get('check/postcategory/is_home/{category_id}', [PostCategoryController::class, 'checkActiveHome'])
+    ->name('postcategory.is_home.ajax');
     Route::resource('postcategories', PostCategoryController::class);
 
     //Post Route
