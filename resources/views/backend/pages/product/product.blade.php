@@ -83,6 +83,34 @@
 
                             <div class="col-12 mb-3">
                                 <div class="form-group">
+                                    <label for="subcategory_id">Subcategory</label>
+                                    <select name="subcategory_id" class="form-control @error('subcategory_id') is-invalid @enderror" id="subcategory_id">
+                                        <option value="">Select Subcategory</option>
+                                    </select>
+                                    @error('subcategory_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="childcategory_id">Childcategory</label>
+                                    <select name="childcategory_id" class="form-control @error('childcategory_id') is-invalid @enderror" id="childcategory_id">
+                                        <option value="">Select Childcategory</option>
+                                    </select>
+                                    @error('childcategory_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
                                     <label for="description">Description</label>
                                     <textarea name="description" id="summernote" class="form-control @error('description') is-invalid @enderror"
                                         rows="4">{{ old('description') }}</textarea>
@@ -164,6 +192,45 @@
 
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
+                                    <label for="product_price">Product Price <span class="text-danger">*</span></label>
+                                    <input type="number" step="0.01" name="product_price" class="form-control @error('product_price') is-invalid @enderror"
+                                        id="product_price" value="{{ old('product_price') }}" required>
+                                    @error('product_price')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="product_discount">Product Discount</label>
+                                    <input type="number" step="0.01" name="product_discount" class="form-control @error('product_discount') is-invalid @enderror"
+                                        id="product_discount" value="{{ old('product_discount') }}">
+                                    @error('product_discount')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="product_quantity">Product Quantity <span class="text-danger">*</span></label>
+                                    <input type="text" name="product_quantity" class="form-control @error('product_quantity') is-invalid @enderror"
+                                        id="product_quantity" value="{{ old('product_quantity') }}" required>
+                                    @error('product_quantity')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
                                     <label for="discount_type">Discount Type</label>
                                     <select name="discount_type" class="form-control @error('discount_type') is-invalid @enderror" id="discount_type">
                                         <option value="">No Discount</option>
@@ -206,7 +273,37 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12 mb-3">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="is_active">Active Status</label>
+                                    <select name="is_active" class="form-control @error('is_active') is-invalid @enderror" id="is_active" required>
+                                        <option value="1" {{ old('is_active') == '1' ? 'selected' : '' }}>Active</option>
+                                        <option value="0" {{ old('is_active') == '0' ? 'selected' : '' }}>Inactive</option>
+                                    </select>
+                                    @error('is_active')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="is_home">Show on Home</label>
+                                    <select name="is_home" class="form-control @error('is_home') is-invalid @enderror" id="is_home" required>
+                                        <option value="1" {{ old('is_home') == '1' ? 'selected' : '' }}>Yes</option>
+                                        <option value="0" {{ old('is_home') == '0' ? 'selected' : '' }}>No</option>
+                                    </select>
+                                    @error('is_home')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="image">Main Image</label>
                                     <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" id="image">
@@ -218,16 +315,15 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12 mb-3">
+                            <div class="col-12 mb-3">
                                 <div class="form-group">
-                                    <label for="video">Product Video</label>
-                                    <input type="file" name="video" class="form-control @error('video') is-invalid @enderror" id="video">
-                                    @error('video')
+                                    <label for="product_image">Product Image</label>
+                                    <input type="file" name="product_image" class="form-control @error('product_image') is-invalid @enderror" id="product_image">
+                                    @error('product_image')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
-                                    <small class="form-text text-muted">Upload a product video (mp4, mov, avi, wmv, flv). Max size: 27MB</small>
                                 </div>
                             </div>
 
@@ -243,7 +339,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-primary" type="submit">Create</button>
+                        <button type="submit" class="btn btn-primary">Create</button>
                     </form>
                 </div>
             </div>
@@ -260,62 +356,70 @@
                         <table id="file-datatable" class="table table-bordered text-nowrap key-buttons border-bottom w-100">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0" width="5%">#</th>
-                                    <th class="border-bottom-0" width="15%">Name</th>
-                                    <th class="border-bottom-0" width="10%">Category</th>
-                                    <th class="border-bottom-0" width="10%">Image</th>
-                                    <th class="border-bottom-0" width="10%">Purchase Price</th>
-                                    <th class="border-bottom-0" width="10%">Sell Price</th>
-                                    <th class="border-bottom-0" width="10%">In Stock</th>
+                                    <th class="border-bottom-0">#</th>
+                                    <th class="border-bottom-0">Last Updated</th>
+                                    <th class="border-bottom-0">Image</th>
+                                    <th class="border-bottom-0">Product Name</th>
+                                    <th class="border-bottom-0">Category</th>
+                                    <th class="border-bottom-0">Subcategory</th>
+                                    <th class="border-bottom-0">Childcategory</th>
+                                    <th class="border-bottom-0">Price</th>
                                     @can('edit-product')
-                                    <th class="border-bottom-0" width="10%">Status</th>
+                                    <th class="border-bottom-0">Home Page</th>
+                                    @endcan
+                                    @can('edit-product')
+                                    <th class="border-bottom-0">Status</th>
                                     @endcan
                                     @canany(['edit-product', 'delete-product'])
-                                    <th class="border-bottom-0" width="20%">Actions</th>
+                                    <th class="border-bottom-0">Actions</th>
                                     @endcanany
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($products as $product)
                                     <tr>
-                                        <td width="5%">
+                                        <td>
                                             <strong>{{ $products->firstItem() + $loop->index }}</strong>
                                         </td>
-                                        <td width="15%">{{ $product->name }}</td>
-                                        <td width="10%">{!! $product->category ? $product->category->name : 'N/A' !!}</td>
-                                        <td width="10%">
-                                            @if ($product->image)
-                                                <img src="{{ asset('uploads/products') }}/{{ $product->image }}" alt=""
-                                                    style="height: 50px">
+                                        <td>{{ $product->updated_at->format('d-M-Y') }}</td>
+                                        <td>
+                                            @if($product->image)
+                                                <img src="{{ asset('uploads/products/'.$product->image) }}" alt=""
+                                                    style="height: 100px">
                                             @else
-                                                <span>No Image</span>
+                                                No Image
                                             @endif
                                         </td>
-                                        <td width="10%">{{ $product->purchase_price }}</td>
-                                        <td width="10%">{{ $product->sell_price }}</td>
-                                        <td width="10%">
-                                            @if ($product->is_stock)
-                                                <span class="badge bg-success">In Stock</span>
-                                            @else
-                                                <span class="badge bg-danger">Out of Stock</span>
-                                            @endif
-                                        </td>
+                                        <td>{{ $product->name }}</td>
+                                        <td>{{ $product->category ? $product->category->name : 'N/A' }}</td>
+                                        <td>{{ $product->subcategory ? $product->subcategory->name : 'N/A' }}</td>
+                                        <td>{{ $product->childcategory ? $product->childcategory->name : 'N/A' }}</td>
+                                        <td>{{ $product->product_price }}৳</td>
                                         @can('edit-product')
-                                        <td width="10%">
+                                        <td>
                                             <div class="material-switch">
-                                                <input id="product-{{ $product->id }}" class="toggle-class" name="is_active"
+                                                <input id="home-{{ $product->id }}" class="toggle-class-home" name="is_home"
+                                                    type="checkbox" {{ $product->is_home ? 'checked' : '' }}
+                                                    data-id="{{ $product->id }}">
+                                                <label for="home-{{ $product->id }}" class="label-success"></label>
+                                            </div>
+                                        </td>
+                                        @endcan
+                                        @can('edit-product')
+                                        <td>
+                                            <div class="material-switch">
+                                                <input id="active-{{ $product->id }}" class="toggle-class-active" name="is_active"
                                                     type="checkbox" {{ $product->is_active ? 'checked' : '' }}
                                                     data-id="{{ $product->id }}">
-                                                <label for="product-{{ $product->id }}" class="label-success"></label>
+                                                <label for="active-{{ $product->id }}" class="label-success"></label>
                                             </div>
                                         </td>
                                         @endcan
                                         @canany(['edit-product', 'delete-product'])
-                                        <td width="20%" class="text-center">
-                                            <div class="action-btns d-flex align-items-center justify-content-center">
+                                        <td class="text-center">
+                                            <div class="action-btns d-flex align-items-center">
                                                 <div>
-                                                    <a href="{{ route('products.show', $product->id) }}"
-                                                        class="btn btn-sm btn-outline-primary border me-1"
+                                                    <a href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-outline-primary border me-2"
                                                         data-toggle="tooltip" data-placement="top"
                                                         data-bs-original-title="View">
                                                         <i class="fa-solid fa-eye"></i>
@@ -323,14 +427,15 @@
                                                 </div>
                                                 <div>
                                                     <a href="{{ route('products.edit', $product->id) }}"
-                                                        class="btn btn-sm btn-outline-secondary border me-1"
+                                                        class="btn btn-sm btn-outline-secondary border me-2"
                                                         data-toggle="tooltip" data-placement="top"
                                                         data-bs-original-title="Edit">
                                                         <i class="fa-solid fa-pen fa-fw"></i>
                                                     </a>
                                                 </div>
                                                 <div>
-                                                    <form action="{{ route('products.destroy', $product->id) }}" method="POST">
+                                                    <form action="{{ route('products.destroy', $product->id) }}" method="POST"
+                                                        class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit"
@@ -348,92 +453,176 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $products->links() }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- End Row -->
+@endsection
 
-    @push('backend_script')
-        @include('backend.pages.common.script')
-        <script>
-            $(document).ready(function() {
-                // Toggle active status using event delegation
-                $(document).on('change', '.toggle-class', function() {
-                    var is_active = $(this).prop('checked') ? 1 : 0;
-                    var product_id = $(this).data('id');
-                    var url = "{{ route('product.is_active.ajax', ':product_id') }}";
-                    url = url.replace(':product_id', product_id);
+@push('backend_script')
+    @include('backend.pages.common.script')
+    <script>
+        $(document).ready(function() {
+            // Dependent dropdown functionality
+            $('#category_id').on('change', function() {
+                var categoryId = $(this).val();
 
+                if(categoryId) {
                     $.ajax({
+                        url: '/admin/get-subcategories/' + categoryId,
                         type: "GET",
-                        url: url,
-                        data: {
-                            'is_active': is_active,
-                            'product_id': product_id
-                        },
+                        dataType: "json",
                         success: function(data) {
-                            if (data.type === 'success') {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Success!',
-                                    text: data.message,
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Error!',
-                                    text: data.message,
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                });
-                            }
-                        },
-                        error: function() {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error!',
-                                text: 'Something went wrong!',
-                                showConfirmButton: false,
-                                timer: 1500
+                            $('#subcategory_id').empty();
+                            $('#subcategory_id').append('<option value="">Select Subcategory</option>');
+
+                            $.each(data, function(key, value) {
+                                $('#subcategory_id').append('<option value="' + value.id + '">' + value.name + '</option>');
                             });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            alert('Error loading subcategories');
                         }
                     });
-                });
+                } else {
+                    $('#subcategory_id').empty();
+                    $('#subcategory_id').append('<option value="">Select Subcategory</option>');
+                }
+            });
 
-                // Add multiple image field
-                $(document).on('click', '.addImageField', function() {
-                    var fieldCount = $('#multipleImageFields .d-flex').length;
-                    var newField = `
-                        <div class="d-flex justify-content-between mb-2" id="multipleImageField${fieldCount}">
-                            <input type="file" name="multiple_image[]" class="form-control me-4" />
-                            <button type="button" class="btn btn-danger removeImageField">-</button>
-                        </div>
-                    `;
-                    $('#multipleImageFields').append(newField);
-                });
+            $('#subcategory_id').on('change', function() {
+                var subcategoryId = $(this).val();
 
-                // Remove multiple image field
-                $(document).on('click', '.removeImageField', function() {
-                    $(this).closest('.d-flex').remove();
-                });
+                if(subcategoryId) {
+                    $.ajax({
+                        url: '/admin/get-childcategories/' + subcategoryId,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('#childcategory_id').empty();
+                            $('#childcategory_id').append('<option value="">Select Childcategory</option>');
 
-                // Handle product type change
-                $('#product_type').change(function() {
-                    if ($(this).val() === 'variable') {
-                        $('#color_field').show();
-                        $('#size_field').show();
-                    } else {
-                        $('#color_field').hide();
-                        $('#size_field').hide();
-                        // Clear values when hidden
-                        $('#color').val('');
-                        $('#size').val('');
+                            $.each(data, function(key, value) {
+                                $('#childcategory_id').append('<option value="' + value.id + '">' + value.name + '</option>');
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            alert('Error loading childcategories');
+                        }
+                    });
+                } else {
+                    $('#childcategory_id').empty();
+                    $('#childcategory_id').append('<option value="">Select Childcategory</option>');
+                }
+            });
+
+            // Toggle home status
+            $('.toggle-class-home').change(function() {
+                var product_id = $(this).data('id');
+                var status = $(this).prop('checked') === true ? 1 : 0;
+
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: '/admin/check/product/is_home/' + product_id,
+                    data: {
+                        'product_id': product_id,
+                        '_token': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        if (data.type === 'success') {
+                            // Show success message
+                            Swal.fire({
+                                title: data.message,
+                                text: data.message,
+                                icon: data.type,
+                            });
+                        } else {
+                            // Show error message
+                            Swal.fire({
+                                title: data.message,
+                                text: data.message,
+                                icon: data.type,
+                            });
+                        }
+                    },
+                    error: function(err) {
+                        console.error(err);
                     }
                 });
             });
-        </script>
-    @endpush
-@endsection
+
+            // Toggle active status
+            $('.toggle-class-active').change(function() {
+                var product_id = $(this).data('id');
+                var status = $(this).prop('checked') === true ? 1 : 0;
+
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: '/admin/check/product/is_active/' + product_id,
+                    data: {
+                        'product_id': product_id,
+                        '_token': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        if (data.type === 'success') {
+                            // Show success message
+                            Swal.fire({
+                                title: data.message,
+                                text: data.message,
+                                icon: data.type,
+                            });
+                        } else {
+                            // Show error message
+                            Swal.fire({
+                                title: data.message,
+                                text: data.message,
+                                icon: data.type,
+                            });
+                        }
+                    },
+                    error: function(err) {
+                        console.error(err);
+                    }
+                });
+            });
+
+            // Variable product type handling
+            $('#product_type').on('change', function() {
+                var type = $(this).val();
+                if(type === 'variable') {
+                    $('#color_field').show();
+                    $('#size_field').show();
+                } else {
+                    $('#color_field').hide();
+                    $('#size_field').hide();
+                }
+            });
+
+            // Dynamic multiple image fields
+            let imageFieldCount = 1;
+            $(document).on('click', '.addImageField', function() {
+                const newField = `
+                    <div class="d-flex justify-content-between mb-2" id="multipleImageField${imageFieldCount}">
+                        <input type="file" name="multiple_image[]" class="form-control me-4" />
+                        <button type="button" class="btn btn-danger removeImageField">-</button>
+                    </div>
+                `;
+                $('#multipleImageFields').append(newField);
+                imageFieldCount++;
+            });
+
+            $(document).on('click', '.removeImageField', function() {
+                $(this).closest('.d-flex').remove();
+            });
+        });
+    </script>
+@endpush

@@ -32,7 +32,6 @@ class Childcategory extends Model
 
     public function products()
     {
-        // Assuming you have a products table that relates to childcategories
-        // return $this->hasMany(Product::class, 'childcategory_id', 'id');
+        return $this->hasMany(Product::class, 'childcategory_id', 'id');
     }
 }

@@ -264,6 +264,24 @@
                                     </ul>
                                 </li>
                             @endcan
+                            @can('index-product')
+                                <li
+                                    class="sub-slide {{ Request::routeIs('products.index') ? 'is-expanded' : '' }}
+                            {{ Request::routeIs('products.trash') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('products.index') ? 'active' : '' }}
+                                {{ Request::routeIs('products.trash') ? 'active' : '' }}"
+                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Product
+                                            Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    <ul class="sub-slide-menu">
+                                        <li><a class="sub-slide-item {{ Request::routeIs('products.index') ? 'active' : '' }}"
+                                                href="{{ route('products.index') }}">List</a></li>
+                                        @can('delete-product')
+                                            <li><a class="sub-slide-item {{ Request::routeIs('products.trash') ? 'active' : '' }}"
+                                                    href="{{ route('products.trash') }}">Trash</a></li>
+                                        @endcan
+                                    </ul>
+                                </li>
+                            @endcan
                         </ul>
                     </li>
                 @endcan

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\FaqController;
 use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\PostController;
+use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\AboutController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Backend\ModuleController;
 use App\Http\Controllers\Trash\FaqTrashController;
 use App\Http\Controllers\Backend\ServiceController;
 use App\Http\Controllers\Trash\PostTrashController;
+use App\Http\Controllers\Trash\ProductTrashController;
 use App\Http\Controllers\Trash\RoleTrashController;
 use App\Http\Controllers\Trash\UserTrashController;
 use App\Http\Controllers\Frontend\BookingController;
@@ -341,6 +343,20 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::get('get-childcategories/{subcategory_id}', [ChildcategoryController::class, 'getChildcategories']);
 
     Route::resource('childcategories', ChildcategoryController::class);
+
+    //Product Route
+    Route::get('/products/trash', [ProductController::class, 'trash'])->name('products.trash');
+    Route::get('/products/restore/{id}', [ProductController::class, 'restore'])
+    ->name('products.restore');
+    Route::delete('/products/forcedelete/{id}', [ProductController::class, 'forceDelete'])
+    ->name('products.forcedelete');
+    // Ajax Call Active
+    Route::get('check/product/is_active/{product_id}', [ProductController::class, 'checkActive'])
+    ->name('product.is_active.ajax');
+    Route::get('check/product/is_home/{product_id}', [ProductController::class, 'checkHome'])
+    ->name('product.is_home.ajax');
+
+    Route::resource('products', ProductController::class);
 
     //Photo Gallery Route
     Route::get('/photogalleries/trash', [PhotoGalleryTrashController::class, 'trash'])->name('photogalleries.trash');

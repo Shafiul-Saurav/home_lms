@@ -40,6 +40,8 @@
                                     <th class="border-bottom-0">Image</th>
                                     <th class="border-bottom-0">Product Name</th>
                                     <th class="border-bottom-0">Category</th>
+                                    <th class="border-bottom-0">Subcategory</th>
+                                    <th class="border-bottom-0">Childcategory</th>
                                     <th class="border-bottom-0">Actions</th>
                                 </tr>
                             </thead>
@@ -60,6 +62,8 @@
                                         </td>
                                         <td>{{ $product->name }}</td>
                                         <td>{{ $product->category ? $product->category->name : 'N/A' }}</td>
+                                        <td>{{ $product->subcategory ? $product->subcategory->name : 'N/A' }}</td>
+                                        <td>{{ $product->childcategory ? $product->childcategory->name : 'N/A' }}</td>
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>

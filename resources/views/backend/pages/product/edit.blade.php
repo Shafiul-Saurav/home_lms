@@ -124,6 +124,44 @@
 
                             <div class="col-12 mb-3">
                                 <div class="form-group">
+                                    <label for="subcategory_id">Subcategory</label>
+                                    <select name="subcategory_id" class="form-control @error('subcategory_id') is-invalid @enderror" id="subcategory_id">
+                                        <option value="">Select Subcategory</option>
+                                        @foreach ($subcategories as $subcategory)
+                                            <option value="{{ $subcategory->id }}" {{ old('subcategory_id', $product->subcategory_id) == $subcategory->id ? 'selected' : '' }}>
+                                                {!! $subcategory->name !!}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('subcategory_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="childcategory_id">Childcategory</label>
+                                    <select name="childcategory_id" class="form-control @error('childcategory_id') is-invalid @enderror" id="childcategory_id">
+                                        <option value="">Select Childcategory</option>
+                                        @foreach ($childcategories as $childcategory)
+                                            <option value="{{ $childcategory->id }}" {{ old('childcategory_id', $product->childcategory_id) == $childcategory->id ? 'selected' : '' }}>
+                                                {!! $childcategory->name !!}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('childcategory_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
                                     <label for="description">Description</label>
                                     <textarea name="description" id="summernote" class="form-control @error('description') is-invalid @enderror"
                                         rows="4">{{ old('description', $product->description) }}</textarea>
@@ -205,6 +243,45 @@
 
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
+                                    <label for="product_price">Product Price <span class="text-danger">*</span></label>
+                                    <input type="number" step="0.01" name="product_price" class="form-control @error('product_price') is-invalid @enderror"
+                                        id="product_price" value="{{ old('product_price', $product->product_price) }}" required>
+                                    @error('product_price')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="product_discount">Product Discount</label>
+                                    <input type="number" step="0.01" name="product_discount" class="form-control @error('product_discount') is-invalid @enderror"
+                                        id="product_discount" value="{{ old('product_discount', $product->product_discount) }}">
+                                    @error('product_discount')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="product_quantity">Product Quantity <span class="text-danger">*</span></label>
+                                    <input type="text" name="product_quantity" class="form-control @error('product_quantity') is-invalid @enderror"
+                                        id="product_quantity" value="{{ old('product_quantity', $product->product_quantity) }}" required>
+                                    @error('product_quantity')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
                                     <label for="discount_type">Discount Type</label>
                                     <select name="discount_type" class="form-control @error('discount_type') is-invalid @enderror" id="discount_type">
                                         <option value="">No Discount</option>
@@ -249,6 +326,36 @@
 
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
+                                    <label for="is_active">Active Status</label>
+                                    <select name="is_active" class="form-control @error('is_active') is-invalid @enderror" id="is_active" required>
+                                        <option value="1" {{ old('is_active', $product->is_active) == '1' ? 'selected' : '' }}>Active</option>
+                                        <option value="0" {{ old('is_active', $product->is_active) == '0' ? 'selected' : '' }}>Inactive</option>
+                                    </select>
+                                    @error('is_active')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="is_home">Show on Home</label>
+                                    <select name="is_home" class="form-control @error('is_home') is-invalid @enderror" id="is_home" required>
+                                        <option value="1" {{ old('is_home', $product->is_home) == '1' ? 'selected' : '' }}>Yes</option>
+                                        <option value="0" {{ old('is_home', $product->is_home) == '0' ? 'selected' : '' }}>No</option>
+                                    </select>
+                                    @error('is_home')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
                                     <label for="image">Main Image</label>
                                     <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" id="image">
                                     @error('image')
@@ -256,29 +363,28 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
-
-                                    @if ($product->image)
+                                    @if($product->image)
                                         <div class="mt-2">
-                                            <img src="{{ asset('uploads/products') }}/{{ $product->image }}" alt="" style="height: 100px">
+                                            <p>Current Main Image:</p>
+                                            <img src="{{ asset('uploads/products/' . $product->image) }}" alt="{{ $product->name }}" style="max-width: 200px; max-height: 200px;">
                                         </div>
                                     @endif
                                 </div>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-12 mb-3">
                                 <div class="form-group">
-                                    <label for="video">Product Video</label>
-                                    <input type="file" name="video" class="form-control @error('video') is-invalid @enderror" id="video">
-                                    @error('video')
+                                    <label for="product_image">Product Image</label>
+                                    <input type="file" name="product_image" class="form-control @error('product_image') is-invalid @enderror" id="product_image">
+                                    @error('product_image')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
-                                    <small class="form-text text-muted">Upload a product video (mp4, mov, avi, wmv, flv). Max size: 27MB</small>
-
-                                    @if ($product->video)
+                                    @if($product->product_image && $product->product_image != 'default_product.webp')
                                         <div class="mt-2">
-                                            <a href="{{ asset('uploads/products/' . $product->video) }}" target="_blank">View Current Video</a>
+                                            <p>Current Product Image:</p>
+                                            <img src="{{ asset('uploads/products/' . $product->product_image) }}" alt="{{ $product->name }}" style="max-width: 200px; max-height: 200px;">
                                         </div>
                                     @endif
                                 </div>
@@ -294,119 +400,117 @@
                                         </div>
                                     </div>
 
-                                    @if ($product->productImages->count() > 0)
-                                        <ul class="list-inline mt-3">
-                                            @foreach ($product->productImages as $image)
-                                                <li class="list-inline-item multi_img" id="product-image-{{ $image->id }}">
-                                                    <img src="{{ asset('uploads/products') }}/{{ $image->multiple_image }}" alt="" style="height: 95px">
-                                                    <div class="remove_icon">
-                                                        <button type="button" class="btn-outline-warning border show_confirm delete-image p-0"
-                                                            data-id="{{ $image->id }}" data-toggle="tooltip"
-                                                            data-placement="top" data-bs-original-title="Delete">
-                                                            <i class="fa-regular fa-circle-xmark"></i>
-                                                        </button>
+                                    @if($product->productImages->count() > 0)
+                                        <div class="mt-2">
+                                            <p>Current Multiple Images:</p>
+                                            <div class="row">
+                                                @foreach($product->productImages as $image)
+                                                    <div class="col-md-2 mb-2">
+                                                        <img src="{{ asset('uploads/products/' . $image->multiple_image) }}" alt="Product Image" style="width: 100%; height: auto;">
                                                     </div>
-                                                </li>
-                                            @endforeach
-                                        </ul>
+                                                @endforeach
+                                            </div>
+                                        </div>
                                     @endif
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-primary" type="submit">Update</button>
+                        <button type="submit" class="btn btn-secondary">Update</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <!-- End Row -->
+@endsection
 
-    @push('backend_script')
-        @include('backend.pages.common.script')
-        <script>
-            $(document).ready(function() {
-                // Add multiple image field
-                $(document).on('click', '.addImageField', function() {
-                    var fieldCount = $('#multipleImageFields .d-flex').length;
-                    var newField = `
-                        <div class="d-flex justify-content-between mb-2" id="multipleImageField${fieldCount}">
-                            <input type="file" name="multiple_image[]" class="form-control me-4" />
-                            <button type="button" class="btn btn-danger removeImageField">-</button>
-                        </div>
-                    `;
-                    $('#multipleImageFields').append(newField);
-                });
+@push('backend_script')
+    @include('backend.pages.common.script')
+    <script>
+        $(document).ready(function() {
+            // Dependent dropdown functionality
+            $('#category_id').on('change', function() {
+                var categoryId = $(this).val();
 
-                // Remove multiple image field
-                $(document).on('click', '.removeImageField', function() {
-                    $(this).closest('.d-flex').remove();
-                });
+                if(categoryId) {
+                    $.ajax({
+                        url: '/admin/get-subcategories/' + categoryId,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('#subcategory_id').empty();
+                            $('#subcategory_id').append('<option value="">Select Subcategory</option>');
 
-                // Delete existing image
-                $(document).on('click', '.delete-image', function(e) {
-                    e.preventDefault();
-
-                    var imageId = $(this).data('id');
-                    var url = "{{ route('product.image.delete', ':id') }}";
-                    url = url.replace(':id', imageId);
-
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: "You won't be able to revert this!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, delete it!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                url: url,
-                                type: 'DELETE',
-                                data: {
-                                    "_token": "{{ csrf_token() }}",
-                                },
-                                success: function(response) {
-                                    $('#product-image-' + imageId).remove();
-                                    Swal.fire(
-                                        'Deleted!',
-                                        'Your image has been deleted.',
-                                        'success'
-                                    );
-                                },
-                                error: function(xhr) {
-                                    console.error(xhr.responseText);
-                                    Swal.fire(
-                                        'Error!',
-                                        'Something went wrong. Please try again.',
-                                        'error'
-                                    );
-                                }
+                            $.each(data, function(key, value) {
+                                $('#subcategory_id').append('<option value="' + value.id + '">' + value.name + '</option>');
                             });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            alert('Error loading subcategories');
                         }
                     });
-                });
-
-                // Handle product type change
-                $('#product_type').change(function() {
-                    if ($(this).val() === 'variable') {
-                        $('#color_field').show();
-                        $('#size_field').show();
-                    } else {
-                        $('#color_field').hide();
-                        $('#size_field').hide();
-                        // Clear values when hidden
-                        $('#color').val('');
-                        $('#size').val('');
-                    }
-                });
-            });
-        </script>
-        <script>
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                } else {
+                    $('#subcategory_id').empty();
+                    $('#subcategory_id').append('<option value="">Select Subcategory</option>');
                 }
             });
-        </script>
-    @endpush
-@endsection
+
+            $('#subcategory_id').on('change', function() {
+                var subcategoryId = $(this).val();
+
+                if(subcategoryId) {
+                    $.ajax({
+                        url: '/admin/get-childcategories/' + subcategoryId,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('#childcategory_id').empty();
+                            $('#childcategory_id').append('<option value="">Select Childcategory</option>');
+
+                            $.each(data, function(key, value) {
+                                $('#childcategory_id').append('<option value="' + value.id + '">' + value.name + '</option>');
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                            alert('Error loading childcategories');
+                        }
+                    });
+                } else {
+                    $('#childcategory_id').empty();
+                    $('#childcategory_id').append('<option value="">Select Childcategory</option>');
+                }
+            });
+
+            // Variable product type handling
+            $('#product_type').on('change', function() {
+                var type = $(this).val();
+                if(type === 'variable') {
+                    $('#color_field').show();
+                    $('#size_field').show();
+                } else {
+                    $('#color_field').hide();
+                    $('#size_field').hide();
+                }
+            });
+
+            // Dynamic multiple image fields
+            let imageFieldCount = 1;
+            $(document).on('click', '.addImageField', function() {
+                const newField = `
+                    <div class="d-flex justify-content-between mb-2" id="multipleImageField${imageFieldCount}">
+                        <input type="file" name="multiple_image[]" class="form-control me-4" />
+                        <button type="button" class="btn btn-danger removeImageField">-</button>
+                    </div>
+                `;
+                $('#multipleImageFields').append(newField);
+                imageFieldCount++;
+            });
+
+            $(document).on('click', '.removeImageField', function() {
+                $(this).closest('.d-flex').remove();
+            });
+        });
+    </script>
+@endpush
