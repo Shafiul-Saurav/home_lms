@@ -69,6 +69,18 @@
                                     <th>Description:</th>
                                     <td>{{ $product->description ?? 'N/A' }}</td>
                                 </tr>
+                                <tr>
+                                    <th>Short Description:</th>
+                                    <td>{!! $product->short_description ?? 'N/A' !!}</td>
+                                </tr>
+                                <tr>
+                                    <th>Long Description:</th>
+                                    <td>{!! $product->long_description ?? 'N/A' !!}</td>
+                                </tr>
+                                <tr>
+                                    <th>Additional Information:</th>
+                                    <td>{!! $product->additional_info ?? 'N/A' !!}</td>
+                                </tr>
                             </table>
                         </div>
                         <div class="col-md-6">

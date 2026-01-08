@@ -305,6 +305,54 @@
 
                             <div class="col-12 mb-3">
                                 <div class="form-group">
+                                    <label for="product_image">Product Image</label>
+                                    <input type="file" name="product_image" class="form-control @error('product_image') is-invalid @enderror" id="product_image">
+                                    @error('product_image')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="short_description">Short Description</label>
+                                    <textarea name="short_description" id="short_description" class="form-control @error('short_description') is-invalid @enderror" rows="3">{{ old('short_description') }}</textarea>
+                                    @error('short_description')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="long_description">Long Description</label>
+                                    <textarea name="long_description" id="long_description" class="form-control @error('long_description') is-invalid @enderror" rows="5">{{ old('long_description') }}</textarea>
+                                    @error('long_description')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="additional_info">Additional Information</label>
+                                    <textarea name="additional_info" id="additional_info" class="form-control @error('additional_info') is-invalid @enderror" rows="5">{{ old('additional_info') }}</textarea>
+                                    @error('additional_info')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
                                     <label for="image">Main Image</label>
                                     <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" id="image">
                                     @error('image')

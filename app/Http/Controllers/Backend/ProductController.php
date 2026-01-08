@@ -69,10 +69,13 @@ class ProductController extends Controller
             'is_stock' => 'required|boolean',
             'is_active' => 'required|boolean',
             'is_home' => 'required|boolean',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'product_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'multiple_image' => 'nullable',
             'multiple_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+            'short_description' => 'nullable|string',
+            'long_description' => 'nullable|string',
+            'additional_info' => 'nullable|string',
         ], [
             'type.in' => 'The product type must be either normal or variable.',
             'discount_type.in' => 'The discount type must be either percentage or fixed.',
@@ -98,6 +101,10 @@ class ProductController extends Controller
             'is_stock' => $request->is_stock,
             'is_active' => $request->is_active,
             'is_home' => $request->is_home,
+            'product_image' => $request->product_image ?? 'default_product.webp',
+            'short_description' => $request->short_description,
+            'long_description' => $request->long_description,
+            'additional_info' => $request->additional_info,
         ]);
 
         $this->image_upload($request, $product->id);
@@ -161,6 +168,9 @@ class ProductController extends Controller
             'product_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'multiple_image' => 'nullable',
             'multiple_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+            'short_description' => 'nullable|string',
+            'long_description' => 'nullable|string',
+            'additional_info' => 'nullable|string',
         ], [
             'type.in' => 'The product type must be either normal or variable.',
             'discount_type.in' => 'The discount type must be either percentage or fixed.',
@@ -188,6 +198,9 @@ class ProductController extends Controller
             'is_stock' => $request->is_stock,
             'is_active' => $request->is_active,
             'is_home' => $request->is_home,
+            'short_description' => $request->short_description,
+            'long_description' => $request->long_description,
+            'additional_info' => $request->additional_info,
         ]);
 
         $this->image_upload($request, $product->id);
