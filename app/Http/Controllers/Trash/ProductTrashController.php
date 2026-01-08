@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Trash;
 
 use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Storage;
 
 class ProductTrashController extends Controller
 {
@@ -14,11 +15,11 @@ class ProductTrashController extends Controller
     {
         Gate::authorize('delete-product');
 
-        $products = Product::with(['category', 'subcategory', 'childcategory'])->onlyTrashed()->latest('id')->paginate(100);
+        $products = Product::onlyTrashed()->with('category')->latest('id')->paginate(100);
         return view('backend.pages.product.trash', compact('products'));
     }
 
-    public function restore($id)
+    public function restore(string $id)
     {
         Gate::authorize('delete-product');
 
@@ -34,27 +35,28 @@ class ProductTrashController extends Controller
 
         $product = Product::onlyTrashed()->findOrFail($id);
 
-        // Delete product images if they exist
-        if ($product->productImages) {
-            foreach ($product->productImages as $image) {
-                if ($image->multiple_image && Storage::disk('public')->exists('uploads/products/' . $image->multiple_image)) {
-                    Storage::disk('public')->delete('uploads/products/' . $image->multiple_image);
-                }
-                $image->delete();
+        // Delete main product image if it exists and is not the default
+        if ($product->image && $product->image != 'default_product.jpg') {
+            $photo_location = public_path('uploads/products/' . $product->image);
+            if (file_exists($photo_location)) {
+                unlink($photo_location);
             }
         }
 
-        // Delete main images if they exist
-        if ($product->image && Storage::disk('public')->exists('uploads/products/' . $product->image)) {
-            Storage::disk('public')->delete('uploads/products/' . $product->image);
-        }
-        
-        if ($product->product_image && $product->product_image !== 'default_product.webp' && Storage::disk('public')->exists('uploads/products/' . $product->product_image)) {
-            Storage::disk('public')->delete('uploads/products/' . $product->product_image);
+        // Delete multiple product images and their associated files
+        foreach ($product->productImages as $productImage) {
+            $image_path = public_path('uploads/products/' . $productImage->multiple_image);
+            if (file_exists($image_path)) {
+                unlink($image_path);
+                Log::info('Product image deleted: ' . $image_path);
+            } else {
+                Log::warning('Product image not found or could not delete: ' . $image_path);
+            }
+            $productImage->forceDelete();
         }
 
         $product->forceDelete();
 
-        return redirect()->back()->with('error', 'Product Deleted Permanently');
+        return redirect()->back()->with('error', 'Product Permanently Deleted');
     }
 }
