@@ -36,7 +36,7 @@
                                                 <span>Completed Courses</span>
                                             </div>
                                             <div class="icon">
-                                                <i class="fal fa-book-open-cover"></i>
+                                                <i class="fa-solid fa-book-open-reader"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -47,7 +47,7 @@
                                                 <span>Enrolled Courses</span>
                                             </div>
                                             <div class="icon">
-                                                <i class="fal fa-books-medical"></i>
+                                                <i class="fa-solid fa-books"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -58,7 +58,7 @@
                                                 <span>My Balance</span>
                                             </div>
                                             <div class="icon">
-                                                <i class="fal fa-wallet"></i>
+                                                <i class="fa-solid fa-wallet"></i>
                                             </div>
                                         </div>
                                     </div>
