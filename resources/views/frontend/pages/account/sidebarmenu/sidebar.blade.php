@@ -1,20 +1,19 @@
 <div class="user-sidebar">
     <div class="sidebar-top">
         <div class="profile-img">
-            <img src="{{ asset('assets/frontend') }}/img/account/03.jpg" alt="" />
+            <img src="{{ auth()->user()->profile_image ?? asset('assets/frontend/img/account/03.jpg') }}" alt="" />
             <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
             <input type="file" class="profile-img-file" />
         </div>
-        <h5>Antoni Jonson</h5>
-        <p><a href="/cdn-cgi/l/email-protection" class="__cf_email__"
-                data-cfemail="bddcd3c9d2d3d4fdd8c5dcd0cdd1d893ded2d0">[email&#160;protected]</a></p>
+        <h5>{{ auth()->user()->name ?? 'Guest' }}</h5>
+        <p><a href="mailto:{{ auth()->user()->email }}">{{ auth()->user()->email ?? 'No email' }}</a></p>
     </div>
     <ul class="sidebar-list">
         <li>
             <a class="active" href="{{ route('user.dashboard') }}"><i class="far fa-gauge-high icon"></i>
                 Dashboard</a>
         </li>
-        <li class="sidebar-menu">
+        {{-- <li class="sidebar-menu">
             <a href="#sidebar-menu1" data-bs-toggle="collapse" class="collapsed">
                 <i class="far fa-chalkboard-user icon"></i> Instructor <i class="far fa-angle-down um-angle"></i>
             </a>
@@ -28,9 +27,9 @@
                     <li><a href="instructor-payout.html">Instructor Payout</a></li>
                 </ul>
             </div>
-        </li>
+        </li> --}}
         <li>
-            <a href="{{ route('my.profile') }}"><i class="far fa-user-tie-hair icon"></i> My Profile</a>
+            <a href="{{ route('general.setting') }}"><i class="far fa-user-tie-hair icon"></i> General Setting</a>
         </li>
         <li class="sidebar-menu">
             <a href="#sidebar-menu2" data-bs-toggle="collapse" class="collapsed">

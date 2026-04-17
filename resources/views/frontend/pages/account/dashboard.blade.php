@@ -29,25 +29,60 @@
                             <div class="user-card">
                                 <h4 class="title">Summary</h4>
                                 <div class="row">
+                                    <div class="col-md-6 col-lg-6 col-xl-6">
+                                        <div class="user-widget c1">
+                                            <div class="info">
+                                                <h1>{{ auth()->user()->name ?? 'N/A' }}</h1>
+                                                <span>Welcome</span>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="fa-solid fa-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- <div class="col-md-6 col-lg-6 col-xl-4">
+                                        <div class="user-widget c2">
+                                            <div class="info">
+                                                <h6>{{ auth()->user()->email ?? 'N/A' }}</h6>
+                                                <span>Your Email</span>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="fal fa-envelope"></i>
+                                            </div>
+                                        </div>
+                                    </div> --}}
+                                    <div class="col-md-6 col-lg-6 col-xl-6">
+                                        <div class="user-widget c3">
+                                            <div class="info">
+                                                <h1>{{ \Carbon\Carbon::parse(auth()->user()->created_at)->format('M Y') ?? 'N/A' }}</h1>
+                                                <span>Member Since</span>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="fa-solid fa-calendar"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-md-6 col-lg-6 col-xl-4">
                                         <div class="user-widget c1">
                                             <div class="info">
-                                                <h1>50</h1>
-                                                <span>Pending Orders</span>
+                                                <h1>{{ auth()->user()->posts->count() ?? 0 }}</h1>
+                                                <span>Completed Courses</span>
                                             </div>
                                             <div class="icon">
-                                                <i class="fal fa-list"></i>
+                                                <i class="fa-solid fa-book-open-reader"></i>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-6 col-xl-4">
                                         <div class="user-widget c2">
                                             <div class="info">
-                                                <h1>25k</h1>
-                                                <span>Enrolled Students</span>
+                                                <h1>{{ auth()->user()->comments->count() ?? 0 }}</h1>
+                                                <span>Enrolled Courses</span>
                                             </div>
                                             <div class="icon">
-                                                <i class="fal fa-user-tie-hair"></i>
+                                                <i class="fa-solid fa-books"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -58,7 +93,7 @@
                                                 <span>My Balance</span>
                                             </div>
                                             <div class="icon">
-                                                <i class="fal fa-wallet"></i>
+                                                <i class="fa-solid fa-wallet"></i>
                                             </div>
                                         </div>
                                     </div>

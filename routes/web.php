@@ -9,9 +9,6 @@ use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\AboutController;
 use App\Http\Controllers\Backend\StuffController;
-use App\Http\Controllers\Frontend\CartController;
-use App\Http\Controllers\Frontend\LandingPageOrderController;
-use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\Backend\ModuleController;
 use App\Http\Controllers\Trash\FaqTrashController;
@@ -20,14 +17,12 @@ use App\Http\Controllers\Trash\PostTrashController;
 use App\Http\Controllers\Trash\ProductTrashController;
 use App\Http\Controllers\Trash\RoleTrashController;
 use App\Http\Controllers\Trash\UserTrashController;
-use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\CommentController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\WebsiteController;
 use App\Http\Controllers\Trash\StuffTrashController;
 use App\Http\Controllers\Backend\CopyrightController;
-use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Trash\ModuleTrashController;
 use App\Http\Controllers\Backend\AdminLoginController;
 use App\Http\Controllers\Backend\BreadcrumbController;
@@ -107,11 +102,12 @@ Route::get('bookingSuccess/{id}', [WebsiteController::class, 'bookingSuccess'])-
 
 Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
     Route::get('/dashboard', [ProfileController::class, 'userDashboard'])->name('user.dashboard');
-    Route::get('/myprofile', [ProfileController::class, 'myProfile'])->name('my.profile');
-    Route::post('/logout', [UserLogoutController::class, 'logout'])->name('user.logout');
+    Route::get('/general_setting', [ProfileController::class, 'generalSetting'])->name('general.setting');
     Route::post('/general_store', [ProfileController::class, 'generalStore'])->name('general.store');
+    Route::get('/myprofile', [ProfileController::class, 'myProfile'])->name('my.profile');
     Route::post('/profile_store', [ProfileController::class, 'profileStore'])->name('profile.store');
     Route::post('myupdate/password', [ProfileController::class, 'updatePassword'])->name('mypostupdate.password');
+    Route::post('/logout', [UserLogoutController::class, 'logout'])->name('user.logout');
 
     Route::post('image/crop',[ProfileImageController::class, 'crop'])->name('image.crop');
 

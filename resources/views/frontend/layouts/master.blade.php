@@ -17,6 +17,7 @@
 
     <!-- css -->
     @include('frontend.layouts.include.style')
+    @include('frontend.pages.common.style')
 </head>
 
 <body>
@@ -52,6 +53,7 @@
 
     <!-- js -->
     @include('frontend.layouts.include.script')
+    @include('frontend.pages.common.script')
 </body>
 
 </html>
