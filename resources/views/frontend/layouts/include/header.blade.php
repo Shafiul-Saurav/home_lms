@@ -1,9 +1,12 @@
 <header class="header">
+    @php
+        $headerProfileImage = auth()->user()?->profile?->profileImage?->profile_image;
+    @endphp
     <!-- navbar -->
     <div class="main-navigation">
         <nav class="navbar navbar-expand-lg">
             <div class="container position-relative">
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="{{ route('home') }}">
                     <img src="{{ asset('assets/frontend') }}/img/logo/logo.png" alt="logo" />
                 </a>
                 <div class="mobile-menu-right">
@@ -25,7 +28,7 @@
                 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
                     aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header">
-                        <a href="index.html" class="offcanvas-brand" id="offcanvasNavbarLabel">
+                        <a href="{{ route('home') }}" class="offcanvas-brand" id="offcanvasNavbarLabel">
                             <img src="{{ asset('assets/frontend') }}/img/logo/logo.png" alt="" />
                         </a>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close">
@@ -282,7 +285,11 @@
 
                             @auth('web')
                             <div class="account-profile">
-                                <a href="{{ route('user.dashboard') }}"><img src="{{ asset('assets/frontend') }}/img/account/03.jpg" alt="" /></a>
+                                <a href="{{ route('user.dashboard') }}">
+                                    <img id="headerProfileImage"
+                                        src="{{ $headerProfileImage ? asset($headerProfileImage) : asset('assets/frontend/img/account/03.jpg') }}"
+                                        alt="{{ auth()->user()->name ?? 'User' }}" />
+                                </a>
                             </div>
                             @endauth
 
@@ -300,3 +307,13 @@
     </div>
     <!-- navbar end-->
 </header>
+
+@push('frontend_script')
+    <script>
+        $(function() {
+            $(document).on('profile-image-updated', function(event, imagePath) {
+                $('#headerProfileImage').attr('src', imagePath);
+            });
+        });
+    </script>
+@endpush

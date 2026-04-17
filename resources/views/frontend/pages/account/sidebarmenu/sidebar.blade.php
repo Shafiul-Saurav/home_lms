@@ -3,12 +3,16 @@
         $isDashboard = request()->routeIs('user.dashboard');
         $isGeneralSetting = request()->routeIs('general.setting');
         $isPersonalSetting = request()->routeIs('personal.setting');
+        $profileImage = auth()->user()?->profile?->profileImage?->profile_image;
     @endphp
     <div class="sidebar-top">
         <div class="profile-img">
-            <img src="{{ auth()->user()->profile_image ?? asset('assets/frontend/img/account/03.jpg') }}" alt="" />
-            <button type="button" class="profile-img-btn"><i class="far fa-camera"></i></button>
-            <input type="file" class="profile-img-file" />
+            <img id="profileImagePreview"
+                src="{{ $profileImage ? asset($profileImage) : asset('assets/frontend/img/account/03.jpg') }}"
+                alt="{{ auth()->user()->name ?? 'Guest' }}" />
+            <label for="profileImageInput" class="profile-img-btn" id="profileImageTrigger"><i class="far fa-camera"></i></label>
+            <input type="file" id="profileImageInput" name="profile_image" class="profile-img-file d-none"
+                accept=".jpg,.jpeg,.png" />
         </div>
         <h5>{{ auth()->user()->name ?? 'Guest' }}</h5>
         <p><a href="mailto:{{ auth()->user()->email }}">{{ auth()->user()->email ?? 'No email' }}</a></p>
@@ -119,3 +123,42 @@
         </li>
     </ul>
 </div>
+
+@push('frontend_style')
+    <link rel="stylesheet" href="{{ asset('ijaboCropTool/ijaboCropTool.min.css') }}">
+@endpush
+
+@push('frontend_script')
+    <script src="{{ asset('ijaboCropTool/ijaboCropTool.min.js') }}"></script>
+    <script>
+        $(function() {
+            const $profileImageInput = $('#profileImageInput');
+
+            if ($profileImageInput.data('crop-tool-initialized')) {
+                return;
+            }
+
+            $profileImageInput.data('crop-tool-initialized', true);
+
+            $profileImageInput.ijaboCropTool({
+                preview: '#profileImagePreview',
+                setRatio: 1,
+                allowedExtensions: ['jpg', 'jpeg', 'png'],
+                buttonsText: ['CROP', 'CANCEL'],
+                buttonsColor: ['#0d6efd', '#dc3545', -15],
+                processUrl: '{{ route('image.crop') }}',
+                withCSRF: ['_token', $('meta[name="csrf-token"]').attr('content')],
+                fileName: 'profile_image',
+                onSuccess: function(message, element, status) {
+                    const imagePath = $('#profileImagePreview').attr('src');
+                    $('#headerProfileImage').attr('src', imagePath);
+                    $(document).trigger('profile-image-updated', [imagePath]);
+                    toastr.success(message);
+                },
+                onError: function(message, element, status) {
+                    toastr.error(message);
+                }
+            });
+        });
+    </script>
+@endpush
