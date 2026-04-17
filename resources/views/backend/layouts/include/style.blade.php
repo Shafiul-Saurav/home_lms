@@ -8,6 +8,7 @@
 <!--- FONT-ICONS CSS -->
 <link href="{{asset('assets/backend')}}/css/icons.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlXzpF2nY8f6Z5WdZ/4VGeT+/JBVqjrQzSdeRhQxI8qJ6MYjqD9U89vZq4dUgkDzI1bpwYQqQ+P7Q21wZw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <!-- INTERNAL SWITCHER CSS -->
 <link href="{{asset('assets/backend')}}/switcher/css/switcher.css" rel="stylesheet" />
