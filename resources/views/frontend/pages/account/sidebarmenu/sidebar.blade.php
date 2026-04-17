@@ -1,4 +1,9 @@
 <div class="user-sidebar">
+    @php
+        $isDashboard = request()->routeIs('user.dashboard');
+        $isGeneralSetting = request()->routeIs('general.setting');
+        $isPersonalSetting = request()->routeIs('personal.setting');
+    @endphp
     <div class="sidebar-top">
         <div class="profile-img">
             <img src="{{ auth()->user()->profile_image ?? asset('assets/frontend/img/account/03.jpg') }}" alt="" />
@@ -10,7 +15,7 @@
     </div>
     <ul class="sidebar-list">
         <li>
-            <a class="active" href="{{ route('user.dashboard') }}"><i class="far fa-gauge-high icon"></i>
+            <a class="{{ $isDashboard ? 'active' : '' }}" href="{{ route('user.dashboard') }}"><i class="far fa-gauge-high icon"></i>
                 Dashboard</a>
         </li>
         {{-- <li class="sidebar-menu">
@@ -29,7 +34,10 @@
             </div>
         </li> --}}
         <li>
-            <a href="{{ route('general.setting') }}"><i class="far fa-user-tie-hair icon"></i> General Setting</a>
+            <a class="{{ $isGeneralSetting ? 'active' : '' }}" href="{{ route('general.setting') }}"><i class="far fa-user-tie-hair icon"></i> General Setting</a>
+        </li>
+        <li>
+            <a class="{{ $isPersonalSetting ? 'active' : '' }}" href="{{ route('personal.setting') }}"><i class="far fa-user-tie-hair icon"></i> Personal Setting</a>
         </li>
         <li class="sidebar-menu">
             <a href="#sidebar-menu2" data-bs-toggle="collapse" class="collapsed">

@@ -9,7 +9,6 @@ use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\AboutController;
 use App\Http\Controllers\Backend\StuffController;
-use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\Backend\ModuleController;
 use App\Http\Controllers\Trash\FaqTrashController;
 use App\Http\Controllers\Backend\ServiceController;
@@ -102,18 +101,15 @@ Route::get('bookingSuccess/{id}', [WebsiteController::class, 'bookingSuccess'])-
 
 Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
     Route::get('/dashboard', [ProfileController::class, 'userDashboard'])->name('user.dashboard');
-    Route::get('/general_setting', [ProfileController::class, 'generalSetting'])->name('general.setting');
+    Route::get('/generalSetting', [ProfileController::class, 'generalSetting'])->name('general.setting');
     Route::post('/general_store', [ProfileController::class, 'generalStore'])->name('general.store');
-    Route::get('/myprofile', [ProfileController::class, 'myProfile'])->name('my.profile');
-    Route::post('/profile_store', [ProfileController::class, 'profileStore'])->name('profile.store');
+    Route::get('/personalSetting', [ProfileController::class, 'personalSetting'])->name('personal.setting');
+    Route::post('/personal_store', [ProfileController::class, 'personalStore'])->name('personal.store');
     Route::post('myupdate/password', [ProfileController::class, 'updatePassword'])->name('mypostupdate.password');
     Route::post('/logout', [UserLogoutController::class, 'logout'])->name('user.logout');
 
     Route::post('image/crop',[ProfileImageController::class, 'crop'])->name('image.crop');
 
-    //Payment Getway Route
-    Route::get('stripe', [StripePaymentController::class, 'stripe']);
-    Route::post('stripe', [StripePaymentController::class, 'stripePost'])->name('stripe.post');
 
     //Testimonial Route
     Route::get('testimonial_view', [FrontendTestimonialController::class, 'testimonialView'])->name('testimonial.view');

@@ -33,11 +33,6 @@ class ProfileController extends Controller
         return view('frontend.pages.account.generalsetting', compact('user'));
     }
 
-    public function myProfile()
-    {
-        return view('frontend.pages.account.myprofile');
-    }
-
     public function generalStore(Request $request)
     {
         $validated = $request->validate([
@@ -55,26 +50,36 @@ class ProfileController extends Controller
         return redirect()->back()->with('message', 'General settings updated successfully.');
     }
 
-    public function profileStore(Request $request)
+    public function personalSetting()
     {
-        $profileData = $request->all();
-        $profileData['user_id'] = Auth::id();
+        $user = Auth::user();
+        $profile = Profile::firstOrNew([
+            'user_id' => Auth::id(),
+        ]);
+
+        return view('frontend.pages.account.personalsetting', compact('user', 'profile'));
+    }
+
+    public function personalStore(Request $request)
+    {
+        $validated = $request->validate([
+            'nid_num' => ['nullable', 'string', 'max:50'],
+            'address' => ['nullable', 'string', 'max:255'],
+            'gender' => ['nullable', 'in:male,female,other'],
+            'facebook' => ['nullable', 'url', 'max:255'],
+            'twitter' => ['nullable', 'url', 'max:255'],
+            'linkedIn' => ['nullable', 'url', 'max:255'],
+            'instagram' => ['nullable', 'url', 'max:255'],
+        ]);
+
+        $validated['user_id'] = Auth::id();
 
         $existingProfile = Profile::where('user_id', Auth::id())->first();
 
         if ($existingProfile) {
-            $existingProfile->update($profileData);
+            $existingProfile->update($validated);
         } else {
-            Profile::create([
-                'user_id' => Auth::id(),
-                'nid_num' => $request->nid_num,
-                'address' => $request->address,
-                'gender' => $request->gender,
-                'facebook' => $request->facebook,
-                'twitter' => $request->twitter,
-                'linkedIn' => $request->linkedIn,
-                'Instagram' => $request->Instagram,
-            ]);
+            Profile::create($validated);
         }
 
         return redirect()->back()->with('message', 'Profile updated successfully.');
