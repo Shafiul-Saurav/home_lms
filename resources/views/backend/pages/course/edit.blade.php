@@ -4,6 +4,41 @@
 
 @push('backend_style')
     @include('backend.pages.common.style')
+    <style>
+        .lesson_item {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            min-height: 42px;
+            padding: 8px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            /* background: #f8f9fa; */
+        }
+
+        .lesson_item .remove_icon {
+            position: absolute;
+            font-size: 20px;
+            top: -8px;
+            right: -8px;
+            opacity: 0;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .lesson_item:hover .remove_icon {
+            opacity: 1;
+        }
+
+        .lesson_item .delete-lesson {
+            width: 22px;
+            height: 22px;
+            line-height: 22px;
+            padding: 0;
+            border-radius: 50%;
+            /* background: #fff; */
+        }
+    </style>
 @endpush
 
 @section('backend_content')
@@ -219,6 +254,52 @@
                                     @endif
                                 </div>
                             </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="lessons">Lessons</label>
+                                    <div id="multipleLessonFields">
+                                        @php
+                                            $lessonValues = old('lessons', ['']);
+                                        @endphp
+                                        @foreach ($lessonValues as $lessonIndex => $lesson)
+                                            <div class="d-flex justify-content-between mb-2" id="multipleLessonField{{ $lessonIndex }}">
+                                                <input type="text" name="lessons[]"
+                                                    class="form-control me-4 @error('lessons.' . $lessonIndex) is-invalid @enderror"
+                                                    value="{{ $lesson }}" placeholder="Enter lesson name" />
+                                                <button type="button"
+                                                    class="btn {{ $loop->first ? 'btn-secondary addLessonField' : 'btn-danger removeLessonField' }}">
+                                                    {{ $loop->first ? '+' : '-' }}
+                                                </button>
+                                            </div>
+                                            @error('lessons.' . $lessonIndex)
+                                                <span class="invalid-feedback d-block" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        @endforeach
+                                    </div>
+                                    <small class="form-text text-muted">Add new lessons here. Existing lessons can be deleted below.</small>
+
+                                    @if ($course->lessons->count() > 0)
+                                        <ul class="list-inline mt-3 mb-0">
+                                            @foreach ($course->lessons as $lesson)
+                                                <li class="list-inline-item lesson_item mb-2" id="course-lesson-{{ $lesson->id }}">
+                                                    <span>{{ $lesson->name }}</span>
+                                                    <div class="remove_icon">
+                                                        <button type="button"
+                                                            class="btn-outline-warning border show_confirm delete-lesson"
+                                                            data-id="{{ $lesson->id }}" data-toggle="tooltip"
+                                                            data-placement="top" data-bs-original-title="Delete">
+                                                            <i class="fa-regular fa-circle-xmark"></i>
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
 
                         <button class="btn btn-primary" type="submit">Update</button>
@@ -232,6 +313,65 @@
         @include('backend.pages.common.script')
         <script>
             $(document).ready(function() {
+                $(document).on('click', '.addLessonField', function() {
+                    var fieldCount = $('#multipleLessonFields .d-flex').length;
+                    var newField = `
+                        <div class="d-flex justify-content-between mb-2" id="multipleLessonField${fieldCount}">
+                            <input type="text" name="lessons[]" class="form-control me-4" placeholder="Enter lesson name" />
+                            <button type="button" class="btn btn-danger removeLessonField">-</button>
+                        </div>
+                    `;
+                    $('#multipleLessonFields').append(newField);
+                });
+
+                $(document).on('click', '.removeLessonField', function() {
+                    $(this).closest('.d-flex').remove();
+                });
+
+                $(document).on('click', '.delete-lesson', function(e) {
+                    e.preventDefault();
+
+                    var lessonId = $(this).data('id');
+                    var url = "{{ route('course.lesson.delete', ':id') }}";
+                    url = url.replace(':id', lessonId);
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: url,
+                                type: 'DELETE',
+                                data: {
+                                    "_token": "{{ csrf_token() }}",
+                                },
+                                success: function(response) {
+                                    $('#course-lesson-' + lessonId).remove();
+                                    Swal.fire(
+                                        'Deleted!',
+                                        'Your lesson has been deleted.',
+                                        'success'
+                                    );
+                                },
+                                error: function(xhr) {
+                                    console.error(xhr.responseText);
+                                    Swal.fire(
+                                        'Error!',
+                                        'Something went wrong. Please try again.',
+                                        'error'
+                                    );
+                                }
+                            });
+                        }
+                    });
+                });
+
                 $('#category_id').on('change', function() {
                     var categoryId = $(this).val();
 
@@ -278,6 +418,13 @@
                             $('#subcategory_id').prop('disabled', false);
                         }
                     });
+                }
+            });
+        </script>
+        <script>
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
         </script>

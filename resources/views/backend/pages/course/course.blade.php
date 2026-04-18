@@ -204,6 +204,33 @@
                                     @enderror
                                 </div>
                             </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="lessons">Lessons</label>
+                                    <div id="multipleLessonFields">
+                                        @php
+                                            $oldLessons = old('lessons', ['']);
+                                        @endphp
+                                        @foreach ($oldLessons as $lessonIndex => $lesson)
+                                            <div class="d-flex justify-content-between mb-2" id="multipleLessonField{{ $lessonIndex }}">
+                                                <input type="text" name="lessons[]"
+                                                    class="form-control me-4 @error('lessons.' . $lessonIndex) is-invalid @enderror"
+                                                    value="{{ $lesson }}" placeholder="Enter lesson name" />
+                                                <button type="button"
+                                                    class="btn {{ $loop->first ? 'btn-secondary addLessonField' : 'btn-danger removeLessonField' }}">
+                                                    {{ $loop->first ? '+' : '-' }}
+                                                </button>
+                                            </div>
+                                            @error('lessons.' . $lessonIndex)
+                                                <span class="invalid-feedback d-block" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <button class="btn btn-primary" type="submit">Create</button>
@@ -348,6 +375,21 @@
                     if ($('#slug').val() === '') {
                         $('#slug').removeAttr('data-manual-edit');
                     }
+                });
+
+                $(document).on('click', '.addLessonField', function() {
+                    var fieldCount = $('#multipleLessonFields .d-flex').length;
+                    var newField = `
+                        <div class="d-flex justify-content-between mb-2" id="multipleLessonField${fieldCount}">
+                            <input type="text" name="lessons[]" class="form-control me-4" placeholder="Enter lesson name" />
+                            <button type="button" class="btn btn-danger removeLessonField">-</button>
+                        </div>
+                    `;
+                    $('#multipleLessonFields').append(newField);
+                });
+
+                $(document).on('click', '.removeLessonField', function() {
+                    $(this).closest('.d-flex').remove();
                 });
 
                 $(document).on('change', '.toggle-class', function() {

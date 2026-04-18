@@ -365,6 +365,8 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     ->name('courses.restore');
     Route::delete('/courses/forcedelete/{id}', [CourseTrashController::class, 'forceDelete'])
     ->name('courses.forcedelete');
+    Route::delete('/course/lesson/{id}', [CourseController::class, 'deleteLesson'])
+    ->name('course.lesson.delete');
     // Ajax Call Active
     Route::get('check/course/is_active/{course_id}', [CourseController::class, 'checkActive'])
     ->name('course.is_active.ajax');

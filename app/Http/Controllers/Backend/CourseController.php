@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\Lesson;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -46,6 +47,8 @@ class CourseController extends Controller
             'live_or_record' => 'nullable|string|max:255',
             'is_offline' => 'nullable|boolean',
             'video_link' => 'nullable|string|max:1000',
+            'lessons' => 'nullable|array',
+            'lessons.*' => 'nullable|string|max:255',
         ]);
 
         $course = Course::create([
@@ -66,6 +69,7 @@ class CourseController extends Controller
 
         $this->imageUpload($request, $course->id);
         $this->pdfUpload($request, $course->id);
+        $this->storeLessons($request, $course->id);
 
         return redirect()->back()->with('message', 'Course Created Successfully');
     }
@@ -81,7 +85,7 @@ class CourseController extends Controller
     {
         Gate::authorize('edit-product');
 
-        $course = Course::findOrFail($id);
+        $course = Course::with('lessons')->findOrFail($id);
         $categories = Category::where('is_active', 1)->get();
         $subcategories = [];
 
@@ -112,6 +116,8 @@ class CourseController extends Controller
             'live_or_record' => 'nullable|string|max:255',
             'is_offline' => 'nullable|boolean',
             'video_link' => 'nullable|string|max:1000',
+            'lessons' => 'nullable|array',
+            'lessons.*' => 'nullable|string|max:255',
         ]);
 
         $course = Course::findOrFail($id);
@@ -132,6 +138,7 @@ class CourseController extends Controller
 
         $this->imageUpload($request, $course->id);
         $this->pdfUpload($request, $course->id);
+        $this->storeLessons($request, $course->id);
 
         return redirect()->route('courses.index')->with('message', 'Course Updated Successfully');
     }
@@ -236,5 +243,28 @@ class CourseController extends Controller
             'type' => 'success',
             'message' => 'Status Updated Successfully',
         ]);
+    }
+
+    public function deleteLesson($id)
+    {
+        $lesson = Lesson::findOrFail($id);
+        $lesson->delete();
+
+        return response()->json(['success' => 'Lesson deleted successfully.']);
+    }
+
+    public function storeLessons(Request $request, int $courseId): void
+    {
+        $lessons = collect($request->input('lessons', []))
+            ->map(fn ($lesson) => is_string($lesson) ? trim($lesson) : '')
+            ->filter()
+            ->values();
+
+        foreach ($lessons as $lessonName) {
+            Lesson::create([
+                'course_id' => $courseId,
+                'name' => $lessonName,
+            ]);
+        }
     }
 }
