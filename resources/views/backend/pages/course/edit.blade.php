@@ -16,27 +16,8 @@
             /* background: #f8f9fa; */
         }
 
-        .lesson_item .remove_icon {
-            position: absolute;
-            font-size: 20px;
-            top: -8px;
-            right: -8px;
-            opacity: 0;
-            z-index: 2;
-            transition: all 0.3s ease;
-        }
-
         .lesson_item:hover .remove_icon {
             opacity: 1;
-        }
-
-        .lesson_item .delete-lesson {
-            width: 22px;
-            height: 22px;
-            line-height: 22px;
-            padding: 0;
-            border-radius: 50%;
-            /* background: #fff; */
         }
 
         .module_item {
@@ -381,19 +362,19 @@
                                                     id="course-lesson-{{ $lesson->id }}" data-lesson-id="{{ $lesson->id }}"
                                                     data-lesson-name="{{ $lesson->name }}">
                                                     <span>{{ $lesson->name }}</span>
-                                                    <div class="remove_icon">
+                                                    <div class="remove_icon ms-2">
                                                         <button type="button"
-                                                            class="btn-outline-primary border edit-lesson"
+                                                            class="btn btn-sm btn-outline-primary border edit-lesson"
                                                             data-id="{{ $lesson->id }}" data-name="{{ $lesson->name }}"
                                                             data-toggle="tooltip" data-placement="top"
                                                             data-bs-original-title="Edit">
                                                             <i class="fa-solid fa-pen fa-fw"></i>
                                                         </button>
                                                         <button type="button"
-                                                            class="btn-outline-warning border show_confirm delete-lesson"
+                                                            class="btn btn-sm btn-outline-warning border show_confirm delete-lesson"
                                                             data-id="{{ $lesson->id }}" data-toggle="tooltip"
                                                             data-placement="top" data-bs-original-title="Delete">
-                                                            <i class="fa-regular fa-circle-xmark"></i>
+                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
                                                         </button>
                                                     </div>
                                                 </li>

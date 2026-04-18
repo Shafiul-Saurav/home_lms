@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CourseStoreRequest;
+use App\Http\Requests\CourseUpdateRequest;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\CourseModule;
+use App\Models\Lesson;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -28,25 +32,9 @@ class CourseController extends Controller
         return redirect()->route('courses.index');
     }
 
-    public function store(Request $request)
+    public function store(CourseStoreRequest $request)
     {
         Gate::authorize('create-product');
-
-        $request->validate([
-            'category_id' => 'nullable|exists:categories,id',
-            'subcategory_id' => 'nullable|exists:subcategories,id',
-            'name' => 'required|string|max:255|unique:courses,name',
-            'slug' => 'nullable|string|max:255|unique:courses,slug',
-            'price' => 'required|numeric|min:0',
-            'discount' => 'nullable|numeric|min:0',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'pdf' => 'nullable|file|mimes:pdf|max:10240',
-            'description' => 'nullable|string',
-            'is_active' => 'nullable|boolean',
-            'live_or_record' => 'nullable|string|max:255',
-            'is_offline' => 'nullable|boolean',
-            'video_link' => 'nullable|string|max:1000',
-        ]);
 
         $course = Course::create([
             'category_id' => $request->category_id,
@@ -66,6 +54,10 @@ class CourseController extends Controller
 
         $this->imageUpload($request, $course->id);
         $this->pdfUpload($request, $course->id);
+
+        // Store lessons and modules
+        $this->storeLessons($request, $course->id);
+        $this->storeModules($request, $course->id);
 
         return redirect()->back()->with('message', 'Course Created Successfully');
     }
@@ -91,28 +83,35 @@ class CourseController extends Controller
                 ->get();
         }
 
-        return view('backend.pages.course.edit', compact('course', 'categories', 'subcategories'));
+        // Load lessons and modules for the form
+        $lessons = $course->lessons()->get(['id', 'name'])->map(function ($lesson) {
+            return [
+                'id' => $lesson->id,
+                'ref' => 'existing:' . $lesson->id,
+                'name' => $lesson->name,
+            ];
+        })->toArray();
+
+        $modules = $course->courseModules()->get()->map(function ($module) {
+            return [
+                'id' => $module->id,
+                'lesson_ref' => $module->lesson_id ? 'existing:' . $module->lesson_id : '',
+                'title' => $module->title,
+                'link' => $module->link,
+                'free_paid' => $module->free_paid,
+                'live_record' => $module->live_record,
+                'pdf_file' => $module->pdf_file,
+                'date' => $module->date,
+                'time' => $module->time,
+            ];
+        })->toArray();
+
+        return view('backend.pages.course.edit', compact('course', 'categories', 'subcategories', 'lessons', 'modules'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(CourseUpdateRequest $request, string $id)
     {
         Gate::authorize('edit-product');
-
-        $request->validate([
-            'category_id' => 'nullable|exists:categories,id',
-            'subcategory_id' => 'nullable|exists:subcategories,id',
-            'name' => 'required|string|max:255|unique:courses,name,' . $id,
-            'slug' => 'nullable|string|max:255|unique:courses,slug,' . $id,
-            'price' => 'required|numeric|min:0',
-            'discount' => 'nullable|numeric|min:0',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'pdf' => 'nullable|file|mimes:pdf|max:10240',
-            'description' => 'nullable|string',
-            'is_active' => 'nullable|boolean',
-            'live_or_record' => 'nullable|string|max:255',
-            'is_offline' => 'nullable|boolean',
-            'video_link' => 'nullable|string|max:1000',
-        ]);
 
         $course = Course::findOrFail($id);
 
@@ -133,7 +132,11 @@ class CourseController extends Controller
         $this->imageUpload($request, $course->id);
         $this->pdfUpload($request, $course->id);
 
-        return redirect()->route('courses.index')->with('message', 'Course Updated Successfully');
+        // Update lessons and modules
+        $this->updateLessons($request, $course->id);
+        $this->updateModules($request, $course->id);
+
+        return redirect()->back()->with('message', 'Course Updated Successfully');
     }
 
     public function destroy(string $id)
@@ -208,6 +211,34 @@ class CourseController extends Controller
         }
     }
 
+    public function modulePdfUpload(Request $request, int $moduleId): void
+    {
+        $module = CourseModule::findOrFail($moduleId);
+
+        if ($request->hasFile('pdf_file')) {
+            if ($module->pdf_file) {
+                $oldPdfPath = public_path('uploads/courses/modules/pdfs/' . $module->pdf_file);
+                if (file_exists($oldPdfPath)) {
+                    unlink($oldPdfPath);
+                }
+            }
+
+            $pdfLocation = public_path('uploads/courses/modules/pdfs/');
+            $uploadedPdf = $request->file('pdf_file');
+            $newPdfName = $module->id . '_module_pdf.' . $uploadedPdf->getClientOriginalExtension();
+
+            if (!file_exists($pdfLocation)) {
+                mkdir($pdfLocation, 0755, true);
+            }
+
+            $uploadedPdf->move($pdfLocation, $newPdfName);
+
+            $module->update([
+                'pdf_file' => $newPdfName,
+            ]);
+        }
+    }
+
     public function getSubcategories($categoryId)
     {
         $subcategories = Subcategory::where('category_id', $categoryId)
@@ -235,6 +266,227 @@ class CourseController extends Controller
         return response()->json([
             'type' => 'success',
             'message' => 'Status Updated Successfully',
+        ]);
+    }
+
+    public function storeLessons(Request $request, int $courseId): array
+    {
+        $lessonRefMap = [];
+
+        if ($request->has('lessons') && is_array($request->lessons)) {
+            foreach ($request->lessons as $lessonData) {
+                if (isset($lessonData['name']) && !empty(trim($lessonData['name']))) {
+                    $lesson = Lesson::create([
+                        'course_id' => $courseId,
+                        'name' => $lessonData['name'],
+                    ]);
+                    if (isset($lessonData['ref'])) {
+                        $lessonRefMap[$lessonData['ref']] = $lesson->id;
+                    }
+                }
+            }
+        }
+
+        return $lessonRefMap;
+    }
+
+    public function storeModules(Request $request, int $courseId): void
+    {
+        // Get lesson refs map from existing lessons
+        $lessonRefMap = [];
+        $lessons = Lesson::where('course_id', $courseId)->get();
+        foreach ($lessons as $lesson) {
+            $lessonRefMap['existing:' . $lesson->id] = $lesson->id;
+        }
+
+        if ($request->has('modules') && is_array($request->modules)) {
+            foreach ($request->modules as $moduleData) {
+                if (isset($moduleData['title']) && !empty(trim($moduleData['title']))) {
+                    $lessonId = null;
+
+                    if (isset($moduleData['lesson_ref']) && !empty($moduleData['lesson_ref'])) {
+                        $lessonRef = $moduleData['lesson_ref'];
+                        if (strpos($lessonRef, 'new:') === 0) {
+                            $ref = substr($lessonRef, 4);
+                            $lessonId = $lessonRefMap[$ref] ?? null;
+                        } else if (strpos($lessonRef, 'existing:') === 0) {
+                            $lessonId = substr($lessonRef, 9);
+                        } else if (!empty($lessonRef)) {
+                            $lessonId = $lessonRef;
+                        }
+                    }
+
+                    CourseModule::create([
+                        'course_id' => $courseId,
+                        'lesson_id' => $lessonId,
+                        'title' => $moduleData['title'],
+                        'link' => $moduleData['link'] ?? null,
+                        'free_paid' => $moduleData['free_paid'] ?? null,
+                        'live_record' => $moduleData['live_record'] ?? null,
+                        'pdf_file' => $moduleData['pdf_file'] ?? null,
+                        'date' => $moduleData['date'] ?? null,
+                        'time' => $moduleData['time'] ?? null,
+                    ]);
+                }
+            }
+        }
+    }
+
+    public function updateLessons(Request $request, int $courseId): array
+    {
+        $lessonRefMap = [];
+
+        if ($request->has('lessons') && is_array($request->lessons)) {
+            foreach ($request->lessons as $lessonData) {
+                if (isset($lessonData['name']) && !empty(trim($lessonData['name']))) {
+                    if (!empty($lessonData['id'])) {
+                        // Update existing lesson
+                        $lesson = Lesson::find($lessonData['id']);
+                        if ($lesson) {
+                            $lesson->update(['name' => $lessonData['name']]);
+                            $lessonRefMap[$lessonData['ref'] ?? $lessonData['id']] = $lesson->id;
+                        }
+                    } else {
+                        // Create new lesson
+                        $lesson = Lesson::create([
+                            'course_id' => $courseId,
+                            'name' => $lessonData['name'],
+                        ]);
+                        if (isset($lessonData['ref'])) {
+                            $lessonRefMap[$lessonData['ref']] = $lesson->id;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $lessonRefMap;
+    }
+
+    public function updateModules(Request $request, int $courseId): void
+    {
+        $lessonRefMap = [];
+
+        // First get all lesson refs
+        $lessons = Lesson::where('course_id', $courseId)->get();
+        foreach ($lessons as $lesson) {
+            $lessonRefMap['existing:' . $lesson->id] = $lesson->id;
+        }
+
+        if ($request->has('modules') && is_array($request->modules)) {
+            foreach ($request->modules as $moduleData) {
+                if (isset($moduleData['title']) && !empty(trim($moduleData['title']))) {
+                    $lessonId = null;
+
+                    if (isset($moduleData['lesson_ref']) && !empty($moduleData['lesson_ref'])) {
+                        $lessonRef = $moduleData['lesson_ref'];
+                        if (strpos($lessonRef, 'new:') === 0) {
+                            $ref = substr($lessonRef, 4);
+                            $lessonId = $lessonRefMap[$ref] ?? null;
+                        } else if (strpos($lessonRef, 'existing:') === 0) {
+                            $lessonId = substr($lessonRef, 9);
+                        } else if (!empty($lessonRef)) {
+                            $lessonId = $lessonRef;
+                        }
+                    }
+
+                    if (!empty($moduleData['id'])) {
+                        // Update existing module
+                        $module = CourseModule::find($moduleData['id']);
+                        if ($module) {
+                            $module->update([
+                                'lesson_id' => $lessonId,
+                                'title' => $moduleData['title'],
+                                'link' => $moduleData['link'] ?? null,
+                                'free_paid' => $moduleData['free_paid'] ?? null,
+                                'live_record' => $moduleData['live_record'] ?? null,
+                                'pdf_file' => $moduleData['pdf_file'] ?? null,
+                                'date' => $moduleData['date'] ?? null,
+                                'time' => $moduleData['time'] ?? null,
+                            ]);
+                        }
+                    } else {
+                        // Create new module
+                        CourseModule::create([
+                            'course_id' => $courseId,
+                            'lesson_id' => $lessonId,
+                            'title' => $moduleData['title'],
+                            'link' => $moduleData['link'] ?? null,
+                            'free_paid' => $moduleData['free_paid'] ?? null,
+                            'live_record' => $moduleData['live_record'] ?? null,
+                            'pdf_file' => $moduleData['pdf_file'] ?? null,
+                            'date' => $moduleData['date'] ?? null,
+                            'time' => $moduleData['time'] ?? null,
+                        ]);
+                    }
+                }
+            }
+        }
+    }
+
+    public function deleteLesson(string $id)
+    {
+        Gate::authorize('edit-product');
+
+        $lesson = Lesson::findOrFail($id);
+        $lesson->delete();
+
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Lesson deleted successfully',
+        ]);
+    }
+
+    public function updateLessonAjax(Request $request, string $id)
+    {
+        Gate::authorize('edit-product');
+
+        $lesson = Lesson::findOrFail($id);
+        $lesson->update(['name' => $request->name]);
+
+        return response()->json([
+            'success' => 'Lesson updated successfully',
+            'lesson' => $lesson,
+        ]);
+    }
+
+    public function deleteModule(string $id)
+    {
+        Gate::authorize('edit-product');
+
+        $module = CourseModule::findOrFail($id);
+        $module->delete();
+
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Module deleted successfully',
+        ]);
+    }
+
+    public function updateModuleAjax(Request $request, string $id)
+    {
+        Gate::authorize('edit-product');
+
+        $module = CourseModule::findOrFail($id);
+        $module->update([
+            'lesson_id' => $request->lesson_id,
+            'title' => $request->title,
+            'link' => $request->link,
+            'free_paid' => $request->free_paid,
+            'live_record' => $request->live_record,
+            'date' => $request->date,
+            'time' => $request->time,
+        ]);
+
+        // Handle PDF upload
+        $this->modulePdfUpload($request, $module->id);
+
+        // Refresh module data to get updated pdf_file
+        $module->refresh();
+
+        return response()->json([
+            'success' => 'Module updated successfully',
+            'module' => $module,
         ]);
     }
 }
