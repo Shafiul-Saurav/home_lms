@@ -52,7 +52,7 @@ class CourseController extends Controller
             'category_id' => $request->category_id,
             'subcategory_id' => $request->subcategory_id,
             'name' => $request->name,
-            'slug' => $request->slug ?? Str::slug($request->name),
+            'slug' => !empty($request->slug) ? $request->slug : Str::slug($request->name), // Fixed: ensure slug is generated when empty
             'price' => $request->price,
             'discount' => $request->discount,
             'image' => 'default_course.jpg',

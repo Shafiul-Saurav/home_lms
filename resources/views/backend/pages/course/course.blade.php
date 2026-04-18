@@ -308,6 +308,48 @@
         @include('backend.pages.common.script')
         <script>
             $(document).ready(function() {
+                // Auto-generate slug from name when slug field is empty
+                $('#name').on('input propertychange paste', function() {
+                    var name = $(this).val();
+                    var slugField = $('#slug');
+                    var currentSlug = slugField.val();
+                    
+                    // Only auto-generate if slug field is empty or hasn't been manually edited
+                    if (!slugField.attr('data-manual-edit')) {
+                        if(name && name.trim() !== '') {
+                            // Handle both Latin and non-Latin characters (like Bangla)
+                            var generatedSlug = name.toLowerCase()
+                                .replace(/[^\w\s\u0980-\u09FF-]/g, '') // Allow Bangla Unicode range along with alphanumeric and spaces/hyphens
+                                .replace(/[\s_-]+/g, '-') // Replace spaces, underscores, or multiple hyphens with single hyphen
+                                .replace(/^-+|-+$/g, '') // Remove leading/trailing hyphens
+                                .trim();
+                            slugField.val(generatedSlug);
+                        } else {
+                            // Clear slug if name is empty
+                            slugField.val('');
+                        }
+                    }
+                });
+                
+                // Mark slug field as manually edited when user modifies it
+                $('#slug').on('input focus', function() {
+                    $(this).attr('data-manual-edit', 'true');
+                });
+                
+                // If user clears the slug field, allow auto-generation again
+                $('#slug').on('input', function() {
+                    if ($(this).val() === '') {
+                        $(this).removeAttr('data-manual-edit');
+                    }
+                });
+
+                // Reset manual edit flag when name field gets focus and slug is empty
+                $('#name').on('focus', function() {
+                    if ($('#slug').val() === '') {
+                        $('#slug').removeAttr('data-manual-edit');
+                    }
+                });
+
                 $(document).on('change', '.toggle-class', function() {
                     var courseId = $(this).data('id');
                     var url = "{{ route('course.is_active.ajax', ':course_id') }}";
