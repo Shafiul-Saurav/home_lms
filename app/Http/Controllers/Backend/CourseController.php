@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CourseStoreRequest;
+use App\Http\Requests\CourseUpdateRequest;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\CourseModule;
 use App\Models\Lesson;
 use App\Models\Subcategory;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -31,37 +32,9 @@ class CourseController extends Controller
         return redirect()->route('courses.index');
     }
 
-    public function store(Request $request)
+    public function store(CourseStoreRequest $request)
     {
         Gate::authorize('create-product');
-
-        $request->validate([
-            'category_id' => 'nullable|exists:categories,id',
-            'subcategory_id' => 'nullable|exists:subcategories,id',
-            'name' => 'required|string|max:255|unique:courses,name',
-            'slug' => 'nullable|string|max:255|unique:courses,slug',
-            'price' => 'required|numeric|min:0',
-            'discount' => 'nullable|numeric|min:0',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'pdf' => 'nullable|file|mimes:pdf|max:10240',
-            'description' => 'nullable|string',
-            'is_active' => 'nullable|boolean',
-            'live_or_record' => 'nullable|string|max:255',
-            'is_offline' => 'nullable|boolean',
-            'video_link' => 'nullable|string|max:1000',
-            'lessons' => 'nullable|array',
-            'lessons.*.ref' => 'nullable|string|max:100',
-            'lessons.*.name' => 'nullable|string|max:255',
-            'modules' => 'nullable|array',
-            'modules.*.lesson_ref' => 'nullable|string|max:100',
-            'modules.*.title' => 'nullable|string',
-            'modules.*.link' => 'nullable|string',
-            'modules.*.free_paid' => 'nullable|string|max:255',
-            'modules.*.live_record' => 'nullable|string|max:255',
-            'modules.*.pdf_file' => 'nullable|file|mimes:pdf|max:10240',
-            'modules.*.date' => 'nullable|string|max:255',
-            'modules.*.time' => 'nullable|string|max:255',
-        ]);
 
         $course = Course::create([
             'category_id' => $request->category_id,
@@ -111,37 +84,9 @@ class CourseController extends Controller
         return view('backend.pages.course.edit', compact('course', 'categories', 'subcategories'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(CourseUpdateRequest $request, string $id)
     {
         Gate::authorize('edit-product');
-
-        $request->validate([
-            'category_id' => 'nullable|exists:categories,id',
-            'subcategory_id' => 'nullable|exists:subcategories,id',
-            'name' => 'required|string|max:255|unique:courses,name,' . $id,
-            'slug' => 'nullable|string|max:255|unique:courses,slug,' . $id,
-            'price' => 'required|numeric|min:0',
-            'discount' => 'nullable|numeric|min:0',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'pdf' => 'nullable|file|mimes:pdf|max:10240',
-            'description' => 'nullable|string',
-            'is_active' => 'nullable|boolean',
-            'live_or_record' => 'nullable|string|max:255',
-            'is_offline' => 'nullable|boolean',
-            'video_link' => 'nullable|string|max:1000',
-            'lessons' => 'nullable|array',
-            'lessons.*.ref' => 'nullable|string|max:100',
-            'lessons.*.name' => 'nullable|string|max:255',
-            'modules' => 'nullable|array',
-            'modules.*.lesson_ref' => 'nullable|string|max:100',
-            'modules.*.title' => 'nullable|string',
-            'modules.*.link' => 'nullable|string',
-            'modules.*.free_paid' => 'nullable|string|max:255',
-            'modules.*.live_record' => 'nullable|string|max:255',
-            'modules.*.pdf_file' => 'nullable|file|mimes:pdf|max:10240',
-            'modules.*.date' => 'nullable|string|max:255',
-            'modules.*.time' => 'nullable|string|max:255',
-        ]);
 
         $course = Course::findOrFail($id);
 
@@ -183,7 +128,7 @@ class CourseController extends Controller
         return redirect()->back()->with('error', 'Course moved to trash successfully');
     }
 
-    public function imageUpload(Request $request, int $courseId): void
+    public function imageUpload($request, int $courseId): void
     {
         $course = Course::findOrFail($courseId);
 
@@ -217,7 +162,7 @@ class CourseController extends Controller
         }
     }
 
-    public function pdfUpload(Request $request, int $courseId): void
+    public function pdfUpload($request, int $courseId): void
     {
         $course = Course::findOrFail($courseId);
 
@@ -283,7 +228,7 @@ class CourseController extends Controller
         return response()->json(['success' => 'Lesson deleted successfully.']);
     }
 
-    public function storeLessons(Request $request, int $courseId): array
+    public function storeLessons($request, int $courseId): array
     {
         $lessonReferenceMap = [];
 
@@ -308,7 +253,7 @@ class CourseController extends Controller
         return $lessonReferenceMap;
     }
 
-    public function storeModules(Request $request, int $courseId, array $lessonReferenceMap = []): void
+    public function storeModules($request, int $courseId, array $lessonReferenceMap = []): void
     {
         foreach ($request->input('modules', []) as $moduleIndex => $moduleData) {
             $title = trim($moduleData['title'] ?? '');
@@ -341,7 +286,7 @@ class CourseController extends Controller
         }
     }
 
-    public function syncModules(Request $request, int $courseId, array $lessonReferenceMap = []): void
+    public function syncModules($request, int $courseId, array $lessonReferenceMap = []): void
     {
         $modules = CourseModule::where('course_id', $courseId)->get();
 
@@ -358,7 +303,7 @@ class CourseController extends Controller
         $this->storeModules($request, $courseId, $lessonReferenceMap);
     }
 
-    public function modulePdfUpload(Request $request, int $moduleId, int $moduleIndex): void
+    public function modulePdfUpload($request, int $moduleId, int $moduleIndex): void
     {
         $module = CourseModule::findOrFail($moduleId);
         $uploadedPdf = $request->file("modules.$moduleIndex.pdf_file");
