@@ -169,9 +169,9 @@ class CourseController extends Controller
             $newImageLocation = $imageLocation . $newImageName;
 
             if ($uploadedImage->getClientOriginalExtension() === 'webp') {
-                Image::make($uploadedImage)->resize(800, 800)->save($newImageLocation);
+                Image::make($uploadedImage)->resize(750, 420)->save($newImageLocation);
             } else {
-                Image::make($uploadedImage)->resize(800, 800)->save($newImageLocation, 80);
+                Image::make($uploadedImage)->resize(750, 420)->save($newImageLocation, 80);
             }
 
             $course->update([
