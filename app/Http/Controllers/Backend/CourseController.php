@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\CourseModule;
 use App\Models\Lesson;
 use App\Models\Subcategory;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
@@ -48,7 +50,17 @@ class CourseController extends Controller
             'is_offline' => 'nullable|boolean',
             'video_link' => 'nullable|string|max:1000',
             'lessons' => 'nullable|array',
-            'lessons.*' => 'nullable|string|max:255',
+            'lessons.*.ref' => 'nullable|string|max:100',
+            'lessons.*.name' => 'nullable|string|max:255',
+            'modules' => 'nullable|array',
+            'modules.*.lesson_ref' => 'nullable|string|max:100',
+            'modules.*.title' => 'nullable|string',
+            'modules.*.link' => 'nullable|string',
+            'modules.*.free_paid' => 'nullable|string|max:255',
+            'modules.*.live_record' => 'nullable|string|max:255',
+            'modules.*.pdf_file' => 'nullable|file|mimes:pdf|max:10240',
+            'modules.*.date' => 'nullable|string|max:255',
+            'modules.*.time' => 'nullable|string|max:255',
         ]);
 
         $course = Course::create([
@@ -69,7 +81,8 @@ class CourseController extends Controller
 
         $this->imageUpload($request, $course->id);
         $this->pdfUpload($request, $course->id);
-        $this->storeLessons($request, $course->id);
+        $lessonReferenceMap = $this->storeLessons($request, $course->id);
+        $this->storeModules($request, $course->id, $lessonReferenceMap);
 
         return redirect()->back()->with('message', 'Course Created Successfully');
     }
@@ -85,7 +98,7 @@ class CourseController extends Controller
     {
         Gate::authorize('edit-product');
 
-        $course = Course::with('lessons')->findOrFail($id);
+        $course = Course::with(['lessons', 'courseModules'])->findOrFail($id);
         $categories = Category::where('is_active', 1)->get();
         $subcategories = [];
 
@@ -117,7 +130,17 @@ class CourseController extends Controller
             'is_offline' => 'nullable|boolean',
             'video_link' => 'nullable|string|max:1000',
             'lessons' => 'nullable|array',
-            'lessons.*' => 'nullable|string|max:255',
+            'lessons.*.ref' => 'nullable|string|max:100',
+            'lessons.*.name' => 'nullable|string|max:255',
+            'modules' => 'nullable|array',
+            'modules.*.lesson_ref' => 'nullable|string|max:100',
+            'modules.*.title' => 'nullable|string',
+            'modules.*.link' => 'nullable|string',
+            'modules.*.free_paid' => 'nullable|string|max:255',
+            'modules.*.live_record' => 'nullable|string|max:255',
+            'modules.*.pdf_file' => 'nullable|file|mimes:pdf|max:10240',
+            'modules.*.date' => 'nullable|string|max:255',
+            'modules.*.time' => 'nullable|string|max:255',
         ]);
 
         $course = Course::findOrFail($id);
@@ -138,7 +161,14 @@ class CourseController extends Controller
 
         $this->imageUpload($request, $course->id);
         $this->pdfUpload($request, $course->id);
-        $this->storeLessons($request, $course->id);
+        $lessonReferenceMap = $course->lessons()
+            ->pluck('id', 'id')
+            ->mapWithKeys(fn ($lessonId, $key) => ['existing:' . $key => $lessonId])
+            ->toArray();
+
+        $lessonReferenceMap = array_merge($lessonReferenceMap, $this->storeLessons($request, $course->id));
+
+        $this->syncModules($request, $course->id, $lessonReferenceMap);
 
         return redirect()->route('courses.index')->with('message', 'Course Updated Successfully');
     }
@@ -253,17 +283,105 @@ class CourseController extends Controller
         return response()->json(['success' => 'Lesson deleted successfully.']);
     }
 
-    public function storeLessons(Request $request, int $courseId): void
+    public function storeLessons(Request $request, int $courseId): array
     {
-        $lessons = collect($request->input('lessons', []))
-            ->map(fn ($lesson) => is_string($lesson) ? trim($lesson) : '')
-            ->filter()
-            ->values();
+        $lessonReferenceMap = [];
 
-        foreach ($lessons as $lessonName) {
-            Lesson::create([
+        foreach ($request->input('lessons', []) as $lessonData) {
+            $lessonName = trim($lessonData['name'] ?? '');
+            $lessonRef = trim($lessonData['ref'] ?? '');
+
+            if ($lessonName === '') {
+                continue;
+            }
+
+            $lesson = Lesson::create([
                 'course_id' => $courseId,
                 'name' => $lessonName,
+            ]);
+
+            if ($lessonRef !== '') {
+                $lessonReferenceMap['new:' . $lessonRef] = $lesson->id;
+            }
+        }
+
+        return $lessonReferenceMap;
+    }
+
+    public function storeModules(Request $request, int $courseId, array $lessonReferenceMap = []): void
+    {
+        foreach ($request->input('modules', []) as $moduleIndex => $moduleData) {
+            $title = trim($moduleData['title'] ?? '');
+            $link = trim($moduleData['link'] ?? '');
+            $freePaid = trim($moduleData['free_paid'] ?? '');
+            $liveRecord = trim($moduleData['live_record'] ?? '');
+            $uploadedPdf = $request->file("modules.$moduleIndex.pdf_file");
+            $date = trim($moduleData['date'] ?? '');
+            $time = trim($moduleData['time'] ?? '');
+            $lessonRef = trim($moduleData['lesson_ref'] ?? '');
+
+            if ($title === '' && $link === '' && $freePaid === '' && $liveRecord === '' && ! $uploadedPdf && $date === '' && $time === '' && $lessonRef === '') {
+                continue;
+            }
+
+            $module = CourseModule::create([
+                'course_id' => $courseId,
+                'lesson_id' => $lessonReferenceMap[$lessonRef] ?? null,
+                'title' => $title,
+                'link' => $link ?: null,
+                'free_paid' => $freePaid ?: null,
+                'live_record' => $liveRecord ?: null,
+                'pdf_file' => null,
+                'date' => $date,
+                'time' => $time,
+                'created_at' => now(),
+            ]);
+
+            $this->modulePdfUpload($request, $module->id, $moduleIndex);
+        }
+    }
+
+    public function syncModules(Request $request, int $courseId, array $lessonReferenceMap = []): void
+    {
+        $modules = CourseModule::where('course_id', $courseId)->get();
+
+        foreach ($modules as $module) {
+            if ($module->pdf_file) {
+                $oldPdfPath = public_path('uploads/courses/modules/pdfs/' . $module->pdf_file);
+                if (file_exists($oldPdfPath)) {
+                    unlink($oldPdfPath);
+                }
+            }
+        }
+
+        CourseModule::where('course_id', $courseId)->delete();
+        $this->storeModules($request, $courseId, $lessonReferenceMap);
+    }
+
+    public function modulePdfUpload(Request $request, int $moduleId, int $moduleIndex): void
+    {
+        $module = CourseModule::findOrFail($moduleId);
+        $uploadedPdf = $request->file("modules.$moduleIndex.pdf_file");
+
+        if ($uploadedPdf instanceof UploadedFile) {
+            if ($module->pdf_file) {
+                $oldPdfPath = public_path('uploads/courses/modules/pdfs/' . $module->pdf_file);
+                if (file_exists($oldPdfPath)) {
+                    unlink($oldPdfPath);
+                }
+            }
+
+            $pdfLocation = public_path('uploads/courses/modules/pdfs/');
+            $newPdfName = $module->id . '_module_pdf.' . $uploadedPdf->getClientOriginalExtension();
+
+            if (! file_exists($pdfLocation)) {
+                mkdir($pdfLocation, 0755, true);
+            }
+
+            $uploadedPdf->move($pdfLocation, $newPdfName);
+
+            $module->update([
+                'pdf_file' => $newPdfName,
             ]);
         }
     }

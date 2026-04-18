@@ -210,23 +210,118 @@
                                     <label for="lessons">Lessons</label>
                                     <div id="multipleLessonFields">
                                         @php
-                                            $oldLessons = old('lessons', ['']);
+                                            $oldLessons = old('lessons', [
+                                                ['ref' => 'lesson_' . uniqid(), 'name' => ''],
+                                            ]);
                                         @endphp
                                         @foreach ($oldLessons as $lessonIndex => $lesson)
-                                            <div class="d-flex justify-content-between mb-2" id="multipleLessonField{{ $lessonIndex }}">
-                                                <input type="text" name="lessons[]"
-                                                    class="form-control me-4 @error('lessons.' . $lessonIndex) is-invalid @enderror"
-                                                    value="{{ $lesson }}" placeholder="Enter lesson name" />
+                                            <div class="d-flex justify-content-between mb-2 lesson-row" id="multipleLessonField{{ $lessonIndex }}">
+                                                <input type="hidden" name="lessons[{{ $lessonIndex }}][ref]" class="lesson-ref"
+                                                    value="{{ $lesson['ref'] ?? 'lesson_' . uniqid() }}" />
+                                                <input type="text" name="lessons[{{ $lessonIndex }}][name]"
+                                                    class="form-control me-4 lesson-name @error('lessons.' . $lessonIndex . '.name') is-invalid @enderror"
+                                                    value="{{ $lesson['name'] ?? '' }}" placeholder="Enter lesson name" />
                                                 <button type="button"
                                                     class="btn {{ $loop->first ? 'btn-secondary addLessonField' : 'btn-danger removeLessonField' }}">
                                                     {{ $loop->first ? '+' : '-' }}
                                                 </button>
                                             </div>
-                                            @error('lessons.' . $lessonIndex)
+                                            @error('lessons.' . $lessonIndex . '.name')
                                                 <span class="invalid-feedback d-block" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="modules">Modules</label>
+                                    <div id="multipleModuleFields">
+                                        @php
+                                            $oldModules = old('modules', [[
+                                                'lesson_ref' => '',
+                                                'title' => '',
+                                                'link' => '',
+                                                'free_paid' => '',
+                                                'live_record' => '',
+                                                'pdf_file' => '',
+                                                'date' => '',
+                                                'time' => '',
+                                            ]]);
+                                        @endphp
+                                        @foreach ($oldModules as $moduleIndex => $module)
+                                            <div class="border rounded p-3 mb-3 module-row" id="multipleModuleField{{ $moduleIndex }}">
+                                                <div class="row">
+                                                    <div class="col-md-4 mb-3">
+                                                        <label class="form-label">Module Lesson</label>
+                                                        <select name="modules[{{ $moduleIndex }}][lesson_ref]"
+                                                            class="form-control module-lesson-select"
+                                                            data-selected="{{ $module['lesson_ref'] ?? '' }}">
+                                                            <option value="">Select Lesson</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-8 mb-3">
+                                                        <label class="form-label">Title</label>
+                                                        <input type="text" name="modules[{{ $moduleIndex }}][title]"
+                                                            class="form-control @error('modules.' . $moduleIndex . '.title') is-invalid @enderror"
+                                                            value="{{ $module['title'] ?? '' }}" placeholder="Enter module title">
+                                                        @error('modules.' . $moduleIndex . '.title')
+                                                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-6 mb-3">
+                                                        <label class="form-label">Link</label>
+                                                        <input type="text" name="modules[{{ $moduleIndex }}][link]"
+                                                            class="form-control" value="{{ $module['link'] ?? '' }}"
+                                                            placeholder="Enter link">
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label class="form-label">Free / Paid</label>
+                                                        <select name="modules[{{ $moduleIndex }}][free_paid]" class="form-control">
+                                                            <option value="">Select Option</option>
+                                                            <option value="free" {{ ($module['free_paid'] ?? '') === 'free' ? 'selected' : '' }}>Free</option>
+                                                            <option value="paid" {{ ($module['free_paid'] ?? '') === 'paid' ? 'selected' : '' }}>Paid</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label class="form-label">Live / Record</label>
+                                                        <select name="modules[{{ $moduleIndex }}][live_record]" class="form-control">
+                                                            <option value="">Select Type</option>
+                                                            <option value="live" {{ ($module['live_record'] ?? '') === 'live' ? 'selected' : '' }}>Live</option>
+                                                            <option value="record" {{ ($module['live_record'] ?? '') === 'record' ? 'selected' : '' }}>Record</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3">
+                                                        <label class="form-label">PDF File</label>
+                                                        <input type="file" name="modules[{{ $moduleIndex }}][pdf_file]"
+                                                            class="form-control @error('modules.' . $moduleIndex . '.pdf_file') is-invalid @enderror">
+                                                        @error('modules.' . $moduleIndex . '.pdf_file')
+                                                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label class="form-label">Date</label>
+                                                        <input type="date" name="modules[{{ $moduleIndex }}][date]"
+                                                            class="form-control" value="{{ $module['date'] ?? '' }}"
+                                                            placeholder="Enter date">
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label class="form-label">Time</label>
+                                                        <input type="time" name="modules[{{ $moduleIndex }}][time]"
+                                                            class="form-control" value="{{ $module['time'] ?? '' }}"
+                                                            placeholder="Enter time">
+                                                    </div>
+                                                    <div class="col-md-2 mb-3 d-flex align-items-end">
+                                                        <button type="button"
+                                                            class="btn w-100 {{ $loop->first ? 'btn-secondary addModuleField' : 'btn-danger removeModuleField' }}">
+                                                            {{ $loop->first ? '+' : '-' }}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @endforeach
                                     </div>
                                 </div>
@@ -340,7 +435,7 @@
                     var name = $(this).val();
                     var slugField = $('#slug');
                     var currentSlug = slugField.val();
-                    
+
                     // Only auto-generate if slug field is empty or hasn't been manually edited
                     if (!slugField.attr('data-manual-edit')) {
                         if(name && name.trim() !== '') {
@@ -357,12 +452,12 @@
                         }
                     }
                 });
-                
+
                 // Mark slug field as manually edited when user modifies it
                 $('#slug').on('input focus', function() {
                     $(this).attr('data-manual-edit', 'true');
                 });
-                
+
                 // If user clears the slug field, allow auto-generation again
                 $('#slug').on('input', function() {
                     if ($(this).val() === '') {
@@ -377,20 +472,133 @@
                     }
                 });
 
+                function generateLessonRef() {
+                    return 'lesson_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+                }
+
+                function escapeHtml(text) {
+                    return $('<div>').text(text).html();
+                }
+
+                function getLessonOptionsHtml(selectedValue) {
+                    var options = '<option value="">Select Lesson</option>';
+
+                    $('#multipleLessonFields .lesson-row').each(function() {
+                        var lessonRef = $(this).find('.lesson-ref').val();
+                        var lessonName = $(this).find('.lesson-name').val().trim();
+
+                        if (lessonRef && lessonName) {
+                            var optionValue = 'new:' + lessonRef;
+                            var selected = optionValue === selectedValue ? 'selected' : '';
+                            options += `<option value="${optionValue}" ${selected}>${escapeHtml(lessonName)}</option>`;
+                        }
+                    });
+
+                    return options;
+                }
+
+                function refreshModuleLessonOptions() {
+                    $('.module-lesson-select').each(function() {
+                        var currentValue = $(this).val() || $(this).data('selected') || '';
+                        $(this).html(getLessonOptionsHtml(currentValue));
+
+                        if (currentValue) {
+                            $(this).val(currentValue);
+                        }
+
+                        if ($(this).val() !== currentValue) {
+                            $(this).val('');
+                        }
+
+                        $(this).removeData('selected');
+                    });
+                }
+
                 $(document).on('click', '.addLessonField', function() {
                     var fieldCount = $('#multipleLessonFields .d-flex').length;
+                    var lessonRef = generateLessonRef();
                     var newField = `
-                        <div class="d-flex justify-content-between mb-2" id="multipleLessonField${fieldCount}">
-                            <input type="text" name="lessons[]" class="form-control me-4" placeholder="Enter lesson name" />
+                        <div class="d-flex justify-content-between mb-2 lesson-row" id="multipleLessonField${fieldCount}">
+                            <input type="hidden" name="lessons[${fieldCount}][ref]" class="lesson-ref" value="${lessonRef}" />
+                            <input type="text" name="lessons[${fieldCount}][name]" class="form-control me-4 lesson-name" placeholder="Enter lesson name" />
                             <button type="button" class="btn btn-danger removeLessonField">-</button>
                         </div>
                     `;
                     $('#multipleLessonFields').append(newField);
+                    refreshModuleLessonOptions();
                 });
 
                 $(document).on('click', '.removeLessonField', function() {
                     $(this).closest('.d-flex').remove();
+                    refreshModuleLessonOptions();
                 });
+
+                $(document).on('input', '.lesson-name', function() {
+                    refreshModuleLessonOptions();
+                });
+
+                $(document).on('click', '.addModuleField', function() {
+                    var fieldCount = $('#multipleModuleFields .module-row').length;
+                    var newField = `
+                        <div class="border rounded p-3 mb-3 module-row" id="multipleModuleField${fieldCount}">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Module Lesson</label>
+                                    <select name="modules[${fieldCount}][lesson_ref]" class="form-control module-lesson-select">
+                                        <option value="">Select Lesson</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-8 mb-3">
+                                    <label class="form-label">Title</label>
+                                    <input type="text" name="modules[${fieldCount}][title]" class="form-control" placeholder="Enter module title">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Link</label>
+                                    <input type="text" name="modules[${fieldCount}][link]" class="form-control" placeholder="Enter link">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Free / Paid</label>
+                                    <select name="modules[${fieldCount}][free_paid]" class="form-control">
+                                        <option value="">Select Option</option>
+                                        <option value="free">Free</option>
+                                        <option value="paid">Paid</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Live / Record</label>
+                                    <select name="modules[${fieldCount}][live_record]" class="form-control">
+                                        <option value="">Select Type</option>
+                                        <option value="live">Live</option>
+                                        <option value="record">Record</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">PDF File</label>
+                                    <input type="file" name="modules[${fieldCount}][pdf_file]" class="form-control">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Date</label>
+                                    <input type="text" name="modules[${fieldCount}][date]" class="form-control" placeholder="Enter date">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Time</label>
+                                    <input type="text" name="modules[${fieldCount}][time]" class="form-control" placeholder="Enter time">
+                                </div>
+                                <div class="col-md-2 mb-3 d-flex align-items-end">
+                                    <button type="button" class="btn btn-danger w-100 removeModuleField">-</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    $('#multipleModuleFields').append(newField);
+                    refreshModuleLessonOptions();
+                });
+
+                $(document).on('click', '.removeModuleField', function() {
+                    $(this).closest('.module-row').remove();
+                });
+
+                refreshModuleLessonOptions();
 
                 $(document).on('change', '.toggle-class', function() {
                     var courseId = $(this).data('id');
