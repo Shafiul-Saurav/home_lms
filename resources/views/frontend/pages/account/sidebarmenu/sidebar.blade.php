@@ -10,9 +10,11 @@
             <img id="profileImagePreview"
                 src="{{ $profileImage ? asset($profileImage) : asset('assets/frontend/img/account/03.jpg') }}"
                 alt="{{ auth()->user()->name ?? 'Guest' }}" />
-            <label for="profileImageInput" class="profile-img-btn" id="profileImageTrigger"><i class="far fa-camera"></i></label>
-            <input type="file" id="profileImageInput" name="profile_image" class="profile-img-file d-none"
-                accept=".jpg,.jpeg,.png" />
+            <div class="profile-img-upload">
+                <span class="profile-img-btn"><i class="far fa-camera"></i></span>
+                <input type="file" id="profileImageInput" name="profile_image" class="profile-img-trigger-input"
+                    accept=".jpg,.jpeg,.png" />
+            </div>
         </div>
         <h5>{{ auth()->user()->name ?? 'Guest' }}</h5>
         <p><a href="mailto:{{ auth()->user()->email }}">{{ auth()->user()->email ?? 'No email' }}</a></p>
@@ -125,40 +127,30 @@
 </div>
 
 @push('frontend_style')
-    <link rel="stylesheet" href="{{ asset('ijaboCropTool/ijaboCropTool.min.css') }}">
-@endpush
+    <style>
+        .user-sidebar .sidebar-top .profile-img-upload {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 30px;
+            height: 30px;
+        }
 
-@push('frontend_script')
-    <script src="{{ asset('ijaboCropTool/ijaboCropTool.min.js') }}"></script>
-    <script>
-        $(function() {
-            const $profileImageInput = $('#profileImageInput');
+        .user-sidebar .sidebar-top .profile-img-trigger-input {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+            z-index: 2;
+        }
 
-            if ($profileImageInput.data('crop-tool-initialized')) {
-                return;
-            }
-
-            $profileImageInput.data('crop-tool-initialized', true);
-
-            $profileImageInput.ijaboCropTool({
-                preview: '#profileImagePreview',
-                setRatio: 1,
-                allowedExtensions: ['jpg', 'jpeg', 'png'],
-                buttonsText: ['CROP', 'CANCEL'],
-                buttonsColor: ['#0d6efd', '#dc3545', -15],
-                processUrl: '{{ route('image.crop') }}',
-                withCSRF: ['_token', $('meta[name="csrf-token"]').attr('content')],
-                fileName: 'profile_image',
-                onSuccess: function(message, element, status) {
-                    const imagePath = $('#profileImagePreview').attr('src');
-                    $('#headerProfileImage').attr('src', imagePath);
-                    $(document).trigger('profile-image-updated', [imagePath]);
-                    toastr.success(message);
-                },
-                onError: function(message, element, status) {
-                    toastr.error(message);
-                }
-            });
-        });
-    </script>
+        .user-sidebar .sidebar-top .profile-img-upload .profile-img-btn {
+            pointer-events: none;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 @endpush
