@@ -367,6 +367,12 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     ->name('courses.forcedelete');
     Route::delete('/course/lesson/{id}', [CourseController::class, 'deleteLesson'])
     ->name('course.lesson.delete');
+    Route::post('/course/lesson/{id}/update', [CourseController::class, 'updateLessonAjax'])
+    ->name('course.lesson.update.ajax');
+    Route::delete('/course/module/{id}', [CourseController::class, 'deleteModule'])
+    ->name('course.module.delete');
+    Route::post('/course/module/{id}/update', [CourseController::class, 'updateModuleAjax'])
+    ->name('course.module.update.ajax');
     // Ajax Call Active
     Route::get('check/course/is_active/{course_id}', [CourseController::class, 'checkActive'])
     ->name('course.is_active.ajax');

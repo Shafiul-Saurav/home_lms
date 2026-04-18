@@ -38,6 +38,14 @@
             border-radius: 50%;
             /* background: #fff; */
         }
+
+        .module_item {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            position: relative;
+        }
     </style>
 @endpush
 
@@ -261,11 +269,13 @@
                                     <div id="multipleLessonFields">
                                         @php
                                             $lessonValues = old('lessons', [
-                                                ['ref' => 'lesson_' . uniqid(), 'name' => ''],
+                                                ['id' => '', 'ref' => 'lesson_' . uniqid(), 'name' => ''],
                                             ]);
                                         @endphp
                                         @foreach ($lessonValues as $lessonIndex => $lesson)
                                             <div class="d-flex justify-content-between mb-2 lesson-row" id="multipleLessonField{{ $lessonIndex }}">
+                                                <input type="hidden" name="lessons[{{ $lessonIndex }}][id]" class="lesson-id"
+                                                    value="{{ $lesson['id'] ?? '' }}" />
                                                 <input type="hidden" name="lessons[{{ $lessonIndex }}][ref]" class="lesson-ref"
                                                     value="{{ $lesson['ref'] ?? 'lesson_' . uniqid() }}" />
                                                 <input type="text" name="lessons[{{ $lessonIndex }}][name]"
@@ -294,6 +304,13 @@
                                                     <span>{{ $lesson->name }}</span>
                                                     <div class="remove_icon">
                                                         <button type="button"
+                                                            class="btn-outline-primary border edit-lesson"
+                                                            data-id="{{ $lesson->id }}" data-name="{{ $lesson->name }}"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            data-bs-original-title="Edit">
+                                                            <i class="fa-solid fa-pen fa-fw"></i>
+                                                        </button>
+                                                        <button type="button"
                                                             class="btn-outline-warning border show_confirm delete-lesson"
                                                             data-id="{{ $lesson->id }}" data-toggle="tooltip"
                                                             data-placement="top" data-bs-original-title="Delete">
@@ -312,21 +329,21 @@
                                     <label for="modules">Modules</label>
                                     <div id="multipleModuleFields">
                                         @php
-                                            $moduleValues = old('modules', $course->courseModules->map(function ($module) {
-                                                return [
-                                                    'lesson_ref' => $module->lesson_id ? 'existing:' . $module->lesson_id : '',
-                                                    'title' => $module->title,
-                                                    'link' => $module->link,
-                                                    'free_paid' => $module->free_paid,
-                                                    'live_record' => $module->live_record,
-                                                    'pdf_file' => $module->pdf_file,
-                                                    'date' => $module->date,
-                                                    'time' => $module->time,
-                                                ];
-                                            })->toArray());
+                                            $moduleValues = old('modules', [[
+                                                'id' => '',
+                                                'lesson_ref' => '',
+                                                'title' => '',
+                                                'link' => '',
+                                                'free_paid' => '',
+                                                'live_record' => '',
+                                                'pdf_file' => '',
+                                                'date' => '',
+                                                'time' => '',
+                                            ]]);
 
                                             if (count($moduleValues) === 0) {
                                                 $moduleValues = [[
+                                                    'id' => '',
                                                     'lesson_ref' => '',
                                                     'title' => '',
                                                     'link' => '',
@@ -340,6 +357,8 @@
                                         @endphp
                                         @foreach ($moduleValues as $moduleIndex => $module)
                                             <div class="border rounded p-3 mb-3 module-row" id="multipleModuleField{{ $moduleIndex }}">
+                                                <input type="hidden" name="modules[{{ $moduleIndex }}][id]" class="module-id"
+                                                    value="{{ $module['id'] ?? '' }}">
                                                 <div class="row">
                                                     <div class="col-md-4 mb-3">
                                                         <label class="form-label">Module Lesson</label>
@@ -415,6 +434,51 @@
                                             </div>
                                         @endforeach
                                     </div>
+
+                                    @if ($course->courseModules->count() > 0)
+                                        <div class="mt-3">
+                                            @foreach ($course->courseModules as $module)
+                                                <div class="module_item existing-module-item" id="course-module-{{ $module->id }}"
+                                                    data-module-id="{{ $module->id }}"
+                                                    data-lesson-ref="{{ $module->lesson_id ? 'existing:' . $module->lesson_id : '' }}"
+                                                    data-title="{{ $module->title }}"
+                                                    data-link="{{ $module->link }}"
+                                                    data-free-paid="{{ $module->free_paid }}"
+                                                    data-live-record="{{ $module->live_record }}"
+                                                    data-date="{{ $module->date }}"
+                                                    data-time="{{ $module->time }}">
+                                                    <div class="d-flex justify-content-between align-items-start">
+                                                        <div>
+                                                            <strong>{{ $module->title }}</strong>
+                                                            <div class="text-muted small">
+                                                                Lesson:
+                                                                {{ optional($course->lessons->firstWhere('id', $module->lesson_id))->name ?? 'N/A' }}
+                                                            </div>
+                                                            @if ($module->link)
+                                                                <div class="small module-link-preview">Link: {{ $module->link }}</div>
+                                                            @endif
+                                                            @if ($module->pdf_file)
+                                                                <div class="small module-pdf-preview">
+                                                                    <a href="{{ asset('uploads/courses/modules/pdfs/' . $module->pdf_file) }}" target="_blank">View Current PDF</a>
+                                                                </div>
+                                                            @endif
+                                                        </div>
+                                                        <div class="d-flex align-items-center gap-2">
+                                                            <button type="button" class="btn btn-sm btn-outline-primary border edit-module"
+                                                                data-id="{{ $module->id }}">
+                                                                <i class="fa-solid fa-pen fa-fw"></i>
+                                                            </button>
+                                                            <button type="button"
+                                                                class="btn btn-sm btn-outline-warning border show_confirm delete-module"
+                                                                data-id="{{ $module->id }}">
+                                                                <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -425,6 +489,124 @@
             </div>
         </div>
     </div>
+
+    @foreach ($course->lessons as $lesson)
+        <div class="modal fade lesson-edit-modal" id="lessonEditModal{{ $lesson->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Lesson</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="lessons[existing_{{ $lesson->id }}][id]" value="{{ $lesson->id }}">
+                        <input type="hidden" name="lessons[existing_{{ $lesson->id }}][ref]" value="existing:{{ $lesson->id }}">
+                        <div class="form-group">
+                            <label for="lesson_name_{{ $lesson->id }}">Lesson Name</label>
+                            <input type="text" id="lesson_name_{{ $lesson->id }}"
+                                name="lessons[existing_{{ $lesson->id }}][name]"
+                                class="form-control lesson-modal-name"
+                                data-lesson-id="{{ $lesson->id }}"
+                                value="{{ old('lessons.existing_' . $lesson->id . '.name', $lesson->name) }}">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary save-lesson-popup" data-lesson-id="{{ $lesson->id }}">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    @foreach ($course->courseModules as $module)
+        <div class="modal fade module-edit-modal" id="moduleEditModal{{ $module->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Module</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="modules[existing_{{ $module->id }}][id]" value="{{ $module->id }}">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Module Lesson</label>
+                                <select name="modules[existing_{{ $module->id }}][lesson_ref]"
+                                    class="form-control module-lesson-select module-modal-lesson"
+                                    data-selected="{{ old('modules.existing_' . $module->id . '.lesson_ref', $module->lesson_id ? 'existing:' . $module->lesson_id : '') }}"
+                                    data-module-id="{{ $module->id }}">
+                                    <option value="">Select Lesson</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8 mb-3">
+                                <label class="form-label">Title</label>
+                                <input type="text" name="modules[existing_{{ $module->id }}][title]"
+                                    class="form-control module-modal-title"
+                                    data-module-id="{{ $module->id }}"
+                                    value="{{ old('modules.existing_' . $module->id . '.title', $module->title) }}"
+                                    placeholder="Enter module title">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Link</label>
+                                <input type="text" name="modules[existing_{{ $module->id }}][link]"
+                                    class="form-control module-modal-link"
+                                    data-module-id="{{ $module->id }}"
+                                    value="{{ old('modules.existing_' . $module->id . '.link', $module->link) }}"
+                                    placeholder="Enter link">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Free / Paid</label>
+                                <select name="modules[existing_{{ $module->id }}][free_paid]"
+                                    class="form-control module-modal-free-paid" data-module-id="{{ $module->id }}">
+                                    <option value="">Select Option</option>
+                                    <option value="free" {{ old('modules.existing_' . $module->id . '.free_paid', $module->free_paid) === 'free' ? 'selected' : '' }}>Free</option>
+                                    <option value="paid" {{ old('modules.existing_' . $module->id . '.free_paid', $module->free_paid) === 'paid' ? 'selected' : '' }}>Paid</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Live / Record</label>
+                                <select name="modules[existing_{{ $module->id }}][live_record]"
+                                    class="form-control module-modal-live-record" data-module-id="{{ $module->id }}">
+                                    <option value="">Select Type</option>
+                                    <option value="live" {{ old('modules.existing_' . $module->id . '.live_record', $module->live_record) === 'live' ? 'selected' : '' }}>Live</option>
+                                    <option value="record" {{ old('modules.existing_' . $module->id . '.live_record', $module->live_record) === 'record' ? 'selected' : '' }}>Record</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">PDF File</label>
+                                <input type="file" name="modules[existing_{{ $module->id }}][pdf_file]"
+                                    class="form-control">
+                                @if ($module->pdf_file)
+                                    <div class="mt-2">
+                                        <a href="{{ asset('uploads/courses/modules/pdfs/' . $module->pdf_file) }}" target="_blank">View Current PDF</a>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Date</label>
+                                <input type="date" name="modules[existing_{{ $module->id }}][date]"
+                                    class="form-control module-modal-date"
+                                    data-module-id="{{ $module->id }}"
+                                    value="{{ old('modules.existing_' . $module->id . '.date', $module->date) }}">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Time</label>
+                                <input type="time" name="modules[existing_{{ $module->id }}][time]"
+                                    class="form-control module-modal-time"
+                                    data-module-id="{{ $module->id }}"
+                                    value="{{ old('modules.existing_' . $module->id . '.time', $module->time) }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary save-module-popup" data-module-id="{{ $module->id }}">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
 
     @push('backend_script')
         @include('backend.pages.common.script')
@@ -438,13 +620,38 @@
                     return $('<div>').text(text).html();
                 }
 
+                function showPopupToastr(type, message) {
+                    toastr.options = {
+                        "closeButton": true,
+                        "progressBar": true
+                    };
+
+                    if (typeof toastr[type] === 'function') {
+                        toastr[type](message);
+                    }
+                }
+
                 function getLessonOptionsHtml(selectedValue) {
                     var options = '<option value="">Select Lesson</option>';
+                    var rowOverrides = {};
+
+                    $('#multipleLessonFields .lesson-row').each(function() {
+                        var lessonId = $(this).find('.lesson-id').val();
+
+                        if (lessonId) {
+                            rowOverrides['existing:' + lessonId] = true;
+                        }
+                    });
 
                     $('.existing-lesson-item').each(function() {
                         var lessonId = $(this).data('lesson-id');
                         var lessonName = $(this).data('lesson-name');
                         var optionValue = 'existing:' + lessonId;
+
+                        if (rowOverrides[optionValue]) {
+                            return;
+                        }
+
                         var selected = optionValue === selectedValue ? 'selected' : '';
                         options += `<option value="${optionValue}" ${selected}>${escapeHtml(lessonName)}</option>`;
                     });
@@ -485,6 +692,7 @@
                     var lessonRef = generateLessonRef();
                     var newField = `
                         <div class="d-flex justify-content-between mb-2 lesson-row" id="multipleLessonField${fieldCount}">
+                            <input type="hidden" name="lessons[${fieldCount}][id]" class="lesson-id" value="" />
                             <input type="hidden" name="lessons[${fieldCount}][ref]" class="lesson-ref" value="${lessonRef}" />
                             <input type="text" name="lessons[${fieldCount}][name]" class="form-control me-4 lesson-name" placeholder="Enter lesson name" />
                             <button type="button" class="btn btn-danger removeLessonField">-</button>
@@ -503,10 +711,57 @@
                     refreshModuleLessonOptions();
                 });
 
+                $(document).on('click', '.edit-lesson', function() {
+                    var lessonId = $(this).data('id');
+                    var modalElement = document.getElementById('lessonEditModal' + lessonId);
+
+                    if (modalElement) {
+                        bootstrap.Modal.getOrCreateInstance(modalElement).show();
+                    }
+                });
+
+                $(document).on('click', '.save-lesson-popup', function() {
+                    var lessonId = $(this).data('lesson-id');
+                    var modalElement = document.getElementById('lessonEditModal' + lessonId);
+                    var lessonName = $('#lesson_name_' + lessonId).val();
+
+                    if (!lessonName || !lessonName.trim()) {
+                        showPopupToastr('warning', 'Lesson name is required.');
+                        return;
+                    }
+
+                    $.ajax({
+                        url: "{{ route('course.lesson.update.ajax', ':id') }}".replace(':id', lessonId),
+                        type: 'POST',
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            name: lessonName
+                        },
+                        success: function(response) {
+                            $('#course-lesson-' + lessonId).attr('data-lesson-name', response.lesson.name);
+                            $('#course-lesson-' + lessonId).find('span').first().text(response.lesson.name);
+                            refreshModuleLessonOptions();
+                            showPopupToastr('success', response.success);
+
+                            if (modalElement) {
+                                bootstrap.Modal.getOrCreateInstance(modalElement).hide();
+                            }
+                        },
+                        error: function(xhr) {
+                            var message = 'Something went wrong. Please try again.';
+                            if (xhr.responseJSON && xhr.responseJSON.errors && xhr.responseJSON.errors.name) {
+                                message = xhr.responseJSON.errors.name[0];
+                            }
+                            showPopupToastr('error', message);
+                        }
+                    });
+                });
+
                 $(document).on('click', '.addModuleField', function() {
                     var fieldCount = $('#multipleModuleFields .module-row').length;
                     var newField = `
                         <div class="border rounded p-3 mb-3 module-row" id="multipleModuleField${fieldCount}">
+                            <input type="hidden" name="modules[${fieldCount}][id]" class="module-id" value="">
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">Module Lesson</label>
@@ -564,6 +819,111 @@
                     $(this).closest('.module-row').remove();
                 });
 
+                $(document).on('click', '.edit-module', function() {
+                    var moduleId = $(this).data('id');
+                    var modalElement = document.getElementById('moduleEditModal' + moduleId);
+
+                    refreshModuleLessonOptions();
+
+                    if (modalElement) {
+                        bootstrap.Modal.getOrCreateInstance(modalElement).show();
+                    }
+                });
+
+                $(document).on('click', '.save-module-popup', function() {
+                    var moduleId = $(this).data('module-id');
+                    var modalElement = document.getElementById('moduleEditModal' + moduleId);
+                    var moduleModal = $('#moduleEditModal' + moduleId);
+                    var moduleCard = $('#course-module-' + moduleId);
+                    var title = moduleModal.find('.module-modal-title').val();
+                    var link = moduleModal.find('.module-modal-link').val();
+                    var freePaid = moduleModal.find('.module-modal-free-paid').val();
+                    var liveRecord = moduleModal.find('.module-modal-live-record').val();
+                    var date = moduleModal.find('.module-modal-date').val();
+                    var time = moduleModal.find('.module-modal-time').val();
+                    var lessonRef = moduleModal.find('.module-modal-lesson').val();
+                    var lessonId = lessonRef && lessonRef.startsWith('existing:') ? lessonRef.replace('existing:', '') : '';
+                    var formData = new FormData();
+                    var pdfInput = moduleModal.find('input[type="file"]')[0];
+
+                    if (!title || !title.trim()) {
+                        showPopupToastr('warning', 'Module title is required.');
+                        return;
+                    }
+
+                    formData.append('_token', "{{ csrf_token() }}");
+                    formData.append('lesson_id', lessonId);
+                    formData.append('title', title);
+                    formData.append('link', link);
+                    formData.append('free_paid', freePaid);
+                    formData.append('live_record', liveRecord);
+                    formData.append('date', date);
+                    formData.append('time', time);
+
+                    if (pdfInput && pdfInput.files.length > 0) {
+                        formData.append('pdf_file', pdfInput.files[0]);
+                    }
+
+                    $.ajax({
+                        url: "{{ route('course.module.update.ajax', ':id') }}".replace(':id', moduleId),
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            var selectedLessonText = moduleModal.find('.module-modal-lesson option:selected').text();
+                            moduleCard.attr('data-title', response.module.title || '');
+                            moduleCard.attr('data-link', response.module.link || '');
+                            moduleCard.attr('data-free-paid', response.module.free_paid || '');
+                            moduleCard.attr('data-live-record', response.module.live_record || '');
+                            moduleCard.attr('data-date', response.module.date || '');
+                            moduleCard.attr('data-time', response.module.time || '');
+                            moduleCard.attr('data-lesson-ref', lessonRef || '');
+
+                            moduleCard.find('strong').first().text(response.module.title || 'Untitled Module');
+                            moduleCard.find('.text-muted.small').first().text('Lesson: ' + (selectedLessonText && selectedLessonText !== 'Select Lesson' ? selectedLessonText : 'N/A'));
+
+                            var linkRow = moduleCard.find('.module-link-preview');
+                            if (response.module.link) {
+                                if (linkRow.length === 0) {
+                                    linkRow = $('<div class="small module-link-preview"></div>').appendTo(moduleCard.find('.d-flex > div').first());
+                                }
+                                linkRow.text('Link: ' + response.module.link);
+                            } else {
+                                linkRow.remove();
+                            }
+
+                            var pdfRow = moduleCard.find('.module-pdf-preview');
+                            if (response.module.pdf_url) {
+                                if (pdfRow.length === 0) {
+                                    pdfRow = $('<div class="small module-pdf-preview"></div>').appendTo(moduleCard.find('.d-flex > div').first());
+                                }
+                                pdfRow.html('<a href="' + response.module.pdf_url + '" target="_blank">View Current PDF</a>');
+                            }
+
+                            if (pdfInput) {
+                                pdfInput.value = '';
+                            }
+
+                            showPopupToastr('success', response.success);
+
+                            if (modalElement) {
+                                bootstrap.Modal.getOrCreateInstance(modalElement).hide();
+                            }
+                        },
+                        error: function(xhr) {
+                            var message = 'Something went wrong. Please try again.';
+                            if (xhr.responseJSON && xhr.responseJSON.errors) {
+                                var firstKey = Object.keys(xhr.responseJSON.errors)[0];
+                                if (firstKey) {
+                                    message = xhr.responseJSON.errors[firstKey][0];
+                                }
+                            }
+                            showPopupToastr('error', message);
+                        }
+                    });
+                });
+
                 $(document).on('click', '.delete-lesson', function(e) {
                     e.preventDefault();
 
@@ -589,10 +949,62 @@
                                 },
                                 success: function(response) {
                                     $('#course-lesson-' + lessonId).remove();
+                                    $('#lessonEditModal' + lessonId).remove();
+                                    $('#multipleLessonFields .lesson-row').filter(function() {
+                                        return $(this).find('.lesson-id').val() == lessonId;
+                                    }).remove();
                                     refreshModuleLessonOptions();
                                     Swal.fire(
                                         'Deleted!',
                                         'Your lesson has been deleted.',
+                                        'success'
+                                    );
+                                },
+                                error: function(xhr) {
+                                    console.error(xhr.responseText);
+                                    Swal.fire(
+                                        'Error!',
+                                        'Something went wrong. Please try again.',
+                                        'error'
+                                    );
+                                }
+                            });
+                        }
+                    });
+                });
+
+                $(document).on('click', '.delete-module', function(e) {
+                    e.preventDefault();
+
+                    var moduleId = $(this).data('id');
+                    var url = "{{ route('course.module.delete', ':id') }}";
+                    url = url.replace(':id', moduleId);
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: url,
+                                type: 'DELETE',
+                                data: {
+                                    "_token": "{{ csrf_token() }}",
+                                },
+                                success: function(response) {
+                                    $('#course-module-' + moduleId).remove();
+                                    $('#moduleEditModal' + moduleId).remove();
+                                    $('#multipleModuleFields .module-row').filter(function() {
+                                        return $(this).find('.module-id').val() == moduleId;
+                                    }).remove();
+                                    Swal.fire(
+                                        'Deleted!',
+                                        'Your module has been deleted.',
                                         'success'
                                     );
                                 },
