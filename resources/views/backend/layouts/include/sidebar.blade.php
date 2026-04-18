@@ -202,13 +202,9 @@
                 @can('index-product-category')
                     <li
                         class="slide {{ Request::routeIs('categories.index') ? 'is-expanded' : '' }}
-                    {{ Request::routeIs('categories.trash') ? 'is-expanded' : '' }}
-                    {{ Request::routeIs('courses.index') ? 'is-expanded' : '' }}
-                    {{ Request::routeIs('courses.trash') ? 'is-expanded' : '' }}">
+                    {{ Request::routeIs('categories.trash') ? 'is-expanded' : '' }}">
                         <a class="side-menu__item {{ Request::routeIs('categories.index') ? 'active' : '' }}
-                        {{ Request::routeIs('categories.trash') ? 'active' : '' }}
-                        {{ Request::routeIs('courses.index') ? 'active' : '' }}
-                        {{ Request::routeIs('courses.trash') ? 'active' : '' }}"
+                        {{ Request::routeIs('categories.trash') ? 'active' : '' }}"
                             data-bs-toggle="slide" href="#">
                             <i class="fa-solid fa-boxes-stacked"></i>
                             <span class="side-menu__label ms-3">Course Management</span><i class="fa-solid fa-angle-right"></i>

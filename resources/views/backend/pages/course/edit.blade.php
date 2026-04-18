@@ -41,10 +41,89 @@
 
         .module_item {
             border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 12px 16px;
+            border-radius: 14px;
             margin-bottom: 12px;
             position: relative;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+        }
+
+        .module_thumb {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #f3f4f6;
+        }
+
+        .module_media {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            background: #f3f4f6;
+            overflow: hidden;
+        }
+
+        .module_play_trigger {
+            position: absolute;
+            inset: 0;
+            border: 0;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .module_play_icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(220, 38, 38, 0.92);
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.22);
+        }
+
+        .module_iframe {
+            width: 100%;
+            height: 180px;
+            border: 0;
+        }
+
+        .module_body {
+            padding: 14px 16px 16px;
+        }
+
+        .module_title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #111827;
+        }
+
+        .module_meta {
+            color: #6b7280;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .module_actions {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            gap: 8px;
+            z-index: 2;
+        }
+
+        .module_grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
         }
     </style>
 @endpush
@@ -408,7 +487,7 @@
                                                         @enderror
                                                         @if (!empty($module['pdf_file']))
                                                             <div class="mt-2">
-                                                                <a href="{{ asset('uploads/courses/modules/pdfs/' . $module['pdf_file']) }}" target="_blank">View Current PDF</a>
+                                                                    <a href="{{ asset('uploads/courses/modules/pdfs/' . $module['pdf_file']) }}" target="_blank" rel="noopener noreferrer">Preview PDF</a>
                                                             </div>
                                                         @endif
                                                     </div>
@@ -436,8 +515,21 @@
                                     </div>
 
                                     @if ($course->courseModules->count() > 0)
-                                        <div class="mt-3">
+                                        <div class="module_grid mt-3">
                                             @foreach ($course->courseModules as $module)
+                                                @php
+                                                    $youtubeId = null;
+                                                    if (!empty($module->link)) {
+                                                        preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/', $module->link, $matches);
+                                                        $youtubeId = $matches[1] ?? null;
+                                                    }
+                                                    $thumbnail = $youtubeId
+                                                        ? 'https://img.youtube.com/vi/' . $youtubeId . '/hqdefault.jpg'
+                                                        : 'https://placehold.co/640x360/e5e7eb/6b7280?text=Module+Preview';
+                                                    $embedUrl = $youtubeId
+                                                        ? 'https://www.youtube.com/embed/' . $youtubeId . '?autoplay=1&rel=0'
+                                                        : null;
+                                                @endphp
                                                 <div class="module_item existing-module-item" id="course-module-{{ $module->id }}"
                                                     data-module-id="{{ $module->id }}"
                                                     data-lesson-ref="{{ $module->lesson_id ? 'existing:' . $module->lesson_id : '' }}"
@@ -446,33 +538,36 @@
                                                     data-free-paid="{{ $module->free_paid }}"
                                                     data-live-record="{{ $module->live_record }}"
                                                     data-date="{{ $module->date }}"
-                                                    data-time="{{ $module->time }}">
-                                                    <div class="d-flex justify-content-between align-items-start">
-                                                        <div>
-                                                            <strong>{{ $module->title }}</strong>
-                                                            <div class="text-muted small">
-                                                                Lesson:
-                                                                {{ optional($course->lessons->firstWhere('id', $module->lesson_id))->name ?? 'N/A' }}
-                                                            </div>
-                                                            @if ($module->link)
-                                                                <div class="small module-link-preview">Link: {{ $module->link }}</div>
-                                                            @endif
-                                                            @if ($module->pdf_file)
-                                                                <div class="small module-pdf-preview">
-                                                                    <a href="{{ asset('uploads/courses/modules/pdfs/' . $module->pdf_file) }}" target="_blank">View Current PDF</a>
-                                                                </div>
-                                                            @endif
-                                                        </div>
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <button type="button" class="btn btn-sm btn-outline-primary border edit-module"
-                                                                data-id="{{ $module->id }}">
-                                                                <i class="fa-solid fa-pen fa-fw"></i>
+                                                    data-time="{{ $module->time }}"
+                                                    data-thumbnail="{{ $thumbnail }}"
+                                                    data-video-id="{{ $youtubeId }}">
+                                                    <div class="module_actions">
+                                                        <button type="button" class="btn btn-sm btn-outline-primary border edit-module"
+                                                            data-id="{{ $module->id }}">
+                                                            <i class="fa-solid fa-pen fa-fw"></i>
+                                                        </button>
+                                                        <button type="button"
+                                                            class="btn btn-sm btn-outline-warning border show_confirm delete-module"
+                                                            data-id="{{ $module->id }}">
+                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="module_media">
+                                                        <img src="{{ $thumbnail }}" alt="{{ $module->title }}" class="module_thumb module-thumbnail-preview">
+                                                        @if ($embedUrl)
+                                                            <button type="button" class="module_play_trigger play-module-video"
+                                                                data-embed-url="{{ $embedUrl }}">
+                                                                <span class="module_play_icon">
+                                                                    <i class="fa-solid fa-play"></i>
+                                                                </span>
                                                             </button>
-                                                            <button type="button"
-                                                                class="btn btn-sm btn-outline-warning border show_confirm delete-module"
-                                                                data-id="{{ $module->id }}">
-                                                                <i class="fa-solid fa-trash-can fa-fw"></i>
-                                                            </button>
+                                                        @endif
+                                                    </div>
+                                                    <div class="module_body">
+                                                        <div class="module_title">{{ $module->title }}</div>
+                                                        <div class="module_meta module-lesson-preview">
+                                                            Lesson:
+                                                            {{ optional($course->lessons->firstWhere('id', $module->lesson_id))->name ?? 'N/A' }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -579,7 +674,7 @@
                                     class="form-control">
                                 @if ($module->pdf_file)
                                     <div class="mt-2">
-                                        <a href="{{ asset('uploads/courses/modules/pdfs/' . $module->pdf_file) }}" target="_blank">View Current PDF</a>
+                                        <a href="{{ asset('uploads/courses/modules/pdfs/' . $module->pdf_file) }}" target="_blank" rel="noopener noreferrer">Preview PDF</a>
                                     </div>
                                 @endif
                             </div>
@@ -629,6 +724,33 @@
                     if (typeof toastr[type] === 'function') {
                         toastr[type](message);
                     }
+                }
+
+                function getYoutubeThumbnail(link) {
+                    if (!link) {
+                        return 'https://placehold.co/640x360/e5e7eb/6b7280?text=Module+Preview';
+                    }
+
+                    var match = link.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/);
+                    if (match && match[1]) {
+                        return 'https://img.youtube.com/vi/' + match[1] + '/hqdefault.jpg';
+                    }
+
+                    return 'https://placehold.co/640x360/e5e7eb/6b7280?text=Module+Preview';
+                }
+
+                function getYoutubeVideoId(link) {
+                    if (!link) {
+                        return '';
+                    }
+
+                    var match = link.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/);
+                    return match && match[1] ? match[1] : '';
+                }
+
+                function getYoutubeEmbedUrl(link) {
+                    var videoId = getYoutubeVideoId(link);
+                    return videoId ? 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0' : '';
                 }
 
                 function getLessonOptionsHtml(selectedValue) {
@@ -872,6 +994,9 @@
                         contentType: false,
                         success: function(response) {
                             var selectedLessonText = moduleModal.find('.module-modal-lesson option:selected').text();
+                            var thumbnail = getYoutubeThumbnail(response.module.link);
+                            var embedUrl = getYoutubeEmbedUrl(response.module.link);
+                            var videoId = getYoutubeVideoId(response.module.link);
                             moduleCard.attr('data-title', response.module.title || '');
                             moduleCard.attr('data-link', response.module.link || '');
                             moduleCard.attr('data-free-paid', response.module.free_paid || '');
@@ -879,27 +1004,15 @@
                             moduleCard.attr('data-date', response.module.date || '');
                             moduleCard.attr('data-time', response.module.time || '');
                             moduleCard.attr('data-lesson-ref', lessonRef || '');
+                            moduleCard.attr('data-thumbnail', thumbnail);
+                            moduleCard.attr('data-video-id', videoId);
 
-                            moduleCard.find('strong').first().text(response.module.title || 'Untitled Module');
-                            moduleCard.find('.text-muted.small').first().text('Lesson: ' + (selectedLessonText && selectedLessonText !== 'Select Lesson' ? selectedLessonText : 'N/A'));
-
-                            var linkRow = moduleCard.find('.module-link-preview');
-                            if (response.module.link) {
-                                if (linkRow.length === 0) {
-                                    linkRow = $('<div class="small module-link-preview"></div>').appendTo(moduleCard.find('.d-flex > div').first());
-                                }
-                                linkRow.text('Link: ' + response.module.link);
-                            } else {
-                                linkRow.remove();
-                            }
-
-                            var pdfRow = moduleCard.find('.module-pdf-preview');
-                            if (response.module.pdf_url) {
-                                if (pdfRow.length === 0) {
-                                    pdfRow = $('<div class="small module-pdf-preview"></div>').appendTo(moduleCard.find('.d-flex > div').first());
-                                }
-                                pdfRow.html('<a href="' + response.module.pdf_url + '" target="_blank">View Current PDF</a>');
-                            }
+                            moduleCard.find('.module_title').first().text(response.module.title || 'Untitled Module');
+                            moduleCard.find('.module-lesson-preview').first().text('Lesson: ' + (selectedLessonText && selectedLessonText !== 'Select Lesson' ? selectedLessonText : 'N/A'));
+                            moduleCard.find('.module_media').html(
+                                '<img src="' + thumbnail + '" alt="' + (response.module.title || 'Module Preview') + '" class="module_thumb module-thumbnail-preview">' +
+                                (embedUrl ? '<button type="button" class="module_play_trigger play-module-video" data-embed-url="' + embedUrl + '"><span class="module_play_icon"><i class="fa-solid fa-play"></i></span></button>' : '')
+                            );
 
                             if (pdfInput) {
                                 pdfInput.value = '';
@@ -922,6 +1035,18 @@
                             showPopupToastr('error', message);
                         }
                     });
+                });
+
+                $(document).on('click', '.play-module-video', function() {
+                    var embedUrl = $(this).data('embed-url');
+
+                    if (!embedUrl) {
+                        return;
+                    }
+
+                    $(this).closest('.module_media').html(
+                        '<iframe class="module_iframe" src="' + embedUrl + '" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>'
+                    );
                 });
 
                 $(document).on('click', '.delete-lesson', function(e) {

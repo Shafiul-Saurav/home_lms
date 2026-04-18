@@ -29,48 +29,49 @@
                     <h3 class="card-title">Course Details</h3>
                     <a href="{{ route('courses.index') }}" class="btn btn-primary">Back to Courses</a>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="row row-sm">
-        <div class="col-lg-12">
-            <div class="card">
                 <div class="card-body">
-                    <div class="table-responsive export-table">
-                        <table class="table table-bordered text-nowrap key-buttons border-bottom w-100">
-                            <tbody>
-                                <tr><th colspan="2"><h3>{{ $course->name }}</h3></th></tr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-borderless">
                                 <tr>
-                                    <th>Category</th>
-                                    <td width="80%">{{ $course->category ? $course->category->name : 'N/A' }}</td>
+                                    <th>Name:</th>
+                                    <td>{{ $course->name }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Subcategory</th>
-                                    <td width="80%">{{ $course->subcategory ? $course->subcategory->name : 'N/A' }}</td>
+                                    <th>Slug:</th>
+                                    <td>{{ $course->slug }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Slug</th>
-                                    <td width="80%">{{ $course->slug }}</td>
+                                    <th>Category:</th>
+                                    <td>{{ $course->category ? $course->category->name : 'N/A' }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Price</th>
-                                    <td width="80%">{{ $course->price }}</td>
+                                    <th>Subcategory:</th>
+                                    <td>{{ $course->subcategory ? $course->subcategory->name : 'N/A' }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Discount</th>
-                                    <td width="80%">{{ $course->discount ?? 'N/A' }}</td>
+                                    <th>Price:</th>
+                                    <td>{{ $course->price }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Course Type</th>
-                                    <td width="80%">{{ $course->live_or_record ?? 'N/A' }}</td>
+                                    <th>Discount:</th>
+                                    <td>{{ $course->discount ?? 'N/A' }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <th>Course Type:</th>
+                                    <td>{{ $course->live_or_record ?? 'N/A' }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Is Offline</th>
-                                    <td width="80%">{{ $course->is_offline === null ? 'N/A' : ($course->is_offline ? 'Yes' : 'No') }}</td>
+                                    <th>Is Offline:</th>
+                                    <td>{{ $course->is_offline === null ? 'N/A' : ($course->is_offline ? 'Yes' : 'No') }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Status</th>
-                                    <td width="80%">
+                                    <th>Status:</th>
+                                    <td>
                                         @if ($course->is_active)
                                             <span class="badge bg-success">Active</span>
                                         @else
@@ -79,8 +80,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Video Link</th>
-                                    <td width="80%">
+                                    <th>Video Link:</th>
+                                    <td>
                                         @if ($course->video_link)
                                             <a href="{{ $course->video_link }}" target="_blank">{{ $course->video_link }}</a>
                                         @else
@@ -89,49 +90,38 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Image</th>
-                                    <td width="80%">
-                                        @if ($course->image)
-                                            <img src="{{ asset('uploads/courses/' . $course->image) }}" alt="{{ $course->name }}" class="img-fluid" style="max-height: 300px;">
-                                        @else
-                                            No image available
-                                        @endif
-                                    </td>
+                                    <th>Created At:</th>
+                                    <td>{{ $course->created_at->format('d M, Y h:i A') }}</td>
                                 </tr>
-                                <tr>
-                                    <th>PDF</th>
-                                    <td width="80%">
-                                        @if ($course->pdf)
-                                            <a href="{{ asset('uploads/courses/pdfs/' . $course->pdf) }}" target="_blank" class="btn btn-outline-primary">
-                                                View PDF
-                                            </a>
-                                        @else
-                                            No PDF available
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Description</th>
-                                    <td width="80%">{!! $course->description ?: 'N/A' !!}</td>
-                                </tr>
-                                <tr>
-                                    <th>Created Date</th>
-                                    <td>{{ $course->created_at->format('d-M-Y') }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Last Updated</th>
-                                    <td>{{ $course->updated_at->format('d-M-Y') }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <h5>Image</h5>
+                            @if ($course->image)
+                                <img src="{{ asset('uploads/courses/' . $course->image) }}" alt="{{ $course->name }}" class="img-fluid">
+                            @else
+                                <p>No image available</p>
+                            @endif
+                        </div>
+                        <div class="col-md-6">
+                            <h5>PDF</h5>
+                            @if ($course->pdf)
+                                <a href="{{ asset('uploads/courses/pdfs/' . $course->pdf) }}" target="_blank" class="btn btn-outline-primary">
+                                    View PDF
+                                </a>
+                            @else
+                                <p>No PDF available</p>
+                            @endif
+
+                            <h5 class="mt-4">Description</h5>
+                            {!! $course->description ?: 'N/A' !!}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- End Row -->
 @endsection
-
-@push('backend_script')
-    @include('backend.pages.common.script')
-@endpush
