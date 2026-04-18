@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\FaqController;
 use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\CourseController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\AboutController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\Trash\FaqTrashController;
 use App\Http\Controllers\Backend\ServiceController;
 use App\Http\Controllers\Trash\PostTrashController;
 use App\Http\Controllers\Trash\ProductTrashController;
+use App\Http\Controllers\Trash\CourseTrashController;
 use App\Http\Controllers\Trash\RoleTrashController;
 use App\Http\Controllers\Trash\UserTrashController;
 use App\Http\Controllers\Frontend\CommentController;
@@ -356,6 +358,20 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::get('/admin/get-childcategories/{subcategoryId}', [ProductController::class, 'getChildcategories'])->name('get.childcategories');
 
     Route::resource('products', ProductController::class);
+
+    //Course Route
+    Route::get('/courses/trash', [CourseTrashController::class, 'trash'])->name('courses.trash');
+    Route::get('/courses/restore/{id}', [CourseTrashController::class, 'restore'])
+    ->name('courses.restore');
+    Route::delete('/courses/forcedelete/{id}', [CourseTrashController::class, 'forceDelete'])
+    ->name('courses.forcedelete');
+    // Ajax Call Active
+    Route::get('check/course/is_active/{course_id}', [CourseController::class, 'checkActive'])
+    ->name('course.is_active.ajax');
+    // Get subcategories for dependent dropdown
+    Route::get('get-course-subcategories/{categoryId}', [CourseController::class, 'getSubcategories'])
+    ->name('course.get.subcategories');
+    Route::resource('courses', CourseController::class);
 
     //Photo Gallery Route
     Route::get('/photogalleries/trash', [PhotoGalleryTrashController::class, 'trash'])->name('photogalleries.trash');

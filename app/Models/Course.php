@@ -11,4 +11,14 @@ class Course extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = ['id'];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function subcategory()
+    {
+        return $this->belongsTo(Subcategory::class);
+    }
 }

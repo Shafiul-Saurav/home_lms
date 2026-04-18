@@ -202,12 +202,16 @@
                 @can('index-product-category')
                     <li
                         class="slide {{ Request::routeIs('categories.index') ? 'is-expanded' : '' }}
-                    {{ Request::routeIs('categories.trash') ? 'is-expanded' : '' }}">
+                    {{ Request::routeIs('categories.trash') ? 'is-expanded' : '' }}
+                    {{ Request::routeIs('courses.index') ? 'is-expanded' : '' }}
+                    {{ Request::routeIs('courses.trash') ? 'is-expanded' : '' }}">
                         <a class="side-menu__item {{ Request::routeIs('categories.index') ? 'active' : '' }}
-                        {{ Request::routeIs('categories.trash') ? 'active' : '' }}"
+                        {{ Request::routeIs('categories.trash') ? 'active' : '' }}
+                        {{ Request::routeIs('courses.index') ? 'active' : '' }}
+                        {{ Request::routeIs('courses.trash') ? 'active' : '' }}"
                             data-bs-toggle="slide" href="#">
                             <i class="fa-solid fa-boxes-stacked"></i>
-                            <span class="side-menu__label ms-3">Product Management</span><i class="fa-solid fa-angle-right"></i>
+                            <span class="side-menu__label ms-3">Course Management</span><i class="fa-solid fa-angle-right"></i>
                         </a>
                         <ul class="slide-menu">
                             @can('index-product-category')
@@ -264,7 +268,7 @@
                                     </ul>
                                 </li>
                             @endcan
-                            @can('index-product')
+                            {{-- @can('index-product')
                                 <li
                                     class="sub-slide {{ Request::routeIs('products.index') ? 'is-expanded' : '' }}
                             {{ Request::routeIs('products.trash') ? 'is-expanded' : '' }}">
@@ -278,6 +282,24 @@
                                         @can('delete-product')
                                             <li><a class="sub-slide-item {{ Request::routeIs('products.trash') ? 'active' : '' }}"
                                                     href="{{ route('products.trash') }}">Trash</a></li>
+                                        @endcan
+                                    </ul>
+                                </li>
+                            @endcan --}}
+                            @can('index-product')
+                                <li
+                                    class="sub-slide {{ Request::routeIs('courses.index') ? 'is-expanded' : '' }}
+                            {{ Request::routeIs('courses.trash') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('courses.index') ? 'active' : '' }}
+                                {{ Request::routeIs('courses.trash') ? 'active' : '' }}"
+                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Course
+                                            Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    <ul class="sub-slide-menu">
+                                        <li><a class="sub-slide-item {{ Request::routeIs('courses.index') ? 'active' : '' }}"
+                                                href="{{ route('courses.index') }}">List</a></li>
+                                        @can('delete-product')
+                                            <li><a class="sub-slide-item {{ Request::routeIs('courses.trash') ? 'active' : '' }}"
+                                                    href="{{ route('courses.trash') }}">Trash</a></li>
                                         @endcan
                                     </ul>
                                 </li>
