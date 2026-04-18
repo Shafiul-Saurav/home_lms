@@ -40,6 +40,10 @@
 <!-- CHART-CIRCLE JS-->
 <script src="{{asset('assets/backend')}}/js/circle-progress.min.js"></script>
 
+<!-- flatpickr JS-->
+<script src="{{asset('assets/backend')}}/js/flatpickr.min.js"></script>
+<script src="{{asset('assets/backend')}}/js/pickr.es5.min.js"></script>
+
 <!-- INTERNAL DATA-TABLES JS-->
 <script src="{{asset('assets/backend')}}/plugins/datatable/js/jquery.dataTables.min.js"></script>
 <script src="{{asset('assets/backend')}}/plugins/datatable/js/dataTables.bootstrap5.js"></script>
