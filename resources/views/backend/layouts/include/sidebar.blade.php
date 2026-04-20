@@ -427,6 +427,17 @@
                                         href="{{ route('exam_categories.trash') }}">Trash</a></li>
                             </ul>
                         </li>
+                        <li class="sub-slide {{ Request::routeIs('exams.*') ? 'is-expanded' : '' }}">
+                            <a class="sub-side-menu__item {{ Request::routeIs('exams.*') ? 'active' : '' }}"
+                                data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Exam
+                                    Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                            <ul class="sub-slide-menu">
+                                <li><a class="sub-slide-item {{ Request::routeIs('exams.index') ? 'active' : '' }}"
+                                        href="{{ route('exams.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{ Request::routeIs('exams.trash') ? 'active' : '' }}"
+                                        href="{{ route('exams.trash') }}">Trash</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 @can('index-service')

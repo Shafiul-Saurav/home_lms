@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\CopyrightController;
 use App\Http\Controllers\Backend\CourseController;
 use App\Http\Controllers\Backend\DepartmentController;
 use App\Http\Controllers\Backend\ExamCategoryController;
+use App\Http\Controllers\Backend\ExamController;
 use App\Http\Controllers\Backend\FaqController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\HomeSliderController;
@@ -55,6 +56,7 @@ use App\Http\Controllers\Trash\CategoryTrashController;
 use App\Http\Controllers\Trash\ChildcategoryTrashController;
 use App\Http\Controllers\Trash\CourseTrashController;
 use App\Http\Controllers\Trash\ExamCategoryTrashController;
+use App\Http\Controllers\Trash\ExamTrashController;
 use App\Http\Controllers\Trash\DepartmentTrashController;
 use App\Http\Controllers\Trash\FaqTrashController;
 use App\Http\Controllers\Trash\ModuleTrashController;
@@ -455,6 +457,13 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::delete('/exam_categories/forcedelete/{id}', [ExamCategoryTrashController::class, 'forceDelete'])->name('exam_categories.forcedelete');
     Route::get('check/exam_category/is_active/{id}', [ExamCategoryController::class, 'checkActive'])->name('exam_category.is_active.ajax');
     Route::resource('exam_categories', ExamCategoryController::class);
+
+    // Exam Route
+    Route::get('/exams/trash', [ExamTrashController::class, 'trash'])->name('exams.trash');
+    Route::get('/exams/restore/{id}', [ExamTrashController::class, 'restore'])->name('exams.restore');
+    Route::delete('/exams/forcedelete/{id}', [ExamTrashController::class, 'forceDelete'])->name('exams.forceDelete');
+    Route::get('check/exam/is_active/{id}', [ExamController::class, 'checkActive'])->name('exam.is_active.ajax');
+    Route::resource('exams', ExamController::class);
 
     //Photo Gallery Route
     Route::get('/photogalleries/trash', [PhotoGalleryTrashController::class, 'trash'])->name('photogalleries.trash');
