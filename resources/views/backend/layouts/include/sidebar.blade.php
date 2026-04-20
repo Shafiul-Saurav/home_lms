@@ -365,6 +365,48 @@
                             </ul>
                         </li>
                     </ul>
+                <li
+                    class="slide {{ Request::routeIs('pdf_book_categories.*') || Request::routeIs('pdf_book_subcategories.*') || Request::routeIs('pdf_books.*') ? 'is-expanded' : '' }}">
+                    <a class="side-menu__item {{ Request::routeIs('pdf_book_categories.*') || Request::routeIs('pdf_book_subcategories.*') || Request::routeIs('pdf_books.*') ? 'active' : '' }}"
+                        data-bs-toggle="slide" href="#">
+                        <i class="fa-solid fa-file-pdf"></i>
+                        <span class="side-menu__label ms-3">PDF Book Management</span><i class="fa-solid fa-angle-right"></i>
+                    </a>
+                    <ul class="slide-menu">
+                        <li class="sub-slide {{ Request::routeIs('pdf_book_categories.*') ? 'is-expanded' : '' }}">
+                            <a class="sub-side-menu__item {{ Request::routeIs('pdf_book_categories.*') ? 'active' : '' }}"
+                                data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Category
+                                    Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                            <ul class="sub-slide-menu">
+                                <li><a class="sub-slide-item {{ Request::routeIs('pdf_book_categories.index') ? 'active' : '' }}"
+                                        href="{{ route('pdf_book_categories.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{ Request::routeIs('pdf_book_categories.trash') ? 'active' : '' }}"
+                                        href="{{ route('pdf_book_categories.trash') }}">Trash</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-slide {{ Request::routeIs('pdf_book_subcategories.*') ? 'is-expanded' : '' }}">
+                            <a class="sub-side-menu__item {{ Request::routeIs('pdf_book_subcategories.*') ? 'active' : '' }}"
+                                data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Subcategory
+                                    Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                            <ul class="sub-slide-menu">
+                                <li><a class="sub-slide-item {{ Request::routeIs('pdf_book_subcategories.index') ? 'active' : '' }}"
+                                        href="{{ route('pdf_book_subcategories.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{ Request::routeIs('pdf_book_subcategories.trash') ? 'active' : '' }}"
+                                        href="{{ route('pdf_book_subcategories.trash') }}">Trash</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-slide {{ Request::routeIs('pdf_books.*') ? 'is-expanded' : '' }}">
+                            <a class="sub-side-menu__item {{ Request::routeIs('pdf_books.*') ? 'active' : '' }}"
+                                data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">PDF Book
+                                    Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                            <ul class="sub-slide-menu">
+                                <li><a class="sub-slide-item {{ Request::routeIs('pdf_books.index') ? 'active' : '' }}"
+                                        href="{{ route('pdf_books.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{ Request::routeIs('pdf_books.trash') ? 'active' : '' }}"
+                                        href="{{ route('pdf_books.trash') }}">Trash</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </li>
                 @can('index-service')
                     <li class="slide {{ Request::routeIs('services.index') ? 'is-expanded' : '' }}">
