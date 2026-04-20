@@ -161,6 +161,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
+                                    <th>Slug</th>
                                     <th>Category</th>
                                     <th>Subcategory</th>
                                     <th>Image</th>
@@ -179,6 +180,7 @@
                                     <tr>
                                         <td><strong>{{ $books->firstItem() + $loop->index }}</strong></td>
                                         <td>{{ $book->name }}</td>
+                                        <td>{{ $book->slug }}</td>
                                         <td>{{ $book->bookCategory ? $book->bookCategory->name : 'N/A' }}</td>
                                         <td>{{ $book->bookSubcategory ? $book->bookSubcategory->name : 'N/A' }}</td>
                                         <td>
