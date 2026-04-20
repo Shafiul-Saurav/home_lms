@@ -76,7 +76,7 @@ class ProductController extends Controller
 
         $product = Product::create([
             'name' => $request->name,
-            'slug' => $request->slug ?? Str::slug($request->name),
+            'slug' => $request->slug ?? preg_replace('/\s+/u', '-', trim($request->name)),
             'description' => $request->description,
             'short_description' => $request->short_description,
             'long_description' => $request->long_description,
@@ -179,7 +179,7 @@ class ProductController extends Controller
 
         $product->update([
             'name' => $request->name,
-            'slug' => $request->slug ?? Str::slug($request->name),
+            'slug' => $request->slug ?? preg_replace('/\s+/u', '-', trim($request->name)),
             'description' => $request->description,
             'short_description' => $request->short_description,
             'long_description' => $request->long_description,
@@ -414,3 +414,4 @@ class ProductController extends Controller
         ]);
     }
 }
+

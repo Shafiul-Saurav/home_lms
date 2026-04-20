@@ -46,7 +46,7 @@ class CategoryController extends Controller
 
         Category::create([
             'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'slug' => preg_replace('/\s+/u', '-', trim($request->name)),
             'file' => $fileName,
             'is_active' => $request->has('is_active') ? 1 : 0,
         ]);
@@ -97,7 +97,7 @@ class CategoryController extends Controller
 
         $category->update([
             'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'slug' => preg_replace('/\s+/u', '-', trim($request->name)),
             'file' => $fileName,
             'is_active' => $request->has('is_active') ? 1 : 0,
         ]);

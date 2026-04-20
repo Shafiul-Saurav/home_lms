@@ -6,19 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Book extends Model
+class BookCategory extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $guarded = ['id'];
 
-    public function bookCategory()
+    public function bookSubcategories()
     {
-        return $this->belongsTo(BookCategory::class, 'book_category_id');
+        return $this->hasMany(BookSubcategory::class, 'book_category_id');
     }
 
-    public function bookSubcategory()
+    public function books()
     {
-        return $this->belongsTo(BookSubcategory::class, 'book_subcategory_id');
+        return $this->hasMany(Book::class, 'book_category_id');
     }
 }

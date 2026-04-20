@@ -40,7 +40,7 @@ class PhotoCategoryController extends Controller
 
         Photocategory::create([
             'category_name' => $request->category_name,
-            'category_slug' => Str::slug($request->category_name),
+            'category_slug' => preg_replace('/\s+/u', '-', trim($request->category_name)),
         ]);
 
         return redirect()->back()->with('message', 'Photo Category Created Successfully 🙂');
@@ -78,7 +78,7 @@ class PhotoCategoryController extends Controller
 
         $category->update([
             'category_name' => $request->category_name,
-            'category_slug' => Str::slug($request->category_name),
+            'category_slug' => preg_replace('/\s+/u', '-', trim($request->category_name)),
         ]);
 
         return redirect()->route('photocategories.index')->with('message', 'Photo Category Updated Successfully 🙂');
@@ -137,3 +137,4 @@ class PhotoCategoryController extends Controller
         ]);
     }
 }
+

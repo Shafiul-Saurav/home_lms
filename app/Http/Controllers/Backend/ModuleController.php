@@ -42,7 +42,7 @@ class ModuleController extends Controller
 
         Module::create([
             'module_name' => $request->module_name,
-            'module_slug' => Str::slug($request->module_name),
+            'module_slug' => preg_replace('/\s+/u', '-', trim($request->module_name)),
         ]);
 
         return redirect()->back()->with('message', 'Module Created Successfully 🙂');
@@ -81,7 +81,7 @@ class ModuleController extends Controller
 
         $module->update([
             'module_name' => $request->module_name,
-            'module_slug' => Str::slug($request->module_name),
+            'module_slug' => preg_replace('/\s+/u', '-', trim($request->module_name)),
         ]);
 
         return redirect()->route('modules.index')->with('message', 'Module Updated Successfully 🙂');
@@ -101,3 +101,4 @@ class ModuleController extends Controller
         return redirect()->back()->with('warning', 'Module Deleted Successfully');
     }
 }
+

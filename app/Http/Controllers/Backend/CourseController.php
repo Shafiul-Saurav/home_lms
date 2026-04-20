@@ -40,7 +40,7 @@ class CourseController extends Controller
             'category_id' => $request->category_id,
             'subcategory_id' => $request->subcategory_id,
             'name' => $request->name,
-            'slug' => $request->slug ?? Str::slug($request->name),
+            'slug' => $request->slug ?? preg_replace('/\s+/u', '-', trim($request->name)),
             'price' => $request->price,
             'discount' => $request->discount,
             'image' => 'default_course.jpg',
@@ -119,7 +119,7 @@ class CourseController extends Controller
             'category_id' => $request->category_id,
             'subcategory_id' => $request->subcategory_id,
             'name' => $request->name,
-            'slug' => $request->filled('slug') ? $request->slug : Str::slug($request->name),
+            'slug' => $request->filled('slug') ? $request->slug : preg_replace('/\s+/u', '-', trim($request->name)),
             'price' => $request->price,
             'discount' => $request->discount,
             'description' => $request->description,
@@ -490,3 +490,4 @@ class CourseController extends Controller
         ]);
     }
 }
+

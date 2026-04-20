@@ -55,7 +55,7 @@ class SubcategoryController extends Controller
         Subcategory::create([
             'category_id' => $request->category_id,
             'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'slug' => preg_replace('/\s+/u', '-', trim($request->name)),
             'file' => $fileName,
             'is_active' => $request->has('is_active') ? 1 : 0,
             'is_home' => $request->has('is_home') ? 1 : 0,
@@ -115,7 +115,7 @@ class SubcategoryController extends Controller
         $subcategory->update([
             'category_id' => $request->category_id,
             'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'slug' => preg_replace('/\s+/u', '-', trim($request->name)),
             'file' => $fileName,
             'is_active' => $request->has('is_active') ? 1 : 0,
             'is_home' => $request->has('is_home') ? 1 : 0,
@@ -183,3 +183,4 @@ class SubcategoryController extends Controller
         return response()->json($subcategories);
     }
 }
+

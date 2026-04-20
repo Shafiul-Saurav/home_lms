@@ -6,7 +6,12 @@ use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\CourseController;
-use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\Backend\BookController;
+use App\Http\Controllers\Backend\BookCategoryController;
+use App\Http\Controllers\Backend\BookSubcategoryController;
+use App\Http\Controllers\Trash\BookTrashController;
+use App\Http\Controllers\Trash\BookCategoryTrashController;
+use App\Http\Controllers\Trash\BookSubcategoryTrashController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\AboutController;
 use App\Http\Controllers\Backend\StuffController;
@@ -380,6 +385,36 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::get('get-course-subcategories/{categoryId}', [CourseController::class, 'getSubcategories'])
     ->name('course.get.subcategories');
     Route::resource('courses', CourseController::class);
+
+    //Book Route
+    Route::get('/books/trash', [BookTrashController::class, 'trash'])->name('books.trash');
+    Route::get('/books/restore/{id}', [BookTrashController::class, 'restore'])
+    ->name('books.restore');
+    Route::delete('/books/forcedelete/{id}', [BookTrashController::class, 'forceDelete'])
+    ->name('books.forcedelete');
+    // Ajax Call Active
+    Route::get('check/book/is_active/{book_id}', [BookController::class, 'checkActive'])
+    ->name('book.is_active.ajax');
+    // Get subcategories for dependent dropdown
+    Route::get('get-book-subcategories/{categoryId}', [BookController::class, 'getSubcategories'])
+    ->name('book.get.subcategories');
+    Route::resource('books', BookController::class);
+
+    // Book Category Route
+    Route::get('/book_categories/trash', [BookCategoryTrashController::class, 'trash'])->name('book_categories.trash');
+    Route::get('/book_categories/restore/{id}', [BookCategoryTrashController::class, 'restore'])->name('book_categories.restore');
+    Route::delete('/book_categories/forcedelete/{id}', [BookCategoryTrashController::class, 'forceDelete'])->name('book_categories.forcedelete');
+    Route::get('check/book_category/is_active/{id}', [BookCategoryController::class, 'checkActive'])->name('book_category.is_active.ajax');
+    Route::get('check/book_category/is_home/{id}', [BookCategoryController::class, 'checkHome'])->name('book_category.is_home.ajax');
+    Route::resource('book_categories', BookCategoryController::class);
+
+    // Book Subcategory Route
+    Route::get('/book_subcategories/trash', [BookSubcategoryTrashController::class, 'trash'])->name('book_subcategories.trash');
+    Route::get('/book_subcategories/restore/{id}', [BookSubcategoryTrashController::class, 'restore'])->name('book_subcategories.restore');
+    Route::delete('/book_subcategories/forcedelete/{id}', [BookSubcategoryTrashController::class, 'forceDelete'])->name('book_subcategories.forcedelete');
+    Route::get('check/book_subcategory/is_active/{id}', [BookSubcategoryController::class, 'checkActive'])->name('book_subcategory.is_active.ajax');
+    Route::get('check/book_subcategory/is_home/{id}', [BookSubcategoryController::class, 'checkHome'])->name('book_subcategory.is_home.ajax');
+    Route::resource('book_subcategories', BookSubcategoryController::class);
 
     //Photo Gallery Route
     Route::get('/photogalleries/trash', [PhotoGalleryTrashController::class, 'trash'])->name('photogalleries.trash');
