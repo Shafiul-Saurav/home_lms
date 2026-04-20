@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\ContactController as BackendContactController;
 use App\Http\Controllers\Backend\CopyrightController;
 use App\Http\Controllers\Backend\CourseController;
 use App\Http\Controllers\Backend\DepartmentController;
+use App\Http\Controllers\Backend\ExamCategoryController;
 use App\Http\Controllers\Backend\FaqController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\HomeSliderController;
@@ -53,6 +54,7 @@ use App\Http\Controllers\Trash\BookTrashController;
 use App\Http\Controllers\Trash\CategoryTrashController;
 use App\Http\Controllers\Trash\ChildcategoryTrashController;
 use App\Http\Controllers\Trash\CourseTrashController;
+use App\Http\Controllers\Trash\ExamCategoryTrashController;
 use App\Http\Controllers\Trash\DepartmentTrashController;
 use App\Http\Controllers\Trash\FaqTrashController;
 use App\Http\Controllers\Trash\ModuleTrashController;
@@ -446,6 +448,13 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::get('check/pdf_book_subcategory/is_active/{id}', [PdfBookSubcategoryController::class, 'checkActive'])->name('pdf_book_subcategory.is_active.ajax');
     Route::get('check/pdf_book_subcategory/is_home/{id}', [PdfBookSubcategoryController::class, 'checkHome'])->name('pdf_book_subcategory.is_home.ajax');
     Route::resource('pdf_book_subcategories', PdfBookSubcategoryController::class);
+
+    // Exam Category Route
+    Route::get('/exam_categories/trash', [ExamCategoryTrashController::class, 'trash'])->name('exam_categories.trash');
+    Route::get('/exam_categories/restore/{id}', [ExamCategoryTrashController::class, 'restore'])->name('exam_categories.restore');
+    Route::delete('/exam_categories/forcedelete/{id}', [ExamCategoryTrashController::class, 'forceDelete'])->name('exam_categories.forcedelete');
+    Route::get('check/exam_category/is_active/{id}', [ExamCategoryController::class, 'checkActive'])->name('exam_category.is_active.ajax');
+    Route::resource('exam_categories', ExamCategoryController::class);
 
     //Photo Gallery Route
     Route::get('/photogalleries/trash', [PhotoGalleryTrashController::class, 'trash'])->name('photogalleries.trash');

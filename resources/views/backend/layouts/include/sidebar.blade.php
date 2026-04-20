@@ -408,6 +408,27 @@
                         </li>
                     </ul>
                 </li>
+                <li
+                    class="slide {{ Request::routeIs('exam_categories.*') ? 'is-expanded' : '' }}">
+                    <a class="side-menu__item {{ Request::routeIs('exam_categories.*') ? 'active' : '' }}"
+                        data-bs-toggle="slide" href="#">
+                        <i class="fa-solid fa-file-signature"></i>
+                        <span class="side-menu__label ms-3">Exam Management</span><i class="fa-solid fa-angle-right"></i>
+                    </a>
+                    <ul class="slide-menu">
+                        <li class="sub-slide {{ Request::routeIs('exam_categories.*') ? 'is-expanded' : '' }}">
+                            <a class="sub-side-menu__item {{ Request::routeIs('exam_categories.*') ? 'active' : '' }}"
+                                data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Category
+                                    Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                            <ul class="sub-slide-menu">
+                                <li><a class="sub-slide-item {{ Request::routeIs('exam_categories.index') ? 'active' : '' }}"
+                                        href="{{ route('exam_categories.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{ Request::routeIs('exam_categories.trash') ? 'active' : '' }}"
+                                        href="{{ route('exam_categories.trash') }}">Trash</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
                 @can('index-service')
                     <li class="slide {{ Request::routeIs('services.index') ? 'is-expanded' : '' }}">
                         <a class="side-menu__item {{ Request::routeIs('services.index') ? 'active' : '' }}"
