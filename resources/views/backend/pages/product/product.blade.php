@@ -112,7 +112,7 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="short_description">Short Description</label>
-                                    <textarea name="short_description" id="summernote" data-summernote class="form-control @error('short_description') is-invalid @enderror"
+                                    <textarea name="short_description" id="short_description" data-summernote class="form-control @error('short_description') is-invalid @enderror"
                                         rows="2">{{ old('short_description') }}</textarea>
                                     @error('short_description')
                                         <span class="invalid-feedback" role="alert">
@@ -138,7 +138,7 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="long_description">Long Description</label>
-                                    <textarea name="long_description" id="summernote" data-summernote class="form-control @error('long_description') is-invalid @enderror"
+                                    <textarea name="long_description" id="long_description" data-summernote class="form-control @error('long_description') is-invalid @enderror"
                                         rows="4">{{ old('long_description') }}</textarea>
                                     @error('long_description')
                                         <span class="invalid-feedback" role="alert">
@@ -151,7 +151,7 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="additional_info">Additional Information</label>
-                                    <textarea name="additional_info" id="summernote" data-summernote class="form-control @error('additional_info') is-invalid @enderror"
+                                    <textarea name="additional_info" id="additional_info" data-summernote class="form-control @error('additional_info') is-invalid @enderror"
                                         rows="3">{{ old('additional_info') }}</textarea>
                                     @error('additional_info')
                                         <span class="invalid-feedback" role="alert">
