@@ -31,8 +31,11 @@
         }
 
         .module_thumb {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 180px;
+            height: 100%;
             object-fit: cover;
             background: #f3f4f6;
         }
@@ -40,7 +43,7 @@
         .module_media {
             position: relative;
             width: 100%;
-            height: 180px;
+            padding-bottom: 56.25%;
             background: #f3f4f6;
             overflow: hidden;
         }
@@ -70,8 +73,11 @@
         }
 
         .module_iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 180px;
+            height: 100%;
             border: 0;
         }
 
@@ -103,7 +109,7 @@
 
         .module_grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 16px;
         }
     </style>
@@ -416,7 +422,7 @@
                                             }
                                         @endphp
                                         @foreach ($moduleValues as $moduleIndex => $module)
-                                            <div class="border rounded p-3 mb-3 module-row" id="multipleModuleField{{ $moduleIndex }}">
+                                            <div class="border p-3 mb-3 module-row" id="multipleModuleField{{ $moduleIndex }}">
                                                 <input type="hidden" name="modules[{{ $moduleIndex }}][id]" class="module-id"
                                                     value="{{ $module['id'] ?? '' }}">
                                                 <div class="row">
@@ -863,7 +869,7 @@
                 $(document).on('click', '.addModuleField', function() {
                     var fieldCount = $('#multipleModuleFields .module-row').length;
                     var newField = `
-                        <div class="border rounded p-3 mb-3 module-row" id="multipleModuleField${fieldCount}">
+                        <div class="border p-3 mb-3 module-row" id="multipleModuleField${fieldCount}">
                             <input type="hidden" name="modules[${fieldCount}][id]" class="module-id" value="">
                             <div class="row">
                                 <div class="col-md-4 mb-3">
