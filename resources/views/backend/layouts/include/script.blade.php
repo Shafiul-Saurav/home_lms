@@ -73,6 +73,9 @@
 <!-- bootstrap-datepicker js (Date picker Style-01) -->
 <script src="https://laravelui.spruko.com/noa/assets/plugins/bootstrap-datepicker/js/datepicker.js"></script>
 
+<!-- Amaze UI Datetimepicker JS (Used for Time Picker Popup) -->
+<script src="{{ asset('assets/backend') }}/plugins/amazeui-datetimepicker/js/amazeui.datetimepicker.min.js"></script>
+
 <!-- DATEPICKER INITIALIZATION -->
 <script>
     $(document).ready(function() {
@@ -95,7 +98,23 @@
             }
         }
 
+        // Initialize Timepicker (AmazeUI clock view)
+        window.initTimepicker = function() {
+            if ($.fn.datetimepicker && $('.tpicker').length > 0) {
+                $('.tpicker').each(function() {
+                    $(this).datetimepicker({
+                        format: 'hh:ii',
+                        startView: 1,
+                        minView: 0,
+                        maxView: 1,
+                        autoclose: true
+                    });
+                });
+            }
+        }
+
         window.initDatepicker();
+        window.initTimepicker();
 
         // Handle dynamic fields sync for datepicker
         $(document).on('change input', '.fc-datepicker', function() {
