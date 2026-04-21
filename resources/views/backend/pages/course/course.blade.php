@@ -302,15 +302,25 @@
                                                     </div>
                                                     <div class="col-md-3 mb-3">
                                                         <label class="form-label">Date</label>
-                                                        <input type="date" name="modules[{{ $moduleIndex }}][date]"
-                                                            class="form-control" value="{{ $module['date'] ?? '' }}"
-                                                            placeholder="Enter date">
+                                                        <div class="input-group">
+                                                            <div class="input-group-text bg-primary-transparent text-primary">
+                                                                <i class="fe fe-calendar text-20"></i>
+                                                            </div>
+                                                            <input class="form-control fc-datepicker" placeholder="DD/MM/YYYY" type="text" 
+                                                                value="{{ !empty($module['date']) ? \Carbon\Carbon::parse($module['date'])->format('d/m/Y') : '' }}">
+                                                            <input type="hidden" name="modules[{{ $moduleIndex }}][date]" value="{{ $module['date'] ?? '' }}">
+                                                        </div>
                                                     </div>
                                                     <div class="col-md-3 mb-3">
                                                         <label class="form-label">Time</label>
-                                                        <input type="time" name="modules[{{ $moduleIndex }}][time]"
-                                                            class="form-control" value="{{ $module['time'] ?? '' }}"
-                                                            placeholder="Enter time">
+                                                        <div class="input-group">
+                                                            <div class="input-group-text bg-primary-transparent text-primary">
+                                                                <i class="fe fe-clock text-20"></i>
+                                                            </div>
+                                                            <input type="text" name="modules[{{ $moduleIndex }}][time]"
+                                                                class="form-control tpicker" value="{{ $module['time'] ?? '' }}"
+                                                                placeholder="Enter time">
+                                                        </div>
                                                     </div>
                                                     <div class="col-md-2 mb-3 d-flex align-items-end">
                                                         <button type="button"
@@ -576,11 +586,22 @@
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label class="form-label">Date</label>
-                                    <input type="text" name="modules[${fieldCount}][date]" class="form-control" placeholder="Enter date">
+                                    <div class="input-group">
+                                        <div class="input-group-text bg-primary-transparent text-primary">
+                                            <i class="fe fe-calendar text-20"></i>
+                                        </div>
+                                        <input class="form-control fc-datepicker" placeholder="DD/MM/YYYY" type="text">
+                                        <input type="hidden" name="modules[${fieldCount}][date]">
+                                    </div>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label class="form-label">Time</label>
-                                    <input type="text" name="modules[${fieldCount}][time]" class="form-control" placeholder="Enter time">
+                                    <div class="input-group">
+                                        <div class="input-group-text bg-primary-transparent text-primary">
+                                            <i class="fe fe-clock text-20"></i>
+                                        </div>
+                                        <input type="text" name="modules[${fieldCount}][time]" class="form-control tpicker" placeholder="Enter time">
+                                    </div>
                                 </div>
                                 <div class="col-md-2 mb-3 d-flex align-items-end">
                                     <button type="button" class="btn btn-danger w-100 removeModuleField">-</button>
@@ -590,6 +611,8 @@
                     `;
                     $('#multipleModuleFields').append(newField);
                     refreshModuleLessonOptions();
+                    window.initDatepicker();
+                    window.initTimepicker();
                 });
 
                 $(document).on('click', '.removeModuleField', function() {

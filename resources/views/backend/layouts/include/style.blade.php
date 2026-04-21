@@ -28,4 +28,9 @@
             padding: 7px 17px !important;
         }
     }
+
+    /* Ensure datepicker and timepicker appear on top of Bootstrap modals */
+    .ui-datepicker, .ui-timepicker-wrapper, .ui-timepicker-list {
+        z-index: 9999 !important;
+    }
 </style>
