@@ -30,7 +30,7 @@
     }
 
     /* Ensure datepicker and timepicker appear on top of Bootstrap modals */
-    .ui-datepicker, .ui-timepicker-wrapper, .ui-timepicker-list {
+    .ui-datepicker, .ui-timepicker-wrapper, .ui-timepicker-list, .datetimepicker {
         z-index: 9999 !important;
     }
 </style>

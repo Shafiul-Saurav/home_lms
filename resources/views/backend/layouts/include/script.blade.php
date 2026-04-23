@@ -107,7 +107,9 @@
                         startView: 1,
                         minView: 0,
                         maxView: 1,
-                        autoclose: true
+                        autoclose: true,
+                        zIndex: 9999,
+                        container: $(this).closest('.modal').length ? $(this).closest('.modal') : 'body'
                     });
                 });
             }
