@@ -80,7 +80,7 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
-                                    
+
                                     @if($subcategory->file)
                                         <div class="mt-2">
                                             <p>Current File:</p>
@@ -89,7 +89,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
+                            {{-- <div class="col-12 mb-3">
                                 <div class="form-check">
                                     <input type="checkbox" name="is_active" class="form-check-input" id="is_active" value="1" {{ $subcategory->is_active ? 'checked' : 'checked' }}>
                                     <label class="form-check-label" for="is_active">Active</label>
@@ -98,7 +98,7 @@
                                     <input type="checkbox" name="is_home" class="form-check-input" id="is_home" value="1" {{ $subcategory->is_home ? 'checked' : '' }}>
                                     <label class="form-check-label" for="is_home">Show on Home Page</label>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <button type="submit" class="btn btn-secondary" type="submit">Update</button>
                     </form>

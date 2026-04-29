@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Http\Controllers\Controller;
@@ -48,7 +47,6 @@ class CategoryController extends Controller
             'name' => $request->name,
             'slug' => preg_replace('/\s+/u', '-', trim($request->name)),
             'file' => $fileName,
-            'is_active' => $request->has('is_active') ? 1 : 0,
         ]);
 
         return redirect()->back()->with('message', 'Category Created Successfully 🙂');
@@ -99,7 +97,6 @@ class CategoryController extends Controller
             'name' => $request->name,
             'slug' => preg_replace('/\s+/u', '-', trim($request->name)),
             'file' => $fileName,
-            'is_active' => $request->has('is_active') ? 1 : 0,
         ]);
 
         return redirect()->route('categories.index')->with('message', 'Category Updated Successfully 🙂');

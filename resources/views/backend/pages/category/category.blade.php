@@ -107,7 +107,7 @@
                                         <td>{{ $category->slug }}</td>
                                         <td>
                                             @if($category->file)
-                                                <a href="{{ asset('uploads/categories/' . $category->file) }}" target="_blank">View File</a>
+                                                <img src="{{ asset('uploads/categories/' . $category->file) }}" alt="{{ $category->name }}" style="width: 50px; height: 50px; object-fit: contain;">
                                             @else
                                                 -
                                             @endif
@@ -135,13 +135,13 @@
                                         @canany(['edit-product-category', 'delete-product-category'])
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
-                                                <div>
+                                                {{-- <div>
                                                     <a href="{{ route('categories.show', $category->id) }}" class="btn btn-sm btn-outline-primary border me-2"
                                                         data-toggle="tooltip" data-placement="top"
                                                         data-bs-original-title="View">
                                                         <i class="fa-solid fa-eye"></i>
                                                     </a>
-                                                </div>
+                                                </div> --}}
                                                 <div>
                                                     <a href="{{ route('categories.edit', $category->slug) }}"
                                                         class="btn btn-sm btn-outline-secondary border me-2"
@@ -180,7 +180,7 @@
 
 @push('backend_script')
     @include('backend.pages.common.script')
-    
+
     <script type="text/javascript">
         $(document).ready(function() {
             $.ajaxSetup({

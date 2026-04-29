@@ -60,21 +60,21 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
-                                    
+
                                     @if($category->file)
                                         <div class="mt-2">
                                             <p>Current File:</p>
-                                            <a href="{{ asset('uploads/categories/' . $category->file) }}" target="_blank">View Current File</a>
+                                            <img src="{{ asset('uploads/categories/' . $category->file) }}" alt="{{ $category->name }}" style="width: 100px; height: 100px; object-fit: contain;" class="img-thumbnail mb-2">
                                         </div>
                                     @endif
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
+                            {{-- <div class="col-12 mb-3">
                                 <div class="form-check">
                                     <input type="checkbox" name="is_active" class="form-check-input" id="is_active" value="1" {{ $category->is_active ? 'checked' : '' }}>
                                     <label class="form-check-label" for="is_active">Active</label>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <button type="submit" class="btn btn-secondary" type="submit">Update</button>
                     </form>

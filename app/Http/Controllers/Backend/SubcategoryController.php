@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Subcategory;
 use App\Models\Category;
@@ -57,8 +56,6 @@ class SubcategoryController extends Controller
             'name' => $request->name,
             'slug' => preg_replace('/\s+/u', '-', trim($request->name)),
             'file' => $fileName,
-            'is_active' => $request->has('is_active') ? 1 : 0,
-            'is_home' => $request->has('is_home') ? 1 : 0,
         ]);
 
         return redirect()->back()->with('message', 'Subcategory Created Successfully 🙂');
@@ -117,8 +114,6 @@ class SubcategoryController extends Controller
             'name' => $request->name,
             'slug' => preg_replace('/\s+/u', '-', trim($request->name)),
             'file' => $fileName,
-            'is_active' => $request->has('is_active') ? 1 : 0,
-            'is_home' => $request->has('is_home') ? 1 : 0,
         ]);
 
         return redirect()->route('subcategories.index')->with('message', 'Subcategory Updated Successfully 🙂');
