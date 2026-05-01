@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\Faq;
 use App\Models\Post;
 use App\Models\About;
+use App\Models\Course;
 use App\Models\Category;
 use App\Models\HomeSlider;
 use App\Models\LogoFavicon;
@@ -13,6 +14,7 @@ use App\Models\WebsiteLink;
 use App\Models\Photogallery;
 use App\Models\Postcategory;
 use App\Models\Videogallery;
+use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use App\Models\Photocategory;
 use App\Http\Controllers\Controller;
@@ -62,11 +64,115 @@ class WebsiteController extends Controller
         return view('frontend.pages.about.about_page', compact('about', 'testimonials', 'logo_fav'));
     }
 
-    public function courses()
+    public function courses(Request $request)
     {
+        $query = Course::query();
+
+        // Filter by active courses only
+        $query->where('is_active', 1);
+
+        // Search filter
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('description', 'LIKE', "%{$search}%");
+            });
+        }
+
+        // Category filter
+        if ($request->filled('category')) {
+            $categoryIds = explode(',', $request->input('category'));
+            $query->whereIn('category_id', $categoryIds);
+        }
+
+        // Subcategory filter
+        if ($request->filled('subcategory')) {
+            $query->where('subcategory_id', $request->input('subcategory'));
+        }
+
+        // Price filter
+        if ($request->filled('price')) {
+            $priceFilters = explode(',', $request->input('price'));
+            if (in_array('free', $priceFilters) && in_array('paid', $priceFilters)) {
+                // If both are selected, no need to filter by price to show all
+            } elseif (in_array('free', $priceFilters)) {
+                $query->where('price', 0);
+            } elseif (in_array('paid', $priceFilters)) {
+                $query->where('price', '>', 0);
+            }
+        }
+
+        // Sort by
+        $sortBy = $request->input('sort_by', 'latest');
+        switch ($sortBy) {
+            case 'featured':
+                $query->orderBy('id', 'desc');
+                break;
+            case 'low_price':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'high_price':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'latest':
+            default:
+                $query->latest('id');
+                break;
+        }
+
+        // Paginate results
+        $courses = $query->paginate(9);
+
+        // Fetch all categories and subcategories for the filter sidebar
+        $categories = Category::where('is_active', 1)->withCount(['courses' => function ($q) {
+            $q->where('is_active', 1);
+        }])->get();
+
+        $subcategories = Subcategory::where('is_active', 1)->withCount(['courses' => function ($q) {
+            $q->where('is_active', 1);
+        }])->get();
+
+        // Get selected filters for the view
+        $selectedCategory = $request->input('category');
+        $selectedSubcategory = $request->input('category');
+        $selectedPrice = $request->input('price');
+        $selectedSort = $request->input('sort_by', 'latest');
+
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
-        return view('frontend.pages.courses.courses', compact('logo_fav'));
+
+        if ($request->ajax()) {
+            $html = '';
+            foreach ($courses as $course) {
+                $html .= view('frontend.pages.courses.course_filter', compact('course'))->render();
+            }
+
+            if ($courses->count() == 0) {
+                $html .= '<div class="col-12"><div class="alert alert-info text-center" role="alert"><h3>No Courses Found</h3><p>Sorry, we couldn\'t find any courses matching your filters. Please try adjusting your search criteria.</p></div></div>';
+            }
+
+            $pagination = view('frontend.pages.courses.partials.pagination', compact('courses'))->render();
+            $topfilter = view('frontend.pages.courses.course_topfilter', compact('courses'))->render();
+
+            return response()->json([
+                'html' => $html,
+                'pagination' => $pagination,
+                'topfilter' => $topfilter,
+                'total' => $courses->total()
+            ]);
+        }
+
+        return view('frontend.pages.courses.courses', compact(
+            'courses',
+            'categories',
+            'subcategories',
+            'logo_fav',
+            'selectedCategory',
+            'selectedSubcategory',
+            'selectedPrice',
+            'selectedSort'
+        ));
     }
 
     public function photoGallery()

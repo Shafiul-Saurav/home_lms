@@ -21,10 +21,10 @@
                             <div class="widget mb-4">
                                 <h4 class="title">Search Courses</h4>
                                 <div class="search-form">
-                                    <form action="#">
+                                    <form id="searchForm" action="{{ route('courses') }}" method="GET">
                                         <div class="form-group mb-0">
-                                            <input type="text" class="form-control" placeholder="Search" />
-                                            <button type="search"><i class="far fa-search"></i></button>
+                                            <input type="text" class="form-control" name="search" id="searchInput" placeholder="Search" value="{{ request('search') }}" />
+                                            <button type="submit"><i class="far fa-search"></i></button>
                                         </div>
                                     </form>
                                 </div>
@@ -36,81 +36,22 @@
                                     <ul>
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="cat1" />
-                                                <label class="form-check-label" for="cat1"> Art &amp; Design
-                                                    (10)</label>
+                                                <input class="form-check-input category-filter" type="checkbox" name="category" value="" id="cat0" {{ empty(request('category')) ? 'checked' : '' }} />
+                                                <label class="form-check-label" style="cursor: pointer;" for="cat0">
+                                                    All Categories ({{ $categories->sum('courses_count') }})
+                                                </label>
                                             </div>
                                         </li>
+                                        @foreach($categories as $category)
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" checked="" type="checkbox"
-                                                    id="cat2" />
-                                                <label class="form-check-label" for="cat2"> Development (15)</label>
+                                                <input class="form-check-input category-filter" type="checkbox" name="category" value="{{ $category->id }}" id="cat{{ $category->id }}" {{ in_array($category->id, explode(',', request('category', ''))) ? 'checked' : '' }} />
+                                                <label class="form-check-label" style="cursor: pointer;" for="cat{{ $category->id }}">
+                                                    {{ $category->name }} ({{ $category->courses_count }})
+                                                </label>
                                             </div>
                                         </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="cat3" />
-                                                <label class="form-check-label" for="cat3"> IT &amp; Software
-                                                    (35)</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" checked="" type="checkbox"
-                                                    id="cat4" />
-                                                <label class="form-check-label" for="cat4"> Digital Marketing
-                                                    (25)</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="cat5" />
-                                                <label class="form-check-label" for="cat5"> Health &amp; Fitness
-                                                    (15)</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check mb-0">
-                                                <input class="form-check-input" type="checkbox" id="cat6" />
-                                                <label class="form-check-label" for="cat6"> Offices Productivity
-                                                    (09)</label>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- level -->
-                            <div class="widget mb-4">
-                                <h4 class="title">Course Level</h4>
-                                <div class="level">
-                                    <ul>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="lev1" />
-                                                <label class="form-check-label" for="lev1"> Beginer (14)</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" checked="" type="checkbox"
-                                                    id="lev2" />
-                                                <label class="form-check-label" for="lev2"> Intermediate (28)</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="lev3" />
-                                                <label class="form-check-label" for="lev3"> Advanced (35)</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" checked="" type="checkbox"
-                                                    id="lev4" />
-                                                <label class="form-check-label" for="lev4"> Expert (20)</label>
-                                            </div>
-                                        </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
@@ -121,486 +62,49 @@
                                     <ul>
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="price1" />
-                                                <label class="form-check-label" for="price1"> All</label>
+                                                <input class="form-check-input price-filter" type="checkbox" name="price" value="" id="price1" {{ empty(request('price')) ? 'checked' : '' }} />
+                                                <label class="form-check-label" style="cursor: pointer;" for="price1"> All</label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" checked type="checkbox" id="price2" />
-                                                <label class="form-check-label" for="price2"> Free</label>
+                                                <input class="form-check-input price-filter" type="checkbox" name="price" value="free" id="price2" {{ in_array('free', explode(',', request('price', ''))) ? 'checked' : '' }} />
+                                                <label class="form-check-label" style="cursor: pointer;" for="price2"> Free</label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="price3" />
-                                                <label class="form-check-label" for="price3"> Paid</label>
+                                                <input class="form-check-input price-filter" type="checkbox" name="price" value="paid" id="price3" {{ in_array('paid', explode(',', request('price', ''))) ? 'checked' : '' }} />
+                                                <label class="form-check-label" style="cursor: pointer;" for="price3"> Paid</label>
                                             </div>
                                         </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- rating -->
-                            <div class="widget">
-                                <h4 class="title">Course Rating</h4>
-                                <div class="rating">
-                                    <ul>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" checked="" type="checkbox"
-                                                    id="rat1" />
-                                                <label class="form-check-label" for="rat1">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <span>(15)</span>
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="rat2" />
-                                                <label class="form-check-label" for="rat2">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="far fa-star"></i>
-                                                    <span>(13)</span>
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="rat3" />
-                                                <label class="form-check-label" for="rat3">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="far fa-star"></i>
-                                                    <i class="far fa-star"></i>
-                                                    <span>(39)</span>
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" checked=""
-                                                    id="rat4" />
-                                                <label class="form-check-label" for="rat4">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="far fa-star"></i>
-                                                    <i class="far fa-star"></i>
-                                                    <i class="far fa-star"></i>
-                                                    <span>(22)</span>
-                                                </label>
-                                            </div>
-                                        </li>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="rat5" />
-                                            <label class="form-check-label" for="rat5">
-                                                <i class="fas fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                                <span>(18)</span>
-                                            </label>
-                                        </div>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-8 col-xl-9">
-                        <div class="course-sort">
-                            <div class="course-showing">Showing 1-10 of 50 Results</div>
-                            <div class="col-12 col-md-5 col-lg-4 col-xl-3">
-                                <select class="select">
-                                    <option value="1">Sort By Default</option>
-                                    <option value="5">Sort By Featured</option>
-                                    <option value="2">Sort By Latest</option>
-                                    <option value="3">Sort By Low Price</option>
-                                    <option value="4">Sort By High Price</option>
-                                </select>
-                            </div>
+                        <div id="top-filter-area">
+                            @include('frontend.pages.courses.course_topfilter')
                         </div>
-                        <div class="row g-4">
-                            <div class="col-md-6 col-lg-6 col-xl-4">
-                                <div class="course-item">
-                                    <span class="course-tag c1">Beginer</span>
-                                    <div class="course-img">
-                                        <a href="course-single.html"><img src="{{ asset('assets/frontend') }}/img/course/01.jpg"
-                                                alt="" /></a>
-                                    </div>
-                                    <div class="course-content">
-                                        <div class="course-meta">
-                                            <span class="category c1">Development</span>
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <span>3.5k</span>
-                                            </div>
-                                        </div>
-                                        <h4 class="course-title"><a href="course-single.html">Advance PHP Knowledge and
-                                                learn Laravel framework</a></h4>
-                                        <div class="course-info">
-                                            <ul>
-                                                <li class="lecture"><i class="fad fa-book-open-reader"></i>64 Lectures
-                                                </li>
-                                                <li class="duration"><i class="fad fa-clock-rotate-left"></i>30 Hours</li>
-                                            </ul>
-                                        </div>
-                                        <div class="course-bottom">
-                                            <a href="#">
-                                                <div class="course-instructor">
-                                                    <img src="{{ asset('assets/frontend') }}/img/course/ins-1.jpg" alt="" />
-                                                    <h6>Sara Wood</h6>
-                                                </div>
-                                            </a>
-                                            <div class="course-price">
-                                                <del>$75</del>
-                                                <span>$69</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
+                        <div id="course-grid">
+                            @if($courses->count() > 0)
+                            <div class="row g-4 course-grid-area">
+                                @foreach($courses as $course)
+                                    @include('frontend.pages.courses.course_filter')
+                                @endforeach
                             </div>
-                            <div class="col-md-6 col-lg-6 col-xl-4">
-                                <div class="course-item">
-                                    <span class="course-tag c2">Advance</span>
-                                    <div class="course-img">
-                                        <a href="course-single.html"><img src="{{ asset('assets/frontend') }}/img/course/02.jpg"
-                                                alt="" /></a>
-                                    </div>
-                                    <div class="course-content">
-                                        <div class="course-meta">
-                                            <span class="category">Art & Design</span>
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <span>5.2k</span>
-                                            </div>
-                                        </div>
-                                        <h4 class="course-title">
-                                            <a href="course-single.html">Full Web Designing Course With 20 Web Template</a>
-                                        </h4>
-                                        <div class="course-info">
-                                            <ul>
-                                                <li class="lecture"><i class="fad fa-book-open-reader"></i>75 Lectures
-                                                </li>
-                                                <li class="duration"><i class="fad fa-clock-rotate-left"></i>58 Hours</li>
-                                            </ul>
-                                        </div>
-                                        <div class="course-bottom">
-                                            <a href="#">
-                                                <div class="course-instructor">
-                                                    <img src="{{ asset('assets/frontend') }}/img/course/ins-2.jpg" alt="" />
-                                                    <h6>Michel Johny</h6>
-                                                </div>
-                                            </a>
-                                            <div class="course-price">
-                                                <span>$125</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
+                            <div id="pagination-wrapper">
+                                @include('frontend.pages.courses.partials.pagination')
                             </div>
-                            <div class="col-md-6 col-lg-6 col-xl-4">
-                                <div class="course-item">
-                                    <span class="course-tag c1">Beginer</span>
-                                    <div class="course-img">
-                                        <a href="course-single.html"><img src="{{ asset('assets/frontend') }}/img/course/03.jpg"
-                                                alt="" /></a>
-                                    </div>
-                                    <div class="course-content">
-                                        <div class="course-meta">
-                                            <span class="category c2">Business</span>
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <span>2.9k</span>
-                                            </div>
-                                        </div>
-                                        <h4 class="course-title"><a href="course-single.html">Basic Knowledge About the
-                                                UI/UX Design Pattern</a></h4>
-                                        <div class="course-info">
-                                            <ul>
-                                                <li class="lecture"><i class="fad fa-book-open-reader"></i>59 Lectures
-                                                </li>
-                                                <li class="duration"><i class="fad fa-clock-rotate-left"></i>38 Hours</li>
-                                            </ul>
-                                        </div>
-                                        <div class="course-bottom">
-                                            <a href="#">
-                                                <div class="course-instructor">
-                                                    <img src="{{ asset('assets/frontend') }}/img/course/ins-3.jpg" alt="" />
-                                                    <h6>Glines Joey</h6>
-                                                </div>
-                                            </a>
-                                            <div class="course-price">
-                                                <span>$130</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            @else
+                            <div class="alert alert-info text-center" role="alert">
+                                <h3>No Courses Found</h3>
+                                <p>Sorry, we couldn't find any courses matching your filters. Please try adjusting your search criteria.</p>
                             </div>
-                            <div class="col-md-6 col-lg-6 col-xl-4">
-                                <div class="course-item">
-                                    <span class="course-tag c2">Advance</span>
-                                    <div class="course-img">
-                                        <a href="course-single.html"><img src="{{ asset('assets/frontend') }}/img/course/04.jpg"
-                                                alt="" /></a>
-                                    </div>
-                                    <div class="course-content">
-                                        <div class="course-meta">
-                                            <span class="category c3">IT & Software</span>
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <span>9k</span>
-                                            </div>
-                                        </div>
-                                        <h4 class="course-title">
-                                            <a href="course-single.html">The Complete Business Plan Course Includes 50
-                                                Templates</a>
-                                        </h4>
-                                        <div class="course-info">
-                                            <ul>
-                                                <li class="lecture"><i class="fad fa-book-open-reader"></i>90 Lectures
-                                                </li>
-                                                <li class="duration"><i class="fad fa-clock-rotate-left"></i>125 Hours
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="course-bottom">
-                                            <a href="#">
-                                                <div class="course-instructor">
-                                                    <img src="{{ asset('assets/frontend') }}/img/course/ins-4.jpg" alt="" />
-                                                    <h6>Nancy Alarcon</h6>
-                                                </div>
-                                            </a>
-                                            <div class="course-price">
-                                                <span>$142</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6 col-xl-4">
-                                <div class="course-item">
-                                    <span class="course-tag c1">Beginer</span>
-                                    <div class="course-img">
-                                        <a href="course-single.html"><img src="{{ asset('assets/frontend') }}/img/course/01.jpg"
-                                                alt="" /></a>
-                                    </div>
-                                    <div class="course-content">
-                                        <div class="course-meta">
-                                            <span class="category c1">Development</span>
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <span>3.5k</span>
-                                            </div>
-                                        </div>
-                                        <h4 class="course-title"><a href="course-single.html">Advance PHP Knowledge and
-                                                learn Laravel framework</a></h4>
-                                        <div class="course-info">
-                                            <ul>
-                                                <li class="lecture"><i class="fad fa-book-open-reader"></i>64 Lectures
-                                                </li>
-                                                <li class="duration"><i class="fad fa-clock-rotate-left"></i>30 Hours</li>
-                                            </ul>
-                                        </div>
-                                        <div class="course-bottom">
-                                            <a href="#">
-                                                <div class="course-instructor">
-                                                    <img src="{{ asset('assets/frontend') }}/img/course/ins-1.jpg" alt="" />
-                                                    <h6>Sara Wood</h6>
-                                                </div>
-                                            </a>
-                                            <div class="course-price">
-                                                <del>$75</del>
-                                                <span>$69</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6 col-xl-4">
-                                <div class="course-item">
-                                    <span class="course-tag c2">Advance</span>
-                                    <div class="course-img">
-                                        <a href="course-single.html"><img src="{{ asset('assets/frontend') }}/img/course/02.jpg"
-                                                alt="" /></a>
-                                    </div>
-                                    <div class="course-content">
-                                        <div class="course-meta">
-                                            <span class="category">Art & Design</span>
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <span>5.2k</span>
-                                            </div>
-                                        </div>
-                                        <h4 class="course-title">
-                                            <a href="course-single.html">Full Web Designing Course With 20 Web Template</a>
-                                        </h4>
-                                        <div class="course-info">
-                                            <ul>
-                                                <li class="lecture"><i class="fad fa-book-open-reader"></i>75 Lectures
-                                                </li>
-                                                <li class="duration"><i class="fad fa-clock-rotate-left"></i>58 Hours</li>
-                                            </ul>
-                                        </div>
-                                        <div class="course-bottom">
-                                            <a href="#">
-                                                <div class="course-instructor">
-                                                    <img src="{{ asset('assets/frontend') }}/img/course/ins-2.jpg" alt="" />
-                                                    <h6>Michel Johny</h6>
-                                                </div>
-                                            </a>
-                                            <div class="course-price">
-                                                <span>$125</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6 col-xl-4">
-                                <div class="course-item">
-                                    <span class="course-tag c1">Beginer</span>
-                                    <div class="course-img">
-                                        <a href="course-single.html"><img src="{{ asset('assets/frontend') }}/img/course/03.jpg"
-                                                alt="" /></a>
-                                    </div>
-                                    <div class="course-content">
-                                        <div class="course-meta">
-                                            <span class="category c2">Business</span>
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <span>2.9k</span>
-                                            </div>
-                                        </div>
-                                        <h4 class="course-title"><a href="course-single.html">Basic Knowledge About the
-                                                UI/UX Design Pattern</a></h4>
-                                        <div class="course-info">
-                                            <ul>
-                                                <li class="lecture"><i class="fad fa-book-open-reader"></i>59 Lectures
-                                                </li>
-                                                <li class="duration"><i class="fad fa-clock-rotate-left"></i>38 Hours</li>
-                                            </ul>
-                                        </div>
-                                        <div class="course-bottom">
-                                            <a href="#">
-                                                <div class="course-instructor">
-                                                    <img src="{{ asset('assets/frontend') }}/img/course/ins-3.jpg" alt="" />
-                                                    <h6>Glines Joey</h6>
-                                                </div>
-                                            </a>
-                                            <div class="course-price">
-                                                <span>$130</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6 col-xl-4">
-                                <div class="course-item">
-                                    <span class="course-tag c2">Advance</span>
-                                    <div class="course-img">
-                                        <a href="course-single.html"><img src="{{ asset('assets/frontend') }}/img/course/04.jpg"
-                                                alt="" /></a>
-                                    </div>
-                                    <div class="course-content">
-                                        <div class="course-meta">
-                                            <span class="category c3">IT & Software</span>
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <span>9k</span>
-                                            </div>
-                                        </div>
-                                        <h4 class="course-title">
-                                            <a href="course-single.html">The Complete Business Plan Course Includes 50
-                                                Templates</a>
-                                        </h4>
-                                        <div class="course-info">
-                                            <ul>
-                                                <li class="lecture"><i class="fad fa-book-open-reader"></i>90 Lectures
-                                                </li>
-                                                <li class="duration"><i class="fad fa-clock-rotate-left"></i>125 Hours
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="course-bottom">
-                                            <a href="#">
-                                                <div class="course-instructor">
-                                                    <img src="{{ asset('assets/frontend') }}/img/course/ins-4.jpg" alt="" />
-                                                    <h6>Nancy Alarcon</h6>
-                                                </div>
-                                            </a>
-                                            <div class="course-price">
-                                                <span>$142</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6 col-xl-4">
-                                <div class="course-item">
-                                    <span class="course-tag c1">Beginer</span>
-                                    <div class="course-img">
-                                        <a href="course-single.html"><img src="{{ asset('assets/frontend') }}/img/course/03.jpg"
-                                                alt="" /></a>
-                                    </div>
-                                    <div class="course-content">
-                                        <div class="course-meta">
-                                            <span class="category c2">Business</span>
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <span>2.9k</span>
-                                            </div>
-                                        </div>
-                                        <h4 class="course-title"><a href="course-single.html">Basic Knowledge About the
-                                                UI/UX Design Pattern</a></h4>
-                                        <div class="course-info">
-                                            <ul>
-                                                <li class="lecture"><i class="fad fa-book-open-reader"></i>59 Lectures
-                                                </li>
-                                                <li class="duration"><i class="fad fa-clock-rotate-left"></i>38 Hours</li>
-                                            </ul>
-                                        </div>
-                                        <div class="course-bottom">
-                                            <a href="#">
-                                                <div class="course-instructor">
-                                                    <img src="{{ asset('assets/frontend') }}/img/course/ins-3.jpg" alt="" />
-                                                    <h6>Glines Joey</h6>
-                                                </div>
-                                            </a>
-                                            <div class="course-price">
-                                                <span>$130</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- pagination -->
-                        <div class="pagination-area">
-                            <div aria-label="Page navigation example">
-                                <ul class="pagination">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true"><i class="fas fa-arrow-left"></i></span>
-                                        </a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true"><i class="fas fa-arrow-right"></i></span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -612,4 +116,140 @@
 @endsection
 
 @push('frontend_script')
+<script>
+    $(document).ready(function() {
+
+        function filterCourses(url) {
+            // Show some loading indicator if desired
+            $('#course-grid').css('opacity', '0.5');
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                success: function(response) {
+                    $('#course-grid').html(response.html);
+                    $('#top-filter-area').html(response.topfilter);
+                    $('#course-grid').css('opacity', '1');
+
+                    // Re-initialize nice select if it exists
+                    if ($('select').length && typeof $.fn.niceSelect !== 'undefined') {
+                        $('select').niceSelect('destroy');
+                        $('select').niceSelect();
+                    }
+
+                    // Update URL without page reload
+                    history.pushState({}, '', url);
+                },
+                error: function(xhr, status, error) {
+                    console.log('AJAX Error:', error);
+                    $('#course-grid').css('opacity', '1');
+                    // Fallback to reload if error
+                    window.location.reload();
+                }
+            });
+        }
+
+        function buildFilterUrl(pageUrl = null) {
+            let urlParams = new URLSearchParams(window.location.search);
+
+            // Get search
+            let search = $('#searchInput').val();
+            if (search) {
+                urlParams.set('search', search);
+            } else {
+                urlParams.delete('search');
+            }
+
+            // Get category
+            let categories = [];
+            let allCategoriesChecked = false;
+            $('.category-filter:checked').each(function() {
+                if ($(this).val() === "") {
+                    allCategoriesChecked = true;
+                } else {
+                    categories.push($(this).val());
+                }
+            });
+
+            if (allCategoriesChecked) {
+                urlParams.delete('category');
+            } else if (categories.length > 0) {
+                urlParams.set('category', categories.join(','));
+            } else {
+                urlParams.delete('category');
+            }
+
+            // Get price
+            let prices = [];
+            let allPricesChecked = false;
+            $('.price-filter:checked').each(function() {
+                if ($(this).val() === "") {
+                    allPricesChecked = true;
+                } else {
+                    prices.push($(this).val());
+                }
+            });
+
+            if (allPricesChecked) {
+                urlParams.delete('price');
+            } else if (prices.length > 0) {
+                urlParams.set('price', prices.join(','));
+            } else {
+                urlParams.delete('price');
+            }
+
+            // Get sort_by
+            let sortBy = $('#sort_by').val();
+            if (sortBy) {
+                urlParams.set('sort_by', sortBy);
+            } else {
+                urlParams.delete('sort_by');
+            }
+
+            // Page handling
+            if (pageUrl) {
+                let pageParam = new URL(pageUrl, window.location.origin).searchParams.get('page');
+                if (pageParam) {
+                    urlParams.set('page', pageParam);
+                }
+            } else {
+                // If filters change, reset to page 1
+                urlParams.delete('page');
+            }
+
+            return window.location.pathname + '?' + urlParams.toString();
+        }
+
+        // On Filter Change (Category, Price)
+        $(document).on('change', '.category-filter, .price-filter', function() {
+            let newUrl = buildFilterUrl();
+            filterCourses(newUrl);
+        });
+
+        // On Sort Change
+        $(document).on('change', '.sort-by-select', function() {
+            let newUrl = buildFilterUrl();
+            filterCourses(newUrl);
+        });
+
+        // On Search Submit
+        $(document).on('submit', '#searchForm', function(e) {
+            e.preventDefault();
+            let newUrl = buildFilterUrl();
+            filterCourses(newUrl);
+        });
+
+        // On Pagination Click
+        $(document).on('click', '.pagination a', function(e) {
+            e.preventDefault();
+            let pageUrl = $(this).attr('href');
+            let newUrl = buildFilterUrl(pageUrl);
+            filterCourses(newUrl);
+        });
+    });
+</script>
 @endpush
