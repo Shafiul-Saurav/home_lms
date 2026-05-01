@@ -37,17 +37,8 @@
                     </div>
                     <div class="offcanvas-body gap-xl-4">
                         <ul class="navbar-nav justify-content-end flex-grow-1">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle active" href="#"
-                                    data-bs-toggle="dropdown">Home</a>
-                                <ul class="dropdown-menu fade-down">
-                                    <li><a class="dropdown-item" href="index.html">Home Demo 01</a></li>
-                                    <li><a class="dropdown-item" href="index-2.html">Home Demo 02</a></li>
-                                    <li><a class="dropdown-item" href="index-3.html">Home Demo 03</a></li>
-                                    <li><a class="dropdown-item" href="index-4.html">Home Demo 04</a></li>
-                                    <li><a class="dropdown-item" href="index-5.html">Home Demo 05</a></li>
-                                </ul>
-                            </li>
+                            <li class="nav-item"><a class="nav-link active" href="{{ route('home') }}">Home</a></li>
+                            <li class="nav-item"><a class="nav-link active" href="{{ route('courses') }}">Courses</a></li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#"
                                     data-bs-toggle="dropdown">Category</a>
@@ -157,35 +148,6 @@
                                     <li><a class="dropdown-item" href="faq.html">Faq's</a></li>
                                     <li><a class="dropdown-item" href="testimonial.html">Testimonials</a></li>
                                     <li><a class="dropdown-item" href="404.html">404 Error</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#"
-                                    data-bs-toggle="dropdown">Course</a>
-                                <ul class="dropdown-menu fade-down">
-                                    <li><a class="dropdown-item" href="course.html">Course One</a></li>
-                                    <li><a class="dropdown-item" href="course-2.html">Course Two</a></li>
-                                    <li><a class="dropdown-item" href="course-3.html">Course Three</a></li>
-                                    <li><a class="dropdown-item" href="course-4.html">Course Four</a></li>
-                                    <li><a class="dropdown-item" href="course-search.html">Course Search</a></li>
-                                    <li class="dropdown-submenu">
-                                        <a class="dropdown-item dropdown-toggle" href="#">Course Category</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="course-category.html">Category One</a>
-                                            </li>
-                                            <li><a class="dropdown-item" href="course-category-2.html">Category
-                                                    Two</a></li>
-                                            <li><a class="dropdown-item" href="course-category-single.html">Category
-                                                    Single</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a class="dropdown-item" href="course-cart.html">Course Cart</a></li>
-                                    <li><a class="dropdown-item" href="course-checkout.html">Course Checkout</a></li>
-                                    <li><a class="dropdown-item" href="course-checkout-complete.html">Checkout
-                                            Complete</a></li>
-                                    <li><a class="dropdown-item" href="course-single.html">Course Single One</a></li>
-                                    <li><a class="dropdown-item" href="course-single-2.html">Course Single Two</a>
-                                    </li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">

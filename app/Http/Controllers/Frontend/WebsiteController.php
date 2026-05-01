@@ -2,16 +2,10 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Helpers\SeoHelper;
 use App\Models\Faq;
 use App\Models\Post;
-use App\Models\Room;
 use App\Models\About;
-use App\Models\Booking;
-use App\Models\Product;
-use App\Models\Service;
 use App\Models\Category;
-use App\Models\Roomtype;
 use App\Models\HomeSlider;
 use App\Models\LogoFavicon;
 use App\Models\Testimonial;
@@ -22,7 +16,6 @@ use App\Models\Videogallery;
 use Illuminate\Http\Request;
 use App\Models\Photocategory;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 
 class WebsiteController extends Controller
@@ -69,11 +62,11 @@ class WebsiteController extends Controller
         return view('frontend.pages.about.about_page', compact('about', 'testimonials', 'logo_fav'));
     }
 
-    public function rooms()
+    public function courses()
     {
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
-        return view('frontend.pages.rooms.rooms', compact('logo_fav'));
+        return view('frontend.pages.courses.courses', compact('logo_fav'));
     }
 
     public function photoGallery()
