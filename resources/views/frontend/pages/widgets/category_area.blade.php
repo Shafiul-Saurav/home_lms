@@ -11,7 +11,7 @@
         </div>
         <div class="category-slider owl-carousel owl-theme wow fadeInUp" data-wow-delay=".25s">
             @foreach($categories as $category)
-                <a href="#" class="category-item">
+                <a href="{{ route('category.courses', $category->id) }}" class="category-item">
                     <div class="content">
                         <div class="icon">
                             @if($category->file)

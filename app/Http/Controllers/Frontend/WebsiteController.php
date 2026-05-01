@@ -175,6 +175,207 @@ class WebsiteController extends Controller
         ));
     }
 
+    public function categoryCourses($id, Request $request)
+    {
+        $category = Category::findOrFail($id);
+        $query = Course::query();
+
+        $query->where('is_active', 1);
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('description', 'LIKE', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('category')) {
+            if ($request->input('category') !== 'all') {
+                $categoryIds = explode(',', $request->input('category'));
+                $query->whereIn('category_id', $categoryIds);
+            }
+        } else {
+            $query->where('category_id', $id);
+        }
+
+        if ($request->filled('subcategory')) {
+            $query->where('subcategory_id', $request->input('subcategory'));
+        }
+
+        if ($request->filled('price')) {
+            if ($request->input('price') !== 'all') {
+                $priceFilters = explode(',', $request->input('price'));
+                if (in_array('free', $priceFilters) && in_array('paid', $priceFilters)) {
+                } elseif (in_array('free', $priceFilters)) {
+                    $query->where('price', 0);
+                } elseif (in_array('paid', $priceFilters)) {
+                    $query->where('price', '>', 0);
+                }
+            }
+        }
+
+        $sortBy = $request->input('sort_by', 'latest');
+        switch ($sortBy) {
+            case 'featured':
+                $query->orderBy('id', 'desc');
+                break;
+            case 'low_price':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'high_price':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'latest':
+            default:
+                $query->latest('id');
+                break;
+        }
+
+        $courses = $query->paginate(9);
+
+        $categories = Category::where('is_active', 1)->withCount(['courses' => function ($q) {
+            $q->where('is_active', 1);
+        }])->get();
+
+        $subcategories = Subcategory::where('is_active', 1)->withCount(['courses' => function ($q) {
+            $q->where('is_active', 1);
+        }])->get();
+
+        $logo_fav = LogoFavicon::first();
+
+        if ($request->ajax()) {
+            $html = '';
+            foreach ($courses as $course) {
+                $html .= view('frontend.pages.courses.course_filter', compact('course'))->render();
+            }
+
+            if ($courses->count() == 0) {
+                $html .= '<div class="col-12"><div class="alert alert-info text-center" role="alert"><h3>No Courses Found</h3><p>Sorry, we couldn\'t find any courses matching your filters. Please try adjusting your search criteria.</p></div></div>';
+            }
+
+            $pagination = view('frontend.pages.courses.partials.pagination', compact('courses'))->render();
+            $topfilter = view('frontend.pages.courses.course_topfilter', compact('courses'))->render();
+
+            return response()->json([
+                'html' => $html,
+                'pagination' => $pagination,
+                'topfilter' => $topfilter,
+                'total' => $courses->total()
+            ]);
+        }
+
+        return view('frontend.pages.courses.categories.category_courses', compact(
+            'courses',
+            'categories',
+            'subcategories',
+            'logo_fav',
+            'category'
+        ));
+    }
+
+    public function subcategoryCourses($id, Request $request)
+    {
+        $subcategory = Subcategory::findOrFail($id);
+        $query = Course::query();
+
+        $query->where('is_active', 1);
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('description', 'LIKE', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('category')) {
+            if ($request->input('category') !== 'all') {
+                $categoryIds = explode(',', $request->input('category'));
+                $query->whereIn('category_id', $categoryIds);
+            }
+        }
+
+        if ($request->filled('subcategory')) {
+            if ($request->input('subcategory') !== 'all') {
+                $subcategoryIds = explode(',', $request->input('subcategory'));
+                $query->whereIn('subcategory_id', $subcategoryIds);
+            }
+        } else {
+            $query->where('subcategory_id', $id);
+        }
+
+        if ($request->filled('price')) {
+            if ($request->input('price') !== 'all') {
+                $priceFilters = explode(',', $request->input('price'));
+                if (in_array('free', $priceFilters) && in_array('paid', $priceFilters)) {
+                } elseif (in_array('free', $priceFilters)) {
+                    $query->where('price', 0);
+                } elseif (in_array('paid', $priceFilters)) {
+                    $query->where('price', '>', 0);
+                }
+            }
+        }
+
+        $sortBy = $request->input('sort_by', 'latest');
+        switch ($sortBy) {
+            case 'featured':
+                $query->orderBy('id', 'desc');
+                break;
+            case 'low_price':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'high_price':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'latest':
+            default:
+                $query->latest('id');
+                break;
+        }
+
+        $courses = $query->paginate(9);
+
+        $categories = Category::where('is_active', 1)->withCount(['courses' => function ($q) {
+            $q->where('is_active', 1);
+        }])->get();
+
+        $subcategories = Subcategory::where('is_active', 1)->withCount(['courses' => function ($q) {
+            $q->where('is_active', 1);
+        }])->get();
+
+        $logo_fav = LogoFavicon::first();
+
+        if ($request->ajax()) {
+            $html = '';
+            foreach ($courses as $course) {
+                $html .= view('frontend.pages.courses.course_filter', compact('course'))->render();
+            }
+
+            if ($courses->count() == 0) {
+                $html .= '<div class="col-12"><div class="alert alert-info text-center" role="alert"><h3>No Courses Found</h3><p>Sorry, we couldn\'t find any courses matching your filters. Please try adjusting your search criteria.</p></div></div>';
+            }
+
+            $pagination = view('frontend.pages.courses.partials.pagination', compact('courses'))->render();
+            $topfilter = view('frontend.pages.courses.course_topfilter', compact('courses'))->render();
+
+            return response()->json([
+                'html' => $html,
+                'pagination' => $pagination,
+                'topfilter' => $topfilter,
+                'total' => $courses->total()
+            ]);
+        }
+
+        return view('frontend.pages.courses.categories.subcategory_courses', compact(
+            'courses',
+            'categories',
+            'subcategories',
+            'logo_fav',
+            'subcategory'
+        ));
+    }
+
     public function photoGallery()
     {
         $galleries = Photogallery::where('is_active', 1)->get();
