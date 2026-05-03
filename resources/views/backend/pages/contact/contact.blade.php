@@ -56,14 +56,14 @@
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
-                                                    <a href="{{ route('contact.show', $contact->id) }}" class="btn btn-sm btn-outline-primary border me-2"
+                                                    <a href="{{ route('contacts.show', $contact->id) }}" class="btn btn-sm btn-outline-primary border me-2"
                                                         data-toggle="tooltip" data-placement="top"
                                                         data-bs-original-title="View">
                                                         <i class="fa-solid fa-eye"></i>
                                                     </a>
                                                 </div>
                                                 <div>
-                                                    <form action="{{ route('contact.destroy', $contact->id) }}"
+                                                    <form action="{{ route('contacts.destroy', $contact->id) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')

@@ -543,7 +543,7 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::resource('faqs', FaqController::class);
 
     //Contact Route
-    Route::resource('contact', BackendContactController::class);
+    Route::resource('contacts', BackendContactController::class);
 
 });
 
