@@ -147,15 +147,15 @@ Route::group(['as' => 'login.', 'prefix' => 'login'], function() {
     ->name('provider.callback');
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});
+// Route::middleware([
+//     'auth:sanctum',
+//     config('jetstream.auth_session'),
+//     'verified',
+// ])->group(function () {
+//     Route::get('/dashboard', function () {
+//         return view('dashboard');
+//     })->name('dashboard');
+// });
 
 //Contact Route
 Route::post('contact_store', [ContactController::class, 'contactStore'])->name('contact.store');
