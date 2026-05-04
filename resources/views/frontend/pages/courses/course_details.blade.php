@@ -1,0 +1,710 @@
+@extends('frontend.layouts.master')
+
+@section('title', 'Courses')
+
+@push('frontend_style')
+@endpush
+
+@section('frontend_content')
+    <main class="main">
+        <!-- breadcrumb -->
+        <x-frontend.pages.common.breadcrumb :title="'Courses'" :breadcrumb="[['name' => 'Home', 'url' => route('home')], ['name' => 'Courses', 'url' => '#']]" />
+        <!-- breadcrumb end -->
+
+        <!-- course-single -->
+        <div class="course-single cs-2 py-80">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7 col-xl-8">
+                        <div class="course-single-wrap">
+                            <!-- video area -->
+                            <div class="video-area" style="background-image: url(assets/img/course/video.jpg)">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="video-wrap">
+                                            <a class="video-btn popup-youtube"
+                                                href="https://www.youtube.com/watch?v=ckHzmP1evNU">
+                                                <i class="fas fa-play"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- video area end -->
+
+                            <!-- course-single-header -->
+                            <div class="course-single-header">
+                                <div class="top">
+                                    <span class="category c1">Development</span>
+                                    <a href="#" class="bookmark" data-bs-toggle="tooltip" data-bs-title="Bookmark"><i
+                                            class="far fa-bookmark"></i></a>
+                                </div>
+                                <h4 class="title">Become a product Manager learn the skills & job</h4>
+                                <p>
+                                    There are many variations of passages available but the majority have suffered
+                                    alteration in some form by injected
+                                    humour words readable content page when looking even slightly believable.
+                                </p>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span class="rating-avg">4.5</span>
+                                    <span>(1.5k Reviews)</span>
+                                </div>
+                                <div class="info">
+                                    <div class="instructor">
+                                        <img src="assets/img/instructor/01.jpg" alt="" />
+                                        <h6>Sara Wood</h6>
+                                    </div>
+                                    <div class="update-date">
+                                        <h6>Last Updated: <span>July 21, 2025</span></h6>
+                                    </div>
+                                </div>
+                                <ul class="nav nav-underline">
+                                    <li class="nav-item">
+                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#course-tab1"
+                                            type="button">Description</button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#course-tab2"
+                                            type="button">Curriculum</button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#course-tab3"
+                                            type="button">Instructor</button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#course-tab4"
+                                            type="button">Review</button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- course-single-header end -->
+
+                            <!-- course single tab -->
+                            <div class="course-single-tab">
+                                <div class="tab-content">
+                                    <!-- tab 1 -->
+                                    <div class="tab-pane fade" id="course-tab1">
+                                        <div class="course-details mt-4">
+                                            <div class="mb-4">
+                                                <h5 class="mb-10">Description</h5>
+                                                <p>
+                                                    There are many variations of passages of Lorem Ipsum available, but the
+                                                    majority have suffered alteration in
+                                                    some form, by injected humour, or randomised words which don't look even
+                                                    slightly believable. If you are going
+                                                    to use a passage of Lorem Ipsum, you need to be sure there isn't
+                                                    anything embarrassing hidden in the middle of
+                                                    text. All the Lorem Ipsum generators on the Internet tend to repeat
+                                                    predefined chunks as necessary, making this
+                                                    the first true generator on the Internet.
+                                                </p>
+                                            </div>
+                                            <div class="mb-4">
+                                                <h5 class="mb-10">Course Requirments</h5>
+                                                <p>
+                                                    All the Lorem Ipsum generators on the Internet tend to repeat predefined
+                                                    chunks as necessary, making you need to
+                                                    be sure there isn't anything embarrassin this the first true generator
+                                                    on the Internet.
+                                                </p>
+                                                <ul class="course-list">
+                                                    <li><i class="far fa-check"></i>Sed ut perspiciatis unde omnis iste
+                                                        natus error sit voluptatem accusantium.</li>
+                                                    <li><i class="far fa-check"></i>At vero eos et accusamus et iusto odio
+                                                        dignissimos ducimus qui blanditiis.</li>
+                                                    <li><i class="far fa-check"></i>Et harum quidem rerum facilis est et
+                                                        expedita distinctio.</li>
+                                                    <li><i class="far fa-check"></i>Nam libero tempore, cum soluta nobis est
+                                                        eligendi optio cumque nihil.</li>
+                                                    <li><i class="far fa-check"></i>Itaque earum rerum hic tenetur a
+                                                        sapiente delectus ut aut.</li>
+                                                    <li><i class="far fa-check"></i>Reiciendis voluptatibus maiores alias
+                                                        consequatur aut perferendis.</li>
+                                                </ul>
+                                            </div>
+                                            <div class="mb-4">
+                                                <h5 class="mb-10">What You Will Learn</h5>
+                                                <p>
+                                                    On the other hand, we denounce with righteous indignation and dislike
+                                                    men who are so beguiled and demoralized by
+                                                    the charms of pleasure of the moment, so blinded by desire, that they
+                                                    cannot foresee the pain and trouble that
+                                                    are bound to ensue; and equal blame belongs to those.
+                                                </p>
+                                                <ul class="course-list">
+                                                    <li><i class="far fa-check"></i>Sed ut perspiciatis unde omnis iste
+                                                        natus error sit voluptatem.</li>
+                                                    <li><i class="far fa-check"></i>At vero eos et accusamus et iusto odio
+                                                        dignissimos ducimus qui blanditiis.</li>
+                                                    <li><i class="far fa-check"></i>Et harum quidem rerum facilis est et
+                                                        expedita distinctio.</li>
+                                                    <li><i class="far fa-check"></i>Nam libero tempore, cum soluta nobis est
+                                                        eligendi optio cumque nihil.</li>
+                                                    <li><i class="far fa-check"></i>Itaque earum rerum hic tenetur a
+                                                        sapiente delectus ut aut.</li>
+                                                    <li><i class="far fa-check"></i>Reiciendis voluptatibus maiores alias
+                                                        consequatur aut perferendis.</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- tab 2 -->
+                                    <div class="tab-pane fade active show" id="course-tab2">
+                                        <div class="course-curriculum mt-4">
+                                            <div class="accordion accordion-flush" id="course-accordion">
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header">
+                                                        <button class="accordion-button" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#curriculum1">
+                                                            Get Started
+                                                        </button>
+                                                    </h2>
+                                                    <div id="curriculum1" class="accordion-collapse collapse show"
+                                                        data-bs-parent="#course-accordion">
+                                                        <div class="accordion-body">
+                                                            <div class="curriculum-item unlock completed">
+                                                                <div class="left">
+                                                                    <h6><i class="fad fa-check-circle"></i>
+                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                </div>
+                                                                <div class="right">
+                                                                    <span class="duration">12:43</span>
+                                                                    <span class="lock"><i
+                                                                            class="fad fa-unlock"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="curriculum-item unlock">
+                                                                <div class="left">
+                                                                    <h6><i class="fad fa-play-circle"></i>
+                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                </div>
+                                                                <div class="right">
+                                                                    <span class="duration">12:43</span>
+                                                                    <span class="lock"><i
+                                                                            class="fad fa-unlock"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="curriculum-item unlock">
+                                                                <div class="left">
+                                                                    <h6><i class="fad fa-play-circle"></i>
+                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                </div>
+                                                                <div class="right">
+                                                                    <span class="duration">12:43</span>
+                                                                    <span class="lock"><i
+                                                                            class="fad fa-unlock"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="curriculum-item">
+                                                                <div class="left">
+                                                                    <h6><i class="fad fa-play-circle"></i>
+                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                </div>
+                                                                <div class="right">
+                                                                    <span class="duration">12:43</span>
+                                                                    <span class="lock"><i
+                                                                            class="fad fa-lock"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="curriculum-item">
+                                                                <div class="left">
+                                                                    <h6><i class="fad fa-volume"></i> <span>Audio:</span>
+                                                                        Interactive lesson</h6>
+                                                                </div>
+                                                                <div class="right">
+                                                                    <span class="duration">12:43</span>
+                                                                    <span class="lock"><i
+                                                                            class="fad fa-lock"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="curriculum-item">
+                                                                <div class="left">
+                                                                    <h6><i class="fad fa-file-alt"></i>
+                                                                        <span>Reading:</span> Web Design &amp; Development
+                                                                    </h6>
+                                                                </div>
+                                                                <div class="right">
+                                                                    <span class="duration">12:43</span>
+                                                                    <span class="lock"><i
+                                                                            class="fad fa-lock"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header">
+                                                        <button class="accordion-button collapsed" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#curriculum2">
+                                                            Course Project Overview
+                                                        </button>
+                                                    </h2>
+                                                    <div id="curriculum2" class="accordion-collapse collapse"
+                                                        data-bs-parent="#course-accordion">
+                                                        <div class="accordion-body">
+                                                            <div class="curriculum-item unlock completed">
+                                                                <div class="left">
+                                                                    <h6><i class="fad fa-check-circle"></i>
+                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                </div>
+                                                                <div class="right">
+                                                                    <span class="duration">12:43</span>
+                                                                    <span class="lock"><i
+                                                                            class="fad fa-unlock"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="curriculum-item unlock">
+                                                                <div class="left">
+                                                                    <h6><i class="fad fa-play-circle"></i>
+                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                </div>
+                                                                <div class="right">
+                                                                    <span class="duration">12:43</span>
+                                                                    <span class="lock"><i
+                                                                            class="fad fa-unlock"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="curriculum-item unlock">
+                                                                <div class="left">
+                                                                    <h6><i class="fad fa-play-circle"></i>
+                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                </div>
+                                                                <div class="right">
+                                                                    <span class="duration">12:43</span>
+                                                                    <span class="lock"><i
+                                                                            class="fad fa-unlock"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="curriculum-item">
+                                                                <div class="left">
+                                                                    <h6><i class="fad fa-play-circle"></i>
+                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                </div>
+                                                                <div class="right">
+                                                                    <span class="duration">12:43</span>
+                                                                    <span class="lock"><i
+                                                                            class="fad fa-lock"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="curriculum-item">
+                                                                <div class="left">
+                                                                    <h6><i class="fad fa-volume"></i> <span>Audio:</span>
+                                                                        Interactive lesson</h6>
+                                                                </div>
+                                                                <div class="right">
+                                                                    <span class="duration">12:43</span>
+                                                                    <span class="lock"><i
+                                                                            class="fad fa-lock"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="curriculum-item">
+                                                                <div class="left">
+                                                                    <h6><i class="fad fa-file-alt"></i>
+                                                                        <span>Reading:</span> Web Design &amp; Development
+                                                                    </h6>
+                                                                </div>
+                                                                <div class="right">
+                                                                    <span class="duration">12:43</span>
+                                                                    <span class="lock"><i
+                                                                            class="fad fa-lock"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header">
+                                                        <button class="accordion-button collapsed" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#curriculum3">
+                                                            Development Advance Level
+                                                        </button>
+                                                    </h2>
+                                                    <div id="curriculum3" class="accordion-collapse collapse"
+                                                        data-bs-parent="#course-accordion">
+                                                        <div class="accordion-body">
+                                                            <div class="curriculum-item unlock completed">
+                                                                <div class="left">
+                                                                    <h6><i class="fad fa-check-circle"></i>
+                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                </div>
+                                                                <div class="right">
+                                                                    <span class="duration">12:43</span>
+                                                                    <span class="lock"><i
+                                                                            class="fad fa-unlock"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="curriculum-item unlock">
+                                                                <div class="left">
+                                                                    <h6><i class="fad fa-play-circle"></i>
+                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                </div>
+                                                                <div class="right">
+                                                                    <span class="duration">12:43</span>
+                                                                    <span class="lock"><i
+                                                                            class="fad fa-unlock"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="curriculum-item unlock">
+                                                                <div class="left">
+                                                                    <h6><i class="fad fa-play-circle"></i>
+                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                </div>
+                                                                <div class="right">
+                                                                    <span class="duration">12:43</span>
+                                                                    <span class="lock"><i
+                                                                            class="fad fa-unlock"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="curriculum-item">
+                                                                <div class="left">
+                                                                    <h6><i class="fad fa-play-circle"></i>
+                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                </div>
+                                                                <div class="right">
+                                                                    <span class="duration">12:43</span>
+                                                                    <span class="lock"><i
+                                                                            class="fad fa-lock"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="curriculum-item">
+                                                                <div class="left">
+                                                                    <h6><i class="fad fa-volume"></i> <span>Audio:</span>
+                                                                        Interactive lesson</h6>
+                                                                </div>
+                                                                <div class="right">
+                                                                    <span class="duration">12:43</span>
+                                                                    <span class="lock"><i
+                                                                            class="fad fa-lock"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="curriculum-item">
+                                                                <div class="left">
+                                                                    <h6><i class="fad fa-file-alt"></i>
+                                                                        <span>Reading:</span> Web Design &amp; Development
+                                                                    </h6>
+                                                                </div>
+                                                                <div class="right">
+                                                                    <span class="duration">12:43</span>
+                                                                    <span class="lock"><i
+                                                                            class="fad fa-lock"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- tab 3 -->
+                                    <div class="tab-pane fade" id="course-tab3">
+                                        <div class="course-instructor mt-4">
+                                            <div class="instructor-img">
+                                                <img src="assets/img/instructor/01.jpg" alt="" />
+                                            </div>
+                                            <div class="instructor-info">
+                                                <h4>Sara Wood</h4>
+                                                <div class="instructor-info-wrap">
+                                                    <div class="rating">
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <i class="fas fa-star"></i>
+                                                        <span>(4.5)</span>
+                                                    </div>
+                                                    <span class="course"><i class="fad fa-book-open"></i> 15
+                                                        Courses</span>
+                                                    <span class="enrolled"><i class="fad fa-user-friends"></i> 1.5k
+                                                        Enrolled</span>
+                                                </div>
+                                                <p>
+                                                    There are many variations of passages orem psum available but the
+                                                    majority have suffered alteration in some
+                                                    form, by injected humour.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- tab 4 -->
+                                    <div class="tab-pane fade" id="course-tab4">
+                                        <div class="course-review">
+                                            <div class="review-wrap mt-4">
+                                                <!-- review-rating -->
+                                                <div class="review-rating">
+                                                    <div class="rating-count">
+                                                        <h2>4.5</h2>
+                                                        <div class="rating-star">
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="far fa-star"></i>
+                                                        </div>
+                                                        <p>15.5k Students Review</p>
+                                                    </div>
+                                                    <div class="rating-range">
+                                                        <div class="rating-range-item">
+                                                            <div class="rating-range-star">
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                            </div>
+                                                            <div class="rating-range-bar">
+                                                                <div class="progress">
+                                                                    <div class="progress-width" style="width: 90%"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="rating-range-percentage">
+                                                                <span>90%</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="rating-range-item">
+                                                            <div class="rating-range-star">
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="far fa-star"></i>
+                                                            </div>
+                                                            <div class="rating-range-bar">
+                                                                <div class="progress">
+                                                                    <div class="progress-width" style="width: 80%"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="rating-range-percentage">
+                                                                <span>80%</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="rating-range-item">
+                                                            <div class="rating-range-star">
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="far fa-star"></i>
+                                                                <i class="far fa-star"></i>
+                                                            </div>
+                                                            <div class="rating-range-bar">
+                                                                <div class="progress">
+                                                                    <div class="progress-width" style="width: 59%"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="rating-range-percentage">
+                                                                <span>59%</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="rating-range-item">
+                                                            <div class="rating-range-star">
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="far fa-star"></i>
+                                                                <i class="far fa-star"></i>
+                                                                <i class="far fa-star"></i>
+                                                            </div>
+                                                            <div class="rating-range-bar">
+                                                                <div class="progress">
+                                                                    <div class="progress-width" style="width: 70%"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="rating-range-percentage">
+                                                                <span>70%</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="rating-range-item">
+                                                            <div class="rating-range-star">
+                                                                <i class="fas fa-star"></i>
+                                                                <i class="far fa-star"></i>
+                                                                <i class="far fa-star"></i>
+                                                                <i class="far fa-star"></i>
+                                                                <i class="far fa-star"></i>
+                                                            </div>
+                                                            <div class="rating-range-bar">
+                                                                <div class="progress">
+                                                                    <div class="progress-width" style="width: 49%"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="rating-range-percentage">
+                                                                <span>49%</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- review-content -->
+                                                <div class="review-content">
+                                                    <h5 class="title">Reviews (1,500)</h5>
+                                                    <div class="review-item">
+                                                        <div class="review-author">
+                                                            <img src="assets/img/instructor/rev-1.png" alt="" />
+                                                            <div class="info">
+                                                                <div>
+                                                                    <h6>Erich T. Genao</h6>
+                                                                    <span><i class="far fa-clock"></i> 1 day ago</span>
+                                                                </div>
+                                                                <div class="rating">
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <p>
+                                                            There are many variations of passages available but the majority
+                                                            have suffered alteration in some form by
+                                                            injected humour randomised words. It is a long established fact
+                                                            that reader will be distracted by the
+                                                            readable content of web page editors now use page when looking
+                                                            at its layout.
+                                                        </p>
+                                                    </div>
+                                                    <div class="review-item">
+                                                        <div class="review-author">
+                                                            <img src="assets/img/instructor/rev-2.png" alt="" />
+                                                            <div class="info">
+                                                                <div>
+                                                                    <h6>Erich T. Genao</h6>
+                                                                    <span><i class="far fa-clock"></i> 1 day ago</span>
+                                                                </div>
+                                                                <div class="rating">
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <p>
+                                                            There are many variations of passages available but the majority
+                                                            have suffered alteration in some form by
+                                                            injected humour randomised words. It is a long established fact
+                                                            that reader will be distracted by the
+                                                            readable content of web page editors now use page when looking
+                                                            at its layout.
+                                                        </p>
+                                                    </div>
+                                                    <div class="review-item">
+                                                        <div class="review-author">
+                                                            <img src="assets/img/instructor/rev-1.png" alt="" />
+                                                            <div class="info">
+                                                                <div>
+                                                                    <h6>Erich T. Genao</h6>
+                                                                    <span><i class="far fa-clock"></i> 1 day ago</span>
+                                                                </div>
+                                                                <div class="rating">
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <p>
+                                                            There are many variations of passages available but the majority
+                                                            have suffered alteration in some form by
+                                                            injected humour randomised words. It is a long established fact
+                                                            that reader will be distracted by the
+                                                            readable content of web page editors now use page when looking
+                                                            at its layout.
+                                                        </p>
+                                                    </div>
+                                                    <div class="text-center mt-4">
+                                                        <a href="#" class="theme-btn"> <span
+                                                                class="fas fa-sync-alt"></span> Load More</a>
+                                                    </div>
+                                                </div>
+
+                                                <!-- review-form -->
+                                                <div class="review-form">
+                                                    <h5>Leave A Review</h5>
+                                                    <form action="#">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Your Rating</label>
+                                                            <select class="form-select">
+                                                                <option value="">Choose Your Rating</option>
+                                                                <option value="5">5 Stars</option>
+                                                                <option value="4">4 Stars</option>
+                                                                <option value="3">3 Stars</option>
+                                                                <option value="2">2 Stars</option>
+                                                                <option value="1">1 Star</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="form-label">Your Review</label>
+                                                            <textarea class="form-control" cols="30" rows="5" placeholder="Write your review"></textarea>
+                                                        </div>
+                                                        <button class="theme-btn" type="button">Post Your Review<i
+                                                                class="far fa-arrow-right"></i></button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- course single tab end -->
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-xl-4">
+                        <!-- course-single-sidebar -->
+                        <div class="course-single-sidebar">
+                            <div class="price-wrap">
+                                <div class="price-amount"><span>$120</span><del>$150</del></div>
+                                <span class="price-off">35% Off</span>
+                            </div>
+                            <a href="#" class="theme-btn"> <span class="far fa-shopping-bag"></span> Add To
+                                Cart</a>
+                            <div class="more-info">
+                                <ul>
+                                    <li><i class="fad fa-user"></i> Instructor: <span>Sara Wood</span></li>
+                                    <li><i class="fad fa-layer-group"></i> Level : <span>Expert</span></li>
+                                    <li><i class="fad fa-book"></i> Lectures : <span>35 Lectures</span></li>
+                                    <li><i class="fad fa-clock"></i> Duration: <span>03 Months</span></li>
+                                    <li><i class="fad fa-user-friends"></i> Enrolled: <span>259 Students</span></li>
+                                    <li><i class="fad fa-globe"></i> Language: <span>English</span></li>
+                                </ul>
+                            </div>
+                            <div class="include">
+                                <h5>Course Includes</h5>
+                                <ul>
+                                    <li><i class="fad fa-check-circle"></i> Full Lifetime Access</li>
+                                    <li><i class="fad fa-check-circle"></i> 35+ Downloadable Resources</li>
+                                    <li><i class="fad fa-check-circle"></i> Certificate Of Completion</li>
+                                    <li><i class="fad fa-check-circle"></i> Free Trial 7 Days</li>
+                                    <li><i class="fad fa-check-circle"></i> 15 Days Money Back Guarantee</li>
+                                </ul>
+                            </div>
+                            <div class="share">
+                                <h5>Social Share</h5>
+                                <div class="share-link">
+                                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#"><i class="fab fa-x-twitter"></i></a>
+                                    <a href="#"><i class="fab fa-instagram"></i></a>
+                                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                    <a href="#"><i class="fab fa-youtube"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- course-single end -->
+
+    </main>
+@endsection
+
+@push('frontend_script')
+@endpush

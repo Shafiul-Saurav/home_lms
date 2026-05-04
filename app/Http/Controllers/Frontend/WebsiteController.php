@@ -175,6 +175,11 @@ class WebsiteController extends Controller
         ));
     }
 
+    public function courseDetails($id)
+    {
+        return view('frontend.pages.courses.course_details');
+    }
+
     public function categoryCourses($id, Request $request)
     {
         $category = Category::findOrFail($id);
