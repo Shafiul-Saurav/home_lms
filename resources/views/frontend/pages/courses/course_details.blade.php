@@ -10,18 +10,43 @@
                 top: 60%;
                 z-index: 1000;
                 right: 4%;
-                /* display: block;
-                overflow: hidden; */
             }
-            /* .col-lg-5, .col-xl-4 {
-                position: relative;
-                overflow: visible !important;
+
+            .sidebar-scroll {
+                max-height: calc(100vh - 160px - 220px);
+                overflow-y: auto;
+                scroll-behavior: smooth;
+                padding-right: 4px;
+                scrollbar-width: thin;
+                scrollbar-color: transparent transparent;
             }
-            .row {
-                display: flex;
-                align-items: stretch;
-                overflow: visible !important;
-            } */
+
+            .sidebar-scroll::-webkit-scrollbar {
+                width: 7px;
+            }
+
+            .sidebar-scroll::-webkit-scrollbar-track {
+                background: transparent;
+                border-radius: 999px;
+            }
+
+            .sidebar-scroll::-webkit-scrollbar-thumb {
+                background: transparent;
+                border-radius: 999px;
+                transition: background 0.2s ease;
+            }
+
+            .sidebar-scroll:hover::-webkit-scrollbar-track {
+                background: rgba(0, 0, 0, 0.06);
+            }
+
+            .sidebar-scroll:hover::-webkit-scrollbar-thumb {
+                background: rgba(79, 70, 229, 0.75);
+            }
+
+            .sidebar-scroll:hover {
+                scrollbar-color: rgba(79, 70, 229, 0.75) rgba(0, 0, 0, 0.06);
+            }
         }
     </style>
 @endpush
@@ -723,10 +748,11 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="price-wrap px-3">
-                                <div class="price-amount"><span>$120</span><del>$150</del></div>
-                                <span class="price-off">35% Off</span>
-                            </div>
+                            <div class="sidebar-scroll">
+                                <div class="price-wrap px-3">
+                                    <div class="price-amount"><span>$120</span><del>$150</del></div>
+                                    <span class="price-off">35% Off</span>
+                                </div>
                             <div class="px-3">
                                 <a href="#" class="theme-btn"> <span class="far fa-shopping-bag"></span> Add To
                                     Cart</a>
