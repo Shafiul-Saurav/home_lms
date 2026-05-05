@@ -3,7 +3,27 @@
 @section('title', 'Courses')
 
 @push('frontend_style')
-    {{-- <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" /> --}}
+    <style>
+        @media (min-width: 992px) {
+            .position_fixed {
+                position: fixed;
+                top: 60%;
+                z-index: 1000;
+                right: 4%;
+                /* display: block;
+                overflow: hidden; */
+            }
+            /* .col-lg-5, .col-xl-4 {
+                position: relative;
+                overflow: visible !important;
+            }
+            .row {
+                display: flex;
+                align-items: stretch;
+                overflow: visible !important;
+            } */
+        }
+    </style>
 @endpush
 
 @section('frontend_content')
@@ -689,7 +709,7 @@
                             <!-- course single tab end -->
                         </div>
                     </div>
-                    <div class="col-lg-5 col-xl-4">
+                    <div class="col-lg-5 col-xl-4 position_fixed">
                         <!-- course-single-sidebar -->
                         <div class="course-single-sidebar p-0">
                             <div class="video-area mb-4"
