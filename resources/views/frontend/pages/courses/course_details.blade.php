@@ -3,6 +3,7 @@
 @section('title', 'Courses')
 
 @push('frontend_style')
+<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
 @endpush
 
 @section('frontend_content')
@@ -22,10 +23,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="video-wrap">
-                                            <a class="video-btn popup-youtube"
-                                                href="https://www.youtube.com/watch?v=ckHzmP1evNU">
-                                                <i class="fas fa-play"></i>
-                                            </a>
+                                            <div id="player" class="plyr__video-embed" data-plyr-provider="youtube" data-plyr-embed-id="ckHzmP1evNU"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -707,4 +705,5 @@
 @endsection
 
 @push('frontend_script')
+<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 @endpush
