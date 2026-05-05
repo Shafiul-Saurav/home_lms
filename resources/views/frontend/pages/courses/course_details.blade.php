@@ -3,64 +3,75 @@
 @section('title', 'Courses')
 
 @push('frontend_style')
-<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    {{-- <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" /> --}}
 @endpush
 
 @section('frontend_content')
     <main class="main">
         <!-- breadcrumb -->
-        <x-frontend.pages.common.breadcrumb :title="'Courses'" :breadcrumb="[['name' => 'Home', 'url' => route('home')], ['name' => 'Courses', 'url' => '#']]" />
+        <div class="site-breadcrumb" style="background: url({{ asset('assets/frontend') }}/img/breadcrumb/01.png)">
+            <div class="container">
+                <div class="col-lg-6">
+                    <div class="course-single-header">
+                        <div class="top">
+                            <span class="category c1">Development</span>
+                            <a href="#" class="bookmark" data-bs-toggle="tooltip" data-bs-title="Bookmark"><i
+                                    class="far fa-bookmark"></i></a>
+                        </div>
+                        <h4 class="title">Become a product Manager learn the skills & job</h4>
+                        <p>
+                            There are many variations of passages available but the majority have suffered alteration in
+                            some form by injected humour
+                            words even slightly believable.
+                        </p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span class="rating-avg">4.5</span>
+                            <span>(1.5k Reviews)</span>
+                        </div>
+                        <div class="info">
+                            <div class="instructor">
+                                <img src="{{ asset('assets/frontend') }}/img/instructor/01.jpg" alt="" />
+                                <h6>Sara Wood</h6>
+                            </div>
+                            <div class="update-date">
+                                <h6>Last Updated: <span>July 21, 2025</span></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- breadcrumb end -->
 
         <!-- course-single -->
-        <div class="course-single cs-2 py-80">
+        <div class="course-single pt-50 pb-80">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-7 col-xl-8">
                         <div class="course-single-wrap">
-                            <!-- video area -->
-                            <div class="video-area" style="background-image: url(assets/img/course/video.jpg)">
+                            <!--  video area -->
+                            <div class="video-area"
+                                style="background-image: url({{ asset('assets/frontend') }}/img/course/video.jpg)">
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="video-wrap">
-                                            <div id="player" class="plyr__video-embed" data-plyr-provider="youtube" data-plyr-embed-id="ckHzmP1evNU"></div>
+                                            <a class="video-btn popup-youtube"
+                                                href="https://www.youtube.com/watch?v=ckHzmP1evNU">
+                                                <i class="fas fa-play"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!-- video area end -->
 
-                            <!-- course-single-header -->
-                            <div class="course-single-header">
-                                <div class="top">
-                                    <span class="category c1">Development</span>
-                                    <a href="#" class="bookmark" data-bs-toggle="tooltip" data-bs-title="Bookmark"><i
-                                            class="far fa-bookmark"></i></a>
-                                </div>
-                                <h4 class="title">Become a product Manager learn the skills & job</h4>
-                                <p>
-                                    There are many variations of passages available but the majority have suffered
-                                    alteration in some form by injected
-                                    humour words readable content page when looking even slightly believable.
-                                </p>
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <span class="rating-avg">4.5</span>
-                                    <span>(1.5k Reviews)</span>
-                                </div>
-                                <div class="info">
-                                    <div class="instructor">
-                                        <img src="assets/img/instructor/01.jpg" alt="" />
-                                        <h6>Sara Wood</h6>
-                                    </div>
-                                    <div class="update-date">
-                                        <h6>Last Updated: <span>July 21, 2025</span></h6>
-                                    </div>
-                                </div>
+                            <!-- course single tab -->
+                            <div class="course-single-tab">
                                 <ul class="nav nav-underline">
                                     <li class="nav-item">
                                         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#course-tab1"
@@ -79,11 +90,7 @@
                                             type="button">Review</button>
                                     </li>
                                 </ul>
-                            </div>
-                            <!-- course-single-header end -->
 
-                            <!-- course single tab -->
-                            <div class="course-single-tab">
                                 <div class="tab-content">
                                     <!-- tab 1 -->
                                     <div class="tab-pane fade" id="course-tab1">
@@ -91,10 +98,10 @@
                                             <div class="mb-4">
                                                 <h5 class="mb-10">Description</h5>
                                                 <p>
-                                                    There are many variations of passages of Lorem Ipsum available, but the
-                                                    majority have suffered alteration in
-                                                    some form, by injected humour, or randomised words which don't look even
-                                                    slightly believable. If you are going
+                                                    There are many variations of passages of Lorem Ipsum available, but
+                                                    the majority have suffered alteration in
+                                                    some form, by injected humour, or randomised words which don't look
+                                                    even slightly believable. If you are going
                                                     to use a passage of Lorem Ipsum, you need to be sure there isn't
                                                     anything embarrassing hidden in the middle of
                                                     text. All the Lorem Ipsum generators on the Internet tend to repeat
@@ -105,48 +112,48 @@
                                             <div class="mb-4">
                                                 <h5 class="mb-10">Course Requirments</h5>
                                                 <p>
-                                                    All the Lorem Ipsum generators on the Internet tend to repeat predefined
-                                                    chunks as necessary, making you need to
-                                                    be sure there isn't anything embarrassin this the first true generator
-                                                    on the Internet.
+                                                    All the Lorem Ipsum generators on the Internet tend to repeat
+                                                    predefined chunks as necessary, making you need to
+                                                    be sure there isn't anything embarrassin this the first true
+                                                    generator on the Internet.
                                                 </p>
                                                 <ul class="course-list">
                                                     <li><i class="far fa-check"></i>Sed ut perspiciatis unde omnis iste
                                                         natus error sit voluptatem accusantium.</li>
-                                                    <li><i class="far fa-check"></i>At vero eos et accusamus et iusto odio
-                                                        dignissimos ducimus qui blanditiis.</li>
+                                                    <li><i class="far fa-check"></i>At vero eos et accusamus et iusto
+                                                        odio dignissimos ducimus qui blanditiis.</li>
                                                     <li><i class="far fa-check"></i>Et harum quidem rerum facilis est et
                                                         expedita distinctio.</li>
-                                                    <li><i class="far fa-check"></i>Nam libero tempore, cum soluta nobis est
-                                                        eligendi optio cumque nihil.</li>
+                                                    <li><i class="far fa-check"></i>Nam libero tempore, cum soluta nobis
+                                                        est eligendi optio cumque nihil.</li>
                                                     <li><i class="far fa-check"></i>Itaque earum rerum hic tenetur a
                                                         sapiente delectus ut aut.</li>
-                                                    <li><i class="far fa-check"></i>Reiciendis voluptatibus maiores alias
-                                                        consequatur aut perferendis.</li>
+                                                    <li><i class="far fa-check"></i>Reiciendis voluptatibus maiores
+                                                        alias consequatur aut perferendis.</li>
                                                 </ul>
                                             </div>
                                             <div class="mb-4">
                                                 <h5 class="mb-10">What You Will Learn</h5>
                                                 <p>
-                                                    On the other hand, we denounce with righteous indignation and dislike
-                                                    men who are so beguiled and demoralized by
-                                                    the charms of pleasure of the moment, so blinded by desire, that they
-                                                    cannot foresee the pain and trouble that
+                                                    On the other hand, we denounce with righteous indignation and
+                                                    dislike men who are so beguiled and demoralized by
+                                                    the charms of pleasure of the moment, so blinded by desire, that
+                                                    they cannot foresee the pain and trouble that
                                                     are bound to ensue; and equal blame belongs to those.
                                                 </p>
                                                 <ul class="course-list">
                                                     <li><i class="far fa-check"></i>Sed ut perspiciatis unde omnis iste
                                                         natus error sit voluptatem.</li>
-                                                    <li><i class="far fa-check"></i>At vero eos et accusamus et iusto odio
-                                                        dignissimos ducimus qui blanditiis.</li>
+                                                    <li><i class="far fa-check"></i>At vero eos et accusamus et iusto
+                                                        odio dignissimos ducimus qui blanditiis.</li>
                                                     <li><i class="far fa-check"></i>Et harum quidem rerum facilis est et
                                                         expedita distinctio.</li>
-                                                    <li><i class="far fa-check"></i>Nam libero tempore, cum soluta nobis est
-                                                        eligendi optio cumque nihil.</li>
+                                                    <li><i class="far fa-check"></i>Nam libero tempore, cum soluta nobis
+                                                        est eligendi optio cumque nihil.</li>
                                                     <li><i class="far fa-check"></i>Itaque earum rerum hic tenetur a
                                                         sapiente delectus ut aut.</li>
-                                                    <li><i class="far fa-check"></i>Reiciendis voluptatibus maiores alias
-                                                        consequatur aut perferendis.</li>
+                                                    <li><i class="far fa-check"></i>Reiciendis voluptatibus maiores
+                                                        alias consequatur aut perferendis.</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -169,7 +176,8 @@
                                                             <div class="curriculum-item unlock completed">
                                                                 <div class="left">
                                                                     <h6><i class="fad fa-check-circle"></i>
-                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                        <span>Video:</span> Greetings and Introduction
+                                                                    </h6>
                                                                 </div>
                                                                 <div class="right">
                                                                     <span class="duration">12:43</span>
@@ -180,7 +188,8 @@
                                                             <div class="curriculum-item unlock">
                                                                 <div class="left">
                                                                     <h6><i class="fad fa-play-circle"></i>
-                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                        <span>Video:</span> Greetings and Introduction
+                                                                    </h6>
                                                                 </div>
                                                                 <div class="right">
                                                                     <span class="duration">12:43</span>
@@ -191,7 +200,8 @@
                                                             <div class="curriculum-item unlock">
                                                                 <div class="left">
                                                                     <h6><i class="fad fa-play-circle"></i>
-                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                        <span>Video:</span> Greetings and Introduction
+                                                                    </h6>
                                                                 </div>
                                                                 <div class="right">
                                                                     <span class="duration">12:43</span>
@@ -202,7 +212,8 @@
                                                             <div class="curriculum-item">
                                                                 <div class="left">
                                                                     <h6><i class="fad fa-play-circle"></i>
-                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                        <span>Video:</span> Greetings and Introduction
+                                                                    </h6>
                                                                 </div>
                                                                 <div class="right">
                                                                     <span class="duration">12:43</span>
@@ -212,8 +223,9 @@
                                                             </div>
                                                             <div class="curriculum-item">
                                                                 <div class="left">
-                                                                    <h6><i class="fad fa-volume"></i> <span>Audio:</span>
-                                                                        Interactive lesson</h6>
+                                                                    <h6><i class="fad fa-volume"></i>
+                                                                        <span>Audio:</span> Interactive lesson
+                                                                    </h6>
                                                                 </div>
                                                                 <div class="right">
                                                                     <span class="duration">12:43</span>
@@ -224,7 +236,8 @@
                                                             <div class="curriculum-item">
                                                                 <div class="left">
                                                                     <h6><i class="fad fa-file-alt"></i>
-                                                                        <span>Reading:</span> Web Design &amp; Development
+                                                                        <span>Reading:</span> Web Design &amp;
+                                                                        Development
                                                                     </h6>
                                                                 </div>
                                                                 <div class="right">
@@ -249,7 +262,8 @@
                                                             <div class="curriculum-item unlock completed">
                                                                 <div class="left">
                                                                     <h6><i class="fad fa-check-circle"></i>
-                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                        <span>Video:</span> Greetings and Introduction
+                                                                    </h6>
                                                                 </div>
                                                                 <div class="right">
                                                                     <span class="duration">12:43</span>
@@ -260,7 +274,8 @@
                                                             <div class="curriculum-item unlock">
                                                                 <div class="left">
                                                                     <h6><i class="fad fa-play-circle"></i>
-                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                        <span>Video:</span> Greetings and Introduction
+                                                                    </h6>
                                                                 </div>
                                                                 <div class="right">
                                                                     <span class="duration">12:43</span>
@@ -271,7 +286,8 @@
                                                             <div class="curriculum-item unlock">
                                                                 <div class="left">
                                                                     <h6><i class="fad fa-play-circle"></i>
-                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                        <span>Video:</span> Greetings and Introduction
+                                                                    </h6>
                                                                 </div>
                                                                 <div class="right">
                                                                     <span class="duration">12:43</span>
@@ -282,7 +298,8 @@
                                                             <div class="curriculum-item">
                                                                 <div class="left">
                                                                     <h6><i class="fad fa-play-circle"></i>
-                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                        <span>Video:</span> Greetings and Introduction
+                                                                    </h6>
                                                                 </div>
                                                                 <div class="right">
                                                                     <span class="duration">12:43</span>
@@ -292,8 +309,9 @@
                                                             </div>
                                                             <div class="curriculum-item">
                                                                 <div class="left">
-                                                                    <h6><i class="fad fa-volume"></i> <span>Audio:</span>
-                                                                        Interactive lesson</h6>
+                                                                    <h6><i class="fad fa-volume"></i>
+                                                                        <span>Audio:</span> Interactive lesson
+                                                                    </h6>
                                                                 </div>
                                                                 <div class="right">
                                                                     <span class="duration">12:43</span>
@@ -304,7 +322,8 @@
                                                             <div class="curriculum-item">
                                                                 <div class="left">
                                                                     <h6><i class="fad fa-file-alt"></i>
-                                                                        <span>Reading:</span> Web Design &amp; Development
+                                                                        <span>Reading:</span> Web Design &amp;
+                                                                        Development
                                                                     </h6>
                                                                 </div>
                                                                 <div class="right">
@@ -329,7 +348,8 @@
                                                             <div class="curriculum-item unlock completed">
                                                                 <div class="left">
                                                                     <h6><i class="fad fa-check-circle"></i>
-                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                        <span>Video:</span> Greetings and Introduction
+                                                                    </h6>
                                                                 </div>
                                                                 <div class="right">
                                                                     <span class="duration">12:43</span>
@@ -340,7 +360,8 @@
                                                             <div class="curriculum-item unlock">
                                                                 <div class="left">
                                                                     <h6><i class="fad fa-play-circle"></i>
-                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                        <span>Video:</span> Greetings and Introduction
+                                                                    </h6>
                                                                 </div>
                                                                 <div class="right">
                                                                     <span class="duration">12:43</span>
@@ -351,7 +372,8 @@
                                                             <div class="curriculum-item unlock">
                                                                 <div class="left">
                                                                     <h6><i class="fad fa-play-circle"></i>
-                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                        <span>Video:</span> Greetings and Introduction
+                                                                    </h6>
                                                                 </div>
                                                                 <div class="right">
                                                                     <span class="duration">12:43</span>
@@ -362,7 +384,8 @@
                                                             <div class="curriculum-item">
                                                                 <div class="left">
                                                                     <h6><i class="fad fa-play-circle"></i>
-                                                                        <span>Video:</span> Greetings and Introduction</h6>
+                                                                        <span>Video:</span> Greetings and Introduction
+                                                                    </h6>
                                                                 </div>
                                                                 <div class="right">
                                                                     <span class="duration">12:43</span>
@@ -372,8 +395,9 @@
                                                             </div>
                                                             <div class="curriculum-item">
                                                                 <div class="left">
-                                                                    <h6><i class="fad fa-volume"></i> <span>Audio:</span>
-                                                                        Interactive lesson</h6>
+                                                                    <h6><i class="fad fa-volume"></i>
+                                                                        <span>Audio:</span> Interactive lesson
+                                                                    </h6>
                                                                 </div>
                                                                 <div class="right">
                                                                     <span class="duration">12:43</span>
@@ -384,7 +408,8 @@
                                                             <div class="curriculum-item">
                                                                 <div class="left">
                                                                     <h6><i class="fad fa-file-alt"></i>
-                                                                        <span>Reading:</span> Web Design &amp; Development
+                                                                        <span>Reading:</span> Web Design &amp;
+                                                                        Development
                                                                     </h6>
                                                                 </div>
                                                                 <div class="right">
@@ -404,7 +429,8 @@
                                     <div class="tab-pane fade" id="course-tab3">
                                         <div class="course-instructor mt-4">
                                             <div class="instructor-img">
-                                                <img src="assets/img/instructor/01.jpg" alt="" />
+                                                <img src="{{ asset('assets/frontend') }}/img/instructor/01.jpg"
+                                                    alt="" />
                                             </div>
                                             <div class="instructor-info">
                                                 <h4>Sara Wood</h4>
@@ -459,7 +485,8 @@
                                                             </div>
                                                             <div class="rating-range-bar">
                                                                 <div class="progress">
-                                                                    <div class="progress-width" style="width: 90%"></div>
+                                                                    <div class="progress-width" style="width: 90%">
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="rating-range-percentage">
@@ -476,7 +503,8 @@
                                                             </div>
                                                             <div class="rating-range-bar">
                                                                 <div class="progress">
-                                                                    <div class="progress-width" style="width: 80%"></div>
+                                                                    <div class="progress-width" style="width: 80%">
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="rating-range-percentage">
@@ -493,7 +521,8 @@
                                                             </div>
                                                             <div class="rating-range-bar">
                                                                 <div class="progress">
-                                                                    <div class="progress-width" style="width: 59%"></div>
+                                                                    <div class="progress-width" style="width: 59%">
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="rating-range-percentage">
@@ -510,7 +539,8 @@
                                                             </div>
                                                             <div class="rating-range-bar">
                                                                 <div class="progress">
-                                                                    <div class="progress-width" style="width: 70%"></div>
+                                                                    <div class="progress-width" style="width: 70%">
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="rating-range-percentage">
@@ -527,7 +557,8 @@
                                                             </div>
                                                             <div class="rating-range-bar">
                                                                 <div class="progress">
-                                                                    <div class="progress-width" style="width: 49%"></div>
+                                                                    <div class="progress-width" style="width: 49%">
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="rating-range-percentage">
@@ -542,7 +573,8 @@
                                                     <h5 class="title">Reviews (1,500)</h5>
                                                     <div class="review-item">
                                                         <div class="review-author">
-                                                            <img src="assets/img/instructor/rev-1.png" alt="" />
+                                                            <img src="{{ asset('assets/frontend') }}/img/instructor/rev-1.png"
+                                                                alt="" />
                                                             <div class="info">
                                                                 <div>
                                                                     <h6>Erich T. Genao</h6>
@@ -558,17 +590,18 @@
                                                             </div>
                                                         </div>
                                                         <p>
-                                                            There are many variations of passages available but the majority
-                                                            have suffered alteration in some form by
-                                                            injected humour randomised words. It is a long established fact
-                                                            that reader will be distracted by the
-                                                            readable content of web page editors now use page when looking
-                                                            at its layout.
+                                                            There are many variations of passages available but the
+                                                            majority have suffered alteration in some form by
+                                                            injected humour randomised words. It is a long established
+                                                            fact that reader will be distracted by the
+                                                            readable content of web page editors now use page when
+                                                            looking at its layout.
                                                         </p>
                                                     </div>
                                                     <div class="review-item">
                                                         <div class="review-author">
-                                                            <img src="assets/img/instructor/rev-2.png" alt="" />
+                                                            <img src="{{ asset('assets/frontend') }}/img/instructor/rev-2.png"
+                                                                alt="" />
                                                             <div class="info">
                                                                 <div>
                                                                     <h6>Erich T. Genao</h6>
@@ -584,17 +617,18 @@
                                                             </div>
                                                         </div>
                                                         <p>
-                                                            There are many variations of passages available but the majority
-                                                            have suffered alteration in some form by
-                                                            injected humour randomised words. It is a long established fact
-                                                            that reader will be distracted by the
-                                                            readable content of web page editors now use page when looking
-                                                            at its layout.
+                                                            There are many variations of passages available but the
+                                                            majority have suffered alteration in some form by
+                                                            injected humour randomised words. It is a long established
+                                                            fact that reader will be distracted by the
+                                                            readable content of web page editors now use page when
+                                                            looking at its layout.
                                                         </p>
                                                     </div>
                                                     <div class="review-item">
                                                         <div class="review-author">
-                                                            <img src="assets/img/instructor/rev-1.png" alt="" />
+                                                            <img src="{{ asset('assets/frontend') }}/img/instructor/rev-1.png"
+                                                                alt="" />
                                                             <div class="info">
                                                                 <div>
                                                                     <h6>Erich T. Genao</h6>
@@ -610,12 +644,12 @@
                                                             </div>
                                                         </div>
                                                         <p>
-                                                            There are many variations of passages available but the majority
-                                                            have suffered alteration in some form by
-                                                            injected humour randomised words. It is a long established fact
-                                                            that reader will be distracted by the
-                                                            readable content of web page editors now use page when looking
-                                                            at its layout.
+                                                            There are many variations of passages available but the
+                                                            majority have suffered alteration in some form by
+                                                            injected humour randomised words. It is a long established
+                                                            fact that reader will be distracted by the
+                                                            readable content of web page editors now use page when
+                                                            looking at its layout.
                                                         </p>
                                                     </div>
                                                     <div class="text-center mt-4">
@@ -701,9 +735,182 @@
         </div>
         <!-- course-single end -->
 
+        <!-- related course -->
+        <div class="course-area pb-120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 mx-auto">
+                        <div class="site-heading text-center">
+                            <span class="site-title-tagline"><i class="far fa-lightbulb-on"></i> Courses</span>
+                            <h2 class="site-title">Most Related <span class="text-gradient">Courses</span></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="course-item">
+                            <span class="course-tag c1">Beginer</span>
+                            <div class="course-img">
+                                <a href="course-single.html"><img src="{{ asset('assets/frontend') }}/img/course/01.jpg"
+                                        alt="" /></a>
+                            </div>
+                            <div class="course-content">
+                                <div class="course-meta">
+                                    <span class="category c1">Development</span>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>3.5k</span>
+                                    </div>
+                                </div>
+                                <h4 class="course-title"><a href="course-single.html">Advance PHP Knowledge and learn
+                                        Laravel framework</a></h4>
+                                <div class="course-info">
+                                    <ul>
+                                        <li class="lecture"><i class="fad fa-book-open-reader"></i>64 Lectures</li>
+                                        <li class="duration"><i class="fad fa-clock-rotate-left"></i>30 Hours</li>
+                                    </ul>
+                                </div>
+                                <div class="course-bottom">
+                                    <a href="#">
+                                        <div class="course-instructor">
+                                            <img src="{{ asset('assets/frontend') }}/img/course/ins-1.jpg"
+                                                alt="" />
+                                            <h6>Sara Wood</h6>
+                                        </div>
+                                    </a>
+                                    <div class="course-price">
+                                        <del>$75</del>
+                                        <span>$69</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="course-item">
+                            <span class="course-tag c2">Advance</span>
+                            <div class="course-img">
+                                <a href="course-single.html"><img src="{{ asset('assets/frontend') }}/img/course/02.jpg"
+                                        alt="" /></a>
+                            </div>
+                            <div class="course-content">
+                                <div class="course-meta">
+                                    <span class="category">Art & Design</span>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>5.2k</span>
+                                    </div>
+                                </div>
+                                <h4 class="course-title">
+                                    <a href="course-single.html">Full Web Designing Course With 20 Web Template</a>
+                                </h4>
+                                <div class="course-info">
+                                    <ul>
+                                        <li class="lecture"><i class="fad fa-book-open-reader"></i>75 Lectures</li>
+                                        <li class="duration"><i class="fad fa-clock-rotate-left"></i>58 Hours</li>
+                                    </ul>
+                                </div>
+                                <div class="course-bottom">
+                                    <a href="#">
+                                        <div class="course-instructor">
+                                            <img src="{{ asset('assets/frontend') }}/img/course/ins-2.jpg"
+                                                alt="" />
+                                            <h6>Michel Johny</h6>
+                                        </div>
+                                    </a>
+                                    <div class="course-price">
+                                        <span>$125</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="course-item">
+                            <span class="course-tag c1">Beginer</span>
+                            <div class="course-img">
+                                <a href="course-single.html"><img src="{{ asset('assets/frontend') }}/img/course/03.jpg"
+                                        alt="" /></a>
+                            </div>
+                            <div class="course-content">
+                                <div class="course-meta">
+                                    <span class="category c2">Business</span>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>2.9k</span>
+                                    </div>
+                                </div>
+                                <h4 class="course-title"><a href="course-single.html">Basic Knowledge About the UI/UX
+                                        Design Pattern</a></h4>
+                                <div class="course-info">
+                                    <ul>
+                                        <li class="lecture"><i class="fad fa-book-open-reader"></i>59 Lectures</li>
+                                        <li class="duration"><i class="fad fa-clock-rotate-left"></i>38 Hours</li>
+                                    </ul>
+                                </div>
+                                <div class="course-bottom">
+                                    <a href="#">
+                                        <div class="course-instructor">
+                                            <img src="{{ asset('assets/frontend') }}/img/course/ins-3.jpg"
+                                                alt="" />
+                                            <h6>Glines Joey</h6>
+                                        </div>
+                                    </a>
+                                    <div class="course-price">
+                                        <span>$130</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="course-item">
+                            <span class="course-tag c2">Advance</span>
+                            <div class="course-img">
+                                <a href="course-single.html"><img src="{{ asset('assets/frontend') }}/img/course/04.jpg"
+                                        alt="" /></a>
+                            </div>
+                            <div class="course-content">
+                                <div class="course-meta">
+                                    <span class="category c3">IT & Software</span>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>9k</span>
+                                    </div>
+                                </div>
+                                <h4 class="course-title">
+                                    <a href="course-single.html">The Complete Business Plan Course Includes 50
+                                        Templates</a>
+                                </h4>
+                                <div class="course-info">
+                                    <ul>
+                                        <li class="lecture"><i class="fad fa-book-open-reader"></i>90 Lectures</li>
+                                        <li class="duration"><i class="fad fa-clock-rotate-left"></i>125 Hours</li>
+                                    </ul>
+                                </div>
+                                <div class="course-bottom">
+                                    <a href="#">
+                                        <div class="course-instructor">
+                                            <img src="{{ asset('assets/frontend') }}/img/course/ins-4.jpg"
+                                                alt="" />
+                                            <h6>Nancy Alarcon</h6>
+                                        </div>
+                                    </a>
+                                    <div class="course-price">
+                                        <span>$142</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- related course end -->
+
     </main>
 @endsection
 
 @push('frontend_script')
-<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+    {{-- <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script> --}}
 @endpush

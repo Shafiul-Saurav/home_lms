@@ -17,8 +17,11 @@ use App\Models\Videogallery;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use App\Models\Photocategory;
+use App\Models\CourseModule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cookie;
 
 class WebsiteController extends Controller
 {
@@ -177,7 +180,69 @@ class WebsiteController extends Controller
 
     public function courseDetails($id)
     {
-        return view('frontend.pages.courses.course_details');
+        // Fetch course details
+        $courseInfo = Course::where('id', $id)->where('is_active', 1)->first();
+
+        if (!$courseInfo) {
+            return redirect()->back()->with('error', 'Course not found');
+        }
+
+        // Fetch course category
+        $category = Category::where('id', $courseInfo->category_id)->first();
+
+        // Fetch course modules
+        $modules = CourseModule::where('course_id', $id)->get();
+
+        // Fetch recorded classes (modules where live_record is 'record' or 'recorded')
+        $recorded_classes = $modules->filter(function ($module) {
+            return isset($module->live_record) && in_array($module->live_record, ['record', 'recorded']);
+        });
+
+        // Fetch related courses
+        $relatedCourses = Course::where('id', '!=', $id)
+                            ->where('is_active', 1)
+                            ->where('category_id', $courseInfo->category_id)
+                            ->limit(3)
+                            ->get();
+
+        // Fetch module PDFs for lecture sheets
+        $module_pdfs = CourseModule::where('course_id', $id)
+                        ->whereNotNull('pdf_file')
+                        ->get();
+
+        // Check if user is logged in and enrolled
+        $isLoggedIn = false;
+        $isEnrolled = false;
+
+        // Check if user is logged in using cookies
+        $userId = Cookie::get('user_id');
+        if($userId) {
+            $isLoggedIn = true;
+
+            // Check if user is enrolled in this course
+            $courseOrder = DB::table('courses_order')
+                            ->where('user_id', $userId)
+                            ->where('course_id', $id)
+                            ->first();
+            if($courseOrder) {
+                $isEnrolled = true;
+            }
+        }
+
+        // Fetch testimonials
+        $testimonials = Testimonial::limit(10)->get();
+
+        return view('frontend.pages.courses.course_details', compact(
+            'courseInfo',
+            'category',
+            'modules',
+            'recorded_classes',
+            'relatedCourses',
+            'module_pdfs',
+            'testimonials',
+            'isLoggedIn',
+            'isEnrolled'
+        ));
     }
 
     public function categoryCourses($id, Request $request)
