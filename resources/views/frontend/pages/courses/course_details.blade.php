@@ -55,19 +55,19 @@
                     <div class="col-lg-7 col-xl-8">
                         <div class="course-single-wrap">
                             <!--  video area -->
-                            <div class="video-area"
-                                style="background-image: url({{ asset('assets/frontend') }}/img/course/video.jpg)">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="video-wrap">
-                                            <a class="video-btn popup-youtube"
-                                                href="https://www.youtube.com/watch?v=ckHzmP1evNU">
-                                                <i class="fas fa-play"></i>
-                                            </a>
+                            <!-- <div class="video-area"
+                                    style="background-image: url({{ asset('assets/frontend') }}/img/course/video.jpg)">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="video-wrap">
+                                                <a class="video-btn popup-youtube"
+                                                    href="https://www.youtube.com/watch?v=ckHzmP1evNU">
+                                                    <i class="fas fa-play"></i>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                </div> -->
                             <!-- video area end -->
 
                             <!-- course single tab -->
@@ -691,14 +691,27 @@
                     </div>
                     <div class="col-lg-5 col-xl-4">
                         <!-- course-single-sidebar -->
-                        <div class="course-single-sidebar">
-                            <div class="price-wrap">
+                        <div class="course-single-sidebar p-0">
+                            <div class="video-area mb-4"
+                                style="background-image: url({{ asset('uploads/courses/' . $courseInfo->image) }}); background-size: cover; background-position: center; height: 220px; border-top-left-radius: 15px; border-top-right-radius: 15px; position: relative; overflow: hidden;">
+                                <div class="video-wrap"
+                                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center;">
+                                    <a class="video-btn popup-youtube"
+                                        href="{{ $courseInfo->video_link ?? 'https://www.youtube.com/watch?v=ckHzmP1evNU' }}"
+                                        style="width: 60px; height: 60px; line-height: 60px; background: #fff; color: var(--theme-color2); border-radius: 50%; text-align: center; font-size: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.2);">
+                                        <i class="fas fa-play"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="price-wrap px-3">
                                 <div class="price-amount"><span>$120</span><del>$150</del></div>
                                 <span class="price-off">35% Off</span>
                             </div>
-                            <a href="#" class="theme-btn"> <span class="far fa-shopping-bag"></span> Add To
-                                Cart</a>
-                            <div class="more-info">
+                            <div class="px-3">
+                                <a href="#" class="theme-btn"> <span class="far fa-shopping-bag"></span> Add To
+                                    Cart</a>
+                            </div>
+                            <div class="more-info px-3">
                                 <ul>
                                     <li><i class="fad fa-user"></i> Instructor: <span>Sara Wood</span></li>
                                     <li><i class="fad fa-layer-group"></i> Level : <span>Expert</span></li>
@@ -708,7 +721,7 @@
                                     <li><i class="fad fa-globe"></i> Language: <span>English</span></li>
                                 </ul>
                             </div>
-                            <div class="include">
+                            <div class="include px-3">
                                 <h5>Course Includes</h5>
                                 <ul>
                                     <li><i class="fad fa-check-circle"></i> Full Lifetime Access</li>
@@ -718,7 +731,7 @@
                                     <li><i class="fad fa-check-circle"></i> 15 Days Money Back Guarantee</li>
                                 </ul>
                             </div>
-                            <div class="share">
+                            <div class="share px-3 pb-3">
                                 <h5>Social Share</h5>
                                 <div class="share-link">
                                     <a href="#"><i class="fab fa-facebook-f"></i></a>

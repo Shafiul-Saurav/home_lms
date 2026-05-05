@@ -190,25 +190,19 @@ class WebsiteController extends Controller
         // Fetch course category
         $category = Category::where('id', $courseInfo->category_id)->first();
 
-        // Fetch course modules
-        $modules = CourseModule::where('course_id', $id)->get();
+        // Fetch lessons with modules
+        // $lessons = Lesson::with('courseModules')
+        //                 ->where('course_id', $id)
+        //                 ->get();
 
-        // Fetch recorded classes (modules where live_record is 'record' or 'recorded')
-        $recorded_classes = $modules->filter(function ($module) {
-            return isset($module->live_record) && in_array($module->live_record, ['record', 'recorded']);
-        });
+        $modules = CourseModule::where('course_id', $id)->get();
 
         // Fetch related courses
         $relatedCourses = Course::where('id', '!=', $id)
                             ->where('is_active', 1)
                             ->where('category_id', $courseInfo->category_id)
-                            ->limit(3)
+                            ->limit(4)
                             ->get();
-
-        // Fetch module PDFs for lecture sheets
-        $module_pdfs = CourseModule::where('course_id', $id)
-                        ->whereNotNull('pdf_file')
-                        ->get();
 
         // Check if user is logged in and enrolled
         $isLoggedIn = false;
@@ -229,17 +223,12 @@ class WebsiteController extends Controller
             }
         }
 
-        // Fetch testimonials
-        $testimonials = Testimonial::limit(10)->get();
-
         return view('frontend.pages.courses.course_details', compact(
             'courseInfo',
             'category',
             'modules',
-            'recorded_classes',
+            // 'lessons',
             'relatedCourses',
-            'module_pdfs',
-            'testimonials',
             'isLoggedIn',
             'isEnrolled'
         ));
