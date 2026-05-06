@@ -388,18 +388,14 @@
                 }
             });
 
-            const thumbnail = document.getElementById('thumbnail');
-
             window.plyrInstance.on('pause', () => {
-                if (thumbnail) {
-                    thumbnail.style.display = 'block';
-                }
+                const thumb = document.getElementById('thumbnail');
+                if (thumb) thumb.style.display = 'block';
             });
 
             window.plyrInstance.on('play', () => {
-                if (thumbnail) {
-                    thumbnail.style.display = 'none';
-                }
+                const thumb = document.getElementById('thumbnail');
+                if (thumb) thumb.style.display = 'none';
             });
 
             return window.plyrInstance;
@@ -633,7 +629,7 @@
             <div class="plyr__video-embed" id="player" style="position: relative;">
                 <img id="thumbnail"
                      src="https://cdn.prod.website-files.com/62d84e447b4f9e7263d31e94/6399a4d27711a5ad2c9bf5cd_ben-sweet-2LowviVHZ-E-unsplash-1.jpeg"
-                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: ${isRestricted ? 'block' : 'none'}; object-fit: cover; z-index: 10; border-radius: 12px;">
+                     style="position: absolute; top: 0; left: 0; width: 100%; height: calc(10% + 30px); display: none; object-fit: cover; z-index: 10;">
         `;
 
             if (!isRestricted && module.link) {
