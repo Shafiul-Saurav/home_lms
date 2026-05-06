@@ -99,22 +99,6 @@
                 <div class="row">
                     <div class="col-lg-7 col-xl-8">
                         <div class="course-single-wrap">
-                            <!--  video area -->
-                            <!-- <div class="video-area"
-                                    style="background-image: url({{ asset('assets/frontend') }}/img/course/video.jpg)">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="video-wrap">
-                                                <a class="video-btn popup-youtube"
-                                                    href="https://www.youtube.com/watch?v=ckHzmP1evNU">
-                                                    <i class="fas fa-play"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
-                            <!-- video area end -->
-
                             <!-- course single tab -->
                             <div class="course-single-tab">
                                 <ul class="nav nav-underline">
@@ -165,16 +149,18 @@
                                                             @foreach($lesson->courseModules as $module)
                                                             <div class="curriculum-item {{ $isEnrolled || $module->free_paid == 'free' ? 'unlock' : '' }}">
                                                                 <div class="left">
-                                                                    <h6>
-                                                                        @if($module->pdf_file)
-                                                                            <i class="fad fa-file-pdf"></i> <span>PDF:</span> 
-                                                                        @elseif($module->live_record == 'live')
-                                                                            <i class="fad fa-video"></i> <span>Live:</span> 
-                                                                        @else
-                                                                            <i class="fad fa-play-circle"></i> <span>Video:</span> 
-                                                                        @endif
-                                                                        {{ $module->title }}
-                                                                    </h6>
+                                                                    <a href="{{ route('course.video', ['course_id' => $courseInfo->id, 'module_id' => $module->id]) }}" class="text-decoration-none">
+                                                                        <h6>
+                                                                            @if($module->pdf_file)
+                                                                                <i class="fad fa-file-pdf"></i> <span>PDF:</span>
+                                                                            @elseif($module->live_record == 'live')
+                                                                                <i class="fad fa-video"></i> <span>Live:</span>
+                                                                            @else
+                                                                                <i class="fad fa-play-circle"></i> <span>Video:</span>
+                                                                            @endif
+                                                                            {{ $module->title }}
+                                                                        </h6>
+                                                                    </a>
                                                                 </div>
                                                                 <div class="right">
                                                                     <span class="duration">{{ $module->time ?? '00:00' }}</span>

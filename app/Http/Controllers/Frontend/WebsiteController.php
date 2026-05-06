@@ -235,6 +235,95 @@ class WebsiteController extends Controller
         ));
     }
 
+    public function courseVideo($course_id, $module_id = null)
+    {
+        $course = Course::where('id', $course_id)->where('is_active', 1)->firstOrFail();
+
+        // Fetch lessons with modules
+        $lessons = Lesson::with('courseModules')
+                        ->where('course_id', $course_id)
+                        ->get();
+
+        $modules = CourseModule::where('course_id', $course_id)->get();
+
+        // Check if user is logged in and enrolled
+        $isLoggedIn = false;
+        $isEnrolled = false;
+        $userId = Cookie::get('user_id');
+        if($userId) {
+            $isLoggedIn = true;
+            $courseOrder = DB::table('courses_order')
+                            ->where('user_id', $userId)
+                            ->where('course_id', $course_id)
+                            ->first();
+            if($courseOrder) {
+                $isEnrolled = true;
+            }
+        }
+
+        if ($module_id) {
+            $module = $modules->where('id', $module_id)->first();
+            if (!$module) {
+                abort(404, 'Module not found');
+            }
+        } else {
+            // Get the first module
+            $module = $modules->first();
+            if (!$module) {
+                return redirect()->back()->with('error', 'No modules available for this course');
+            }
+        }
+
+        // Access check for initial load
+        if ($module->free_paid != 'free' && !$isEnrolled) {
+            $notification = "Please enroll in this course to access this content";
+            return view('frontend.pages.courses.course_video', compact('course', 'module', 'modules', 'lessons', 'isEnrolled', 'isLoggedIn', 'notification'));
+        }
+
+        return view('frontend.pages.courses.course_video', compact('course', 'module', 'modules', 'lessons', 'isEnrolled', 'isLoggedIn'));
+    }
+
+    public function ajaxCourseVideoData($module_id)
+    {
+        $module = CourseModule::find($module_id);
+        if (!$module) {
+            return response()->json(['success' => false, 'error' => 'Module not found'], 404);
+        }
+
+        $course = Course::find($module->course_id);
+
+        $isEnrolled = false;
+        $userId = Cookie::get('user_id');
+        if($userId) {
+            $courseOrder = DB::table('courses_order')
+                            ->where('user_id', $userId)
+                            ->where('course_id', $course->id)
+                            ->first();
+            if($courseOrder) {
+                $isEnrolled = true;
+            }
+        }
+
+        $hasAccess = ($module->free_paid == 'free' || $isEnrolled);
+
+        if (!$hasAccess) {
+            return response()->json([
+                'success' => false,
+                'hasAccess' => false,
+                'error' => 'Please enroll in this course to access this content'
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'hasAccess' => true,
+            'module' => $module,
+            'course' => $course,
+            'modules' => $modules,
+            'isEnrolled' => $isEnrolled
+        ]);
+    }
+
     public function categoryCourses($id, Request $request)
     {
         $category = Category::findOrFail($id);
