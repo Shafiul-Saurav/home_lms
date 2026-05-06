@@ -18,6 +18,7 @@ use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use App\Models\Photocategory;
 use App\Models\CourseModule;
+use App\Models\Lesson;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\DB;
@@ -191,9 +192,9 @@ class WebsiteController extends Controller
         $category = Category::where('id', $courseInfo->category_id)->first();
 
         // Fetch lessons with modules
-        // $lessons = Lesson::with('courseModules')
-        //                 ->where('course_id', $id)
-        //                 ->get();
+        $lessons = Lesson::with('courseModules')
+                        ->where('course_id', $id)
+                        ->get();
 
         $modules = CourseModule::where('course_id', $id)->get();
 
@@ -227,7 +228,7 @@ class WebsiteController extends Controller
             'courseInfo',
             'category',
             'modules',
-            // 'lessons',
+            'lessons',
             'relatedCourses',
             'isLoggedIn',
             'isEnrolled'
