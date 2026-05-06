@@ -583,7 +583,7 @@
                         updateVideoMeta(data.course, data.module);
 
                         // Update browser history to reflect the new video
-                        const newUrl = "{{ route('course.video', '') }}/" + moduleId;
+                        const newUrl = "{{ route('course.video', $course->id) }}/" + moduleId;
                         window.history.pushState({
                             moduleId: moduleId
                         }, '', newUrl);
