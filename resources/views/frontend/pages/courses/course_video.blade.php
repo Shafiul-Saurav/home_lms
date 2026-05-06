@@ -111,14 +111,14 @@
                             @php
                                 $isRestricted = isset($notification);
                             @endphp
-                            
+
                             <!-- Plyr Video Player Shell -->
                             <div class="plyr__video-embed" id="player" style="position: relative;">
                                 <!-- Custom thumbnail overlay -->
                                 <img id="thumbnail"
                                     src="https://cdn.prod.website-files.com/62d84e447b4f9e7263d31e94/6399a4d27711a5ad2c9bf5cd_ben-sweet-2LowviVHZ-E-unsplash-1.jpeg"
                                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: {{ $isRestricted ? 'block' : 'none' }}; object-fit: cover; z-index: 10; border-radius: 12px;">
-                                
+
                                 @if (!$isRestricted && $module->link)
                                     @if (Str::contains($module->link, ['youtube.com', 'youtu.be']))
                                         <!-- Handle YouTube URLs -->
@@ -189,16 +189,16 @@
                         </div>
 
                         <div class="video-meta">
-                            <p><strong>Course:</strong> {{ $course->name ?? 'N/A' }}</p>
+                            {{-- <p><strong>Course:</strong> {{ $course->name ?? 'N/A' }}</p> --}}
                             <p><strong>Date:</strong> {{ $module->date ?? 'N/A' }} |
                                 <strong>Time:</strong> {{ $module->time ?? 'N/A' }}
                             </p>
                         </div>
 
                         <div class="toolbar">
-                            <button class="btn btn-soft" id="prevVideoBtn" onclick="navigateVideo('prev')"><i
-                                    class="feather-skip-back"></i> Previous</button>
-                            <button class="btn btn-soft" id="nextVideoBtn" onclick="navigateVideo('next')">Next <i
+                            <button class="theme-btn" id="prevVideoBtn" onclick="navigateVideo('prev')"><i
+                                    class="feather-skip-back"></i> < Previous</button>
+                            <button class="theme-btn" id="nextVideoBtn" onclick="navigateVideo('next')">Next > <i
                                     class="feather-skip-forward"></i></button>
                         </div>
 
@@ -625,7 +625,7 @@
 
             // Build the video player HTML
             let videoPlayerHtml = '';
-            
+
             // Player Shell
             videoPlayerHtml += `
             <div class="plyr__video-embed" id="player" style="position: relative;">
