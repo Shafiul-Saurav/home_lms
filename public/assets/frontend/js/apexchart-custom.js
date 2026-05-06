@@ -23,8 +23,11 @@ $(function () {
     },
     };
 
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
-    chart.render();
+    var chartElement = document.querySelector("#chart");
+    if (chartElement) {
+        var chart = new ApexCharts(chartElement, options);
+        chart.render();
+    }
 
 
 });

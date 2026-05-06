@@ -25,9 +25,9 @@
                         </div>
                         <div class="content">
                             <h6>Email</h6>
-                            <a href="/cdn-cgi/l/email-protection#a2cbccc4cde2c7dac3cfd2cec78cc1cdcf"><span
+                            {{-- <a href="/cdn-cgi/l/email-protection#a2cbccc4cde2c7dac3cfd2cec78cc1cdcf"><span
                                     class="__cf_email__"
-                                    data-cfemail="a1c8cfc7cee1c4d9c0ccd1cdc48fc2cecc">[email&#160;protected]</span></a>
+                                    data-cfemail="a1c8cfc7cee1c4d9c0ccd1cdc48fc2cecc">[email&#160;protected]</span></a> --}}
                         </div>
                     </li>
                     <li>
