@@ -319,7 +319,6 @@ class WebsiteController extends Controller
             'hasAccess' => true,
             'module' => $module,
             'course' => $course,
-            'modules' => $modules,
             'isEnrolled' => $isEnrolled
         ]);
     }
