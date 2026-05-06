@@ -117,7 +117,7 @@
                                 <!-- Custom thumbnail overlay -->
                                 <img id="thumbnail"
                                     src="https://cdn.prod.website-files.com/62d84e447b4f9e7263d31e94/6399a4d27711a5ad2c9bf5cd_ben-sweet-2LowviVHZ-E-unsplash-1.jpeg"
-                                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: {{ $isRestricted ? 'block' : 'none' }}; object-fit: cover; z-index: 10; border-radius: 12px;">
+                                    style="position: absolute; top: 0; left: 0; width: 100%; height: calc(10% + 30px); display: none; object-fit: cover; z-index: 10;">
 
                                 @if (!$isRestricted && $module->link)
                                     @if (Str::contains($module->link, ['youtube.com', 'youtu.be']))
@@ -196,10 +196,12 @@
                         </div>
 
                         <div class="toolbar">
-                            <button class="theme-btn" id="prevVideoBtn" onclick="navigateVideo('prev')"><i
-                                    class="feather-skip-back"></i> < Previous</button>
-                            <button class="theme-btn" id="nextVideoBtn" onclick="navigateVideo('next')">Next > <i
-                                    class="feather-skip-forward"></i></button>
+                            <button class="theme-btn" id="prevVideoBtn" onclick="navigateVideo('prev')">
+                                <i class="fas fa-chevron-left"></i> Previous
+                            </button>
+                            <button class="theme-btn" id="nextVideoBtn" onclick="navigateVideo('next')">
+                                Next <i class="fas fa-chevron-right"></i>
+                            </button>
                         </div>
 
                         {{-- @if (!empty($module->pdf_file))
@@ -838,8 +840,9 @@
             // Get all module items and update the active state
             const moduleItems = document.querySelectorAll('.curriculum-item');
             moduleItems.forEach(item => {
-                const moduleId = parseInt(item.getAttribute('data-module-id'));
-                if (moduleId === currentModuleId) {
+                const moduleId = item.getAttribute('data-module-id');
+                // Use loose comparison to handle string vs integer
+                if (moduleId == currentModuleId) {
                     item.classList.add('active');
                 } else {
                     item.classList.remove('active');
