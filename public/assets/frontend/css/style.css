@@ -18,7 +18,7 @@ Table of contents
 7. Bs custom css
 8. Nice select css
 9. Breadcrumb css
-10. Pagination css 
+10. Pagination css
 11. Play btn
 12. Site title css
 13. Theme button
@@ -26,29 +26,29 @@ Table of contents
 15. Navbar css
 16. Navbar multi level dropdown
 17. Navbar mega menu
-18. Sidebar popup css 
+18. Sidebar popup css
 19. Search popup
-20. Hero css 
-21. About css 
-22. Feature css 
-23. Counter css 
-24. Video css 
-25. Contact us css 
-26. Error css 
-27. Terms/privacy css 
-28. Coming soon css 
-29. Faq css 
-30. Team css 
-31. Testimonial css 
-32. Partner css 
-33. Choose css 
-34. Cta css 
-35. Pricing css 
+20. Hero css
+21. About css
+22. Feature css
+23. Counter css
+24. Video css
+25. Contact us css
+26. Error css
+27. Terms/privacy css
+28. Coming soon css
+29. Faq css
+30. Team css
+31. Testimonial css
+32. Partner css
+33. Choose css
+34. Cta css
+35. Pricing css
 36. Blog css
 37. Blog single css
 38. Blog sidebar widget css
-39. Auth css 
-40. Step/process css  
+39. Auth css
+40. Step/process css
 41. Footer css
 42. Skill css
 43. Category css
@@ -60,16 +60,16 @@ Table of contents
 49. Download css
 50. Mail success css
 51. Gallery css
-52. Help css 
-53. Affiliate css 
-54. Invoice css 
-55. Career css 
-56. Career single css 
-57. Event css 
-58. Event single css 
-59. Cart css 
-60. Checkout css 
-61. Account css 
+52. Help css
+53. Affiliate css
+54. Invoice css
+55. Career css
+56. Career single css
+57. Event css
+58. Event single css
+59. Cart css
+60. Checkout css
+61. Account css
 62. Home css
 
 =======================================================*/
@@ -954,7 +954,7 @@ label {
 .site-breadcrumb .breadcrumb-menu li::before {
     position: absolute;
     content: "\f101";
-    font-family: "Font Awesome 6 Pro";
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro";
     right: -21px;
     top: 1px;
     text-align: center;
@@ -975,7 +975,7 @@ label {
 }
 
 /*====================
-10. Pagination css 
+10. Pagination css
 ======================*/
 
 .pagination {
@@ -1450,7 +1450,7 @@ label {
     display: inline-block;
     margin-left: 5px;
     vertical-align: baseline;
-    font-family: "Font Awesome 6 Pro";
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro";
     content: "\f107";
     font-weight: 600;
     border: none;
@@ -1522,7 +1522,7 @@ label {
     .navbar .nav-item .dropdown-menu .dropdown-item::before {
         content: "\f061";
         position: absolute;
-        font-family: "Font Awesome 6 Pro";
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro";
         left: -15px;
         top: 6px;
         color: var(--color-white);
@@ -1886,7 +1886,7 @@ label {
 }
 
 /*====================
-18. Sidebar popup css 
+18. Sidebar popup css
 ======================*/
 
 .sidebar-popup {
@@ -2117,7 +2117,7 @@ label {
 }
 
 /*====================
-20. Hero css 
+20. Hero css
 ======================*/
 
 .hero-section .hero-single {
@@ -2619,7 +2619,7 @@ label {
 }
 
 /* ===================
-21. About css 
+21. About css
 ====================== */
 
 .about-left {
@@ -2730,7 +2730,7 @@ label {
 }
 
 /*====================
-22. Feature css 
+22. Feature css
 ======================*/
 
 .feature-area {
@@ -2816,7 +2816,7 @@ label {
 }
 
 /* ===================
-23. Counter css 
+23. Counter css
 ====================== */
 
 .counter-wrap {
@@ -2915,7 +2915,7 @@ label {
 }
 
 /* ===================
-24. Video css 
+24. Video css
 ====================== */
 
 .video-content {
@@ -2966,7 +2966,7 @@ label {
 }
 
 /*===================
-25. Contact us css 
+25. Contact us css
 =====================*/
 
 .contact-info {
@@ -3081,7 +3081,7 @@ label {
 }
 
 /*====================
-26. Error css 
+26. Error css
 ======================*/
 
 .error-wrap {
@@ -3119,7 +3119,7 @@ label {
 }
 
 /*====================
-27. Terms/privacy css 
+27. Terms/privacy css
 ====================== */
 
 .terms-content:not(:last-child) {
@@ -3149,7 +3149,7 @@ label {
 }
 
 /*====================
-28. Coming soon css 
+28. Coming soon css
 ======================*/
 
 .coming-soon {
@@ -3296,7 +3296,7 @@ label {
 }
 
 /*====================
-29. Faq css 
+29. Faq css
 ======================*/
 
 .faq-area .accordion-item {
@@ -3327,8 +3327,8 @@ label {
     background: none;
     color: var(--theme-color);
     font-size: 24px;
-    font-weight: 500;
-    font-family: "Font Awesome 6 pro";
+    font-weight: 900;
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro";
     width: unset;
     height: unset;
     margin-right: 3px;
@@ -3374,7 +3374,7 @@ label {
 }
 
 /* ===================
-30. Team css 
+30. Team css
 ====================== */
 
 .team-area {
@@ -3488,7 +3488,7 @@ label {
 }
 
 /*====================
-31. Testimonial css 
+31. Testimonial css
 ======================*/
 
 .testimonial-item {
@@ -3620,7 +3620,7 @@ label {
 }
 
 /*====================
-32. Partner css 
+32. Partner css
 ======================*/
 
 .partner-area {
@@ -3651,7 +3651,7 @@ label {
 }
 
 /*====================
-33. Choose css 
+33. Choose css
 ======================*/
 
 .choose-content {
@@ -3715,7 +3715,7 @@ label {
 }
 
 /*====================
-34. Cta css 
+34. Cta css
 ======================*/
 
 .cta-wrap {
@@ -3783,7 +3783,7 @@ label {
 }
 
 /*====================
-35. Pricing css 
+35. Pricing css
 ======================*/
 
 .pricing-area {
@@ -4495,7 +4495,7 @@ label {
 }
 
 /*====================
-39. Auth css 
+39. Auth css
 ======================*/
 
 .auth-form {
@@ -4644,7 +4644,7 @@ label {
 }
 
 /*====================
-40. Step/process css  
+40. Step/process css
 ======================*/
 
 .process-item {
@@ -6090,8 +6090,8 @@ label {
     background: none;
     color: var(--theme-color);
     font-size: 24px;
-    font-weight: 300;
-    font-family: "Font Awesome 6 pro";
+    font-weight: 900;
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro";
     width: unset;
     height: unset;
     margin-right: 3px;
@@ -7240,7 +7240,7 @@ label {
 }
 
 /*====================
-52. Help css 
+52. Help css
 ======================*/
 
 .help-area {
@@ -7339,7 +7339,7 @@ label {
 }
 
 /*====================
-53. Affiliate css 
+53. Affiliate css
 ======================*/
 
 .affiliate-img {
@@ -7375,7 +7375,7 @@ label {
 }
 
 /*====================
-54. Invoice css 
+54. Invoice css
 ======================*/
 
 .invoice-area {
@@ -7459,7 +7459,7 @@ label {
 }
 
 /*====================
-55. Career css 
+55. Career css
 ======================*/
 
 /* mission */
@@ -7632,7 +7632,7 @@ label {
 }
 
 /*====================
-56. Career single css 
+56. Career single css
 ======================*/
 
 .job-single-img img {
@@ -7683,7 +7683,7 @@ label {
 }
 
 /*====================
-57. Event css 
+57. Event css
 ======================*/
 
 .event-item {
@@ -7764,7 +7764,7 @@ label {
 }
 
 /*====================
-58. Event single css 
+58. Event single css
 ======================*/
 
 .event-details img {
@@ -7844,7 +7844,7 @@ label {
 }
 
 /*===================
-59. Cart css 
+59. Cart css
 =====================*/
 
 .cart-table thead tr {
@@ -8033,7 +8033,7 @@ label {
 }
 
 /*===================
-60. Checkout css 
+60. Checkout css
 =====================*/
 
 .checkout-step .accordion-item {
@@ -8054,8 +8054,8 @@ label {
     background: none;
     color: var(--theme-color);
     font-size: 24px;
-    font-weight: 300;
-    font-family: "Font Awesome 6 pro";
+    font-weight: 900;
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro";
     width: unset;
     height: unset;
     margin-right: 3px;
@@ -8155,7 +8155,7 @@ label {
 .checkout-payment .nav-link::before {
     content: "\f058";
     position: absolute;
-    font-family: "Font Awesome 6 Pro";
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro";
     font-weight: bold;
     font-size: 20px;
     color: var(--theme-color);
@@ -8236,7 +8236,7 @@ label {
 }
 
 /* ===================
-61. Account css 
+61. Account css
 ====================== */
 
 .account-profile a img {
@@ -8359,7 +8359,7 @@ label {
 .user-sidebar .sidebar-menu-list li a::before {
     content: "\e122";
     position: absolute;
-    font-family: "Font Awesome 6 Pro";
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro";
     left: 4px;
     top: 12px;
     color: var(--theme-color);
@@ -9014,7 +9014,7 @@ label {
     top: 0px;
     left: -9px;
     content: "\f0d9";
-    font-family: "Font Awesome 6 Pro";
+    font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro";
     font-weight: bold;
     font-size: 31px;
     color: var(--theme-bg-light);
