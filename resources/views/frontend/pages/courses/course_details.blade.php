@@ -163,7 +163,7 @@
                                                         data-bs-parent="#course-accordion">
                                                         <div class="accordion-body">
                                                             @foreach($lesson->courseModules as $module)
-                                                            <div class="curriculum-item">
+                                                            <div class="curriculum-item {{ $isEnrolled || $module->free_paid == 'free' ? 'unlock' : '' }}">
                                                                 <div class="left">
                                                                     <h6>
                                                                         @if($module->pdf_file)
