@@ -94,7 +94,7 @@
         <!-- breadcrumb end -->
 
         <!-- course-single -->
-        <div class="course-single pt-50 pb-80">
+        <div class="course-single pt-50 pb-80" style="position: relative;">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-7 col-xl-8">
@@ -503,7 +503,7 @@
         <!-- course-single end -->
 
         <!-- related course -->
-        <div class="course-area pb-120">
+        <div id="related-courses-section" class="course-area pb-120">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 mx-auto">
@@ -679,5 +679,34 @@
 @endsection
 
 @push('frontend_script')
-    {{-- <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script> --}}
+    <script>
+        $(window).on('scroll', function() {
+            if ($(window).width() >= 992) {
+                var sidebar = $('.position_fixed');
+                var relatedSection = $('#related-courses-section');
+                var container = $('.course-single');
+
+                if (sidebar.length && relatedSection.length) {
+                    var scrollPos = $(window).scrollTop();
+                    var relatedTop = relatedSection.offset().top;
+                    var sidebarHeight = sidebar.outerHeight();
+                    var stopPoint = relatedTop - sidebarHeight - 50;
+
+                    if (scrollPos >= stopPoint) {
+                        sidebar.css({
+                            'position': 'absolute',
+                            'top': (stopPoint - container.offset().top + 100) + 'px',
+                            'right': '4%' // Align to column gutter
+                        });
+                    } else {
+                        sidebar.css({
+                            'position': 'fixed',
+                            'top': '60%',
+                            'right': '4%'
+                        });
+                    }
+                }
+            }
+        });
+    </script>
 @endpush
