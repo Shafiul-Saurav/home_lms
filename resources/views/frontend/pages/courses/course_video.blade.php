@@ -556,20 +556,16 @@
                 .then(response => {
                     if (!response.ok) {
                         // Log the specific response status and text for debugging
-                        console.error('HTTP error! status:', response.status);
                         return response.text().then(text => {
-                            console.error('Response text:', text);
                             throw new Error(`HTTP error! status: ${response.status}`);
                         });
                     }
                     return response.text().then(text => {
                         // Log raw response for debugging
                         try {
-                            console.log('Raw response:', text);
                             return JSON.parse(text);
                         } catch (e) {
                             console.error('JSON parse error:', e);
-                            console.error('Raw response that failed to parse:', text);
                             throw e;
                         }
                     });
@@ -602,7 +598,6 @@
                     }
                 })
                 .catch(error => {
-                    console.error('Error loading video:', error);
                     playerContainer.innerHTML = `
                     <div class="d-flex align-items-center justify-content-center h-100 text-white">
                         <div class="text-center">
