@@ -38,8 +38,15 @@
             <div class="course-bottom">
                 <a href="{{ route('course.details', $course->id) }}">
                     <div class="course-instructor">
-                        <img src="{{ asset('assets/frontend') }}/img/course/ins-1.jpg" alt="Instructor" />
-                        <h6>Instructor</h6>
+                        @php
+                            $mainTeacher = $course->teachers->first();
+                        @endphp
+                        @if($mainTeacher && $mainTeacher->profile_image && $mainTeacher->profile_image !== 'default_profile_image.jpg')
+                            <img src="{{ asset('uploads/teachers/' . $mainTeacher->profile_image) }}" alt="{{ $mainTeacher->user->name }}" />
+                        @else
+                            <img src="{{ asset('assets/frontend') }}/img/course/ins-1.jpg" alt="Instructor" />
+                        @endif
+                        <h6>{{ $mainTeacher->user->name ?? 'Instructor' }}</h6>
                     </div>
                 </a>
                 <div class="course-price">

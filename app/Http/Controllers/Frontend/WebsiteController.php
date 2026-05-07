@@ -70,7 +70,7 @@ class WebsiteController extends Controller
 
     public function courses(Request $request)
     {
-        $query = Course::query();
+        $query = Course::with(['teachers.user', 'category']);
 
         // Filter by active courses only
         $query->where('is_active', 1);
@@ -182,7 +182,8 @@ class WebsiteController extends Controller
     public function courseDetails($id)
     {
         // Fetch course details
-        $courseInfo = Course::where('id', $id)->where('is_active', 1)->first();
+        // Fetch course details
+        $courseInfo = Course::with(['teachers.user', 'category'])->where('id', $id)->where('is_active', 1)->first();
 
         if (!$courseInfo) {
             return redirect()->back()->with('error', 'Course not found');
@@ -199,7 +200,7 @@ class WebsiteController extends Controller
         $modules = CourseModule::where('course_id', $id)->get();
 
         // Fetch related courses
-        $relatedCourses = Course::where('id', '!=', $id)
+        $relatedCourses = Course::with(['teachers.user', 'category'])->where('id', '!=', $id)
                             ->where('is_active', 1)
                             ->where('category_id', $courseInfo->category_id)
                             ->limit(4)
@@ -237,7 +238,7 @@ class WebsiteController extends Controller
 
     public function courseVideo($course_id, $module_id = null)
     {
-        $course = Course::where('id', $course_id)->where('is_active', 1)->firstOrFail();
+        $course = Course::with('teachers.user')->where('id', $course_id)->where('is_active', 1)->firstOrFail();
 
         // Fetch lessons with modules
         $lessons = Lesson::with('courseModules')

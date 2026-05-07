@@ -59,15 +59,13 @@
                 <div class="col-lg-6">
                     <div class="course-single-header">
                         <div class="top">
-                            <span class="category c1">Development</span>
+                            <span class="category c1">{{ $courseInfo->category->name ?? 'Uncategorized' }}</span>
                             <a href="#" class="bookmark" data-bs-toggle="tooltip" data-bs-title="Bookmark"><i
                                     class="far fa-bookmark"></i></a>
                         </div>
-                        <h4 class="title">Become a product Manager learn the skills & job</h4>
+                        <h4 class="title">{{ $courseInfo->name }}</h4>
                         <p>
-                            There are many variations of passages available but the majority have suffered alteration in
-                            some form by injected humour
-                            words even slightly believable.
+                            {!! Str::limit(strip_tags($courseInfo->description), 150) !!}
                         </p>
                         <div class="rating">
                             <i class="fas fa-star"></i>
@@ -80,11 +78,18 @@
                         </div>
                         <div class="info">
                             <div class="instructor">
-                                <img src="{{ asset('assets/frontend') }}/img/instructor/01.jpg" alt="" />
-                                <h6>Sara Wood</h6>
+                                @php
+                                    $mainTeacher = $courseInfo->teachers->first();
+                                @endphp
+                                @if($mainTeacher && $mainTeacher->profile_image && $mainTeacher->profile_image !== 'default_profile_image.jpg')
+                                    <img src="{{ asset('uploads/teachers/' . $mainTeacher->profile_image) }}" alt="{{ $mainTeacher->user->name }}" />
+                                @else
+                                    <img src="{{ asset('assets/frontend') }}/img/instructor/01.jpg" alt="Instructor" />
+                                @endif
+                                <h6>{{ $mainTeacher->user->name ?? 'Instructor' }}</h6>
                             </div>
                             <div class="update-date">
-                                <h6>Last Updated: <span>July 21, 2025</span></h6>
+                                <h6>Last Updated: <span>{{ $courseInfo->updated_at->format('M d, Y') }}</span></h6>
                             </div>
                         </div>
                     </div>
@@ -181,12 +186,18 @@
                                     <!-- tab 3 -->
                                     <div class="tab-pane fade" id="course-tab3">
                                         <div class="course-instructor mt-4">
+                                            @php
+                                                $mainTeacher = $courseInfo->teachers->first();
+                                            @endphp
                                             <div class="instructor-img">
-                                                <img src="{{ asset('assets/frontend') }}/img/instructor/01.jpg"
-                                                    alt="" />
+                                                @if($mainTeacher && $mainTeacher->profile_image && $mainTeacher->profile_image !== 'default_profile_image.jpg')
+                                                    <img src="{{ asset('uploads/teachers/' . $mainTeacher->profile_image) }}" alt="{{ $mainTeacher->user->name }}" />
+                                                @else
+                                                    <img src="{{ asset('assets/frontend') }}/img/instructor/01.jpg" alt="Instructor" />
+                                                @endif
                                             </div>
                                             <div class="instructor-info">
-                                                <h4>Sara Wood</h4>
+                                                <h4>{{ $mainTeacher->user->name ?? 'Instructor' }}</h4>
                                                 <div class="instructor-info-wrap">
                                                     <div class="rating">
                                                         <i class="fas fa-star"></i>
@@ -196,15 +207,15 @@
                                                         <i class="fas fa-star"></i>
                                                         <span>(4.5)</span>
                                                     </div>
-                                                    <span class="course"><i class="fad fa-book-open"></i> 15
-                                                        Courses</span>
-                                                    <span class="enrolled"><i class="fad fa-user-friends"></i> 1.5k
-                                                        Enrolled</span>
+                                                    <span class="course"><i class="fad fa-book-open"></i> {{ $mainTeacher ? $mainTeacher->courses->count() : 0 }} Courses</span>
+                                                    <span class="enrolled"><i class="fad fa-user-friends"></i> 1.5k Enrolled</span>
                                                 </div>
                                                 <p>
-                                                    There are many variations of passages orem psum available but the
-                                                    majority have suffered alteration in some
-                                                    form, by injected humour.
+                                                    @if($mainTeacher)
+                                                        {{ $mainTeacher->qualification ?? 'Qualified instructor with expertise in this field.' }}
+                                                    @else
+                                                        No instructor information available.
+                                                    @endif
                                                 </p>
                                             </div>
                                         </div>
@@ -467,7 +478,7 @@
                             </div>
                             <div class="more-info px-3">
                                 <ul>
-                                    <li><i class="fad fa-user"></i> Instructor: <span>Sara Wood</span></li>
+                                    <li><i class="fad fa-user"></i> Instructor: <span>{{ $courseInfo->teachers->first()->user->name ?? 'Instructor' }}</span></li>
                                     <li><i class="fad fa-layer-group"></i> Level : <span>Expert</span></li>
                                     <li><i class="fad fa-book"></i> Lectures : <span>35 Lectures</span></li>
                                     <li><i class="fad fa-clock"></i> Duration: <span>03 Months</span></li>
@@ -514,162 +525,62 @@
                     </div>
                 </div>
                 <div class="row g-4">
+                    @forelse($relatedCourses as $related)
                     <div class="col-md-6 col-lg-4 col-xl-3">
                         <div class="course-item">
-                            <span class="course-tag c1">Beginer</span>
+                            <span class="course-tag c1">{{ ucfirst($related->live_or_record ?? 'Course') }}</span>
                             <div class="course-img">
-                                <a href="course-single.html"><img src="{{ asset('assets/frontend') }}/img/course/01.jpg"
-                                        alt="" /></a>
+                                <a href="{{ route('course.details', $related->id) }}"><img src="{{ asset('uploads/courses/' . $related->image) }}"
+                                        alt="{{ $related->name }}" /></a>
                             </div>
                             <div class="course-content">
                                 <div class="course-meta">
-                                    <span class="category c1">Development</span>
+                                    <span class="category c1">{{ $related->category->name ?? 'Uncategorized' }}</span>
                                     <div class="rating">
                                         <i class="fas fa-star"></i>
-                                        <span>3.5k</span>
+                                        <span>4.5</span>
                                     </div>
                                 </div>
-                                <h4 class="course-title"><a href="course-single.html">Advance PHP Knowledge and learn
-                                        Laravel framework</a></h4>
+                                <h4 class="course-title"><a href="{{ route('course.details', $related->id) }}">{{ Str::limit($related->name, 50) }}</a></h4>
                                 <div class="course-info">
                                     <ul>
-                                        <li class="lecture"><i class="fad fa-book-open-reader"></i>64 Lectures</li>
-                                        <li class="duration"><i class="fad fa-clock-rotate-left"></i>30 Hours</li>
+                                        <li class="lecture"><i class="fad fa-book-open-reader"></i>{{ $related->lessons()->count() }} Lectures</li>
+                                        <li class="duration"><i class="fad fa-clock-rotate-left"></i>{{ $related->courseModules()->count() }} Modules</li>
                                     </ul>
                                 </div>
                                 <div class="course-bottom">
-                                    <a href="#">
+                                    <a href="{{ route('course.details', $related->id) }}">
                                         <div class="course-instructor">
-                                            <img src="{{ asset('assets/frontend') }}/img/course/ins-1.jpg"
-                                                alt="" />
-                                            <h6>Sara Wood</h6>
+                                            @php
+                                                $relTeacher = $related->teachers->first();
+                                            @endphp
+                                            @if($relTeacher && $relTeacher->profile_image && $relTeacher->profile_image !== 'default_profile_image.jpg')
+                                                <img src="{{ asset('uploads/teachers/' . $relTeacher->profile_image) }}" alt="{{ $relTeacher->user->name }}" />
+                                            @else
+                                                <img src="{{ asset('assets/frontend') }}/img/course/ins-1.jpg" alt="Instructor" />
+                                            @endif
+                                            <h6>{{ $relTeacher->user->name ?? 'Instructor' }}</h6>
                                         </div>
                                     </a>
                                     <div class="course-price">
-                                        <del>$75</del>
-                                        <span>$69</span>
+                                        @if($related->discount)
+                                            <del>${{ number_format($related->price, 2) }}</del>
+                                            <span>${{ number_format($related->price - $related->discount, 2) }}</span>
+                                        @elseif($related->price > 0)
+                                            <span>${{ number_format($related->price, 2) }}</span>
+                                        @else
+                                            <span class="text-success">Free</span>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="course-item">
-                            <span class="course-tag c2">Advance</span>
-                            <div class="course-img">
-                                <a href="course-single.html"><img src="{{ asset('assets/frontend') }}/img/course/02.jpg"
-                                        alt="" /></a>
-                            </div>
-                            <div class="course-content">
-                                <div class="course-meta">
-                                    <span class="category">Art & Design</span>
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <span>5.2k</span>
-                                    </div>
-                                </div>
-                                <h4 class="course-title">
-                                    <a href="course-single.html">Full Web Designing Course With 20 Web Template</a>
-                                </h4>
-                                <div class="course-info">
-                                    <ul>
-                                        <li class="lecture"><i class="fad fa-book-open-reader"></i>75 Lectures</li>
-                                        <li class="duration"><i class="fad fa-clock-rotate-left"></i>58 Hours</li>
-                                    </ul>
-                                </div>
-                                <div class="course-bottom">
-                                    <a href="#">
-                                        <div class="course-instructor">
-                                            <img src="{{ asset('assets/frontend') }}/img/course/ins-2.jpg"
-                                                alt="" />
-                                            <h6>Michel Johny</h6>
-                                        </div>
-                                    </a>
-                                    <div class="course-price">
-                                        <span>$125</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    @empty
+                    <div class="col-12">
+                        <div class="alert alert-info text-center">No related courses found.</div>
                     </div>
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="course-item">
-                            <span class="course-tag c1">Beginer</span>
-                            <div class="course-img">
-                                <a href="course-single.html"><img src="{{ asset('assets/frontend') }}/img/course/03.jpg"
-                                        alt="" /></a>
-                            </div>
-                            <div class="course-content">
-                                <div class="course-meta">
-                                    <span class="category c2">Business</span>
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <span>2.9k</span>
-                                    </div>
-                                </div>
-                                <h4 class="course-title"><a href="course-single.html">Basic Knowledge About the UI/UX
-                                        Design Pattern</a></h4>
-                                <div class="course-info">
-                                    <ul>
-                                        <li class="lecture"><i class="fad fa-book-open-reader"></i>59 Lectures</li>
-                                        <li class="duration"><i class="fad fa-clock-rotate-left"></i>38 Hours</li>
-                                    </ul>
-                                </div>
-                                <div class="course-bottom">
-                                    <a href="#">
-                                        <div class="course-instructor">
-                                            <img src="{{ asset('assets/frontend') }}/img/course/ins-3.jpg"
-                                                alt="" />
-                                            <h6>Glines Joey</h6>
-                                        </div>
-                                    </a>
-                                    <div class="course-price">
-                                        <span>$130</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="course-item">
-                            <span class="course-tag c2">Advance</span>
-                            <div class="course-img">
-                                <a href="course-single.html"><img src="{{ asset('assets/frontend') }}/img/course/04.jpg"
-                                        alt="" /></a>
-                            </div>
-                            <div class="course-content">
-                                <div class="course-meta">
-                                    <span class="category c3">IT & Software</span>
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <span>9k</span>
-                                    </div>
-                                </div>
-                                <h4 class="course-title">
-                                    <a href="course-single.html">The Complete Business Plan Course Includes 50
-                                        Templates</a>
-                                </h4>
-                                <div class="course-info">
-                                    <ul>
-                                        <li class="lecture"><i class="fad fa-book-open-reader"></i>90 Lectures</li>
-                                        <li class="duration"><i class="fad fa-clock-rotate-left"></i>125 Hours</li>
-                                    </ul>
-                                </div>
-                                <div class="course-bottom">
-                                    <a href="#">
-                                        <div class="course-instructor">
-                                            <img src="{{ asset('assets/frontend') }}/img/course/ins-4.jpg"
-                                                alt="" />
-                                            <h6>Nancy Alarcon</h6>
-                                        </div>
-                                    </a>
-                                    <div class="course-price">
-                                        <span>$142</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforelse
                 </div>
             </div>
         </div>

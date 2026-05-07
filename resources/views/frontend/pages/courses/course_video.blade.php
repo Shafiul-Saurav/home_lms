@@ -184,6 +184,17 @@
                         </div>
 
                         <!-- Video Title and Info -->
+                        <div class="video-instructor mt-3 d-flex align-items-center mb-2">
+                            @php
+                                $mainTeacher = $course->teachers->first();
+                            @endphp
+                            @if($mainTeacher && $mainTeacher->profile_image && $mainTeacher->profile_image !== 'default_profile_image.jpg')
+                                <img src="{{ asset('uploads/teachers/' . $mainTeacher->profile_image) }}" alt="{{ $mainTeacher->user->name }}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 10px;" />
+                            @else
+                                <img src="{{ asset('assets/frontend') }}/img/instructor/01.jpg" alt="Instructor" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 10px;" />
+                            @endif
+                            <h6 class="mb-0" style="font-weight: 600; color: #4f46e5;">{{ $mainTeacher->user->name ?? 'Instructor' }}</h6>
+                        </div>
                         <div class="video-title">
                             {{ $module->title }}
                         </div>
