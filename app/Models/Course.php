@@ -32,4 +32,11 @@ class Course extends Model
     {
         return $this->hasMany(CourseModule::class, 'course_id', 'id');
     }
+
+    public function teachers()
+    {
+        return $this->belongsToMany(Teacher::class, 'course_teachers', 'course_id', 'teacher_id')
+                    ->withPivot('is_active')
+                    ->withTimestamps();
+    }
 }

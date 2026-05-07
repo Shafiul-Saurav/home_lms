@@ -69,6 +69,11 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class, 'role_id', 'id');
     }
 
+    public function teacher()
+    {
+        return $this->hasOne(Teacher::class);
+    }
+
     //Relationship with Permission
     //True or false
     public function hasPermission($permission_slug)

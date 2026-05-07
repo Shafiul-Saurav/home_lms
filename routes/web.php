@@ -37,6 +37,7 @@ use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\ServiceController;
 use App\Http\Controllers\Backend\StuffController;
 use App\Http\Controllers\Backend\SubcategoryController;
+use App\Http\Controllers\Backend\TeacherController;
 use App\Http\Controllers\Backend\TermsAndConditionsController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\UserController;
@@ -55,9 +56,9 @@ use App\Http\Controllers\Trash\BookTrashController;
 use App\Http\Controllers\Trash\CategoryTrashController;
 use App\Http\Controllers\Trash\ChildcategoryTrashController;
 use App\Http\Controllers\Trash\CourseTrashController;
+use App\Http\Controllers\Trash\DepartmentTrashController;
 use App\Http\Controllers\Trash\ExamCategoryTrashController;
 use App\Http\Controllers\Trash\ExamTrashController;
-use App\Http\Controllers\Trash\DepartmentTrashController;
 use App\Http\Controllers\Trash\FaqTrashController;
 use App\Http\Controllers\Trash\ModuleTrashController;
 use App\Http\Controllers\Trash\PdfBookCategoryTrashController;
@@ -214,6 +215,12 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::get('/users/system-owner', [UserController::class, 'systemOwner'])->name('users.system-owner');
     Route::get('/users/student', [UserController::class, 'student'])->name('users.student');
     Route::get('/users/teacher', [UserController::class, 'teacher'])->name('users.teacher');
+
+    // Teacher Routes
+    Route::post('teachers/update-or-create/{userId}', [TeacherController::class, 'updateOrCreateFromUser'])->name('teachers.update-or-create');
+    Route::post('teachers/{id}/assign-courses', [TeacherController::class, 'assignCourses'])->name('teachers.assign-courses');
+    Route::delete('teachers/{teacher_id}/remove-course/{course_id}', [TeacherController::class, 'removeCourse'])->name('teachers.remove-course');
+    Route::resource('teachers', TeacherController::class);
     Route::get('/users/trash', [UserTrashController::class, 'trash'])->name('users.trash');
     Route::get('/users/restore/{id}', [UserTrashController::class, 'restore'])
     ->name('users.restore');

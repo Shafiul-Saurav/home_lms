@@ -35,6 +35,7 @@
                                 <tr>
                                     <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">Last Updated</th>
+                                    <th class="border-bottom-0">Profile</th>
                                     <th class="border-bottom-0">Teacher Name</th>
                                     <th class="border-bottom-0">Teacher Email</th>
                                     <th class="border-bottom-0">Role</th>
@@ -48,11 +49,26 @@
                             </thead>
                             <tbody>
                                 @foreach ($users as $user)
+                                    @php
+                                        $teacher = $user->teacher;
+                                    @endphp
                                     <tr>
                                         <td>
                                             <strong>{{ $users->firstItem() + $loop->index }}</strong>
                                         </td>
                                         <td>{{ $user->updated_at->format('d-M-Y') }}</td>
+                                        <td>
+                                            @if($teacher && $teacher->profile_image && $teacher->profile_image !== 'default_profile_image.jpg')
+                                                <img src="{{ asset('uploads/teachers/' . $teacher->profile_image) }}"
+                                                     alt="Profile Image"
+                                                     style="height: 40px; width: 40px; border-radius: 50%; object-fit: cover;">
+                                            @else
+                                                <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center"
+                                                     style="height: 40px; width: 40px;">
+                                                    <i class="fa-solid fa-user text-muted"></i>
+                                                </div>
+                                            @endif
+                                        </td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>
@@ -71,7 +87,22 @@
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
-                                                    <a href="{{ route('users.edit', $user->id) }}"
+                                                    @if($teacher)
+                                                    <a href="{{ route('teachers.show', $teacher->id) }}"
+                                                        class="btn btn-sm btn-outline-info border me-2"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        data-bs-original-title="View"><i class="fa-solid fa-eye"></i>
+                                                    </a>
+                                                    @else
+                                                    <span class="btn btn-sm btn-outline-info border me-2 disabled"
+                                                          data-toggle="tooltip" data-placement="top"
+                                                          data-bs-original-title="No teacher info">
+                                                        <i class="fa-solid fa-eye"></i>
+                                                    </span>
+                                                    @endif
+                                                </div>
+                                                <div>
+                                                    <a href="{{ route('teachers.edit', $user->id) }}"
                                                         class="btn btn-sm btn-outline-secondary border me-2"
                                                         data-toggle="tooltip" data-placement="top"
                                                         data-bs-original-title="Edit"><i
