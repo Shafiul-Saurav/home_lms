@@ -334,117 +334,37 @@
 
                                                 <!-- review-content -->
                                                 <div class="review-content">
-                                                    <h5 class="title">Reviews (1,500)</h5>
-                                                    <div class="review-item">
-                                                        <div class="review-author">
-                                                            <img src="{{ asset('assets/frontend') }}/img/instructor/rev-1.png"
-                                                                alt="" />
-                                                            <div class="info">
-                                                                <div>
-                                                                    <h6>Erich T. Genao</h6>
-                                                                    <span><i class="far fa-clock"></i> 1 day ago</span>
-                                                                </div>
-                                                                <div class="rating">
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p>
-                                                            There are many variations of passages available but the
-                                                            majority have suffered alteration in some form by
-                                                            injected humour randomised words. It is a long established
-                                                            fact that reader will be distracted by the
-                                                            readable content of web page editors now use page when
-                                                            looking at its layout.
-                                                        </p>
+                                                    @php
+                                                        $reviews = $courseInfo->reviews()->where('is_approved', 1)->latest()->paginate(5);
+                                                    @endphp
+                                                    <h5 class="title">Reviews (<span id="review-count">{{ $reviews->total() }}</span>)</h5>
+                                                    <div id="review-list">
+                                                        @include('frontend.pages.courses.partials.review_items', ['reviews' => $reviews])
                                                     </div>
-                                                    <div class="review-item">
-                                                        <div class="review-author">
-                                                            <img src="{{ asset('assets/frontend') }}/img/instructor/rev-2.png"
-                                                                alt="" />
-                                                            <div class="info">
-                                                                <div>
-                                                                    <h6>Erich T. Genao</h6>
-                                                                    <span><i class="far fa-clock"></i> 1 day ago</span>
-                                                                </div>
-                                                                <div class="rating">
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p>
-                                                            There are many variations of passages available but the
-                                                            majority have suffered alteration in some form by
-                                                            injected humour randomised words. It is a long established
-                                                            fact that reader will be distracted by the
-                                                            readable content of web page editors now use page when
-                                                            looking at its layout.
-                                                        </p>
-                                                    </div>
-                                                    <div class="review-item">
-                                                        <div class="review-author">
-                                                            <img src="{{ asset('assets/frontend') }}/img/instructor/rev-1.png"
-                                                                alt="" />
-                                                            <div class="info">
-                                                                <div>
-                                                                    <h6>Erich T. Genao</h6>
-                                                                    <span><i class="far fa-clock"></i> 1 day ago</span>
-                                                                </div>
-                                                                <div class="rating">
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                    <i class="fas fa-star"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p>
-                                                            There are many variations of passages available but the
-                                                            majority have suffered alteration in some form by
-                                                            injected humour randomised words. It is a long established
-                                                            fact that reader will be distracted by the
-                                                            readable content of web page editors now use page when
-                                                            looking at its layout.
-                                                        </p>
-                                                    </div>
-                                                    <div class="text-center mt-4">
-                                                        <a href="#" class="theme-btn"> <span
-                                                                class="fas fa-sync-alt"></span> Load More</a>
+                                                    
+                                                    <div class="text-center mt-4 d-flex justify-content-center gap-3">
+                                                        @if($reviews->hasMorePages())
+                                                            <a href="javascript:void(0)" class="theme-btn" id="load-more-reviews" data-page="2"> 
+                                                                <span class="fas fa-sync-alt"></span> Load More
+                                                            </a>
+                                                        @endif
+                                                        
+                                                        @auth
+                                                            @if(!$courseInfo->reviews()->where('user_id', auth()->id())->exists())
+                                                                <a href="javascript:void(0)" class="theme-btn" data-bs-toggle="modal" data-bs-target="#reviewModal" id="give-review-btn">
+                                                                    <i class="far fa-edit"></i> Give Review
+                                                                </a>
+                                                            @endif
+                                                        @else
+                                                            <a href="{{ route('login') }}" class="theme-btn">
+                                                                <i class="far fa-sign-in"></i> Login to Review
+                                                            </a>
+                                                        @endauth
                                                     </div>
                                                 </div>
 
-                                                <!-- review-form -->
-                                                <div class="review-form">
-                                                    <h5>Leave A Review</h5>
-                                                    <form action="#">
-                                                        <div class="form-group">
-                                                            <label class="form-label">Your Rating</label>
-                                                            <select class="form-select">
-                                                                <option value="">Choose Your Rating</option>
-                                                                <option value="5">5 Stars</option>
-                                                                <option value="4">4 Stars</option>
-                                                                <option value="3">3 Stars</option>
-                                                                <option value="2">2 Stars</option>
-                                                                <option value="1">1 Star</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="form-label">Your Review</label>
-                                                            <textarea class="form-control" cols="30" rows="5" placeholder="Write your review"></textarea>
-                                                        </div>
-                                                        <button class="theme-btn" type="button">Post Your Review<i
-                                                                class="far fa-arrow-right"></i></button>
-                                                    </form>
-                                                </div>
+                                                <!-- review-form removed since it's now in modal -->
+
                                             </div>
                                         </div>
                                     </div>
@@ -586,6 +506,48 @@
         </div>
         <!-- related course end -->
 
+        <!-- Review Modal -->
+        <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content" style="border-radius: 15px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <div class="modal-body p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h4 class="modal-title" style="font-weight: 700; color: #333;">Post a review for <span style="color: #00a0dc;">{{ $courseInfo->name }}</span></h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        
+                        <form id="review-form">
+                            @csrf
+                            <input type="hidden" name="course_id" value="{{ $courseInfo->id }}">
+                            
+                            <div class="mb-4">
+                                <p class="mb-2" style="font-weight: 600; color: #555;">Give a rating</p>
+                                <div class="star-rating d-flex gap-2">
+                                    <i class="far fa-star fa-2x star-icon" data-value="1" style="cursor: pointer; color: #ccc;"></i>
+                                    <i class="far fa-star fa-2x star-icon" data-value="2" style="cursor: pointer; color: #ccc;"></i>
+                                    <i class="far fa-star fa-2x star-icon" data-value="3" style="cursor: pointer; color: #ccc;"></i>
+                                    <i class="far fa-star fa-2x star-icon" data-value="4" style="cursor: pointer; color: #ccc;"></i>
+                                    <i class="far fa-star fa-2x star-icon" data-value="5" style="cursor: pointer; color: #ccc;"></i>
+                                    <input type="hidden" name="rating" id="rating-value" value="">
+                                </div>
+                                <span class="text-danger error-rating"></span>
+                            </div>
+
+                            <div class="mb-4">
+                                <p class="mb-2" style="font-weight: 600; color: #555;">Leave your review</p>
+                                <textarea name="comment" class="form-control" rows="4" style="border-radius: 10px; border: 1px solid #eee; padding: 15px;" placeholder="Write your thoughts about this course..."></textarea>
+                                <span class="text-danger error-comment"></span>
+                            </div>
+
+                            <button type="submit" class="theme-btn w-100 py-3" style="background: #eee; color: #999; border: none; font-weight: 700; transition: all 0.3s;" id="submit-review-btn" disabled>
+                                SEND REVIEW
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 @endsection
 
@@ -618,6 +580,134 @@
                     }
                 }
             }
+        });
+
+        // Review & Star Rating Logic
+        $(document).ready(function() {
+            // Star hover and click logic
+            $('.star-icon').on('mouseover', function() {
+                var value = $(this).data('value');
+                $('.star-icon').each(function() {
+                    if ($(this).data('value') <= value) {
+                        $(this).removeClass('far').addClass('fas').css('color', '#ffc107');
+                    } else {
+                        $(this).removeClass('fas').addClass('far').css('color', '#ccc');
+                    }
+                });
+            }).on('mouseout', function() {
+                var selectedValue = $('#rating-value').val();
+                $('.star-icon').each(function() {
+                    if (selectedValue && $(this).data('value') <= selectedValue) {
+                        $(this).removeClass('far').addClass('fas').css('color', '#ffc107');
+                    } else {
+                        $(this).removeClass('fas').addClass('far').css('color', '#ccc');
+                    }
+                });
+            }).on('click', function() {
+                var value = $(this).data('value');
+                $('#rating-value').val(value);
+                validateForm();
+            });
+
+            // Enable/Disable submit button based on validation
+            $('textarea[name="comment"]').on('input', function() {
+                validateForm();
+            });
+
+            function validateForm() {
+                var rating = $('#rating-value').val();
+                var comment = $('textarea[name="comment"]').val().trim();
+                var submitBtn = $('#submit-review-btn');
+
+                if (rating && comment.length > 0) {
+                    submitBtn.prop('disabled', false).css({
+                        'background': 'var(--theme-color)',
+                        'color': '#fff'
+                    });
+                } else {
+                    submitBtn.prop('disabled', true).css({
+                        'background': '#eee',
+                        'color': '#999'
+                    });
+                }
+            }
+
+            // AJAX Submission
+            $('#review-form').on('submit', function(e) {
+                e.preventDefault();
+                var formData = $(this).serialize();
+                var submitBtn = $('#submit-review-btn');
+                
+                submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> SENDING...');
+
+                $.ajax({
+                    url: "{{ route('course.reviews.store') }}",
+                    type: "POST",
+                    data: formData,
+                    success: function(response) {
+                        $('#reviewModal').modal('hide');
+                        $('#review-form')[0].reset();
+                        $('.star-icon').removeClass('fas').addClass('far').css('color', '#ccc');
+                        $('#rating-value').val('');
+                        validateForm();
+                        
+                        // Prepend the new review
+                        $('#review-list').prepend(response.review);
+                        
+                        // Update review count
+                        var currentCount = parseInt($('#review-count').text());
+                        $('#review-count').text(currentCount + 1);
+
+                        // Hide the Give Review button
+                        $('#give-review-btn').remove();
+
+                        Swal.fire({
+                            title: 'Success!',
+                            text: response.success,
+                            icon: 'success',
+                            confirmButtonColor: 'var(--theme-color)'
+                        });
+                    },
+                    error: function(xhr) {
+                        submitBtn.prop('disabled', false).text('SEND REVIEW');
+                        if (xhr.status === 422) {
+                            var errors = xhr.responseJSON.errors;
+                            if (errors.rating) $('.error-rating').text(errors.rating[0]);
+                            if (errors.comment) $('.error-comment').text(errors.comment[0]);
+                        } else if (xhr.status === 401) {
+                            Swal.fire('Error', 'Please login to post a review.', 'error');
+                        } else {
+                            Swal.fire('Error', 'Something went wrong. Please try again.', 'error');
+                        }
+                    }
+                });
+            });
+
+            // AJAX Load More
+            $('#load-more-reviews').on('click', function() {
+                var btn = $(this);
+                var page = btn.data('page');
+                var courseId = "{{ $courseInfo->id }}";
+                
+                btn.html('<i class="fas fa-spinner fa-spin"></i> Loading...');
+
+                $.ajax({
+                    url: `/course-reviews/${courseId}?page=${page}`,
+                    type: "GET",
+                    success: function(response) {
+                        $('#review-list').append(response.html);
+                        if (response.hasMore) {
+                            btn.data('page', response.nextPage).html('<span class="fas fa-sync-alt"></span> Load More');
+                        } else {
+                            btn.remove();
+                        }
+                    },
+                    error: function() {
+                        btn.html('<span class="fas fa-sync-alt"></span> Load More');
+                        Swal.fire('Error', 'Failed to load more reviews.', 'error');
+                    }
+                });
+            });
         });
     </script>
 @endpush

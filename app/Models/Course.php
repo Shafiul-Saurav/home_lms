@@ -39,4 +39,9 @@ class Course extends Model
                     ->withPivot('is_active')
                     ->withTimestamps();
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(CourseReview::class);
+    }
 }

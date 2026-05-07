@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\SocialiteLoginController;
 use App\Http\Controllers\Backend\AboutController;
 use App\Http\Controllers\Backend\AdminLoginController;
 use App\Http\Controllers\Backend\AdminProfileController;
+use App\Http\Controllers\Backend\AdminReviewController;
 use App\Http\Controllers\Backend\BookCategoryController;
 use App\Http\Controllers\Backend\BookController;
 use App\Http\Controllers\Backend\BookSubcategoryController;
@@ -139,6 +140,10 @@ Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
     Route::post('testimonial_store', [FrontendTestimonialController::class, 'testimonialStore'])->name('testimonial.store');
 
 });
+
+// Course Review AJAX Routes
+Route::get('course-reviews/{course_id}', [\App\Http\Controllers\Frontend\CourseReviewController::class, 'index'])->name('course.reviews.index');
+Route::post('course-reviews', [\App\Http\Controllers\Frontend\CourseReviewController::class, 'store'])->name('course.reviews.store')->middleware('auth');
 
 //Comment Route
 Route::resource('posts.comments', CommentController::class)->only(['store', 'update', 'destroy'])->middleware('auth');
@@ -556,6 +561,10 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
 
     //Contact Route
     Route::resource('contact', BackendContactController::class);
+
+    // Course Review Route
+    Route::get('course-reviews/toggle-approval/{id}', [AdminReviewController::class, 'toggleApproval'])->name('course-reviews.toggle-approval');
+    Route::resource('course-reviews', AdminReviewController::class)->only(['index', 'update', 'destroy']);
 
 });
 
