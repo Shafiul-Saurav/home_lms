@@ -152,7 +152,7 @@ class WebsiteController extends Controller
                 $html .= view('frontend.pages.courses.course_filter', compact('course'))->render();
             }
 
-            if ($courses->count() == 0) {
+            if ($courses->isEmpty()) {
                 $html .= '<div class="col-12"><div class="alert alert-info text-center" role="alert"><h3>No Courses Found</h3><p>Sorry, we couldn\'t find any courses matching your filters. Please try adjusting your search criteria.</p></div></div>';
             }
 
@@ -399,7 +399,7 @@ class WebsiteController extends Controller
                 $html .= view('frontend.pages.courses.course_filter', compact('course'))->render();
             }
 
-            if ($courses->count() == 0) {
+            if ($courses->isEmpty()) {
                 $html .= '<div class="col-12"><div class="alert alert-info text-center" role="alert"><h3>No Courses Found</h3><p>Sorry, we couldn\'t find any courses matching your filters. Please try adjusting your search criteria.</p></div></div>';
             }
 
@@ -501,7 +501,7 @@ class WebsiteController extends Controller
                 $html .= view('frontend.pages.courses.course_filter', compact('course'))->render();
             }
 
-            if ($courses->count() == 0) {
+            if ($courses->isEmpty()) {
                 $html .= '<div class="col-12"><div class="alert alert-info text-center" role="alert"><h3>No Courses Found</h3><p>Sorry, we couldn\'t find any courses matching your filters. Please try adjusting your search criteria.</p></div></div>';
             }
 

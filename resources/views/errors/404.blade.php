@@ -3,7 +3,6 @@
 @section('title', '404')
 
 @push('frontend_style')
-    @include('frontend.layouts.include.style')
 @endpush
 
 @section('frontend_content')
@@ -33,9 +32,8 @@
                     <h1>4 <span>0</span> 4</h1>
                     <h3>Oops! Page Not Found</h3>
                     <p>The page you were looking for could not be found.</p>
-                    <a href="index.html" class="default-btn btn-two">
+                    <a href="{{ route('home') }}" class="default-btn btn-two">
                         Return To Home Page
-                        <i class="flaticon-right"></i>
                     </a>
                 </div>
             </div>
@@ -46,5 +44,4 @@
 @endsection
 
 @push('frontend_script')
-    @include('frontend.layouts.include.script')
 @endpush

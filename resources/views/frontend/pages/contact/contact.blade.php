@@ -146,9 +146,11 @@
         <!-- map -->
         <div class="contact-map pb-120">
             <div class="container">
-                <iframe
-                    src="{{ $website_link->map_link ?? 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d96708.34194156103!2d-74.03927096447748!3d40.759040329405195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x4a01c8df6fb3cb8!2sSolomon%20R.%20Guggenheim%20Museum!5e0!3m2!1sen!2sbd!4v1619410634508!5m2!1sen!2s' }}"
-                    style="border: 0" allowfullscreen="" loading="lazy"></iframe>
+                @if($website_link->map_link && str_contains($website_link->map_link, '<iframe'))
+                    {!! $website_link->map_link !!}
+                @else
+                    <p>Map not available.</p>
+                @endif
             </div>
         </div>
         <!-- map end -->
