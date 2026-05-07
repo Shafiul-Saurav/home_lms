@@ -211,6 +211,9 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::resource('roles', RoleController::class);
 
     // User Route
+    Route::get('/users/system-owner', [UserController::class, 'systemOwner'])->name('users.system-owner');
+    Route::get('/users/student', [UserController::class, 'student'])->name('users.student');
+    Route::get('/users/teacher', [UserController::class, 'teacher'])->name('users.teacher');
     Route::get('/users/trash', [UserTrashController::class, 'trash'])->name('users.trash');
     Route::get('/users/restore/{id}', [UserTrashController::class, 'restore'])
     ->name('users.restore');

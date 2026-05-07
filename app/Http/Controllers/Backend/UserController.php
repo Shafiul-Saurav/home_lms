@@ -21,11 +21,67 @@ class UserController extends Controller
 
         $users = User::with(['role:id,role_name,role_slug'])
         ->select(['id', 'role_id', 'name', 'email', 'is_active', 'updated_at'])
+        ->orderBy('id', 'desc')
+        ->whereNotIn('role_id', [1, 2, 3])
         ->paginate(1000);
 
         $roles = Role::where('is_deletable', 1)->select(['id', 'role_name'])->get();
 
         return view('backend.pages.users.user', compact('users', 'roles'));
+    }
+
+    /**
+     * Display a listing of the resource for system owner.
+     */
+    public function systemOwner()
+    {
+        //authorize this user to access/give access to admin dashboard
+        Gate::authorize('index-user');
+
+        $users = User::with(['role:id,role_name,role_slug'])
+        ->select(['id', 'role_id', 'name', 'email', 'is_active', 'updated_at'])
+        ->whereIn('role_id', [1, 2, 3])
+        ->paginate(1000);
+
+        $roles = Role::where('is_deletable', 1)->select(['id', 'role_name'])->get();
+
+        return view('backend.pages.users.system-owner', compact('users', 'roles'));
+    }
+
+    /**
+    * Display a listing of the resource for students.
+    */
+
+    public function student()
+    {
+        //authorize this user to access/give access to admin dashboard
+        Gate::authorize('index-user');
+        $users = User::with(['role:id,role_name,role_slug'])
+        ->select(['id', 'role_id', 'name', 'email', 'is_active', 'updated_at'])
+        ->whereIn('role_id', [4])
+        ->paginate(1000);
+
+        $roles = Role::where('is_deletable', 1)->select(['id', 'role_name'])->get();
+
+        return view('backend.pages.users.student', compact('users', 'roles'));
+    }
+
+    /**
+     * Display a listing of the resource for teachers.
+     */
+
+    public function teacher()
+    {
+         //authorize this user to access/give access to admin dashboard
+        Gate::authorize('index-user');
+        $users = User::with(['role:id,role_name,role_slug'])
+        ->select(['id', 'role_id', 'name', 'email', 'is_active', 'updated_at'])
+        ->whereIn('role_id', [7])
+        ->paginate(1000);
+
+        $roles = Role::where('is_deletable', 1)->select(['id', 'role_name'])->get();
+
+        return view('backend.pages.users.teacher', compact('users', 'roles'));
     }
 
     /**

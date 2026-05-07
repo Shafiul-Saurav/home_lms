@@ -92,7 +92,10 @@
                     {{ Request::routeIs('roles.index') ? 'is-expanded' : '' }}
                     {{ Request::routeIs('roles.trash') ? 'is-expanded' : '' }}
                     {{ Request::routeIs('users.index') ? 'is-expanded' : '' }}
-                    {{ Request::routeIs('users.trash') ? 'is-expanded' : '' }}">
+                    {{ Request::routeIs('users.trash') ? 'is-expanded' : '' }}
+                    {{ Request::routeIs('users.system-owner') ? 'is-expanded' : '' }}
+                    {{ Request::routeIs('users.student') ? 'is-expanded' : '' }}
+                    {{ Request::routeIs('users.teacher') ? 'is-expanded' : '' }}">
                         <a class="side-menu__item {{ Request::routeIs('modules.index') ? 'active' : '' }}
                         {{ Request::routeIs('modules.trash') ? 'active' : '' }}
                         {{ Request::routeIs('permissions.index') ? 'active' : '' }}
@@ -100,7 +103,10 @@
                         {{ Request::routeIs('roles.index') ? 'active' : '' }}
                         {{ Request::routeIs('roles.trash') ? 'active' : '' }}
                         {{ Request::routeIs('users.index') ? 'active' : '' }}
-                        {{ Request::routeIs('users.trash') ? 'active' : '' }}"
+                        {{ Request::routeIs('users.trash') ? 'active' : '' }}
+                        {{ Request::routeIs('users.system-owner') ? 'active' : '' }}
+                        {{ Request::routeIs('users.student') ? 'active' : '' }}
+                        {{ Request::routeIs('users.teacher') ? 'active' : '' }}"
                             data-bs-toggle="slide" href="#">
                             <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon"
                                 enable-background="new 0 0 24 24" viewBox="0 0 24 24">
@@ -167,14 +173,25 @@
                             @can('index-user')
                                 <li
                                     class="sub-slide {{ Request::routeIs('users.index') ? 'is-expanded' : '' }}
-                        {{ Request::routeIs('users.trash') ? 'is-expanded' : '' }}">
+                        {{ Request::routeIs('users.trash') ? 'is-expanded' : '' }}
+                        {{ Request::routeIs('users.system-owner') ? 'is-expanded' : '' }}
+                        {{ Request::routeIs('users.student') ? 'is-expanded' : '' }}
+                        {{ Request::routeIs('users.teacher') ? 'is-expanded' : '' }}">
                                     <a class="sub-side-menu__item {{ Request::routeIs('users.index') ? 'active' : '' }}
-                        {{ Request::routeIs('users.trash') ? 'active' : '' }}"
-                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">User
-                                            Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                        {{ Request::routeIs('users.trash') ? 'active' : '' }}
+                        {{ Request::routeIs('users.system-owner') ? 'active' : '' }}
+                        {{ Request::routeIs('users.student') ? 'active' : '' }}
+                        {{ Request::routeIs('users.teacher') ? 'active' : '' }}"
+                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">User Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
                                     <ul class="sub-slide-menu">
+                                        <li><a class="sub-slide-item {{ Request::routeIs('users.system-owner') ? 'active' : '' }}"
+                                                href="{{ route('users.system-owner') }}">System Owner</a></li>
                                         <li><a class="sub-slide-item {{ Request::routeIs('users.index') ? 'active' : '' }}"
-                                                href="{{ route('users.index') }}">List</a></li>
+                                                href="{{ route('users.index') }}">All Users</a></li>
+                                        <li><a class="sub-slide-item {{ Request::routeIs('users.student') ? 'active' : '' }}"
+                                                href="{{ route('users.student') }}">All Students</a></li>
+                                        <li><a class="sub-slide-item {{ Request::routeIs('users.teacher') ? 'active' : '' }}"
+                                                href="{{ route('users.teacher') }}">All Teachers</a></li>
                                         @can('delete-user')
                                             <li><a class="sub-slide-item {{ Request::routeIs('users.trash') ? 'active' : '' }}"
                                                     href="{{ route('users.trash') }}">Trash</a></li>
