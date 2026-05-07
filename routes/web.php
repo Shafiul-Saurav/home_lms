@@ -161,7 +161,7 @@ Route::middleware([
 });
 
 //Contact Route
-Route::post('contact_store', [ContactController::class, 'contactStore'])->name('contact.store');
+Route::post('contact_store', [ContactController::class, 'contactStore'])->name('contacts.store');
 
 /*
 |--------------------------------------------------------------------------
