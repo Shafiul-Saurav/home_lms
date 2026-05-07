@@ -26,7 +26,7 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Contact Details</h3>
-                    <a href="{{ route('contact.index') }}" class="btn btn-outline-info border"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
+                    <a href="{{ route('contacts.index') }}" class="btn btn-outline-info border"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
                 </div>
             </div>
         </div>

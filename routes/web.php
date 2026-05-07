@@ -155,15 +155,15 @@ Route::group(['as' => 'login.', 'prefix' => 'login'], function() {
     ->name('provider.callback');
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});
+// Route::middleware([
+//     'auth:sanctum',
+//     config('jetstream.auth_session'),
+//     'verified',
+// ])->group(function () {
+//     Route::get('/dashboard', function () {
+//         return view('dashboard');
+//     })->name('dashboard');
+// });
 
 //Contact Route
 Route::post('contact_store', [ContactController::class, 'contactStore'])->name('contacts.store');
@@ -560,7 +560,7 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::resource('faqs', FaqController::class);
 
     //Contact Route
-    Route::resource('contact', BackendContactController::class);
+    Route::resource('contacts', BackendContactController::class);
 
     // Course Review Route
     Route::get('course-reviews/toggle-approval/{id}', [AdminReviewController::class, 'toggleApproval'])->name('course-reviews.toggle-approval');
