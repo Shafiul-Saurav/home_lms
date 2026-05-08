@@ -44,4 +44,14 @@ class Course extends Model
     {
         return $this->hasMany(CourseReview::class);
     }
+
+    public function averageRating()
+    {
+        return round($this->reviews()->where('is_approved', 1)->avg('rating'), 1) ?: 0;
+    }
+
+    public function reviewCount()
+    {
+        return $this->reviews()->where('is_approved', 1)->count();
+    }
 }

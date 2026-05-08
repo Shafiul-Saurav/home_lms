@@ -68,13 +68,12 @@
                             {!! Str::limit(strip_tags($courseInfo->description), 150) !!}
                         </p>
                         <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="rating-avg">4.5</span>
-                            <span>(1.5k Reviews)</span>
+                            @php $avgRating = $courseInfo->averageRating(); @endphp
+                            @for($i=1; $i<=5; $i++)
+                                <i class="fa{{ $i <= round($avgRating) ? 's' : 'r' }} fa-star"></i>
+                            @endfor
+                            <span class="rating-avg">{{ $avgRating }}</span>
+                            <span>({{ $courseInfo->reviewCount() }} Reviews)</span>
                         </div>
                         <div class="info">
                             <div class="instructor">
@@ -227,108 +226,42 @@
                                             <div class="review-wrap mt-4">
                                                 <!-- review-rating -->
                                                 <div class="review-rating">
+                                                    @php
+                                                        $avgRating = $courseInfo->averageRating();
+                                                        $totalReviews = $courseInfo->reviewCount();
+                                                    @endphp
                                                     <div class="rating-count">
-                                                        <h2>4.5</h2>
+                                                        <h2>{{ $avgRating }}</h2>
                                                         <div class="rating-star">
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="fas fa-star"></i>
-                                                            <i class="far fa-star"></i>
+                                                            @for($i=1; $i<=5; $i++)
+                                                                <i class="fa{{ $i <= round($avgRating) ? 's' : 'r' }} fa-star"></i>
+                                                            @endfor
                                                         </div>
-                                                        <p>15.5k Students Review</p>
+                                                        <p>{{ $totalReviews }} Students Review</p>
                                                     </div>
                                                     <div class="rating-range">
-                                                        <div class="rating-range-item">
-                                                            <div class="rating-range-star">
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                            </div>
-                                                            <div class="rating-range-bar">
-                                                                <div class="progress">
-                                                                    <div class="progress-width" style="width: 90%">
+                                                        @for($i=5; $i>=1; $i--)
+                                                            @php
+                                                                $count = $courseInfo->reviews()->where('is_approved', 1)->where('rating', $i)->count();
+                                                                $percent = $totalReviews > 0 ? ($count / $totalReviews) * 100 : 0;
+                                                            @endphp
+                                                            <div class="rating-range-item">
+                                                                <div class="rating-range-star">
+                                                                    @for($j=1; $j<=5; $j++)
+                                                                        <i class="fa{{ $j <= $i ? 's' : 'r' }} fa-star"></i>
+                                                                    @endfor
+                                                                </div>
+                                                                <div class="rating-range-bar">
+                                                                    <div class="progress">
+                                                                        <div class="progress-width" style="width: {{ $percent }}%">
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="rating-range-percentage">
-                                                                <span>90%</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="rating-range-item">
-                                                            <div class="rating-range-star">
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="far fa-star"></i>
-                                                            </div>
-                                                            <div class="rating-range-bar">
-                                                                <div class="progress">
-                                                                    <div class="progress-width" style="width: 80%">
-                                                                    </div>
+                                                                <div class="rating-range-percentage">
+                                                                    <span>{{ round($percent) }}%</span>
                                                                 </div>
                                                             </div>
-                                                            <div class="rating-range-percentage">
-                                                                <span>80%</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="rating-range-item">
-                                                            <div class="rating-range-star">
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="far fa-star"></i>
-                                                                <i class="far fa-star"></i>
-                                                            </div>
-                                                            <div class="rating-range-bar">
-                                                                <div class="progress">
-                                                                    <div class="progress-width" style="width: 59%">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="rating-range-percentage">
-                                                                <span>59%</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="rating-range-item">
-                                                            <div class="rating-range-star">
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="far fa-star"></i>
-                                                                <i class="far fa-star"></i>
-                                                                <i class="far fa-star"></i>
-                                                            </div>
-                                                            <div class="rating-range-bar">
-                                                                <div class="progress">
-                                                                    <div class="progress-width" style="width: 70%">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="rating-range-percentage">
-                                                                <span>70%</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="rating-range-item">
-                                                            <div class="rating-range-star">
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="far fa-star"></i>
-                                                                <i class="far fa-star"></i>
-                                                                <i class="far fa-star"></i>
-                                                                <i class="far fa-star"></i>
-                                                            </div>
-                                                            <div class="rating-range-bar">
-                                                                <div class="progress">
-                                                                    <div class="progress-width" style="width: 49%">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="rating-range-percentage">
-                                                                <span>49%</span>
-                                                            </div>
-                                                        </div>
+                                                        @endfor
                                                     </div>
                                                 </div>
 
@@ -341,14 +274,14 @@
                                                     <div id="review-list">
                                                         @include('frontend.pages.courses.partials.review_items', ['reviews' => $reviews])
                                                     </div>
-                                                    
+
                                                     <div class="text-center mt-4 d-flex justify-content-center gap-3">
                                                         @if($reviews->hasMorePages())
-                                                            <a href="javascript:void(0)" class="theme-btn" id="load-more-reviews" data-page="2"> 
+                                                            <a href="javascript:void(0)" class="theme-btn" id="load-more-reviews" data-page="2">
                                                                 <span class="fas fa-sync-alt"></span> Load More
                                                             </a>
                                                         @endif
-                                                        
+
                                                         @auth
                                                             @if(!$courseInfo->reviews()->where('user_id', auth()->id())->exists())
                                                                 <a href="javascript:void(0)" class="theme-btn" data-bs-toggle="modal" data-bs-target="#reviewModal" id="give-review-btn">
@@ -389,8 +322,17 @@
                             </div>
                             <div class="sidebar-scroll">
                                 <div class="price-wrap px-3">
-                                    <div class="price-amount"><span>$120</span><del>$150</del></div>
-                                    <span class="price-off">35% Off</span>
+                                    @if($courseInfo->discount)
+                                        <div class="price-amount">
+                                            <span>${{ number_format($courseInfo->price - $courseInfo->discount, 2) }}</span>
+                                            <del>${{ number_format($courseInfo->price, 2) }}</del>
+                                        </div>
+                                        <span class="price-off">{{ round(($courseInfo->discount / $courseInfo->price) * 100) }}% Off</span>
+                                    @elseif($courseInfo->price > 0)
+                                        <div class="price-amount"><span>${{ number_format($courseInfo->price, 2) }}</span></div>
+                                    @else
+                                        <div class="price-amount"><span class="text-success">Free</span></div>
+                                    @endif
                                 </div>
                             <div class="px-3">
                                 <a href="#" class="theme-btn"> <span class="far fa-shopping-bag"></span> Add To
@@ -399,11 +341,11 @@
                             <div class="more-info px-3">
                                 <ul>
                                     <li><i class="fad fa-user"></i> Instructor: <span>{{ $courseInfo->teachers->first()->user->name ?? 'Instructor' }}</span></li>
-                                    <li><i class="fad fa-layer-group"></i> Level : <span>Expert</span></li>
-                                    <li><i class="fad fa-book"></i> Lectures : <span>35 Lectures</span></li>
-                                    <li><i class="fad fa-clock"></i> Duration: <span>03 Months</span></li>
-                                    <li><i class="fad fa-user-friends"></i> Enrolled: <span>259 Students</span></li>
-                                    <li><i class="fad fa-globe"></i> Language: <span>English</span></li>
+                                    <li><i class="fad fa-layer-group"></i> Level : <span>{{ ucfirst($courseInfo->live_or_record ?? 'All Level') }}</span></li>
+                                    <li><i class="fad fa-book"></i> Lectures : <span>{{ $courseInfo->lessons()->count() }} Lessons</span></li>
+                                    <li><i class="fad fa-clock"></i> Modules: <span>{{ $courseInfo->courseModules()->count() }} Modules</span></li>
+                                    {{-- <li><i class="fad fa-user-friends"></i> Enrolled: <span>{{ DB::table('courses_order')->where('course_id', $courseInfo->id)->count() }} Students</span></li> --}}
+                                    <li><i class="fad fa-globe"></i> Language: <span>{{ $courseInfo->language ?? 'English' }}</span></li>
                                 </ul>
                             </div>
                             <div class="include px-3">
@@ -458,7 +400,7 @@
                                     <span class="category c1">{{ $related->category->name ?? 'Uncategorized' }}</span>
                                     <div class="rating">
                                         <i class="fas fa-star"></i>
-                                        <span>4.5</span>
+                                        <span>{{ $related->averageRating() }} ({{ $related->reviewCount() }})</span>
                                     </div>
                                 </div>
                                 <h4 class="course-title"><a href="{{ route('course.details', $related->id) }}">{{ Str::limit($related->name, 50) }}</a></h4>
@@ -515,11 +457,11 @@
                             <h4 class="modal-title" style="font-weight: 700; color: #333;">Post a review for <span style="color: #00a0dc;">{{ $courseInfo->name }}</span></h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        
+
                         <form id="review-form">
                             @csrf
                             <input type="hidden" name="course_id" value="{{ $courseInfo->id }}">
-                            
+
                             <div class="mb-4">
                                 <p class="mb-2" style="font-weight: 600; color: #555;">Give a rating</p>
                                 <div class="star-rating d-flex gap-2">
@@ -637,7 +579,7 @@
                 e.preventDefault();
                 var formData = $(this).serialize();
                 var submitBtn = $('#submit-review-btn');
-                
+
                 submitBtn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> SENDING...');
 
                 $.ajax({
@@ -650,10 +592,10 @@
                         $('.star-icon').removeClass('fas').addClass('far').css('color', '#ccc');
                         $('#rating-value').val('');
                         validateForm();
-                        
+
                         // Prepend the new review
                         $('#review-list').prepend(response.review);
-                        
+
                         // Update review count
                         var currentCount = parseInt($('#review-count').text());
                         $('#review-count').text(currentCount + 1);
@@ -688,7 +630,7 @@
                 var btn = $(this);
                 var page = btn.data('page');
                 var courseId = "{{ $courseInfo->id }}";
-                
+
                 btn.html('<i class="fas fa-spinner fa-spin"></i> Loading...');
 
                 $.ajax({

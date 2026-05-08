@@ -578,6 +578,22 @@
                         </ul>
                     </li>
                 @endcan
+
+                @can('index-testimonial') {{-- Reusing permission for now --}}
+                    <li
+                        class="slide {{ Request::routeIs('course-reviews.index') ? 'is-expanded' : '' }}">
+                        <a class="side-menu__item {{ Request::routeIs('course-reviews.index') ? 'active' : '' }}"
+                            data-bs-toggle="slide" href="#">
+                            <i class="fa-solid fa-star"></i>
+                            <span class="side-menu__label ms-3">Course Reviews</span><i
+                                class="fa-solid fa-angle-right"></i></a>
+                        <ul class="slide-menu">
+                            <li><a href="{{ route('course-reviews.index') }}"
+                                    class="slide-item {{ Request::routeIs('course-reviews.index') ? 'active' : '' }}">List</a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
                 @can('index-blog')
                     <li
                         class="slide {{ Request::routeIs('postcategories.index') ? 'is-expanded' : '' }}

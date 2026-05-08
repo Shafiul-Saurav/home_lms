@@ -15,7 +15,7 @@
                 </span>
                 <div class="rating">
                     <i class="fas fa-star"></i>
-                    <span>{{ $course->lessons_count ?? 0 }}</span>
+                    <span>{{ $course->averageRating() }} ({{ $course->reviewCount() }})</span>
                 </div>
             </div>
             <h4 class="course-title">

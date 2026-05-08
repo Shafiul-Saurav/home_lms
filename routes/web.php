@@ -560,7 +560,7 @@ Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
     Route::resource('faqs', FaqController::class);
 
     //Contact Route
-    Route::resource('contacts', BackendContactController::class);
+    Route::resource('contact', BackendContactController::class);
 
     // Course Review Route
     Route::get('course-reviews/toggle-approval/{id}', [AdminReviewController::class, 'toggleApproval'])->name('course-reviews.toggle-approval');

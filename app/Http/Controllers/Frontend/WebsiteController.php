@@ -51,12 +51,17 @@ class WebsiteController extends Controller
         ->where('is_home', 1)
         ->latest('id')->limit(3)->get();
 
-        $categories = Category::where('is_active', 1)->where('is_home', 1)->latest('id')->get();
+        $categories = Category::where('is_active', 1)->where('is_home', 1)
+            ->with(['courses' => function($q) {
+                $q->where('is_active', 1)->limit(4);
+            }])->latest('id')->get();
+
+        $popularCourses = Course::where('is_active', 1)->latest('id')->limit(6)->get();
 
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
 
-        return view('frontend.pages.home', compact('homeSliders', 'website_link', 'about', 'testimonials', 'posts', 'logo_fav', 'categories'));
+        return view('frontend.pages.home', compact('homeSliders', 'website_link', 'about', 'testimonials', 'posts', 'logo_fav', 'categories', 'popularCourses'));
     }
 
     public function about()
