@@ -92,15 +92,25 @@
                                 </ul>
                                 <div class="payment-sidebar mt-40">
                                     <h5>Payment Info</h5>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <img src="https://www.bangladeshyp.com/img/bd/b/1468220741-97-shurjopay-online-payment-gateway-in-bangladesh.png" alt="shurjoPay" style="height: 40px;">
+                                    <div class="checkout-payment">
+                                        <ul class="nav nav-pills mb-3 d-flex flex-row" id="pills-tab" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link active d-flex align-items-center justify-content-center border rounded me-0" id="pills-shurjopay-tab" data-bs-toggle="pill" data-bs-target="#pills-shurjopay" type="button" role="tab" aria-controls="pills-shurjopay" aria-selected="true">
+                                                    <img src="https://www.bangladeshyp.com/img/bd/b/1468220741-97-shurjopay-online-payment-gateway-in-bangladesh.png" alt="shurjoPay" style="height: 30px;">
+                                                </a>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <a class="nav-link d-flex align-items-center justify-content-center p-2 border rounded me-0 ms-0 ms-lg-1" id="pills-sslcommerz-tab" data-bs-toggle="pill" data-bs-target="#pills-sslcommerz" type="button" role="tab" aria-controls="pills-sslcommerz" aria-selected="false" tabindex="-1">
+                                                    <img src="https://www.nop-station.com/images/uploaded/Marketplace/sslcommerz-banner.webp" alt="SSLCommerz" style="height: 30px;">
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content" id="pills-tabContent">
+                                            <div class="tab-pane fade show active" id="pills-shurjopay" role="tabpanel" aria-labelledby="pills-shurjopay-tab" tabindex="0">
+                                                <h5 style="color: #8e79f9">Pay with shurjoPay</h5>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <img src="https://www.nop-station.com/images/uploaded/Marketplace/sslcommerz-banner.webp" alt="shurjoPay" style="height: 40px;">
+                                            <div class="tab-pane fade" id="pills-sslcommerz" role="tabpanel" aria-labelledby="pills-sslcommerz-tab" tabindex="0">
+                                                <h5 style="color: #8e79f9">Pay with SSLCommerz</h5>
                                             </div>
                                         </div>
                                     </div>
