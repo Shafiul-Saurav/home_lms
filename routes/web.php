@@ -46,6 +46,7 @@ use App\Http\Controllers\Backend\VideoGalleryController;
 use App\Http\Controllers\Backend\WebsiteLinkController;
 use App\Http\Controllers\Frontend\CommentController;
 use App\Http\Controllers\Frontend\ContactController;
+use App\Http\Controllers\Frontend\CourseReviewController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\ProfileImageController;
 use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
@@ -98,7 +99,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [WebsiteController::class, 'home'])->name('home');
-
 Route::get('about', [WebsiteController::class, 'about'])->name('about');
 Route::get('courses', [WebsiteController::class, 'courses'])->name('courses');
 Route::get('category/{id}/courses', [WebsiteController::class, 'categoryCourses'])->name('category.courses');
@@ -106,7 +106,6 @@ Route::get('subcategory/{id}/courses', [WebsiteController::class, 'subcategoryCo
 Route::get('course/details/{id}', [WebsiteController::class, 'courseDetails'])->name('course.details');
 Route::get('course/{course_id}/video/{module_id?}', [WebsiteController::class, 'courseVideo'])->name('course.video');
 Route::get('ajax/course/video/data/{module_id}', [WebsiteController::class, 'ajaxCourseVideoData'])->name('ajax.course.video.data');
-Route::get('booking/{id}', [WebsiteController::class, 'booking'])->name('booking');
 Route::get('services', [WebsiteController::class, 'services'])->name('services');
 Route::get('photogallery', [WebsiteController::class, 'photoGallery'])->name('photo.gallery');
 Route::get('videogallery', [WebsiteController::class, 'videoGallery'])->name('video.gallery');
@@ -114,16 +113,14 @@ Route::get('news', [WebsiteController::class, 'search'])->name('news.search');
 Route::get('news/details/{id}', [WebsiteController::class, 'newsDetails'])->name('news.details');
 Route::get('faqs', [WebsiteController::class, 'faq'])->name('faq.page');
 Route::get('contacts', [WebsiteController::class, 'contact'])->name('contact.page');
-Route::get('product/{slug}', [WebsiteController::class, 'productDetails'])->name('product.details');
 
 Route::get('category/{id}/products', [WebsiteController::class, 'categoryProducts'])->name('category.products');
 Route::get('search', [WebsiteController::class, 'searchResults'])->name('search.results');
 Route::get('search/suggestions', [WebsiteController::class, 'searchSuggestions'])->name('search.suggestions');
 
-Route::get('bookingSuccess/{id}', [WebsiteController::class, 'bookingSuccess'])->name('booking.success');
 
 
-Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
+Route::prefix('user')->middleware(['auth', 'is_user'])->group(function(){
     Route::get('/dashboard', [ProfileController::class, 'userDashboard'])->name('user.dashboard');
     Route::get('/generalSetting', [ProfileController::class, 'generalSetting'])->name('general.setting');
     Route::post('/general_store', [ProfileController::class, 'generalStore'])->name('general.store');
@@ -142,8 +139,8 @@ Route::prefix('user')->middleware('auth', 'is_user')->group(function(){
 });
 
 // Course Review AJAX Routes
-Route::get('course-reviews/{course_id}', [\App\Http\Controllers\Frontend\CourseReviewController::class, 'index'])->name('course.reviews.index');
-Route::post('course-reviews', [\App\Http\Controllers\Frontend\CourseReviewController::class, 'store'])->name('course.reviews.store')->middleware('auth');
+Route::get('course-reviews/{course_id}', [CourseReviewController::class, 'index'])->name('course.reviews.index');
+Route::post('course-reviews', [CourseReviewController::class, 'store'])->name('course.reviews.store')->middleware('auth');
 
 //Comment Route
 Route::resource('posts.comments', CommentController::class)->only(['store', 'update', 'destroy'])->middleware('auth');
@@ -180,7 +177,7 @@ Route::prefix('admin')->group(function(){
     Route::post('/login', [AdminLoginController::class, 'login'])->name('admin.login');
 });
 
-Route::prefix('admin')->middleware('auth', 'is_admin')->group(function(){
+Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     Route::get('/dashboard', [BackendHomeController::class, 'adminDashboard'])->name('admin.dashboard');
     Route::post('/logout', [AdminLoginController::class, 'adminLogout'])->name('admin.logout');
 
