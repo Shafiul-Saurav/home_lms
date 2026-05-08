@@ -76,25 +76,33 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    <label for="start_date">Start Date</label>
-                                    <input type="date" name="start_date" class="form-control @error('start_date') is-invalid @enderror" id="start_date"
-                                        value="{{ old('start_date') }}" required>
+                                    <label class="form-label" for="start_date">Start Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group-text bg-primary-transparent text-primary">
+                                            <i class="fa-solid fa-calendar-days"></i>
+                                        </div>
+                                        <input class="form-control fc-datepicker @error('start_date') is-invalid @enderror" placeholder="DD/MM/YYYY" type="text"
+                                            value="{{ old('start_date_display') }}" id="start_date_display">
+                                        <input type="hidden" name="start_date" id="start_date" value="{{ old('start_date') }}">
+                                    </div>
                                     @error('start_date')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                        <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
-                                    <label for="end_date">End Date</label>
-                                    <input type="date" name="end_date" class="form-control @error('end_date') is-invalid @enderror" id="end_date"
-                                        value="{{ old('end_date') }}" required>
+                                    <label class="form-label" for="end_date">End Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group-text bg-primary-transparent text-primary">
+                                            <i class="fa-solid fa-calendar-days"></i>
+                                        </div>
+                                        <input class="form-control fc-datepicker @error('end_date') is-invalid @enderror" placeholder="DD/MM/YYYY" type="text"
+                                            value="{{ old('end_date_display') }}" id="end_date_display">
+                                        <input type="hidden" name="end_date" id="end_date" value="{{ old('end_date') }}">
+                                    </div>
                                     @error('end_date')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                        <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -110,12 +118,12 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-12 mb-3">
+                            {{-- <div class="col-md-12 mb-3">
                                 <div class="form-check">
                                     <input type="checkbox" name="is_active" class="form-check-input" id="is_active" value="1" {{ old('is_active') ? 'checked' : '' }}>
                                     <label class="form-check-label" for="is_active">Active</label>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <button type="submit" class="btn btn-primary" type="submit">Create</button>
                     </form>

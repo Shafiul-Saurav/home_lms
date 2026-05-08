@@ -82,7 +82,7 @@
                                         <div class="input-group-text bg-primary-transparent text-primary">
                                             <i class="fa-solid fa-calendar-days"></i>
                                         </div>
-                                        <input class="form-control fc-datepicker @error('hire_date') is-invalid @enderror" placeholder="DD/MM/YYYY" type="text" 
+                                        <input class="form-control fc-datepicker @error('hire_date') is-invalid @enderror" placeholder="DD/MM/YYYY" type="text"
                                             value="{{ old('hire_date_display', ($user->teacher && $user->teacher->hire_date) ? \Carbon\Carbon::parse($user->teacher->hire_date)->format('d/m/Y') : '') }}">
                                         <input type="hidden" name="hire_date" value="{{ old('hire_date', ($user->teacher && $user->teacher->hire_date) ? \Carbon\Carbon::parse($user->teacher->hire_date)->format('Y-m-d') : '') }}">
                                     </div>

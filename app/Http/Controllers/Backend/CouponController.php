@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Models\Coupon;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\CouponStoreRequest;
 use App\Http\Requests\CouponUpdateRequest;
 
@@ -42,7 +40,6 @@ class CouponController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'usage_limit' => $request->usage_limit,
-            'is_active' => $request->has('is_active') ? 1 : 0,
         ]);
 
         return redirect()->back()->with('message', 'Coupon Created Successfully 🙂');
@@ -84,7 +81,6 @@ class CouponController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'usage_limit' => $request->usage_limit,
-            'is_active' => $request->has('is_active') ? 1 : 0,
         ]);
 
         return redirect()->back()->with('message', 'Coupon Update Successfully 🙂');
