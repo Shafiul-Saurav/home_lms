@@ -92,13 +92,17 @@
                                         <div class="checkout-payment">
                                             <ul class="nav nav-pills mb-3 d-flex flex-row" id="pills-tab" role="tablist">
                                                 <li class="nav-item" role="presentation">
-                                                    <a class="nav-link d-flex align-items-center justify-content-center border rounded me-0" id="pills-shurjopay-tab" data-bs-toggle="pill" data-bs-target="#pills-shurjopay" type="button" role="tab" aria-controls="pills-shurjopay" aria-selected="false" onclick="document.getElementById('selected_payment_method').value='ShurjoPay'">
-                                                        <img src="https://www.bangladeshyp.com/img/bd/b/1468220741-97-shurjopay-online-payment-gateway-in-bangladesh.png" alt="shurjoPay" style="height: 30px;">
+                                                    <a class="nav-link d-flex align-items-center justify-content-center border p-1 rounded me-0" id="pills-shurjopay-tab" data-bs-toggle="pill" data-bs-target="#pills-shurjopay" type="button" role="tab" aria-controls="pills-shurjopay" aria-selected="false" onclick="document.getElementById('selected_payment_method').value='ShurjoPay'">
+                                                        <img src="https://www.bangladeshyp.com/img/bd/b/1468220741-97-shurjopay-online-payment-gateway-in-bangladesh.png" alt="shurjoPay" style="height: 60px;">
                                                     </a>
                                                 </li>
                                                 <li class="nav-item" role="presentation">
-                                                    <a class="nav-link active d-flex align-items-center justify-content-center p-2 border rounded me-0 ms-0 ms-lg-1" id="pills-sslcommerz-tab" data-bs-toggle="pill" data-bs-target="#pills-sslcommerz" type="button" role="tab" aria-controls="pills-sslcommerz" aria-selected="true" onclick="document.getElementById('selected_payment_method').value='SSLCommerz'">
-                                                        <img src="https://www.nop-station.com/images/uploaded/Marketplace/sslcommerz-banner.webp" alt="SSLCommerz" style="height: 30px;">
+                                                    <a class="nav-link active d-flex align-items-center justify-content-center p-1 border rounded me-0 ms-0 ms-lg-1" id="pills-sslcommerz-tab" data-bs-toggle="pill" data-bs-target="#pills-sslcommerz" type="button" role="tab" aria-controls="pills-sslcommerz" aria-selected="true" onclick="document.getElementById('selected_payment_method').value='SSLCommerz'">
+                                                        @if(isset($sslCommerzConfig->logo) && file_exists(public_path('uploads/sslcommerz/' . $sslCommerzConfig->logo)))
+                                                            <img src="{{ asset('uploads/sslcommerz/' . $sslCommerzConfig->logo) }}" alt="SSLCommerz" style="height: 60px;">
+                                                        @else
+                                                            <img src="https://www.nop-station.com/images/uploaded/Marketplace/sslcommerz-banner.webp" alt="SSLCommerz" style="height: 60px;">
+                                                        @endif
                                                     </a>
                                                 </li>
                                             </ul>

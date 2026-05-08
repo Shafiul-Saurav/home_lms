@@ -55,6 +55,17 @@
                                     <input type="text" name="sslcommerz_validation_url" class="form-control" id="sslcommerz_validation_url" value="{{ old('sslcommerz_validation_url', $sslcommerz->sslcommerz_validation_url ?? '') }}">
                                 </div>
                             </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="logo">Logo</label>
+                                    <input type="file" name="logo" class="form-control" id="logo">
+                                    @if(isset($sslcommerz->logo))
+                                        <div class="mt-2">
+                                            <img src="{{ asset('uploads/sslcommerz/' . $sslcommerz->logo) }}" alt="Logo" style="height: 50px;">
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                         <button class="btn btn-secondary" type="submit">Update</button>
                     </form>

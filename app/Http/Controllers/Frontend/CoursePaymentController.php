@@ -20,7 +20,8 @@ class CoursePaymentController extends Controller
     public function checkoutPage($course_id)
     {
         $course = Course::findOrFail($course_id);
-        return view('frontend.pages.checkout.course_checkout', compact('course'));
+        $sslCommerzConfig = SslCommerz::first();
+        return view('frontend.pages.checkout.course_checkout', compact('course', 'sslCommerzConfig'));
     }
 
     /**

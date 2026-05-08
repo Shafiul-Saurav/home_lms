@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('store_password')->nullable();
             $table->string('sslcommerz_url')->nullable();
             $table->string('sslcommerz_validation_url')->nullable();
+            $table->string('logo')->nullable();
             $table->timestamps();
         });
     }

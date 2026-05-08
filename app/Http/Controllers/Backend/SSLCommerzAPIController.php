@@ -31,7 +31,21 @@ class SSLCommerzAPIController extends Controller
             'store_password' => 'required',
             'sslcommerz_url' => 'required|url',
             'sslcommerz_validation_url' => 'required|url',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
+        $sslcommerz = SslCommerz::first();
+        $logoName = $sslcommerz ? $sslcommerz->logo : null;
+
+        if ($request->hasFile('logo')) {
+            // Delete old logo if exists
+            if ($sslcommerz && $sslcommerz->logo && file_exists(public_path('uploads/sslcommerz/' . $sslcommerz->logo))) {
+                unlink(public_path('uploads/sslcommerz/' . $sslcommerz->logo));
+            }
+            $logo = $request->file('logo');
+            $logoName = time() . '_' . $logo->getClientOriginalName();
+            $logo->move(public_path('uploads/sslcommerz'), $logoName);
+        }
 
         SslCommerz::updateOrCreate(
             ['id' => 1],
@@ -40,6 +54,7 @@ class SSLCommerzAPIController extends Controller
                 'store_password' => $request->store_password,
                 'sslcommerz_url' => $request->sslcommerz_url,
                 'sslcommerz_validation_url' => $request->sslcommerz_validation_url,
+                'logo' => $logoName,
             ]
         );
 
