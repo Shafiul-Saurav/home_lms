@@ -335,8 +335,7 @@
                                     @endif
                                 </div>
                             <div class="px-3">
-                                <a href="#" class="theme-btn"> <span class="far fa-shopping-bag"></span> Add To
-                                    Cart</a>
+                                <a href="{{ route('checkout', $courseInfo->id) }}" class="theme-btn"> <span class="far fa-shopping-bag"></span> Enroll Now</a>
                             </div>
                             <div class="more-info px-3">
                                 <ul>

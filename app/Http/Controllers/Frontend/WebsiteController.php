@@ -187,7 +187,6 @@ class WebsiteController extends Controller
     public function courseDetails($id)
     {
         // Fetch course details
-        // Fetch course details
         $courseInfo = Course::with(['teachers.user', 'category'])->where('id', $id)->where('is_active', 1)->first();
 
         if (!$courseInfo) {

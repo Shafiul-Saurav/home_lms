@@ -80,6 +80,8 @@
                                         class="slide-item {{ Request::routeIs('copyright.index') ? 'active' : '' }}">Copyright
                                         Setting</a></li>
                             @endcan
+                            <li><a href="{{ route('sslcommerz.index') }}"
+                                    class="slide-item {{ Request::routeIs('sslcommerz.index') ? 'active' : '' }}">SSLCommerz Setting</a></li>
                         </ul>
                     </li>
                 @endcan

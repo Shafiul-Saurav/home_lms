@@ -14,6 +14,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildcategoryController;
 use App\Http\Controllers\Backend\ContactController as BackendContactController;
 use App\Http\Controllers\Backend\CopyrightController;
+use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\CourseController;
 use App\Http\Controllers\Backend\DepartmentController;
 use App\Http\Controllers\Backend\ExamCategoryController;
@@ -36,6 +37,7 @@ use App\Http\Controllers\Backend\PrivacyPolicyController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\ServiceController;
+use App\Http\Controllers\Backend\SSLCommerzAPIController;
 use App\Http\Controllers\Backend\StuffController;
 use App\Http\Controllers\Backend\SubcategoryController;
 use App\Http\Controllers\Backend\TeacherController;
@@ -44,10 +46,9 @@ use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\VideoGalleryController;
 use App\Http\Controllers\Backend\WebsiteLinkController;
-use App\Http\Controllers\Backend\CouponController;
-use App\Http\Controllers\Trash\CouponTrashController;
 use App\Http\Controllers\Frontend\CommentController;
 use App\Http\Controllers\Frontend\ContactController;
+use App\Http\Controllers\Frontend\CoursePaymentController;
 use App\Http\Controllers\Frontend\CourseReviewController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\ProfileImageController;
@@ -59,6 +60,7 @@ use App\Http\Controllers\Trash\BookSubcategoryTrashController;
 use App\Http\Controllers\Trash\BookTrashController;
 use App\Http\Controllers\Trash\CategoryTrashController;
 use App\Http\Controllers\Trash\ChildcategoryTrashController;
+use App\Http\Controllers\Trash\CouponTrashController;
 use App\Http\Controllers\Trash\CourseTrashController;
 use App\Http\Controllers\Trash\DepartmentTrashController;
 use App\Http\Controllers\Trash\ExamCategoryTrashController;
@@ -138,6 +140,14 @@ Route::prefix('user')->middleware(['auth', 'is_user'])->group(function(){
     Route::get('testimonial_view', [FrontendTestimonialController::class, 'testimonialView'])->name('testimonial.view');
     Route::post('testimonial_store', [FrontendTestimonialController::class, 'testimonialStore'])->name('testimonial.store');
 
+    // Course Payment Routes (SSLCommerz)
+    Route::get('/checkout/{course_id}', [CoursePaymentController::class, 'checkoutPage'])->name('checkout');
+    Route::post('/course/process-payment', [CoursePaymentController::class, 'checkout'])->name('course.payment.process');
+    Route::get('/course/payment/success', [CoursePaymentController::class, 'success'])->name('course.payment.success');
+    Route::get('/course/payment/fail', [CoursePaymentController::class, 'fail'])->name('course.payment.fail');
+    Route::get('/course/payment/cancel', [CoursePaymentController::class, 'cancel'])->name('course.payment.cancel');
+    Route::get('/course/thankyou/{order_id}', [CoursePaymentController::class, 'thankyou'])->name('course.payment.thankyou');
+
 });
 
 // Course Review AJAX Routes
@@ -164,12 +174,11 @@ Route::group(['as' => 'login.', 'prefix' => 'login'], function() {
 //     })->name('dashboard');
 // });
 
-Route::get('/checkout', function () {
-        return view('frontend.pages.checkout.course_checkout');
-    })->name('checkout');
-
 //Contact Route
 Route::post('contact_store', [ContactController::class, 'contactStore'])->name('contacts.store');
+
+// Course Payment Routes (SSLCommerz)
+Route::post('/sslcommerz/ipn', [CoursePaymentController::class, 'ipn']);
 
 /*
 |--------------------------------------------------------------------------
@@ -249,6 +258,10 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
 
     // Logo_Favicon Route
     Route::resource('logo_fav', LogoFaviconController::class);
+
+    // SSLCommerz Setting Route
+    Route::get('sslcommerz-settings', [SSLCommerzAPIController::class, 'index'])->name('sslcommerz.index');
+    Route::post('sslcommerz-settings', [SSLCommerzAPIController::class, 'store'])->name('sslcommerz.store');
 
     // Breadcrumb Route
     Route::resource('breadcrumb', BreadcrumbController::class);
