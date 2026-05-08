@@ -162,6 +162,10 @@ Route::group(['as' => 'login.', 'prefix' => 'login'], function() {
 //     })->name('dashboard');
 // });
 
+Route::get('/checkout', function () {
+        return view('frontend.pages.checkout.course_checkout');
+    })->name('checkout');
+
 //Contact Route
 Route::post('contact_store', [ContactController::class, 'contactStore'])->name('contacts.store');
 
