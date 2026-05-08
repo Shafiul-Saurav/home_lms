@@ -44,6 +44,8 @@ use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\VideoGalleryController;
 use App\Http\Controllers\Backend\WebsiteLinkController;
+use App\Http\Controllers\Backend\CouponController;
+use App\Http\Controllers\Trash\CouponTrashController;
 use App\Http\Controllers\Frontend\CommentController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\CourseReviewController;
@@ -312,6 +314,17 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     Route::get('check/service/is_home/{service_id}', [ServiceController::class, 'checkActiveHome'])
     ->name('service.is_home.ajax');
     Route::resource('services', ServiceController::class);
+
+    //Coupon Route
+    Route::get('/coupons/trash', [CouponTrashController::class, 'trash'])->name('coupons.trash');
+    Route::get('/coupons/restore/{id}', [CouponTrashController::class, 'restore'])
+    ->name('coupons.restore');
+    Route::delete('/coupons/forcedelete/{id}', [CouponTrashController::class, 'forceDelete'])
+    ->name('coupons.forcedelete');
+    // Ajax Call Active
+    Route::get('check/coupon/is_active/{coupon_id}', [CouponController::class, 'checkActive'])
+    ->name('coupon.is_active.ajax');
+    Route::resource('coupons', CouponController::class);
 
 
     //Photo Category Route

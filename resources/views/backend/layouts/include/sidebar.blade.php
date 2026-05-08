@@ -713,6 +713,28 @@
                         </ul>
                     </li>
                 @endcan
+                {{-- @can('index-coupon') --}}
+                    <li
+                        class="slide {{ Request::routeIs('coupons.index') ? 'is-expanded' : '' }} {{ Request::routeIs('coupons.trash') ? 'is-expanded' : '' }}">
+                        <a class="side-menu__item {{ Request::routeIs('coupons.index') ? 'active' : '' }} {{ Request::routeIs('coupons.trash') ? 'active' : '' }}"
+                            data-bs-toggle="slide" href="#">
+                            <i class="fa-solid fa-ticket fa-fw"></i>
+                            <span class="side-menu__label ms-3">Coupon Management</span><i
+                                class="fa-solid fa-angle-right"></i></a>
+                        <ul class="slide-menu">
+                            {{-- @can('index-coupon') --}}
+                                <li><a href="{{ route('coupons.index') }}"
+                                        class="slide-item {{ Request::routeIs('coupons.index') ? 'active' : '' }}">List</a>
+                                </li>
+                            {{-- @endcan --}}
+                            {{-- @can('delete-coupon') --}}
+                                <li><a href="{{ route('coupons.trash') }}"
+                                        class="slide-item {{ Request::routeIs('coupons.trash') ? 'active' : '' }}">Trash</a>
+                                </li>
+                            {{-- @endcan --}}
+                        </ul>
+                    </li>
+                {{-- @endcan --}}
                 @can('index-contact')
                     <li class="slide {{ Request::routeIs('contact.index') ? 'is-expanded' : '' }}">
                         <a class="side-menu__item {{ Request::routeIs('contact.index') ? 'active' : '' }}"
