@@ -7,7 +7,6 @@ use App\Models\CourseOrder;
 use App\Models\SslCommerz;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -30,11 +29,11 @@ class CoursePaymentController extends Controller
     public function checkout(Request $request)
     {
         $course = Course::findOrFail($request->course_id);
-        
+
         if ($request->payment_method == 'ShurjoPay') {
             return redirect()->back()->with('error', 'ShurjoPay integration is coming soon. Please use SSLCommerz.');
         }
-        
+
         $price = $course->price;
         $discountAmount = 0;
         $appliedCouponCode = $request->applied_coupon;
@@ -139,7 +138,7 @@ class CoursePaymentController extends Controller
 
             // Create CourseOrder
             $orderNumber = 'ORD-' . strtoupper(substr(md5(uniqid()), 0, 6)) . '-' . date('Ymd');
-            
+
             $order = CourseOrder::create([
                 'user_id' => $pendingData['user_id'],
                 'course_id' => $pendingData['course_id'],
@@ -194,7 +193,7 @@ class CoursePaymentController extends Controller
     {
         $code = strtoupper($request->code);
         $total = $request->total;
-        
+
         $coupon = Coupon::where('code', $code)->first();
 
         if (!$coupon) {
