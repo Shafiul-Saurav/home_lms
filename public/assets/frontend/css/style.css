@@ -724,7 +724,7 @@ label {
 
 .form-group .form-control:focus,
 .form-group .form-select:focus {
-    border-color: var(--theme-color);
+    border-color: var(--theme-color) !important;
     box-shadow: 0 0 0 0.25rem rgba(142, 121, 249, 0.25);
 }
 

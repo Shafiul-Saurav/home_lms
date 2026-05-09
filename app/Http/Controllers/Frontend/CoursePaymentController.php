@@ -190,4 +190,30 @@ class CoursePaymentController extends Controller
     {
         // Implementation for IPN if needed
     }
+    public function validateCoupon(Request $request)
+    {
+        $code = strtoupper($request->code);
+        $total = $request->total;
+        
+        $coupon = Coupon::where('code', $code)->first();
+
+        if (!$coupon) {
+            return response()->json(['success' => false, 'message' => 'Invalid or expired coupon.'], 404);
+        }
+
+        if (!$coupon->isValid()) {
+            return response()->json(['success' => false, 'message' => 'Invalid or expired coupon.'], 400);
+        }
+
+        $discount = $coupon->getDiscountAmount($total);
+        $newTotal = $total - $discount;
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Coupon applied successfully!',
+            'discount' => number_format($discount, 2, '.', ''),
+            'new_total' => number_format($newTotal, 2, '.', ''),
+            'code' => $code
+        ]);
+    }
 }

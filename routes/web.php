@@ -147,7 +147,7 @@ Route::prefix('user')->middleware(['auth', 'is_user'])->group(function(){
     Route::get('/course/payment/fail', [CoursePaymentController::class, 'fail'])->name('course.payment.fail');
     Route::get('/course/payment/cancel', [CoursePaymentController::class, 'cancel'])->name('course.payment.cancel');
     Route::get('/course/thankyou/{order_id}', [CoursePaymentController::class, 'thankyou'])->name('course.payment.thankyou');
-
+    Route::post('/validate-coupon', [CoursePaymentController::class, 'validateCoupon'])->name('coupon.validate');
 });
 
 // Course Review AJAX Routes
