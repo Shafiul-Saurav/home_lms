@@ -19,10 +19,10 @@ use Illuminate\Http\Request;
 use App\Models\Photocategory;
 use App\Models\CourseModule;
 use App\Models\Lesson;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Auth;
 
 class WebsiteController extends Controller
 {
@@ -211,22 +211,13 @@ class WebsiteController extends Controller
                             ->get();
 
         // Check if user is logged in and enrolled
-        $isLoggedIn = false;
+        $isLoggedIn = Auth::check();
         $isEnrolled = false;
 
-        // Check if user is logged in using cookies
-        $userId = Cookie::get('user_id');
-        if($userId) {
-            $isLoggedIn = true;
-
-            // Check if user is enrolled in this course
-            $courseOrder = DB::table('courses_order')
-                            ->where('user_id', $userId)
-                            ->where('course_id', $id)
-                            ->first();
-            if($courseOrder) {
-                $isEnrolled = true;
-            }
+        if ($isLoggedIn) {
+            /** @var User $user */
+            $user = Auth::user();
+            $isEnrolled = $user->isEnrolledInCourse($id);
         }
 
         return view('frontend.pages.courses.course_details', compact(
@@ -252,18 +243,13 @@ class WebsiteController extends Controller
         $modules = CourseModule::where('course_id', $course_id)->get();
 
         // Check if user is logged in and enrolled
-        $isLoggedIn = false;
+        $isLoggedIn = Auth::check();
         $isEnrolled = false;
-        $userId = Cookie::get('user_id');
-        if($userId) {
-            $isLoggedIn = true;
-            $courseOrder = DB::table('courses_order')
-                            ->where('user_id', $userId)
-                            ->where('course_id', $course_id)
-                            ->first();
-            if($courseOrder) {
-                $isEnrolled = true;
-            }
+
+        if ($isLoggedIn) {
+            /** @var User $user */
+            $user = Auth::user();
+            $isEnrolled = $user->isEnrolledInCourse($course_id);
         }
 
         if ($module_id) {
@@ -298,15 +284,10 @@ class WebsiteController extends Controller
         $course = Course::find($module->course_id);
 
         $isEnrolled = false;
-        $userId = Cookie::get('user_id');
-        if($userId) {
-            $courseOrder = DB::table('courses_order')
-                            ->where('user_id', $userId)
-                            ->where('course_id', $course->id)
-                            ->first();
-            if($courseOrder) {
-                $isEnrolled = true;
-            }
+        if (Auth::check()) {
+            /** @var User $user */
+            $user = Auth::user();
+            $isEnrolled = $user->isEnrolledInCourse($course->id);
         }
 
         $hasAccess = ($module->free_paid == 'free' || $isEnrolled);
