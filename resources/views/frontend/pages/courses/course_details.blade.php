@@ -335,7 +335,11 @@
                                     @endif
                                 </div>
                             <div class="px-3">
-                                <a href="{{ route('checkout', $courseInfo->id) }}" class="theme-btn"> <span class="far fa-shopping-bag"></span> Enroll Now</a>
+                                @if(Auth::check() && Auth::user()->isEnrolledInCourse($courseInfo->id))
+                                    <a href="javascript:void(0)" class="theme-btn2 w-100"> <span class="fas fa-check-circle"></span> Enrolled</a>
+                                @else
+                                    <a href="{{ route('checkout', $courseInfo->id) }}" class="theme-btn w-100"> <span class="far fa-shopping-bag"></span> Enroll Now</a>
+                                @endif
                             </div>
                             <div class="more-info px-3">
                                 <ul>
@@ -389,7 +393,7 @@
                     @forelse($relatedCourses as $related)
                     <div class="col-md-6 col-lg-4 col-xl-3">
                         <div class="course-item">
-                            <span class="course-tag c1">{{ ucfirst($related->live_or_record ?? 'Course') }}</span>
+                            <span class="course-tag {{ $related->live_or_record == 'live' ? 'c1' : ($related->live_or_record == 'record' ? 'c2' : 'c1') }}">{{ ucfirst($related->live_or_record ?? 'Course') }}</span>
                             <div class="course-img">
                                 <a href="{{ route('course.details', $related->id) }}"><img src="{{ asset('uploads/courses/' . $related->image) }}"
                                         alt="{{ $related->name }}" /></a>

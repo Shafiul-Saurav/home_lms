@@ -116,4 +116,18 @@ class User extends Authenticatable
     {
         return $this->hasMany(CourseReview::class);
     }
+
+    public function courseOrders()
+    {
+        return $this->hasMany(CourseOrder::class);
+    }
+
+    public function isEnrolledInCourse($courseId)
+    {
+        return $this->courseOrders()
+            ->where('course_id', $courseId)
+            ->where('status', 'Enrolled')
+            ->where('payment_status', 'Completed')
+            ->exists();
+    }
 }

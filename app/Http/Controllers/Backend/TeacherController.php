@@ -133,7 +133,7 @@ class TeacherController extends Controller
             'qualification' => 'nullable|string|max:255',
             'salary' => 'nullable|numeric|min:0',
             'hire_date' => 'nullable|date',
-            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         if ($teacher) {
@@ -181,7 +181,7 @@ class TeacherController extends Controller
             $uploaded_photo = $request->file('profile_image');
             $new_photo_name = $teacher->id . '.' . $uploaded_photo->getClientOriginalExtension();
             $new_photo_location = $photo_location . $new_photo_name;
-            
+
             // Check if Image class exists (Intervention Image)
             if (class_exists('Intervention\Image\Facades\Image')) {
                 Image::make($uploaded_photo)->resize(600, 600)->save(base_path($new_photo_location), 80);

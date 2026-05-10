@@ -12,7 +12,6 @@ use App\Models\Lesson;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 class CourseController extends Controller
@@ -172,9 +171,9 @@ class CourseController extends Controller
             $newImageLocation = $imageLocation . $newImageName;
 
             if ($uploadedImage->getClientOriginalExtension() === 'webp') {
-                Image::make($uploadedImage)->resize(800, 800)->save($newImageLocation);
+                Image::make($uploadedImage)->resize(600, 450)->save($newImageLocation);
             } else {
-                Image::make($uploadedImage)->resize(800, 800)->save($newImageLocation, 80);
+                Image::make($uploadedImage)->resize(600, 450)->save($newImageLocation, 80);
             }
 
             $course->update([
