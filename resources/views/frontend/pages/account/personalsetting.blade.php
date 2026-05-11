@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title', 'Dashboard')
+@section('title', 'Personal Setting')
 
 @push('frontend_style')
 @endpush

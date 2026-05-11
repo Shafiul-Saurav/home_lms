@@ -199,15 +199,14 @@
                                                 <h4>{{ $mainTeacher->user->name ?? 'Instructor' }}</h4>
                                                 <div class="instructor-info-wrap">
                                                     <div class="rating">
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <span>(4.5)</span>
+                                                        @php $teacherRating = $mainTeacher ? $mainTeacher->averageRating() : 0; @endphp
+                                                        @for($i=1; $i<=5; $i++)
+                                                            <i class="fa{{ $i <= round($teacherRating) ? 's' : 'r' }} fa-star"></i>
+                                                        @endfor
+                                                        <span>({{ $teacherRating }})</span>
                                                     </div>
                                                     <span class="course"><i class="fad fa-book-open"></i> {{ $mainTeacher ? $mainTeacher->courses->count() : 0 }} Courses</span>
-                                                    <span class="enrolled"><i class="fad fa-user-friends"></i> 1.5k Enrolled</span>
+                                                    <span class="enrolled"><i class="fad fa-user-friends"></i> {{ $mainTeacher ? \DB::table('courses_order')->whereIn('course_id', $mainTeacher->courses->pluck('id'))->where('status', 'Enrolled')->count() : 0 }} Enrolled</span>
                                                 </div>
                                                 <p>
                                                     @if($mainTeacher)
@@ -597,6 +596,7 @@
                         validateForm();
 
                         // Prepend the new review
+                        $('.no-reviews-msg').remove();
                         $('#review-list').prepend(response.review);
 
                         // Update review count

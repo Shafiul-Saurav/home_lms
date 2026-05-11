@@ -1,4 +1,4 @@
-@foreach($reviews as $review)
+@forelse($reviews as $review)
 <div class="review-item">
     <div class="review-author">
         @if($review->user && $review->user->profile && $review->user->profile->profileImage)
@@ -22,4 +22,8 @@
         {{ $review->comment }}
     </p>
 </div>
-@endforeach
+@empty
+    <div class="alert alert-info text-center no-reviews-msg">
+        No reviews yet. Be the first to review this course!
+    </div>
+@endforelse

@@ -3,6 +3,7 @@
         $isDashboard = request()->routeIs('user.dashboard');
         $isGeneralSetting = request()->routeIs('general.setting');
         $isPersonalSetting = request()->routeIs('personal.setting');
+        $isMyCourses = request()->routeIs('my.courses');
         $profileImage = auth()->user()?->profile?->profileImage?->profile_image;
     @endphp
     <div class="sidebar-top">
@@ -57,7 +58,7 @@
             </div>
         </li>
         <li>
-            <a href="my-course.html"><i class="far fa-book-open-reader icon"></i> My Courses</a>
+            <a class="{{ $isMyCourses ? 'active' : '' }}" href="{{ route('my.courses') }}"><i class="far fa-book-open-reader icon"></i> My Courses</a>
         </li>
         <li>
             <a href="my-course-resume.html"><i class="far fa-books icon"></i> Course Resume</a>

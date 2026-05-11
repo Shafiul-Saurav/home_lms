@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfilePasswordChangeRequest;
+use App\Models\CourseOrder;
 use App\Models\Profile;
 use App\Models\ProfileImage;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -42,6 +44,7 @@ class ProfileController extends Controller
             'phone.max' => 'The phone number may not be greater than 20 characters.',
         ]);
 
+        /** @var User $user */
         $user = Auth::user();
         $user->update([
             'phone' => $validated['phone'],
@@ -87,6 +90,7 @@ class ProfileController extends Controller
 
     public function updatePassword(ProfilePasswordChangeRequest $request)
     {
+        /** @var User $user */
         $user = Auth::user();
         $hashedPassword = $user->password;
 
@@ -115,5 +119,18 @@ class ProfileController extends Controller
         Auth::logout();
 
         return redirect()->route('login')->with('message', 'Password updated successfully.');
+    }
+
+    public function myCourses()
+    {
+        $user = Auth::user();
+        $enrolledCourses = CourseOrder::with(['course.teachers.user', 'course.category'])
+            ->where('user_id', $user->id)
+            ->where('status', 'Enrolled')
+            ->where('payment_status', 'Completed')
+            ->latest()
+            ->get();
+
+        return view('frontend.pages.account.mycourses', compact('user', 'enrolledCourses'));
     }
 }

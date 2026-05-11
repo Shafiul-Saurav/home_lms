@@ -131,6 +131,7 @@ Route::prefix('user')->middleware(['auth', 'is_user'])->group(function(){
     Route::get('/personalSetting', [ProfileController::class, 'personalSetting'])->name('personal.setting');
     Route::post('/personal_store', [ProfileController::class, 'personalStore'])->name('personal.store');
     Route::post('myupdate/password', [ProfileController::class, 'updatePassword'])->name('mypostupdate.password');
+    Route::get('/my-courses', [ProfileController::class, 'myCourses'])->name('my.courses');
     Route::post('/logout', [UserLogoutController::class, 'logout'])->name('user.logout');
 
     Route::post('image/crop',[ProfileImageController::class, 'crop'])->name('image.crop');

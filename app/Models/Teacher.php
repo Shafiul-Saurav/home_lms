@@ -24,4 +24,16 @@ class Teacher extends Model
                     ->withPivot('is_active')
                     ->withTimestamps();
     }
+
+    public function averageRating()
+    {
+        $courseIds = $this->courses()->pluck('courses.id');
+        return round(CourseReview::whereIn('course_id', $courseIds)->where('is_approved', 1)->avg('rating'), 1) ?: 0;
+    }
+
+    public function reviewCount()
+    {
+        $courseIds = $this->courses()->pluck('courses.id');
+        return CourseReview::whereIn('course_id', $courseIds)->where('is_approved', 1)->count();
+    }
 }
