@@ -206,7 +206,7 @@
                                                         <span>({{ $teacherRating }})</span>
                                                     </div>
                                                     <span class="course"><i class="fad fa-book-open"></i> {{ $mainTeacher ? $mainTeacher->courses->count() : 0 }} Courses</span>
-                                                    <span class="enrolled"><i class="fad fa-user-friends"></i> {{ $mainTeacher ? \DB::table('courses_order')->whereIn('course_id', $mainTeacher->courses->pluck('id'))->where('status', 'Enrolled')->count() : 0 }} Enrolled</span>
+                                                    <span class="enrolled"><i class="fad fa-user-friends"></i> {{ $mainTeacher ? App\Models\CourseOrder::whereIn('course_id', $mainTeacher->courses->pluck('id'))->where('status', 'Enrolled')->count() : 0 }} Enrolled</span>
                                                 </div>
                                                 <p>
                                                     @if($mainTeacher)
