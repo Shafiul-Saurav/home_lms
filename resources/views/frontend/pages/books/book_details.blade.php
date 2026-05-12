@@ -2,6 +2,29 @@
 
 @section('title', 'Book Details')
 
+@push('frontend_style')
+    <!-- <style>
+        .specification-table th {
+            width: 30%;
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .book-details-img {
+            transition: transform 0.3s ease;
+        }
+        
+        .book-details-img:hover {
+            transform: scale(1.02);
+        }
+
+        .related-books-sidebar {
+            background: #fff;
+            border-radius: 10px;
+        }
+    </style> -->
+@endpush
+
 @section('frontend_content')
     <main class="main">
         <!-- breadcrumb -->
@@ -17,58 +40,143 @@
         <!-- breadcrumb end -->
 
         <!-- book-single -->
-        <div class="course-single pt-120 pb-80">
+        <div class="course-single pt-50 pb-80">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div class="course-single-wrap">
-                            <div class="course-img">
-                                <img src="{{ asset('uploads/books/' . $bookInfo->image) }}" alt="{{ $bookInfo->name }}">
-                            </div>
-                            <div class="course-content">
-                                <div class="course-meta">
-                                    <span class="category c1">{{ $bookInfo->bookCategory->name ?? 'Uncategorized' }}</span>
-                                </div>
-                                <h3 class="title">{{ $bookInfo->name }}</h3>
-                                <div class="course-details mt-4">
-                                    <div class="mb-4">
-                                        <h5 class="mb-10">Description</h5>
-                                        {!! $bookInfo->description !!}
-                                    </div>
-                                </div>
+                <div class="row g-4">
+                    <!-- Left: Thumbnail -->
+                    <div class="col-lg-4 col-md-5">
+                        <div class="course-single-wrap p-0 border-0 shadow-none bg-transparent">
+                            <div class="course-img m-0">
+                                <img src="{{ asset('uploads/books/' . $bookInfo->image) }}" alt="{{ $bookInfo->name }}" class="w-100 rounded shadow-sm book-details-img">
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="course-single-sidebar">
-                            <div class="price-wrap">
+
+                    <!-- Middle: Info -->
+                    <div class="col-lg-5 col-md-7">
+                        <div class="course-single-header mb-0 shadow-none p-0 bg-transparent border-0">
+                            <div class="top mb-2">
+                                <span class="category c1">{{ $bookInfo->bookCategory->name ?? 'Uncategorized' }}</span>
+                            </div>
+                            <h2 class="title mb-2" style="font-size: 30px; font-weight: 700;">{{ $bookInfo->name }}</h2>
+                            <p class="mb-3" style="font-size: 18px;">by <span class="text-primary fw-bold">Reverant Lal Behari Day</span></p>
+                            
+                            <div class="course-details">
+                                <p class="mb-3 text-muted" style="line-height: 1.6;">
+                                    "{!! Str::limit(strip_tags($bookInfo->description), 280) !!}"
+                                    <a href="#book-tab-section" class="text-primary fw-bold" id="scroll-to-tabs">See more</a>
+                                </p>
+                            </div>
+
+                            <div class="course-price mb-4">
                                 @if ($bookInfo->discount_amount)
-                                    <div class="price-amount">
-                                        <span>${{ number_format($bookInfo->price - $bookInfo->discount_amount, 2) }}</span>
-                                        <del>${{ number_format($bookInfo->price, 2) }}</del>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <h2 class="mb-0 text-primary fw-bold">${{ number_format($bookInfo->price - $bookInfo->discount_amount, 2) }}</h2>
+                                        <del class="text-muted h4 mb-0">${{ number_format($bookInfo->price, 2) }}</del>
                                     </div>
-                                    <span class="price-off">{{ round(($bookInfo->discount_amount / $bookInfo->price) * 100) }}% Off</span>
                                 @elseif($bookInfo->price > 0)
-                                    <div class="price-amount">
-                                        <span>${{ number_format($bookInfo->price, 2) }}</span>
-                                    </div>
+                                    <h2 class="mb-0 text-primary fw-bold">${{ number_format($bookInfo->price, 2) }}</h2>
                                 @else
-                                    <div class="price-amount">
-                                        <span class="text-success">Free</span>
-                                    </div>
+                                    <h2 class="mb-0 text-success fw-bold">Free</h2>
                                 @endif
                             </div>
-                            <div class="px-3">
-                                <a href="#" class="theme-btn w-100"> <span class="far fa-shopping-bag"></span> Buy Now</a>
+
+                            <div class="action-btns mt-4">
+                                <a href="#" class="theme-btn py-3 px-5"> <span class="far fa-shopping-bag me-2"></span> Buy Now</a>
                             </div>
-                            <div class="more-info">
-                                <h5>Book Information</h5>
-                                <ul>
-                                    <li><i class="fad fa-tag"></i> Category: <span>{{ $bookInfo->bookCategory->name ?? 'N/A' }}</span></li>
-                                    <li><i class="fad fa-layer-group"></i> Subcategory: <span>{{ $bookInfo->bookSubcategory->name ?? 'N/A' }}</span></li>
-                                    <li><i class="fad fa-clock"></i> Released: <span>{{ $bookInfo->created_at->format('M d, Y') }}</span></li>
-                                    <li><i class="fad fa-globe"></i> Language: <span>English</span></li>
-                                </ul>
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Related products -->
+                    <div class="col-lg-3 col-md-12">
+                        <div class="shadow-sm p-4 rounded related-books-sidebar">
+                            <h5 class="mb-4 fw-bold pb-2 border-bottom" style="font-size: 20px;">Related Books</h5>
+                            <div class="related-list">
+                                @forelse($relatedBooks as $related)
+                                    <div class="d-flex gap-3 mb-3 pb-3 border-bottom align-items-center">
+                                        <a href="{{ route('book.details', $related->id) }}" class="flex-shrink-0" style="width: 60px;">
+                                            <img src="{{ asset('uploads/books/' . $related->image) }}" alt="{{ $related->name }}" class="rounded shadow-sm w-100" style="height: 80px; object-fit: cover;">
+                                        </a>
+                                        <div class="info">
+                                            <h6 class="mb-1" style="font-size: 14px; line-height: 1.4;">
+                                                <a href="{{ route('book.details', $related->id) }}" class="text-dark fw-bold">{{ Str::limit($related->name, 30) }}</a>
+                                            </h6>
+                                            <div class="price text-primary fw-bold" style="font-size: 13px;">
+                                                ${{ number_format($related->price - $related->discount_amount, 2) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <p class="text-muted small">No related books found.</p>
+                                @endforelse
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom: Tabs Section -->
+                <div class="row mt-5" id="book-tab-section">
+                    <div class="col-lg-9">
+                        <div class="course-single-tab shadow-sm rounded bg-white p-4">
+                            <ul class="nav nav-underline border-bottom mb-4" id="bookTab" role="tablist">
+                                <li class="nav-item">
+                                    <button class="nav-link active py-3 px-4 fw-bold" id="description-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button">Description</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link py-3 px-4 fw-bold" id="specification-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button">Specification</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link py-3 px-4 fw-bold" id="author-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button">Author</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <!-- Description Tab -->
+                                <div class="tab-pane fade show active" id="tab1" role="tabpanel">
+                                    <div class="course-details mt-2">
+                                        {!! $bookInfo->description !!}
+                                    </div>
+                                </div>
+                                <!-- Specification Tab -->
+                                <div class="tab-pane fade" id="tab3" role="tabpanel">
+                                    <div class="mt-2">
+                                        <table class="table table-bordered specification-table">
+                                            <tbody>
+                                                <tr>
+                                                    <th>Title</th>
+                                                    <td>{{ $bookInfo->name }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Author</th>
+                                                    <td>Reverant Lal Behari Day</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Category</th>
+                                                    <td>{{ $bookInfo->bookCategory->name ?? 'N/A' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Publisher</th>
+                                                    <td>Gazi Prokashoni</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Language</th>
+                                                    <td>English</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- Author Tab -->
+                                <div class="tab-pane fade" id="tab2" role="tabpanel">
+                                    <div class="course-instructor mt-2">
+                                        <div class="instructor-img">
+                                            <img src="{{ asset('assets/frontend/img/instructor/01.jpg') }}" alt="Author" class="rounded shadow-sm">
+                                        </div>
+                                        <div class="instructor-info">
+                                            <h4 class="fw-bold mb-3">Reverant Lal Behari Day</h4>
+                                            <p class="text-muted" style="line-height: 1.7;">Lal Behari Day was a Bengali Indian journalist, philosopher and Christian missionary. He was a student of the General Assembly's Institution and later taught there. He is best known for his work "Folk-Tales of Bengal" which captured the rich oral traditions of the region.</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -76,58 +184,20 @@
             </div>
         </div>
         <!-- book-single end -->
-
-        <!-- related book -->
-        <div class="course-area pb-120">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 mx-auto">
-                        <div class="site-heading text-center">
-                            <span class="site-title-tagline"><i class="far fa-book"></i> Related Books</span>
-                            <h2 class="site-title">Explore More <span class="text-gradient">Books</span></h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row g-4">
-                    @forelse($relatedBooks as $related)
-                        <div class="col-md-6 col-lg-4 col-xl-3">
-                            <div class="course-item">
-                                <span class="course-tag c1">Book</span>
-                                <div class="course-img">
-                                    <a href="{{ route('book.details', $related->id) }}">
-                                        <img src="{{ asset('uploads/books/' . $related->image) }}" alt="{{ $related->name }}" />
-                                    </a>
-                                </div>
-                                <div class="course-content">
-                                    <div class="course-meta">
-                                        <span class="category c1">{{ $related->bookCategory->name ?? 'Uncategorized' }}</span>
-                                    </div>
-                                    <h4 class="course-title">
-                                        <a href="{{ route('book.details', $related->id) }}">{{ Str::limit($related->name, 50) }}</a>
-                                    </h4>
-                                    <div class="course-bottom">
-                                        <div class="course-price">
-                                            @if ($related->discount_amount)
-                                                <del>${{ number_format($related->price, 2) }}</del>
-                                                <span>${{ number_format($related->price - $related->discount_amount, 2) }}</span>
-                                            @elseif($related->price > 0)
-                                                <span>${{ number_format($related->price, 2) }}</span>
-                                            @else
-                                                <span class="text-success">Free</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="col-12 text-center">
-                            <p>No related books found.</p>
-                        </div>
-                    @endforelse
-                </div>
-            </div>
-        </div>
-        <!-- related book end -->
     </main>
 @endsection
+
+@push('frontend_script')
+    <script>
+        $(document).ready(function() {
+            // Smooth scroll to tabs and activate description
+            $('#scroll-to-tabs').on('click', function(e) {
+                e.preventDefault();
+                $('html, body').animate({
+                    scrollTop: $("#book-tab-section").offset().top - 100
+                }, 600);
+                $('#description-tab').tab('show');
+            });
+        });
+    </script>
+@endpush
