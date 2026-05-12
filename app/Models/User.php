@@ -122,6 +122,11 @@ class User extends Authenticatable
         return $this->hasMany(CourseOrder::class);
     }
 
+    public function lessonCompletions()
+    {
+        return $this->hasMany(LessonCompletion::class);
+    }
+
     public function isEnrolledInCourse($courseId)
     {
         return $this->courseOrders()

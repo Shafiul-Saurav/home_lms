@@ -110,6 +110,7 @@ Route::get('subcategory/{id}/courses', [WebsiteController::class, 'subcategoryCo
 Route::get('course/details/{id}', [WebsiteController::class, 'courseDetails'])->name('course.details');
 Route::get('course/{course_id}/video/{module_id?}', [WebsiteController::class, 'courseVideo'])->name('course.video');
 Route::get('ajax/course/video/data/{module_id}', [WebsiteController::class, 'ajaxCourseVideoData'])->name('ajax.course.video.data');
+Route::post('course/mark-as-completed', [WebsiteController::class, 'markAsCompleted'])->name('course.mark-as-completed')->middleware('auth');
 Route::get('services', [WebsiteController::class, 'services'])->name('services');
 Route::get('photogallery', [WebsiteController::class, 'photoGallery'])->name('photo.gallery');
 Route::get('videogallery', [WebsiteController::class, 'videoGallery'])->name('video.gallery');

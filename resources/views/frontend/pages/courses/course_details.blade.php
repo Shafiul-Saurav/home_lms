@@ -163,6 +163,9 @@
                                                                                 <i class="fad fa-play-circle"></i> <span>Video:</span>
                                                                             @endif
                                                                             {{ $module->title }}
+                                                                            @if(isset($completedModuleIds) && in_array($module->id, $completedModuleIds))
+                                                                                <i class="fas fa-check-circle text-success ms-1"></i>
+                                                                            @endif
                                                                         </h6>
                                                                     </a>
                                                                 </div>

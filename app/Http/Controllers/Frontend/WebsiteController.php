@@ -20,6 +20,7 @@ use App\Models\Photocategory;
 use App\Models\CourseModule;
 use App\Models\Lesson;
 use App\Models\User;
+use App\Models\LessonCompletion;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
@@ -213,11 +214,16 @@ class WebsiteController extends Controller
         // Check if user is logged in and enrolled
         $isLoggedIn = Auth::check();
         $isEnrolled = false;
+        $completedModuleIds = [];
 
         if ($isLoggedIn) {
             /** @var User $user */
             $user = Auth::user();
             $isEnrolled = $user->isEnrolledInCourse($id);
+            $completedModuleIds = LessonCompletion::where('user_id', $user->id)
+                ->where('course_id', $id)
+                ->pluck('module_id')
+                ->toArray();
         }
 
         return view('frontend.pages.courses.course_details', compact(
@@ -227,7 +233,8 @@ class WebsiteController extends Controller
             'lessons',
             'relatedCourses',
             'isLoggedIn',
-            'isEnrolled'
+            'isEnrolled',
+            'completedModuleIds'
         ));
     }
 
@@ -245,11 +252,16 @@ class WebsiteController extends Controller
         // Check if user is logged in and enrolled
         $isLoggedIn = Auth::check();
         $isEnrolled = false;
+        $completedModuleIds = [];
 
         if ($isLoggedIn) {
             /** @var User $user */
             $user = Auth::user();
             $isEnrolled = $user->isEnrolledInCourse($course_id);
+            $completedModuleIds = LessonCompletion::where('user_id', $user->id)
+                ->where('course_id', $course_id)
+                ->pluck('module_id')
+                ->toArray();
         }
 
         if ($module_id) {
@@ -268,10 +280,60 @@ class WebsiteController extends Controller
         // Access check for initial load
         if ($module->free_paid != 'free' && !$isEnrolled) {
             $notification = "Please enroll in this course to access this content";
-            return view('frontend.pages.courses.course_video', compact('course', 'module', 'modules', 'lessons', 'isEnrolled', 'isLoggedIn', 'notification'));
+            return view('frontend.pages.courses.course_video', compact('course', 'module', 'modules', 'lessons', 'isEnrolled', 'isLoggedIn', 'notification', 'completedModuleIds'));
         }
 
-        return view('frontend.pages.courses.course_video', compact('course', 'module', 'modules', 'lessons', 'isEnrolled', 'isLoggedIn'));
+        return view('frontend.pages.courses.course_video', compact('course', 'module', 'modules', 'lessons', 'isEnrolled', 'isLoggedIn', 'completedModuleIds'));
+    }
+
+    public function markAsCompleted(Request $request)
+    {
+        $request->validate([
+            'module_id' => 'required|exists:course_modules,id',
+            'course_id' => 'required|exists:courses,id',
+        ]);
+
+        $user = Auth::user();
+        $moduleId = $request->module_id;
+        $courseId = $request->course_id;
+
+        // Check if already completed
+        $completion = LessonCompletion::where('user_id', $user->id)
+            ->where('course_id', $courseId)
+            ->where('module_id', $moduleId)
+            ->first();
+
+        if (!$completion) {
+            LessonCompletion::create([
+                'user_id' => $user->id,
+                'course_id' => $courseId,
+                'module_id' => $moduleId,
+            ]);
+            $status = 'completed';
+        } else {
+            // Option to unmark if needed, but for now let's just keep it completed
+            // $completion->delete();
+            // $status = 'unmarked';
+            $status = 'already_completed';
+        }
+
+        // Calculate new progress
+        $totalModules = CourseModule::where('course_id', $courseId)->count();
+        $completedCount = LessonCompletion::where('user_id', $user->id)
+            ->where('course_id', $courseId)
+            ->count();
+        
+        $progress = $totalModules > 0 ? round(($completedCount / $totalModules) * 100) : 0;
+
+        return response()->json([
+            'success' => true,
+            'status' => $status,
+            'progress' => $progress,
+            'completedModuleIds' => LessonCompletion::where('user_id', $user->id)
+                ->where('course_id', $courseId)
+                ->pluck('module_id')
+                ->toArray()
+        ]);
     }
 
     public function ajaxCourseVideoData($module_id)
@@ -284,10 +346,15 @@ class WebsiteController extends Controller
         $course = Course::find($module->course_id);
 
         $isEnrolled = false;
+        $completedModuleIds = [];
         if (Auth::check()) {
             /** @var User $user */
             $user = Auth::user();
             $isEnrolled = $user->isEnrolledInCourse($course->id);
+            $completedModuleIds = LessonCompletion::where('user_id', $user->id)
+                ->where('course_id', $course->id)
+                ->pluck('module_id')
+                ->toArray();
         }
 
         $hasAccess = ($module->free_paid == 'free' || $isEnrolled);
@@ -305,7 +372,8 @@ class WebsiteController extends Controller
             'hasAccess' => true,
             'module' => $module,
             'course' => $course,
-            'isEnrolled' => $isEnrolled
+            'isEnrolled' => $isEnrolled,
+            'completedModuleIds' => $completedModuleIds
         ]);
     }
 

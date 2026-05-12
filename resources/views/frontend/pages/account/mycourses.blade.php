@@ -78,8 +78,8 @@
                                                                         Modules</li>
                                                                 </ul>
                                                             </div>
-                                                            <div class="course-progress">
-                                                                <div class="course-progress-width" style="width: 0%"></div>
+                                                            <div class="course-progress" style="height: 6px; background: #f1f5f9; border-radius: 10px; margin: 15px 0; overflow: hidden;">
+                                                                <div class="course-progress-width" style="width: {{ $order->progress ?? 0 }}%; height: 100%; background: linear-gradient(90deg, #4f46e5, #9333ea); transition: width 1s ease-in-out;"></div>
                                                             </div>
                                                             <div class="course-bottom">
                                                                 <a href="#">
@@ -97,7 +97,7 @@
                                                                     </div>
                                                                 </a>
                                                                 <div class="course-status">
-                                                                    <span>0% Finish</span>
+                                                                    <span>{{ $order->progress ?? 0 }}% Finish</span>
                                                                 </div>
                                                             </div>
                                                             <a href="{{ route('course.video', ['course_id' => $course->id]) }}"

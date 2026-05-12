@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfilePasswordChangeRequest;
 use App\Models\CourseOrder;
+use App\Models\CourseModule;
+use App\Models\LessonCompletion;
 use App\Models\Profile;
 use App\Models\ProfileImage;
 use App\Models\User;
@@ -130,6 +132,16 @@ class ProfileController extends Controller
             ->where('payment_status', 'Completed')
             ->latest()
             ->get();
+
+        foreach ($enrolledCourses as $order) {
+            $courseId = $order->course_id;
+            $totalModules = CourseModule::where('course_id', $courseId)->count();
+            $completedCount = LessonCompletion::where('user_id', $user->id)
+                ->where('course_id', $courseId)
+                ->count();
+            
+            $order->progress = $totalModules > 0 ? round(($completedCount / $totalModules) * 100) : 0;
+        }
 
         return view('frontend.pages.account.mycourses', compact('user', 'enrolledCourses'));
     }

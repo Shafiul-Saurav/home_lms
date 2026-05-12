@@ -234,7 +234,23 @@
                 <div class="col-lg-4">
                     <div class="course-single-tab" data-aos="fade-left">
                         <div class="module-list-title px-3 pt-3">
-                            <h3 class="mb-0">Course Curriculum</h3>
+                            <h3 class="mb-2">Course Curriculum</h3>
+                            <div class="course-progress-container mb-3">
+                                @php
+                                    $totalModules = count($modules);
+                                    $completedCount = count($completedModuleIds);
+                                    $progress = $totalModules > 0 ? round(($completedCount / $totalModules) * 100) : 0;
+                                @endphp
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="small text-muted">Overall Progress</span>
+                                    <span class="small fw-bold" id="courseProgressText">{{ $progress }}%</span>
+                                </div>
+                                <div class="progress" style="height: 8px; border-radius: 10px; background-color: #f1f5f9;">
+                                    <div id="courseProgressBar" class="progress-bar" role="progressbar" 
+                                         style="width: {{ $progress }}%; background-color: #4f46e5; border-radius: 10px;" 
+                                         aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="sidebar-scroll">
                             <div class="course-curriculum mt-4">
@@ -282,6 +298,11 @@
                                                                                 <span>Video:</span>
                                                                             @endif
                                                                             {{ $mod->title }}
+                                                                            @if(in_array($mod->id, $completedModuleIds))
+                                                                                <i class="fas fa-check-circle text-success ms-1 completion-icon" data-module-id="{{ $mod->id }}"></i>
+                                                                            @else
+                                                                                <i class="fas fa-check-circle text-muted ms-1 completion-icon" data-module-id="{{ $mod->id }}" style="opacity: 0.3;"></i>
+                                                                            @endif
                                                                         </h6>
                                                                     </div>
                                                                     <div class="right">
@@ -346,6 +367,11 @@
                                                                             <span>Video:</span>
                                                                         @endif
                                                                         {{ $mod->title }}
+                                                                        @if(in_array($mod->id, $completedModuleIds))
+                                                                            <i class="fas fa-check-circle text-success ms-1 completion-icon" data-module-id="{{ $mod->id }}"></i>
+                                                                        @else
+                                                                            <i class="fas fa-check-circle text-muted ms-1 completion-icon" data-module-id="{{ $mod->id }}" style="opacity: 0.3;"></i>
+                                                                        @endif
                                                                     </h6>
                                                                 </div>
                                                                 <div class="right">
@@ -378,6 +404,9 @@
     <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 
     <script>
+        let completedModuleIds = @json($completedModuleIds);
+        let currentCourseId = {{ $course->id }};
+
         function initializePlyrPlayer() {
             const playerElement = document.getElementById('player');
             if (!playerElement || typeof Plyr === 'undefined') {
@@ -407,6 +436,11 @@
             window.plyrInstance.on('play', () => {
                 const thumb = document.getElementById('thumbnail');
                 if (thumb) thumb.style.display = 'none';
+            });
+
+            window.plyrInstance.on('ended', () => {
+                const moduleId = document.querySelector('.curriculum-item.active').getAttribute('data-module-id');
+                markAsComplete(moduleId);
             });
 
             return window.plyrInstance;
@@ -586,6 +620,8 @@
                         updateNavigationButtons();
                         updateVideoTitle(data.module.title);
                         updateVideoMeta(data.course, data.module);
+                        
+                        completedModuleIds = data.completedModuleIds;
 
                         // Update browser history to reflect the new video
                         const newUrl = "{{ route('course.video', $course->id) }}/" + moduleId;
@@ -906,6 +942,71 @@
         @elseif (isset($notification))
             toastr.error("{{ $notification }}");
         @endif
+
+        function markAsComplete(moduleId) {
+            if (!{{ Auth::check() ? 'true' : 'false' }}) {
+                toastr.warning('Please login to track your progress');
+                return;
+            }
+
+            const btn = document.getElementById('markAsCompleteBtn');
+            if (btn) btn.disabled = true;
+
+            fetch("{{ route('course.mark-as-completed') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                    module_id: moduleId,
+                    course_id: currentCourseId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if (data.status === 'completed') {
+                        toastr.success('Lesson marked as completed!');
+                    }
+                    
+                    completedModuleIds = data.completedModuleIds;
+                    updateModuleList(moduleId); // This will handle icons now
+                    updateCourseProgressBar(data.progress);
+                    
+                    // Update completion icons in sidebar
+                    document.querySelectorAll(`.completion-icon[data-module-id="${moduleId}"]`).forEach(icon => {
+                        icon.classList.remove('text-muted');
+                        icon.classList.add('text-success');
+                        icon.style.opacity = '1';
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                if (btn) btn.disabled = false;
+            });
+        }
+
+        function updateCourseProgressBar(progress) {
+            const bar = document.getElementById('courseProgressBar');
+            const text = document.getElementById('courseProgressText');
+            if (bar) {
+                bar.style.width = progress + '%';
+                bar.setAttribute('aria-valuenow', progress);
+            }
+            if (text) {
+                text.innerText = progress + '%';
+            }
+        }
+
+        // Initialize button state on load
+        window.addEventListener('load', function() {
+            // No button to initialize anymore
+        });
 
         // Keyboard navigation
         document.addEventListener('keydown', function(e) {

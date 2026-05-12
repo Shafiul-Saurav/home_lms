@@ -253,7 +253,7 @@
                                             ]]);
                                         @endphp
                                         @foreach ($oldModules as $moduleIndex => $module)
-                                            <div class="border rounded p-3 mb-3 module-row" id="multipleModuleField{{ $moduleIndex }}">
+                                            <div class="border p-3 mb-3 module-row" id="multipleModuleField{{ $moduleIndex }}">
                                                 <div class="row">
                                                     <div class="col-md-4 mb-3">
                                                         <label class="form-label">Module Lesson</label>
@@ -306,7 +306,7 @@
                                                             <div class="input-group-text bg-primary-transparent text-primary">
                                                                 <i class="fe fe-calendar text-20"></i>
                                                             </div>
-                                                            <input class="form-control fc-datepicker" placeholder="DD/MM/YYYY" type="text" 
+                                                            <input class="form-control fc-datepicker" placeholder="DD/MM/YYYY" type="text"
                                                                 value="{{ !empty($module['date']) ? \Carbon\Carbon::parse($module['date'])->format('d/m/Y') : '' }}">
                                                             <input type="hidden" name="modules[{{ $moduleIndex }}][date]" value="{{ $module['date'] ?? '' }}">
                                                         </div>
