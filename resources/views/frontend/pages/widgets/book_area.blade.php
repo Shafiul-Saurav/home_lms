@@ -30,12 +30,12 @@
                         <div class="course-bottom">
                             <div class="course-price">
                                 @if ($book->discount_amount)
-                                    <del>${{ number_format($book->price, 2) }}</del>
-                                    <span>${{ number_format($book->price - $book->discount_amount, 2) }}</span>
+                                    <del class="text-muted">${{ number_format($book->price, 2) }}</del>
+                                    <span style="color: var(--theme-color2); font-weight: 700;">${{ number_format($book->price - $book->discount_amount, 2) }}</span>
                                 @elseif($book->price > 0)
-                                    <span>${{ number_format($book->price, 2) }}</span>
+                                    <span style="color: var(--theme-color2); font-weight: 700;">${{ number_format($book->price, 2) }}</span>
                                 @else
-                                    <span class="text-success">Free</span>
+                                    <span class="text-success" style="font-weight: 700;">Free</span>
                                 @endif
                             </div>
                         </div>

@@ -3,26 +3,25 @@
 @section('title', 'Book Details')
 
 @push('frontend_style')
-    <!-- <style>
+    <style>
         .specification-table th {
             width: 30%;
             background-color: #f8f9fa;
             font-weight: 600;
         }
         
-        .book-details-img {
-            transition: transform 0.3s ease;
+        .qty-selector .btn:focus {
+            box-shadow: none;
         }
         
-        .book-details-img:hover {
-            transform: scale(1.02);
+        .qty-selector .qty-input:focus {
+            box-shadow: none;
         }
 
-        .related-books-sidebar {
-            background: #fff;
-            border-radius: 10px;
+        .hover-primary:hover {
+            color: var(--theme-color) !important;
         }
-    </style> -->
+    </style>
 @endpush
 
 @section('frontend_content')
@@ -68,28 +67,38 @@
                                 </p>
                             </div>
 
-                            <div class="course-price mb-4">
+                            <div class="price-wrap">
                                 @if ($bookInfo->discount_amount)
-                                    <div class="d-flex align-items-center gap-3">
-                                        <h2 class="mb-0 text-primary fw-bold">${{ number_format($bookInfo->price - $bookInfo->discount_amount, 2) }}</h2>
-                                        <del class="text-muted h4 mb-0">${{ number_format($bookInfo->price, 2) }}</del>
+                                    <div class="price-amount">
+                                        <span style="color: var(--theme-color2); font-weight: 900; font-size: 25px;">${{ number_format($bookInfo->price - $bookInfo->discount_amount, 2) }}</span>
+                                        <del class="text-muted ms-2" style="font-size: 16px;">${{ number_format($bookInfo->price, 2) }}</del>
                                     </div>
+                                    <span class="price-off" style="background: rgba(255, 0, 0, 0.1); color: #dc3545; font-weight: 500; padding: 2px 15px; border-radius: 8px; font-size: 14px;">{{ round(($bookInfo->discount_amount / $bookInfo->price) * 100) }}% Off</span>
                                 @elseif($bookInfo->price > 0)
-                                    <h2 class="mb-0 text-primary fw-bold">${{ number_format($bookInfo->price, 2) }}</h2>
+                                    <div class="price-amount">
+                                        <span style="color: var(--theme-color2); font-weight: 900; font-size: 25px;">${{ number_format($bookInfo->price, 2) }}</span>
+                                    </div>
                                 @else
-                                    <h2 class="mb-0 text-success fw-bold">Free</h2>
+                                    <div class="price-amount">
+                                        <span class="text-success" style="font-weight: 900; font-size: 25px;">Free</span>
+                                    </div>
                                 @endif
                             </div>
 
-                            <div class="action-btns mt-4">
-                                <a href="#" class="theme-btn py-3 px-5"> <span class="far fa-shopping-bag me-2"></span> Buy Now</a>
+                            <div class="qty-btn-area mt-4 d-flex align-items-center gap-3">
+                                <div class="qty-selector d-flex align-items-center border rounded shadow-sm overflow-hidden" style="height: 48px;">
+                                    <button class="btn border-0 qty-minus px-3" style="background: #f8f9fa; border-right: 1px solid #dee2e6 !important;"><i class="far fa-minus"></i></button>
+                                    <input type="text" class="form-control border-0 text-center qty-input" value="1" readonly style="width: 50px; font-weight: 700; background: #fff; padding: 0;">
+                                    <button class="btn border-0 qty-plus px-3" style="background: #f8f9fa; border-left: 1px solid #dee2e6 !important;"><i class="far fa-plus"></i></button>
+                                </div>
+                                <a href="#" class="theme-btn flex-grow-1 text-center"> <span class="far fa-shopping-bag me-2"></span> Buy Now</a>
                             </div>
                         </div>
                     </div>
 
                     <!-- Right Side: Related products -->
                     <div class="col-lg-3 col-md-12">
-                        <div class="shadow-sm p-4 rounded related-books-sidebar">
+                        <div class="shadow-sm p-4 rounded related-books-sidebar bg-white">
                             <h5 class="mb-4 fw-bold pb-2 border-bottom" style="font-size: 20px;">Related Books</h5>
                             <div class="related-list">
                                 @forelse($relatedBooks as $related)
@@ -99,10 +108,15 @@
                                         </a>
                                         <div class="info">
                                             <h6 class="mb-1" style="font-size: 14px; line-height: 1.4;">
-                                                <a href="{{ route('book.details', $related->id) }}" class="text-dark fw-bold">{{ Str::limit($related->name, 30) }}</a>
+                                                <a href="{{ route('book.details', $related->id) }}" class="text-dark fw-bold hover-primary">{{ Str::limit($related->name, 30) }}</a>
                                             </h6>
-                                            <div class="price text-primary fw-bold" style="font-size: 13px;">
-                                                ${{ number_format($related->price - $related->discount_amount, 2) }}
+                                            <div class="price fw-bold" style="font-size: 13px; color: var(--theme-color2);">
+                                                @if ($related->discount_amount)
+                                                    <span>${{ number_format($related->price - $related->discount_amount, 2) }}</span>
+                                                    <del class="text-muted ms-1" style="font-size: 11px;">${{ number_format($related->price, 2) }}</del>
+                                                @else
+                                                    <span>${{ number_format($related->price, 2) }}</span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -138,11 +152,11 @@
                                 </div>
                                 <!-- Specification Tab -->
                                 <div class="tab-pane fade" id="tab3" role="tabpanel">
-                                    <div class="mt-2">
-                                        <table class="table table-bordered specification-table">
+                                    <div class="mt-2 user-table table-responsive">
+                                        <table class="table table-borderless">
                                             <tbody>
                                                 <tr>
-                                                    <th>Title</th>
+                                                    <th width="30%">Title</th>
                                                     <td>{{ $bookInfo->name }}</td>
                                                 </tr>
                                                 <tr>
@@ -197,6 +211,21 @@
                     scrollTop: $("#book-tab-section").offset().top - 100
                 }, 600);
                 $('#description-tab').tab('show');
+            });
+
+            // Quantity selector logic
+            $('.qty-plus').on('click', function() {
+                var input = $(this).siblings('.qty-input');
+                var val = parseInt(input.val());
+                input.val(val + 1);
+            });
+
+            $('.qty-minus').on('click', function() {
+                var input = $(this).siblings('.qty-input');
+                var val = parseInt(input.val());
+                if (val > 1) {
+                    input.val(val - 1);
+                }
             });
         });
     </script>

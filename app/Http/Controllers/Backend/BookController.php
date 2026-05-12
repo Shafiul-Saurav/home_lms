@@ -9,7 +9,6 @@ use App\Models\BookCategory;
 use App\Models\Book;
 use App\Models\BookSubcategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Intervention\Image\Facades\Image;
 
 class BookController extends Controller
