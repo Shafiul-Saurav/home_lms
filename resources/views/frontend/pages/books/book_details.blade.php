@@ -91,7 +91,7 @@
                                     <input type="text" class="form-control border-0 text-center qty-input" value="1" readonly style="width: 50px; font-weight: 700; background: #fff; padding: 0;">
                                     <button class="btn border-0 qty-plus px-3" style="background: #f8f9fa; border-left: 1px solid #dee2e6 !important;"><i class="far fa-plus"></i></button>
                                 </div>
-                                <a href="#" class="theme-btn flex-grow-1 text-center"> <span class="far fa-shopping-bag me-2"></span> Buy Now</a>
+                                <a href="{{ route('book.checkout', $bookInfo->id) }}" class="theme-btn flex-grow-1 text-center" id="buy-now-btn"> <span class="far fa-shopping-bag me-2"></span> Buy Now</a>
                             </div>
                         </div>
                     </div>
@@ -226,6 +226,13 @@
                 if (val > 1) {
                     input.val(val - 1);
                 }
+            });
+
+            // Buy Now button with dynamic qty
+            $('#buy-now-btn').on('click', function(e) {
+                e.preventDefault();
+                var qty = $('.qty-input').val();
+                window.location.href = $(this).attr('href') + '?qty=' + qty;
             });
         });
     </script>

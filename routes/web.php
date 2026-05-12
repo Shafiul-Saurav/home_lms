@@ -46,6 +46,7 @@ use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\VideoGalleryController;
 use App\Http\Controllers\Backend\WebsiteLinkController;
+use App\Http\Controllers\Frontend\BookPaymentController;
 use App\Http\Controllers\Frontend\CommentController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\CoursePaymentController;
@@ -154,6 +155,14 @@ Route::prefix('user')->middleware(['auth', 'is_user'])->group(function(){
     Route::get('/course/payment/cancel', [CoursePaymentController::class, 'cancel'])->name('course.payment.cancel');
     Route::get('/course/thankyou/{order_id}', [CoursePaymentController::class, 'thankyou'])->name('course.payment.thankyou');
     Route::post('/validate-coupon', [CoursePaymentController::class, 'validateCoupon'])->name('coupon.validate');
+
+    // Book Payment Routes (SSLCommerz)
+    Route::get('/book/checkout/{book_id}', [BookPaymentController::class, 'checkoutPage'])->name('book.checkout');
+    Route::post('/book/process-payment', [BookPaymentController::class, 'checkout'])->name('book.payment.process');
+    Route::get('/book/payment/success', [BookPaymentController::class, 'success'])->name('book.payment.success');
+    Route::get('/book/payment/fail', [BookPaymentController::class, 'fail'])->name('book.payment.fail');
+    Route::get('/book/payment/cancel', [BookPaymentController::class, 'cancel'])->name('book.payment.cancel');
+    Route::get('/book/thankyou/{order_id}', [BookPaymentController::class, 'thankyou'])->name('book.payment.thankyou');
 });
 
 // Course Review AJAX Routes
