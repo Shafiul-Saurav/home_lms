@@ -28,6 +28,10 @@
         @include('frontend.pages.widgets.course_area')
         <!-- course area end -->
 
+        <!-- book area -->
+        @include('frontend.pages.widgets.book_area')
+        <!-- book area end -->
+
         <!-- choose area -->
         @include('frontend.pages.widgets.choose_area')
         <!-- choose area end -->
@@ -37,7 +41,7 @@
         <!-- counter area end -->
 
         <!-- pricing area -->
-        @include('frontend.pages.widgets.pricing_area')
+        {{-- @include('frontend.pages.widgets.pricing_area') --}}
         <!-- pricing area end -->
 
         <!-- feature-area -->

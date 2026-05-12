@@ -24,6 +24,7 @@ use App\Models\LessonCompletion;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Book;
 
 class WebsiteController extends Controller
 {
@@ -58,11 +59,12 @@ class WebsiteController extends Controller
             }])->latest('id')->get();
 
         $popularCourses = Course::where('is_active', 1)->latest('id')->limit(6)->get();
+        $popularBooks = Book::where('is_active', 1)->latest('id')->limit(6)->get();
 
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
 
-        return view('frontend.pages.home', compact('homeSliders', 'website_link', 'about', 'testimonials', 'posts', 'logo_fav', 'categories', 'popularCourses'));
+        return view('frontend.pages.home', compact('homeSliders', 'website_link', 'about', 'testimonials', 'posts', 'logo_fav', 'categories', 'popularCourses', 'popularBooks'));
     }
 
     public function about()
@@ -236,6 +238,25 @@ class WebsiteController extends Controller
             'isEnrolled',
             'completedModuleIds'
         ));
+    }
+
+    public function bookDetails($id)
+    {
+        // Fetch book details
+        $bookInfo = Book::with(['bookCategory', 'bookSubcategory'])->where('id', $id)->where('is_active', 1)->firstOrFail();
+
+        // Fetch related books
+        $relatedBooks = Book::with(['bookCategory'])
+                            ->where('id', '!=', $id)
+                            ->where('is_active', 1)
+                            ->where('book_category_id', $bookInfo->book_category_id)
+                            ->limit(4)
+                            ->get();
+
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
+
+        return view('frontend.pages.books.book_details', compact('bookInfo', 'relatedBooks', 'logo_fav'));
     }
 
     public function courseVideo($course_id, $module_id = null)
