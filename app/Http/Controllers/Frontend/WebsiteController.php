@@ -2,31 +2,34 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Models\Faq;
-use App\Models\Post;
-use App\Models\About;
-use App\Models\Course;
-use App\Models\Category;
-use App\Models\HomeSlider;
-use App\Models\LogoFavicon;
-use App\Models\Testimonial;
-use App\Models\WebsiteLink;
-use App\Models\Photogallery;
-use App\Models\Postcategory;
-use App\Models\Videogallery;
-use App\Models\Subcategory;
-use Illuminate\Http\Request;
-use App\Models\Photocategory;
-use App\Models\CourseModule;
-use App\Models\Lesson;
-use App\Models\User;
-use App\Models\LessonCompletion;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Auth;
+use App\Models\About;
 use App\Models\Book;
 use App\Models\BookCategory;
 use App\Models\BookSubcategory;
+use App\Models\Category;
+use App\Models\Course;
+use App\Models\CourseModule;
+use App\Models\Faq;
+use App\Models\HomeSlider;
+use App\Models\Lesson;
+use App\Models\LessonCompletion;
+use App\Models\LogoFavicon;
+use App\Models\PdfBook;
+use App\Models\PdfBookCategory;
+use App\Models\PdfBookSubcategory;
+use App\Models\Photocategory;
+use App\Models\Photogallery;
+use App\Models\Post;
+use App\Models\Postcategory;
+use App\Models\Subcategory;
+use App\Models\Testimonial;
+use App\Models\User;
+use App\Models\Videogallery;
+use App\Models\WebsiteLink;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 
 class WebsiteController extends Controller
 {
@@ -242,25 +245,6 @@ class WebsiteController extends Controller
         ));
     }
 
-    public function bookDetails($id)
-    {
-        // Fetch book details
-        $bookInfo = Book::with(['bookCategory', 'bookSubcategory'])->where('id', $id)->where('is_active', 1)->firstOrFail();
-
-        // Fetch related books
-        $relatedBooks = Book::with(['bookCategory'])
-                            ->where('id', '!=', $id)
-                            ->where('is_active', 1)
-                            ->where('book_category_id', $bookInfo->book_category_id)
-                            ->limit(4)
-                            ->get();
-
-        // Fetch logo/favicon data
-        $logo_fav = LogoFavicon::first();
-
-        return view('frontend.pages.books.book_details', compact('bookInfo', 'relatedBooks', 'logo_fav'));
-    }
-
     public function courseVideo($course_id, $module_id = null)
     {
         $course = Course::with('teachers.user')->where('id', $course_id)->where('is_active', 1)->firstOrFail();
@@ -345,7 +329,7 @@ class WebsiteController extends Controller
         $completedCount = LessonCompletion::where('user_id', $user->id)
             ->where('course_id', $courseId)
             ->count();
-        
+
         $progress = $totalModules > 0 ? round(($completedCount / $totalModules) * 100) : 0;
 
         return response()->json([
@@ -763,4 +747,114 @@ class WebsiteController extends Controller
         return view('frontend.pages.books.categories.subcategory_books', compact('books', 'categories', 'subcategory'));
     }
 
+    public function bookDetails($id)
+    {
+        // Fetch book details
+        $bookInfo = Book::with(['bookCategory', 'bookSubcategory'])->where('id', $id)->where('is_active', 1)->firstOrFail();
+
+        // Fetch related books
+        $relatedBooks = Book::with(['bookCategory'])
+                            ->where('id', '!=', $id)
+                            ->where('is_active', 1)
+                            ->where('book_category_id', $bookInfo->book_category_id)
+                            ->limit(4)
+                            ->get();
+
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
+
+        return view('frontend.pages.books.book_details', compact('bookInfo', 'relatedBooks', 'logo_fav'));
+    }
+    
+    // PDF Books Methods
+    public function pdfBooks(Request $request)
+    {
+        $query = PdfBook::with(['pdfBookCategory']);
+
+        // Search filter
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('description', 'LIKE', "%{$search}%");
+            });
+        }
+
+        // Category filter
+        if ($request->filled('category')) {
+            $categoryIds = explode(',', $request->input('category'));
+            $query->whereIn('pdf_book_category_id', $categoryIds);
+        }
+
+        // Price filter
+        if ($request->filled('price')) {
+            $priceFilters = explode(',', $request->input('price'));
+            if (in_array('free', $priceFilters) && in_array('paid', $priceFilters)) {
+                // All
+            } elseif (in_array('free', $priceFilters)) {
+                $query->where('price', 0);
+            } elseif (in_array('paid', $priceFilters)) {
+                $query->where('price', '>', 0);
+            }
+        }
+
+        // Sort by
+        $sortBy = $request->input('sort_by', 'latest');
+        switch ($sortBy) {
+            case 'low_price':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'high_price':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'latest':
+            default:
+                $query->latest('id');
+                break;
+        }
+
+        // Paginate results
+        $pdf_books = $query->paginate(9);
+
+        // Fetch all categories for the filter sidebar
+        $categories = PdfBookCategory::withCount(['pdfBooks'])->get();
+
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('frontend.pages.pdf_books.pdf_book_filter_list', compact('pdf_books'))->render(),
+                'topfilter' => view('frontend.pages.pdf_books.pdf_book_topfilter', compact('pdf_books'))->render(),
+            ]);
+        }
+
+        return view('frontend.pages.pdf_books.pdf_books', compact('pdf_books', 'categories'));
+    }
+
+    public function pdfBookCategory($slug)
+    {
+        $category = PdfBookCategory::where('slug', $slug)->firstOrFail();
+        $pdf_books = PdfBook::where('pdf_book_category_id', $category->id)->latest()->paginate(9);
+        $categories = PdfBookCategory::withCount(['pdfBooks'])->get();
+
+        return view('frontend.pages.pdf_books.categories.category_pdf_books', compact('pdf_books', 'categories', 'category'));
+    }
+
+    public function pdfBookSubcategory($slug)
+    {
+        $subcategory = PdfBookSubcategory::where('slug', $slug)->firstOrFail();
+        $pdf_books = PdfBook::where('pdf_book_subcategory_id', $subcategory->id)->latest()->paginate(9);
+        $categories = PdfBookCategory::withCount(['pdfBooks'])->get();
+
+        return view('frontend.pages.pdf_books.categories.subcategory_pdf_books', compact('pdf_books', 'categories', 'subcategory'));
+    }
+
+    public function pdfBookDetails($id)
+    {
+        $bookInfo = PdfBook::with(['pdfBookCategory', 'pdfBookSubcategory'])->findOrFail($id);
+        $relatedBooks = PdfBook::where('pdf_book_category_id', $bookInfo->pdf_book_category_id)
+                            ->where('id', '!=', $id)
+                            ->take(5)
+                            ->get();
+
+        return view('frontend.pages.pdf_books.pdf_book_details', compact('bookInfo', 'relatedBooks'));
+    }
 }

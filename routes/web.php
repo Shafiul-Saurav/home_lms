@@ -51,6 +51,7 @@ use App\Http\Controllers\Frontend\CommentController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\CoursePaymentController;
 use App\Http\Controllers\Frontend\CourseReviewController;
+use App\Http\Controllers\Frontend\PdfBookPaymentController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\ProfileImageController;
 use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
@@ -113,6 +114,13 @@ Route::get('book/details/{id}', [WebsiteController::class, 'bookDetails'])->name
 Route::get('books', [WebsiteController::class, 'books'])->name('books');
 Route::get('book/category/{slug}', [WebsiteController::class, 'bookCategory'])->name('book.category');
 Route::get('book/subcategory/{slug}', [WebsiteController::class, 'bookSubcategory'])->name('book.subcategory');
+
+// PDF Books Routes
+Route::get('pdf-books', [WebsiteController::class, 'pdfBooks'])->name('pdf.books');
+Route::get('pdf-book/category/{slug}', [WebsiteController::class, 'pdfBookCategory'])->name('pdf.book.category');
+Route::get('pdf-book/subcategory/{slug}', [WebsiteController::class, 'pdfBookSubcategory'])->name('pdf.book.subcategory');
+Route::get('pdf-book/details/{id}', [WebsiteController::class, 'pdfBookDetails'])->name('pdf.book.details');
+
 Route::get('course/{course_id}/video/{module_id?}', [WebsiteController::class, 'courseVideo'])->name('course.video');
 Route::get('ajax/course/video/data/{module_id}', [WebsiteController::class, 'ajaxCourseVideoData'])->name('ajax.course.video.data');
 Route::post('course/mark-as-completed', [WebsiteController::class, 'markAsCompleted'])->name('course.mark-as-completed')->middleware('auth');
@@ -163,6 +171,14 @@ Route::prefix('user')->middleware(['auth', 'is_user'])->group(function(){
     Route::get('/book/payment/fail', [BookPaymentController::class, 'fail'])->name('book.payment.fail');
     Route::get('/book/payment/cancel', [BookPaymentController::class, 'cancel'])->name('book.payment.cancel');
     Route::get('/book/thankyou/{order_id}', [BookPaymentController::class, 'thankyou'])->name('book.payment.thankyou');
+
+    // PDF Book Payment Routes (SSLCommerz)
+    Route::get('/pdf-book/checkout/{book_id}', [PdfBookPaymentController::class, 'checkoutPage'])->name('pdf.book.checkout');
+    Route::post('/pdf-book/process-payment', [PdfBookPaymentController::class, 'checkout'])->name('pdf.book.payment.process');
+    Route::get('/pdf-book/payment/success', [PdfBookPaymentController::class, 'success'])->name('pdf.book.payment.success');
+    Route::get('/pdf-book/payment/fail', [PdfBookPaymentController::class, 'fail'])->name('pdf.book.payment.fail');
+    Route::get('/pdf-book/payment/cancel', [PdfBookPaymentController::class, 'cancel'])->name('pdf.book.payment.cancel');
+    Route::get('/pdf-book/thankyou/{order_id}', [PdfBookPaymentController::class, 'thankyou'])->name('pdf.book.payment.thankyou');
 });
 
 // Course Review AJAX Routes

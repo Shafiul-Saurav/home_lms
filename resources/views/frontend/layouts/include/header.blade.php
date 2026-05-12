@@ -39,7 +39,13 @@
                         <ul class="navbar-nav justify-content-end flex-grow-1">
                             <li class="nav-item"><a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a></li>
                             <li class="nav-item"><a class="nav-link {{ request()->routeIs('courses', 'category.courses', 'subcategory.courses', 'course.details') ? 'active' : '' }}" href="{{ route('courses') }}">Courses</a></li>
-                            <li class="nav-item"><a class="nav-link {{ request()->routeIs('books', 'book.category', 'book.subcategory', 'book.details') ? 'active' : '' }}" href="{{ route('books') }}">Books</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle {{ request()->routeIs('books', 'book.category', 'book.subcategory', 'book.details', 'pdf.books', 'pdf.book.category', 'pdf.book.subcategory', 'pdf.book.details') ? 'active' : '' }}" href="#" data-bs-toggle="dropdown">Books</a>
+                                <ul class="dropdown-menu fade-down">
+                                    <li><a class="dropdown-item" href="{{ route('books') }}">Physical Books</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('pdf.books') }}">PDF Books</a></li>
+                                </ul>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle {{ request()->routeIs('about') ? 'active' : '' }}" href="#"
                                     data-bs-toggle="dropdown">Pages</a>
