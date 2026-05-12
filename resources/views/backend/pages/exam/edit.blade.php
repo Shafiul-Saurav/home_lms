@@ -55,8 +55,8 @@
                             </div>
                             <div class="col-md-4 mb-3">
                                 <div class="form-group">
-                                    <label for="category_id">Category</label>
-                                    <select name="category_id" class="form-control @error('category_id') is-invalid @enderror" id="category_id" required>
+                                    <label for="category_id">Category (Optional)</label>
+                                    <select name="category_id" class="form-control @error('category_id') is-invalid @enderror" id="category_id">
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}" {{ old('category_id', $exam->category_id) == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
@@ -69,8 +69,8 @@
                             </div>
                             <div class="col-md-4 mb-3">
                                 <div class="form-group">
-                                    <label for="course_id">Course (Optional)</label>
-                                    <select name="course_id" class="form-control @error('course_id') is-invalid @enderror" id="course_id">
+                                    <label for="course_id">Course</label>
+                                    <select name="course_id" class="form-control @error('course_id') is-invalid @enderror" id="course_id" required>
                                         <option value="">Select Course</option>
                                         @foreach ($courses as $course)
                                             <option value="{{ $course->id }}" {{ old('course_id', $exam->course_id) == $course->id ? 'selected' : '' }}>{{ $course->name }}</option>

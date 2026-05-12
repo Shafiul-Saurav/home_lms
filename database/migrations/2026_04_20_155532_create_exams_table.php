@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained('exam_categories')->onDelete('cascade');
-            $table->foreignId('course_id')->nullable()->constrained('courses')->onDelete('set null');
+            $table->foreignId('category_id')->nullable()->constrained('exam_categories')->onDelete('set null');
+            $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
             $table->string('mcq_written')->default('mcq'); // mcq, written, both
             $table->decimal('price', 10, 2)->default(0);
             $table->decimal('discount', 10, 2)->default(0);

@@ -54,4 +54,9 @@ class Course extends Model
     {
         return $this->reviews()->where('is_approved', 1)->count();
     }
+
+    public function exams()
+    {
+        return $this->hasMany(Exam::class, 'course_id', 'id');
+    }
 }

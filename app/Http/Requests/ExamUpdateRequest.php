@@ -17,8 +17,8 @@ class ExamUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_id' => 'required|exists:exam_categories,id',
-            'course_id' => 'nullable|exists:courses,id',
+            'category_id' => 'nullable|exists:exam_categories,id',
+            'course_id' => 'required|exists:courses,id',
             'mcq_written' => 'required|string|in:mcq,written,both',
             'price' => 'required|numeric|min:0',
             'discount' => 'nullable|numeric|min:0',

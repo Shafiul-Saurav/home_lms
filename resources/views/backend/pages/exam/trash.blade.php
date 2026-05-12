@@ -39,6 +39,7 @@
                                     <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">Deleted At</th>
                                     <th class="border-bottom-0">Name</th>
+                                    <th class="border-bottom-0">Course</th>
                                     <th class="border-bottom-0">Category</th>
                                     <th class="border-bottom-0">Actions</th>
                                 </tr>
@@ -49,6 +50,7 @@
                                         <td><strong>{{ $exams->firstItem() + $loop->index }}</strong></td>
                                         <td>{{ $exam->deleted_at->format('d-M-Y') }}</td>
                                         <td>{{ $exam->name }}</td>
+                                        <td>{{ $exam->course->name ?? 'N/A' }}</td>
                                         <td>{{ $exam->category->name ?? 'N/A' }}</td>
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
