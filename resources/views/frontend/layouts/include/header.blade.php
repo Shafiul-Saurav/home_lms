@@ -37,58 +37,11 @@
                     </div>
                     <div class="offcanvas-body gap-xl-4">
                         <ul class="navbar-nav justify-content-end flex-grow-1">
-                            <li class="nav-item"><a class="nav-link active" href="{{ route('home') }}">Home</a></li>
-                            <li class="nav-item"><a class="nav-link active" href="{{ route('courses') }}">Courses</a></li>
+                            <li class="nav-item"><a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a></li>
+                            <li class="nav-item"><a class="nav-link {{ request()->routeIs('courses', 'category.courses', 'subcategory.courses', 'course.details') ? 'active' : '' }}" href="{{ route('courses') }}">Courses</a></li>
+                            <li class="nav-item"><a class="nav-link {{ request()->routeIs('books', 'book.category', 'book.subcategory', 'book.details') ? 'active' : '' }}" href="{{ route('books') }}">Books</a></li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#"
-                                    data-bs-toggle="dropdown">Category</a>
-                                <ul class="dropdown-menu fade-down">
-                                    <li class="dropdown-submenu">
-                                        <a class="dropdown-item dropdown-toggle" href="#">Development</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="course-category-single.html">Software
-                                                    Development</a></li>
-                                            <li><a class="dropdown-item" href="course-category-single.html">Web
-                                                    Development</a></li>
-                                            <li><a class="dropdown-item" href="course-category-single.html">App
-                                                    Development</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown-submenu">
-                                        <a class="dropdown-item dropdown-toggle" href="#">Design</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="course-category-single.html">Graphics
-                                                    Design</a></li>
-                                            <li><a class="dropdown-item" href="course-category-single.html">UX / UI
-                                                    Design</a></li>
-                                            <li><a class="dropdown-item" href="course-category-single.html">Figma
-                                                    Design</a></li>
-                                            <li><a class="dropdown-item" href="course-category-single.html">Icon
-                                                    Design</a></li>
-                                            <li><a class="dropdown-item" href="course-category-single.html">Logo
-                                                    Design</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a class="dropdown-item" href="course-category-single.html">Motion Graphics</a>
-                                    </li>
-                                    <li><a class="dropdown-item" href="course-category-single.html">Digital
-                                            Marketing</a></li>
-                                    <li><a class="dropdown-item" href="course-category-single.html">Photography &
-                                            Video</a></li>
-                                    <li><a class="dropdown-item" href="course-category-single.html">Office
-                                            Productivity</a></li>
-                                    <li><a class="dropdown-item" href="course-category-single.html">Health & Fitness</a>
-                                    </li>
-                                    <li><a class="dropdown-item" href="course-category-single.html">Finance &
-                                            Accounting</a></li>
-                                    <li><a class="dropdown-item" href="course-category-single.html">Life Style</a></li>
-                                    <li><a class="dropdown-item" href="course-category-single.html">Music</a></li>
-                                    <li><a class="dropdown-item" href="course-category-single.html">English
-                                            Learning</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#"
+                                <a class="nav-link dropdown-toggle {{ request()->routeIs('about') ? 'active' : '' }}" href="#"
                                     data-bs-toggle="dropdown">Pages</a>
                                 <ul class="dropdown-menu fade-down">
                                     <li><a class="dropdown-item" href="{{ route('about') }}">About Us</a></li>
@@ -151,7 +104,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#"
+                                <a class="nav-link dropdown-toggle {{ request()->routeIs('user.*') ? 'active' : '' }}" href="#"
                                     data-bs-toggle="dropdown">Account</a>
                                 <ul class="dropdown-menu fade-down">
                                     <li><a class="dropdown-item" href="{{ route('user.dashboard') }}">Dashboard</a>
@@ -226,7 +179,7 @@
                                     <li><a class="dropdown-item" href="blog-single.html">Blog Single</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="{{ route('contact.page') }}">Contact</a></li>
+                            <li class="nav-item"><a class="nav-link {{ request()->routeIs('contact.page') ? 'active' : '' }}" href="{{ route('contact.page') }}">Contact</a></li>
                         </ul>
                         <!-- nav-right -->
                         <div class="nav-right">
