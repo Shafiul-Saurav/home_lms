@@ -22,6 +22,9 @@ return new class extends Migration
             $table->decimal('discount_amount', 10, 2)->default(0);
             $table->string('image')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->string('author_name')->nullable();
+            $table->text('author_description')->nullable();
+            $table->string('author_profile')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

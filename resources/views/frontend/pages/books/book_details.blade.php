@@ -9,11 +9,11 @@
             background-color: #f8f9fa;
             font-weight: 600;
         }
-        
+
         .qty-selector .btn:focus {
             box-shadow: none;
         }
-        
+
         .qty-selector .qty-input:focus {
             box-shadow: none;
         }
@@ -58,8 +58,8 @@
                                 <span class="category c1">{{ $bookInfo->bookCategory->name ?? 'Uncategorized' }}</span>
                             </div>
                             <h2 class="title mb-2" style="font-size: 30px; font-weight: 700;">{{ $bookInfo->name }}</h2>
-                            <p class="mb-3" style="font-size: 18px;">by <span class="text-primary fw-bold">Reverant Lal Behari Day</span></p>
-                            
+                            <p class="mb-3" style="font-size: 18px;">by <span class="text-primary fw-bold">{{ $bookInfo->author_name ?? 'Unknown Author' }}</span></p>
+
                             <div class="course-details">
                                 <p class="mb-3 text-muted" style="line-height: 1.6;">
                                     "{!! Str::limit(strip_tags($bookInfo->description), 280) !!}"
@@ -161,19 +161,15 @@
                                                 </tr>
                                                 <tr>
                                                     <th>Author</th>
-                                                    <td>Reverant Lal Behari Day</td>
+                                                    <td>{{ $bookInfo->author_name ?? 'N/A' }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Category</th>
                                                     <td>{{ $bookInfo->bookCategory->name ?? 'N/A' }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Publisher</th>
-                                                    <td>Gazi Prokashoni</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Language</th>
-                                                    <td>English</td>
+                                                    <th>Subcategory</th>
+                                                    <td>{{ $bookInfo->bookSubcategory->name ?? 'N/A' }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -183,11 +179,15 @@
                                 <div class="tab-pane fade" id="tab2" role="tabpanel">
                                     <div class="course-instructor mt-2">
                                         <div class="instructor-img">
-                                            <img src="{{ asset('assets/frontend/img/instructor/01.jpg') }}" alt="Author" class="rounded shadow-sm">
+                                            @if($bookInfo->author_profile)
+                                                <img src="{{ asset('uploads/books/authors/' . $bookInfo->author_profile) }}" alt="{{ $bookInfo->author_name }}" class="rounded shadow-sm" style="width: 150px; height: 150px; object-fit: cover;">
+                                            @else
+                                                <img src="{{ asset('assets/frontend/img/instructor/01.jpg') }}" alt="Author" class="rounded shadow-sm" style="width: 150px; height: 150px; object-fit: cover;">
+                                            @endif
                                         </div>
                                         <div class="instructor-info">
-                                            <h4 class="fw-bold mb-3">Reverant Lal Behari Day</h4>
-                                            <p class="text-muted" style="line-height: 1.7;">Lal Behari Day was a Bengali Indian journalist, philosopher and Christian missionary. He was a student of the General Assembly's Institution and later taught there. He is best known for his work "Folk-Tales of Bengal" which captured the rich oral traditions of the region.</p>
+                                            <h4 class="fw-bold mb-3">{{ $bookInfo->author_name ?? 'N/A' }}</h4>
+                                            <p class="text-muted" style="line-height: 1.7;">{!! $bookInfo->author_description ?? 'No description available.' !!}</p>
                                         </div>
                                     </div>
                                 </div>

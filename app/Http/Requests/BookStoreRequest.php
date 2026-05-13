@@ -30,6 +30,9 @@ class BookStoreRequest extends FormRequest
             'discount_amount' => 'nullable|numeric|min:0',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'description' => 'nullable|string',
+            'author_name' => 'nullable|string|max:255',
+            'author_description' => 'nullable|string',
+            'author_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'is_active' => 'nullable|boolean',
         ];
     }
