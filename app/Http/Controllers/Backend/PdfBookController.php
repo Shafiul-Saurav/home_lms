@@ -39,11 +39,14 @@ class PdfBookController extends Controller
             'image' => 'default_book.jpg',
             'pdf_file' => null,
             'description' => $request->description,
+            'author_name' => $request->author_name,
+            'author_description' => $request->author_description,
             'is_active' => $request->has('is_active') ? $request->is_active : 1,
         ]);
 
         $this->imageUpload($request, $book->id);
         $this->pdfUpload($request, $book->id);
+        $this->authorProfileUpload($request, $book->id);
 
         return redirect()->back()->with('message', 'PDF Book Created Successfully');
     }
@@ -81,11 +84,14 @@ class PdfBookController extends Controller
             'price' => $request->price,
             'discount_amount' => $request->discount_amount,
             'description' => $request->description,
+            'author_name' => $request->author_name,
+            'author_description' => $request->author_description,
             'is_active' => $request->has('is_active') ? $request->is_active : 0,
         ]);
 
         $this->imageUpload($request, $book->id);
         $this->pdfUpload($request, $book->id);
+        $this->authorProfileUpload($request, $book->id);
 
         return redirect()->back()->with('message', 'PDF Book Updated Successfully');
     }
@@ -149,6 +155,40 @@ class PdfBookController extends Controller
 
             $book->update([
                 'pdf_file' => $newFileName,
+            ]);
+        }
+    }
+
+    public function authorProfileUpload(Request $request, int $bookId): void
+    {
+        $book = PdfBook::findOrFail($bookId);
+
+        if ($request->hasFile('author_profile')) {
+            if ($book->author_profile) {
+                $oldImagePath = public_path('uploads/pdfbooks/authors/' . $book->author_profile);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+
+            $imageLocation = public_path('uploads/pdfbooks/authors/');
+            $uploadedImage = $request->file('author_profile');
+            $newImageName = $book->id . '_author.' . $uploadedImage->getClientOriginalExtension();
+
+            if (!file_exists($imageLocation)) {
+                mkdir($imageLocation, 0755, true);
+            }
+
+            $newImageLocation = $imageLocation . $newImageName;
+
+            if ($uploadedImage->getClientOriginalExtension() === 'webp') {
+                Image::make($uploadedImage)->resize(300, 300)->save($newImageLocation);
+            } else {
+                Image::make($uploadedImage)->resize(300, 300)->save($newImageLocation, 80);
+            }
+
+            $book->update([
+                'author_profile' => $newImageName,
             ]);
         }
     }

@@ -80,6 +80,24 @@
                                     <th>Created At</th>
                                     <td>{{ $book->created_at->format('d-M-Y H:i A') }}</td>
                                 </tr>
+                                <tr>
+                                    <th>Author Name</th>
+                                    <td>{{ $book->author_name ?? 'N/A' }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Author Profile</th>
+                                    <td>
+                                        @if($book->author_profile)
+                                            <img src="{{ asset('uploads/pdfbooks/authors/' . $book->author_profile) }}" alt="Author Profile" style="height: 50px; border-radius: 5px;">
+                                        @else
+                                            N/A
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Author Description</th>
+                                    <td>{{ $book->author_description ?? 'N/A' }}</td>
+                                </tr>
                             </table>
 
                             <div class="mt-4">

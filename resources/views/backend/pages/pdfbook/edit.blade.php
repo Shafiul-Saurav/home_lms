@@ -122,10 +122,51 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" id="summernote"
+                                    <textarea name="description" id="description" data-summernote
                                         class="form-control @error('description') is-invalid @enderror"
                                         rows="4">{{ old('description', $book->description) }}</textarea>
                                     @error('description')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="author_name">Author Name</label>
+                                    <input type="text" name="author_name" id="author_name"
+                                        class="form-control @error('author_name') is-invalid @enderror"
+                                        value="{{ old('author_name', $book->author_name) }}">
+                                    @error('author_name')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <div class="form-group">
+                                    <label for="author_profile">Author Profile</label>
+                                    <input type="file" name="author_profile" id="author_profile"
+                                        class="form-control @error('author_profile') is-invalid @enderror">
+                                    @error('author_profile')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 mb-3 d-flex align-items-center">
+                                @if($book->author_profile)
+                                    <img src="{{ asset('uploads/pdfbooks/authors/' . $book->author_profile) }}" alt="Author Profile" style="height: 100px; border-radius: 5px;">
+                                @endif
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="author_description">Author Description</label>
+                                    <textarea name="author_description" id="author_description" data-summernote
+                                        class="form-control @error('author_description') is-invalid @enderror"
+                                        rows="3">{{ old('author_description', $book->author_description) }}</textarea>
+                                    @error('author_description')
                                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>

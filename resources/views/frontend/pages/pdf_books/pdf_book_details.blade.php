@@ -139,7 +139,7 @@
                     <!-- Left Side: Book Image -->
                     <div class="col-lg-4 col-md-12">
                         <div class="book-img-wrapper">
-                            <img src="{{ asset('uploads/pdf_books/' . $bookInfo->image) }}" alt="{{ $bookInfo->name }}" class="book-img">
+                            <img src="{{ asset('uploads/pdfbooks/images/' . $bookInfo->image) }}" alt="{{ $bookInfo->name }}" class="book-img">
                         </div>
                     </div>
 
@@ -148,6 +148,7 @@
                         <div class="book-info-header">
                             <span class="book-category">{{ $bookInfo->pdfBookCategory->name ?? 'PDF Book' }}</span>
                             <h1 class="book-title">{{ $bookInfo->name }}</h1>
+                            <p class="mb-3" style="font-size: 18px;">by <span class="text-primary fw-bold">{{ $bookInfo->author_name ?? 'Unknown Author' }}</span></p>
                             <div class="d-flex align-items-center gap-2 mb-4">
                                 <div class="text-warning small">
                                     <i class="fas fa-star"></i>
@@ -190,7 +191,7 @@
                                 @forelse($relatedBooks as $related)
                                     <div class="d-flex gap-3 mb-3 pb-3 border-bottom align-items-center">
                                         <a href="{{ route('pdf.book.details', $related->id) }}" class="flex-shrink-0" style="width: 60px;">
-                                            <img src="{{ asset('uploads/pdf_books/' . $related->image) }}" alt="{{ $related->name }}" class="rounded shadow-sm w-100" style="height: 80px; object-fit: cover;">
+                                            <img src="{{ asset('uploads/pdfbooks/images/' . $related->image) }}" alt="{{ $related->name }}" class="rounded shadow-sm w-100" style="height: 80px; object-fit: cover;">
                                         </a>
                                         <div class="info">
                                             <h6 class="mb-1" style="font-size: 14px; line-height: 1.4;">
@@ -254,12 +255,8 @@
                                                     <td>{{ $bookInfo->pdfBookCategory->name ?? 'N/A' }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Format</th>
-                                                    <td>PDF Digital Document</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Language</th>
-                                                    <td>Bengali / English</td>
+                                                    <th>Subcategory</th>
+                                                    <td>{{ $bookInfo->pdfBookSubcategory->name ?? 'N/A' }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -269,11 +266,15 @@
                                 <div class="tab-pane fade" id="tab2" role="tabpanel">
                                     <div class="course-instructor mt-2">
                                         <div class="instructor-img">
-                                            <img src="{{ asset('assets/frontend/img/instructor/01.jpg') }}" alt="Author" class="rounded shadow-sm">
+                                            @if($bookInfo->author_profile)
+                                                <img src="{{ asset('uploads/pdfbooks/authors/' . $bookInfo->author_profile) }}" alt="{{ $bookInfo->author_name }}" class="rounded shadow-sm" style="width: 150px; height: 150px; object-fit: cover;">
+                                            @else
+                                                <img src="{{ asset('assets/frontend/img/instructor/01.jpg') }}" alt="Author" class="rounded shadow-sm" style="width: 150px; height: 150px; object-fit: cover;">
+                                            @endif
                                         </div>
                                         <div class="instructor-info">
-                                            <h4 class="fw-bold mb-3">{{ $bookInfo->author_name ?? 'Expert Author' }}</h4>
-                                            <p class="text-muted" style="line-height: 1.7;">{{ $bookInfo->author_description ?? 'Information about the author will be available soon.' }}</p>
+                                            <h4 class="fw-bold mb-3">{{ $bookInfo->author_name ?? 'N/A' }}</h4>
+                                            <p class="text-muted" style="line-height: 1.7;">{!! $bookInfo->author_description ?? 'No description available.' !!}</p>
                                         </div>
                                     </div>
                                 </div>

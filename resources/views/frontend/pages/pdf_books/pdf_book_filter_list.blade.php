@@ -3,7 +3,7 @@
         <div class="course-item">
             <div class="course-img">
                 <a href="{{ route('pdf.book.details', $book->id) }}">
-                    <img src="{{ asset('uploads/pdf_books/' . $book->image) }}" alt="{{ $book->name }}">
+                    <img src="{{ asset('uploads/pdfbooks/images/' . $book->image) }}" alt="{{ $book->name }}">
                 </a>
             </div>
             <div class="course-content">

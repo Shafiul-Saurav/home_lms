@@ -25,6 +25,9 @@ class PdfBookUpdateRequest extends FormRequest
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'pdf_file' => 'nullable|mimes:pdf|max:10240',
             'description' => 'nullable|string',
+            'author_name' => 'nullable|string|max:255',
+            'author_description' => 'nullable|string',
+            'author_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'is_active' => 'nullable|boolean',
         ];
     }
