@@ -216,9 +216,14 @@
                                 </div>
 
                                 <ul class="summary-list">
+                                    <li>Price (per unit) <span>৳{{ number_format($book->price, 2) }}</span></li>
+                                    <li>Quantity <span>{{ $qty }}</span></li>
                                     <li>Sub Total <span>৳{{ number_format($book->price * $qty, 2) }}</span></li>
-                                    <li id="discount_row" style="display: none;">Discount <span id="discount_amount" class="text-success">-৳0.00</span></li>
-                                    <li class="total-row">Total <span id="final_total">৳{{ number_format($book->price * $qty, 2) }}</span></li>
+                                    @if($book->discount_amount > 0)
+                                        <li class="item-discount">Book Discount <span class="text-success">-৳{{ number_format($book->discount_amount * $qty, 2) }}</span></li>
+                                    @endif
+                                    <li id="discount_row" style="display: none;">Coupon Discount <span id="discount_amount" class="text-success">-৳0.00</span></li>
+                                    <li class="total-row">Total <span id="final_total">৳{{ number_format(($book->price - $book->discount_amount) * $qty, 2) }}</span></li>
                                 </ul>
 
                                 <div class="payment-sidebar mt-40">
@@ -258,7 +263,7 @@
                                 </div>
 
                                 <button type="submit" class="theme-btn w-100 mt-4 shadow-sm">
-                                    <i class="fas fa-lock me-2"></i> Pay Now ৳<span id="btn_total">{{ number_format($book->price * $qty, 2) }}</span>
+                                    <i class="fas fa-lock me-2"></i> Pay Now ৳<span id="btn_total">{{ number_format(($book->price - $book->discount_amount) * $qty, 2) }}</span>
                                 </button>
                                 <p class="text-center mt-3 small text-muted"><i class="fas fa-shield-alt me-1"></i> Secure 256-bit SSL Encrypted Payment</p>
                             </div>
@@ -275,7 +280,7 @@
     $(document).ready(function() {
         $('#apply_coupon_btn').on('click', function() {
             const code = $('#coupon_code').val();
-            const total = "{{ $book->price * $qty }}";
+            const total = "{{ ($book->price - $book->discount_amount) * $qty }}";
 
             if (!code) return;
 

@@ -36,8 +36,8 @@ class BookPaymentController extends Controller
             return redirect()->back()->with('error', 'ShurjoPay integration is coming soon. Please use SSLCommerz.');
         }
 
-        $price = $book->price;
-        $subtotal = $price * $qty;
+        $unitSellingPrice = $book->price - $book->discount_amount;
+        $subtotal = $unitSellingPrice * $qty;
         $discountAmount = 0;
         $appliedCouponCode = $request->applied_coupon;
 
@@ -95,10 +95,10 @@ class BookPaymentController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
-            'price' => $price,
+            'price' => $book->price,
             'qty' => $qty,
             'amount' => $finalTotal,
-            'discount_amount' => $discountAmount,
+            'discount_amount' => $discountAmount + ($book->discount_amount * $qty),
             'coupon_name' => $appliedCouponCode,
             'agree' => $request->agree ? 1 : 0,
             'temporary_transaction_id' => $temporaryTranId

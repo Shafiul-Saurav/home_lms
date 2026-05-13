@@ -34,18 +34,18 @@ class PdfBookPaymentController extends Controller
             return redirect()->back()->with('error', 'ShurjoPay integration is coming soon. Please use SSLCommerz.');
         }
 
-        $price = $book->price;
+        $sellingPrice = $book->price - $book->discount_amount;
         $discountAmount = 0;
         $appliedCouponCode = $request->applied_coupon;
 
         if ($appliedCouponCode) {
             $coupon = Coupon::where('code', strtoupper($appliedCouponCode))->first();
             if ($coupon && $coupon->isValid()) {
-                $discountAmount = $coupon->getDiscountAmount($price);
+                $discountAmount = $coupon->getDiscountAmount($sellingPrice);
             }
         }
 
-        $finalTotal = $price - $discountAmount;
+        $finalTotal = $sellingPrice - $discountAmount;
 
         // Generate unique temporary transaction ID
         $randomPart = strtoupper(substr(md5(uniqid(rand(), true)), 0, 4));
@@ -92,9 +92,9 @@ class PdfBookPaymentController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
-            'price' => $price,
+            'price' => $book->price,
             'amount' => $finalTotal,
-            'discount_amount' => $discountAmount,
+            'discount_amount' => $discountAmount + $book->discount_amount,
             'coupon_name' => $appliedCouponCode,
             'agree' => $request->agree ? 1 : 0,
             'temporary_transaction_id' => $temporaryTranId
