@@ -39,53 +39,6 @@
             margin-bottom: 10px;
         }
 
-        .course-item {
-            transition: 0.3s;
-            border: 1px solid #f1f1f1;
-            border-radius: 15px;
-            overflow: hidden;
-            background: #fff;
-            height: 100%;
-        }
-
-        .course-item:hover {
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transform: translateY(-5px);
-        }
-
-        .course-img img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-
-        .course-content {
-            padding: 20px;
-        }
-
-        .course-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            display: block;
-            color: #222;
-        }
-
-        .course-price {
-            font-weight: 700;
-            color: var(--theme-color);
-            font-size: 20px;
-        }
-
-        .course-meta {
-            font-size: 14px;
-            color: #777;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
         /* Filter sidebar styles */
         .filter-widget {
             background: #fff;
@@ -118,6 +71,8 @@
         }
     </style>
 @endpush
+
+
 
 @section('frontend_content')
     <main class="main">

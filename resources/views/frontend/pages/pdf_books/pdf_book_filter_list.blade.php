@@ -1,34 +1,34 @@
 @forelse($pdf_books as $book)
-    <div class="col-md-6 col-lg-4">
-        <div class="course-item">
-            <div class="course-img">
+    <div class="col-md-12 col-lg-12 col-xl-6">
+        <div class="book-card-horizontal">
+            <div class="book-card-image">
+                <span class="book-card-tag">PDF</span>
                 <a href="{{ route('pdf.book.details', $book->id) }}">
-                    <img src="{{ asset('uploads/pdfbooks/images/' . $book->image) }}" alt="{{ $book->name }}">
+                    <img src="{{ asset('uploads/pdfbooks/images/' . $book->image) }}" alt="{{ $book->name }}" />
                 </a>
             </div>
-            <div class="course-content">
-                <div class="course-meta">
-                    <span class="category"><i class="far fa-bookmark"></i> {{ $book->pdfBookCategory->name ?? 'Uncategorized' }}</span>
+            <div class="book-card-content">
+                <div>
+                    <span class="book-card-category">{{ $book->pdfBookCategory->name ?? 'Uncategorized' }}</span>
+                    <h4 class="book-card-title">
+                        <a href="{{ route('pdf.book.details', $book->id) }}">{{ Str::limit($book->name, 40) }}</a>
+                    </h4>
+                    <p class="book-card-description">{{ Str::limit(strip_tags($book->description), 70) }}</p>
                 </div>
-                <h4 class="course-title">
-                    <a href="{{ route('pdf.book.details', $book->id) }}">{{ Str::limit($book->name, 40) }}</a>
-                </h4>
-                <div class="course-bottom">
-                    <div class="course-price">
-                        @if($book->price == 0)
+                <div class="book-card-bottom">
+                    <div class="book-card-price">
+                        @if ($book->price == 0)
                             <span class="free">Free</span>
                         @else
-                            @if($book->discount_amount > 0)
-                                <span class="price">৳{{ number_format($book->price - $book->discount_amount, 2) }}</span>
-                                <del class="old-price">৳{{ number_format($book->price, 2) }}</del>
+                            @if ($book->discount_amount > 0)
+                                <span class="original">৳{{ number_format($book->price, 2) }}</span>
+                                <span class="current">৳{{ number_format($book->price - $book->discount_amount, 2) }}</span>
                             @else
-                                <span class="price">৳{{ number_format($book->price, 2) }}</span>
+                                <span class="current">৳{{ number_format($book->price, 2) }}</span>
                             @endif
                         @endif
                     </div>
-                    <div class="course-btn">
-                        <a href="{{ route('pdf.book.details', $book->id) }}" class="btn btn-sm"><i class="far fa-arrow-right"></i></a>
-                    </div>
+                    <a href="{{ route('pdf.book.details', $book->id) }}" class="book-buy-btn">Buy Now</a>
                 </div>
             </div>
         </div>
@@ -41,3 +41,4 @@
         </div>
     </div>
 @endforelse
+

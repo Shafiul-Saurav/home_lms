@@ -10,7 +10,6 @@ use App\Models\PdfBook;
 use App\Models\PdfBookSubcategory;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Str;
 
 class PdfBookController extends Controller
 {
@@ -126,7 +125,7 @@ class PdfBookController extends Controller
 
             $newImageLocation = $imageLocation . $newImageName;
 
-            Image::make($uploadedImage)->resize(800, 800)->save($newImageLocation, 80);
+            Image::make($uploadedImage)->resize(600, 800)->save($newImageLocation, 80);
 
             $book->update([
                 'image' => $newImageName,
