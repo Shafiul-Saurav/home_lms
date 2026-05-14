@@ -58,12 +58,12 @@
                                 <span class="category c1">{{ $bookInfo->bookCategory->name ?? 'Uncategorized' }}</span>
                             </div>
                             <h2 class="title mb-2" style="font-size: 30px; font-weight: 700;">{{ $bookInfo->name }}</h2>
-                            <p class="mb-3" style="font-size: 18px;">by <span class="text-primary fw-bold">{{ $bookInfo->author_name ?? 'Unknown Author' }}</span></p>
+                            <p class="mb-3" style="font-size: 18px;">by <span class="fw-bold" style="color: var(--theme-color);">{{ $bookInfo->author_name ?? 'Unknown Author' }}</span></p>
 
                             <div class="course-details">
                                 <p class="mb-3 text-muted" style="line-height: 1.6;">
                                     "{!! Str::limit(strip_tags($bookInfo->description), 280) !!}"
-                                    <a href="#book-tab-section" class="text-primary fw-bold" id="scroll-to-tabs">See more</a>
+                                    <a href="#book-tab-section" class="fw-bold" style="color: var(--theme-color);" id="scroll-to-tabs">See more</a>
                                 </p>
                             </div>
 

@@ -148,7 +148,7 @@
                         <div class="book-info-header">
                             <span class="book-category">{{ $bookInfo->pdfBookCategory->name ?? 'PDF Book' }}</span>
                             <h1 class="book-title">{{ $bookInfo->name }}</h1>
-                            <p class="mb-3" style="font-size: 18px;">by <span class="text-primary fw-bold">{{ $bookInfo->author_name ?? 'Unknown Author' }}</span></p>
+                            <p class="mb-3" style="font-size: 18px;">by <span class="fw-bold" style="color: var(--theme-color);">{{ $bookInfo->author_name ?? 'Unknown Author' }}</span></p>
                             <div class="d-flex align-items-center gap-2 mb-4">
                                 <div class="text-warning small">
                                     <i class="fas fa-star"></i>
@@ -174,11 +174,15 @@
 
                             <p class="text-muted mb-4" style="line-height: 1.8;">
                                 {{ Str::limit(strip_tags($bookInfo->description), 250) }}
-                                <a href="#book-tab-section" id="scroll-to-tabs" class="text-primary fw-bold ms-1">Read More</a>
+                                <a href="#book-tab-section" id="scroll-to-tabs" class="fw-bold" style="color: var(--theme-color);">Read More</a>
                             </p>
 
                             <div class="d-flex gap-3 align-items-center mt-5">
-                                <a href="{{ route('pdf.book.checkout', $bookInfo->id) }}" class="theme-btn flex-grow-1 text-center" id="buy-now-btn"> <span class="far fa-shopping-bag me-2"></span> Buy Now (PDF)</a>
+                                @if($bookInfo->price == 0 || $isPurchased)
+                                    <a href="#book-tab-section" id="download-now-btn" class="theme-btn flex-grow-1 text-center"> <span class="far fa-download me-2"></span> Download Now (PDF)</a>
+                                @else
+                                    <a href="{{ route('pdf.book.checkout', $bookInfo->id) }}" class="theme-btn flex-grow-1 text-center" id="buy-now-btn"> <span class="far fa-shopping-bag me-2"></span> Buy Now (PDF)</a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -229,6 +233,9 @@
                                 <li class="nav-item">
                                     <button class="nav-link py-3 px-4 fw-bold" id="author-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button">Author</button>
                                 </li>
+                                <li class="nav-item">
+                                    <button class="nav-link py-3 px-4 fw-bold" id="download-tab" data-bs-toggle="tab" data-bs-target="#tab4" type="button">Download</button>
+                                </li>
                             </ul>
                             <div class="tab-content">
                                 <!-- Description Tab -->
@@ -278,6 +285,48 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- Download Tab -->
+                                <div class="tab-pane fade" id="tab4" role="tabpanel">
+                                    <div class="mt-4">
+                                        @if($bookInfo->price == 0 || $isPurchased)
+                                            @if($bookInfo->pdf_file)
+                                                <div class="alert alert-success d-flex align-items-center justify-content-between p-4 rounded-3 border-0 shadow-sm">
+                                                    <div class="d-flex align-items-center gap-3">
+                                                        <div class="bg-white p-2 rounded-circle shadow-sm">
+                                                            <i class="fas fa-file-pdf text-danger fa-2x"></i>
+                                                        </div>
+                                                        <div>
+                                                            <h5 class="mb-1 fw-bold">Ready to Download</h5>
+                                                            <p class="mb-0 text-muted small">You can now access your PDF book.</p>
+                                                        </div>
+                                                    </div>
+                                                    <a href="{{ asset('uploads/pdfbooks/files/' . $bookInfo->pdf_file) }}" class="btn btn-danger btn-lg px-4 rounded-pill" download>
+                                                        <i class="fas fa-download me-2"></i> Download PDF
+                                                    </a>
+                                                </div>
+                                            @else
+                                                <div class="alert alert-warning p-4 rounded-3 border-0 shadow-sm">
+                                                    <div class="d-flex align-items-center gap-3">
+                                                        <i class="fas fa-exclamation-triangle fa-2x"></i>
+                                                        <div>
+                                                            <h5 class="mb-1 fw-bold">File Not Available</h5>
+                                                            <p class="mb-0 text-muted">The PDF file has not been uploaded yet. Please contact support.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @else
+                                            <div class="text-center py-5 border rounded-3 bg-light">
+                                                <div class="mb-4">
+                                                    <i class="fas fa-lock text-muted fa-4x opacity-25"></i>
+                                                </div>
+                                                <h4 class="fw-bold">Content Locked</h4>
+                                                <p class="text-muted mb-4 mx-auto" style="max-width: 400px;">Please purchase this PDF book to gain access to the download section.</p>
+                                                <a href="{{ route('pdf.book.checkout', $bookInfo->id) }}" class="theme-btn px-5">Buy Now to Unlock</a>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -298,6 +347,15 @@
                     scrollTop: $("#book-tab-section").offset().top - 100
                 }, 600);
                 $('#description-tab').tab('show');
+            });
+
+            // Smooth scroll to tabs and activate download tab
+            $('#download-now-btn').on('click', function(e) {
+                e.preventDefault();
+                $('html, body').animate({
+                    scrollTop: $("#book-tab-section").offset().top - 100
+                }, 600);
+                $('#download-tab').tab('show');
             });
         });
     </script>

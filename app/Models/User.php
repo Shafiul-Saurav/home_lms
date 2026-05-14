@@ -122,6 +122,11 @@ class User extends Authenticatable
         return $this->hasMany(CourseOrder::class);
     }
 
+    public function pdfBookOrders()
+    {
+        return $this->hasMany(PdfBookOrder::class);
+    }
+
     public function lessonCompletions()
     {
         return $this->hasMany(LessonCompletion::class);
@@ -132,6 +137,14 @@ class User extends Authenticatable
         return $this->courseOrders()
             ->where('course_id', $courseId)
             ->where('status', 'Enrolled')
+            ->where('payment_status', 'Completed')
+            ->exists();
+    }
+
+    public function isPurchasedPdfBook($bookId)
+    {
+        return $this->pdfBookOrders()
+            ->where('pdf_book_id', $bookId)
             ->where('payment_status', 'Completed')
             ->exists();
     }

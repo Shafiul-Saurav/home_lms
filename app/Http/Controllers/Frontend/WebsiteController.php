@@ -849,12 +849,21 @@ class WebsiteController extends Controller
 
     public function pdfBookDetails($id)
     {
-        $bookInfo = PdfBook::with(['pdfBookCategory', 'pdfBookSubcategory'])->findOrFail($id);
+        $bookInfo = PdfBook::with(['pdfBookCategory', 'pdfBookSubcategory'])->where('is_active', 1)->findOrFail($id);
         $relatedBooks = PdfBook::where('pdf_book_category_id', $bookInfo->pdf_book_category_id)
                             ->where('id', '!=', $id)
                             ->take(5)
                             ->get();
 
-        return view('frontend.pages.pdf_books.pdf_book_details', compact('bookInfo', 'relatedBooks'));
+        $isLoggedIn = Auth::check();
+        $isPurchased = false;
+
+        if ($isLoggedIn) {
+            /** @var User $user */
+            $user = Auth::user();
+            $isPurchased = $user->isPurchasedPdfBook($id);
+        }
+
+        return view('frontend.pages.pdf_books.pdf_book_details', compact('bookInfo', 'relatedBooks', 'isLoggedIn', 'isPurchased'));
     }
 }
