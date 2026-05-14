@@ -48,7 +48,7 @@ class AdminReviewController extends Controller
             'is_approved' => $request->has('is_approved') ? 1 : 0,
         ]);
 
-        return redirect()->back()->with('success', 'Review Updated Successfully');
+        return redirect()->back()->with('message', 'Review Updated Successfully');
     }
 
     /**

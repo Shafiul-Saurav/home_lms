@@ -160,7 +160,7 @@
                                 </div>
 
                                 <div class="course-item-box d-flex align-items-center">
-                                    <img src="{{ asset('uploads/pdf_books/' . $book->image) }}" alt="{{ $book->name }}" style="width: 70px; height: 90px; object-fit: cover; border-radius: 10px; margin-right: 15px;">
+                                    <img src="{{ asset('uploads/pdfbooks/images/' . $book->image) }}" alt="{{ $book->name }}" style="width: 70px; height: 90px; object-fit: cover; border-radius: 10px; margin-right: 15px;">
                                     <div>
                                         <h6 class="mb-1" style="font-weight: 700;">{{ $book->name }}</h6>
                                         <p class="mb-0 text-muted small">Digital Delivery via Email</p>

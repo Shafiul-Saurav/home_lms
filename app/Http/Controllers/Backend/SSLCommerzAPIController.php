@@ -58,6 +58,6 @@ class SSLCommerzAPIController extends Controller
             ]
         );
 
-        return redirect()->back()->with('success', 'SSLCommerz settings updated successfully.');
+        return redirect()->back()->with('message', 'SSLCommerz settings updated successfully.');
     }
 }
