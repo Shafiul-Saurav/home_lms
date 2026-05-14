@@ -15,7 +15,7 @@
         position: relative;
         overflow: hidden;
     }
-    
+
     .book-slider .owl-stage-outer {
         padding: 20px 0;
     }
@@ -142,24 +142,6 @@
         color: #28a745;
     }
 
-    .book-buy-btn {
-        background: var(--theme-color);
-        color: #fff !important;
-        padding: 8px 20px;
-        border-radius: 50px;
-        font-weight: 600;
-        font-size: 14px;
-        transition: all 0.3s;
-        border: none;
-        box-shadow: 0 4px 15px rgba(var(--theme-color-rgb), 0.3);
-    }
-
-    .book-buy-btn:hover {
-        background: #222;
-        transform: scale(1.05);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    }
-
     @media (max-width: 576px) {
         .book-card-horizontal {
             height: 180px;
@@ -180,10 +162,6 @@
         }
         .book-card-price .current, .book-card-price .free {
             font-size: 16px;
-        }
-        .book-buy-btn {
-            padding: 6px 15px;
-            font-size: 12px;
         }
     }
 </style>

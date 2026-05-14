@@ -3,76 +3,7 @@
 @section('title', 'PDF Books')
 
 @push('frontend_style')
-    <style>
-        .course-sidebar .widget-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f1f1f1;
-        }
-
-        .category-list li {
-            margin-bottom: 12px;
-        }
-
-        .category-list li a {
-            display: flex;
-            justify-content: space-between;
-            color: #666;
-            transition: 0.3s;
-        }
-
-        .category-list li a:hover {
-            color: var(--theme-color);
-            padding-left: 5px;
-        }
-
-        .category-list li .count {
-            background: #f8f9fa;
-            padding: 2px 10px;
-            border-radius: 10px;
-            font-size: 12px;
-        }
-
-        .price-filter .form-check {
-            margin-bottom: 10px;
-        }
-
-        /* Filter sidebar styles */
-        .filter-widget {
-            background: #fff;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.03);
-            margin-bottom: 30px;
-        }
-
-        .search-form {
-            position: relative;
-        }
-
-        .search-form input {
-            width: 100%;
-            padding: 12px 20px;
-            border-radius: 10px;
-            border: 1px solid #eee;
-            outline: none;
-        }
-
-        .search-form button {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            border: none;
-            background: none;
-            color: var(--theme-color);
-        }
-    </style>
 @endpush
-
-
 
 @section('frontend_content')
     <main class="main">
@@ -87,51 +18,75 @@
                     <!-- Sidebar Filters -->
                     <div class="col-lg-3">
                         <div class="course-sidebar">
-                            <!-- Search -->
-                            <div class="filter-widget">
-                                <h4 class="widget-title">Search</h4>
-                                <form action="#" class="search-form">
-                                    <input type="text" id="pdf-book-search" placeholder="Search books...">
-                                    <button type="button"><i class="far fa-search"></i></button>
-                                </form>
-                            </div>
-
-                            <!-- Categories -->
-                            <div class="filter-widget">
-                                <h4 class="widget-title">Categories</h4>
-                                <div class="category-list">
-                                    @foreach ($categories as $category)
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input pdf-category-filter" type="checkbox"
-                                                value="{{ $category->id }}" id="cat{{ $category->id }}">
-                                            <label class="form-check-label d-flex justify-content-between w-100"
-                                                for="cat{{ $category->id }}">
-                                                {{ $category->name }}
-                                                <span class="count">{{ $category->pdf_books_count }}</span>
-                                            </label>
+                            <!-- search -->
+                            <div class="widget mb-4">
+                                <h4 class="title">Search PDF Books</h4>
+                                <div class="search-form">
+                                    <form id="searchForm" action="javascript:void(0);">
+                                        <div class="form-group mb-0">
+                                            <input type="text" class="form-control" id="pdf-book-search" placeholder="Search" />
+                                            <button type="button"><i class="far fa-search"></i></button>
                                         </div>
-                                    @endforeach
+                                    </form>
                                 </div>
                             </div>
 
-                            <!-- Price -->
-                            <div class="filter-widget">
-                                <h4 class="widget-title">Price</h4>
-                                <div class="price-filter">
-                                    <div class="form-check">
-                                        <input class="form-check-input pdf-price-filter" type="checkbox" value="free"
-                                            id="priceFree">
-                                        <label class="form-check-label" for="priceFree">Free Books</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input pdf-price-filter" type="checkbox" value="paid"
-                                            id="pricePaid">
-                                        <label class="form-check-label" for="pricePaid">Paid Books</label>
-                                    </div>
+                            <!-- category -->
+                            <div class="widget mb-4">
+                                <h4 class="title">Category</h4>
+                                <div class="category">
+                                    <ul>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input pdf-category-filter" type="checkbox" value="" id="cat0" checked />
+                                                <label class="form-check-label" style="cursor: pointer;" for="cat0">
+                                                    All Categories ({{ $categories->sum('pdf_books_count') }})
+                                                </label>
+                                            </div>
+                                        </li>
+                                        @foreach($categories as $category)
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input pdf-category-filter" type="checkbox" value="{{ $category->id }}" id="cat{{ $category->id }}" />
+                                                <label class="form-check-label" style="cursor: pointer;" for="cat{{ $category->id }}">
+                                                    {{ $category->name }} ({{ $category->pdf_books_count }})
+                                                </label>
+                                            </div>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- price -->
+                            <div class="widget mb-4">
+                                <h4 class="title">Book Price</h4>
+                                <div class="price">
+                                    <ul>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input pdf-price-filter" type="checkbox" value="" id="price1" checked />
+                                                <label class="form-check-label" style="cursor: pointer;" for="price1"> All</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input pdf-price-filter" type="checkbox" value="free" id="price2" />
+                                                <label class="form-check-label" style="cursor: pointer;" for="price2"> Free</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input pdf-price-filter" type="checkbox" value="paid" id="price3" />
+                                                <label class="form-check-label" style="cursor: pointer;" for="price3"> Paid</label>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
+
 
                     <!-- Books Grid -->
                     <div class="col-lg-9">

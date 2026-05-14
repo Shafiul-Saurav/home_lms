@@ -25,7 +25,7 @@
                         <span class="free">Free</span>
                     @endif
                 </div>
-                <a href="{{ route('book.details', $book->id) }}" class="book-buy-btn">Buy Now</a>
+                <a href="{{ route('book.details', $book->id) }}" class="theme-btn py-1">Buy Now</a>
             </div>
         </div>
     </div>

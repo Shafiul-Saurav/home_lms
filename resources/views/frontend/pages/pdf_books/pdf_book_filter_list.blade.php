@@ -28,7 +28,7 @@
                             @endif
                         @endif
                     </div>
-                    <a href="{{ route('pdf.book.details', $book->id) }}" class="book-buy-btn">Buy Now</a>
+                    <a href="{{ route('pdf.book.details', $book->id) }}" class="theme-btn py-1">Buy Now</a>
                 </div>
             </div>
         </div>
