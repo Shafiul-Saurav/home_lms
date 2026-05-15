@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\Course;
 use App\Models\CourseOrder;
 use App\Models\SslCommerz;
+use App\Models\ShurjopaySetting;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,7 +21,8 @@ class CoursePaymentController extends Controller
     {
         $course = Course::findOrFail($course_id);
         $sslCommerzConfig = SslCommerz::first();
-        return view('frontend.pages.checkout.course_checkout', compact('course', 'sslCommerzConfig'));
+        $shurjopayConfig = ShurjopaySetting::first();
+        return view('frontend.pages.checkout.course_checkout', compact('course', 'sslCommerzConfig', 'shurjopayConfig'));
     }
 
     /**

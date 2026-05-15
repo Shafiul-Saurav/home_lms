@@ -82,6 +82,8 @@
                             @endcan
                             <li><a href="{{ route('sslcommerz.index') }}"
                                     class="slide-item {{ Request::routeIs('sslcommerz.index') ? 'active' : '' }}">SSLCommerz Setting</a></li>
+                            <li><a href="{{ route('shurjopay.index') }}"
+                                    class="slide-item {{ Request::routeIs('shurjopay.index') ? 'active' : '' }}">Shurjopay Setting</a></li>
                         </ul>
                     </li>
                 @endcan

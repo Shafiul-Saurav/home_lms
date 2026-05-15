@@ -38,6 +38,7 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\ServiceController;
 use App\Http\Controllers\Backend\SSLCommerzAPIController;
+use App\Http\Controllers\Backend\ShurjopayAPIController;
 use App\Http\Controllers\Backend\StuffController;
 use App\Http\Controllers\Backend\SubcategoryController;
 use App\Http\Controllers\Backend\TeacherController;
@@ -54,6 +55,7 @@ use App\Http\Controllers\Frontend\CourseReviewController;
 use App\Http\Controllers\Frontend\PdfBookPaymentController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\ProfileImageController;
+use App\Http\Controllers\Frontend\ShurjopayController;
 use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
 use App\Http\Controllers\Frontend\UserLogoutController;
 use App\Http\Controllers\Frontend\WebsiteController;
@@ -163,6 +165,11 @@ Route::prefix('user')->middleware(['auth', 'is_user'])->group(function(){
     Route::get('/course/payment/cancel', [CoursePaymentController::class, 'cancel'])->name('course.payment.cancel');
     Route::get('/course/thankyou/{order_id}', [CoursePaymentController::class, 'thankyou'])->name('course.payment.thankyou');
     Route::post('/validate-coupon', [CoursePaymentController::class, 'validateCoupon'])->name('coupon.validate');
+
+    // Course Payment Routes (ShurjoPay)
+    Route::post('/course/shurjopay-payment', [ShurjopayController::class, 'checkout'])->name('course.shurjopay.payment');
+    Route::get('/course/shurjopay/success', [ShurjopayController::class, 'success'])->name('course.shurjopay.success');
+    Route::get('/course/shurjopay/cancel', [ShurjopayController::class, 'cancel'])->name('course.shurjopay.cancel');
 
     // Book Payment Routes (SSLCommerz)
     Route::get('/book/checkout/{book_id}', [BookPaymentController::class, 'checkoutPage'])->name('book.checkout');
@@ -293,6 +300,10 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     // SSLCommerz Setting Route
     Route::get('sslcommerz-settings', [SSLCommerzAPIController::class, 'index'])->name('sslcommerz.index');
     Route::post('sslcommerz-settings', [SSLCommerzAPIController::class, 'store'])->name('sslcommerz.store');
+
+    // Shurjopay Setting Route
+    Route::get('shurjopay-settings', [ShurjopayAPIController::class, 'index'])->name('shurjopay.index');
+    Route::post('shurjopay-settings', [ShurjopayAPIController::class, 'store'])->name('shurjopay.store');
 
     // Breadcrumb Route
     Route::resource('breadcrumb', BreadcrumbController::class);

@@ -228,12 +228,16 @@
                                     <div class="checkout-payment">
                                         <ul class="nav nav-pills mb-3 d-flex flex-row gap-2" id="pills-tab" role="tablist">
                                             <li class="nav-item flex-grow-1" role="presentation">
-                                                <a class="nav-link d-flex align-items-center justify-content-center p-3 rounded" id="pills-shurjopay-tab" data-bs-toggle="pill" data-bs-target="#pills-shurjopay" type="button" role="tab" aria-controls="pills-shurjopay" aria-selected="false" onclick="document.getElementById('selected_payment_method').value='ShurjoPay'">
-                                                    <img src="https://www.bangladeshyp.com/img/bd/b/1468220741-97-shurjopay-online-payment-gateway-in-bangladesh.png" alt="shurjoPay" style="height: 40px;">
+                                                <a class="nav-link p-0 d-flex align-items-center justify-content-center rounded" id="pills-shurjopay-tab" data-bs-toggle="pill" data-bs-target="#pills-shurjopay" type="button" role="tab" aria-controls="pills-shurjopay" aria-selected="false" onclick="setPaymentMethod('ShurjoPay')">
+                                                    @if(isset($shurjopayConfig->logo) && file_exists(public_path('uploads/shurjopay/' . $shurjopayConfig->logo)))
+                                                        <img src="{{ asset('uploads/shurjopay/' . $shurjopayConfig->logo) }}" alt="shurjoPay" style="height: 40px;">
+                                                    @else
+                                                        <img src="https://www.bangladeshyp.com/img/bd/b/1468220741-97-shurjopay-online-payment-gateway-in-bangladesh.png" alt="shurjoPay" style="height: 40px;">
+                                                    @endif
                                                 </a>
                                             </li>
                                             <li class="nav-item flex-grow-1" role="presentation">
-                                                <a class="nav-link active d-flex align-items-center justify-content-center p-3 rounded" id="pills-sslcommerz-tab" data-bs-toggle="pill" data-bs-target="#pills-sslcommerz" type="button" role="tab" aria-controls="pills-sslcommerz" aria-selected="true" onclick="document.getElementById('selected_payment_method').value='SSLCommerz'">
+                                                <a class="nav-link p-0 active d-flex align-items-center justify-content-center rounded" id="pills-sslcommerz-tab" data-bs-toggle="pill" data-bs-target="#pills-sslcommerz" type="button" role="tab" aria-controls="pills-sslcommerz" aria-selected="true" onclick="setPaymentMethod('SSLCommerz')">
                                                     @if(isset($sslCommerzConfig->logo) && file_exists(public_path('uploads/sslcommerz/' . $sslCommerzConfig->logo)))
                                                         <img src="{{ asset('uploads/sslcommerz/' . $sslCommerzConfig->logo) }}" alt="SSLCommerz" style="height: 40px;">
                                                     @else
@@ -274,6 +278,16 @@
 
 @push('frontend_script')
 <script>
+    function setPaymentMethod(method) {
+        document.getElementById('selected_payment_method').value = method;
+        const form = document.getElementById('checkout-form');
+        if (method === 'ShurjoPay') {
+            form.action = "{{ route('course.shurjopay.payment') }}";
+        } else {
+            form.action = "{{ route('course.payment.process') }}";
+        }
+    }
+
     $(document).ready(function() {
         $('#apply_coupon_btn').on('click', function() {
             const code = $('#coupon_code').val();
