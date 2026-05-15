@@ -146,7 +146,11 @@
                                                     @endif
                                                 </div>
                                                 <div class="course-btn">
-                                                    <a href="{{ route('pdf.book.details', $book->id) }}" class="btn btn-sm"><i class="far fa-arrow-right"></i></a>
+                                                    @if ($book->price == 0 || (isset($purchasedBookIds) && in_array($book->id, $purchasedBookIds)))
+                                                        <a href="{{ route('pdf.book.details', $book->id) }}?tab=download" class="btn btn-sm btn-danger" title="Download"><i class="far fa-download"></i></a>
+                                                    @else
+                                                        <a href="{{ route('pdf.book.details', $book->id) }}" class="btn btn-sm"><i class="far fa-arrow-right"></i></a>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>

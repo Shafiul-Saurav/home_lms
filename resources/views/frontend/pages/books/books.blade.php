@@ -100,7 +100,7 @@
                                 @include('frontend.pages.books.partials.pagination')
                             </div>
                             @else
-                            <div class="alert alert-info text-center" role="alert">
+                            <div class="alert alert-danger text-center" role="alert">
                                 <h3>No Books Found</h3>
                                 <p>Sorry, we couldn't find any books matching your filters. Please try adjusting your search criteria.</p>
                             </div>

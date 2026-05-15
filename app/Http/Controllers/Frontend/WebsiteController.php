@@ -18,6 +18,7 @@ use App\Models\LogoFavicon;
 use App\Models\PdfBook;
 use App\Models\PdfBookCategory;
 use App\Models\PdfBookSubcategory;
+use App\Models\PdfBookOrder;
 use App\Models\Photocategory;
 use App\Models\Photogallery;
 use App\Models\Post;
@@ -819,14 +820,23 @@ class WebsiteController extends Controller
         // Fetch all categories for the filter sidebar
         $categories = PdfBookCategory::withCount(['pdfBooks'])->get();
 
+        // Get purchased book IDs if logged in
+        $purchasedBookIds = [];
+        if (Auth::check()) {
+            $purchasedBookIds = PdfBookOrder::where('user_id', Auth::id())
+                ->where('payment_status', 'Completed')
+                ->pluck('pdf_book_id')
+                ->toArray();
+        }
+
         if ($request->ajax()) {
             return response()->json([
-                'html' => view('frontend.pages.pdf_books.pdf_book_filter_list', compact('pdf_books'))->render(),
+                'html' => view('frontend.pages.pdf_books.pdf_book_filter_list', compact('pdf_books', 'purchasedBookIds'))->render(),
                 'topfilter' => view('frontend.pages.pdf_books.pdf_book_topfilter', compact('pdf_books'))->render(),
             ]);
         }
 
-        return view('frontend.pages.pdf_books.pdf_books', compact('pdf_books', 'categories'));
+        return view('frontend.pages.pdf_books.pdf_books', compact('pdf_books', 'categories', 'purchasedBookIds'));
     }
 
     public function pdfBookCategory($slug)
@@ -835,7 +845,16 @@ class WebsiteController extends Controller
         $pdf_books = PdfBook::where('pdf_book_category_id', $category->id)->latest()->paginate(9);
         $categories = PdfBookCategory::withCount(['pdfBooks'])->get();
 
-        return view('frontend.pages.pdf_books.categories.category_pdf_books', compact('pdf_books', 'categories', 'category'));
+        // Get purchased book IDs if logged in
+        $purchasedBookIds = [];
+        if (Auth::check()) {
+            $purchasedBookIds = PdfBookOrder::where('user_id', Auth::id())
+                ->where('payment_status', 'Completed')
+                ->pluck('pdf_book_id')
+                ->toArray();
+        }
+
+        return view('frontend.pages.pdf_books.categories.category_pdf_books', compact('pdf_books', 'categories', 'category', 'purchasedBookIds'));
     }
 
     public function pdfBookSubcategory($slug)
@@ -844,7 +863,16 @@ class WebsiteController extends Controller
         $pdf_books = PdfBook::where('pdf_book_subcategory_id', $subcategory->id)->latest()->paginate(9);
         $categories = PdfBookCategory::withCount(['pdfBooks'])->get();
 
-        return view('frontend.pages.pdf_books.categories.subcategory_pdf_books', compact('pdf_books', 'categories', 'subcategory'));
+        // Get purchased book IDs if logged in
+        $purchasedBookIds = [];
+        if (Auth::check()) {
+            $purchasedBookIds = PdfBookOrder::where('user_id', Auth::id())
+                ->where('payment_status', 'Completed')
+                ->pluck('pdf_book_id')
+                ->toArray();
+        }
+
+        return view('frontend.pages.pdf_books.categories.subcategory_pdf_books', compact('pdf_books', 'categories', 'subcategory', 'purchasedBookIds'));
     }
 
     public function pdfBookDetails($id)

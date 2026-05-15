@@ -293,14 +293,14 @@
                                                 <div class="alert alert-success d-flex align-items-center justify-content-between p-4 rounded-3 border-0 shadow-sm">
                                                     <div class="d-flex align-items-center gap-3">
                                                         <div class="bg-white p-2 rounded-circle shadow-sm">
-                                                            <i class="fas fa-file-pdf text-danger fa-2x"></i>
+                                                            <i class="fas fa-file-pdf fa-2x" style="color: var(--theme-color)"></i>
                                                         </div>
                                                         <div>
                                                             <h5 class="mb-1 fw-bold">Ready to Download</h5>
                                                             <p class="mb-0 text-muted small">You can now access your PDF book.</p>
                                                         </div>
                                                     </div>
-                                                    <a href="{{ asset('uploads/pdfbooks/files/' . $bookInfo->pdf_file) }}" class="btn btn-danger btn-lg px-4 rounded-pill" download>
+                                                    <a href="{{ asset('uploads/pdfbooks/files/' . $bookInfo->pdf_file) }}" class="btn theme-btn" download>
                                                         <i class="fas fa-download me-2"></i> Download PDF
                                                     </a>
                                                 </div>
@@ -357,6 +357,15 @@
                 }, 600);
                 $('#download-tab').tab('show');
             });
+
+            // Handle tab redirect from other pages
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('tab') === 'download') {
+                $('html, body').animate({
+                    scrollTop: $("#book-tab-section").offset().top - 100
+                }, 600);
+                $('#download-tab').tab('show');
+            }
         });
     </script>
 @endpush

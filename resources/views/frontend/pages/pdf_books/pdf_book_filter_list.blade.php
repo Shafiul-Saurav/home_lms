@@ -22,23 +22,27 @@
                         @else
                             @if ($book->discount_amount > 0)
                                 <span class="original">৳{{ number_format($book->price, 2) }}</span>
-                                <span class="current">৳{{ number_format($book->price - $book->discount_amount, 2) }}</span>
+                                <span
+                                    class="current">৳{{ number_format($book->price - $book->discount_amount, 2) }}</span>
                             @else
                                 <span class="current">৳{{ number_format($book->price, 2) }}</span>
                             @endif
                         @endif
                     </div>
-                    <a href="{{ route('pdf.book.details', $book->id) }}" class="theme-btn py-1">Buy Now</a>
+                    @if ($book->price == 0 || (isset($purchasedBookIds) && in_array($book->id, $purchasedBookIds)))
+                        <a href="{{ route('pdf.book.details', $book->id) }}?tab=download" class="theme-btn py-1">Download</a>
+                    @else
+                        <a href="{{ route('pdf.book.details', $book->id) }}" class="theme-btn py-1">Buy Now</a>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 @empty
     <div class="col-12 text-center py-5">
-        <div class="no-results">
-            <i class="far fa-book-open fa-3x mb-3 text-muted"></i>
-            <h4 class="text-muted">No PDF books found matching your criteria.</h4>
+        <div class="alert alert-danger text-center" role="alert">
+            <h3>No PDF Books Found</h3>
+            <p>Sorry, we couldn't find any PDF books matching your filters. Please try adjusting your search criteria.</p>
         </div>
     </div>
 @endforelse
-
