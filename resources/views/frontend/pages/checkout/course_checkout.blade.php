@@ -71,20 +71,75 @@
             margin-bottom: 20px;
         }
         .nav-pills .nav-link {
-            border: 2px solid #eee !important;
-            transition: 0.3s;
+            border: 2px solid #f1f1f1 !important;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             background: #fff !important;
+            position: relative;
+            height: 80px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px !important;
         }
         .nav-pills .nav-link.active {
             border-color: var(--theme-color) !important;
-            background: #f9f9ff !important;
+            background: #fff !important;
+            box-shadow: 0 10px 25px rgba(142, 121, 249, 0.15);
+            transform: translateY(-2px);
+        }
+        .nav-pills .nav-link:hover:not(.active) {
+            border-color: #ddd !important;
+            transform: translateY(-2px);
         }
         .nav-pills .nav-link img {
+            height: 35px !important;
+            width: auto;
+            object-fit: contain;
             filter: grayscale(1);
-            transition: 0.3s;
+            opacity: 0.6;
+            transition: 0.4s;
         }
         .nav-pills .nav-link.active img {
             filter: grayscale(0);
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        .nav-pills .nav-link .check-mark {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--theme-color);
+            color: #fff;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            transform: scale(0);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 10px rgba(142, 121, 249, 0.3);
+            z-index: 5;
+        }
+        .nav-pills .nav-link.active .check-mark {
+            transform: scale(1);
+            top: 10px;
+            right: 10px;
+        }
+        .payment-description-box {
+            background: #fcfbff;
+            border: 1px solid #f1efff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+        .payment-description-box h6 {
+            color: var(--theme-color);
+            font-size: 16px;
+            margin-bottom: 5px;
         }
         .theme-btn {
             background: var(--theme-color);
@@ -229,34 +284,36 @@
                                         <ul class="nav nav-pills mb-3 d-flex flex-row gap-2" id="pills-tab" role="tablist">
                                             <li class="nav-item flex-grow-1" role="presentation">
                                                 <a class="nav-link p-0 d-flex align-items-center justify-content-center rounded" id="pills-shurjopay-tab" data-bs-toggle="pill" data-bs-target="#pills-shurjopay" type="button" role="tab" aria-controls="pills-shurjopay" aria-selected="false" onclick="setPaymentMethod('ShurjoPay')">
+                                                    <span class="check-mark"><i class="fas fa-check"></i></span>
                                                     @if(isset($shurjopayConfig->logo) && file_exists(public_path('uploads/shurjopay/' . $shurjopayConfig->logo)))
-                                                        <img src="{{ asset('uploads/shurjopay/' . $shurjopayConfig->logo) }}" alt="shurjoPay" style="height: 40px;">
+                                                        <img src="{{ asset('uploads/shurjopay/' . $shurjopayConfig->logo) }}" alt="shurjoPay">
                                                     @else
-                                                        <img src="https://www.bangladeshyp.com/img/bd/b/1468220741-97-shurjopay-online-payment-gateway-in-bangladesh.png" alt="shurjoPay" style="height: 40px;">
+                                                        <img src="https://www.bangladeshyp.com/img/bd/b/1468220741-97-shurjopay-online-payment-gateway-in-bangladesh.png" alt="shurjoPay">
                                                     @endif
                                                 </a>
                                             </li>
                                             <li class="nav-item flex-grow-1" role="presentation">
                                                 <a class="nav-link p-0 active d-flex align-items-center justify-content-center rounded" id="pills-sslcommerz-tab" data-bs-toggle="pill" data-bs-target="#pills-sslcommerz" type="button" role="tab" aria-controls="pills-sslcommerz" aria-selected="true" onclick="setPaymentMethod('SSLCommerz')">
+                                                    <span class="check-mark"><i class="fas fa-check"></i></span>
                                                     @if(isset($sslCommerzConfig->logo) && file_exists(public_path('uploads/sslcommerz/' . $sslCommerzConfig->logo)))
-                                                        <img src="{{ asset('uploads/sslcommerz/' . $sslCommerzConfig->logo) }}" alt="SSLCommerz" style="height: 40px;">
+                                                        <img src="{{ asset('uploads/sslcommerz/' . $sslCommerzConfig->logo) }}" alt="SSLCommerz">
                                                     @else
-                                                        <img src="https://www.nop-station.com/images/uploaded/Marketplace/sslcommerz-banner.webp" alt="SSLCommerz" style="height: 40px;">
+                                                        <img src="https://www.nop-station.com/images/uploaded/Marketplace/sslcommerz-banner.webp" alt="SSLCommerz">
                                                     @endif
                                                 </a>
                                             </li>
                                         </ul>
                                         <div class="tab-content" id="pills-tabContent">
                                             <div class="tab-pane fade" id="pills-shurjopay" role="tabpanel" aria-labelledby="pills-shurjopay-tab">
-                                                <div class="p-3 border rounded bg-light">
-                                                    <h6 class="mb-1" style="color: #8e79f9; font-weight: 700;">Pay with shurjoPay</h6>
-                                                    <p class="small text-muted mb-0">Secure payment via credit/debit cards or mobile banking.</p>
+                                                <div class="payment-description-box">
+                                                    <h6 class="mb-1" style="font-weight: 700;">Pay with shurjoPay</h6>
+                                                    <p class="small text-muted mb-0">Secure payment via credit/debit cards, mobile banking (Bkash, Nagad, Rocket) or internet banking.</p>
                                                 </div>
                                             </div>
                                             <div class="tab-pane fade show active" id="pills-sslcommerz" role="tabpanel" aria-labelledby="pills-sslcommerz-tab">
-                                                <div class="p-3 border rounded bg-light">
-                                                    <h6 class="mb-1" style="color: #8e79f9; font-weight: 700;">Pay with SSLCommerz</h6>
-                                                    <p class="small text-muted mb-0">Redirect to secure SSLCommerz gateway for payment.</p>
+                                                <div class="payment-description-box">
+                                                    <h6 class="mb-1" style="font-weight: 700;">Pay with SSLCommerz</h6>
+                                                    <p class="small text-muted mb-0">Redirect to secure SSLCommerz gateway. Supports all major cards and mobile wallets in Bangladesh.</p>
                                                 </div>
                                             </div>
                                         </div>
