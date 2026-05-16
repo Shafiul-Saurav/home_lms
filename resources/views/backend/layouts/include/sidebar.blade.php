@@ -80,13 +80,27 @@
                                         class="slide-item {{ Request::routeIs('copyright.index') ? 'active' : '' }}">Copyright
                                         Setting</a></li>
                             @endcan
-                            <li><a href="{{ route('sslcommerz.index') }}"
-                                    class="slide-item {{ Request::routeIs('sslcommerz.index') ? 'active' : '' }}">SSLCommerz Setting</a></li>
-                            <li><a href="{{ route('shurjopay.index') }}"
-                                    class="slide-item {{ Request::routeIs('shurjopay.index') ? 'active' : '' }}">Shurjopay Setting</a></li>
                         </ul>
                     </li>
                 @endcan
+                
+                <li
+                    class="slide {{ Request::routeIs('sslcommerz.index') ? 'is-expanded' : '' }} {{ Request::routeIs('shurjopay.index') ? 'is-expanded' : '' }}">
+                    <a class="side-menu__item {{ Request::routeIs('sslcommerz.index') ? 'active' : '' }} {{ Request::routeIs('shurjopay.index') ? 'active' : '' }}"
+                        data-bs-toggle="slide" href="#">
+                        <i class="fa-solid fa-gear fa-fw"></i>
+                        <span class="side-menu__label ms-3">Advanced Setting</span><i
+                            class="fa-solid fa-angle-right"></i>
+                    </a>
+                    <ul class="slide-menu">
+                        <li><a href="{{ route('sslcommerz.index') }}"
+                                class="slide-item {{ Request::routeIs('sslcommerz.index') ? 'active' : '' }}">SSLCommerz
+                                Configuration</a></li>
+                        <li><a href="{{ route('shurjopay.index') }}"
+                                class="slide-item {{ Request::routeIs('shurjopay.index') ? 'active' : '' }}">Shurjopay
+                                Configuration</a></li>
+                    </ul>
+                </li>
                 @can('index-module')
                     <li
                         class="slide {{ Request::routeIs('modules.index') ? 'is-expanded' : '' }}
