@@ -654,6 +654,8 @@
     <script>
         let completedModuleIds = @json($completedModuleIds);
         let currentCourseId = {{ $course->id }};
+        const assetBase = "{{ asset('') }}";
+        const defaultCourseThumbnail = "{{ $course->image ? asset('uploads/courses/' . $course->image) : 'https://cdn.prod.website-files.com/62d84e447b4f9e7263d31e94/6399a4d27711a5ad2c9bf5cd_ben-sweet-2LowviVHZ-E-unsplash-1.jpeg' }}";
 
         function initializePlyrPlayer() {
             const playerElement = document.getElementById('player');
@@ -957,11 +959,15 @@
             }
 
             // Player Shell
+            const courseThumbSrc = (data.course && data.course.image)
+                ? (data.course.image.startsWith('http') ? data.course.image : `${assetBase}uploads/courses/${data.course.image}`)
+                : defaultCourseThumbnail;
+
             videoPlayerHtml += `
             <div class="plyr__video-embed" id="player" style="position: relative;">
                 <img id="thumbnail"
-                     src="https://cdn.prod.website-files.com/62d84e447b4f9e7263d31e94/6399a4d27711a5ad2c9bf5cd_ben-sweet-2LowviVHZ-E-unsplash-1.jpeg"
-                     style="position: absolute; top: 0; left: 0; width: 100%; height: calc(10% + 30px); display: none; object-fit: cover; z-index: 10;">
+                     src="${courseThumbSrc}"
+                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; object-fit: cover; z-index: 1; pointer-events: none;">
         `;
 
             if (!isRestricted && module.link) {
