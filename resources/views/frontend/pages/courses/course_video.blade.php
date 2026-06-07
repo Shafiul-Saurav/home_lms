@@ -745,11 +745,12 @@
                         const now = new Date().getTime();
                         if (now < startTs) {
                             const diff = startTs - now;
-                            const hrs = Math.floor(diff / (1000 * 60 * 60));
-                            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                            const secs = Math.floor((diff % (1000 * 60)) / 1000);
+                            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                            const s = Math.floor((diff % (1000 * 60)) / 1000);
                             if (countdownTimeEl) {
-                                countdownTimeEl.innerText = `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                                countdownTimeEl.innerText = `Starts in ${d}d ${h}h ${m}m ${s}s`;
                             }
                         } else {
                             showJoinButton();
