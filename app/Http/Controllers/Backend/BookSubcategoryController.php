@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\BookSubcategory;
 use App\Models\BookCategory;
-use Illuminate\Support\Str;
 use App\Http\Requests\BookSubcategoryStoreRequest;
 use App\Http\Requests\BookSubcategoryUpdateRequest;
 
@@ -88,7 +87,7 @@ class BookSubcategoryController extends Controller
         $subcategory = BookSubcategory::findOrFail($id);
         $subcategory->delete();
 
-        return redirect()->back()->with('warning', 'Book Subcategory moved to trash');
+        return redirect()->back()->with('warning', 'Book Subcategory Moved to Trash Successfully');
     }
 
     public function checkActive($subcategory_id)

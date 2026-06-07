@@ -91,7 +91,7 @@ class VideoGalleryController extends Controller
         $video = Videogallery::findOrFail($id);
         $video->delete();
 
-        return redirect()->back()->with('warning', 'Video Gallery Deleted Successfully');
+        return redirect()->back()->with('warning', 'Video Gallery Moved to Trash Successfully');
     }
 
     public function checkActiveActive($video_id)

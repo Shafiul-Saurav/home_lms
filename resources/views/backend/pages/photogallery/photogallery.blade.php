@@ -37,13 +37,13 @@
                         <div class="form-row">
                             <div class="col-12 mb-3">
                                 <div class="form-group">
-                                    <label for="category_id" class="form-label mb-3">Select Photo Category <span class="text-danger">*</span></label>
+                                    <label for="category_id" class="form-label mb-3">Select Photo Category</label>
                                     <select id="category_id" name="category_id"
                                         class="form-control select2 form-select select2-hidden-accessible
                                     @error('category_id')
                                         is-invalid
                                     @enderror">
-                                        <option selected>Choose a Photo Category</option>
+                                        <option value="" selected>Choose a Photo Category</option>
                                         @forelse ($categories as $category)
                                             <option value="{{ $category->id }}">{{ $category->category_name }}</option>
                                         @empty
@@ -58,11 +58,11 @@
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-group">
-                                    <label for="title">Title <span class="text-danger">*</span></label>
+                                    <label for="title">Title</label>
                                     <input type="text" name="title" class="form-control @error('title')
                                         is-invalid
                                     @enderror" id="title"
-                                        value="{{ old('title') }}" required>
+                                        value="{{ old('title') }}">
                                     @error('title')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -72,11 +72,11 @@
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-group">
-                                    <label for="price">Price <span class="text-danger">*</span></label>
+                                    <label for="price">Price</label>
                                     <input type="number" name="price" class="form-control @error('price')
                                         is-invalid
                                     @enderror" id="price"
-                                        value="{{ old('price') }}" required>
+                                        value="{{ old('price') }}">
                                     @error('price')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -88,9 +88,9 @@
                                 <div class="form-group">
                                     <label for="gall_image">Gallery Image <span class="text-danger">*</span></label>
                                     <input type="file" name="gall_image" class="dropify" data-default-file=""
-                                        data-height="200" data-max-width="745" data-show-errors="true"
-                                        data-errors-position="outside" data-max-height="410"
-                                        data-allowed-file-extensions="png jpg" required/>
+                                        data-height="200" data-max-width="850" data-show-errors="true"
+                                        data-errors-position="outside" data-max-height="850"
+                                        data-allowed-file-extensions="png jpg jpeg webp" required/>
                                     @if ($errors->has('gall_image'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('gall_image') }}</strong>
@@ -158,7 +158,7 @@
                                             <img src="{{ asset('uploads/photogalleries') }}/{{ $gallery->gall_image }}" alt=""
                                                 style="height: 100px">
                                         </td>
-                                        <td>{{ $gallery->photoCategory->category_name }}</td>
+                                        <td>{{ $gallery->photoCategory?->category_name ?? 'N/A' }}</td>
                                         <td>{{ $gallery->title }}</td>
                                         @can('edit-photo-gallery')
                                         <td>

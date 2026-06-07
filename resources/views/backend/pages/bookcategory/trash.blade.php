@@ -27,9 +27,7 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Trashed Book Categories</h3>
-                    <a href="{{ route('book_categories.index') }}" class="btn btn-sm btn-outline-primary border">
-                        <i class="fa-solid fa-arrow-left fa-fw"></i> Back
-                    </a>
+                    <a href="{{ route('book_categories.index') }}" class="btn btn-outline-info border"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -52,8 +50,9 @@
                                         <td>{{ $category->name }}</td>
                                         <td>{{ $category->slug }}</td>
                                         <td>
-                                            @if($category->file)
-                                                <a href="{{ asset('uploads/bookcategories/' . $category->file) }}" target="_blank">View File</a>
+                                            @if ($category->file)
+                                                <a href="{{ asset('uploads/bookcategories/' . $category->file) }}"
+                                                    target="_blank">View File</a>
                                             @else
                                                 -
                                             @endif
@@ -62,16 +61,20 @@
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
                                                     <a href="{{ route('book_categories.restore', $category->id) }}"
-                                                        class="btn btn-sm btn-outline-success border me-2 show_confirm_restore" title="Restore">
-                                                        <i class="fa-solid fa-trash-arrow-up fa-fw"></i>
+                                                        class="btn btn-sm btn-outline-success border me-2 show_confirm_restore"
+                                                        title="Restore">
+                                                        <i class="fa-solid fa-rotate-left fa-fw"></i>
                                                     </a>
                                                 </div>
                                                 <div>
-                                                    <form action="{{ route('book_categories.forcedelete', $category->id) }}" method="POST" class="d-inline">
+                                                    <form action="{{ route('book_categories.forcedelete', $category->id) }}"
+                                                        method="POST" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-outline-danger border show_confirm_force_delete" title="Permanent Delete">
-                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                        <button type="submit"
+                                                            class="btn btn-sm btn-outline-danger border show_confirm_force_delete"
+                                                            title="Permanent Delete">
+                                                            <i class="fa-solid fa-radiation"></i>
                                                         </button>
                                                     </form>
                                                 </div>

@@ -93,7 +93,7 @@ class StuffController extends Controller
         $stuff = Stuff::findOrFail($id);
         $stuff->delete();
 
-        return redirect()->route('staffs.index')->with('message', 'Stuff Deleted Successfully');
+        return redirect()->route('staffs.index')->with('message', 'Stuff Moved to Trash Successfully');
     }
 
     public function uploadImage(Request $request)
@@ -159,7 +159,7 @@ class StuffController extends Controller
         $stuffPayment = StaffPayment::where('id', $id)->first();
         $stuffPayment->delete();
 
-        return redirect()->back()->with('message', 'Payment Record Deleted Successfully');
+        return redirect()->back()->with('message', 'Payment Record Moved to Trash Successfully');
     }
 
 }

@@ -112,7 +112,7 @@ class RoleController extends Controller
         if ($role->is_deletable){
             $role->delete();
 
-            return redirect()->back()->with('warning', 'Role Deleted Successfully');
+            return redirect()->back()->with('warning', 'Role Moved to Trash Successfully');
         }else {
 
             return redirect()->back()->with('error', 'Admin Cannot be Deleted 😡!!');

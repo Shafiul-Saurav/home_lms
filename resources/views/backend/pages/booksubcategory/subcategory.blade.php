@@ -36,7 +36,7 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="book_category_id">Category</label>
-                                    <select name="book_category_id" id="book_category_id" class="form-control @error('book_category_id') is-invalid @enderror" required>
+                                    <select name="book_category_id" id="book_category_id" class="form-control select2-style1 @error('book_category_id') is-invalid @enderror" required>
                                         <option value="">Select Category</option>
                                         @foreach($categories as $category)
                                             <option value="{{ $category->id }}" {{ old('book_category_id') == $category->id ? 'selected' : '' }}>
@@ -170,7 +170,7 @@
 
 @push('backend_script')
     @include('backend.pages.common.script')
-    
+
     <script type="text/javascript">
         $(document).ready(function() {
             $.ajaxSetup({

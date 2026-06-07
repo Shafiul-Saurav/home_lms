@@ -47,7 +47,7 @@
                                             <div>
                                                 <a href="{{ route('permissions.restore', ['permission_slug' => $permission->permission_slug]) }}"
                                                     class="btn btn-sm btn-outline-success border me-2" data-toggle="tooltip"
-                                                    data-placement="top" data-bs-original-title="Restore"><i class="fa-solid fa-store"></i>
+                                                    data-placement="top" data-bs-original-title="Restore"><i class="fa-solid fa-rotate-left fa-fw"></i>
                                                 </a>
                                             </div>
                                             {{-- @endcan

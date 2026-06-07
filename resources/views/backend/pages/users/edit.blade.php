@@ -33,7 +33,7 @@
                         @csrf
                         @method('PUT')
                         <div class="form-row">
-                            <div class="col-12 mb-3">
+                            <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label for="role_id" class="form-label">Select Role</label>
                                     <select id="role_id" name="role_id"
@@ -56,7 +56,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
+                            <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label class="form-label" for="name">User Name</label>
                                     <div class="input-group">
@@ -71,7 +71,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
+                            <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label class="form-label" for="email">User Email</label>
                                     <div class="input-group">
@@ -89,7 +89,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
+                            <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label class="form-label" for="basic-default-password">Password</label>
                                     <div class="input-group">

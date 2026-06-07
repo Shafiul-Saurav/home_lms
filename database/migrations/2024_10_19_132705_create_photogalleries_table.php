@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('photogalleries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained('photocategories')->onDelete('cascade');
-            $table->string('title');
-            $table->string('price');
+            $table->foreignId('category_id')->nullable()->constrained('photocategories')->onDelete('cascade');
+            $table->string('title')->nullable();
+            $table->string('price')->nullable();
             $table->string('gall_image')->default('default_gall_image.jpg');
             $table->longText('description')->nullable();
             $table->boolean('is_active')->default(false);

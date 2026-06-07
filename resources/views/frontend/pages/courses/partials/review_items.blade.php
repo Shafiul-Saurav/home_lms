@@ -23,7 +23,7 @@
     </p>
 </div>
 @empty
-    <div class="alert alert-info text-center no-reviews-msg">
+    <div class="alert-bg text-center py-2 rounded-3">
         No reviews yet. Be the first to review this course!
     </div>
 @endforelse

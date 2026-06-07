@@ -27,9 +27,7 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Trashed Books</h3>
-                    <a href="{{ route('books.index') }}" class="btn btn-sm btn-outline-primary border">
-                        <i class="fa-solid fa-arrow-left fa-fw"></i> Back to Books
-                    </a>
+                    <a href="{{ route('books.index') }}" class="btn btn-outline-info border"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -57,7 +55,8 @@
                                         <td>{{ $book->bookSubcategory ? $book->bookSubcategory->name : 'N/A' }}</td>
                                         <td>
                                             @if ($book->image)
-                                                <img src="{{ asset('uploads/books/' . $book->image) }}" alt="" style="height: 50px">
+                                                <img src="{{ asset('uploads/books/' . $book->image) }}" alt=""
+                                                    style="height: 50px">
                                             @else
                                                 <span>No Image</span>
                                             @endif
@@ -69,16 +68,20 @@
                                                 <div class="action-btns d-flex align-items-center justify-content-center">
                                                     <div>
                                                         <a href="{{ route('books.restore', $book->id) }}"
-                                                            class="btn btn-sm btn-outline-success border me-1 show_confirm_restore" title="Restore">
-                                                            <i class="fa-solid fa-trash-arrow-up fa-fw"></i>
+                                                            class="btn btn-sm btn-outline-success border me-1 show_confirm_restore"
+                                                            title="Restore">
+                                                            <i class="fa-solid fa-rotate-left fa-fw"></i>
                                                         </a>
                                                     </div>
                                                     <div>
-                                                        <form action="{{ route('books.forcedelete', $book->id) }}" method="POST">
+                                                        <form action="{{ route('books.forcedelete', $book->id) }}"
+                                                            method="POST">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn btn-sm btn-outline-danger border show_confirm_force_delete" title="Permanent Delete">
-                                                                <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-outline-danger border show_confirm_force_delete"
+                                                                title="Permanent Delete">
+                                                                <i class="fa-solid fa-radiation"></i>
                                                             </button>
                                                         </form>
                                                     </div>

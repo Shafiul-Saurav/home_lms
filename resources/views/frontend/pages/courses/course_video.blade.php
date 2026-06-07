@@ -2,6 +2,72 @@
 
 @push('frontend_style')
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <style>
+    /* Video Meta Table Styling */
+    .video-meta-container {
+        width: 100%;
+        margin-top: 20px;
+    }
+    .video-meta-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .video-meta-table tbody tr {
+        border-bottom: 1px solid #eee;
+        transition: all 0.3s ease;
+    }
+    .video-meta-table tbody tr:last-child {
+        border-bottom: none;
+    }
+    .video-meta-table tbody tr:hover {
+        background-color: #f9f9f9;
+    }
+    .video-meta-table td {
+        padding: 18px 20px;
+        vertical-align: middle;
+    }
+    .video-meta-table td:first-child {
+        font-weight: 600;
+        color: #4f46e5;
+        width: 30%;
+        background-color: #f8f9fc;
+    }
+    .video-meta-table td:last-child {
+        color: #333;
+        word-break: break-word;
+    }
+    .video-meta-table .file-link {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 12px;
+        background-color: #eef2ff;
+        color: #4f46e5;
+        border-radius: 5px;
+        text-decoration: none;
+        margin-right: 10px;
+        margin-top: 5px;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
+    .video-meta-table .file-link:hover {
+        background-color: #4f46e5;
+        color: #fff;
+        text-decoration: none;
+        box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3);
+    }
+    .video-meta-table .file-link i {
+        margin-right: 5px;
+    }
+    .no-files-text {
+        color: #999;
+        font-size: 0.9rem;
+        font-style: italic;
+    }
+    </style>
 @endpush
 
 @section('frontend_content')
@@ -199,11 +265,105 @@
                             {{ $module->title }}
                         </div>
 
-                        <div class="video-meta">
-                            {{-- <p><strong>Course:</strong> {{ $course->name ?? 'N/A' }}</p> --}}
-                            <p><strong>Date:</strong> {{ $module->date ?? 'N/A' }} |
-                                <strong>Time:</strong> {{ $module->time ?? 'N/A' }}
-                            </p>
+                        @php
+                            $currentLesson = isset($lessons) && $module->lesson_id ? $lessons->firstWhere('id', $module->lesson_id) : null;
+
+                            $currentLessonPdfs = [];
+                            if ($currentLesson && isset($currentLesson->pdf_files) && $currentLesson->pdf_files) {
+                                $decodedLessonPdfs = json_decode($currentLesson->pdf_files, true);
+                                if (is_array($decodedLessonPdfs)) {
+                                    $currentLessonPdfs = array_filter($decodedLessonPdfs, function($item) {
+                                        return is_string($item) && trim($item) !== '';
+                                    });
+                                } elseif (is_string($currentLesson->pdf_files) && trim($currentLesson->pdf_files) !== '') {
+                                    $currentLessonPdfs = [$currentLesson->pdf_files];
+                                }
+                            }
+
+                            $courseRoutinePdfs = [];
+                            if ($course && $course->pdf) {
+                                $courseRoutinePdfs = ['uploads/courses/pdfs/' . $course->pdf];
+                            }
+
+                            $modulePdfs = [];
+                            if ($module && $module->pdf_file) {
+                                $modulePdfs = ['uploads/courses/modules/pdfs/' . $module->pdf_file];
+                            }
+                        @endphp
+
+                        <div class="video-meta-container mb-4">
+                            <table class="video-meta-table">
+                                <tbody>
+                                    <!-- Course Row -->
+                                    <tr>
+                                        <td><i class="feather-book me-2"></i>Course</td>
+                                        <td class="course-name-cell">{{ $course->name ?? 'N/A' }}</td>
+                                    </tr>
+
+                                    <!-- Lesson Row -->
+                                    <tr class="lesson-row" style="{{ $currentLesson ? '' : 'display: none;' }}">
+                                        <td><i class="feather-layers me-2"></i>Lesson</td>
+                                        <td class="lesson-name-cell">{{ $currentLesson->name ?? '' }}</td>
+                                    </tr>
+
+                                    <!-- Course Routine Row -->
+                                    <tr>
+                                        <td><i class="feather-calendar me-2"></i>Course Routine</td>
+                                        <td class="course-routine-cell">
+                                            @if(!empty($courseRoutinePdfs))
+                                                @foreach($courseRoutinePdfs as $pdf)
+                                                    <a href="{{ asset($pdf) }}" target="_blank" class="file-link">
+                                                        <i class="feather-download"></i>Routine {{ $loop->iteration }}
+                                                    </a>
+                                                @endforeach
+                                            @else
+                                                <span class="no-files-text">No routine available</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+
+                                    <!-- Lesson File Row -->
+                                    <tr class="lesson-file-row" style="{{ !empty($currentLessonPdfs) ? '' : 'display: none;' }}">
+                                        <td><i class="feather-file-text me-2"></i>Lesson File</td>
+                                        <td class="lesson-file-cell">
+                                            @if(!empty($currentLessonPdfs))
+                                                @foreach($currentLessonPdfs as $pdf)
+                                                    <a href="{{ asset($pdf) }}" target="_blank" class="file-link">
+                                                        <i class="feather-download"></i>file {{ $loop->iteration }}
+                                                    </a>
+                                                @endforeach
+                                            @else
+                                                <span class="no-files-text">No files available</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+
+                                    <!-- Module File Row -->
+                                    <tr>
+                                        <td><i class="feather-folder me-2"></i>Module File</td>
+                                        <td class="module-file-cell">
+                                            @if(!empty($modulePdfs))
+                                                @foreach($modulePdfs as $pdf)
+                                                    <a href="{{ asset($pdf) }}" target="_blank" class="file-link">
+                                                        <i class="feather-download"></i>Lecture Sheet {{ $module->id }}
+                                                    </a>
+                                                @endforeach
+                                            @else
+                                                <span class="no-files-text">No files available</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+
+                                    <!-- Date & Time Row -->
+                                    <tr>
+                                        <td><i class="feather-clock me-2"></i>Date & Time</td>
+                                        <td class="date-time-cell">
+                                            <span style="background-color: #00cccc; color: #fff; padding: 2px 8px; border-radius: 5px;">{{ $module->date ?? 'N/A' }}</span>
+                                            <span style="background-color: #ff5454; color: #fff; padding: 2px 8px; border-radius: 5px;">{{ $module->time ?? 'N/A' }}</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
 
                         <div class="toolbar">
@@ -246,8 +406,8 @@
                                     <span class="small fw-bold" id="courseProgressText">{{ $progress }}%</span>
                                 </div>
                                 <div class="progress" style="height: 8px; border-radius: 10px; background-color: #f1f5f9;">
-                                    <div id="courseProgressBar" class="progress-bar" role="progressbar" 
-                                         style="width: {{ $progress }}%; background-color: #4f46e5; border-radius: 10px;" 
+                                    <div id="courseProgressBar" class="progress-bar" role="progressbar"
+                                         style="width: {{ $progress }}%; background-color: #4f46e5; border-radius: 10px;"
                                          aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
@@ -288,14 +448,11 @@
                                                                     <div class="left">
                                                                         <h6>
                                                                             @if ($mod->pdf_file)
-                                                                                <i class="fad fa-file-pdf"></i>
-                                                                                <span>PDF:</span>
+                                                                                <i class="fad fa-file-alt"></i>
                                                                             @elseif($mod->live_record == 'live')
                                                                                 <i class="fad fa-video"></i>
-                                                                                <span>Live:</span>
                                                                             @else
                                                                                 <i class="fad fa-play-circle"></i>
-                                                                                <span>Video:</span>
                                                                             @endif
                                                                             {{ $mod->title }}
                                                                             @if(in_array($mod->id, $completedModuleIds))
@@ -357,7 +514,7 @@
                                                                 <div class="left">
                                                                     <h6>
                                                                         @if ($mod->pdf_file)
-                                                                            <i class="fad fa-file-pdf"></i>
+                                                                            {{-- <i class="fad fa-file-pdf"></i> --}}
                                                                             <span>PDF:</span>
                                                                         @elseif($mod->live_record == 'live')
                                                                             <i class="fad fa-video"></i>
@@ -619,8 +776,8 @@
                         updateModuleList(moduleId);
                         updateNavigationButtons();
                         updateVideoTitle(data.module.title);
-                        updateVideoMeta(data.course, data.module);
-                        
+                        updateVideoMeta(data.course, data.module, data.lesson);
+
                         completedModuleIds = data.completedModuleIds;
 
                         // Update browser history to reflect the new video
@@ -925,14 +1082,108 @@
             }
         }
 
-        function updateVideoMeta(course, module) {
-            const metaElement = document.querySelector('.video-meta');
-            if (metaElement) {
-                metaElement.innerHTML = `
-                <p><strong>Course:</strong> ${course ? (course.name || course['name'] || 'N/A') : 'N/A'}</p>
-                <p><strong>Date:</strong> ${module.date || module['date'] || 'N/A'} |
-                   <strong>Time:</strong> ${module.time || module['time'] || 'N/A'}</p>
-            `;
+        function updateVideoMeta(course, module, lesson) {
+            const assetBase = "{{ asset('') }}";
+
+            // 1. Course Row
+            const courseCell = document.querySelector('.course-name-cell');
+            if (courseCell) {
+                courseCell.textContent = course ? (course.name || course['name'] || 'N/A') : 'N/A';
+            }
+
+            // 2. Lesson Row
+            const lessonRow = document.querySelector('.lesson-row');
+            const lessonNameCell = document.querySelector('.lesson-name-cell');
+            if (lessonRow && lessonNameCell) {
+                if (lesson) {
+                    lessonNameCell.textContent = lesson.name || lesson['name'] || '';
+                    lessonRow.style.display = '';
+                } else {
+                    lessonRow.style.display = 'none';
+                }
+            }
+
+            // 3. Course Routine Row
+            const routineCell = document.querySelector('.course-routine-cell');
+            if (routineCell) {
+                let html = '';
+                const pdf = course ? (course.pdf || course['pdf']) : null;
+                if (pdf) {
+                    const fileUrl = pdf.startsWith('http') || pdf.startsWith('/') ? pdf : assetBase + 'uploads/courses/pdfs/' + pdf;
+                    html = `
+                        <a href="${fileUrl}" target="_blank" class="file-link">
+                            <i class="feather-download"></i>Routine 1
+                        </a>
+                    `;
+                } else {
+                    html = '<span class="no-files-text">No routine available</span>';
+                }
+                routineCell.innerHTML = html;
+            }
+
+            // 4. Lesson File Row
+            const lessonFileRow = document.querySelector('.lesson-file-row');
+            const lessonFileCell = document.querySelector('.lesson-file-cell');
+            if (lessonFileRow && lessonFileCell) {
+                let html = '';
+                let pdfs = [];
+                const lessonPdfs = lesson ? (lesson.pdf_files || lesson['pdf_files']) : null;
+                if (lessonPdfs) {
+                    try {
+                        const parsed = typeof lessonPdfs === 'string' ? JSON.parse(lessonPdfs) : lessonPdfs;
+                        if (Array.isArray(parsed)) {
+                            pdfs = parsed.filter(item => typeof item === 'string' && item.trim() !== '');
+                        } else if (typeof lessonPdfs === 'string' && lessonPdfs.trim() !== '') {
+                            pdfs = [lessonPdfs];
+                        }
+                    } catch (e) {
+                        pdfs = [lessonPdfs];
+                    }
+                }
+                if (pdfs.length > 0) {
+                    pdfs.forEach((pdf, index) => {
+                        const fileUrl = pdf.startsWith('http') || pdf.startsWith('/') ? pdf : assetBase + pdf;
+                        html += `
+                            <a href="${fileUrl}" target="_blank" class="file-link">
+                                <i class="feather-download"></i>file ${index + 1}
+                            </a>
+                        `;
+                    });
+                    lessonFileRow.style.display = '';
+                } else {
+                    lessonFileRow.style.display = 'none';
+                }
+                lessonFileCell.innerHTML = html;
+            }
+
+            // 5. Module File Row
+            const moduleFileCell = document.querySelector('.module-file-cell');
+            if (moduleFileCell) {
+                let html = '';
+                const pdf = module ? (module.pdf_file || module['pdf_file']) : null;
+                if (pdf) {
+                    const fileUrl = pdf.startsWith('http') || pdf.startsWith('/') ? pdf : assetBase + 'uploads/courses/modules/pdfs/' + pdf;
+                    const moduleId = module ? (module.id || module['id']) : '1';
+                    html = `
+                        <a href="${fileUrl}" target="_blank" class="file-link">
+                            <i class="feather-download"></i>Lecture Sheet ${moduleId}
+                        </a>
+                    `;
+                } else {
+                    html = '<span class="no-files-text">No files available</span>';
+                }
+                moduleFileCell.innerHTML = html;
+            }
+
+            // 6. Date & Time Row
+            const dateTimeCell = document.querySelector('.date-time-cell');
+            if (dateTimeCell) {
+                const date = module ? (module.date || module['date'] || 'N/A') : 'N/A';
+                const time = module ? (module.time || module['time'] || 'N/A') : 'N/A';
+                dateTimeCell.innerHTML = `
+                    <span style="background-color: #00cccc; color: #fff; padding: 2px 8px; border-radius: 5px;">${date}</span>
+                    <span style="background-color: #ff5454; color: #fff; padding: 2px 8px; border-radius: 5px;">${time}</span>
+                `;
             }
         }
 
@@ -970,11 +1221,11 @@
                     if (data.status === 'completed') {
                         toastr.success('Lesson marked as completed!');
                     }
-                    
+
                     completedModuleIds = data.completedModuleIds;
                     updateModuleList(moduleId); // This will handle icons now
                     updateCourseProgressBar(data.progress);
-                    
+
                     // Update completion icons in sidebar
                     document.querySelectorAll(`.completion-icon[data-module-id="${moduleId}"]`).forEach(icon => {
                         icon.classList.remove('text-muted');

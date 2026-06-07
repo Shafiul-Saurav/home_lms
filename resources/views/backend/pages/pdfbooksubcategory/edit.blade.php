@@ -36,7 +36,7 @@
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="pdf_book_category_id">Category</label>
-                                    <select name="pdf_book_category_id" id="pdf_book_category_id" class="form-control @error('pdf_book_category_id') is-invalid @enderror" required>
+                                    <select name="pdf_book_category_id" id="pdf_book_category_id" class="form-control select2-style1 @error('pdf_book_category_id') is-invalid @enderror" required>
                                         <option value="">Select Category</option>
                                         @foreach($categories as $category)
                                             <option value="{{ $category->id }}" {{ old('pdf_book_category_id', $subcategory->pdf_book_category_id) == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>

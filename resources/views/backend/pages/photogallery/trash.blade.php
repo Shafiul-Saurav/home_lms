@@ -27,8 +27,7 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Photo Gallery Trashed List</h3>
-                    <a href="{{ route('photogalleries.index') }}" class="btn btn-info"><i
-                        class="fa-solid fa-angles-left fa-fw"></i>Back</a>
+                    <a href="{{ route('photogalleries.index') }}" class="btn btn-outline-info border"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -54,14 +53,14 @@
                                             <img src="{{ asset('uploads/photogalleries') }}/{{ $gallery->gall_image }}" alt=""
                                                 style="height: 100px">
                                         </td>
-                                        <td>{{ $gallery->photoCategory->category_name }}</td>
+                                        <td>{{ $gallery->photoCategory?->category_name ?? 'N/A' }}</td>
                                         <td>{{ $gallery->title }}</td>
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
                                                     <a href="{{ route('photogalleries.restore', ['id' => $gallery->id]) }}"
                                                         class="btn btn-sm btn-outline-success border me-2" data-toggle="tooltip"
-                                                        data-placement="top" data-bs-original-title="Restore"><i class="fa-solid fa-store"></i>
+                                                        data-placement="top" data-bs-original-title="Restore"><i class="fa-solid fa-rotate-left fa-fw"></i>
                                                     </a>
                                                 </div>
                                                 <div>

@@ -89,7 +89,7 @@ class PostCategoryController extends Controller
         $category = Postcategory::findOrFail($id);
 
         $category->delete();
-        return redirect()->back()->with('warning', 'Post Category Deleted Successfully');
+        return redirect()->back()->with('warning', 'Post Category Moved to Trash Successfully');
     }
 
     public function checkActiveActive($category_id)

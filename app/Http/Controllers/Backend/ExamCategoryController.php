@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\ExamCategory;
 use App\Http\Requests\ExamCategoryStoreRequest;
 use App\Http\Requests\ExamCategoryUpdateRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class ExamCategoryController extends Controller
 {
@@ -88,7 +86,7 @@ class ExamCategoryController extends Controller
         $category = ExamCategory::findOrFail($id);
         $category->delete();
 
-        return redirect()->back()->with('warning', 'Exam Category moved to trash');
+        return redirect()->back()->with('warning', 'Exam Category Moved to Trash Successfully');
     }
 
     public function checkActive($id)

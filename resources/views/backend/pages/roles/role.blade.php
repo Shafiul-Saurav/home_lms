@@ -35,7 +35,7 @@
                     <form action="{{ route('roles.store') }}" method="POST">
                         @csrf
                         <div class="form-row">
-                            <div class="col-12 mb-3">
+                            <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label for="role_name" class="form-label mb-2">Role Name</label>
                                     <input type="text"
@@ -50,7 +50,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
+                            <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label class="form-label" for="basic-icon-default-fullname">Role Note</label>
                                     <div class="input-group input-group-merge">

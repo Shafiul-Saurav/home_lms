@@ -16,7 +16,8 @@
                 <div class="ms-auto pageheader-btn">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('book_subcategories.index') }}">Book Subcategory</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('book_subcategories.index') }}">Book Subcategory</a>
+                        </li>
                         <li class="breadcrumb-item active" aria-current="page">Trash</li>
                     </ol>
                 </div>
@@ -27,9 +28,7 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Trashed Book Subcategories</h3>
-                    <a href="{{ route('book_subcategories.index') }}" class="btn btn-sm btn-outline-primary border">
-                        <i class="fa-solid fa-arrow-left fa-fw"></i> Back
-                    </a>
+                    <a href="{{ route('book_subcategories.index') }}" class="btn btn-outline-info border"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -54,8 +53,9 @@
                                         <td>{{ $subcategory->name }}</td>
                                         <td>{{ $subcategory->slug }}</td>
                                         <td>
-                                            @if($subcategory->file)
-                                                <a href="{{ asset('uploads/booksubcategories/' . $subcategory->file) }}" target="_blank">View File</a>
+                                            @if ($subcategory->file)
+                                                <a href="{{ asset('uploads/booksubcategories/' . $subcategory->file) }}"
+                                                    target="_blank">View File</a>
                                             @else
                                                 -
                                             @endif
@@ -64,16 +64,21 @@
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
                                                     <a href="{{ route('book_subcategories.restore', $subcategory->id) }}"
-                                                        class="btn btn-sm btn-outline-success border me-2 show_confirm_restore" title="Restore">
-                                                        <i class="fa-solid fa-trash-arrow-up fa-fw"></i>
+                                                        class="btn btn-sm btn-outline-success border me-2 show_confirm_restore"
+                                                        title="Restore">
+                                                        <i class="fa-solid fa-rotate-left fa-fw"></i>
                                                     </a>
                                                 </div>
                                                 <div>
-                                                    <form action="{{ route('book_subcategories.forcedelete', $subcategory->id) }}" method="POST" class="d-inline">
+                                                    <form
+                                                        action="{{ route('book_subcategories.forcedelete', $subcategory->id) }}"
+                                                        method="POST" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-outline-danger border show_confirm_force_delete" title="Permanent Delete">
-                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                        <button type="submit"
+                                                            class="btn btn-sm btn-outline-danger border show_confirm_force_delete"
+                                                            title="Permanent Delete">
+                                                            <i class="fa-solid fa-radiation fa-fw"></i>
                                                         </button>
                                                     </form>
                                                 </div>

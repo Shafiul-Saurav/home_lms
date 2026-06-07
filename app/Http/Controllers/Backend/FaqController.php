@@ -93,6 +93,6 @@ class FaqController extends Controller
         $faq = Faq::findOrFail($id);
         $faq->delete();
 
-        return redirect()->back()->with('error', 'Faq Delete Successfully');
+        return redirect()->back()->with('warning', 'Faq Moved to Trash Successfully 🙂');
     }
 }

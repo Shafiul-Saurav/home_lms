@@ -362,7 +362,7 @@ class ProductController extends Controller
         // Delete the record from the database
         $productImage->delete();
 
-        return response()->json(['success' => 'Image deleted successfully.']);
+        return response()->json(['success' => 'Image moved to trash successfully.']);
     }
 
     /**

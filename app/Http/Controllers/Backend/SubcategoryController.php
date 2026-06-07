@@ -129,7 +129,7 @@ class SubcategoryController extends Controller
         $subcategory = Subcategory::where('slug', $slug)->first();
         $subcategory->delete();
 
-        return redirect()->back()->with('warning', 'Subcategory Deleted Successfully');
+        return redirect()->back()->with('warning', 'Subcategory Moved to Trash Successfully');
     }
 
     public function checkActive($subcategory_id)

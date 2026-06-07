@@ -1,3 +1,4 @@
+
 <header class="header">
     @php
         $headerProfileImage = auth()->user()?->profile?->profileImage?->profile_image;
@@ -47,69 +48,14 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle {{ request()->routeIs('about') ? 'active' : '' }}" href="#"
-                                    data-bs-toggle="dropdown">Pages</a>
+                                <a class="nav-link dropdown-toggle {{ request()->routeIs('photo.gallery', 'video.gallery') ? 'active' : '' }}" href="#" data-bs-toggle="dropdown">Gallery</a>
                                 <ul class="dropdown-menu fade-down">
-                                    <li><a class="dropdown-item" href="{{ route('about') }}">About Us</a></li>
-                                    <li><a class="dropdown-item" href="team.html">Our Team</a></li>
-                                    <li class="dropdown-submenu">
-                                        <a class="dropdown-item dropdown-toggle" href="#">Instructor</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="instructor.html">All Instructor</a>
-                                            </li>
-                                            <li><a class="dropdown-item" href="instructor-single.html">Instructor
-                                                    Single</a></li>
-                                            <li><a class="dropdown-item" href="become-instructor.html">Become
-                                                    Instructor</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a class="dropdown-item" href="pricing.html">Pricing Plan</a></li>
-                                    <li class="dropdown-submenu">
-                                        <a class="dropdown-item dropdown-toggle" href="#">Events</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="event.html">Events</a></li>
-                                            <li><a class="dropdown-item" href="event-single.html">Event Single</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown-submenu">
-                                        <a class="dropdown-item dropdown-toggle" href="#">Career</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="career.html">Career</a></li>
-                                            <li><a class="dropdown-item" href="career-single.html">Career Single</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown-submenu">
-                                        <a class="dropdown-item dropdown-toggle" href="#">Authentication</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="login.html">Login</a></li>
-                                            <li><a class="dropdown-item" href="register.html">Register</a></li>
-                                            <li><a class="dropdown-item" href="forgot-password.html">Forgot
-                                                    Password</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="dropdown-submenu">
-                                        <a class="dropdown-item dropdown-toggle" href="#">Extra Pages</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="coming-soon.html">Coming Soon</a></li>
-                                            <li><a class="dropdown-item" href="return.html">Return Policy</a></li>
-                                            <li><a class="dropdown-item" href="terms.html">Terms Of Service</a></li>
-                                            <li><a class="dropdown-item" href="privacy.html">Privacy Policy</a></li>
-                                            <li><a class="dropdown-item" href="mail-success.html">Mail Success</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a class="dropdown-item" href="gallery.html">Gallery</a></li>
-                                    <li><a class="dropdown-item" href="affiliate.html">Affiliate</a></li>
-                                    <li><a class="dropdown-item" href="help.html">Help Center</a></li>
-                                    <li><a class="dropdown-item" href="invoice.html">Invoice</a></li>
-                                    <li><a class="dropdown-item" href="faq.html">Faq's</a></li>
-                                    <li><a class="dropdown-item" href="testimonial.html">Testimonials</a></li>
-                                    <li><a class="dropdown-item" href="404.html">404 Error</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('photo.gallery') }}">Photo Gallery</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('video.gallery') }}">Video Gallery</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item dropdown">
+
+                            {{-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle {{ request()->routeIs('user.*') ? 'active' : '' }}" href="#"
                                     data-bs-toggle="dropdown">Account</a>
                                 <ul class="dropdown-menu fade-down">
@@ -177,14 +123,8 @@
                                     <li><a class="dropdown-item" href="message.html">Messages</a></li>
                                     <li><a class="dropdown-item" href="setting.html">Settings</a></li>
                                 </ul>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Blog</a>
-                                <ul class="dropdown-menu fade-down">
-                                    <li><a class="dropdown-item" href="blog.html">Blog</a></li>
-                                    <li><a class="dropdown-item" href="blog-single.html">Blog Single</a></li>
-                                </ul>
-                            </li>
+                            </li> --}}
+                            <li class="nav-item"><a class="nav-link {{ request()->routeIs('news.*') ? 'active' : '' }}" href="{{ route('news.search') }}">Blog</a></li>
                             <li class="nav-item"><a class="nav-link {{ request()->routeIs('contact.page') ? 'active' : '' }}" href="{{ route('contact.page') }}">Contact</a></li>
                         </ul>
                         <!-- nav-right -->

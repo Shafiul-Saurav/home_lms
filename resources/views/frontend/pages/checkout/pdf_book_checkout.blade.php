@@ -227,6 +227,22 @@
 @push('frontend_script')
 <script>
     $(document).ready(function() {
+        // Handle form submission based on payment method
+        $('#checkout-form').on('submit', function(e) {
+            e.preventDefault();
+            const paymentMethod = $('#selected_payment_method').val();
+            let action = $(this).attr('action');
+
+            if (paymentMethod === 'ShurjoPay') {
+                action = "{{ route('pdf.book.shurjopay.payment') }}";
+            } else {
+                action = "{{ route('pdf.book.payment.process') }}";
+            }
+
+            $(this).attr('action', action);
+            this.submit();
+        });
+
         $('#apply_coupon_btn').on('click', function() {
             const code = $('#coupon_code').val();
             const total = "{{ $book->price - $book->discount_amount }}";

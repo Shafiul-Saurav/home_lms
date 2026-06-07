@@ -89,7 +89,7 @@ class HomeSliderController extends Controller
             unlink($photo_location);
         }
         $home_slider->delete();
-        return redirect()->back()->with('error', 'Slider Deleted Successfully');
+        return redirect()->back()->with('error', 'Slider Moved to Trash Successfully');
     }
 
     /**

@@ -124,7 +124,7 @@ class ChildcategoryController extends Controller
         $childcategory = Childcategory::where('slug', $slug)->first();
         $childcategory->delete();
 
-        return redirect()->back()->with('warning', 'Childcategory Deleted Successfully');
+        return redirect()->back()->with('warning', 'Childcategory Moved to Trash Successfully');
     }
 
     public function checkActive($childcategory_id)

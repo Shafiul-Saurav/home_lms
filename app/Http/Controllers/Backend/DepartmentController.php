@@ -83,7 +83,7 @@ class DepartmentController extends Controller
         $department = Department::findOrFail($id);
         $department->delete();
 
-        return redirect()->back()->with('error', 'Department Deleted Successfully.');
+        return redirect()->back()->with('error', 'Department Moved to Trash Successfully.');
     }
 
     public function uploadImage(Request $request)

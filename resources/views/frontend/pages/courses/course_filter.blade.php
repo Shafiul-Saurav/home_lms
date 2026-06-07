@@ -1,4 +1,4 @@
-<div class="col-md-6 col-lg-6 col-xl-4">
+<div class="col-6 col-md-6 col-lg-6 col-xl-4 px-1 px-md-2 mt-2">
     <div class="course-item">
         <span class="course-tag {{ $course->live_or_record == 'live' ? 'c1' : ($course->live_or_record == 'record' ? 'c2' : 'c1') }}">
             {{ $course->live_or_record ? ucfirst($course->live_or_record) : 'Course' }}

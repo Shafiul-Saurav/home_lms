@@ -15,15 +15,16 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')->nullable()->constrained('exam_categories')->onDelete('set null');
             $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
-            $table->string('mcq_written')->default('mcq'); // mcq, written, both
-            $table->decimal('price', 10, 2)->default(0);
-            $table->decimal('discount', 10, 2)->default(0);
+            $table->string('mcq_written')->default('mcq');
+            $table->decimal('price', 10, 2)->nullable();
+            $table->decimal('discount', 10, 2)->nullable();
             $table->string('free_paid')->default('free');
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('temporary_permanent')->default('permanent');
-            $table->dateTime('start_date')->nullable();
-            $table->string('exam_time')->nullable(); // e.g. "60 minutes" or just string
+            $table->date('date')->nullable();
+            $table->time('time')->nullable();
+            $table->string('exam_time')->nullable();
             $table->string('pdf_file')->nullable();
             $table->longText('written_paragraph')->nullable();
             $table->boolean('is_active')->default(true);

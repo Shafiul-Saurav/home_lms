@@ -22,4 +22,14 @@ class Exam extends Model
     {
         return $this->belongsTo(Course::class, 'course_id');
     }
+
+    public function questions()
+    {
+        return $this->belongsToMany(Question::class, 'exam_question')->withPivot('order_num')->orderBy('pivot_order_num');
+    }
+
+    public function results()
+    {
+        return $this->hasMany(ExamResult::class);
+    }
 }

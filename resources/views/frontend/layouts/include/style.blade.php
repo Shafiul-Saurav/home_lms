@@ -10,6 +10,154 @@
 @stack('frontend_style')
 
 <style>
+    /*Custom styles for the course area and course cards */
+    @media (max-width: 320px) {
+        .course-item {
+            padding: 5px;
+        }
+
+        .course-tag {
+            font-size: 12px;
+            padding: 1px 6px;
+        }
+
+        .course-content {
+            padding-top: 8px;
+        }
+
+        .course-content .course-title {
+            line-height: 0.4;
+        }
+
+        .course-content .course-title a {
+            font-size: 14px !important;
+        }
+
+        .course-meta {
+            margin-bottom: 5px;
+        }
+
+        .course-meta .rating{
+            font-size: 10px;
+        }
+
+        .course-meta .category {
+            padding: 0px 5px;
+        }
+
+        .course-meta .category.c1 {
+            font-size: 10px;
+        }
+
+        .course-info ul li {
+            font-size: 9px;
+        }
+
+        .course-bottom {
+            padding-top: 5px;
+            margin-top: 5px;
+        }
+
+        .course-instructor h6 {
+            font-size: 12px;
+        }
+
+        .course-slider .course-instructor img {
+            width: 22px !important;
+        }
+
+        .course-price del {
+            display: none;
+        }
+
+        .course-price span {
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .theme-border-btn, .theme-btn2, .theme-btn {
+            font-size: 10px;
+            padding: 6px 10px;
+        }
+
+    }
+
+    @media (max-width: 575.98px) and (min-width: 375px) {
+        .course-item {
+            padding: 5px;
+        }
+
+        .course-tag {
+            font-size: 12px;
+            padding: 1px 6px;
+        }
+
+        .course-content {
+            padding-top: 8px;
+        }
+
+        .course-content .course-title {
+            line-height: 0.4;
+        }
+
+        .course-content .course-title a {
+            font-size: 14px !important;
+        }
+
+        .course-meta {
+            margin-bottom: 5px;
+        }
+        .course-meta .rating{
+            font-size: 10px;
+        }
+
+        .course-meta .category {
+            padding: 0px 5px;
+        }
+
+        .course-meta .category.c1 {
+            font-size: 10px;
+        }
+
+        .course-info ul li {
+            font-size: 10px;
+        }
+
+        .course-bottom {
+            padding-top: 5px;
+            margin-top: 5px;
+        }
+
+        .course-instructor h6 {
+            font-size: 12px;
+        }
+
+        .course-slider .course-instructor img {
+            width: 22px !important;
+        }
+
+        .course-price del {
+            font-size: 8px;
+            margin-right: 2px;
+        }
+
+        .course-price span {
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .course-status span {
+            font-size: 10px;
+        }
+
+        .theme-border-btn, .theme-btn2, .theme-btn {
+            font-size: 12px;
+            padding: 6px 12px;
+        }
+
+    }
+
+    /* Custom styles for the book area and book cards */
     .book-area {
         background: #f8faff;
         position: relative;
@@ -28,7 +176,8 @@
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
         transition: all 0.4s ease;
         margin: 10px;
-        height: 220px; /* Fixed height for consistency */
+        height: 220px;
+        /* Fixed height for consistency */
         border: 1px solid rgba(0, 0, 0, 0.03);
     }
 
@@ -146,21 +295,27 @@
         .book-card-horizontal {
             height: 180px;
         }
+
         .book-card-image {
             flex: 0 0 120px;
         }
+
         .book-card-content {
             padding: 15px;
         }
+
         .book-card-title {
             font-size: 14px;
         }
+
         .book-card-description {
             -webkit-line-clamp: 1;
             margin-bottom: 10px;
             font-size: 12px;
         }
-        .book-card-price .current, .book-card-price .free {
+
+        .book-card-price .current,
+        .book-card-price .free {
             font-size: 16px;
         }
     }

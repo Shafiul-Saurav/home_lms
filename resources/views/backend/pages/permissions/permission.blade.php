@@ -104,7 +104,7 @@
                                             <strong>{{ $permissions->firstItem() + $loop->index }}</strong>
                                         </td>
                                         <td>{{ $permission->updated_at->format('d-M-Y') }}</td>
-                                        <td>{{ $permission->module->module_name }}</td>
+                                        <td>{{ $permission->module->module_name ?? 'N/A' }}</td>
                                         <td>{{ $permission->permission_name }}</td>
                                         <td>{{ $permission->permission_slug }}</td>
                                         @canany(['edit-permission', 'delete-permission'])

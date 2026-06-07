@@ -69,7 +69,7 @@
                             <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label class="form-label" for="salary">Salary</label>
-                                    <input type="number" name="salary" step="0.01" class="form-control @error('salary') is-invalid @enderror" value="{{ old('salary', $user->teacher ? $user->teacher->salary : '') }}" placeholder="Enter Salary">
+                                    <input type="number" id="validationCustom15" name="salary" step="0.01" class="form-control @error('salary') is-invalid @enderror" value="{{ old('salary', $user->teacher ? $user->teacher->salary : '') }}" placeholder="Enter Salary">
                                     @error('salary')
                                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror

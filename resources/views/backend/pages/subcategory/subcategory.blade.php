@@ -4,6 +4,16 @@
 
 @push('backend_style')
     @include('backend.pages.common.style')
+    {{-- <style>
+        .select2-option-with-image img {
+            object-fit: cover;
+            border: 2px solid #ddd;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            display: flex;
+            align-items: center;
+        }
+    </style> --}}
 @endpush
 
 @section('backend_content')
@@ -38,7 +48,7 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="category_id">Category</label>
-                                    <select name="category_id" class="form-control @error('category_id')
+                                    <select name="category_id" class="form-control select2-style1 @error('category_id')
                                         is-invalid
                                     @enderror" id="category_id" required>
                                         <option value="">Select Category</option>

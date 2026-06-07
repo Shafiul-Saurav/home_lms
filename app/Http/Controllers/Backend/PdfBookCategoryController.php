@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\PdfBookCategory;
 use App\Http\Requests\PdfBookCategoryStoreRequest;
 use App\Http\Requests\PdfBookCategoryUpdateRequest;
-use Illuminate\Support\Str;
 
 class PdfBookCategoryController extends Controller
 {
@@ -84,7 +82,7 @@ class PdfBookCategoryController extends Controller
         $category = PdfBookCategory::findOrFail($id);
         $category->delete();
 
-        return redirect()->back()->with('warning', 'PDF Book Category moved to trash');
+        return redirect()->back()->with('warning', 'PDF Book Category Moved to Trash Successfully');
     }
 
     public function checkActive($id)

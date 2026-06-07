@@ -94,7 +94,7 @@ class ServiceController extends Controller
         $service = Service::findOrFail($id);
         $service->delete();
 
-        return redirect()->back()->with('error', 'Service Delete Successfully');
+        return redirect()->back()->with('warning', 'Service Moved to Trash Successfully');
     }
 
 

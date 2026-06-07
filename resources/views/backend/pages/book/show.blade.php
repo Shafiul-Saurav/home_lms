@@ -26,16 +26,20 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4 text-center mb-4">
-                            @if ($book->image)
-                                <img src="{{ asset('uploads/books/' . $book->image) }}" alt="Book Image" class="img-fluid rounded border">
-                            @else
-                                <div class="p-5 border rounded bg-light">No Image</div>
-                            @endif
-                        </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <table class="table table-bordered">
                                 <tbody>
+                                    <tr>
+                                        <th width="30%">Thumbnail</th>
+                                        <td>
+                                            @if ($book->image)
+                                                <img src="{{ asset('uploads/books/' . $book->image) }}" alt="Book Image"
+                                                    class="img-fluid border" style="max-height: 200px;">
+                                            @else
+                                                <div class="p-5 border bg-light">No Image</div>
+                                            @endif
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <th width="30%">Name</th>
                                         <td>{{ $book->name }}</td>
@@ -59,7 +63,7 @@
                                     <tr>
                                         <th>Status</th>
                                         <td>
-                                            @if($book->is_active)
+                                            @if ($book->is_active)
                                                 <span class="badge bg-success">Active</span>
                                             @else
                                                 <span class="badge bg-danger">Inactive</span>
@@ -77,8 +81,9 @@
                                     <tr>
                                         <th>Author Profile</th>
                                         <td>
-                                            @if($book->author_profile)
-                                                <img src="{{ asset('uploads/books/authors/' . $book->author_profile) }}" alt="Author Profile" style="height: 50px; border-radius: 5px;">
+                                            @if ($book->author_profile)
+                                                <img src="{{ asset('uploads/books/authors/' . $book->author_profile) }}"
+                                                    alt="Author Profile" style="height: 50px; border-radius: 5px;">
                                             @else
                                                 N/A
                                             @endif

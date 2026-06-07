@@ -94,7 +94,7 @@ class PhotoCategoryController extends Controller
         $category = Photocategory::where('category_slug', $category_slug)->first();
         $category->delete();
 
-        return redirect()->back()->with('warning', 'Photo Category Deleted Successfully');
+        return redirect()->back()->with('warning', 'Photo Category Moved to Trash Successfully');
     }
 
     public function checkActiveActive($category_id)

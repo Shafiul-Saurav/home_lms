@@ -4,6 +4,13 @@
 
 @push('frontend_style')
     <style>
+        @media (max-width: 575px) {
+            .course-instructor {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
         .book-single {
             padding: 100px 0;
             background-color: #f8f9fa;
@@ -290,7 +297,7 @@
                                     <div class="mt-4">
                                         @if($bookInfo->price == 0 || $isPurchased)
                                             @if($bookInfo->pdf_file)
-                                                <div class="alert alert-success d-flex align-items-center justify-content-between p-4 rounded-3 border-0 shadow-sm">
+                                                <div class="alert alert-success d-flex flex-md-row flex-column align-items-center justify-content-between p-4 rounded-3 border-0 shadow-sm">
                                                     <div class="d-flex align-items-center gap-3">
                                                         <div class="bg-white p-2 rounded-circle shadow-sm">
                                                             <i class="fas fa-file-pdf fa-2x" style="color: var(--theme-color)"></i>

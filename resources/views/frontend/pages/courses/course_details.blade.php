@@ -4,6 +4,39 @@
 
 @push('frontend_style')
     <style>
+        .alert-bg {
+            background: #f7921e25;
+            color: #f7921e;
+        }
+
+        #reviewModal .review-modal-close {
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            border: 0;
+            border-radius: 50%;
+            background: #f5f5f5;
+            color: #333;
+            font-size: 18px;
+            line-height: 1;
+            opacity: 1;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        #reviewModal .review-modal-close:hover {
+            background: #dc3545;
+            color: #fff;
+        }
+
+        #reviewModal .review-modal-close:focus {
+            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
+            outline: none;
+        }
+
         @media (min-width: 992px) {
             .position_fixed {
                 position: fixed;
@@ -122,6 +155,12 @@
                                         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#course-tab4"
                                             type="button">Review</button>
                                     </li>
+                                    @if(isset($exams) && $exams->isNotEmpty())
+                                    <li class="nav-item">
+                                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#course-tab5"
+                                            type="button">Exams</button>
+                                    </li>
+                                    @endif
                                 </ul>
 
                                 <div class="tab-content">
@@ -129,6 +168,21 @@
                                     <div class="tab-pane fade" id="course-tab1">
                                         <div class="course-details mt-4">
                                             <div class="mb-4">
+
+    @push('frontend_script')
+        <script>
+            $(function() {
+                var msg = @json(session('error') ?? session('notification') ?? session('message') ?? '');
+
+                if (msg) {
+                    var already = $('.toast-message').filter(function() { return $(this).text().trim() === msg; }).length > 0;
+                    if (!already) {
+                        toastr.error(msg);
+                    }
+                }
+            });
+        </script>
+    @endpush
                                                 <h5 class="mb-10">Description</h5>
                                                 {!! $courseInfo->description !!}
                                             </div>
@@ -156,11 +210,11 @@
                                                                     <a href="{{ route('course.video', ['course_id' => $courseInfo->id, 'module_id' => $module->id]) }}" class="text-decoration-none">
                                                                         <h6>
                                                                             @if($module->pdf_file)
-                                                                                <i class="fad fa-file-pdf"></i> <span>PDF:</span>
+                                                                                <i class="fad fa-file-alt"></i>
                                                                             @elseif($module->live_record == 'live')
-                                                                                <i class="fad fa-video"></i> <span>Live:</span>
+                                                                                <i class="fad fa-video"></i>
                                                                             @else
-                                                                                <i class="fad fa-play-circle"></i> <span>Video:</span>
+                                                                                <i class="fad fa-play-circle"></i>
                                                                             @endif
                                                                             {{ $module->title }}
                                                                             @if(isset($completedModuleIds) && in_array($module->id, $completedModuleIds))
@@ -179,7 +233,7 @@
                                                     </div>
                                                 </div>
                                                 @empty
-                                                <div class="alert alert-info">Curriculum will be updated soon.</div>
+                                                <div class="alert-bg text-center py-2 rounded-3">Curriculum will be updated soon.</div>
                                                 @endforelse
                                             </div>
                                         </div>
@@ -303,6 +357,59 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!-- tab 5 (Exams) -->
+                                    @if(isset($exams) && $exams->isNotEmpty())
+                                    <div class="tab-pane fade" id="course-tab5">
+                                        <div class="course-curriculum mt-4">
+                                            <div class="accordion accordion-flush" id="exam-accordion">
+                                                @php
+                                                    $groupedExams = $exams->groupBy('mcq_written');
+                                                    $typeLabels = [
+                                                        'mcq' => 'MCQ',
+                                                        'written' => 'Written',
+                                                        'both' => 'MCQ & Written'
+                                                    ];
+                                                @endphp
+                                                @foreach($groupedExams as $type => $typeExams)
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header">
+                                                        <button class="accordion-button {{ $loop->first ? '' : 'collapsed' }}" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#examCollapse{{ $type }}">
+                                                            Course Exams ({{ $typeLabels[$type] ?? ucfirst($type) }})
+                                                        </button>
+                                                    </h2>
+                                                    <div id="examCollapse{{ $type }}" class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}"
+                                                        data-bs-parent="#exam-accordion">
+                                                        <div class="accordion-body">
+                                                            @foreach($typeExams as $exam)
+                                                            <div class="curriculum-item {{ $isEnrolled || $exam->free_paid == 'free' ? 'unlock' : '' }}">
+                                                                <div class="left">
+                                                                    <a href="{{ route('frontend.exam.start', ['course_id' => $courseInfo->id, 'exam_id' => $exam->id]) }}" class="text-decoration-none">
+                                                                        <h6>
+                                                                            <i class="fad fa-clipboard-list-check"></i>
+                                                                            {{ $exam->name }}
+                                                                            <span class="badge bg-{{ $exam->free_paid == 'free' ? 'success' : 'warning' }} ms-2" style="font-size: 0.7rem;">{{ ucfirst($exam->free_paid) }}</span>
+                                                                        </h6>
+                                                                    </a>
+                                                                </div>
+                                                                <div class="right d-flex align-items-center">
+                                                                    @if($exam->pdf_file && ($isEnrolled || $exam->free_paid == 'free'))
+                                                                        <a href="{{ asset('uploads/exams/syllabus/' . $exam->pdf_file) }}" target="_blank" class="text-primary me-3"><i class="fad fa-file-pdf"></i> Syllabus</a>
+                                                                    @endif
+                                                                    <span class="duration me-3">{{ $exam->exam_time ?? '00:00' }}</span>
+                                                                    <span class="lock"><i class="fad {{ $isEnrolled || $exam->free_paid == 'free' ? 'fa-unlock' : 'fa-lock' }}"></i></span>
+                                                                </div>
+                                                            </div>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
                                 </div>
                             </div>
                             <!-- course single tab end -->
@@ -445,7 +552,7 @@
                     </div>
                     @empty
                     <div class="col-12">
-                        <div class="alert alert-info text-center">No related courses found.</div>
+                        <div class="alert-bg text-center py-2 rounded-3">No related courses found.</div>
                     </div>
                     @endforelse
                 </div>
@@ -460,7 +567,9 @@
                     <div class="modal-body p-4">
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <h4 class="modal-title" style="font-weight: 700; color: #333;">Post a review for <span style="color: #00a0dc;">{{ $courseInfo->name }}</span></h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="review-modal-close" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="fas fa-times"></i>
+                            </button>
                         </div>
 
                         <form id="review-form">

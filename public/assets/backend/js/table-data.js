@@ -40,7 +40,13 @@ $(function (e) {
 				
 				// Update first column (index 0) which is assumed to be serial numbers
 				api.column(0, {page: 'current'}).nodes().each(function(cell, i) {
-					$(cell).html(startIndex + i + 1);
+					var cellObj = $(cell);
+					if (cellObj.find('input[type="checkbox"]').length > 0) {
+						// If the first column contains a checkbox, the serial number is in the second column
+						cellObj.next('td').html(startIndex + i + 1);
+					} else {
+						cellObj.html(startIndex + i + 1);
+					}
 				});
 			}
 		};

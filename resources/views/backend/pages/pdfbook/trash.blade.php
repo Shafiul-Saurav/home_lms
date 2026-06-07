@@ -29,9 +29,7 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Trashed PDF Book List</h3>
-                    <a href="{{ route('pdf_books.index') }}" class="btn btn-sm btn-outline-primary border">
-                        <i class="fa-solid fa-list fa-fw"></i> View List
-                    </a>
+                    <a href="{{ route('pdf_books.index') }}" class="btn btn-outline-info border"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -61,10 +59,17 @@
                                                     </a>
                                                 </div>
                                                 <div>
-                                                    <a href="{{ route('pdf_books.forceDelete', $book->id) }}"
-                                                        class="btn btn-sm btn-outline-danger border show_confirm_permanent">
-                                                        <i class="fa-solid fa-trash-can fa-fw"></i>
-                                                    </a>
+                                                    <form action="{{ route('pdf_books.forcedelete', $book->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="btn btn-sm btn-outline-danger border show_confirm"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            data-bs-original-title="Force Delete">
+                                                            <i class="fa-solid fa-radiation"></i>
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </td>

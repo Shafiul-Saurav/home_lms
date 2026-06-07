@@ -1,20 +1,12 @@
-<div class="row align-items-center">
-    <div class="col-md-6 col-lg-6">
-        <div class="course-sort-left">
-            <p>Showing {{ $pdf_books->firstItem() }}-{{ $pdf_books->lastItem() }} of {{ $pdf_books->total() }} Results</p>
-        </div>
+<div class="course-sort">
+    <div class="course-showing">
+        Showing {{ $pdf_books->firstItem() ?? 0 }}-{{ $pdf_books->lastItem() ?? 0 }} of {{ $pdf_books->total() }} Results
     </div>
-    <div class="col-md-6 col-lg-6">
-        <div class="course-sort-right">
-            <div class="row g-3 justify-content-md-end">
-                <div class="col-md-6 col-lg-5">
-                    <select class="form-select" id="pdf-sort-by">
-                        <option value="latest" {{ request('sort_by') == 'latest' ? 'selected' : '' }}>Latest</option>
-                        <option value="low_price" {{ request('sort_by') == 'low_price' ? 'selected' : '' }}>Price: Low to High</option>
-                        <option value="high_price" {{ request('sort_by') == 'high_price' ? 'selected' : '' }}>Price: High to Low</option>
-                    </select>
-                </div>
-            </div>
-        </div>
+    <div class="sort-by-options" style="display: inline-block;">
+        <select class="select sort-by-select" name="sort_by" id="pdf-sort-by">
+            <option value="latest" {{ request('sort_by', 'latest') === 'latest' ? 'selected' : '' }}>Sort By Latest</option>
+            <option value="low_price" {{ request('sort_by') === 'low_price' ? 'selected' : '' }}>Sort By Low Price</option>
+            <option value="high_price" {{ request('sort_by') === 'high_price' ? 'selected' : '' }}>Sort By High Price</option>
+        </select>
     </div>
 </div>

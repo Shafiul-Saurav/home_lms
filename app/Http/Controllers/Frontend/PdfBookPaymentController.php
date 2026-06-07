@@ -30,10 +30,7 @@ class PdfBookPaymentController extends Controller
     {
         $book = PdfBook::findOrFail($request->book_id);
 
-        if ($request->payment_method == 'ShurjoPay') {
-            return redirect()->back()->with('error', 'ShurjoPay integration is coming soon. Please use SSLCommerz.');
-        }
-
+        // Payment method handling is delegated to specific gateways; allow ShurjoPay flow
         $sellingPrice = $book->price - $book->discount_amount;
         $discountAmount = 0;
         $appliedCouponCode = $request->applied_coupon;
@@ -100,6 +97,29 @@ class PdfBookPaymentController extends Controller
             'temporary_transaction_id' => $temporaryTranId
         ]);
 
+        // Create pending order record for testing before payment is completed
+        // $pendingOrder = PdfBookOrder::create([
+        //     'user_id' => Auth::id(),
+        //     'pdf_book_id' => $book->id,
+        //     'name' => $request->name,
+        //     'email' => $request->email,
+        //     'phone' => $request->phone,
+        //     'address' => $request->address,
+        //     'order_number' => 'PDF-ORD-' . strtoupper(substr(md5(uniqid()), 0, 6)) . '-' . date('Ymd'),
+        //     'transaction_id' => $temporaryTranId,
+        //     'currency' => 'BDT',
+        //     'amount' => $finalTotal,
+        //     'price' => $book->price,
+        //     'discount_amount' => $discountAmount + $book->discount_amount,
+        //     'coupon_name' => $appliedCouponCode,
+        //     'date' => date('Y-m-d'),
+        //     'agree' => $request->agree ? 1 : 0,
+        //     'payment_status' => 'Pending',
+        //     'payment_method' => 'SSLCommerz'
+        // ]);
+
+        // session()->put('pending_pdf_book_order_id', $pendingOrder->id);
+
         // Send data to SSLCommerz API
         $response = Http::asForm()->post($sslCommerzConfig->sslcommerz_url, $post_data);
         $responseData = $response->json();
@@ -130,9 +150,28 @@ class PdfBookPaymentController extends Controller
         $verify_result = $verify_response->json();
 
         if ($verify_result['status'] == 'VALID' || $verify_result['status'] == 'VALIDATED') {
+            // $pendingOrderId = session()->get('pending_pdf_book_order_id');
             $pendingData = session()->get('pending_pdf_book_order');
 
             if (!$pendingData) {
+            // $order = null;
+            // if ($pendingOrderId) {
+            //     $order = PdfBookOrder::find($pendingOrderId);
+            // }
+
+            // if (!$order && $pendingData) {
+            //     $order = PdfBookOrder::where('transaction_id', $pendingData['temporary_transaction_id'])
+            //         ->where('payment_status', 'Pending')
+            //         ->first();
+            // }
+
+            // if (!$order) {
+            //     $order = PdfBookOrder::where('transaction_id', $tran_id)
+            //         ->where('payment_status', 'Pending')
+            //         ->first();
+            // }
+
+            // if (!$order) {
                 return redirect()->route('pdf.book.payment.fail')->with('error', 'Order session expired.');
             }
 
@@ -158,7 +197,13 @@ class PdfBookPaymentController extends Controller
                 'payment_method' => 'SSLCommerz'
             ]);
 
+            // $order->payment_status = 'Completed';
+            // $order->payment_method = 'SSLCommerz';
+            // $order->transaction_id = $tran_id;
+            // $order->save();
+
             session()->forget('pending_pdf_book_order');
+            // session()->forget('pending_pdf_book_order_id');
             return redirect()->route('pdf.book.payment.thankyou', ['order_id' => $order->id]);
         }
 
@@ -168,12 +213,14 @@ class PdfBookPaymentController extends Controller
     public function fail(Request $request)
     {
         session()->forget('pending_pdf_book_order');
+        // session()->forget('pending_pdf_book_order_id');
         return view('frontend.pages.checkout.payment_fail');
     }
 
     public function cancel(Request $request)
     {
         session()->forget('pending_pdf_book_order');
+        // session()->forget('pending_pdf_book_order_id');
         return view('frontend.pages.checkout.payment_cancel');
     }
 

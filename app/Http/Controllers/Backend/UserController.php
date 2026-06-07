@@ -56,8 +56,8 @@ class UserController extends Controller
     {
         //authorize this user to access/give access to admin dashboard
         Gate::authorize('index-user');
-        $users = User::with(['role:id,role_name,role_slug'])
-        ->select(['id', 'role_id', 'name', 'email', 'is_active', 'updated_at'])
+        $users = User::with(['role:id,role_name,role_slug', 'profile.profileImage'])
+        ->select(['id', 'role_id', 'name', 'email', 'is_active', 'updated_at', 'profile_photo_path'])
         ->whereIn('role_id', [4])
         ->paginate(1000);
 
@@ -166,7 +166,7 @@ class UserController extends Controller
         if ($user->email != 'admin@admin.com') {
             $user->delete();
 
-            return redirect()->back()->with('warning', 'User Deleted Successfully');
+            return redirect()->back()->with('warning', 'User Moved to Trash Successfully');
         } else {
             return redirect()->back()->with('error', 'Admin Cannot be Deleted 😡!!');
         }

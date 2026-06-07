@@ -35,7 +35,7 @@
                     <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-row">
-                            <div class="col-12 mb-3">
+                            <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label for="name">Name</label>
                                     <input type="text" name="name" class="form-control @error('name')
@@ -49,7 +49,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
+                            <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label for="file">File</label>
                                     <input type="file" name="file" class="form-control @error('file')

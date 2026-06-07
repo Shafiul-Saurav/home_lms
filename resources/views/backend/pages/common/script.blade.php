@@ -16,6 +16,38 @@
 <script src="{{asset('assets/backend')}}/js/fileupload.js"></script>
 <script src="{{asset('assets/backend')}}/js/file-upload.js"></script>
 <script>
+
+    // Custom script for handling Select2 with images and delete confirmation
+    $(document).ready(function() {
+            // Initialize Select2 for student dropdown with profile image
+            $('.select2-style1').each(function() {
+                var $select = $(this);
+                $select.select2({
+                    placeholder: $select.data('placeholder') || 'Choose One',
+                    allowClear: true,
+                    width: '100%',
+                    templateResult: formatStudent,
+                    templateSelection: formatStudent
+                });
+            });
+
+            // Function to format student option with image
+            function formatStudent(option) {
+                if (!option.id) {
+                    return option.text;
+                }
+                var $option = $(option.element);
+                var image = $option.data('image');
+                var text = option.text;
+
+                if (image) {
+                    var $formatted = $('<span class="select2-option-with-image"><img src="' + image + '" class="rounded-circle" style="width: 30px; height: 30px; margin-right: 8px; vertical-align: middle;">' + text + '</span>');
+                    return $formatted;
+                }
+                return text;
+            }
+        });
+
     $('.show_confirm').click(function(event){
             let form = $(this).closest('form');
 

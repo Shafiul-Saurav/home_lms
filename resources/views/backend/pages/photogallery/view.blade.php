@@ -41,7 +41,7 @@
                                 <tr><th colspan="2"><h3>{{ $gallery->title }}</h3></th></tr>
                                 <tr>
                                     <th>Category</th>
-                                    <td width="80%">{{ $gallery->photoCategory->category_name }}</td>
+                                    <td width="80%">{{ $gallery->photoCategory?->category_name ?? 'N/A' }}</td>
                                 </tr>
                                 <tr>
                                     <th>Price</th>

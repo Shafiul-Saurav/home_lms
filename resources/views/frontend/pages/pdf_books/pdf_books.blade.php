@@ -142,6 +142,11 @@
                         $('#pdf-book-list').html(response.html).css('opacity', '1');
                         $('#pdf-book-topfilter').html(response.topfilter);
 
+                        if ($('select').length && typeof $.fn.niceSelect !== 'undefined') {
+                            $('select').niceSelect('destroy');
+                            $('select').niceSelect();
+                        }
+
                         // Scroll to top of list
                         $('html, body').animate({
                             scrollTop: $(".course-area").offset().top - 100

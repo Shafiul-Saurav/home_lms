@@ -67,7 +67,7 @@
                                     <div class="col-md-6 col-lg-6 col-xl-4">
                                         <div class="user-widget c1">
                                             <div class="info">
-                                                <h1>{{ auth()->user()->posts->count() ?? 0 }}</h1>
+                                                <h1>{{ $completedCount ?? 0 }}</h1>
                                                 <span>Completed Courses</span>
                                             </div>
                                             <div class="icon">
@@ -78,7 +78,7 @@
                                     <div class="col-md-6 col-lg-6 col-xl-4">
                                         <div class="user-widget c2">
                                             <div class="info">
-                                                <h1>{{ auth()->user()->comments->count() ?? 0 }}</h1>
+                                                <h1>{{ $enrolledCount ?? 0 }}</h1>
                                                 <span>Enrolled Courses</span>
                                             </div>
                                             <div class="icon">
@@ -89,11 +89,11 @@
                                     <div class="col-md-6 col-lg-6 col-xl-4">
                                         <div class="user-widget c3">
                                             <div class="info">
-                                                <h1>$900</h1>
-                                                <span>My Balance</span>
+                                                <h1>{{ $purchasedPdfBooksCount ?? 0 }}</h1>
+                                                <span>Purchased PDF Books</span>
                                             </div>
                                             <div class="icon">
-                                                <i class="fa-solid fa-wallet"></i>
+                                                <i class="fa-solid fa-file-pdf"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -176,7 +176,7 @@
                                         <div class="header">
                                             <h4 class="title">Recent Orders</h4>
                                             <div class="header-right">
-                                                <a href="order-list.html" class="theme-btn">View All<i
+                                                <a href="{{ route('user.course.orders') }}" class="theme-btn">View All<i
                                                         class="fas fa-arrow-right"></i></a>
                                             </div>
                                         </div>
@@ -192,279 +192,47 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td><span class="code">#35VR5K54</span></td>
-                                                        <td>January 21, 2025</td>
-                                                        <td>$3,650</td>
-                                                        <td><span class="badge badge-info">Pending</span></td>
-                                                        <td>
-                                                            <div class="action-dropdown dropdown">
-                                                                <button class="action-icon-btn" type="button"
-                                                                    data-bs-toggle="dropdown">
-                                                                    <i class="far fa-ellipsis"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li>
-                                                                        <a class="dropdown-item"
-                                                                            href="order-detail.html"><i
-                                                                                class="far fa-eye"></i> Order Details</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-pen-swirl"></i> Pending</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-circle-dashed"></i>
-                                                                            Processing</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-check-circle"></i>
-                                                                            Completed</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-xmark-circle"></i> Cancel</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span class="code">#35VR5K54</span></td>
-                                                        <td>January 21, 2025</td>
-                                                        <td>$3,650</td>
-                                                        <td><span class="badge badge-primary">Processing</span></td>
-                                                        <td>
-                                                            <div class="action-dropdown dropdown">
-                                                                <button class="action-icon-btn" type="button"
-                                                                    data-bs-toggle="dropdown">
-                                                                    <i class="far fa-ellipsis"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li>
-                                                                        <a class="dropdown-item"
-                                                                            href="order-detail.html"><i
-                                                                                class="far fa-eye"></i> Order Details</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-pen-swirl"></i> Pending</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-circle-dashed"></i>
-                                                                            Processing</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-check-circle"></i>
-                                                                            Completed</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-xmark-circle"></i> Cancel</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span class="code">#35VR5K54</span></td>
-                                                        <td>January 21, 2025</td>
-                                                        <td>$3,650</td>
-                                                        <td><span class="badge badge-success">Completed</span></td>
-                                                        <td>
-                                                            <div class="action-dropdown dropdown">
-                                                                <button class="action-icon-btn" type="button"
-                                                                    data-bs-toggle="dropdown">
-                                                                    <i class="far fa-ellipsis"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li>
-                                                                        <a class="dropdown-item"
-                                                                            href="order-detail.html"><i
-                                                                                class="far fa-eye"></i> Order Details</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-pen-swirl"></i> Pending</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-circle-dashed"></i>
-                                                                            Processing</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-check-circle"></i>
-                                                                            Completed</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-xmark-circle"></i> Cancel</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span class="code">#35VR5K54</span></td>
-                                                        <td>January 21, 2025</td>
-                                                        <td>$3,650</td>
-                                                        <td><span class="badge badge-danger">Cancelled</span></td>
-                                                        <td>
-                                                            <div class="action-dropdown dropdown">
-                                                                <button class="action-icon-btn" type="button"
-                                                                    data-bs-toggle="dropdown">
-                                                                    <i class="far fa-ellipsis"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li>
-                                                                        <a class="dropdown-item"
-                                                                            href="order-detail.html"><i
-                                                                                class="far fa-eye"></i> Order Details</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-pen-swirl"></i> Pending</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-circle-dashed"></i>
-                                                                            Processing</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-check-circle"></i>
-                                                                            Completed</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-xmark-circle"></i> Cancel</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span class="code">#35VR5K54</span></td>
-                                                        <td>January 21, 2025</td>
-                                                        <td>$3,650</td>
-                                                        <td><span class="badge badge-success">Completed</span></td>
-                                                        <td>
-                                                            <div class="action-dropdown dropdown">
-                                                                <button class="action-icon-btn" type="button"
-                                                                    data-bs-toggle="dropdown">
-                                                                    <i class="far fa-ellipsis"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li>
-                                                                        <a class="dropdown-item"
-                                                                            href="order-detail.html"><i
-                                                                                class="far fa-eye"></i> Order Details</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-pen-swirl"></i> Pending</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-circle-dashed"></i>
-                                                                            Processing</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-check-circle"></i>
-                                                                            Completed</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-xmark-circle"></i> Cancel</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span class="code">#35VR5K54</span></td>
-                                                        <td>January 21, 2025</td>
-                                                        <td>$3,650</td>
-                                                        <td><span class="badge badge-success">Completed</span></td>
-                                                        <td>
-                                                            <div class="action-dropdown dropdown">
-                                                                <button class="action-icon-btn" type="button"
-                                                                    data-bs-toggle="dropdown">
-                                                                    <i class="far fa-ellipsis"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li>
-                                                                        <a class="dropdown-item"
-                                                                            href="order-detail.html"><i
-                                                                                class="far fa-eye"></i> Order Details</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-pen-swirl"></i> Pending</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-circle-dashed"></i>
-                                                                            Processing</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-check-circle"></i>
-                                                                            Completed</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-xmark-circle"></i> Cancel</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span class="code">#35VR5K54</span></td>
-                                                        <td>January 21, 2025</td>
-                                                        <td>$3,650</td>
-                                                        <td><span class="badge badge-success">Completed</span></td>
-                                                        <td>
-                                                            <div class="action-dropdown dropdown">
-                                                                <button class="action-icon-btn" type="button"
-                                                                    data-bs-toggle="dropdown">
-                                                                    <i class="far fa-ellipsis"></i>
-                                                                </button>
-                                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                                    <li>
-                                                                        <a class="dropdown-item"
-                                                                            href="order-detail.html"><i
-                                                                                class="far fa-eye"></i> Order Details</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-pen-swirl"></i> Pending</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-circle-dashed"></i>
-                                                                            Processing</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-check-circle"></i>
-                                                                            Completed</a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a class="dropdown-item" href="#"><i
-                                                                                class="far fa-xmark-circle"></i> Cancel</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                    @forelse($recentOrders as $order)
+                                                        @php
+                                                            $status = strtolower($order->payment_status ?: $order->status);
+                                                            $badgeClass = match ($status) {
+                                                                'completed', 'enrolled' => 'badge-success',
+                                                                'pending' => 'badge-info',
+                                                                'failed', 'cancelled' => 'badge-danger',
+                                                                default => 'badge-primary',
+                                                            };
+                                                            $displayStatus = $order->payment_status
+                                                                ? ucfirst($order->payment_status)
+                                                                : ucfirst($order->status);
+                                                        @endphp
+                                                        <tr>
+                                                            <td>
+                                                                <span class="code">{{ $order->order_number ?? sprintf('#%s', str_pad($order->id, 6, '0', STR_PAD_LEFT)) }}</span>
+                                                            </td>
+                                                            <td>{{ $order->created_at?->format('F j, Y') ?? optional($order->date)->format('F j, Y') }}</td>
+                                                            <td>{{ $order->currency ?? 'BDT' }}{{ number_format($order->amount, 2) }}</td>
+                                                            <td><span class="badge {{ $badgeClass }}">{{ $displayStatus }}</span></td>
+                                                            <td>
+                                                                <div class="action-dropdown dropdown">
+                                                                    <button class="action-icon-btn" type="button"
+                                                                        data-bs-toggle="dropdown">
+                                                                        <i class="far fa-ellipsis"></i>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu dropdown-menu-end" style="max-height: none !important; overflow: visible !important;">
+                                                                        <li>
+                                                                            <a class="dropdown-item"
+                                                                                href="{{ route('course.order.details', $order->id) }}"><i
+                                                                                    class="far fa-eye"></i> Order Details</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    @empty
+                                                        <tr>
+                                                            <td colspan="5" class="text-center">No orders found.</td>
+                                                        </tr>
+                                                    @endforelse
                                                 </tbody>
                                             </table>
                                         </div>

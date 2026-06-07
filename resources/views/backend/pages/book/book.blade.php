@@ -52,7 +52,7 @@
                                 <div class="form-group">
                                     <label for="book_category_id">Category</label>
                                     <select name="book_category_id" id="book_category_id"
-                                        class="form-control @error('book_category_id') is-invalid @enderror">
+                                        class="form-control select2-style1 @error('book_category_id') is-invalid @enderror">
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}" {{ old('book_category_id') == $category->id ? 'selected' : '' }}>
@@ -70,7 +70,7 @@
                                 <div class="form-group">
                                     <label for="book_subcategory_id">Subcategory</label>
                                     <select name="book_subcategory_id" id="book_subcategory_id"
-                                        class="form-control @error('book_subcategory_id') is-invalid @enderror" disabled>
+                                        class="form-control select2-style1 @error('book_subcategory_id') is-invalid @enderror" disabled>
                                         <option value="">Select Subcategory</option>
                                     </select>
                                     @error('book_subcategory_id')

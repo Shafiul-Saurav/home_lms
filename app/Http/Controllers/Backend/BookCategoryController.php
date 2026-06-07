@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\BookCategory;
-use Illuminate\Support\Str;
 use App\Http\Requests\BookCategoryStoreRequest;
 use App\Http\Requests\BookCategoryUpdateRequest;
 
@@ -83,7 +82,7 @@ class BookCategoryController extends Controller
         $category = BookCategory::findOrFail($id);
         $category->delete();
 
-        return redirect()->back()->with('warning', 'Book Category moved to trash');
+        return redirect()->back()->with('warning', 'Book Category Moved to Trash Successfully');
     }
 
     public function checkActive($category_id)

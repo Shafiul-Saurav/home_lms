@@ -101,7 +101,7 @@ class PermissionController extends Controller
         $permission = Permission::where('permission_slug', $permission_slug)->first();
         $permission->delete();
 
-        return redirect()->back()->with('warning', 'Permission Deleted Successfully');
+        return redirect()->back()->with('warning', 'Permission Moved to Trash Successfully');
     }
 }
 

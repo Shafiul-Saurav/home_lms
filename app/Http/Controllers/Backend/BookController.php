@@ -103,7 +103,7 @@ class BookController extends Controller
         $book = Book::findOrFail($id);
         $book->delete();
 
-        return redirect()->back()->with('error', 'Book moved to trash successfully');
+        return redirect()->back()->with('warning', 'Book Moved to Trash Successfully');
     }
 
     public function imageUpload(Request $request, int $bookId): void

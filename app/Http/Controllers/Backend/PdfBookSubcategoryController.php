@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\PdfBookCategory;
 use App\Models\PdfBookSubcategory;
 use App\Http\Requests\PdfBookSubcategoryStoreRequest;
 use App\Http\Requests\PdfBookSubcategoryUpdateRequest;
-use Illuminate\Support\Str;
 
 class PdfBookSubcategoryController extends Controller
 {
@@ -89,7 +87,7 @@ class PdfBookSubcategoryController extends Controller
         $subcategory = PdfBookSubcategory::findOrFail($id);
         $subcategory->delete();
 
-        return redirect()->back()->with('warning', 'PDF Book Subcategory moved to trash');
+        return redirect()->back()->with('warning', 'PDF Book Subcategory Moved to Trash Successfully');
     }
 
     public function checkActive($id)

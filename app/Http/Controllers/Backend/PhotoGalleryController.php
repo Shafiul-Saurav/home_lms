@@ -18,7 +18,7 @@ class PhotoGalleryController extends Controller
     public function index()
     {
         Gate::authorize('index-photo-gallery');
-        
+
         $galleries = Photogallery::with(['photoCategory'])->latest('id')->paginate(100);
         $categories = Photocategory::get();
         return view('backend.pages.photogallery.photogallery', compact('categories', 'galleries'));
@@ -38,7 +38,7 @@ class PhotoGalleryController extends Controller
     public function store(PhotoGalleryStoreRequest $request)
     {
         Gate::authorize('create-photo-gallery');
-        
+
         // dd($request->all());
 
         $gallery = Photogallery::create([
@@ -69,7 +69,7 @@ class PhotoGalleryController extends Controller
     public function edit(string $id)
     {
         Gate::authorize('edit-photo-gallery');
-        
+
         $gallery = Photogallery::findOrFail($id);
         $categories = Photocategory::get();
         return view('backend.pages.photogallery.edit', compact('gallery', 'categories'));
@@ -81,8 +81,14 @@ class PhotoGalleryController extends Controller
     public function update(Request $request, string $id)
     {
         Gate::authorize('edit-photo-gallery');
-        
-        // dd($request->all());
+
+        $request->validate([
+            'category_id' => 'nullable|numeric',
+            'title' => 'nullable|string|max:50',
+            'price' => 'nullable|string',
+            'description' => 'nullable|string',
+            'gall_image' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
+        ]);
 
         $gallery = Photogallery::findOrFail($id);
         $gallery->update([
@@ -103,11 +109,11 @@ class PhotoGalleryController extends Controller
     public function destroy(string $id)
     {
         Gate::authorize('delete-photo-gallery');
-        
+
         $gallery = Photogallery::findOrFail($id);
         $gallery->delete();
 
-        return redirect()->back()->with('warning', 'Photo Gallery Deleted Successfully');
+        return redirect()->back()->with('warning', 'Photo Gallery Moved to Trash Successfully');
     }
 
     /**
@@ -131,7 +137,7 @@ class PhotoGalleryController extends Controller
             $uploaded_photo = $request->file('gall_image');
             $new_photo_name = $gallery->id . '.' . $uploaded_photo->getClientOriginalExtension();
             $new_photo_location = $photo_location . $new_photo_name;
-            Image::make($uploaded_photo)->resize(380,400)->save(base_path($new_photo_location), 40);
+            Image::make($uploaded_photo)->resize(750,800)->save(base_path($new_photo_location), 40);
             //$user = User::find($gallery->id);
             $check = $gallery->update([
                 'gall_image' => $new_photo_name,

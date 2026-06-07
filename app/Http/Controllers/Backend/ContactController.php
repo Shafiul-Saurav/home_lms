@@ -73,6 +73,6 @@ class ContactController extends Controller
         $contact = Contact::findOrFail($id);
         $contact->delete();
 
-        return redirect()->back()->with('error', 'Contact Info Deleted Successfully');
+        return redirect()->back()->with('error', 'Contact Info Moved to Trash Successfully');
     }
 }

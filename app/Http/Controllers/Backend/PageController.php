@@ -84,6 +84,6 @@ class PageController extends Controller
 
         $page->delete();
 
-        return redirect()->back()->with('error', 'Page Deleted Successfully');
+        return redirect()->back()->with('error', 'Page Moved to Trash Successfully');
     }
 }

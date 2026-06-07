@@ -60,7 +60,7 @@ class AdminReviewController extends Controller
         $review = CourseReview::findOrFail($id);
         $review->delete();
 
-        return redirect()->back()->with('warning', 'Review Deleted Successfully');
+        return redirect()->back()->with('warning', 'Review Moved to Trash Successfully');
     }
 
     /**

@@ -71,8 +71,8 @@
             margin-bottom: 20px;
         }
         .nav-pills .nav-link {
-            border: 2px solid #f1f1f1 !important;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 2px solid #eee !important;
+            transition: 0.3s;
             background: #fff !important;
             position: relative;
             height: 80px;
@@ -84,7 +84,7 @@
         }
         .nav-pills .nav-link.active {
             border-color: var(--theme-color) !important;
-            background: #fff !important;
+            background: #f9f9ff !important;
             box-shadow: 0 10px 25px rgba(142, 121, 249, 0.15);
             transform: translateY(-2px);
         }
@@ -104,29 +104,6 @@
             filter: grayscale(0);
             opacity: 1;
             transform: scale(1.05);
-        }
-        .nav-pills .nav-link .check-mark {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: var(--theme-color);
-            color: #fff;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            transform: scale(0);
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 10px rgba(142, 121, 249, 0.3);
-            z-index: 5;
-        }
-        .nav-pills .nav-link.active .check-mark {
-            transform: scale(1);
-            top: 10px;
-            right: 10px;
         }
         .payment-description-box {
             background: #fcfbff;
@@ -284,7 +261,6 @@
                                         <ul class="nav nav-pills mb-3 d-flex flex-row gap-2" id="pills-tab" role="tablist">
                                             <li class="nav-item flex-grow-1" role="presentation">
                                                 <a class="nav-link p-0 d-flex align-items-center justify-content-center rounded" id="pills-shurjopay-tab" data-bs-toggle="pill" data-bs-target="#pills-shurjopay" type="button" role="tab" aria-controls="pills-shurjopay" aria-selected="false" onclick="setPaymentMethod('ShurjoPay')">
-                                                    <span class="check-mark"><i class="fas fa-check"></i></span>
                                                     @if(isset($shurjopayConfig->logo) && file_exists(public_path('uploads/shurjopay/' . $shurjopayConfig->logo)))
                                                         <img src="{{ asset('uploads/shurjopay/' . $shurjopayConfig->logo) }}" alt="shurjoPay">
                                                     @else
@@ -294,7 +270,6 @@
                                             </li>
                                             <li class="nav-item flex-grow-1" role="presentation">
                                                 <a class="nav-link p-0 active d-flex align-items-center justify-content-center rounded" id="pills-sslcommerz-tab" data-bs-toggle="pill" data-bs-target="#pills-sslcommerz" type="button" role="tab" aria-controls="pills-sslcommerz" aria-selected="true" onclick="setPaymentMethod('SSLCommerz')">
-                                                    <span class="check-mark"><i class="fas fa-check"></i></span>
                                                     @if(isset($sslCommerzConfig->logo) && file_exists(public_path('uploads/sslcommerz/' . $sslCommerzConfig->logo)))
                                                         <img src="{{ asset('uploads/sslcommerz/' . $sslCommerzConfig->logo) }}" alt="SSLCommerz">
                                                     @else

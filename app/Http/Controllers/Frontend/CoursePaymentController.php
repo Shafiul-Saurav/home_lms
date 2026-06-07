@@ -32,9 +32,7 @@ class CoursePaymentController extends Controller
     {
         $course = Course::findOrFail($request->course_id);
 
-        if ($request->payment_method == 'ShurjoPay') {
-            return redirect()->back()->with('error', 'ShurjoPay integration is coming soon. Please use SSLCommerz.');
-        }
+        // Payment method handling is delegated to specific gateways; allow ShurjoPay flow
 
         $sellingPrice = $course->price - $course->discount;
         $discountAmount = 0;

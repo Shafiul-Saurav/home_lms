@@ -16,7 +16,8 @@
                 <div class="ms-auto pageheader-btn">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{ route('pdf_book_categories.index') }}">PDF Book Category</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('pdf_book_categories.index') }}">PDF Book Category</a>
+                        </li>
                         <li class="breadcrumb-item active" aria-current="page">Trash</li>
                     </ol>
                 </div>
@@ -28,8 +29,7 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Trashed PDF Book Category List</h3>
-                    <a href="{{ route('pdf_book_categories.index') }}" class="btn btn-sm btn-outline-primary border"><i
-                            class="fa-solid fa-list fa-fw"></i> View List</a>
+                    <a href="{{ route('pdf_book_categories.index') }}" class="btn btn-outline-info border"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -53,17 +53,15 @@
                                                 <div>
                                                     <a href="{{ route('pdf_book_categories.restore', $category->id) }}"
                                                         class="btn btn-sm btn-outline-success border me-2"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        title="Restore">
-                                                        <i class="fa-solid fa-rotate-left fa-fw"></i>
+                                                        data-toggle="tooltip" data-placement="top" title="Restore">
+                                                        <i class="fa-solid fa-rotate-left"></i>
                                                     </a>
                                                 </div>
                                                 <div>
-                                                    <a href="{{ route('pdf_book_categories.forceDelete', $category->id) }}"
+                                                    <a href="{{ route('pdf_book_categories.forcedelete', $category->id) }}"
                                                         class="btn btn-sm btn-outline-danger border show_confirm_permanent"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        title="Permanent Delete">
-                                                        <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                        data-toggle="tooltip" data-placement="top" title="Permanent Delete">
+                                                        <i class="fa-solid fa-radiation"></i>
                                                     </a>
                                                 </div>
                                             </div>

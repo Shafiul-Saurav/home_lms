@@ -40,10 +40,11 @@
                                 <div class="form-group">
                                     <label for="name">Name <span class="text-danger">*</span></label>
                                     <input type="text" name="name" id="name"
-                                        class="form-control @error('name') is-invalid @enderror"
-                                        value="{{ old('name') }}" required>
+                                        class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}"
+                                        required>
                                     @error('name')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -55,7 +56,8 @@
                                         class="form-control @error('slug') is-invalid @enderror"
                                         value="{{ old('slug') }}">
                                     @error('slug')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -64,16 +66,18 @@
                                 <div class="form-group">
                                     <label for="category_id">Category</label>
                                     <select name="category_id" id="category_id"
-                                        class="form-control @error('category_id') is-invalid @enderror">
+                                        class="form-control select2-style1 @error('category_id') is-invalid @enderror">
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                            <option value="{{ $category->id }}"
+                                                {{ old('category_id') == $category->id ? 'selected' : '' }}>
                                                 {!! $category->name !!}
                                             </option>
                                         @endforeach
                                     </select>
                                     @error('category_id')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -82,11 +86,12 @@
                                 <div class="form-group">
                                     <label for="subcategory_id">Subcategory</label>
                                     <select name="subcategory_id" id="subcategory_id"
-                                        class="form-control @error('subcategory_id') is-invalid @enderror" disabled>
+                                        class="form-control select2-style1 @error('subcategory_id') is-invalid @enderror" disabled>
                                         <option value="">Select Subcategory</option>
                                     </select>
                                     @error('subcategory_id')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -98,7 +103,8 @@
                                         class="form-control @error('price') is-invalid @enderror"
                                         value="{{ old('price') }}" required>
                                     @error('price')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -110,7 +116,8 @@
                                         class="form-control @error('discount') is-invalid @enderror"
                                         value="{{ old('discount') }}">
                                     @error('discount')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -121,11 +128,14 @@
                                     <select name="live_or_record" id="live_or_record"
                                         class="form-control @error('live_or_record') is-invalid @enderror">
                                         <option value="">Select Type</option>
-                                        <option value="live" {{ old('live_or_record') == 'live' ? 'selected' : '' }}>Live</option>
-                                        <option value="record" {{ old('live_or_record') == 'record' ? 'selected' : '' }}>Record</option>
+                                        <option value="live" {{ old('live_or_record') == 'live' ? 'selected' : '' }}>Live
+                                        </option>
+                                        <option value="record" {{ old('live_or_record') == 'record' ? 'selected' : '' }}>
+                                            Record</option>
                                     </select>
                                     @error('live_or_record')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -136,11 +146,14 @@
                                     <select name="is_offline" id="is_offline"
                                         class="form-control @error('is_offline') is-invalid @enderror">
                                         <option value="">Select Option</option>
-                                        <option value="1" {{ old('is_offline') == '1' ? 'selected' : '' }}>Yes</option>
-                                        <option value="0" {{ old('is_offline') == '0' ? 'selected' : '' }}>No</option>
+                                        <option value="1" {{ old('is_offline') == '1' ? 'selected' : '' }}>Yes
+                                        </option>
+                                        <option value="0" {{ old('is_offline') == '0' ? 'selected' : '' }}>No
+                                        </option>
                                     </select>
                                     @error('is_offline')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -150,11 +163,14 @@
                                     <label for="is_active">Status</label>
                                     <select name="is_active" id="is_active"
                                         class="form-control @error('is_active') is-invalid @enderror">
-                                        <option value="1" {{ old('is_active', '1') == '1' ? 'selected' : '' }}>Active</option>
-                                        <option value="0" {{ old('is_active') == '0' ? 'selected' : '' }}>Inactive</option>
+                                        <option value="1" {{ old('is_active', '1') == '1' ? 'selected' : '' }}>Active
+                                        </option>
+                                        <option value="0" {{ old('is_active') == '0' ? 'selected' : '' }}>Inactive
+                                        </option>
                                     </select>
                                     @error('is_active')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -166,7 +182,8 @@
                                         class="form-control @error('video_link') is-invalid @enderror"
                                         value="{{ old('video_link') }}">
                                     @error('video_link')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -174,11 +191,11 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" id="summernote"
-                                        class="form-control @error('description') is-invalid @enderror"
+                                    <textarea name="description" id="summernote" class="form-control @error('description') is-invalid @enderror"
                                         rows="4">{{ old('description') }}</textarea>
                                     @error('description')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -189,7 +206,8 @@
                                     <input type="file" name="image" id="image"
                                         class="form-control @error('image') is-invalid @enderror" required>
                                     @error('image')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -200,7 +218,8 @@
                                     <input type="file" name="pdf" id="pdf"
                                         class="form-control @error('pdf') is-invalid @enderror">
                                     @error('pdf')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -215,12 +234,15 @@
                                             ]);
                                         @endphp
                                         @foreach ($oldLessons as $lessonIndex => $lesson)
-                                            <div class="d-flex justify-content-between mb-2 lesson-row" id="multipleLessonField{{ $lessonIndex }}">
-                                                <input type="hidden" name="lessons[{{ $lessonIndex }}][ref]" class="lesson-ref"
+                                            <div class="d-flex justify-content-between mb-2 lesson-row"
+                                                id="multipleLessonField{{ $lessonIndex }}">
+                                                <input type="hidden" name="lessons[{{ $lessonIndex }}][ref]"
+                                                    class="lesson-ref"
                                                     value="{{ $lesson['ref'] ?? 'lesson_' . uniqid() }}" />
                                                 <input type="text" name="lessons[{{ $lessonIndex }}][name]"
                                                     class="form-control me-4 lesson-name @error('lessons.' . $lessonIndex . '.name') is-invalid @enderror"
-                                                    value="{{ $lesson['name'] ?? '' }}" placeholder="Enter lesson name" />
+                                                    value="{{ $lesson['name'] ?? '' }}"
+                                                    placeholder="Enter lesson name" />
                                                 <button type="button"
                                                     class="btn {{ $loop->first ? 'btn-secondary addLessonField' : 'btn-danger removeLessonField' }}">
                                                     {{ $loop->first ? '+' : '-' }}
@@ -241,19 +263,22 @@
                                     <label for="modules">Modules</label>
                                     <div id="multipleModuleFields">
                                         @php
-                                            $oldModules = old('modules', [[
-                                                'lesson_ref' => '',
-                                                'title' => '',
-                                                'link' => '',
-                                                'free_paid' => '',
-                                                'live_record' => '',
-                                                'pdf_file' => '',
-                                                'date' => '',
-                                                'time' => '',
-                                            ]]);
+                                            $oldModules = old('modules', [
+                                                [
+                                                    'lesson_ref' => '',
+                                                    'title' => '',
+                                                    'link' => '',
+                                                    'free_paid' => '',
+                                                    'live_record' => '',
+                                                    'pdf_file' => '',
+                                                    'date' => '',
+                                                    'time' => '',
+                                                ],
+                                            ]);
                                         @endphp
                                         @foreach ($oldModules as $moduleIndex => $module)
-                                            <div class="border p-3 mb-3 module-row" id="multipleModuleField{{ $moduleIndex }}">
+                                            <div class="border p-3 mb-3 module-row"
+                                                id="multipleModuleField{{ $moduleIndex }}">
                                                 <div class="row">
                                                     <div class="col-md-4 mb-3">
                                                         <label class="form-label">Module Lesson</label>
@@ -267,9 +292,11 @@
                                                         <label class="form-label">Title</label>
                                                         <input type="text" name="modules[{{ $moduleIndex }}][title]"
                                                             class="form-control @error('modules.' . $moduleIndex . '.title') is-invalid @enderror"
-                                                            value="{{ $module['title'] ?? '' }}" placeholder="Enter module title">
+                                                            value="{{ $module['title'] ?? '' }}"
+                                                            placeholder="Enter module title">
                                                         @error('modules.' . $moduleIndex . '.title')
-                                                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                                            <span class="invalid-feedback"
+                                                                role="alert"><strong>{{ $message }}</strong></span>
                                                         @enderror
                                                     </div>
                                                     <div class="col-md-6 mb-3">
@@ -280,45 +307,63 @@
                                                     </div>
                                                     <div class="col-md-3 mb-3">
                                                         <label class="form-label">Free / Paid</label>
-                                                        <select name="modules[{{ $moduleIndex }}][free_paid]" class="form-control">
+                                                        <select name="modules[{{ $moduleIndex }}][free_paid]"
+                                                            class="form-control">
                                                             <option value="">Select Option</option>
-                                                            <option value="free" {{ ($module['free_paid'] ?? '') === 'free' ? 'selected' : '' }}>Free</option>
-                                                            <option value="paid" {{ ($module['free_paid'] ?? '') === 'paid' ? 'selected' : '' }}>Paid</option>
+                                                            <option value="free"
+                                                                {{ ($module['free_paid'] ?? '') === 'free' ? 'selected' : '' }}>
+                                                                Free</option>
+                                                            <option value="paid"
+                                                                {{ ($module['free_paid'] ?? '') === 'paid' ? 'selected' : '' }}>
+                                                                Paid</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-3 mb-3">
                                                         <label class="form-label">Live / Record</label>
-                                                        <select name="modules[{{ $moduleIndex }}][live_record]" class="form-control">
+                                                        <select name="modules[{{ $moduleIndex }}][live_record]"
+                                                            class="form-control">
                                                             <option value="">Select Type</option>
-                                                            <option value="live" {{ ($module['live_record'] ?? '') === 'live' ? 'selected' : '' }}>Live</option>
-                                                            <option value="record" {{ ($module['live_record'] ?? '') === 'record' ? 'selected' : '' }}>Record</option>
+                                                            <option value="live"
+                                                                {{ ($module['live_record'] ?? '') === 'live' ? 'selected' : '' }}>
+                                                                Live</option>
+                                                            <option value="record"
+                                                                {{ ($module['live_record'] ?? '') === 'record' ? 'selected' : '' }}>
+                                                                Record</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-4 mb-3">
                                                         <label class="form-label">PDF File</label>
-                                                        <input type="text" name="modules[{{ $moduleIndex }}][pdf_file]"
+                                                        <input type="text"
+                                                            name="modules[{{ $moduleIndex }}][pdf_file]"
                                                             class="form-control" value="{{ $module['pdf_file'] ?? '' }}"
                                                             placeholder="Enter PDF file path or name">
                                                     </div>
                                                     <div class="col-md-3 mb-3">
                                                         <label class="form-label">Date</label>
                                                         <div class="input-group">
-                                                            <div class="input-group-text bg-primary-transparent text-primary">
+                                                            <div
+                                                                class="input-group-text bg-primary-transparent text-primary">
                                                                 <i class="fe fe-calendar text-20"></i>
                                                             </div>
-                                                            <input class="form-control fc-datepicker" placeholder="DD/MM/YYYY" type="text"
+                                                            <input class="form-control fc-datepicker"
+                                                                placeholder="DD/MM/YYYY" type="text"
                                                                 value="{{ !empty($module['date']) ? \Carbon\Carbon::parse($module['date'])->format('d/m/Y') : '' }}">
-                                                            <input type="hidden" name="modules[{{ $moduleIndex }}][date]" value="{{ $module['date'] ?? '' }}">
+                                                            <input type="hidden"
+                                                                name="modules[{{ $moduleIndex }}][date]"
+                                                                value="{{ $module['date'] ?? '' }}">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3 mb-3">
                                                         <label class="form-label">Time</label>
                                                         <div class="input-group">
-                                                            <div class="input-group-text bg-primary-transparent text-primary">
+                                                            <div
+                                                                class="input-group-text bg-primary-transparent text-primary">
                                                                 <i class="fe fe-clock text-20"></i>
                                                             </div>
-                                                            <input type="text" name="modules[{{ $moduleIndex }}][time]"
-                                                                class="form-control tpicker" value="{{ $module['time'] ?? '' }}"
+                                                            <input type="text"
+                                                                name="modules[{{ $moduleIndex }}][time]"
+                                                                class="form-control tpicker"
+                                                                value="{{ $module['time'] ?? '' }}"
                                                                 placeholder="Enter time">
                                                         </div>
                                                     </div>
@@ -351,7 +396,8 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
-                        <table id="file-datatable" class="table table-bordered text-nowrap key-buttons border-bottom w-100">
+                        <table id="file-datatable"
+                            class="table table-bordered text-nowrap key-buttons border-bottom w-100">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -379,7 +425,8 @@
                                         <td>{{ $course->subcategory ? $course->subcategory->name : 'N/A' }}</td>
                                         <td>
                                             @if ($course->image)
-                                                <img src="{{ asset('uploads/courses/' . $course->image) }}" alt="" style="height: 50px">
+                                                <img src="{{ asset('uploads/courses/' . $course->image) }}"
+                                                    alt="" style="height: 50px">
                                             @else
                                                 <span>No Image</span>
                                             @endif
@@ -390,8 +437,9 @@
                                         @can('edit-product')
                                             <td>
                                                 <div class="material-switch">
-                                                    <input id="course-{{ $course->id }}" class="toggle-class" name="is_active"
-                                                        type="checkbox" {{ $course->is_active ? 'checked' : '' }}
+                                                    <input id="course-{{ $course->id }}" class="toggle-class"
+                                                        name="is_active" type="checkbox"
+                                                        {{ $course->is_active ? 'checked' : '' }}
                                                         data-id="{{ $course->id }}">
                                                     <label for="course-{{ $course->id }}" class="label-success"></label>
                                                 </div>
@@ -413,10 +461,12 @@
                                                         </a>
                                                     </div>
                                                     <div>
-                                                        <form action="{{ route('courses.destroy', $course->id) }}" method="POST">
+                                                        <form action="{{ route('courses.destroy', $course->id) }}"
+                                                            method="POST">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn btn-sm btn-outline-warning border show_confirm">
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-outline-warning border show_confirm">
                                                                 <i class="fa-solid fa-trash-can fa-fw"></i>
                                                             </button>
                                                         </form>
@@ -446,11 +496,13 @@
 
                     // Only auto-generate if slug field is empty or hasn't been manually edited
                     if (!slugField.attr('data-manual-edit')) {
-                        if(name && name.trim() !== '') {
+                        if (name && name.trim() !== '') {
                             // Handle both Latin and non-Latin characters (like Bangla)
                             var generatedSlug = name.toLowerCase()
-                                .replace(/[^\w\s\u0980-\u09FF-]/g, '') // Allow Bangla Unicode range along with alphanumeric and spaces/hyphens
-                                .replace(/[\s_-]+/g, '-') // Replace spaces, underscores, or multiple hyphens with single hyphen
+                                .replace(/[^\w\s\u0980-\u09FF-]/g,
+                                '') // Allow Bangla Unicode range along with alphanumeric and spaces/hyphens
+                                .replace(/[\s_-]+/g,
+                                '-') // Replace spaces, underscores, or multiple hyphens with single hyphen
                                 .replace(/^-+|-+$/g, '') // Remove leading/trailing hyphens
                                 .trim();
                             slugField.val(generatedSlug);
@@ -498,7 +550,8 @@
                         if (lessonRef && lessonName) {
                             var optionValue = 'new:' + lessonRef;
                             var selected = optionValue === selectedValue ? 'selected' : '';
-                            options += `<option value="${optionValue}" ${selected}>${escapeHtml(lessonName)}</option>`;
+                            options +=
+                                `<option value="${optionValue}" ${selected}>${escapeHtml(lessonName)}</option>`;
                         }
                     });
 
@@ -582,7 +635,7 @@
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label">PDF File</label>
-                                    <input type="text" name="modules[${fieldCount}][pdf_file]" class="form-control" placeholder="Enter PDF file path or name">
+                                    <input type="file" name="modules[${fieldCount}][pdf_file]" class="form-control">
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label class="form-label">Date</label>
@@ -657,15 +710,18 @@
 
                     if (categoryId) {
                         $.ajax({
-                            url: "{{ route('course.get.subcategories', ':category_id') }}".replace(':category_id', categoryId),
+                            url: "{{ route('course.get.subcategories', ':category_id') }}".replace(
+                                ':category_id', categoryId),
                             type: "GET",
                             dataType: "json",
                             success: function(data) {
                                 $('#subcategory_id').empty();
-                                $('#subcategory_id').append('<option value="">Select Subcategory</option>');
+                                $('#subcategory_id').append(
+                                    '<option value="">Select Subcategory</option>');
 
                                 $.each(data, function(key, value) {
-                                    $('#subcategory_id').append('<option value="' + value.id + '">' + value.name + '</option>');
+                                    $('#subcategory_id').append('<option value="' + value
+                                        .id + '">' + value.name + '</option>');
                                 });
 
                                 $('#subcategory_id').prop('disabled', false);

@@ -83,7 +83,7 @@
                         </ul>
                     </li>
                 @endcan
-                
+
                 <li
                     class="slide {{ Request::routeIs('sslcommerz.index') ? 'is-expanded' : '' }} {{ Request::routeIs('shurjopay.index') ? 'is-expanded' : '' }}">
                     <a class="side-menu__item {{ Request::routeIs('sslcommerz.index') ? 'active' : '' }} {{ Request::routeIs('shurjopay.index') ? 'active' : '' }}"
@@ -200,7 +200,8 @@
                         {{ Request::routeIs('users.system-owner') ? 'active' : '' }}
                         {{ Request::routeIs('users.student') ? 'active' : '' }}
                         {{ Request::routeIs('users.teacher') ? 'active' : '' }}"
-                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">User Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">User
+                                            Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
                                     <ul class="sub-slide-menu">
                                         <li><a class="sub-slide-item {{ Request::routeIs('users.system-owner') ? 'active' : '' }}"
                                                 href="{{ route('users.system-owner') }}">System Owner</a></li>
@@ -343,6 +344,68 @@
                 @endcan
 
                 <li
+                    class="slide {{ Request::routeIs('exam_categories.*') || Request::routeIs('exams.*') || Request::routeIs('questions.*') || Request::routeIs('exam_results.*') ? 'is-expanded' : '' }}">
+                    <a class="side-menu__item {{ Request::routeIs('exam_categories.*') || Request::routeIs('exams.*') || Request::routeIs('questions.*') || Request::routeIs('exam_results.*') ? 'active' : '' }}"
+                        data-bs-toggle="slide" href="#">
+                        <i class="fa-solid fa-file-signature"></i>
+                        <span class="side-menu__label ms-3">Exam Management</span><i
+                            class="fa-solid fa-angle-right"></i>
+                    </a>
+                    <ul class="slide-menu">
+                        <li class="sub-slide {{ Request::routeIs('exam_categories.*') ? 'is-expanded' : '' }}">
+                            <a class="sub-side-menu__item {{ Request::routeIs('exam_categories.*') ? 'active' : '' }}"
+                                data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Category
+                                    Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                            <ul class="sub-slide-menu">
+                                <li><a class="sub-slide-item {{ Request::routeIs('exam_categories.index') ? 'active' : '' }}"
+                                        href="{{ route('exam_categories.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{ Request::routeIs('exam_categories.trash') ? 'active' : '' }}"
+                                        href="{{ route('exam_categories.trash') }}">Trash</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-slide {{ Request::routeIs('exams.*') ? 'is-expanded' : '' }}">
+                            <a class="sub-side-menu__item {{ Request::routeIs('exams.*') ? 'active' : '' }}"
+                                data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Exam
+                                    Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                            <ul class="sub-slide-menu">
+                                <li><a class="sub-slide-item {{ Request::routeIs('exams.index') ? 'active' : '' }}"
+                                        href="{{ route('exams.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{ Request::routeIs('exams.trash') ? 'active' : '' }}"
+                                        href="{{ route('exams.trash') }}">Trash</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-slide {{ Request::routeIs('questions.*') ? 'is-expanded' : '' }}">
+                            <a class="sub-side-menu__item {{ Request::routeIs('questions.*') ? 'active' : '' }}"
+                                data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Question
+                                    Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                            <ul class="sub-slide-menu">
+                                <li><a class="sub-slide-item {{ Request::routeIs('questions.index') && !request()->has('type') ? 'active' : '' }}"
+                                        href="{{ route('questions.index') }}">List</a></li>
+                                <li><a class="sub-slide-item {{ Request::routeIs('questions.index') && request('type') == 'written' ? 'active' : '' }}"
+                                        href="{{ route('questions.index', ['type' => 'written']) }}">Written
+                                        Question</a></li>
+                                <li><a class="sub-slide-item {{ Request::routeIs('questions.index') && request('type') == 'mcq' ? 'active' : '' }}"
+                                        href="{{ route('questions.index', ['type' => 'mcq']) }}">MCQ Question</a>
+                                </li>
+                                <li><a class="sub-slide-item {{ Request::routeIs('questions.csv.import') ? 'active' : '' }}"
+                                        href="{{ route('questions.csv.import') }}">CSV Upload</a></li>
+                                <li><a class="sub-slide-item {{ Request::routeIs('questions.trash') ? 'active' : '' }}"
+                                        href="{{ route('questions.trash') }}">Trash</a></li>
+                            </ul>
+                        </li>
+                        <li class="sub-slide {{ Request::routeIs('exam_results.*') ? 'is-expanded' : '' }}">
+                            <a class="sub-side-menu__item {{ Request::routeIs('exam_results.*') ? 'active' : '' }}"
+                                data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Results
+                                    Management</span><i class="sub-angle fa fa-angle-right"></i></a>
+                            <ul class="sub-slide-menu">
+                                <li><a class="sub-slide-item {{ Request::routeIs('exam_results.index') ? 'active' : '' }}"
+                                        href="{{ route('exam_results.index') }}">All Results</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <li
                     class="slide {{ Request::routeIs('book_categories.index') ? 'is-expanded' : '' }}
                     {{ Request::routeIs('book_categories.trash') ? 'is-expanded' : '' }}
                     {{ Request::routeIs('book_subcategories.index') ? 'is-expanded' : '' }}
@@ -451,38 +514,56 @@
                         </li>
                     </ul>
                 </li>
-                <li class="slide {{ Request::routeIs('exam_categories.*') ? 'is-expanded' : '' }}">
-                    <a class="side-menu__item {{ Request::routeIs('exam_categories.*') ? 'active' : '' }}"
+
+                <li
+                    class="slide {{ Request::routeIs('orders.course_enrollment*') ? 'is-expanded' : '' }} {{ Request::routeIs('orders.bookorders*') ? 'is-expanded' : '' }} {{ Request::routeIs('orders.pdfbookorders*') ? 'is-expanded' : '' }}">
+                    <a class="side-menu__item {{ Request::routeIs('orders.course_enrollment*') ? 'active' : '' }} {{ Request::routeIs('orders.bookorders*') ? 'active' : '' }} {{ Request::routeIs('orders.pdfbookorders*') ? 'active' : '' }}"
                         data-bs-toggle="slide" href="#">
-                        <i class="fa-solid fa-file-signature"></i>
-                        <span class="side-menu__label ms-3">Exam Management</span><i
-                            class="fa-solid fa-angle-right"></i>
+                        <i class="fa-solid fa-graduation-cap fa-fw"></i>
+                        <span class="side-menu__label ms-3">Enrollment</span><i class="fa-solid fa-angle-right"></i>
                     </a>
                     <ul class="slide-menu">
-                        <li class="sub-slide {{ Request::routeIs('exam_categories.*') ? 'is-expanded' : '' }}">
-                            <a class="sub-side-menu__item {{ Request::routeIs('exam_categories.*') ? 'active' : '' }}"
-                                data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Category
-                                    Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
-                            <ul class="sub-slide-menu">
-                                <li><a class="sub-slide-item {{ Request::routeIs('exam_categories.index') ? 'active' : '' }}"
-                                        href="{{ route('exam_categories.index') }}">List</a></li>
-                                <li><a class="sub-slide-item {{ Request::routeIs('exam_categories.trash') ? 'active' : '' }}"
-                                        href="{{ route('exam_categories.trash') }}">Trash</a></li>
-                            </ul>
+                        <li><a href="{{ route('orders.course_enrollment') }}"
+                                class="slide-item {{ Request::routeIs('orders.course_enrollment') ? 'active' : '' }}">Course
+                                Enrollment</a>
                         </li>
-                        <li class="sub-slide {{ Request::routeIs('exams.*') ? 'is-expanded' : '' }}">
-                            <a class="sub-side-menu__item {{ Request::routeIs('exams.*') ? 'active' : '' }}"
-                                data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Exam
-                                    Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
-                            <ul class="sub-slide-menu">
-                                <li><a class="sub-slide-item {{ Request::routeIs('exams.index') ? 'active' : '' }}"
-                                        href="{{ route('exams.index') }}">List</a></li>
-                                <li><a class="sub-slide-item {{ Request::routeIs('exams.trash') ? 'active' : '' }}"
-                                        href="{{ route('exams.trash') }}">Trash</a></li>
-                            </ul>
+                        <li><a href="{{ route('orders.course_enrollment.manual') }}"
+                                class="slide-item {{ Request::routeIs('orders.course_enrollment.manual') ? 'active' : '' }}">Manual
+                                Enrollment</a>
+                        </li>
+                        <li><a href="{{ route('orders.bookorders') }}"
+                                class="slide-item {{ Request::routeIs('orders.bookorders*') ? 'active' : '' }}">Book
+                                Order</a>
+                        </li>
+                        <li><a href="{{ route('orders.pdfbookorders') }}"
+                                class="slide-item {{ Request::routeIs('orders.pdfbookorders*') ? 'active' : '' }}">PDF
+                                Book Order</a>
                         </li>
                     </ul>
                 </li>
+
+                {{-- @can('index-coupon') --}}
+                <li
+                    class="slide {{ Request::routeIs('coupons.index') ? 'is-expanded' : '' }} {{ Request::routeIs('coupons.trash') ? 'is-expanded' : '' }}">
+                    <a class="side-menu__item {{ Request::routeIs('coupons.index') ? 'active' : '' }} {{ Request::routeIs('coupons.trash') ? 'active' : '' }}"
+                        data-bs-toggle="slide" href="#">
+                        <i class="fa-solid fa-ticket fa-fw"></i>
+                        <span class="side-menu__label ms-3">Coupon Management</span><i
+                            class="fa-solid fa-angle-right"></i></a>
+                    <ul class="slide-menu">
+                        {{-- @can('index-coupon') --}}
+                        <li><a href="{{ route('coupons.index') }}"
+                                class="slide-item {{ Request::routeIs('coupons.index') ? 'active' : '' }}">List</a>
+                        </li>
+                        {{-- @endcan --}}
+                        {{-- @can('delete-coupon') --}}
+                        <li><a href="{{ route('coupons.trash') }}"
+                                class="slide-item {{ Request::routeIs('coupons.trash') ? 'active' : '' }}">Trash</a>
+                        </li>
+                        {{-- @endcan --}}
+                    </ul>
+                </li>
+                {{-- @endcan --}}
                 @can('index-service')
                     <li class="slide {{ Request::routeIs('services.index') ? 'is-expanded' : '' }}">
                         <a class="side-menu__item {{ Request::routeIs('services.index') ? 'active' : '' }}"
@@ -597,9 +678,9 @@
                     </li>
                 @endcan
 
-                @can('index-testimonial') {{-- Reusing permission for now --}}
-                    <li
-                        class="slide {{ Request::routeIs('course-reviews.index') ? 'is-expanded' : '' }}">
+                @can('index-testimonial')
+                    {{-- Reusing permission for now --}}
+                    <li class="slide {{ Request::routeIs('course-reviews.index') ? 'is-expanded' : '' }}">
                         <a class="side-menu__item {{ Request::routeIs('course-reviews.index') ? 'active' : '' }}"
                             data-bs-toggle="slide" href="#">
                             <i class="fa-solid fa-star"></i>
@@ -731,28 +812,8 @@
                         </ul>
                     </li>
                 @endcan
-                {{-- @can('index-coupon') --}}
-                    <li
-                        class="slide {{ Request::routeIs('coupons.index') ? 'is-expanded' : '' }} {{ Request::routeIs('coupons.trash') ? 'is-expanded' : '' }}">
-                        <a class="side-menu__item {{ Request::routeIs('coupons.index') ? 'active' : '' }} {{ Request::routeIs('coupons.trash') ? 'active' : '' }}"
-                            data-bs-toggle="slide" href="#">
-                            <i class="fa-solid fa-ticket fa-fw"></i>
-                            <span class="side-menu__label ms-3">Coupon Management</span><i
-                                class="fa-solid fa-angle-right"></i></a>
-                        <ul class="slide-menu">
-                            {{-- @can('index-coupon') --}}
-                                <li><a href="{{ route('coupons.index') }}"
-                                        class="slide-item {{ Request::routeIs('coupons.index') ? 'active' : '' }}">List</a>
-                                </li>
-                            {{-- @endcan --}}
-                            {{-- @can('delete-coupon') --}}
-                                <li><a href="{{ route('coupons.trash') }}"
-                                        class="slide-item {{ Request::routeIs('coupons.trash') ? 'active' : '' }}">Trash</a>
-                                </li>
-                            {{-- @endcan --}}
-                        </ul>
-                    </li>
-                {{-- @endcan --}}
+
+
                 @can('index-contact')
                     <li class="slide {{ Request::routeIs('contact.index') ? 'is-expanded' : '' }}">
                         <a class="side-menu__item {{ Request::routeIs('contact.index') ? 'active' : '' }}"

@@ -110,7 +110,8 @@ Version         : 1.0
         navText: ["<i class='far fa-angle-left'></i>", "<i class='far fa-angle-right'></i>"],
         responsive: {
             0: {
-                items: 1,
+                items: 2,
+                margin: 5,
             },
             600: {
                 items: 2,

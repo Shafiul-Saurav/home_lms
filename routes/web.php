@@ -19,6 +19,7 @@ use App\Http\Controllers\Backend\CourseController;
 use App\Http\Controllers\Backend\DepartmentController;
 use App\Http\Controllers\Backend\ExamCategoryController;
 use App\Http\Controllers\Backend\ExamController;
+use App\Http\Controllers\Backend\ExamResultController;
 use App\Http\Controllers\Backend\FaqController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\HomeSliderController;
@@ -35,13 +36,17 @@ use App\Http\Controllers\Backend\PostCategoryController;
 use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\PrivacyPolicyController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\QuestionController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\ServiceController;
-use App\Http\Controllers\Backend\SSLCommerzAPIController;
 use App\Http\Controllers\Backend\ShurjopayAPIController;
+use App\Http\Controllers\Backend\SSLCommerzAPIController;
 use App\Http\Controllers\Backend\StuffController;
 use App\Http\Controllers\Backend\SubcategoryController;
 use App\Http\Controllers\Backend\TeacherController;
+use App\Http\Controllers\Backend\CourseOrderController;
+use App\Http\Controllers\Backend\BookOrderController;
+use App\Http\Controllers\Backend\PdfBookOrderController;
 use App\Http\Controllers\Backend\TermsAndConditionsController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\UserController;
@@ -50,12 +55,18 @@ use App\Http\Controllers\Backend\WebsiteLinkController;
 use App\Http\Controllers\Frontend\BookPaymentController;
 use App\Http\Controllers\Frontend\CommentController;
 use App\Http\Controllers\Frontend\ContactController;
+use App\Http\Controllers\Frontend\CourseController as FrontendCourseController;
 use App\Http\Controllers\Frontend\CoursePaymentController;
 use App\Http\Controllers\Frontend\CourseReviewController;
+use App\Http\Controllers\Frontend\ExamController as FrontendExamController;
+use App\Http\Controllers\Frontend\PDFBookController as FrontendPDFBookController;
 use App\Http\Controllers\Frontend\PdfBookPaymentController;
+use App\Http\Controllers\Frontend\PhysicalBookController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\ProfileImageController;
-use App\Http\Controllers\Frontend\ShurjopayController;
+use App\Http\Controllers\Frontend\ShurjopayCourseController;
+use App\Http\Controllers\Frontend\ShurjopayBookController;
+use App\Http\Controllers\Frontend\ShurjopayPdfController;
 use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
 use App\Http\Controllers\Frontend\UserLogoutController;
 use App\Http\Controllers\Frontend\WebsiteController;
@@ -80,6 +91,7 @@ use App\Http\Controllers\Trash\PhotoGalleryTrashController;
 use App\Http\Controllers\Trash\PostCategoryTrashController;
 use App\Http\Controllers\Trash\PostTrashController;
 use App\Http\Controllers\Trash\ProductTrashController;
+use App\Http\Controllers\Trash\QuestionTrashController;
 use App\Http\Controllers\Trash\RoleTrashController;
 use App\Http\Controllers\Trash\ServiceTrashController;
 use App\Http\Controllers\Trash\StuffTrashController;
@@ -106,26 +118,9 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
+// General Website Routes
 Route::get('/', [WebsiteController::class, 'home'])->name('home');
 Route::get('about', [WebsiteController::class, 'about'])->name('about');
-Route::get('courses', [WebsiteController::class, 'courses'])->name('courses');
-Route::get('category/{id}/courses', [WebsiteController::class, 'categoryCourses'])->name('category.courses');
-Route::get('subcategory/{id}/courses', [WebsiteController::class, 'subcategoryCourses'])->name('subcategory.courses');
-Route::get('course/details/{id}', [WebsiteController::class, 'courseDetails'])->name('course.details');
-Route::get('book/details/{id}', [WebsiteController::class, 'bookDetails'])->name('book.details');
-Route::get('books', [WebsiteController::class, 'books'])->name('books');
-Route::get('book/category/{slug}', [WebsiteController::class, 'bookCategory'])->name('book.category');
-Route::get('book/subcategory/{slug}', [WebsiteController::class, 'bookSubcategory'])->name('book.subcategory');
-
-// PDF Books Routes
-Route::get('pdf-books', [WebsiteController::class, 'pdfBooks'])->name('pdf.books');
-Route::get('pdf-book/category/{slug}', [WebsiteController::class, 'pdfBookCategory'])->name('pdf.book.category');
-Route::get('pdf-book/subcategory/{slug}', [WebsiteController::class, 'pdfBookSubcategory'])->name('pdf.book.subcategory');
-Route::get('pdf-book/details/{id}', [WebsiteController::class, 'pdfBookDetails'])->name('pdf.book.details');
-
-Route::get('course/{course_id}/video/{module_id?}', [WebsiteController::class, 'courseVideo'])->name('course.video');
-Route::get('ajax/course/video/data/{module_id}', [WebsiteController::class, 'ajaxCourseVideoData'])->name('ajax.course.video.data');
-Route::post('course/mark-as-completed', [WebsiteController::class, 'markAsCompleted'])->name('course.mark-as-completed')->middleware('auth');
 Route::get('services', [WebsiteController::class, 'services'])->name('services');
 Route::get('photogallery', [WebsiteController::class, 'photoGallery'])->name('photo.gallery');
 Route::get('videogallery', [WebsiteController::class, 'videoGallery'])->name('video.gallery');
@@ -133,6 +128,29 @@ Route::get('news', [WebsiteController::class, 'search'])->name('news.search');
 Route::get('news/details/{id}', [WebsiteController::class, 'newsDetails'])->name('news.details');
 Route::get('faqs', [WebsiteController::class, 'faq'])->name('faq.page');
 Route::get('contacts', [WebsiteController::class, 'contact'])->name('contact.page');
+
+// Course Routes
+Route::get('courses', [FrontendCourseController::class, 'courses'])->name('courses');
+Route::get('category/{id}/courses', [FrontendCourseController::class, 'categoryCourses'])->name('category.courses');
+Route::get('subcategory/{id}/courses', [FrontendCourseController::class, 'subcategoryCourses'])->name('subcategory.courses');
+Route::get('course/details/{id}', [FrontendCourseController::class, 'courseDetails'])->name('course.details');
+Route::get('course/{course_id}/video/{module_id?}', [FrontendCourseController::class, 'courseVideo'])->name('course.video');
+Route::get('course/{course_id}/exam/{exam_id}/start', [FrontendExamController::class, 'startExam'])->name('frontend.exam.start');
+Route::post('exam/{exam_id}/submit', [FrontendExamController::class, 'submitExam'])->name('frontend.exam.submit');
+Route::get('ajax/course/video/data/{module_id}', [FrontendCourseController::class, 'ajaxCourseVideoData'])->name('ajax.course.video.data');
+Route::post('course/mark-as-completed', [FrontendCourseController::class, 'markAsCompleted'])->name('course.mark-as-completed')->middleware('auth');
+
+// Book Routes
+Route::get('books', [PhysicalBookController::class, 'books'])->name('books');
+Route::get('book/details/{id}', [PhysicalBookController::class, 'bookDetails'])->name('book.details');
+Route::get('book/category/{slug}', [PhysicalBookController::class, 'bookCategory'])->name('book.category');
+Route::get('book/subcategory/{slug}', [PhysicalBookController::class, 'bookSubcategory'])->name('book.subcategory');
+
+// PDF Books Routes
+Route::get('pdf-books', [FrontendPDFBookController::class, 'pdfBooks'])->name('pdf.books');
+Route::get('pdf-book/details/{id}', [FrontendPDFBookController::class, 'pdfBookDetails'])->name('pdf.book.details');
+Route::get('pdf-book/category/{slug}', [FrontendPDFBookController::class, 'pdfBookCategory'])->name('pdf.book.category');
+Route::get('pdf-book/subcategory/{slug}', [FrontendPDFBookController::class, 'pdfBookSubcategory'])->name('pdf.book.subcategory');
 
 Route::get('category/{id}/products', [WebsiteController::class, 'categoryProducts'])->name('category.products');
 Route::get('search', [WebsiteController::class, 'searchResults'])->name('search.results');
@@ -148,6 +166,12 @@ Route::prefix('user')->middleware(['auth', 'is_user'])->group(function(){
     Route::post('/personal_store', [ProfileController::class, 'personalStore'])->name('personal.store');
     Route::post('myupdate/password', [ProfileController::class, 'updatePassword'])->name('mypostupdate.password');
     Route::get('/my-courses', [ProfileController::class, 'myCourses'])->name('my.courses');
+    Route::get('/course-orders', [ProfileController::class, 'courseOrders'])->name('user.course.orders');
+    Route::get('/course-order/{order}', [ProfileController::class, 'courseOrderDetails'])->name('course.order.details');
+    Route::get('/book-orders', [ProfileController::class, 'bookOrders'])->name('user.book.orders');
+    Route::get('/book-order/{order}', [ProfileController::class, 'bookOrderDetails'])->name('book.order.details');
+    Route::get('/pdf-book-orders', [ProfileController::class, 'pdfBookOrders'])->name('user.pdf.book.orders');
+    Route::get('/pdf-book-order/{order}', [ProfileController::class, 'pdfBookOrderDetails'])->name('pdf.book.order.details');
     Route::post('/logout', [UserLogoutController::class, 'logout'])->name('user.logout');
 
     Route::post('image/crop',[ProfileImageController::class, 'crop'])->name('image.crop');
@@ -156,6 +180,9 @@ Route::prefix('user')->middleware(['auth', 'is_user'])->group(function(){
     //Testimonial Route
     Route::get('testimonial_view', [FrontendTestimonialController::class, 'testimonialView'])->name('testimonial.view');
     Route::post('testimonial_store', [FrontendTestimonialController::class, 'testimonialStore'])->name('testimonial.store');
+
+    // Exam Result Routes
+    Route::get('exam/result/{id}', [FrontendExamController::class, 'viewResult'])->name('user.exam.result');
 
     // Course Payment Routes (SSLCommerz)
     Route::get('/checkout/{course_id}', [CoursePaymentController::class, 'checkoutPage'])->name('checkout');
@@ -167,9 +194,9 @@ Route::prefix('user')->middleware(['auth', 'is_user'])->group(function(){
     Route::post('/validate-coupon', [CoursePaymentController::class, 'validateCoupon'])->name('coupon.validate');
 
     // Course Payment Routes (ShurjoPay)
-    Route::post('/course/shurjopay-payment', [ShurjopayController::class, 'checkout'])->name('course.shurjopay.payment');
-    Route::get('/course/shurjopay/success', [ShurjopayController::class, 'success'])->name('course.shurjopay.success');
-    Route::get('/course/shurjopay/cancel', [ShurjopayController::class, 'cancel'])->name('course.shurjopay.cancel');
+    Route::post('/course/shurjopay-payment', [ShurjopayCourseController::class, 'checkout'])->name('course.shurjopay.payment');
+    Route::get('/course/shurjopay/success', [ShurjopayCourseController::class, 'success'])->name('course.shurjopay.success');
+    Route::get('/course/shurjopay/cancel', [ShurjopayCourseController::class, 'cancel'])->name('course.shurjopay.cancel');
 
     // Book Payment Routes (SSLCommerz)
     Route::get('/book/checkout/{book_id}', [BookPaymentController::class, 'checkoutPage'])->name('book.checkout');
@@ -179,6 +206,11 @@ Route::prefix('user')->middleware(['auth', 'is_user'])->group(function(){
     Route::get('/book/payment/cancel', [BookPaymentController::class, 'cancel'])->name('book.payment.cancel');
     Route::get('/book/thankyou/{order_id}', [BookPaymentController::class, 'thankyou'])->name('book.payment.thankyou');
 
+    // Book Payment Routes (ShurjoPay)
+    Route::post('/book/shurjopay-payment', [ShurjopayBookController::class, 'bookCheckout'])->name('book.shurjopay.payment');
+    Route::get('/book/shurjopay/success', [ShurjopayBookController::class, 'bookSuccess'])->name('book.shurjopay.success');
+    Route::get('/book/shurjopay/cancel', [ShurjopayBookController::class, 'bookCancel'])->name('book.shurjopay.cancel');
+
     // PDF Book Payment Routes (SSLCommerz)
     Route::get('/pdf-book/checkout/{book_id}', [PdfBookPaymentController::class, 'checkoutPage'])->name('pdf.book.checkout');
     Route::post('/pdf-book/process-payment', [PdfBookPaymentController::class, 'checkout'])->name('pdf.book.payment.process');
@@ -186,6 +218,11 @@ Route::prefix('user')->middleware(['auth', 'is_user'])->group(function(){
     Route::get('/pdf-book/payment/fail', [PdfBookPaymentController::class, 'fail'])->name('pdf.book.payment.fail');
     Route::get('/pdf-book/payment/cancel', [PdfBookPaymentController::class, 'cancel'])->name('pdf.book.payment.cancel');
     Route::get('/pdf-book/thankyou/{order_id}', [PdfBookPaymentController::class, 'thankyou'])->name('pdf.book.payment.thankyou');
+
+    // PDF Book Payment Routes (ShurjoPay)
+    Route::post('/pdf-book/shurjopay-payment', [ShurjopayPdfController::class, 'pdfBookCheckout'])->name('pdf.book.shurjopay.payment');
+    Route::get('/pdf-book/shurjopay/success', [ShurjopayPdfController::class, 'pdfBookSuccess'])->name('pdf.book.shurjopay.success');
+    Route::get('/pdf-book/shurjopay/cancel', [ShurjopayPdfController::class, 'pdfBookCancel'])->name('pdf.book.shurjopay.cancel');
 });
 
 // Course Review AJAX Routes
@@ -238,6 +275,28 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     Route::get('/profile', [AdminProfileController::class, 'adminProfile'])->name('admin.profile');
     Route::post('/profile', [AdminProfileController::class, 'adminProfileStore'])->name('admin.profile.store');
 
+    // Enrollment Order Routes
+    Route::prefix('orders')->group(function () {
+        Route::get('course-enrollment/manual', [CourseOrderController::class, 'manualEnroll'])->name('orders.course_enrollment.manual');
+        // AJAX: return enrolled course ids for a user (used by manual enrollment form)
+        Route::get('user/{user_id}/enrolled-courses', [CourseOrderController::class, 'getEnrolledCourses'])
+            ->name('orders.user.enrolled_courses');
+        Route::post('course-enrollment/manual', [CourseOrderController::class, 'manualEnrollConfirm'])->name('orders.course_enrollment.manual_confirm');
+        Route::get('course-enrollment', [CourseOrderController::class, 'index'])->name('orders.course_enrollment');
+        Route::get('course-enrollment/{id}/edit', [CourseOrderController::class, 'edit'])->name('orders.course_enrollment.edit');
+        Route::put('course-enrollment/{id}', [CourseOrderController::class, 'update'])->name('orders.course_enrollment.update');
+        Route::delete('course-enrollment/{id}', [CourseOrderController::class, 'destroy'])->name('orders.course_enrollment.destroy');
+
+        Route::get('book-orders', [BookOrderController::class, 'index'])->name('orders.bookorders');
+        Route::get('book-orders/{id}/edit', [BookOrderController::class, 'edit'])->name('orders.bookorders.edit');
+        Route::put('book-orders/{id}', [BookOrderController::class, 'update'])->name('orders.bookorders.update');
+        Route::delete('book-orders/{id}', [BookOrderController::class, 'destroy'])->name('orders.bookorders.destroy');
+
+        Route::get('pdf-book-orders', [PdfBookOrderController::class, 'index'])->name('orders.pdfbookorders');
+        Route::get('pdf-book-orders/{id}/edit', [PdfBookOrderController::class, 'edit'])->name('orders.pdfbookorders.edit');
+        Route::put('pdf-book-orders/{id}', [PdfBookOrderController::class, 'update'])->name('orders.pdfbookorders.update');
+        Route::delete('pdf-book-orders/{id}', [PdfBookOrderController::class, 'destroy'])->name('orders.pdfbookorders.destroy');
+    });
 
     // Module Route
     Route::get('modules/trash', [ModuleTrashController::class, 'trash'])
@@ -551,7 +610,29 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     Route::get('/exams/restore/{id}', [ExamTrashController::class, 'restore'])->name('exams.restore');
     Route::delete('/exams/forcedelete/{id}', [ExamTrashController::class, 'forceDelete'])->name('exams.forceDelete');
     Route::get('check/exam/is_active/{id}', [ExamController::class, 'checkActive'])->name('exam.is_active.ajax');
+    Route::get('/exams/{id}/questions', [ExamController::class, 'assignedQuestions'])->name('exams.questions');
+    Route::get('/exams/{id}/results', [ExamController::class, 'examResults'])->name('exams.results');
+    Route::post('/exams/unassign-questions', [ExamController::class, 'unassignQuestions'])->name('exams.questions.unassign');
     Route::resource('exams', ExamController::class);
+
+    // Exam Results Route
+    Route::get('/exam-results', [ExamResultController::class, 'index'])->name('exam_results.index');
+    Route::get('/exam-results/{id}', [ExamResultController::class, 'show'])->name('exam_results.show');
+    Route::get('/exam-results/{id}/grade', [ExamResultController::class, 'grade'])->name('exam_results.grade');
+    Route::post('/exam-results/{id}/update-grades', [ExamResultController::class, 'updateGrades'])->name('exam_results.update_grades');
+    Route::delete('/exam-results/{id}', [ExamResultController::class, 'destroy'])->name('exam_results.destroy');
+    Route::get('/exam-results/{examId}/statistics', [ExamResultController::class, 'statistics'])->name('exam_results.statistics');
+
+    // Question Route
+    Route::get('/questions/trash', [QuestionTrashController::class, 'trash'])->name('questions.trash');
+    Route::get('/questions/restore/{id}', [QuestionTrashController::class, 'restore'])->name('questions.restore');
+    Route::delete('/questions/forcedelete/{id}', [QuestionTrashController::class, 'forceDelete'])->name('questions.forceDelete');
+    Route::get('check/question/is_active/{id}', [QuestionController::class, 'checkActive'])->name('question.is_active.ajax');
+    Route::get('/questions/csv/import', [QuestionController::class, 'csvImportForm'])->name('questions.csv.import');
+    Route::post('/questions/csv/import', [QuestionController::class, 'csvImport'])->name('questions.csv.import.store');
+    Route::get('/questions/csv/sample', [QuestionController::class, 'csvSample'])->name('questions.csv.sample');
+    Route::post('/questions/assign-to-exam', [QuestionController::class, 'assignToExam'])->name('questions.assign_to_exam');
+    Route::resource('questions', QuestionController::class);
 
     //Photo Gallery Route
     Route::get('/photogalleries/trash', [PhotoGalleryTrashController::class, 'trash'])->name('photogalleries.trash');

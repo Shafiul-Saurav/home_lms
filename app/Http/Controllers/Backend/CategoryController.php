@@ -112,7 +112,7 @@ class CategoryController extends Controller
         $category = Category::where('slug', $slug)->first();
         $category->delete();
 
-        return redirect()->back()->with('warning', 'Category Deleted Successfully');
+        return redirect()->back()->with('warning', 'Category Moved to Trash Successfully');
     }
 
     public function checkActive($category_id)

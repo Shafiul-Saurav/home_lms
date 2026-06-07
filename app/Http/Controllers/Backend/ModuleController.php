@@ -98,7 +98,7 @@ class ModuleController extends Controller
         $module = Module::where('module_slug', $module_slug)->first();
         $module->delete();
 
-        return redirect()->back()->with('warning', 'Module Deleted Successfully');
+        return redirect()->back()->with('warning', 'Module Moved to Trash Successfully');
     }
 }
 

@@ -88,12 +88,6 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
 
-    //Relationship with Booking
-    public function bookings()
-    {
-        return $this->hasMany(Booking::class);
-    }
-
     //Relationship with Testimonial
     public function testimonial()
     {

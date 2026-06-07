@@ -32,10 +32,7 @@ class BookPaymentController extends Controller
         $book = Book::findOrFail($request->book_id);
         $qty = $request->input('qty', 1);
 
-        if ($request->payment_method == 'ShurjoPay') {
-            return redirect()->back()->with('error', 'ShurjoPay integration is coming soon. Please use SSLCommerz.');
-        }
-
+        // Payment method handling is delegated to specific gateways; allow ShurjoPay flow
         $unitSellingPrice = $book->price - $book->discount_amount;
         $subtotal = $unitSellingPrice * $qty;
         $discountAmount = 0;

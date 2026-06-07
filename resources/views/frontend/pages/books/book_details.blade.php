@@ -4,6 +4,14 @@
 
 @push('frontend_style')
     <style>
+        @media (max-width: 575px) {
+            .course-instructor {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+        }
         .specification-table th {
             width: 30%;
             background-color: #f8f9fa;

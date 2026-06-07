@@ -108,7 +108,7 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
 
         $post->delete();
-        return redirect()->back()->with('warning', 'Post Deleted Successfully');
+        return redirect()->back()->with('warning', 'Post Moved to Trash Successfully');
 
     }
 

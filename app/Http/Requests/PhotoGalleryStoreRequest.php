@@ -22,11 +22,11 @@ class PhotoGalleryStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_id' => 'required|numeric',
-            'title' => 'required|string|max:50',
-            'price' => 'required|string',
-            'description' => 'nullable|numeric',
-            'gall_image' => 'required|image|mimes:png,jpg',
+            'category_id' => 'nullable|numeric',
+            'title' => 'nullable|string|max:50',
+            'price' => 'nullable|string',
+            'description' => 'nullable|string',
+            'gall_image' => 'required|image|mimes:png,jpg,jpeg,webp|max:2048',
         ];
     }
 }

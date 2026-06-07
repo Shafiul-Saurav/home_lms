@@ -145,7 +145,7 @@ class CourseController extends Controller
         $course = Course::findOrFail($id);
         $course->delete();
 
-        return redirect()->back()->with('error', 'Course moved to trash successfully');
+        return redirect()->back()->with('error', 'Course Moved to Trash Successfully');
     }
 
     public function imageUpload(Request $request, int $courseId): void
@@ -210,11 +210,19 @@ class CourseController extends Controller
         }
     }
 
-    public function modulePdfUpload(Request $request, int $moduleId): void
+    public function modulePdfUpload(Request $request, int $moduleId, $moduleIndex = null): void
     {
         $module = CourseModule::findOrFail($moduleId);
 
-        if ($request->hasFile('pdf_file')) {
+        // Check for file using module index if provided (for bulk operations)
+        $pdfFile = null;
+        if ($moduleIndex !== null && $request->hasFile("modules.$moduleIndex.pdf_file")) {
+            $pdfFile = $request->file("modules.$moduleIndex.pdf_file");
+        } elseif ($request->hasFile('pdf_file')) {
+            $pdfFile = $request->file('pdf_file');
+        }
+
+        if ($pdfFile) {
             if ($module->pdf_file) {
                 $oldPdfPath = public_path('uploads/courses/modules/pdfs/' . $module->pdf_file);
                 if (file_exists($oldPdfPath)) {
@@ -223,14 +231,13 @@ class CourseController extends Controller
             }
 
             $pdfLocation = public_path('uploads/courses/modules/pdfs/');
-            $uploadedPdf = $request->file('pdf_file');
-            $newPdfName = $module->id . '_module_pdf.' . $uploadedPdf->getClientOriginalExtension();
+            $newPdfName = $module->id . '_module_pdf.' . $pdfFile->getClientOriginalExtension();
 
             if (!file_exists($pdfLocation)) {
                 mkdir($pdfLocation, 0755, true);
             }
 
-            $uploadedPdf->move($pdfLocation, $newPdfName);
+            $pdfFile->move($pdfLocation, $newPdfName);
 
             $module->update([
                 'pdf_file' => $newPdfName,
@@ -299,7 +306,7 @@ class CourseController extends Controller
         }
 
         if ($request->has('modules') && is_array($request->modules)) {
-            foreach ($request->modules as $moduleData) {
+            foreach ($request->modules as $moduleIndex => $moduleData) {
                 if (isset($moduleData['title']) && !empty(trim($moduleData['title']))) {
                     $lessonId = null;
 
@@ -315,17 +322,19 @@ class CourseController extends Controller
                         }
                     }
 
-                    CourseModule::create([
+                    $module = CourseModule::create([
                         'course_id' => $courseId,
                         'lesson_id' => $lessonId,
                         'title' => $moduleData['title'],
                         'link' => $moduleData['link'] ?? null,
                         'free_paid' => $moduleData['free_paid'] ?? null,
                         'live_record' => $moduleData['live_record'] ?? null,
-                        'pdf_file' => $moduleData['pdf_file'] ?? null,
                         'date' => $moduleData['date'] ?? null,
                         'time' => $moduleData['time'] ?? null,
                     ]);
+
+                    // Handle PDF upload for this module
+                    $this->modulePdfUpload($request, $module->id, $moduleIndex);
                 }
             }
         }
@@ -373,7 +382,7 @@ class CourseController extends Controller
         }
 
         if ($request->has('modules') && is_array($request->modules)) {
-            foreach ($request->modules as $moduleData) {
+            foreach ($request->modules as $moduleIndex => $moduleData) {
                 if (isset($moduleData['title']) && !empty(trim($moduleData['title']))) {
                     $lessonId = null;
 
@@ -399,24 +408,28 @@ class CourseController extends Controller
                                 'link' => $moduleData['link'] ?? null,
                                 'free_paid' => $moduleData['free_paid'] ?? null,
                                 'live_record' => $moduleData['live_record'] ?? null,
-                                'pdf_file' => $moduleData['pdf_file'] ?? null,
                                 'date' => $moduleData['date'] ?? null,
                                 'time' => $moduleData['time'] ?? null,
                             ]);
+
+                            // Handle PDF upload for this module
+                            $this->modulePdfUpload($request, $module->id, $moduleIndex);
                         }
                     } else {
                         // Create new module
-                        CourseModule::create([
+                        $module = CourseModule::create([
                             'course_id' => $courseId,
                             'lesson_id' => $lessonId,
                             'title' => $moduleData['title'],
                             'link' => $moduleData['link'] ?? null,
                             'free_paid' => $moduleData['free_paid'] ?? null,
                             'live_record' => $moduleData['live_record'] ?? null,
-                            'pdf_file' => $moduleData['pdf_file'] ?? null,
                             'date' => $moduleData['date'] ?? null,
                             'time' => $moduleData['time'] ?? null,
                         ]);
+
+                        // Handle PDF upload for this module
+                        $this->modulePdfUpload($request, $module->id, $moduleIndex);
                     }
                 }
             }
@@ -432,7 +445,7 @@ class CourseController extends Controller
 
         return response()->json([
             'type' => 'success',
-            'message' => 'Lesson deleted successfully',
+            'message' => 'Lesson moved to trash successfully',
         ]);
     }
 
@@ -458,7 +471,7 @@ class CourseController extends Controller
 
         return response()->json([
             'type' => 'success',
-            'message' => 'Module deleted successfully',
+            'message' => 'Module moved to trash successfully',
         ]);
     }
 

@@ -15,7 +15,7 @@ class ExamController extends Controller
 {
     public function index()
     {
-        $exams = Exam::with(['category', 'course'])->latest('id')->paginate(30);
+        $exams = Exam::with(['category', 'course', 'questions'])->latest('id')->paginate(30);
         $categories = ExamCategory::where('is_active', 1)->get();
         $courses = Course::where('is_active', 1)->get();
         return view('backend.pages.exam.index', compact('exams', 'categories', 'courses'));
@@ -23,9 +23,9 @@ class ExamController extends Controller
 
     public function create()
     {
-        $categories = ExamCategory::where('is_active', 1)->get();
-        $courses = Course::where('is_active', 1)->get();
-        return view('backend.pages.exam.create', compact('categories', 'courses'));
+        // $categories = ExamCategory::where('is_active', 1)->get();
+        // $courses = Course::where('is_active', 1)->get();
+        // return view('backend.pages.exam.create', compact('categories', 'courses'));
     }
 
     public function store(ExamStoreRequest $request)
@@ -33,7 +33,7 @@ class ExamController extends Controller
         $fileName = null;
         if ($request->hasFile('pdf_file')) {
             $file = $request->file('pdf_file');
-            $fileName = time() . '_' . $file->getClientOriginalName();
+            $fileName = Str::slug($request->name, '_') . '_' . time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/exams/syllabus'), $fileName);
         }
 
@@ -47,11 +47,12 @@ class ExamController extends Controller
             'name' => $request->name,
             'slug' => $request->slug ?? preg_replace('/\s+/u', '-', trim($request->name)),
             'temporary_permanent' => $request->temporary_permanent,
-            'start_date' => $request->start_date,
+            'date' => $request->date,
+            'time' => $request->time,
             'exam_time' => $request->exam_time,
             'pdf_file' => $fileName,
             'written_paragraph' => $request->written_paragraph,
-            'is_active' => $request->has('is_active') ? 1 : 0,
+            'is_active' => 1,
         ]);
 
         return redirect()->route('exams.index')->with('message', 'Exam Created Successfully');
@@ -59,8 +60,8 @@ class ExamController extends Controller
 
     public function show(string $id)
     {
-        $exam = Exam::with(['category', 'course'])->findOrFail($id);
-        return view('backend.pages.exam.show', compact('exam'));
+        // $exam = Exam::with(['category', 'course'])->findOrFail($id);
+        // return view('backend.pages.exam.show', compact('exam'));
     }
 
     public function edit(string $id)
@@ -82,7 +83,7 @@ class ExamController extends Controller
                 unlink(public_path('uploads/exams/syllabus/' . $fileName));
             }
             $file = $request->file('pdf_file');
-            $fileName = time() . '_' . $file->getClientOriginalName();
+            $fileName = Str::slug($request->name, '_') . '_' . time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/exams/syllabus'), $fileName);
         }
 
@@ -96,14 +97,15 @@ class ExamController extends Controller
             'name' => $request->name,
             'slug' => $request->slug ?? preg_replace('/\s+/u', '-', trim($request->name)),
             'temporary_permanent' => $request->temporary_permanent,
-            'start_date' => $request->start_date,
+            'date' => $request->date,
+            'time' => $request->time,
             'exam_time' => $request->exam_time,
             'pdf_file' => $fileName,
             'written_paragraph' => $request->written_paragraph,
-            'is_active' => $request->has('is_active') ? 1 : 0,
+            'is_active' => 1,
         ]);
 
-        return redirect()->route('exams.index')->with('message', 'Exam Updated Successfully');
+        return redirect()->back()->with('message', 'Exam Updated Successfully');
     }
 
     public function destroy(string $id)
@@ -111,7 +113,7 @@ class ExamController extends Controller
         $exam = Exam::findOrFail($id);
         $exam->delete();
 
-        return redirect()->back()->with('warning', 'Exam moved to trash');
+        return redirect()->back()->with('warning', 'Exam Moved to Trash Successfully');
     }
 
     public function checkActive($id)
@@ -123,5 +125,35 @@ class ExamController extends Controller
         $exam->is_active = $exam->is_active ? 0 : 1;
         $exam->save();
         return response()->json(['type' => 'success', 'message' => 'Status Updated Successfully']);
+    }
+
+    public function assignedQuestions($id)
+    {
+        $exam = Exam::findOrFail($id);
+        // Load questions paginated
+        $questions = $exam->questions()->paginate(30);
+        return view('backend.pages.exam.questions', compact('exam', 'questions'));
+    }
+
+    public function unassignQuestions(Request $request)
+    {
+        $request->validate([
+            'exam_id' => 'required|exists:exams,id',
+            'question_ids' => 'required|array',
+            'question_ids.*' => 'exists:questions,id'
+        ]);
+
+        $exam = Exam::findOrFail($request->exam_id);
+        $exam->questions()->detach($request->question_ids);
+
+        return response()->json(['success' => true, 'message' => count($request->question_ids) . ' questions unassigned successfully.']);
+    }
+
+    public function examResults($id)
+    {
+        $exam = Exam::with(['results', 'results.user'])->findOrFail($id);
+        $results = $exam->results()->paginate(30);
+
+        return view('backend.pages.exam.results', compact('exam', 'results'));
     }
 }

@@ -115,6 +115,6 @@ class BreadcrumbController extends Controller
         }
         $breadcrumb->delete();
 
-        return redirect()->back()->with('error', 'Breadcrumb Deleted Successfully');
+        return redirect()->back()->with('error', 'Breadcrumb Moved to Trash Successfully');
     }
 }

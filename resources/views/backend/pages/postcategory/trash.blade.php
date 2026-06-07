@@ -27,8 +27,7 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Post Category Trashed List</h3>
-                    <a href="{{ route('postcategories.index') }}" class="btn btn-info"><i
-                        class="fa-solid fa-angles-left fa-fw"></i>Back</a>
+                    <a href="{{ route('postcategories.index') }}" class="btn btn-outline-info border"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -54,7 +53,7 @@
                                                 <div>
                                                     <a href="{{ route('postcategories.restore', ['id' => $category->id]) }}"
                                                         class="btn btn-sm btn-outline-success border me-2" data-toggle="tooltip"
-                                                        data-placement="top" data-bs-original-title="Restore"><i class="fa-solid fa-store"></i>
+                                                        data-placement="top" data-bs-original-title="Restore"><i class="fa-solid fa-rotate-left fa-fw"></i>
                                                     </a>
                                                 </div>
                                                 <div>

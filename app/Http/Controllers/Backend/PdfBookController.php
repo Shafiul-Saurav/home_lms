@@ -100,7 +100,7 @@ class PdfBookController extends Controller
         $book = PdfBook::findOrFail($id);
         $book->delete();
 
-        return redirect()->back()->with('error', 'PDF Book moved to trash');
+        return redirect()->back()->with('warning', 'PDF Book Moved to Trash Successfully');
     }
 
     public function imageUpload(Request $request, int $bookId): void

@@ -56,7 +56,7 @@
                             <div class="col-md-4 mb-3">
                                 <div class="form-group">
                                     <label for="category_id">Category (Optional)</label>
-                                    <select name="category_id" class="form-control @error('category_id') is-invalid @enderror" id="category_id">
+                                    <select name="category_id" class="form-control select2-style1 @error('category_id') is-invalid @enderror" id="category_id">
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}" {{ old('category_id', $exam->category_id) == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
@@ -70,7 +70,7 @@
                             <div class="col-md-4 mb-3">
                                 <div class="form-group">
                                     <label for="course_id">Course</label>
-                                    <select name="course_id" class="form-control @error('course_id') is-invalid @enderror" id="course_id" required>
+                                    <select name="course_id" class="form-control select2-style1 @error('course_id') is-invalid @enderror" id="course_id" required>
                                         <option value="">Select Course</option>
                                         @foreach ($courses as $course)
                                             <option value="{{ $course->id }}" {{ old('course_id', $exam->course_id) == $course->id ? 'selected' : '' }}>{{ $course->name }}</option>
@@ -138,13 +138,34 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-group">
-                                    <label for="start_date">Start Date & Time</label>
-                                    <input type="datetime-local" name="start_date" class="form-control @error('start_date') is-invalid @enderror" id="start_date"
-                                        value="{{ old('start_date', $exam->start_date ? date('Y-m-d\TH:i', strtotime($exam->start_date)) : '') }}">
-                                    @error('start_date')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    <label for="date">Start Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group-text bg-primary-transparent text-primary">
+                                            <i class="fa-solid fa-calendar-days"></i>
+                                        </div>
+                                        <input class="form-control fc-datepicker @error('date') is-invalid @enderror" placeholder="DD/MM/YYYY" type="text"
+                                            value="{{ old('date_display', $exam->date ? \Carbon\Carbon::parse($exam->date)->format('d/m/Y') : '') }}">
+                                        <input type="hidden" name="date" value="{{ old('date', $exam->date ? \Carbon\Carbon::parse($exam->date)->format('Y-m-d') : '') }}">
+                                    </div>
+                                    @error('date')
+                                        <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="form-group">
+                                    <label for="time">Start Time</label>
+                                    <div class="input-group">
+                                        <div class="input-group-text bg-primary-transparent text-primary">
+                                            <i class="fa-solid fa-clock"></i>
+                                        </div>
+                                        <input type="text" name="time" class="form-control tpicker @error('time') is-invalid @enderror"
+                                            value="{{ old('time', $exam->time ? \Carbon\Carbon::parse($exam->time)->format('H:i') : '') }}" placeholder="HH:MM">
+                                    </div>
+                                    @error('time')
+                                        <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -164,9 +185,7 @@
                                     <input type="file" name="pdf_file" class="form-control @error('pdf_file') is-invalid @enderror" id="pdf_file" accept=".pdf">
                                     @if($exam->pdf_file)
                                         <div class="mt-2">
-                                            <a href="{{ asset('uploads/exams/syllabus/' . $exam->pdf_file) }}" target="_blank" class="text-primary">
-                                                <i class="fa-solid fa-file-pdf"></i> View Current Syllabus
-                                            </a>
+                                            <a href="{{ asset('uploads/exams/syllabus/' . $exam->pdf_file) }}" target="_blank" class="text-primary"><i class="fa-solid fa-file-pdf"></i> View Current Syllabus</a>
                                         </div>
                                     @endif
                                     @error('pdf_file')
@@ -183,14 +202,14 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
+                            <!-- <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" name="is_active" id="is_active" {{ $exam->is_active ? 'checked' : '' }}>
                                         <label class="form-check-label" for="is_active">Is Active</label>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <button type="submit" class="btn btn-primary">Update Exam</button>
                         <a href="{{ route('exams.index') }}" class="btn btn-secondary">Cancel</a>
@@ -202,6 +221,7 @@
 @endsection
 
 @push('backend_script')
+@include('backend.pages.common.script')
     <script>
         $(document).ready(function() {
             // Auto-generate slug from name

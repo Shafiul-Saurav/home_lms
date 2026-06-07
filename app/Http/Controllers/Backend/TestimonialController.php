@@ -73,7 +73,7 @@ class TestimonialController extends Controller
         $testimonial = Testimonial::findOrFail($id);
 
         $testimonial->delete();
-        return redirect()->back()->with('warning', 'Review Deleted Successfully');
+        return redirect()->back()->with('warning', 'Review Moved to Trash Successfully');
     }
 
     public function checkActiveActive($testimonial_id)

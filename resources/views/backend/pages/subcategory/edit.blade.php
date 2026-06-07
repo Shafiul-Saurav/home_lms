@@ -37,7 +37,7 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="category_id">Category</label>
-                                    <select name="category_id" class="form-control @error('category_id')
+                                    <select name="category_id" class="form-control select2-style1 @error('category_id')
                                         is-invalid
                                     @enderror" id="category_id" required>
                                         <option value="">Select Category</option>

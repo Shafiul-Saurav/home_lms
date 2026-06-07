@@ -35,6 +35,7 @@
                                 <tr>
                                     <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">Last Updated</th>
+                                    <th class="border-bottom-0">Profile</th>
                                     <th class="border-bottom-0">Student Name</th>
                                     <th class="border-bottom-0">Student Email</th>
                                     <th class="border-bottom-0">Role</th>
@@ -53,6 +54,22 @@
                                             <strong>{{ $users->firstItem() + $loop->index }}</strong>
                                         </td>
                                         <td>{{ $user->updated_at->format('d-M-Y') }}</td>
+                                        <td>
+                                            @if ($user->profile->profileImage ?? null)
+                                                <img src="{{ asset($user->profile->profileImage->profile_image) }}"
+                                                     alt="Profile Image"
+                                                     style="height: 40px; width: 40px; border-radius: 50%; object-fit: cover;">
+                                            @elseif ($user->profile_photo_path)
+                                                <img src="{{ asset($user->profile_photo_path) }}"
+                                                     alt="Profile Image"
+                                                     style="height: 40px; width: 40px; border-radius: 50%; object-fit: cover;">
+                                            @else
+                                                <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center"
+                                                     style="height: 40px; width: 40px;">
+                                                    <i class="fa-solid fa-user text-muted"></i>
+                                                </div>
+                                            @endif
+                                        </td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>

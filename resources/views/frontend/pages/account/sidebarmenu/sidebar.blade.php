@@ -4,6 +4,9 @@
         $isGeneralSetting = request()->routeIs('general.setting');
         $isPersonalSetting = request()->routeIs('personal.setting');
         $isMyCourses = request()->routeIs('my.courses');
+        $isCourseOrders = request()->routeIs('user.course.orders');
+        $isBookOrders = request()->routeIs('user.book.orders');
+        $isPdfBookOrders = request()->routeIs('user.pdf.book.orders');
         $profileImage = auth()->user()?->profile?->profileImage?->profile_image;
     @endphp
     <div class="sidebar-top">
@@ -46,14 +49,18 @@
         <li>
             <a class="{{ $isPersonalSetting ? 'active' : '' }}" href="{{ route('personal.setting') }}"><i class="far fa-user-tie-hair icon"></i> Personal Setting</a>
         </li>
+        @php
+            $isOrdersSectionOpen = $isCourseOrders || $isBookOrders || $isPdfBookOrders;
+        @endphp
         <li class="sidebar-menu">
-            <a href="#sidebar-menu2" data-bs-toggle="collapse" class="collapsed">
+            <a href="#sidebar-menu2" data-bs-toggle="collapse" class="{{ $isOrdersSectionOpen ? '' : 'collapsed' }}">
                 <i class="far fa-shopping-bag icon"></i> Orders <i class="far fa-angle-down um-angle"></i>
             </a>
-            <div class="collapse" id="sidebar-menu2">
+            <div class="collapse {{ $isOrdersSectionOpen ? 'show' : '' }}" id="sidebar-menu2">
                 <ul class="sidebar-menu-list">
-                    <li><a href="order-list.html">Orders List</a></li>
-                    <li><a href="order-detail.html">Order Details</a></li>
+                    <li><a class="{{ $isCourseOrders ? 'active' : '' }}" href="{{ route('user.course.orders') }}">Course Orders</a></li>
+                    <li><a class="{{ $isBookOrders ? 'active' : '' }}" href="{{ route('user.book.orders') }}">Book Orders</a></li>
+                    <li><a class="{{ $isPdfBookOrders ? 'active' : '' }}" href="{{ route('user.pdf.book.orders') }}">PDF Book Orders</a></li>
                 </ul>
             </div>
         </li>

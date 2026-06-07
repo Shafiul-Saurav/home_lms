@@ -56,7 +56,7 @@
                             <div class="col-md-4 mb-3">
                                 <div class="form-group">
                                     <label for="category_id">Category (Optional)</label>
-                                    <select name="category_id" class="form-control @error('category_id') is-invalid @enderror" id="category_id">
+                                    <select name="category_id" class="form-control select2-style1 @error('category_id') is-invalid @enderror" id="category_id">
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
@@ -70,7 +70,7 @@
                             <div class="col-md-4 mb-3">
                                 <div class="form-group">
                                     <label for="course_id">Course</label>
-                                    <select name="course_id" class="form-control @error('course_id') is-invalid @enderror" id="course_id" required>
+                                    <select name="course_id" class="form-control select2-style1 @error('course_id') is-invalid @enderror" id="course_id" required>
                                         <option value="">Select Course</option>
                                         @foreach ($courses as $course)
                                             <option value="{{ $course->id }}" {{ old('course_id') == $course->id ? 'selected' : '' }}>{{ $course->name }}</option>
@@ -138,13 +138,34 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="form-group">
-                                    <label for="start_date">Start Date & Time</label>
-                                    <input type="datetime-local" name="start_date" class="form-control @error('start_date') is-invalid @enderror" id="start_date"
-                                        value="{{ old('start_date') }}">
-                                    @error('start_date')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    <label for="date">Start Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group-text bg-primary-transparent text-primary">
+                                            <i class="fa-solid fa-calendar-days"></i>
+                                        </div>
+                                        <input class="form-control fc-datepicker @error('date') is-invalid @enderror" placeholder="DD/MM/YYYY" type="text"
+                                            value="{{ old('date_display') }}">
+                                        <input type="hidden" name="date" value="{{ old('date') }}">
+                                    </div>
+                                    @error('date')
+                                        <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="form-group">
+                                    <label for="time">Start Time</label>
+                                    <div class="input-group">
+                                        <div class="input-group-text bg-primary-transparent text-primary">
+                                            <i class="fa-solid fa-clock"></i>
+                                        </div>
+                                        <input type="text" name="time" class="form-control tpicker @error('time') is-invalid @enderror"
+                                            value="{{ old('time') }}" placeholder="HH:MM">
+                                    </div>
+                                    @error('time')
+                                        <span class="invalid-feedback d-block" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -197,10 +218,11 @@
                                     <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">Name</th>
                                     <th class="border-bottom-0">Course</th>
-                                    <th class="border-bottom-0">Category</th>
+                                    {{-- <th class="border-bottom-0">Category</th> --}}
                                     <th class="border-bottom-0">Type</th>
-                                    <th class="border-bottom-0">Price</th>
-                                    <th class="border-bottom-0">Time</th>
+                                    {{-- <th class="border-bottom-0">Price</th> --}}
+                                    <th class="border-bottom-0">Schedule</th>
+                                    <th class="border-bottom-0">Duration</th>
                                     <th class="border-bottom-0">Status</th>
                                     <th class="border-bottom-0">Actions</th>
                                 </tr>
@@ -209,11 +231,30 @@
                                 @foreach ($exams as $exam)
                                     <tr>
                                         <td><strong>{{ $exams->firstItem() + $loop->index }}</strong></td>
-                                        <td>{{ $exam->name }}</td>
+                                        <td>
+                                            <strong>{{ $exam->name }}</strong><br>
+                                            <small class="text-muted"><span class="text-info">Total Questions:</span> <span class="text-info">{{ $exam->questions->count() }}</span> | <span class="text-warning">Total Marks:</span> <span class="text-warning">{{ $exam->questions->sum('mark') }}</span></small>
+                                        </td>
                                         <td>{{ $exam->course->name ?? 'N/A' }}</td>
-                                        <td>{{ $exam->category->name ?? 'N/A' }}</td>
-                                        <td>{{ ucfirst($exam->mcq_written) }}</td>
-                                        <td>{{ $exam->price }}</td>
+                                        {{-- <td>{{ $exam->category->name ?? 'N/A' }}</td> --}}
+                                        <td>
+                                            @if($exam->mcq_written == 'mcq')
+                                                <span class="badge bg-info">MCQ</span>
+                                            @elseif($exam->mcq_written == 'written')
+                                                <span class="badge bg-success">WRITTEN</span>
+                                            @else
+                                                <span class="badge bg-info">BOTH</span>
+                                            @endif
+                                        </td>
+                                        {{-- <td>{{ $exam->price }}</td> --}}
+                                        <td>
+                                            @if($exam->date && $exam->time)
+                                                {{ \Carbon\Carbon::parse($exam->date)->format('d M, Y') }} <br>
+                                                <small class="text-muted">{{ \Carbon\Carbon::parse($exam->time)->format('h:i A') }}</small>
+                                            @else
+                                                N/A
+                                            @endif
+                                        </td>
                                         <td>{{ $exam->exam_time }}</td>
                                         <td>
                                             <div class="material-switch">
@@ -225,6 +266,22 @@
                                         </td>
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
+                                                <div>
+                                                    <a href="{{ route('exams.questions', $exam->id) }}"
+                                                        class="btn btn-sm btn-outline-info border me-2"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Questions List">
+                                                        <i class="fa-solid fa-list-check fa-fw"></i>
+                                                    </a>
+                                                </div>
+                                                <div>
+                                                    <a href="{{ route('exams.results', $exam->id) }}"
+                                                        class="btn btn-sm btn-outline-primary border me-2"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Exam Results">
+                                                        <i class="fa-solid fa-chart-bar fa-fw"></i>
+                                                    </a>
+                                                </div>
                                                 <div>
                                                     <a href="{{ route('exams.edit', $exam->id) }}"
                                                         class="btn btn-sm btn-outline-secondary border me-2"

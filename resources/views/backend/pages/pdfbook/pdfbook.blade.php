@@ -50,7 +50,7 @@
                                 <div class="form-group">
                                     <label for="pdf_book_category_id">Category</label>
                                     <select name="pdf_book_category_id" id="pdf_book_category_id"
-                                        class="form-control @error('pdf_book_category_id') is-invalid @enderror">
+                                        class="form-control select2-style1 @error('pdf_book_category_id') is-invalid @enderror">
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}" {{ old('pdf_book_category_id') == $category->id ? 'selected' : '' }}>
@@ -68,7 +68,7 @@
                                 <div class="form-group">
                                     <label for="pdf_book_subcategory_id">Subcategory</label>
                                     <select name="pdf_book_subcategory_id" id="pdf_book_subcategory_id"
-                                        class="form-control @error('pdf_book_subcategory_id') is-invalid @enderror" disabled>
+                                        class="form-control select2-style1 @error('pdf_book_subcategory_id') is-invalid @enderror" disabled>
                                         <option value="">Select Subcategory</option>
                                     </select>
                                     @error('pdf_book_subcategory_id')
