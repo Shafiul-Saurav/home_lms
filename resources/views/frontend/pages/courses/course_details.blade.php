@@ -81,6 +81,13 @@
                 scrollbar-color: rgba(79, 70, 229, 0.75) rgba(0, 0, 0, 0.06);
             }
         }
+
+        @media (max-width: 991px) {
+            .position_fixed {
+                position: static !important;
+                width: 100%;
+            }
+        }
     </style>
 @endpush
 
@@ -135,7 +142,7 @@
         <div class="course-single pt-50 pb-80" style="position: relative;">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-7 col-xl-8">
+                    <div class="col-lg-7 col-xl-8 order-2 order-lg-1">
                         <div class="course-single-wrap">
                             <!-- course single tab -->
                             <div class="course-single-tab">
@@ -470,7 +477,7 @@
                             <!-- course single tab end -->
                         </div>
                     </div>
-                    <div class="col-lg-5 col-xl-4 position_fixed">
+                    <div class="col-lg-5 col-xl-4 position_fixed order-1 order-lg-2">
                         <!-- course-single-sidebar -->
                         <div class="course-single-sidebar p-0">
                             <div class="video-area mb-4"
@@ -566,7 +573,7 @@
                     </div>
                     <div class="row g-4">
                         @forelse($relatedCourses as $related)
-                            <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="col-6 col-md-6 col-lg-6 col-xl-4 px-1 px-md-2 mt-2">
                                 <div class="course-item">
                                     <span
                                         class="course-tag {{ $related->live_or_record == 'live' ? 'c1' : ($related->live_or_record == 'record' ? 'c2' : 'c1') }}">{{ ucfirst($related->live_or_record ?? 'Course') }}</span>

@@ -17,6 +17,8 @@ use App\Models\Postcategory;
 use App\Models\Testimonial;
 use App\Models\Videogallery;
 use App\Models\WebsiteLink;
+use App\Models\CourseOrder;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 
@@ -54,10 +56,44 @@ class WebsiteController extends Controller
         $popularCourses = Course::where('is_active', 1)->latest('id')->limit(6)->get();
         $popularBooks = Book::where('is_active', 1)->latest('id')->limit(6)->get();
 
+        $heroStudentCount = CourseOrder::where('status', 'Enrolled')
+            ->where('payment_status', 'Completed')
+            ->distinct()
+            ->count('user_id');
+
+        $heroStudentCountLabel = $heroStudentCount > 0
+            ? ($heroStudentCount >= 1000 ? number_format($heroStudentCount / 1000, 0) . 'k+' : $heroStudentCount . '+')
+            : '250k+';
+
+        $heroCourseCount = Course::where('is_active', 1)->count();
+        $heroCourseCountLabel = $heroCourseCount > 0 ? $heroCourseCount . '+' : '160+';
+
+        $heroAvatars = User::whereHas('profile.profileImage')
+            ->with('profile.profileImage')
+            ->latest()
+            ->take(5)
+            ->get()
+            ->map(function ($user) {
+                return asset($user->profile->profileImage->profile_image);
+            })->toArray();
+
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
 
-        return view('frontend.pages.home', compact('homeSliders', 'website_link', 'about', 'testimonials', 'posts', 'logo_fav', 'categories', 'popularCourses', 'popularBooks'));
+        return view('frontend.pages.home', compact(
+            'homeSliders',
+            'website_link',
+            'about',
+            'testimonials',
+            'posts',
+            'logo_fav',
+            'categories',
+            'popularCourses',
+            'popularBooks',
+            'heroStudentCountLabel',
+            'heroCourseCountLabel',
+            'heroAvatars'
+        ));
     }
 
     public function about()

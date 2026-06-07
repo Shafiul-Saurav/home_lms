@@ -20,24 +20,22 @@
                 </div>
                 <div class="col-md-12 col-lg-6">
                     <div class="hero-info-wrap">
+                        @php
+                            $heroStudentCountLabel = $heroStudentCountLabel ?? '250k+';
+                            $heroCourseCountLabel = $heroCourseCountLabel ?? '160+';
+                            $heroAvatars = $heroAvatars ?? null;
+                        @endphp
                         <div class="hero-avatar-group">
-                            <h6><span>250k +</span> Students</h6>
-                            <span class="avatar"><img src="{{ asset('assets/frontend') }}/img/account/01.jpg"
-                                    alt="" /></span>
-                            <span class="avatar"><img src="{{ asset('assets/frontend') }}/img/account/02.jpg"
-                                    alt="" /></span>
-                            <span class="avatar"><img src="{{ asset('assets/frontend') }}/img/account/03.jpg"
-                                    alt="" /></span>
-                            <span class="avatar"><img src="{{ asset('assets/frontend') }}/img/account/04.jpg"
-                                    alt="" /></span>
-                            <span class="avatar"><img src="{{ asset('assets/frontend') }}/img/account/05.jpg"
-                                    alt="" /></span>
+                            <h6><span>{{ $heroStudentCountLabel }}</span> Students</h6>
+                            @foreach ($heroAvatars as $avatar)
+                                <span class="avatar"><img src="{{ $avatar }}" alt="Student avatar" /></span>
+                            @endforeach
                         </div>
                         <div class="hero-course-info">
                             <div class="icon">
                                 <img src="{{ asset('assets/frontend') }}/img/icon/course.svg" alt="" />
                             </div>
-                            <h6 class="title"><span>160+</span> Courses</h6>
+                            <h6 class="title"><span>{{ $heroCourseCountLabel }}</span> Courses</h6>
                         </div>
                     </div>
                     <div class="hero-img">
