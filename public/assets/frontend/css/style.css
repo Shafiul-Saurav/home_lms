@@ -1412,7 +1412,7 @@ label {
     background: transparent;
     padding-top: 0px;
     padding-bottom: 0px;
-    z-index: 4;
+    z-index: 15;
 }
 
 .navbar.fixed-top {

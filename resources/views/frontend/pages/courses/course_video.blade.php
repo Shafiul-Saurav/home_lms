@@ -4,6 +4,71 @@
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
     <style>
     /* Video Meta Table Styling */
+    .video-container {
+        position: relative;
+    }
+    .video-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        padding: 1rem;
+        pointer-events: none;
+    }
+    .video-overlay .live-countdown,
+    .video-overlay .join-live-btn {
+        pointer-events: auto;
+    }
+    .live-countdown {
+        background: linear-gradient(90deg, #7c3aed 0%, #ec4899 100%);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #fff;
+        padding: 18px 24px;
+        border-radius: 16px;
+        text-align: center;
+        min-width: 240px;
+        animation: fadeInUp 0.5s ease;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    }
+    .live-countdown .countdown-label {
+        font-size: 0.95rem;
+        opacity: 0.85;
+        margin-bottom: 0.35rem;
+    }
+    .live-countdown .countdown-time {
+        font-size: 1.75rem;
+        font-weight: 700;
+    }
+    .join-live-btn {
+        display: none;
+        padding: 0.95rem 1.8rem;
+        border-radius: 999px;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+        background: linear-gradient(90deg, #7c3aed 0%, #ec4899 100%);
+        box-shadow: 0 18px 50px rgba(124, 58, 237, 0.25);
+        text-decoration: none;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        animation: pulse 1.5s ease-in-out infinite;
+    }
+    .join-live-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 22px 60px rgba(124, 58, 237, 0.35);
+    }
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.03); }
+    }
+    @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(16px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
     .video-meta-container {
         width: 100%;
         margin-top: 20px;
@@ -151,29 +216,31 @@
                         <!-- Video Player -->
                         @php
                             $isScheduledLive =
-                                $module->live_record === 'live' && !empty($module->date) && !empty($module->time);
+                                strtolower(trim($module->live_record ?? '')) === 'live' && !empty($module->date) && !empty($module->time);
                             $startAt = $isScheduledLive
                                 ? parseModuleDateTime($module->date ?? '', $module->time ?? '')
                                 : null;
                             $endAt = $startAt ? (clone $startAt)->addMonthsNoOverflow(3) : null;
+                            $hasLiveMeetingLink = !empty(trim($module->link ?? '')) && (
+                                strtolower(trim($module->live_record ?? '')) === 'live' ||
+                                Str::contains(strtolower(trim($module->link)), ['zoom.us', 'zoom.com', 'meet.google.com', 'google.com'])
+                            );
                         @endphp
 
-                        {{-- <div id="bigCountdown" class="countdown-panel">
-                             <div class="d-flex align-items-center justify-content-between">
-                                 <div>
-                                     <div style="font-size:16px; opacity:0.9;">Live session</div>
-                                     <div class="countdown-time" id="bigCountdownTime">Starts soon…</div>
-                                 </div>
-                                 @php $showJoin = ($module->free_paid === 'free') || (!empty($isEnrolled)); @endphp
-                                 <a id="bigJoinBtn" href="{{ $showJoin ? $module->link : '#' }}" target="_blank"
-                                     class="btn btn-primary" style="display:none">Join Meeting</a>
-                             </div>
-                             @if ($startAt)
-                                 <div class="small mt-2">Start: {{ $startAt->format('M d, Y h:i A') }} | Visible until:
-                                     {{ $endAt->format('M d, Y h:i A') }}</div>
-                             @endif
-                         </div> --}}
                         <div class="video-container">
+                            @if ($hasLiveMeetingLink)
+                                <div class="video-overlay" id="liveOverlay">
+                                    <div class="live-countdown" id="liveCountdownPanel">
+                                        <div class="countdown-label">Live class starts in</div>
+                                        <div class="countdown-time" id="liveCountdownTime">00:00:00</div>
+                                    </div>
+                                    <a href="{{ $module->link }}" target="_blank" rel="noopener noreferrer"
+                                        id="bigJoinBtn"
+                                        class="theme-btn join-live-btn">
+                                        <i class="fas fa-video me-2"></i> Join Live Class
+                                    </a>
+                                </div>
+                            @endif
                             @php
                                 $isRestricted = isset($notification);
                             @endphp
@@ -362,6 +429,23 @@
                                             <span style="background-color: #ff5454; color: #fff; padding: 2px 8px; border-radius: 5px;">{{ $module->time ?? 'N/A' }}</span>
                                         </td>
                                     </tr>
+                                    @if ($hasLiveMeetingLink)
+                                        <tr>
+                                            <td><i class="feather-video me-2"></i>Live Class Link</td>
+                                            <td>
+                                                <a href="{{ $module->link }}" target="_blank" rel="noopener noreferrer" class="file-link">
+                                                    <i class="feather-external-link"></i>
+                                                    @if (Str::contains($module->link, ['zoom.us', 'zoom.com']))
+                                                        Zoom Meeting
+                                                    @elseif (Str::contains($module->link, ['meet.google.com', 'google.com']))
+                                                        Google Meet
+                                                    @else
+                                                        Join Live Class
+                                                    @endif
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -606,49 +690,69 @@
         window.addEventListener('load', function() {
             initializePlyrPlayer();
 
-            // Large countdown (current module)
+            // Live class countdown overlay
             (function() {
-                const big = document.getElementById('bigCountdown');
-                if (!big) return;
-                const isLive = {{ $isScheduledLive ? 'true' : 'false' }};
-                const canShowJoin =
-                    {{ $module->free_paid === 'free' || !empty($isEnrolled) ? 'true' : 'false' }};
+                const overlay = document.getElementById('liveOverlay');
+                if (!overlay) return;
+
+                const countdownPanel = document.getElementById('liveCountdownPanel');
+                const countdownTimeEl = document.getElementById('liveCountdownTime');
+                const joinBtn = document.getElementById('bigJoinBtn');
+                const link = "{{ $module->link }}";
+
+                const showJoinButton = () => {
+                    if (joinBtn) {
+                        joinBtn.style.display = 'inline-flex';
+                    }
+                    if (countdownPanel) {
+                        countdownPanel.style.display = 'none';
+                    }
+                };
+
+                const showCountdown = () => {
+                    if (joinBtn) {
+                        joinBtn.style.display = 'none';
+                    }
+                    if (countdownPanel) {
+                        countdownPanel.style.display = 'block';
+                    }
+                };
+
+                overlay.style.display = 'flex';
+
                 @if ($startAt)
                     const startTs = new Date("{{ $startAt->format('Y-m-d H:i:s') }}").getTime();
-                    const endTs = new Date("{{ $endAt->format('Y-m-d H:i:s') }}").getTime();
-                    const joinBtn = document.getElementById('bigJoinBtn');
-                    const timeEl = document.getElementById('bigCountdownTime');
-                    const link = "{{ $module->link }}";
-                    if (isLive) {
-                        big.style.display = 'block';
-                        const tick = setInterval(() => {
-                            const now = new Date().getTime();
-                            if (now < startTs) {
-                                const diff = startTs - now;
-                                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-                                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                                const s = Math.floor((diff % (1000 * 60)) / 1000);
-                                timeEl.innerText = `Starts in ${d}d ${h}h ${m}m ${s}s`;
-                                joinBtn.style.display = canShowJoin ? 'none' : 'none';
-                            } else if (now >= startTs && now < endTs) {
-                                const left = endTs - now;
-                                const d = Math.floor(left / (1000 * 60 * 60 * 24));
-                                const h = Math.floor((left % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                timeEl.innerText = `Live • ${d}d ${h}h left`;
-                                if (canShowJoin) {
-                                    joinBtn.style.display = 'inline-block';
-                                    joinBtn.onclick = () => window.open(link, '_blank');
-                                } else {
-                                    joinBtn.style.display = 'none';
-                                }
-                            } else {
-                                timeEl.innerText = 'Expired';
-                                joinBtn.style.display = 'none';
-                                clearInterval(tick);
-                            }
-                        }, 1000);
+                    const now = new Date().getTime();
+                    if (now >= startTs) {
+                        showJoinButton();
+                        if (countdownTimeEl) {
+                            countdownTimeEl.innerText = 'Live Now';
+                        }
+                    } else {
+                        showCountdown();
                     }
+
+                    const tick = setInterval(() => {
+                        const now = new Date().getTime();
+                        if (now < startTs) {
+                            const diff = startTs - now;
+                            const hrs = Math.floor(diff / (1000 * 60 * 60));
+                            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                            const secs = Math.floor((diff % (1000 * 60)) / 1000);
+                            if (countdownTimeEl) {
+                                countdownTimeEl.innerText = `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                            }
+                        } else {
+                            showJoinButton();
+                            if (countdownTimeEl) {
+                                countdownTimeEl.innerText = 'Live Now';
+                            }
+                            clearInterval(tick);
+                        }
+                    }, 1000);
+                @else
+                    // If no scheduled start time is available, show join button immediately.
+                    showJoinButton();
                 @endif
             })();
 
