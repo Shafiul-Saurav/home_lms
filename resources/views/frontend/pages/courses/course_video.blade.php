@@ -939,6 +939,23 @@
             // Build the video player HTML
             let videoPlayerHtml = '';
 
+            // Live overlay for module with meeting link
+            if (module.live_record === 'live' && module.link) {
+                videoPlayerHtml += `
+                <div class="video-overlay" id="liveOverlay">
+                    <div class="live-countdown" id="liveCountdownPanel">
+                        <div class="countdown-label">Live class starts in</div>
+                        <div class="countdown-time" id="liveCountdownTime">00:00:00</div>
+                    </div>
+                    <a href="${module.link}" target="_blank" rel="noopener noreferrer"
+                        id="bigJoinBtn"
+                        class="theme-btn join-live-btn">
+                        <i class="fas fa-video me-2"></i> Join Live Class
+                    </a>
+                </div>
+                `;
+            }
+
             // Player Shell
             videoPlayerHtml += `
             <div class="plyr__video-embed" id="player" style="position: relative;">
@@ -1040,57 +1057,58 @@
             if (module.live_record === 'live' && module.date && module.time && data.success) {
                 const startAt = parseModuleDateTime(module.date, module.time);
                 if (startAt) {
-                    const big = document.getElementById('bigCountdown');
-                    if (big) {
-                        const startTs = new Date(startAt).getTime();
-                        const endAt = new Date(startAt);
-                        endAt.setMonth(endAt.getMonth() + 3);
-                        const endTs = endAt.getTime();
-                        const joinBtn = document.getElementById('bigJoinBtn');
-                        const timeEl = document.getElementById('bigCountdownTime');
-                        const link = module.link || '#';
-                        const canShowJoin = (module.free_paid === 'free') || data.isEnrolled;
+                    const overlay = document.getElementById('liveOverlay');
+                    const joinBtn = document.getElementById('bigJoinBtn');
+                    const timeEl = document.getElementById('liveCountdownTime');
+                    const canShowJoin = (module.free_paid === 'free') || data.isEnrolled;
+                    const startTs = new Date(startAt).getTime();
+                    const endAt = new Date(startAt);
+                    endAt.setMonth(endAt.getMonth() + 3);
+                    const endTs = endAt.getTime();
+                    const link = module.link || '#';
 
-                        if (joinBtn) {
-                            if (canShowJoin) {
+                    if (overlay) {
+                        overlay.style.display = 'flex';
+                    }
+
+                    if (joinBtn) {
+                        joinBtn.href = link;
+                        joinBtn.style.display = 'none';
+                    }
+
+                    const tick = setInterval(() => {
+                        const now = new Date().getTime();
+                        if (!timeEl) return;
+
+                        if (now < startTs) {
+                            const diff = startTs - now;
+                            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                            const s = Math.floor((diff % (1000 * 60)) / 1000);
+                            timeEl.innerText = `Starts in ${d}d ${h}h ${m}m ${s}s`;
+                            if (joinBtn) {
                                 joinBtn.style.display = 'none';
                             }
-                        }
-
-                        // Start countdown
-                        const tick = setInterval(() => {
-                            const now = new Date().getTime();
-                            if (now < startTs) {
-                                const diff = startTs - now;
-                                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-                                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                                const s = Math.floor((diff % (1000 * 60)) / 1000);
-                                timeEl.innerText = `Starts in ${d}d ${h}h ${m}m ${s}s`;
-                                if (joinBtn && canShowJoin) {
-                                    joinBtn.style.display = 'none';
-                                }
-                            } else if (now >= startTs && now < endTs) {
-                                const left = endTs - now;
-                                const d = Math.floor(left / (1000 * 60 * 60 * 24));
-                                const h = Math.floor((left % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                timeEl.innerText = `Live • ${d}d ${h}h left`;
-                                if (joinBtn && canShowJoin) {
-                                    joinBtn.style.display = 'inline-block';
-                                    joinBtn.onclick = (e) => {
-                                        e.preventDefault();
-                                        window.open(link, '_blank');
-                                    };
-                                } else if (joinBtn) {
-                                    joinBtn.style.display = 'none';
-                                }
-                            } else {
-                                timeEl.innerText = 'Expired';
-                                if (joinBtn) joinBtn.style.display = 'none';
-                                clearInterval(tick);
+                        } else if (now >= startTs && now < endTs) {
+                            const left = endTs - now;
+                            const d = Math.floor(left / (1000 * 60 * 60 * 24));
+                            const h = Math.floor((left % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                            timeEl.innerText = `Live • ${d}d ${h}h left`;
+                            if (joinBtn && canShowJoin) {
+                                joinBtn.style.display = 'inline-flex';
                             }
-                        }, 1000);
-                    }
+                        } else {
+                            timeEl.innerText = 'Live session ended';
+                            if (joinBtn) {
+                                joinBtn.style.display = 'none';
+                            }
+                            if (overlay) {
+                                overlay.style.display = 'none';
+                            }
+                            clearInterval(tick);
+                        }
+                    }, 1000);
                 }
             }
         }
