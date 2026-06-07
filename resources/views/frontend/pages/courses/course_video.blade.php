@@ -752,6 +752,7 @@
                             if (countdownTimeEl) {
                                 countdownTimeEl.innerText = `Starts in ${d}d ${h}h ${m}m ${s}s`;
                             }
+                            showCountdown();
                         } else {
                             showJoinButton();
                             if (countdownTimeEl) {
@@ -1097,18 +1098,27 @@
                             if (joinBtn) {
                                 joinBtn.style.display = 'none';
                             }
+                            const countdownPanel = document.getElementById('liveCountdownPanel');
+                            if (countdownPanel) {
+                                countdownPanel.style.display = 'block';
+                            }
                         } else if (now >= startTs && now < endTs) {
-                            const left = endTs - now;
-                            const d = Math.floor(left / (1000 * 60 * 60 * 24));
-                            const h = Math.floor((left % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                            timeEl.innerText = `Live • ${d}d ${h}h left`;
+                            // Class is live: hide countdown, show button only
                             if (joinBtn && canShowJoin) {
                                 joinBtn.style.display = 'inline-flex';
                             }
+                            const countdownPanel = document.getElementById('liveCountdownPanel');
+                            if (countdownPanel) {
+                                countdownPanel.style.display = 'none';
+                            }
                         } else {
-                            timeEl.innerText = 'Live session ended';
+                            // Session ended: hide both
                             if (joinBtn) {
                                 joinBtn.style.display = 'none';
+                            }
+                            const countdownPanel = document.getElementById('liveCountdownPanel');
+                            if (countdownPanel) {
+                                countdownPanel.style.display = 'none';
                             }
                             if (overlay) {
                                 overlay.style.display = 'none';
