@@ -22,7 +22,7 @@
                         return [
                             'title' => $module->title,
                             'course_name' => optional(\App\Models\Course::find($module->course_id))->name ?? 'Course',
-                            'link' => $module->link ?? '#',
+                            'link' => route('course.video', [$module->course_id, $module->id]),
                             'course_id' => $module->course_id,
                             'module_id' => $module->id,
                         ];
@@ -44,9 +44,21 @@
                     </div>
                     @auth('web')
                         <!-- Live Class Notification for Mobile -->
-                        <div class="nav-right-link live-class-notification" id="liveClassNotificationMobile">
-                            <span class="live-class-label">Live</span>
-                            <span class="live-notification-badge" id="liveNotificationBadgeMobile" style="display: none;">0</span>
+                        <div class="nav-right-link live-class-notification dropdown" id="liveClassNotificationMobile">
+                            <a class="nav-link dropdown-toggle" href="#" id="liveClassDropdownMobile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Live @if($liveClasses->count()) ({{ $liveClasses->count() }}) @endif
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="liveClassDropdownMobile">
+                                @forelse($liveClasses as $liveClass)
+                                    <li>
+                                        <a class="dropdown-item" href="{{ $liveClass['link'] }}">
+                                            {{ $liveClass['course_name'] }} - {{ $liveClass['title'] }}
+                                        </a>
+                                    </li>
+                                @empty
+                                    <li><span class="dropdown-item text-muted">No live classes</span></li>
+                                @endforelse
+                            </ul>
                         </div>
                     @else
                         <a href="course-cart.html" class="nav-right-link course-cart">
@@ -106,7 +118,7 @@
                                     <ul class="dropdown-menu fade-down" aria-labelledby="liveClassDropdown">
                                         @forelse($liveClasses as $liveClass)
                                             <li>
-                                                <a class="dropdown-item" href="{{ route('course.video', [$liveClass['course_id'], $liveClass['module_id']]) }}">
+                                                <a class="dropdown-item" href="{{ $liveClass['link'] }}">
                                                     {{ $liveClass['course_name'] }} - {{ $liveClass['title'] }}
                                                 </a>
                                             </li>
