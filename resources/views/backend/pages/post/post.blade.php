@@ -73,7 +73,7 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="description">Description <span class="text-danger">*</span></label>
-                                    <textarea name="description" id=""
+                                    <textarea name="description" id="description" data-summernote
                                         class="form-control @error('description')
                                         is-invalid
                                     @enderror"
@@ -88,7 +88,7 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="short_des">Short Description <span class="text-danger">*</span></label>
-                                    <textarea name="short_des" id=""
+                                    <textarea name="short_des" id="short_des"
                                         class="form-control @error('short_des')
                                         is-invalid
                                     @enderror"
@@ -103,7 +103,7 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="long_des">Long Description <span class="text-danger">*</span></label>
-                                    <textarea name="long_des" id=""
+                                    <textarea name="long_des" id="long_des" data-summernote
                                         class="form-control @error('long_des')
                                         is-invalid
                                     @enderror"

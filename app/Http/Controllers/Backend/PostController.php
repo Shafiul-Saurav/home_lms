@@ -18,7 +18,7 @@ class PostController extends Controller
     public function index()
     {
         Gate::authorize('index-post');
-        
+
         $posts = Post::with('postCategory')->latest('id')->paginate(1000);
         $postCategories = Postcategory::get();
 
@@ -39,7 +39,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         Gate::authorize('create-post');
-        
+
         // dd($request->all());
 
         $post = Post::create([
@@ -70,7 +70,7 @@ class PostController extends Controller
     public function edit(string $id)
     {
         Gate::authorize('edit-post');
-        
+
         $post = Post::findOrFail($id);
         $postCategories = Postcategory::get();
         return view('backend.pages.post.edit', compact('post', 'postCategories'));
@@ -82,7 +82,7 @@ class PostController extends Controller
     public function update(Request $request, string $id)
     {
         Gate::authorize('edit-post');
-        
+
         $post = Post::findOrFail($id);
 
         $post->update([
@@ -104,7 +104,7 @@ class PostController extends Controller
     public function destroy(string $id)
     {
         Gate::authorize('delete-post');
-        
+
         $post = Post::findOrFail($id);
 
         $post->delete();
@@ -133,7 +133,7 @@ class PostController extends Controller
             $uploaded_photo = $request->file('post_image');
             $new_photo_name = $post->id . '.' . $uploaded_photo->getClientOriginalExtension();
             $new_photo_location = $photo_location . $new_photo_name;
-            Image::make($uploaded_photo)->resize(860,400)->save(base_path($new_photo_location), 40);
+            Image::make($uploaded_photo)->resize(600,450)->save(base_path($new_photo_location), 40);
             //$user = User::find($post->id);
             $check = $post->update([
                 'post_image' => $new_photo_name,
