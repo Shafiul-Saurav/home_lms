@@ -15,6 +15,14 @@
 <script src="{{ asset('assets/frontend') }}/js/apexchart-custom.js"></script>
 <script src="{{ asset('ijaboCropTool/ijaboCropTool.min.js') }}"></script>
 
+
+<script>
+    $(function() {
+        $(document).on('profile-image-updated', function(event, imagePath) {
+            $('#headerProfileImage').attr('src', imagePath);
+        });
+    });
+</script>
 <script>
     $(function() {
         if (window.profileImageUploaderInitialized) {

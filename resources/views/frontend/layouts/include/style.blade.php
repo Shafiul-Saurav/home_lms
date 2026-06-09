@@ -8,8 +8,49 @@
 <link rel="stylesheet" href="{{ asset('ijaboCropTool/ijaboCropTool.min.css') }}">
 
 @stack('frontend_style')
-
 <style>
+
+    /* Custom styles for the live class notification badge */
+    @media (max-width: 768px) {
+        .live-count-badge {
+            top: -5px !important;
+            left: 27px !important;
+        }
+    }
+    .live-count-badge {
+        position: absolute;
+        top: 20px;
+        left: 25px;
+        min-width: 18px;
+        height: 18px;
+        padding: 0 6px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #ff4d4f;
+        color: #fff;
+        font-size: 0.72rem;
+        font-weight: 700;
+        border-radius: 999px;
+        box-shadow: 0 0 0 rgba(255, 77, 79, 0.4);
+        animation: liveBadgePulse 1.5s ease-in-out infinite;
+        z-index: 2;
+    }
+
+    @keyframes liveBadgePulse {
+
+        0%,
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 0 rgba(255, 77, 79, 0.4);
+        }
+
+        50% {
+            transform: scale(1.08);
+            box-shadow: 0 0 14px rgba(255, 77, 79, 0.18);
+        }
+    }
+
     /*Custom styles for the course area and course cards */
     @media (max-width: 320px) {
         .course-item {
