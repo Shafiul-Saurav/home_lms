@@ -139,6 +139,7 @@ Route::get('course/{course_id}/exam/{exam_id}/start', [FrontendExamController::c
 Route::post('exam/{exam_id}/submit', [FrontendExamController::class, 'submitExam'])->name('frontend.exam.submit');
 Route::get('ajax/course/video/data/{module_id}', [FrontendCourseController::class, 'ajaxCourseVideoData'])->name('ajax.course.video.data');
 Route::post('course/mark-as-completed', [FrontendCourseController::class, 'markAsCompleted'])->name('course.mark-as-completed')->middleware('auth');
+Route::get('ajax/live-class-notifications', [FrontendCourseController::class, 'getLiveClassNotifications'])->name('ajax.live-class-notifications')->middleware('auth');
 
 // Book Routes
 Route::get('books', [PhysicalBookController::class, 'books'])->name('books');

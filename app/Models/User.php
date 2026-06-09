@@ -24,6 +24,7 @@ class User extends Authenticatable
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
+     * @property-read \Illuminate\Database\Eloquent\Collection<int, CourseOrder> $courseOrders
      */
     protected $fillable = [
         'role_id',

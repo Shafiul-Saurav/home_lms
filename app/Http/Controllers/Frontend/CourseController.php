@@ -537,4 +537,125 @@ class CourseController extends Controller
             'subcategory'
         ));
     }
+
+    /**
+     * Get live class notifications for the authenticated user
+     */
+    public function getLiveClassNotifications()
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'success' => false,
+                'liveClasses' => []
+            ]);
+        }
+
+        $user = Auth::user();
+        $now = now();
+
+        // Get enrolled courses
+        $enrolledCourses = $user->courseOrders()
+            ->where('payment_status', 'Completed')
+            ->where('status', 'Enrolled')
+            ->pluck('course_id')
+            ->toArray();
+
+        if (empty($enrolledCourses)) {
+            return response()->json([
+                'success' => true,
+                'liveClasses' => [],
+                'count' => 0
+            ]);
+        }
+
+        // Get live modules from enrolled courses that are currently active or starting soon
+        $liveModules = CourseModule::whereIn('course_id', $enrolledCourses)
+            ->where('live_record', 'live')
+            ->whereNotNull('date')
+            ->whereNotNull('time')
+            ->get()
+            ->filter(function ($module) use ($now) {
+                // Parse module date and time
+                $moduleDateTime = $this->parseModuleDateTime($module->date, $module->time);
+                if (!$moduleDateTime) {
+                    return false;
+                }
+
+                // Check if module starts within next 24 hours or is currently live
+                $startTime = $moduleDateTime->getTimestamp();
+                $endTime = $moduleDateTime->addMonths(3)->getTimestamp();
+                $currentTime = $now->getTimestamp();
+
+                return $currentTime >= ($startTime - 86400) && $currentTime < $endTime;
+            })
+            ->map(function ($module) {
+                $course = Course::find($module->course_id);
+                $moduleDateTime = $this->parseModuleDateTime($module->date, $module->time);
+
+                return [
+                    'id' => $module->id,
+                    'title' => $module->title,
+                    'course_name' => $course->name ?? 'Course',
+                    'course_id' => $course->id,
+                    'date' => $module->date,
+                    'time' => $module->time,
+                    'link' => $module->link,
+                    'start_timestamp' => $moduleDateTime ? $moduleDateTime->getTimestamp() : null,
+                ];
+            });
+
+        return response()->json([
+            'success' => true,
+            'liveClasses' => $liveModules->values()->toArray(),
+            'count' => $liveModules->count()
+        ]);
+    }
+
+    /**
+     * Parse module date and time string
+     */
+    private function parseModuleDateTime($date, $time)
+    {
+        $date = trim((string) $date);
+        $time = trim((string) $time);
+
+        if (empty($date) || empty($time)) {
+            return null;
+        }
+
+        // Normalize time like 08.00pm -> 08:00 pm
+        $time = preg_replace('/(\d{1,2})\.(\d{2})/i', '$1:$2', $time);
+        $time = preg_replace('/\s*(am|pm)\s*$/i', ' $1', $time);
+
+        // Normalize date like 16.10. 2025 -> 16.10.2025
+        $date = preg_replace('/\s*\.\s*/', '.', $date);
+        $date = preg_replace('/\.+$/', '.', $date);
+        $date = preg_replace('/\.{2,}/', '.', $date);
+
+        $candidates = [
+            'd.m.Y h:i a',
+            'd.m.Y g:i a',
+            'd.m.Y h:i A',
+            'd.m.Y g:i A',
+            'd.m.Y h:iA',
+            'd.m.Y g:iA',
+            'd.m.Y h:ia',
+            'd.m.Y g:ia',
+            'd-m-Y h:i a',
+            'd/m/Y h:i a',
+            'Y-m-d H:i',
+            'Y-m-d H:i:s',
+            'M d, Y h:i A',
+        ];
+
+        foreach ($candidates as $fmt) {
+            try {
+                return \Carbon\Carbon::createFromFormat($fmt, $date . ' ' . $time);
+            } catch (\Exception $e) {
+                // Try next format
+            }
+        }
+
+        return null;
+    }
 }
