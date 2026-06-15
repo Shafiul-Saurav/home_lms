@@ -9,7 +9,6 @@
             @endfor
         </div>
         <div class="quote">
-            <h5>{{ $testimonial->short_description }}</h5>
             <p>{{ $testimonial->review }}</p>
         </div>
         <div class="author">
@@ -22,7 +21,7 @@
             </div>
             <div class="author-info">
                 <h5>{{ $testimonial->user->name ?? 'Anonymous' }}</h5>
-                <p>{{ $testimonial->short_description ?? ($testimonial->user->role ?? 'User') }}</p>
+                <p>{{ (optional($testimonial->user)->role && strtolower(optional($testimonial->user)->role) === 'user') ? 'Student' : (optional($testimonial->user)->role ?? 'User') }}</p>
             </div>
         </div>
     </div>
