@@ -19,6 +19,7 @@ use App\Models\Videogallery;
 use App\Models\WebsiteLink;
 use App\Models\CourseOrder;
 use App\Models\User;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 
@@ -67,6 +68,27 @@ class WebsiteController extends Controller
 
         $heroCourseCount = Course::where('is_active', 1)->count();
         $heroCourseCountLabel = $heroCourseCount > 0 ? $heroCourseCount . '+' : '160+';
+        // Dynamic counters: format numbers for display animation (value + unit)
+        $formatCounter = function ($n) {
+            if ($n >= 1000000) {
+                return ['value' => round($n / 1000000), 'unit' => 'M'];
+            }
+            if ($n >= 1000) {
+                return ['value' => round($n / 1000), 'unit' => 'k'];
+            }
+            return ['value' => $n, 'unit' => ''];
+        };
+
+        $studentsCounter = $formatCounter($heroStudentCount);
+        $coursesCounter = $formatCounter($heroCourseCount);
+
+        // Count teachers (expert tutors)
+        $tutorsCount = Teacher::count();
+        $tutorsCounter = $formatCounter($tutorsCount);
+
+        // Awards (no dedicated model) - keep a reasonable default or change to a stored setting
+        $awards = 50;
+        $awardsCounter = $formatCounter($awards);
 
         $heroAvatars = User::whereHas('profile.profileImage')
             ->with('profile.profileImage')
@@ -92,7 +114,11 @@ class WebsiteController extends Controller
             'popularBooks',
             'heroStudentCountLabel',
             'heroCourseCountLabel',
-            'heroAvatars'
+            'heroAvatars',
+            'studentsCounter',
+            'coursesCounter',
+            'tutorsCounter',
+            'awardsCounter'
         ));
     }
 

@@ -1,4 +1,4 @@
-<div class="feature-area pb-120">
+<div class="feature-area py-120">
     <div class="container">
         <div class="feature-wrap">
             <div class="row g-4">

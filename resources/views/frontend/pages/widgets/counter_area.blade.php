@@ -9,10 +9,11 @@
                         </div>
                         <div class="content">
                             <div class="info">
-                                <span class="counter" data-count="+" data-to="150" data-speed="3000">150</span>
-                                <span class="unit">k</span>
-                            </div>
-                            <h6 class="title">Students Enrolled</h6>
+                                    @php $sVal = $studentsCounter['value'] ?? 150; $sUnit = $studentsCounter['unit'] ?? 'k'; @endphp
+                                    <span class="counter" data-to="{{ $sVal }}" data-speed="3000">{{ $sVal }}</span>
+                                    <span class="unit">{{ $sUnit }}</span>
+                                </div>
+                                <h6 class="title">Students Enrolled</h6>
                         </div>
                     </div>
                 </div>
@@ -23,8 +24,9 @@
                         </div>
                         <div class="content">
                             <div class="info">
-                                <span class="counter" data-count="+" data-to="25" data-speed="3000">25</span>
-                                <span class="unit">K</span>
+                                    @php $cVal = $coursesCounter['value'] ?? 25; $cUnit = $coursesCounter['unit'] ?? 'K'; @endphp
+                                    <span class="counter" data-to="{{ $cVal }}" data-speed="3000">{{ $cVal }}</span>
+                                    <span class="unit">{{ $cUnit }}</span>
                             </div>
                             <h6 class="title">Total Courses</h6>
                         </div>
@@ -37,8 +39,9 @@
                         </div>
                         <div class="content">
                             <div class="info">
-                                <span class="counter" data-count="+" data-to="120" data-speed="3000">120</span>
-                                <span class="unit">+</span>
+                                    @php $tVal = $tutorsCounter['value'] ?? 120; $tUnit = $tutorsCounter['unit'] ?? '+'; @endphp
+                                    <span class="counter" data-to="{{ $tVal }}" data-speed="3000">{{ $tVal }}</span>
+                                    <span class="unit">{{ $tUnit }}</span>
                             </div>
                             <h6 class="title">Expert Tutors</h6>
                         </div>
@@ -51,8 +54,9 @@
                         </div>
                         <div class="content">
                             <div class="info">
-                                <span class="counter" data-count="+" data-to="50" data-speed="3000">50</span>
-                                <span class="unit">+</span>
+                                    @php $aVal = $awardsCounter['value'] ?? 50; $aUnit = $awardsCounter['unit'] ?? '+'; @endphp
+                                    <span class="counter" data-to="{{ $aVal }}" data-speed="3000">{{ $aVal }}</span>
+                                    <span class="unit">{{ $aUnit }}</span>
                             </div>
                             <h6 class="title">Win Awards</h6>
                         </div>
