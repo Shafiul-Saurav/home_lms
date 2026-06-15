@@ -42,7 +42,7 @@
                             <h4 class="footer-widget-title">Company</h4>
                             <ul class="footer-list">
                                 <li>
-                                    <a href="about.html"><i class="far fa-angle-double-right"></i>About Us</a>
+                                    <a href="{{ route('about') }}"><i class="far fa-angle-double-right"></i>About Us</a>
                                 </li>
                                 <li>
                                     <a href="blog.html"><i class="far fa-angle-double-right"></i>Update News</a>

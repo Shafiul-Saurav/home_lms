@@ -167,7 +167,7 @@
                     <div class="col-md-6 col-lg-3">
                         <div class="team-item wow fadeInUp" data-wow-delay=".25s">
                             <div class="team-img">
-                                <img src="{{ asset('assets/frontend') }}/img/team/01.jpg" alt="thumb" />
+                                <img src="{{ asset('assets/frontend') }}/img/team/01.webp" alt="thumb" />
                                 <div class="team-social-wrap">
                                     <div class="team-social-btn">
                                         <button type="button"><i class="far fa-share-alt"></i></button>
@@ -189,7 +189,7 @@
                     <div class="col-md-6 col-lg-3">
                         <div class="team-item wow fadeInDown" data-wow-delay=".25s">
                             <div class="team-img">
-                                <img src="{{ asset('assets/frontend') }}/img/team/02.jpg" alt="thumb" />
+                                <img src="{{ asset('assets/frontend') }}/img/team/02.webp" alt="thumb" />
                                 <div class="team-social-wrap">
                                     <div class="team-social-btn">
                                         <button type="button"><i class="far fa-share-alt"></i></button>
@@ -211,7 +211,7 @@
                     <div class="col-md-6 col-lg-3">
                         <div class="team-item wow fadeInUp" data-wow-delay=".25s">
                             <div class="team-img">
-                                <img src="{{ asset('assets/frontend') }}/img/team/03.jpg" alt="thumb" />
+                                <img src="{{ asset('assets/frontend') }}/img/team/03.webp" alt="thumb" />
                                 <div class="team-social-wrap">
                                     <div class="team-social-btn">
                                         <button type="button"><i class="far fa-share-alt"></i></button>
@@ -233,7 +233,7 @@
                     <div class="col-md-6 col-lg-3">
                         <div class="team-item wow fadeInDown" data-wow-delay=".25s">
                             <div class="team-img">
-                                <img src="{{ asset('assets/frontend') }}/img/team/04.jpg" alt="thumb" />
+                                <img src="{{ asset('assets/frontend') }}/img/team/04.webp" alt="thumb" />
                                 <div class="team-social-wrap">
                                     <div class="team-social-btn">
                                         <button type="button"><i class="far fa-share-alt"></i></button>

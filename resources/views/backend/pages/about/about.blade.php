@@ -56,10 +56,10 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="about_image">About Image <span class="text-danger">*</span></label>
-                                    <input type="file" name="about_image" class="dropify" data-default-file="{{ asset($about->about_image??null) }}" data-height="200" data-max-width="650" data-max-height="510" data-allowed-file-extensions="png jpg"/>
+                                    <input type="file" name="about_image" class="dropify" data-default-file="{{ asset($about->about_image??null) }}" data-height="200" data-max-width="650" data-max-height="810" data-allowed-file-extensions="png jpg webp"/>
                                 </div>
                             </div>
-                            <img src="{{ asset('uploads/abouts') }}/{{ $about->about_image }}" alt="Image">
+                            <img src="{{ asset($about->about_image??null) }}" alt="Image" style="width: 200px;">
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="description">Description</label>
