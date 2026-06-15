@@ -44,6 +44,7 @@ use App\Http\Controllers\Backend\SSLCommerzAPIController;
 use App\Http\Controllers\Backend\StuffController;
 use App\Http\Controllers\Backend\SubcategoryController;
 use App\Http\Controllers\Backend\TeacherController;
+use App\Http\Controllers\Backend\AwardController;
 use App\Http\Controllers\Backend\CourseOrderController;
 use App\Http\Controllers\Backend\BookOrderController;
 use App\Http\Controllers\Backend\PdfBookOrderController;
@@ -558,6 +559,12 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     Route::get('get-book-subcategories/{categoryId}', [BookController::class, 'getSubcategories'])
     ->name('book.get.subcategories');
     Route::resource('books', BookController::class);
+
+    // Award Route
+    // Ajax Call Active
+    Route::get('check/award/is_active/{award_id}', [AwardController::class, 'checkActive'])
+        ->name('award.is_active.ajax');
+    Route::resource('awards', AwardController::class);
 
     // Book Category Route
     Route::get('/book_categories/trash', [BookCategoryTrashController::class, 'trash'])->name('book_categories.trash');

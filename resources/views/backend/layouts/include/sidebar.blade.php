@@ -468,6 +468,28 @@
                             </ul>
                         </li>
                     </ul>
+                </li>
+
+                {{-- @can('index-award') --}}
+                    <li class="slide {{ Request::routeIs('awards.*') ? 'is-expanded' : '' }}">
+                        <a class="side-menu__item {{ Request::routeIs('awards.*') ? 'active' : '' }}"
+                            data-bs-toggle="slide" href="#">
+                            <i class="fa-solid fa-award"></i>
+                            <span class="side-menu__label ms-3">Award Management</span><i class="fa-solid fa-angle-right"></i>
+                        </a>
+                        <ul class="slide-menu">
+                            <li class="sub-slide {{ Request::routeIs('awards.index') ? 'is-expanded' : '' }}">
+                                <a class="sub-side-menu__item {{ Request::routeIs('awards.index') ? 'active' : '' }}"
+                                    data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Award
+                                        Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                <ul class="sub-slide-menu">
+                                    <li><a class="sub-slide-item {{ Request::routeIs('awards.index') ? 'active' : '' }}"
+                                            href="{{ route('awards.index') }}">List</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                {{-- @endcan --}}
                 <li
                     class="slide {{ Request::routeIs('pdf_book_categories.*') || Request::routeIs('pdf_book_subcategories.*') || Request::routeIs('pdf_books.*') ? 'is-expanded' : '' }}">
                     <a class="side-menu__item {{ Request::routeIs('pdf_book_categories.*') || Request::routeIs('pdf_book_subcategories.*') || Request::routeIs('pdf_books.*') ? 'active' : '' }}"

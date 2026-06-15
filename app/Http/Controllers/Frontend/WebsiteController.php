@@ -20,6 +20,7 @@ use App\Models\WebsiteLink;
 use App\Models\CourseOrder;
 use App\Models\User;
 use App\Models\Teacher;
+use App\Models\Award;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 
@@ -86,9 +87,9 @@ class WebsiteController extends Controller
         $tutorsCount = Teacher::count();
         $tutorsCounter = $formatCounter($tutorsCount);
 
-        // Awards (no dedicated model) - keep a reasonable default or change to a stored setting
-        $awards = 50;
-        $awardsCounter = $formatCounter($awards);
+        // Awards: count active awards from database
+        $awardsCount = Award::where('is_active', 1)->count();
+        $awardsCounter = $formatCounter($awardsCount);
 
         $heroAvatars = User::whereHas('profile.profileImage')
             ->with('profile.profileImage')

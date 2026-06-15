@@ -58,7 +58,7 @@
                                     <span class="counter" data-to="{{ $aVal }}" data-speed="3000">{{ $aVal }}</span>
                                     <span class="unit">{{ $aUnit }}</span>
                             </div>
-                            <h6 class="title">Win Awards</h6>
+                            <h6 class="title">Awards</h6>
                         </div>
                     </div>
                 </div>
