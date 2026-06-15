@@ -59,7 +59,14 @@
                                     <input type="file" name="about_image" class="dropify" data-default-file="{{ asset($about->about_image??null) }}" data-height="200" data-max-width="650" data-max-height="810" data-allowed-file-extensions="png jpg webp"/>
                                 </div>
                             </div>
-                            <img src="{{ asset($about->about_image??null) }}" alt="Image" style="width: 200px;">
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="about_image_2nd">About Image Two<span class="text-danger">*</span></label>
+                                    <input type="file" name="about_image_2nd" class="dropify" data-default-file="{{ asset($about->about_image_2nd??null) }}" data-height="200" data-max-width="650" data-max-height="810" data-allowed-file-extensions="png jpg webp"/>
+                                </div>
+                            </div>
+                            <img src="{{ asset($about->about_image??null) }}" class="img-fluid me-2" alt="Image" style="width: 200px;">
+                            <img src="{{ asset($about->about_image_2nd??null) }}" class="img-fluid" alt="Image" style="width: 200px;">
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="description">Description</label>

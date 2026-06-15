@@ -16,7 +16,7 @@ class AboutController extends Controller
     public function index()
     {
         Gate::authorize('index-about');
-        
+
         $about = About::first();
         return view('backend.pages.about.about', compact('about'));
     }
@@ -35,7 +35,7 @@ class AboutController extends Controller
     public function store(Request $request)
     {
         Gate::authorize('edit-about');
-        
+
         // dd($request->all());
         $about = About::firstOrNew();
         $about->title = $request->title;
@@ -51,6 +51,17 @@ class AboutController extends Controller
             $aboutPath = 'uploads/abouts/' . uniqid() . '.' . $request->about_image->extension();
             $request->about_image->move(public_path('uploads/abouts'), $aboutPath);
             $about->about_image = $aboutPath;
+        }
+
+        if ($request->hasFile('about_image_2nd')) {
+            // Delete old about_image_2nd if it exists
+            if ($about->about_image_2nd && File::exists(public_path($about->about_image_2nd))) {
+                File::delete(public_path($about->about_image_2nd));
+            }
+
+            $aboutPath = 'uploads/abouts/' . uniqid() . '.' . $request->about_image_2nd->extension();
+            $request->about_image_2nd->move(public_path('uploads/abouts'), $aboutPath);
+            $about->about_image_2nd = $aboutPath;
         }
 
         $about->save();

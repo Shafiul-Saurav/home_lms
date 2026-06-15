@@ -26,10 +26,10 @@
                             <div class="about-img">
                                 <div class="row g-0">
                                     <div class="col-6">
-                                        <img class="img-1" src="{{ asset('assets/frontend') }}/img/about/01.jpg" alt="" />
+                                        <img class="img-1" src="{{ asset($about->about_image_2nd??null) }}" alt="" />
                                     </div>
                                     <div class="col-6">
-                                        <img class="img-2" src="{{ asset('assets/frontend') }}/img/about/02.jpg" alt="" />
+                                        <img class="img-2" src="{{ asset($about->about_image??null) }}" alt="" />
                                     </div>
                                 </div>
                             </div>
@@ -43,14 +43,8 @@
                         <div class="about-right wow fadeInUp" data-wow-delay=".25s">
                             <div class="site-heading mb-3">
                                 <span class="site-title-tagline"><i class="far fa-lightbulb-on"></i> About Us</span>
-                                <h2 class="site-title">Whether you want <span class="text-gradient">to learn or share</span>
-                                    what you know</h2>
+                                {!! $about->description !!}
                             </div>
-                            <p class="about-text">
-                                There are many variations of passages of Lorem Ipsum available, but the majority have
-                                suffered alteration in some form, by
-                                injected humour, or randomised words which don't look even.
-                            </p>
                             <div class="about-content">
                                 <div class="row g-3">
                                     <div class="col-md-6">
