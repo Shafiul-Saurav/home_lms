@@ -164,7 +164,7 @@
                                 <div class="account-profile">
                                     <a href="{{ route('user.dashboard') }}">
                                         <img id="headerProfileImage"
-                                            src="{{ $headerProfileImage ? asset($headerProfileImage) : asset('assets/frontend/img/account/03.jpg') }}"
+                                            src="{{ $headerProfileImage ? asset($headerProfileImage) : asset('assets/frontend/img/testimonial/images.png') }}"
                                             alt="{{ auth()->user()->name ?? 'User' }}" />
                                     </a>
                                 </div>

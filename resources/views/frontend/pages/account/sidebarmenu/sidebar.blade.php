@@ -12,7 +12,7 @@
     <div class="sidebar-top">
         <div class="profile-img">
             <img id="profileImagePreview"
-                src="{{ $profileImage ? asset($profileImage) : asset('assets/frontend/img/account/03.jpg') }}"
+                src="{{ $profileImage ? asset($profileImage) : asset('assets/frontend/img/testimonial/images.png') }}"
                 alt="{{ auth()->user()->name ?? 'Guest' }}" />
             <div class="profile-img-upload">
                 <span class="profile-img-btn"><i class="far fa-camera"></i></span>

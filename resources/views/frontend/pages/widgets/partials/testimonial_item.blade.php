@@ -13,15 +13,14 @@
         </div>
         <div class="author">
             <div class="author-img">
-                @if(optional($testimonial->user->profile->profileImage)->profile_image)
-                    <img src="{{ asset(optional($testimonial->user->profile->profileImage)->profile_image) }}" alt="" />
-                @else
-                    <img src="{{ asset('assets/frontend/img/testimonial/01.jpg') }}" alt="" />
-                @endif
+                @php
+                    $avatar = data_get($testimonial, 'user.profile.profileImage.profile_image');
+                @endphp
+                <img src="{{ $avatar ? asset($avatar) : asset('assets/frontend/img/testimonial/images.png') }}" alt="{{ data_get($testimonial, 'user.name', 'Anonymous') }}" />
             </div>
             <div class="author-info">
-                <h5>{{ $testimonial->user->name ?? 'Anonymous' }}</h5>
-                {!! optional($testimonial->user)->role_id == 4 ? '<p>Student</p>' : '' !!}
+                <h5>{{ data_get($testimonial, 'user.name', 'Anonymous') }}</h5>
+                {!! data_get($testimonial, 'user.role_id') == 4 ? '<p>Student</p>' : '' !!}
             </div>
         </div>
     </div>

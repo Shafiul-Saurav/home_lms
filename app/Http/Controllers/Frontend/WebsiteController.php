@@ -42,7 +42,7 @@ class WebsiteController extends Controller
         $homeSliders = HomeSlider::latest('id')->get();
         $website_link = WebsiteLink::first();
         $about = About::latest('id')->first();
-        $testimonials = Testimonial::with('user')->limit(12)->get();
+        $testimonials = Testimonial::with('user')->where('is_active', 1)->get();
 
         $posts = Post::with(['postCategory', 'user'])
             ->where('is_home', 1)
@@ -99,7 +99,7 @@ class WebsiteController extends Controller
     public function about()
     {
         $about = About::latest('id')->first();
-        $testimonials = Testimonial::with('user')->limit(20)->get();
+        $testimonials = Testimonial::with('user')->where('is_active', 1)->get();
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
         return view('frontend.pages.about.about_page', compact('about', 'testimonials', 'logo_fav'));
