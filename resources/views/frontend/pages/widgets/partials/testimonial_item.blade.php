@@ -21,7 +21,7 @@
             </div>
             <div class="author-info">
                 <h5>{{ $testimonial->user->name ?? 'Anonymous' }}</h5>
-                <p>{{ (optional($testimonial->user)->role && strtolower(optional($testimonial->user)->role) === 'user') ? 'Student' : (optional($testimonial->user)->role ?? 'User') }}</p>
+                {!! optional($testimonial->user)->role_id == 4 ? '<p>Student</p>' : '' !!}
             </div>
         </div>
     </div>
