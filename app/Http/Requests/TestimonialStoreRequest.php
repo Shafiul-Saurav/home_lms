@@ -23,7 +23,8 @@ class TestimonialStoreRequest extends FormRequest
     {
         return [
             'rating' => 'required|numeric',
-            'review' => 'required|string|max:40',
+            // DB column for `review` is a string (VARCHAR) so keep max 255 to match
+            'review' => 'required|string|max:255',
             'short_description' => 'required|string|max:100',
         ];
     }
