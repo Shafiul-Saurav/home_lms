@@ -91,6 +91,12 @@ class WebsiteController extends Controller
         $awardsCount = Award::where('is_active', 1)->count();
         $awardsCounter = $formatCounter($awardsCount);
 
+        // Fetch teachers where the related user has role_id == 7 (limit to 4 for homepage)
+        // eager-load user profile image to avoid N+1 queries
+        $teachers = Teacher::with(['user.profile.profileImage'])->whereHas('user', function($q) {
+            $q->where('role_id', 7);
+        })->withCount('courses')->latest('id')->limit(4)->get();
+
         $heroAvatars = User::whereHas('profile.profileImage')
             ->with('profile.profileImage')
             ->latest()
@@ -119,7 +125,8 @@ class WebsiteController extends Controller
             'studentsCounter',
             'coursesCounter',
             'tutorsCounter',
-            'awardsCounter'
+            'awardsCounter',
+            'teachers'
         ));
     }
 

@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Backend;
 
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
@@ -95,7 +96,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
         //authorize this user to access/give access to admin dashboard
         Gate::authorize('create-user');
@@ -136,7 +137,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserUpdateRequest $request, string $id)
     {
         //authorize this user to access/give access to admin dashboard
         Gate::authorize('edit-user');

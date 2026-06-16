@@ -75,7 +75,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="email">User Email</label>
                                     <div class="input-group">
-                                        <input type="text" name="email"
+                                        <input type="email" name="email"
                                             class="form-control
                                     @error('email')
                                         is-invalid

@@ -9,106 +9,42 @@
             </div>
         </div>
         <div class="row g-4 wow fadeInUp" data-wow-delay=".25s">
-            <div class="col-md-6 col-lg-4 col-xl-3">
-                <div class="instructor-item">
-                    <div class="instructor-img">
-                        <img src="{{ asset('assets/frontend') }}/img/instructor/01.jpg" alt="" />
-                    </div>
-                    <div class="instructor-content">
-                        <h5><a href="instructor-single.html">Mary Dusser</a> <span class="far fa-badge-check"></span>
-                        </h5>
-                        <p>Software Engineer</p>
-                        <div class="info">
-                            <span class="course"><i class="fad fa-book-open-reader"></i> 25 <span>Courses</span></span>
-                            <span class="enrolled"><i class="fad fa-user-tie-hair"></i> 120 <span>Enrolled</span></span>
-                            <span class="rating"><i class="fas fa-star"></i> 5.0 <span>1.5k Reviews</span></span>
+            @if(isset($teachers) && $teachers->count())
+                @foreach($teachers as $teacher)
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="instructor-item">
+                            <div class="instructor-img">
+                                        @php
+                                            $imgUrl = asset('assets/frontend/img/instructor/01.jpg');
+                                            if(!empty($teacher->profile_image) && $teacher->profile_image !== 'default_profile_image.jpg') {
+                                                $imgUrl = asset('uploads/teachers/' . $teacher->profile_image);
+                                            } elseif(optional(optional($teacher->user)->profile)->profileImage && optional(optional($teacher->user->profile)->profileImage)->profile_image) {
+                                                $imgUrl = asset(optional(optional($teacher->user->profile)->profileImage)->profile_image);
+                                            }
+                                        @endphp
+                                        <img src="{{ $imgUrl }}" alt="" />
+                                    </div>
+                            <div class="instructor-content">
+                                <h5><a href="#">{{ optional($teacher->user)->name ?? 'Instructor' }}</a> <span class="far fa-badge-check"></span>
+                                </h5>
+                                <p>{{ $teacher->qualification ?? 'Instructor' }}</p>
+                                <div class="info">
+                                    <span class="course"><i class="fad fa-book-open-reader"></i> {{ $teacher->courses_count ?? 0 }} <span>Courses</span></span>
+                                    <span class="enrolled"><i class="fad fa-user-tie-hair"></i> 0 <span>Enrolled</span></span>
+                                    <span class="rating"><i class="fas fa-star"></i> 0.0 <span>0 Reviews</span></span>
+                                </div>
+                            </div>
+                            <div class="instructor-bottom">
+                                <div class="price">
+                                    <span class="text">Start From</span>
+                                    <span class="amount">৳{{ number_format($teacher->salary ?? 0, 0) }}</span>
+                                </div>
+                                <a href="#" class="theme-border-btn">Enroll<i class="fas fa-arrow-right"></i></a>
+                            </div>
                         </div>
                     </div>
-                    <div class="instructor-bottom">
-                        <div class="price">
-                            <span class="text">Start From</span>
-                            <span class="amount">$150</span>
-                        </div>
-                        <a href="instructor-single.html" class="theme-border-btn">Enroll<i
-                                class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4 col-xl-3">
-                <div class="instructor-item">
-                    <div class="instructor-img">
-                        <img src="{{ asset('assets/frontend') }}/img/instructor/02.jpg" alt="" />
-                    </div>
-                    <div class="instructor-content">
-                        <h5><a href="instructor-single.html">Hector Nickel</a> <span class="far fa-badge-check"></span>
-                        </h5>
-                        <p>UI/UX Designer</p>
-                        <div class="info">
-                            <span class="course"><i class="fad fa-book-open-reader"></i> 25 <span>Courses</span></span>
-                            <span class="enrolled"><i class="fad fa-user-tie-hair"></i> 120 <span>Enrolled</span></span>
-                            <span class="rating"><i class="fas fa-star"></i> 5.0 <span>1.5k Reviews</span></span>
-                        </div>
-                    </div>
-                    <div class="instructor-bottom">
-                        <div class="price">
-                            <span class="text">Start From</span>
-                            <span class="amount">$150</span>
-                        </div>
-                        <a href="instructor-single.html" class="theme-border-btn">Enroll<i
-                                class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4 col-xl-3">
-                <div class="instructor-item">
-                    <div class="instructor-img">
-                        <img src="{{ asset('assets/frontend') }}/img/instructor/03.jpg" alt="" />
-                    </div>
-                    <div class="instructor-content">
-                        <h5><a href="instructor-single.html">Karin Chumley</a> <span class="far fa-badge-check"></span>
-                        </h5>
-                        <p>Business Analyst</p>
-                        <div class="info">
-                            <span class="course"><i class="fad fa-book-open-reader"></i> 25 <span>Courses</span></span>
-                            <span class="enrolled"><i class="fad fa-user-tie-hair"></i> 120 <span>Enrolled</span></span>
-                            <span class="rating"><i class="fas fa-star"></i> 5.0 <span>1.5k Reviews</span></span>
-                        </div>
-                    </div>
-                    <div class="instructor-bottom">
-                        <div class="price">
-                            <span class="text">Start From</span>
-                            <span class="amount">$150</span>
-                        </div>
-                        <a href="instructor-single.html" class="theme-border-btn">Enroll<i
-                                class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4 col-xl-3">
-                <div class="instructor-item">
-                    <div class="instructor-img">
-                        <img src="{{ asset('assets/frontend') }}/img/instructor/04.jpg" alt="" />
-                    </div>
-                    <div class="instructor-content">
-                        <h5><a href="instructor-single.html">Avendano Kean</a> <span class="far fa-badge-check"></span>
-                        </h5>
-                        <p>Frontend Engineer</p>
-                        <div class="info">
-                            <span class="course"><i class="fad fa-book-open-reader"></i> 25 <span>Courses</span></span>
-                            <span class="enrolled"><i class="fad fa-user-tie-hair"></i> 120 <span>Enrolled</span></span>
-                            <span class="rating"><i class="fas fa-star"></i> 5.0 <span>1.5k Reviews</span></span>
-                        </div>
-                    </div>
-                    <div class="instructor-bottom">
-                        <div class="price">
-                            <span class="text">Start From</span>
-                            <span class="amount">$150</span>
-                        </div>
-                        <a href="instructor-single.html" class="theme-border-btn">Enroll<i
-                                class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
+                @endforeach
+            @endif
         </div>
     </div>
 </div>
