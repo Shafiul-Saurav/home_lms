@@ -9,7 +9,6 @@
 
 @stack('frontend_style')
 <style>
-
     /* Custom styles for the live class notification badge */
     @media (max-width: 768px) {
         .live-count-badge {
@@ -17,6 +16,7 @@
             left: 27px !important;
         }
     }
+
     .live-count-badge {
         position: absolute;
         top: 20px;
@@ -78,7 +78,7 @@
             margin-bottom: 5px;
         }
 
-        .course-meta .rating{
+        .course-meta .rating {
             font-size: 10px;
         }
 
@@ -116,7 +116,9 @@
             font-weight: 500;
         }
 
-        .theme-border-btn, .theme-btn2, .theme-btn {
+        .theme-border-btn,
+        .theme-btn2,
+        .theme-btn {
             font-size: 10px;
             padding: 6px 10px;
         }
@@ -148,7 +150,8 @@
         .course-meta {
             margin-bottom: 5px;
         }
-        .course-meta .rating{
+
+        .course-meta .rating {
             font-size: 10px;
         }
 
@@ -191,11 +194,67 @@
             font-size: 10px;
         }
 
-        .theme-border-btn, .theme-btn2, .theme-btn {
+        .theme-border-btn,
+        .theme-btn2,
+        .theme-btn {
             font-size: 12px;
             padding: 6px 12px;
         }
 
+    }
+
+    @media (max-width: 320px) {
+        .instructor-item {
+            padding: 5px !important;
+        }
+
+        .instructor-content {
+            margin-top: 5px;
+        }
+
+        .instructor-content h5 a {
+            font-size: 14px !important;
+        }
+
+        .instructor-content p {
+            font-size: 10px;
+        }
+
+        .instructor-content .info span {
+            font-size: 10px;
+        }
+
+        .theme-border-btn {
+            font-size: 12px;
+            padding: 0px 12px;
+        }
+    }
+
+    @media (max-width: 575.98px) and (min-width: 375px) {
+        .instructor-item {
+            padding: 5px !important;
+        }
+
+        .instructor-content {
+            margin-top: 5px;
+        }
+
+        .instructor-content h5 a {
+            font-size: 14px !important;
+        }
+
+        .instructor-content p {
+            font-size: 10px;
+        }
+
+        .instructor-content .info span {
+            font-size: 10px;
+        }
+
+        .theme-border-btn {
+            font-size: 12px;
+            padding: 0px 12px;
+        }
     }
 
     /* Custom styles for the book area and book cards */

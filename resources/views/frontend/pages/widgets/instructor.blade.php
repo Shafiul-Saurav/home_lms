@@ -11,8 +11,8 @@
         <div class="instructor-slider owl-carousel owl-theme wow fadeInUp" data-wow-delay=".25s">
             @if(isset($teachers) && $teachers->count())
                 @foreach($teachers as $teacher)
-                    <div class="instructor-item course-item">
-                        <div class="instructor-img course-img">
+                    <div class="instructor-item">
+                        <div class="instructor-img">
                             @php
                                 $imgUrl = asset('assets/frontend/img/instructor/01.jpg');
                                 if(!empty($teacher->profile_image) && $teacher->profile_image !== 'default_profile_image.jpg') {
@@ -23,7 +23,7 @@
                             @endphp
                             <img src="{{ $imgUrl }}" alt="" />
                         </div>
-                        <div class="instructor-content course-content">
+                        <div class="instructor-content">
                             <h5><a href="#">{{ optional($teacher->user)->name ?? 'Instructor' }}</a> <span class="far fa-badge-check"></span></h5>
                             <p>{{ $teacher->qualification ?? 'Instructor' }}</p>
                             <div class="info">
@@ -32,12 +32,8 @@
                                 <span class="rating"><i class="fas fa-star"></i> 0.0 <span>0 Reviews</span></span>
                             </div>
                         </div>
-                        <div class="instructor-bottom course-bottom">
-                            <div class="price">
-                                <span class="text">Start From</span>
-                                <span class="amount">৳{{ number_format($teacher->salary ?? 0, 0) }}</span>
-                            </div>
-                            <a href="#" class="theme-border-btn">Enroll<i class="fas fa-arrow-right"></i></a>
+                        <div class="instructor-bottom">
+                            <a href="#" class="theme-border-btn w-100">Enroll<i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                 @endforeach
