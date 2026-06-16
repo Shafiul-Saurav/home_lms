@@ -157,6 +157,8 @@ Route::get('pdf-book/subcategory/{slug}', [FrontendPDFBookController::class, 'pd
 Route::get('category/{id}/products', [WebsiteController::class, 'categoryProducts'])->name('category.products');
 Route::get('search', [WebsiteController::class, 'searchResults'])->name('search.results');
 Route::get('search/suggestions', [WebsiteController::class, 'searchSuggestions'])->name('search.suggestions');
+// Teachers listing (frontend)
+Route::get('teachers', [WebsiteController::class, 'teachers'])->name('teachers');
 
 
 

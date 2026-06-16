@@ -125,6 +125,29 @@ Version         : 1.0
         },
     });
 
+    // instructor slider (reuse course slider settings)
+    $(document).ready(function() {
+        if ($('.instructor-slider').length) {
+            $('.instructor-slider').owlCarousel({
+                items: 4,
+                loop: true,
+                margin: 15,
+                smartSpeed: 400,
+                nav: true,
+                dots: true,
+                autoplay: false,
+                autoplayHoverPause: true,
+                navText: ["<i class='far fa-angle-left'></i>", "<i class='far fa-angle-right'></i>"],
+                responsive: {
+                    0: { items: 2, margin: 5 },
+                    600: { items: 2 },
+                    1000: { items: 3 },
+                    1200: { items: 4 }
+                }
+            });
+        }
+    });
+
     // category slider
     $(".category-slider").owlCarousel({
         items: 6,

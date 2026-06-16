@@ -95,7 +95,7 @@ class WebsiteController extends Controller
         // eager-load user profile image to avoid N+1 queries
         $teachers = Teacher::with(['user.profile.profileImage'])->whereHas('user', function($q) {
             $q->where('role_id', 7);
-        })->withCount('courses')->latest('id')->limit(4)->get();
+        })->withCount('courses')->latest('id')->get();
 
         $heroAvatars = User::whereHas('profile.profileImage')
             ->with('profile.profileImage')
@@ -259,5 +259,21 @@ class WebsiteController extends Controller
         $logo_fav = LogoFavicon::first();
 
         return view('frontend.pages.search.results', compact('query', 'logo_fav'));
+    }
+
+    /**
+     * Display a listing of all teachers (frontend)
+     */
+    public function teachers()
+    {
+        // eager-load user profile image
+        $teachers = Teacher::with(['user.profile.profileImage'])
+            ->whereHas('user', function($q) {
+                $q->where('role_id', 7);
+            })->withCount('courses')->latest('id')->paginate(12);
+
+        $logo_fav = LogoFavicon::first();
+
+        return view('frontend.pages.teachers.index', compact('teachers', 'logo_fav'));
     }
 }

@@ -1,4 +1,4 @@
-<div class="instructor pb-120">
+<div class="instructor bg-img pb-120">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 mx-auto">
@@ -8,43 +8,46 @@
                 </div>
             </div>
         </div>
-        <div class="row g-4 wow fadeInUp" data-wow-delay=".25s">
+        <div class="instructor-slider owl-carousel owl-theme wow fadeInUp" data-wow-delay=".25s">
             @if(isset($teachers) && $teachers->count())
                 @foreach($teachers as $teacher)
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                        <div class="instructor-item">
-                            <div class="instructor-img">
-                                        @php
-                                            $imgUrl = asset('assets/frontend/img/instructor/01.jpg');
-                                            if(!empty($teacher->profile_image) && $teacher->profile_image !== 'default_profile_image.jpg') {
-                                                $imgUrl = asset('uploads/teachers/' . $teacher->profile_image);
-                                            } elseif(optional(optional($teacher->user)->profile)->profileImage && optional(optional($teacher->user->profile)->profileImage)->profile_image) {
-                                                $imgUrl = asset(optional(optional($teacher->user->profile)->profileImage)->profile_image);
-                                            }
-                                        @endphp
-                                        <img src="{{ $imgUrl }}" alt="" />
-                                    </div>
-                            <div class="instructor-content">
-                                <h5><a href="#">{{ optional($teacher->user)->name ?? 'Instructor' }}</a> <span class="far fa-badge-check"></span>
-                                </h5>
-                                <p>{{ $teacher->qualification ?? 'Instructor' }}</p>
-                                <div class="info">
-                                    <span class="course"><i class="fad fa-book-open-reader"></i> {{ $teacher->courses_count ?? 0 }} <span>Courses</span></span>
-                                    <span class="enrolled"><i class="fad fa-user-tie-hair"></i> 0 <span>Enrolled</span></span>
-                                    <span class="rating"><i class="fas fa-star"></i> 0.0 <span>0 Reviews</span></span>
-                                </div>
+                    <div class="instructor-item course-item">
+                        <div class="instructor-img course-img">
+                            @php
+                                $imgUrl = asset('assets/frontend/img/instructor/01.jpg');
+                                if(!empty($teacher->profile_image) && $teacher->profile_image !== 'default_profile_image.jpg') {
+                                    $imgUrl = asset('uploads/teachers/' . $teacher->profile_image);
+                                } elseif(optional(optional($teacher->user)->profile)->profileImage && optional(optional($teacher->user->profile)->profileImage)->profile_image) {
+                                    $imgUrl = asset(optional(optional($teacher->user->profile)->profileImage)->profile_image);
+                                }
+                            @endphp
+                            <img src="{{ $imgUrl }}" alt="" />
+                        </div>
+                        <div class="instructor-content course-content">
+                            <h5><a href="#">{{ optional($teacher->user)->name ?? 'Instructor' }}</a> <span class="far fa-badge-check"></span></h5>
+                            <p>{{ $teacher->qualification ?? 'Instructor' }}</p>
+                            <div class="info">
+                                <span class="course"><i class="fad fa-book-open-reader"></i> {{ $teacher->courses_count ?? 0 }} <span>Courses</span></span>
+                                <span class="enrolled"><i class="fad fa-user-tie-hair"></i> 0 <span>Enrolled</span></span>
+                                <span class="rating"><i class="fas fa-star"></i> 0.0 <span>0 Reviews</span></span>
                             </div>
-                            <div class="instructor-bottom">
-                                <div class="price">
-                                    <span class="text">Start From</span>
-                                    <span class="amount">৳{{ number_format($teacher->salary ?? 0, 0) }}</span>
-                                </div>
-                                <a href="#" class="theme-border-btn">Enroll<i class="fas fa-arrow-right"></i></a>
+                        </div>
+                        <div class="instructor-bottom course-bottom">
+                            <div class="price">
+                                <span class="text">Start From</span>
+                                <span class="amount">৳{{ number_format($teacher->salary ?? 0, 0) }}</span>
                             </div>
+                            <a href="#" class="theme-border-btn">Enroll<i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                 @endforeach
             @endif
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <a href="{{ route('teachers') }}" class="theme-btn">View All Instructors</a>
+            </div>
         </div>
     </div>
 </div>
