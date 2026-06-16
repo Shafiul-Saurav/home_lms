@@ -129,7 +129,40 @@ class WebsiteController extends Controller
         $testimonials = Testimonial::with('user')->where('is_active', 1)->get();
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
-        return view('frontend.pages.about.about_page', compact('about', 'testimonials', 'logo_fav'));
+
+        $heroStudentCount = CourseOrder::where('status', 'Enrolled')
+            ->where('payment_status', 'Completed')
+            ->distinct()
+            ->count('user_id');
+
+        $heroStudentCountLabel = $heroStudentCount > 0
+            ? ($heroStudentCount >= 1000 ? number_format($heroStudentCount / 1000, 0) . 'k+' : $heroStudentCount . '+')
+            : '250k+';
+
+        $heroCourseCount = Course::where('is_active', 1)->count();
+        $heroCourseCountLabel = $heroCourseCount > 0 ? $heroCourseCount . '+' : '160+';
+        // Dynamic counters: format numbers for display animation (value + unit)
+        $formatCounter = function ($n) {
+            if ($n >= 1000000) {
+                return ['value' => round($n / 1000000), 'unit' => 'M'];
+            }
+            if ($n >= 1000) {
+                return ['value' => round($n / 1000), 'unit' => 'k'];
+            }
+            return ['value' => $n, 'unit' => ''];
+        };
+
+        $studentsCounter = $formatCounter($heroStudentCount);
+        $coursesCounter = $formatCounter($heroCourseCount);
+
+        // Count teachers (expert tutors)
+        $tutorsCount = Teacher::count();
+        $tutorsCounter = $formatCounter($tutorsCount);
+
+        // Awards: count active awards from database
+        $awardsCount = Award::where('is_active', 1)->count();
+        $awardsCounter = $formatCounter($awardsCount);
+        return view('frontend.pages.about.about_page', compact('about', 'testimonials', 'logo_fav', 'studentsCounter', 'coursesCounter', 'tutorsCounter', 'awardsCounter'));
     }
 
     public function photoGallery()
