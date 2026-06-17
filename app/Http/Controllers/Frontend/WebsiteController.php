@@ -319,17 +319,15 @@ class WebsiteController extends Controller
         // Paginate results
         $teachers = $query->paginate(12);
 
-        // Fetch categories and count unique instructors for each
-        $teacherCounts = \DB::table('courses')
-            ->join('course_teachers', 'courses.id', '=', 'course_teachers.course_id')
+        // Fetch categories and count unique instructors for each using Course model
+        $teacherCounts = Course::join('course_teachers', 'courses.id', '=', 'course_teachers.course_id')
             ->join('teachers', 'course_teachers.teacher_id', '=', 'teachers.id')
             ->join('users', 'teachers.user_id', '=', 'users.id')
-            ->whereNull('courses.deleted_at')
             ->whereNull('users.deleted_at')
             ->where('courses.is_active', 1)
             ->where('users.role_id', 7)
-            ->select('courses.category_id', \DB::raw('count(distinct teachers.id) as count'))
             ->groupBy('courses.category_id')
+            ->selectRaw('courses.category_id, count(distinct teachers.id) as count')
             ->pluck('count', 'category_id');
 
         $categories = Category::where('is_active', 1)->get();
