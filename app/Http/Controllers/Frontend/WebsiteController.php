@@ -264,16 +264,139 @@ class WebsiteController extends Controller
     /**
      * Display a listing of all teachers (frontend)
      */
-    public function teachers()
+    public function teachers(Request $request)
     {
-        // eager-load user profile image
-        $teachers = Teacher::with(['user.profile.profileImage'])
+        // Build base query and eager-load relations
+        $query = Teacher::with(['user.profile.profileImage', 'courses'])
             ->whereHas('user', function($q) {
                 $q->where('role_id', 7);
-            })->withCount('courses')->latest('id')->paginate(12);
+            });
 
+        // Search by teacher qualification or user name
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('qualification', 'LIKE', "%{$search}%")
+                  ->orWhereHas('user', function ($q2) use ($search) {
+                      $q2->where('name', 'LIKE', "%{$search}%");
+                  });
+            });
+        }
+
+        // Filter by course category (teachers who teach courses in these categories)
+        if ($request->filled('category')) {
+            $categoryIds = explode(',', $request->input('category'));
+            $query->whereHas('courses', function ($q) use ($categoryIds) {
+                $q->whereIn('category_id', $categoryIds)->where('courses.is_active', 1);
+            });
+        }
+
+        // Filter by specific course(s)
+        if ($request->filled('course')) {
+            $courseIds = explode(',', $request->input('course'));
+            $query->whereHas('courses', function ($q) use ($courseIds) {
+                $q->whereIn('courses.id', $courseIds)->where('courses.is_active', 1);
+            });
+        }
+
+        // Sorting
+        $selectedSort = $request->input('sort_by', 'latest');
+
+        // Add courses count for sorting and display
+        $query = $query->withCount('courses');
+
+        switch ($selectedSort) {
+            case 'featured':
+                // featured -> most courses
+                $query->orderBy('courses_count', 'desc');
+                break;
+            case 'latest':
+            default:
+                $query->latest('id');
+                break;
+        }
+
+        // Paginate results
+        $teachers = $query->paginate(12);
+
+        // Fetch categories and count unique instructors for each
+        $teacherCounts = \DB::table('courses')
+            ->join('course_teachers', 'courses.id', '=', 'course_teachers.course_id')
+            ->join('teachers', 'course_teachers.teacher_id', '=', 'teachers.id')
+            ->join('users', 'teachers.user_id', '=', 'users.id')
+            ->whereNull('courses.deleted_at')
+            ->whereNull('users.deleted_at')
+            ->where('courses.is_active', 1)
+            ->where('users.role_id', 7)
+            ->select('courses.category_id', \DB::raw('count(distinct teachers.id) as count'))
+            ->groupBy('courses.category_id')
+            ->pluck('count', 'category_id');
+
+        $categories = Category::where('is_active', 1)->get();
+        foreach ($categories as $category) {
+            $category->instructors_count = $teacherCounts->get($category->id, 0);
+        }
+
+        // Calculate total unique instructors across all active categories/courses
+        $totalInstructorsCount = Teacher::whereHas('courses', function ($q) {
+            $q->where('courses.is_active', 1);
+        })->whereHas('user', function ($q) {
+            $q->where('role_id', 7);
+        })->count();
+
+        $courses = Course::where('is_active', 1)->get();
+
+        $selectedCategory = $request->input('category');
+        $selectedCourse = $request->input('course');
+        $selectedSearch = $request->input('search');
+        $selectedSort = $selectedSort;
+
+        // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
 
-        return view('frontend.pages.teachers.index', compact('teachers', 'logo_fav'));
+        if ($request->ajax()) {
+            $html = $this->renderTeacherGrid($teachers);
+            $pagination = view('frontend.pages.teachers.partials.pagination', compact('teachers'))->render();
+            $topfilter = view('frontend.pages.teachers.teacher_topfilter', compact('teachers', 'selectedSort'))->render();
+
+            return response()->json([
+                'html' => $html,
+                'pagination' => $pagination,
+                'topfilter' => $topfilter,
+                'total' => $teachers->total()
+            ]);
+        }
+
+        return view('frontend.pages.teachers.index', compact(
+            'teachers',
+            'logo_fav',
+            'categories',
+            'courses',
+            'selectedCategory',
+            'selectedCourse',
+            'selectedSearch',
+            'selectedSort',
+            'totalInstructorsCount'
+        ));
+    }
+
+    protected function renderTeacherGrid($teachers)
+    {
+        if ($teachers->isEmpty()) {
+            return '<div class="alert alert-danger text-center" role="alert"><h3>No Instructors Found</h3><p>Sorry, we couldn\'t find any instructors matching your filters. Please try adjusting your search criteria.</p></div>';
+        }
+
+        $html = '<div class="row">';
+
+        foreach ($teachers as $teacher) {
+            $html .= view('frontend.pages.teachers.teacher_filter', compact('teacher'))->render();
+        }
+
+        $html .= '</div>';
+        $html .= '<div id="pagination-wrapper">';
+        $html .= view('frontend.pages.teachers.partials.pagination', compact('teachers'))->render();
+        $html .= '</div>';
+
+        return $html;
     }
 }
