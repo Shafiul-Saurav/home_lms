@@ -132,7 +132,7 @@
         }
 
         .teacher-course-card .course-category {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
             color: #8e79f9;
             text-transform: uppercase;
@@ -142,7 +142,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 13px;
+            font-size: 14px;
             color: #ffb606;
         }
 
@@ -360,7 +360,7 @@
                                                             </a>
                                                         </h4>
                                                         <p class="course-desc">
-                                                            {!! Str::limit($course->short_description ?? ($course->description ?? ''), 50) !!}
+                                                            {{ Str::limit(strip_tags($course->short_description ?? ($course->description ?? '')), 50) }}
                                                         </p>
                                                     </div>
                                                     <div>
