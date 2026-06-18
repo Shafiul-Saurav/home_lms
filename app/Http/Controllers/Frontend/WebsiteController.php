@@ -375,6 +375,28 @@ class WebsiteController extends Controller
         ));
     }
 
+    /**
+     * Display a single teacher's details (frontend)
+     */
+    public function teacherDetails($id)
+    {
+        $teacher = Teacher::with(['user.profile.profileImage', 'courses' => function($q) {
+            $q->where('courses.is_active', 1);
+        }])->where('id', $id)->firstOrFail();
+
+        // Fetch related courses
+        $courses = $teacher->courses()->where('courses.is_active', 1)->get();
+
+        // Simple stats
+        $averageRating = $teacher->averageRating();
+        $reviewCount = $teacher->reviewCount();
+
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
+
+        return view('frontend.pages.teachers.show', compact('teacher', 'courses', 'averageRating', 'reviewCount', 'logo_fav'));
+    }
+
     protected function renderTeacherGrid($teachers)
     {
         if ($teachers->isEmpty()) {

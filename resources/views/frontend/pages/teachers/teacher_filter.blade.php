@@ -12,7 +12,7 @@
             <img src="{{ $imgUrl }}" alt="" />
         </div>
         <div class="instructor-content">
-            <h5><a href="#">{{ optional($teacher->user)->name ?? 'Instructor' }}</a> <span class="far fa-badge-check"></span></h5>
+            <h5><a href="{{ route('teacher.show', $teacher->id) }}">{{ optional($teacher->user)->name ?? 'Instructor' }}</a> <span class="far fa-badge-check"></span></h5>
             <p>{{ $teacher->qualification ?? 'Instructor' }}</p>
             <div class="info">
                 <span class="course"><i class="fad fa-book-open-reader"></i> {{ $teacher->courses_count ?? ($teacher->courses->count() ?? 0) }} <span>Courses</span></span>
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="instructor-bottom">
-            <a href="#" class="theme-border-btn w-100">Enroll<i class="fas fa-arrow-right"></i></a>
+            <a href="{{ route('teacher.show', $teacher->id) }}" class="theme-border-btn w-100">View Profile<i class="fas fa-arrow-right"></i></a>
         </div>
     </div>
 </div>

@@ -159,6 +159,8 @@ Route::get('search', [WebsiteController::class, 'searchResults'])->name('search.
 Route::get('search/suggestions', [WebsiteController::class, 'searchSuggestions'])->name('search.suggestions');
 // Teachers listing (frontend)
 Route::get('teachers', [WebsiteController::class, 'teachers'])->name('teachers');
+// Teacher details (frontend)
+Route::get('teacher/{id}', [WebsiteController::class, 'teacherDetails'])->name('teacher.show');
 
 
 
