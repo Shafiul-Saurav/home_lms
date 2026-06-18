@@ -11,6 +11,7 @@
         }
 
         .instructor-card .instructor-social-links a {
+            position: relative;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -20,33 +21,59 @@
             background: linear-gradient(to bottom right, #ff99ff 0%, #8e79f9 100%) !important;
             color: #ffffff !important;
             font-size: 14px;
-            transition: all 0.5s ease !important;
             text-decoration: none;
+            overflow: hidden;
+            z-index: 1;
+            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
         }
 
+        .instructor-card .instructor-social-links a i {
+            position: relative;
+            z-index: 3;
+            transition: color 0.3s ease;
+        }
+
+        .instructor-card .instructor-social-links a::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.3s ease !important;
+        }
+
+        /* Hover states */
         .instructor-card .instructor-social-links a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             color: #ffffff !important;
-            /* transform: translateY(-3px); */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
 
-        .instructor-card .instructor-social-links a.facebook:hover {
+        .instructor-card .instructor-social-links a:hover::before {
+            opacity: 1;
+        }
+
+        /* Hover backgrounds */
+        .instructor-card .instructor-social-links a.facebook::before {
             background: #1877f2 !important;
         }
 
-        .instructor-card .instructor-social-links a.twitter:hover {
+        .instructor-card .instructor-social-links a.twitter::before {
             background: #000000 !important;
         }
 
-        .instructor-card .instructor-social-links a.linkedin:hover {
+        .instructor-card .instructor-social-links a.linkedin::before {
             background: #0a66c2 !important;
         }
 
-        .instructor-card .instructor-social-links a.instagram:hover {
+        .instructor-card .instructor-social-links a.instagram::before {
             background: #e1306c !important;
         }
 
-        .instructor-card .instructor-social-links a.youtube:hover {
+        .instructor-card .instructor-social-links a.youtube::before {
             background: #ff0000 !important;
         }
     </style>
@@ -101,21 +128,21 @@
                                     <a href="#" target="_blank" class="youtube" title="YouTube"><i
                                             class="fab fa-youtube"></i></a>
                                 </div>
+                            </div>
 
-                                <h4>{{ optional($teacher->user)->name ?? 'Instructor' }}</h4>
-                                <p class="text-muted">{{ $teacher->qualification ?? '' }}</p>
+                            <h4>{{ optional($teacher->user)->name ?? 'Instructor' }}</h4>
+                            <p class="text-muted">{{ $teacher->qualification ?? '' }}</p>
 
-                                <div class="mt-3">
-                                    <span class="d-block">Rating:
-                                        <strong>{{ number_format($averageRating ?? 0, 1) }}</strong></span>
-                                    <span class="d-block">Reviews: <strong>{{ $reviewCount ?? 0 }}</strong></span>
-                                    <span class="d-block">Courses:
-                                        <strong>{{ $teacher->courses->count() ?? 0 }}</strong></span>
-                                </div>
+                            <div class="mt-3">
+                                <span class="d-block">Rating:
+                                    <strong>{{ number_format($averageRating ?? 0, 1) }}</strong></span>
+                                <span class="d-block">Reviews: <strong>{{ $reviewCount ?? 0 }}</strong></span>
+                                <span class="d-block">Courses:
+                                    <strong>{{ $teacher->courses->count() ?? 0 }}</strong></span>
+                            </div>
 
-                                <div class="mt-3">
-                                    <a href="#" class="theme-btn">Contact</a>
-                                </div>
+                            <div class="mt-3">
+                                <a href="#" class="theme-btn">Contact</a>
                             </div>
 
                             <div class="widget">
