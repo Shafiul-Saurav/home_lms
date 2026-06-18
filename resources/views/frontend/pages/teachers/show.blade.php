@@ -360,7 +360,7 @@
                                                             </a>
                                                         </h4>
                                                         <p class="course-desc">
-                                                            {!! Str::limit($course->short_description ?? ($course->description ?? ''), 150) !!}
+                                                            {!! Str::limit($course->short_description ?? ($course->description ?? ''), 50) !!}
                                                         </p>
                                                     </div>
                                                     <div>
