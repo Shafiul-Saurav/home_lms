@@ -169,12 +169,14 @@
                 urlParams.delete('course');
             }
 
-            // Get sort_by
-            let sortBy = $('#sort_by').val();
-            if (sortBy) {
-                urlParams.set('sort_by', sortBy);
+            // sort_by removed — default server-side is 'featured'
+
+            // Get sort_order (asc/desc)
+            let sortOrder = $('#sort_order').length ? $('#sort_order').val() : null;
+            if (sortOrder) {
+                urlParams.set('sort_order', sortOrder);
             } else {
-                urlParams.delete('sort_by');
+                urlParams.delete('sort_order');
             }
 
             // Page handling

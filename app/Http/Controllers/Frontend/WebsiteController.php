@@ -300,21 +300,17 @@ class WebsiteController extends Controller
         }
 
         // Sorting
-        $selectedSort = $request->input('sort_by', 'latest');
+        $selectedSort = $request->input('sort_by', 'featured');
+
+        // Sorting: support ascending/descending via `sort_order` param
+        $selectedOrder = $request->input('sort_order', 'desc');
+        $order = in_array(strtolower($selectedOrder), ['asc', 'desc']) ? strtolower($selectedOrder) : 'desc';
 
         // Add courses count for sorting and display
         $query = $query->withCount('courses');
 
-        switch ($selectedSort) {
-            case 'featured':
-                // featured -> most courses
-                $query->orderBy('courses_count', 'desc');
-                break;
-            case 'latest':
-            default:
-                $query->latest('id');
-                break;
-        }
+        // For now we only support sorting by number of courses (featured)
+        $query->orderBy('courses_count', $order);
 
         // Paginate results
         $teachers = $query->paginate(12);
@@ -355,7 +351,7 @@ class WebsiteController extends Controller
         if ($request->ajax()) {
             $html = $this->renderTeacherGrid($teachers);
             $pagination = view('frontend.pages.teachers.partials.pagination', compact('teachers'))->render();
-            $topfilter = view('frontend.pages.teachers.teacher_topfilter', compact('teachers', 'selectedSort'))->render();
+            $topfilter = view('frontend.pages.teachers.teacher_topfilter', compact('teachers', 'selectedSort', 'selectedOrder'))->render();
 
             return response()->json([
                 'html' => $html,
@@ -374,6 +370,7 @@ class WebsiteController extends Controller
             'selectedCourse',
             'selectedSearch',
             'selectedSort',
+            'selectedOrder',
             'totalInstructorsCount'
         ));
     }
