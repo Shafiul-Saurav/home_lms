@@ -74,7 +74,9 @@
                                     <th class="border-bottom-0">Percentage</th>
                                     <th class="border-bottom-0">Status</th>
                                     <th class="border-bottom-0">Submitted At</th>
-                                    <th class="border-bottom-0">Actions</th>
+                                    @canany(['index-results', 'edit-results'])
+                                        <th class="border-bottom-0">Actions</th>
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -109,26 +111,32 @@
                                         <td>
                                             <small>{{ $result->completed_at?->format('d M, Y h:i A') ?? 'N/A' }}</small>
                                         </td>
-                                        <td class="text-center">
-                                            <div class="action-btns d-flex align-items-center">
-                                                <div>
-                                                    <a href="{{ route('exam_results.show', $result->id) }}"
-                                                        class="btn btn-sm btn-outline-info border me-1"
-                                                        data-toggle="tooltip" data-placement="top" title="View Result">
-                                                        <i class="fa-solid fa-eye fa-fw"></i>
-                                                    </a>
+                                        @canany(['index-results', 'edit-results'])
+                                            <td class="text-center">
+                                                <div class="action-btns d-flex align-items-center">
+                                                    @can('index-results')
+                                                        <div>
+                                                            <a href="{{ route('exam_results.show', $result->id) }}"
+                                                                class="btn btn-sm btn-outline-info border me-1"
+                                                                data-toggle="tooltip" data-placement="top" title="View Result">
+                                                                <i class="fa-solid fa-eye fa-fw"></i>
+                                                            </a>
+                                                        </div>
+                                                    @endcan
+                                                    @can('edit-results')
+                                                        {{-- @if ($exam->mcq_written != 'mcq' && $result->status !== 'graded') --}}
+                                                        <div>
+                                                            <a href="{{ route('exam_results.grade', $result->id) }}"
+                                                                class="btn btn-sm btn-outline-warning border" data-toggle="tooltip"
+                                                                data-placement="top" title="Grade">
+                                                                <i class="fa-solid fa-marker fa-fw"></i>
+                                                            </a>
+                                                        </div>
+                                                        {{-- @endif --}}
+                                                    @endcan
                                                 </div>
-                                                {{-- @if ($exam->mcq_written != 'mcq' && $result->status !== 'graded') --}}
-                                                <div>
-                                                    <a href="{{ route('exam_results.grade', $result->id) }}"
-                                                        class="btn btn-sm btn-outline-warning border" data-toggle="tooltip"
-                                                        data-placement="top" title="Grade">
-                                                        <i class="fa-solid fa-marker fa-fw"></i>
-                                                    </a>
-                                                </div>
-                                                {{-- @endif --}}
-                                            </div>
-                                        </td>
+                                            </td>
+                                        @endcanany
                                     </tr>
                                 @empty
                                     <tr>

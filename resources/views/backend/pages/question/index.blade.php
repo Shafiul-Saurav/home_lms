@@ -31,16 +31,21 @@
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Question</h3>
                     <div>
-                        <a href="{{ route('questions.csv.import') }}" class="btn btn-sm btn-outline-info border me-2"><i
-                                class="fa-solid fa-file-csv fa-fw"></i> CSV Upload</a>
-                        <a href="{{ route('questions.trash') }}" class="btn btn-sm btn-outline-warning border"><i
-                                class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                        @can('create-question')
+                            <a href="{{ route('questions.csv.import') }}" class="btn btn-sm btn-outline-info border me-2"><i
+                                    class="fa-solid fa-file-csv fa-fw"></i> CSV Upload</a>
+                        @endcan
+                        @can('delete-question')
+                            <a href="{{ route('questions.trash') }}" class="btn btn-sm btn-outline-warning border"><i
+                                    class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                        @endcan
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('questions.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="row">
+                    @can('create-question')
+                        <form action="{{ route('questions.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
                             <div class="col-md-3 mb-3">
                                 <div class="form-group">
                                     <label for="type">Question Type <span class="text-danger">*</span></label>
@@ -145,9 +150,10 @@
                                 </div>
                             </div>
 
-                        </div>
-                        <button type="submit" class="btn btn-primary">Create Question</button>
-                    </form>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create Question</button>
+                        </form>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -162,34 +168,38 @@
                 <div class="card-body">
                     <div class="table-responsive export-table">
                         <div class="table-container">
-                            <div class="table-header mb-2">
-                                <div class="">
-                                    <div class="actions-buttons d-flex align-items-center gap-2">
-                                        <select id="examAssignSelect" class="form-control select2-style1">
-                                            <option value="">Select Exam (Course)</option>
-                                            @if(isset($exams))
-                                                @foreach($exams as $exam)
-                                                    <option value="{{ $exam->id }}">{{ $exam->title }} ({{ $exam->course->name ?? 'No Course' }})</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                        <button type="button" class="btn btn-success btn-sm" id="assignQuestionsBtn" disabled>
-                                            <i class="fa-solid fa-check"></i> Assign Selected
-                                        </button>
-                                        <span id="selectedCount" class="text-muted text-nowrap" style="font-size: 13px;">0 items selected</span>
+                            @can('edit-question')
+                                <div class="table-header mb-2">
+                                    <div class="">
+                                        <div class="actions-buttons d-flex align-items-center gap-2">
+                                            <select id="examAssignSelect" class="form-control select2-style1">
+                                                <option value="">Select Exam (Course)</option>
+                                                @if(isset($exams))
+                                                    @foreach($exams as $exam)
+                                                        <option value="{{ $exam->id }}">{{ $exam->title }} ({{ $exam->course->name ?? 'No Course' }})</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                            <button type="button" class="btn btn-success btn-sm" id="assignQuestionsBtn" disabled>
+                                                <i class="fa-solid fa-check"></i> Assign Selected
+                                            </button>
+                                            <span id="selectedCount" class="text-muted text-nowrap" style="font-size: 13px;">0 items selected</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endcan
                         </div>
                         <table id="file-datatable" class="table table-bordered text-nowrap key-buttons border-bottom w-100">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0" width="5%">
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input check_all" id="checkAllQuestions">
-                                            <label class="form-check-label" for="checkAllQuestions"></label>
-                                        </div>
-                                    </th>
+                                    @can('edit-question')
+                                        <th class="border-bottom-0" width="5%">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input check_all" id="checkAllQuestions">
+                                                <label class="form-check-label" for="checkAllQuestions"></label>
+                                            </div>
+                                        </th>
+                                    @endcan
                                     <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">Question</th>
                                     <th class="border-bottom-0">Type</th>
@@ -198,20 +208,26 @@
                                         <th class="border-bottom-0">Correct Option</th>
                                     @endif
                                     @if(!request('type'))
-                                        <th class="border-bottom-0">Status</th>
+                                        @can('edit-question')
+                                            <th class="border-bottom-0">Status</th>
+                                        @endcan
                                     @endif
-                                    <th class="border-bottom-0">Actions</th>
+                                    @canany(['edit-question', 'delete-question'])
+                                        <th class="border-bottom-0">Actions</th>
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($questions as $question)
                                     <tr>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input question_checkbox" type="checkbox" value="{{ $question->id }}" id="qCheckbox{{ $question->id }}">
-                                                <label class="form-check-label" for="qCheckbox{{ $question->id }}"></label>
-                                            </div>
-                                        </td>
+                                        @can('edit-question')
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input question_checkbox" type="checkbox" value="{{ $question->id }}" id="qCheckbox{{ $question->id }}">
+                                                    <label class="form-check-label" for="qCheckbox{{ $question->id }}"></label>
+                                                </div>
+                                            </td>
+                                        @endcan
                                         <td><strong>{{ $questions->firstItem() + $loop->index }}</strong></td>
                                         <td>{!! Str::limit(strip_tags($question->question_text), 50) !!}</td>
                                         <td><span class="badge bg-{{ $question->type == 'mcq' ? 'info' : 'success' }}">{{ strtoupper($question->type) }}</span></td>
@@ -220,40 +236,48 @@
                                             <td>{{ $question->type == 'mcq' ? 'Option ' . $question->correct_option : 'N/A' }}</td>
                                         @endif
                                         @if(!request('type'))
-                                            <td>
-                                                <div class="material-switch">
-                                                    <input id="active-{{ $question->id }}" class="toggle-class-active" name="is_active"
-                                                        type="checkbox" {{ $question->is_active ? 'checked' : '' }}
-                                                        data-id="{{ $question->id }}">
-                                                    <label for="active-{{ $question->id }}" class="label-success"></label>
+                                            @can('edit-question')
+                                                <td>
+                                                    <div class="material-switch">
+                                                        <input id="active-{{ $question->id }}" class="toggle-class-active" name="is_active"
+                                                            type="checkbox" {{ $question->is_active ? 'checked' : '' }}
+                                                            data-id="{{ $question->id }}">
+                                                        <label for="active-{{ $question->id }}" class="label-success"></label>
+                                                    </div>
+                                                </td>
+                                            @endcan
+                                        @endif
+                                        @canany(['edit-question', 'delete-question'])
+                                            <td class="text-center">
+                                                <div class="action-btns d-flex align-items-center">
+                                                    @can('edit-question')
+                                                        <div>
+                                                            <a href="{{ route('questions.edit', $question->id) }}"
+                                                                class="btn btn-sm btn-outline-secondary border me-2"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="Edit">
+                                                                <i class="fa-solid fa-pen fa-fw"></i>
+                                                            </a>
+                                                        </div>
+                                                    @endcan
+                                                    @can('delete-question')
+                                                        <div>
+                                                            <form action="{{ route('questions.destroy', $question->id) }}" method="POST"
+                                                                class="d-inline">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit"
+                                                                    class="btn btn-sm btn-outline-warning border show_confirm"
+                                                                    data-toggle="tooltip" data-placement="top"
+                                                                    title="Delete">
+                                                                    <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    @endcan
                                                 </div>
                                             </td>
-                                        @endif
-                                        <td class="text-center">
-                                            <div class="action-btns d-flex align-items-center">
-                                                <div>
-                                                    <a href="{{ route('questions.edit', $question->id) }}"
-                                                        class="btn btn-sm btn-outline-secondary border me-2"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        title="Edit">
-                                                        <i class="fa-solid fa-pen fa-fw"></i>
-                                                    </a>
-                                                </div>
-                                                <div>
-                                                    <form action="{{ route('questions.destroy', $question->id) }}" method="POST"
-                                                        class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            class="btn btn-sm btn-outline-warning border show_confirm"
-                                                            data-toggle="tooltip" data-placement="top"
-                                                            title="Delete">
-                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </td>
+                                        @endcanany
                                     </tr>
                                 @endforeach
                             </tbody>

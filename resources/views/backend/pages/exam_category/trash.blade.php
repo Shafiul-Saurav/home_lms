@@ -38,7 +38,9 @@
                                     <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">Deleted At</th>
                                     <th class="border-bottom-0">Name</th>
-                                    <th class="border-bottom-0">Actions</th>
+                                    @can('delete-exam-category')
+                                        <th class="border-bottom-0">Actions</th>
+                                    @endcan
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,24 +49,31 @@
                                         <td><strong>{{ $categories->firstItem() + $loop->index }}</strong></td>
                                         <td>{{ $category->deleted_at->format('d-M-Y') }}</td>
                                         <td>{{ $category->name }}</td>
-                                        <td class="text-center">
-                                            <div class="action-btns d-flex align-items-center">
-                                                <div>
-                                                    <a href="{{ route('exam_categories.restore', $category->id) }}"
-                                                        class="btn btn-sm btn-outline-success border me-2"
-                                                        data-toggle="tooltip" data-placement="top" title="Restore">
-                                                        <i class="fa-solid fa-rotate-left fa-fw"></i>
-                                                    </a>
+                                        @can('delete-exam-category')
+                                            <td class="text-center">
+                                                <div class="action-btns d-flex align-items-center">
+                                                    <div>
+                                                        <a href="{{ route('exam_categories.restore', $category->id) }}"
+                                                            class="btn btn-sm btn-outline-success border me-2"
+                                                            data-toggle="tooltip" data-placement="top" title="Restore">
+                                                            <i class="fa-solid fa-rotate-left fa-fw"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div>
+                                                        <form action="{{ route('exam_categories.forcedelete', $category->id) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-outline-danger border show_confirm"
+                                                                data-toggle="tooltip" data-placement="top" title="Permanent Delete">
+                                                                <i class="fa-solid fa-radiation"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <a href="{{ route('exam_categories.forcedelete', $category->id) }}"
-                                                        class="btn btn-sm btn-outline-danger border show_confirm_permanent"
-                                                        data-toggle="tooltip" data-placement="top" title="Permanent Delete">
-                                                        <i class="fa-solid fa-radiation"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
+                                            </td>
+                                        @endcan
                                     </tr>
                                 @endforeach
                             </tbody>

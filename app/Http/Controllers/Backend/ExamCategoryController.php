@@ -6,22 +6,29 @@ use App\Http\Controllers\Controller;
 use App\Models\ExamCategory;
 use App\Http\Requests\ExamCategoryStoreRequest;
 use App\Http\Requests\ExamCategoryUpdateRequest;
+use Illuminate\Support\Facades\Gate;
 
 class ExamCategoryController extends Controller
 {
     public function index()
     {
+        Gate::authorize('index-exam-category');
+
         $categories = ExamCategory::latest('id')->paginate(30);
         return view('backend.pages.exam_category.category', compact('categories'));
     }
 
     public function create()
     {
+        Gate::authorize('create-exam-category');
+
         return redirect()->route('exam_categories.index');
     }
 
     public function store(ExamCategoryStoreRequest $request)
     {
+        Gate::authorize('create-exam-category');
+
         $fileName = null;
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -44,17 +51,23 @@ class ExamCategoryController extends Controller
 
     public function show(string $id)
     {
+        Gate::authorize('index-exam-category');
+
         return redirect()->route('exam_categories.index');
     }
 
     public function edit(string $id)
     {
+        Gate::authorize('edit-exam-category');
+
         $category = ExamCategory::findOrFail($id);
         return view('backend.pages.exam_category.edit', compact('category'));
     }
 
     public function update(ExamCategoryUpdateRequest $request, string $id)
     {
+        Gate::authorize('edit-exam-category');
+
         $category = ExamCategory::findOrFail($id);
 
         $fileName = $category->image;
@@ -83,6 +96,8 @@ class ExamCategoryController extends Controller
 
     public function destroy(string $id)
     {
+        Gate::authorize('delete-exam-category');
+
         $category = ExamCategory::findOrFail($id);
         $category->delete();
 
@@ -91,6 +106,8 @@ class ExamCategoryController extends Controller
 
     public function checkActive($id)
     {
+        Gate::authorize('edit-exam-category');
+
         $category = ExamCategory::find($id);
         if (!$category) {
             return response()->json(['type' => 'error', 'message' => 'Not found'], 404);

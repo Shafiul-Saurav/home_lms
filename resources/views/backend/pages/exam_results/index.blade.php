@@ -31,7 +31,9 @@
                                 <th>Score</th>
                                 <th>Status</th>
                                 <th>Submitted</th>
-                                <th>Actions</th>
+                                @canany(['index-results', 'edit-results', 'delete-results'])
+                                    <th>Actions</th>
+                                @endcanany
                             </tr>
                         </thead>
                         <tbody>
@@ -63,49 +65,57 @@
                                         @endif
                                     </td>
                                     <td>{{ $result->completed_at?->format('d M, Y h:i A') ?? 'N/A' }}</td>
-                                    <td class="text-center">
-                                        <div class="action-btns d-flex align-items-center">
-                                            <div>
-                                                <a href="{{ route('exam_results.show', $result->id) }}"
-                                                    class="btn btn-sm btn-outline-primary border me-2"
-                                                    data-toggle="tooltip" data-placement="top"
-                                                    title="View">
-                                                    <i class="fa-solid fa-eye fa-fw"></i>
-                                                </a>
+                                    @canany(['index-results', 'edit-results', 'delete-results'])
+                                        <td class="text-center">
+                                            <div class="action-btns d-flex align-items-center">
+                                                @can('index-results')
+                                                    <div>
+                                                        <a href="{{ route('exam_results.show', $result->id) }}"
+                                                            class="btn btn-sm btn-outline-primary border me-2"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            title="View">
+                                                            <i class="fa-solid fa-eye fa-fw"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div>
+                                                        <a href="{{ route('exam_results.statistics', $result->exam->id) }}"
+                                                            class="btn btn-sm btn-outline-info border me-2"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            title="Statistics">
+                                                            <i class="fa-solid fa-chart-bar fa-fw"></i>
+                                                        </a>
+                                                    </div>
+                                                @endcan
+                                                @can('edit-results')
+                                                    @if($result->status === 'pending_review' && $result->exam->mcq_written === 'written')
+                                                        <div>
+                                                            <a href="{{ route('exam_results.grade', $result->id) }}"
+                                                                class="btn btn-sm btn-outline-secondary border me-2"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="Grade">
+                                                                <i class="fa-solid fa-pen fa-fw"></i>
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                @endcan
+                                                @can('delete-results')
+                                                    <div>
+                                                        <form action="{{ route('exam_results.destroy', $result->id) }}" method="POST"
+                                                            class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-outline-warning border show_confirm"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="Delete">
+                                                                <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                @endcan
                                             </div>
-                                            @if($result->status === 'pending_review' && $result->exam->mcq_written === 'written')
-                                                <div>
-                                                    <a href="{{ route('exam_results.grade', $result->id) }}"
-                                                        class="btn btn-sm btn-outline-secondary border me-2"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        title="Grade">
-                                                        <i class="fa-solid fa-pen fa-fw"></i>
-                                                    </a>
-                                                </div>
-                                            @endif
-                                            <div>
-                                                <a href="{{ route('exam_results.statistics', $result->exam->id) }}"
-                                                    class="btn btn-sm btn-outline-info border me-2"
-                                                    data-toggle="tooltip" data-placement="top"
-                                                    title="Statistics">
-                                                    <i class="fa-solid fa-chart-bar fa-fw"></i>
-                                                </a>
-                                            </div>
-                                            <div>
-                                                <form action="{{ route('exam_results.destroy', $result->id) }}" method="POST"
-                                                    class="d-inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-outline-warning border show_confirm"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        title="Delete">
-                                                        <i class="fa-solid fa-trash-can fa-fw"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </td>
+                                        </td>
+                                    @endcanany
                                 </tr>
                             @empty
                                 <tr>

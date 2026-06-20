@@ -26,13 +26,16 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Exam</h3>
-                    <a href="{{ route('exams.trash') }}" class="btn btn-sm btn-outline-warning border"><i
-                            class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @can('delete-exam')
+                        <a href="{{ route('exams.trash') }}" class="btn btn-sm btn-outline-warning border"><i
+                                class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @endcan
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('exams.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="row">
+                    @can('create-exam')
+                        <form action="{{ route('exams.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="name">Exam Name</label>
@@ -197,9 +200,10 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Create Exam</button>
-                    </form>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create Exam</button>
+                        </form>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -223,8 +227,12 @@
                                     {{-- <th class="border-bottom-0">Price</th> --}}
                                     <th class="border-bottom-0">Schedule</th>
                                     <th class="border-bottom-0">Duration</th>
-                                    <th class="border-bottom-0">Status</th>
-                                    <th class="border-bottom-0">Actions</th>
+                                    @can('edit-exam')
+                                        <th class="border-bottom-0">Status</th>
+                                    @endcan
+                                    @canany(['index-exam', 'index-results', 'edit-exam', 'delete-exam'])
+                                        <th class="border-bottom-0">Actions</th>
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -256,55 +264,67 @@
                                             @endif
                                         </td>
                                         <td>{{ $exam->exam_time }}</td>
-                                        <td>
-                                            <div class="material-switch">
-                                                <input id="active-{{ $exam->id }}" class="toggle-class-active" name="is_active"
-                                                    type="checkbox" {{ $exam->is_active ? 'checked' : '' }}
-                                                    data-id="{{ $exam->id }}">
-                                                <label for="active-{{ $exam->id }}" class="label-success"></label>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">
-                                            <div class="action-btns d-flex align-items-center">
-                                                <div>
-                                                    <a href="{{ route('exams.questions', $exam->id) }}"
-                                                        class="btn btn-sm btn-outline-info border me-2"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        title="Questions List">
-                                                        <i class="fa-solid fa-list-check fa-fw"></i>
-                                                    </a>
+                                        @can('edit-exam')
+                                            <td>
+                                                <div class="material-switch">
+                                                    <input id="active-{{ $exam->id }}" class="toggle-class-active" name="is_active"
+                                                        type="checkbox" {{ $exam->is_active ? 'checked' : '' }}
+                                                        data-id="{{ $exam->id }}">
+                                                    <label for="active-{{ $exam->id }}" class="label-success"></label>
                                                 </div>
-                                                <div>
-                                                    <a href="{{ route('exams.results', $exam->id) }}"
-                                                        class="btn btn-sm btn-outline-primary border me-2"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        title="Exam Results">
-                                                        <i class="fa-solid fa-chart-bar fa-fw"></i>
-                                                    </a>
+                                            </td>
+                                        @endcan
+                                        @canany(['index-exam', 'index-results', 'edit-exam', 'delete-exam'])
+                                            <td class="text-center">
+                                                <div class="action-btns d-flex align-items-center">
+                                                    @can('index-exam')
+                                                        <div>
+                                                            <a href="{{ route('exams.questions', $exam->id) }}"
+                                                                class="btn btn-sm btn-outline-info border me-2"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="Questions List">
+                                                                <i class="fa-solid fa-list-check fa-fw"></i>
+                                                            </a>
+                                                        </div>
+                                                    @endcan
+                                                    @can('index-results')
+                                                        <div>
+                                                            <a href="{{ route('exams.results', $exam->id) }}"
+                                                                class="btn btn-sm btn-outline-primary border me-2"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="Exam Results">
+                                                                <i class="fa-solid fa-chart-bar fa-fw"></i>
+                                                            </a>
+                                                        </div>
+                                                    @endcan
+                                                    @can('edit-exam')
+                                                        <div>
+                                                            <a href="{{ route('exams.edit', $exam->id) }}"
+                                                                class="btn btn-sm btn-outline-secondary border me-2"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="Edit">
+                                                                <i class="fa-solid fa-pen fa-fw"></i>
+                                                            </a>
+                                                        </div>
+                                                    @endcan
+                                                    @can('delete-exam')
+                                                        <div>
+                                                            <form action="{{ route('exams.destroy', $exam->id) }}" method="POST"
+                                                                class="d-inline">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit"
+                                                                    class="btn btn-sm btn-outline-warning border show_confirm"
+                                                                    data-toggle="tooltip" data-placement="top"
+                                                                    title="Delete">
+                                                                    <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    @endcan
                                                 </div>
-                                                <div>
-                                                    <a href="{{ route('exams.edit', $exam->id) }}"
-                                                        class="btn btn-sm btn-outline-secondary border me-2"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        title="Edit">
-                                                        <i class="fa-solid fa-pen fa-fw"></i>
-                                                    </a>
-                                                </div>
-                                                <div>
-                                                    <form action="{{ route('exams.destroy', $exam->id) }}" method="POST"
-                                                        class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            class="btn btn-sm btn-outline-warning border show_confirm"
-                                                            data-toggle="tooltip" data-placement="top"
-                                                            title="Delete">
-                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </td>
+                                            </td>
+                                        @endcanany
                                     </tr>
                                 @endforeach
                             </tbody>

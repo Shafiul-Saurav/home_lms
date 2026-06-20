@@ -9,12 +9,15 @@ use App\Models\Course;
 use App\Http\Requests\ExamStoreRequest;
 use App\Http\Requests\ExamUpdateRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 class ExamController extends Controller
 {
     public function index()
     {
+        Gate::authorize('index-exam');
+
         $exams = Exam::with(['category', 'course', 'questions'])->latest('id')->paginate(30);
         $categories = ExamCategory::where('is_active', 1)->get();
         $courses = Course::where('is_active', 1)->get();
@@ -23,6 +26,8 @@ class ExamController extends Controller
 
     public function create()
     {
+        Gate::authorize('create-exam');
+
         // $categories = ExamCategory::where('is_active', 1)->get();
         // $courses = Course::where('is_active', 1)->get();
         // return view('backend.pages.exam.create', compact('categories', 'courses'));
@@ -30,6 +35,8 @@ class ExamController extends Controller
 
     public function store(ExamStoreRequest $request)
     {
+        Gate::authorize('create-exam');
+
         $fileName = null;
         if ($request->hasFile('pdf_file')) {
             $file = $request->file('pdf_file');
@@ -60,12 +67,16 @@ class ExamController extends Controller
 
     public function show(string $id)
     {
+        Gate::authorize('index-exam');
+
         // $exam = Exam::with(['category', 'course'])->findOrFail($id);
         // return view('backend.pages.exam.show', compact('exam'));
     }
 
     public function edit(string $id)
     {
+        Gate::authorize('edit-exam');
+
         $exam = Exam::findOrFail($id);
         $categories = ExamCategory::where('is_active', 1)->get();
         $courses = Course::where('is_active', 1)->get();
@@ -74,6 +85,8 @@ class ExamController extends Controller
 
     public function update(ExamUpdateRequest $request, string $id)
     {
+        Gate::authorize('edit-exam');
+
         $exam = Exam::findOrFail($id);
 
         $fileName = $exam->pdf_file;
@@ -110,6 +123,8 @@ class ExamController extends Controller
 
     public function destroy(string $id)
     {
+        Gate::authorize('delete-exam');
+
         $exam = Exam::findOrFail($id);
         $exam->delete();
 
@@ -118,6 +133,8 @@ class ExamController extends Controller
 
     public function checkActive($id)
     {
+        Gate::authorize('edit-exam');
+
         $exam = Exam::find($id);
         if (!$exam) {
             return response()->json(['type' => 'error', 'message' => 'Not found'], 404);
@@ -129,6 +146,8 @@ class ExamController extends Controller
 
     public function assignedQuestions($id)
     {
+        Gate::authorize('index-exam');
+
         $exam = Exam::findOrFail($id);
         // Load questions paginated
         $questions = $exam->questions()->paginate(30);
@@ -137,6 +156,8 @@ class ExamController extends Controller
 
     public function unassignQuestions(Request $request)
     {
+        Gate::authorize('edit-exam');
+
         $request->validate([
             'exam_id' => 'required|exists:exams,id',
             'question_ids' => 'required|array',
@@ -151,6 +172,8 @@ class ExamController extends Controller
 
     public function examResults($id)
     {
+        Gate::authorize('index-results');
+
         $exam = Exam::with(['results', 'results.user'])->findOrFail($id);
         $results = $exam->results()->paginate(30);
 

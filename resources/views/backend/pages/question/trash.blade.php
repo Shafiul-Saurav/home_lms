@@ -39,7 +39,9 @@
                                     <th class="border-bottom-0">Type</th>
                                     <th class="border-bottom-0">Mark</th>
                                     <th class="border-bottom-0">Deleted At</th>
-                                    <th class="border-bottom-0">Actions</th>
+                                    @can('delete-question')
+                                        <th class="border-bottom-0">Actions</th>
+                                    @endcan
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,31 +52,33 @@
                                         <td><span class="badge bg-{{ $question->type == 'mcq' ? 'info' : 'success' }}">{{ strtoupper($question->type) }}</span></td>
                                         <td>{{ $question->mark }}</td>
                                         <td>{{ $question->deleted_at->format('d M, Y h:i A') }}</td>
-                                        <td class="text-center">
-                                            <div class="action-btns d-flex align-items-center">
-                                                <div>
-                                                    <a href="{{ route('questions.restore', $question->id) }}"
-                                                        class="btn btn-sm btn-outline-success border me-2"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        title="Restore">
-                                                        <i class="fa-solid fa-rotate-left fa-fw"></i>
-                                                    </a>
-                                                </div>
-                                                <div>
-                                                    <form action="{{ route('questions.forceDelete', $question->id) }}" method="POST"
-                                                        class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            class="btn btn-sm btn-outline-danger border show_confirm"
+                                        @can('delete-question')
+                                            <td class="text-center">
+                                                <div class="action-btns d-flex align-items-center">
+                                                    <div>
+                                                        <a href="{{ route('questions.restore', $question->id) }}"
+                                                            class="btn btn-sm btn-outline-success border me-2"
                                                             data-toggle="tooltip" data-placement="top"
-                                                            title="Permanent Delete">
-                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
-                                                        </button>
-                                                    </form>
+                                                            title="Restore">
+                                                            <i class="fa-solid fa-rotate-left fa-fw"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div>
+                                                        <form action="{{ route('questions.forceDelete', $question->id) }}" method="POST"
+                                                            class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-outline-danger border show_confirm"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="Permanent Delete">
+                                                                <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
+                                            </td>
+                                        @endcan
                                     </tr>
                                 @endforeach
                             </tbody>

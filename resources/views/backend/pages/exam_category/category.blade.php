@@ -26,13 +26,16 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Exam Category</h3>
-                    <a href="{{ route('exam_categories.trash') }}" class="btn btn-sm btn-outline-warning border"><i
-                            class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @can('delete-exam-category')
+                        <a href="{{ route('exam_categories.trash') }}" class="btn btn-sm btn-outline-warning border"><i
+                                class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @endcan
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('exam_categories.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="row">
+                    @can('create-exam-category')
+                        <form action="{{ route('exam_categories.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="name">Name</label>
@@ -94,9 +97,10 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Create</button>
-                    </form>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </form>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -118,8 +122,12 @@
                                     <th class="border-bottom-0">Price</th>
                                     <th class="border-bottom-0">Discount</th>
                                     <th class="border-bottom-0">Type</th>
-                                    <th class="border-bottom-0">Status</th>
-                                    <th class="border-bottom-0">Actions</th>
+                                    @can('edit-exam-category')
+                                        <th class="border-bottom-0">Status</th>
+                                    @endcan
+                                    @canany(['edit-exam-category', 'delete-exam-category'])
+                                        <th class="border-bottom-0">Actions</th>
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -137,39 +145,47 @@
                                         <td>{{ $category->price }}</td>
                                         <td>{{ $category->discount }}</td>
                                         <td>{{ ucfirst($category->free_paid) }}</td>
-                                        <td>
-                                            <div class="material-switch">
-                                                <input id="active-{{ $category->id }}" class="toggle-class-active" name="is_active"
-                                                    type="checkbox" {{ $category->is_active ? 'checked' : '' }}
-                                                    data-id="{{ $category->id }}">
-                                                <label for="active-{{ $category->id }}" class="label-success"></label>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">
-                                            <div class="action-btns d-flex align-items-center">
-                                                <div>
-                                                    <a href="{{ route('exam_categories.edit', $category->id) }}"
-                                                        class="btn btn-sm btn-outline-secondary border me-2"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        title="Edit">
-                                                        <i class="fa-solid fa-pen fa-fw"></i>
-                                                    </a>
+                                        @can('edit-exam-category')
+                                            <td>
+                                                <div class="material-switch">
+                                                    <input id="active-{{ $category->id }}" class="toggle-class-active" name="is_active"
+                                                        type="checkbox" {{ $category->is_active ? 'checked' : '' }}
+                                                        data-id="{{ $category->id }}">
+                                                    <label for="active-{{ $category->id }}" class="label-success"></label>
                                                 </div>
-                                                <div>
-                                                    <form action="{{ route('exam_categories.destroy', $category->id) }}" method="POST"
-                                                        class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            class="btn btn-sm btn-outline-warning border show_confirm"
-                                                            data-toggle="tooltip" data-placement="top"
-                                                            title="Delete">
-                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
-                                                        </button>
-                                                    </form>
+                                            </td>
+                                        @endcan
+                                        @canany(['edit-exam-category', 'delete-exam-category'])
+                                            <td class="text-center">
+                                                <div class="action-btns d-flex align-items-center">
+                                                    @can('edit-exam-category')
+                                                        <div>
+                                                            <a href="{{ route('exam_categories.edit', $category->id) }}"
+                                                                class="btn btn-sm btn-outline-secondary border me-2"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="Edit">
+                                                                <i class="fa-solid fa-pen fa-fw"></i>
+                                                            </a>
+                                                        </div>
+                                                    @endcan
+                                                    @can('delete-exam-category')
+                                                        <div>
+                                                            <form action="{{ route('exam_categories.destroy', $category->id) }}" method="POST"
+                                                                class="d-inline">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit"
+                                                                    class="btn btn-sm btn-outline-warning border show_confirm"
+                                                                    data-toggle="tooltip" data-placement="top"
+                                                                    title="Delete">
+                                                                    <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    @endcan
                                                 </div>
-                                            </div>
-                                        </td>
+                                            </td>
+                                        @endcanany
                                     </tr>
                                 @endforeach
                             </tbody>

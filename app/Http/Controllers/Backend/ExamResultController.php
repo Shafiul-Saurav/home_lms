@@ -8,6 +8,7 @@ use App\Models\ExamResult;
 use App\Models\ExamAnswer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class ExamResultController extends Controller
 {
@@ -16,6 +17,8 @@ class ExamResultController extends Controller
      */
     public function index(Request $request)
     {
+        Gate::authorize('index-results');
+
         $results = ExamResult::with(['exam', 'user'])->latest('id')->get();
 
         return view('backend.pages.exam_results.index', compact('results'));
@@ -26,6 +29,8 @@ class ExamResultController extends Controller
      */
     public function show($id)
     {
+        Gate::authorize('index-results');
+
         $result = ExamResult::with(['exam', 'user', 'answers.question'])->findOrFail($id);
 
         return view('backend.pages.exam_results.show', compact('result'));
@@ -36,6 +41,8 @@ class ExamResultController extends Controller
      */
     public function grade($id)
     {
+        Gate::authorize('edit-results');
+
         $result = ExamResult::with(['exam', 'user', 'answers.question'])->findOrFail($id);
 
         // Only written exams can be graded
@@ -65,6 +72,8 @@ class ExamResultController extends Controller
      */
     public function updateGrades(Request $request, $id)
     {
+        Gate::authorize('edit-results');
+
         $request->validate([
             'marks.*' => 'required|numeric|min:0',
             'feedback.*' => 'nullable|string',
@@ -137,6 +146,8 @@ class ExamResultController extends Controller
      */
     public function destroy($id)
     {
+        Gate::authorize('delete-results');
+
         $result = ExamResult::findOrFail($id);
         $result->delete();
 
@@ -150,6 +161,8 @@ class ExamResultController extends Controller
      */
     public function statistics($examId)
     {
+        Gate::authorize('index-results');
+
         $exam = Exam::findOrFail($examId);
         $results = $exam->results()->get();
 

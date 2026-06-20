@@ -332,67 +332,85 @@
                     </li>
                 @endcanany
 
-                <li
-                    class="slide {{ Request::routeIs('exam_categories.*') || Request::routeIs('exams.*') || Request::routeIs('questions.*') || Request::routeIs('exam_results.*') ? 'is-expanded' : '' }}">
-                    <a class="side-menu__item {{ Request::routeIs('exam_categories.*') || Request::routeIs('exams.*') || Request::routeIs('questions.*') || Request::routeIs('exam_results.*') ? 'active' : '' }}"
-                        data-bs-toggle="slide" href="#">
-                        <i class="fa-solid fa-file-signature"></i>
-                        <span class="side-menu__label ms-3">Exam Management</span><i
-                            class="fa-solid fa-angle-right"></i>
-                    </a>
-                    <ul class="slide-menu">
-                        <li class="sub-slide {{ Request::routeIs('exam_categories.*') ? 'is-expanded' : '' }}">
-                            <a class="sub-side-menu__item {{ Request::routeIs('exam_categories.*') ? 'active' : '' }}"
-                                data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Category
-                                    Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
-                            <ul class="sub-slide-menu">
-                                <li><a class="sub-slide-item {{ Request::routeIs('exam_categories.index') ? 'active' : '' }}"
-                                        href="{{ route('exam_categories.index') }}">List</a></li>
-                                <li><a class="sub-slide-item {{ Request::routeIs('exam_categories.trash') ? 'active' : '' }}"
-                                        href="{{ route('exam_categories.trash') }}">Trash</a></li>
-                            </ul>
-                        </li>
-                        <li class="sub-slide {{ Request::routeIs('exams.*') ? 'is-expanded' : '' }}">
-                            <a class="sub-side-menu__item {{ Request::routeIs('exams.*') ? 'active' : '' }}"
-                                data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Exam
-                                    Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
-                            <ul class="sub-slide-menu">
-                                <li><a class="sub-slide-item {{ Request::routeIs('exams.index') ? 'active' : '' }}"
-                                        href="{{ route('exams.index') }}">List</a></li>
-                                <li><a class="sub-slide-item {{ Request::routeIs('exams.trash') ? 'active' : '' }}"
-                                        href="{{ route('exams.trash') }}">Trash</a></li>
-                            </ul>
-                        </li>
-                        <li class="sub-slide {{ Request::routeIs('questions.*') ? 'is-expanded' : '' }}">
-                            <a class="sub-side-menu__item {{ Request::routeIs('questions.*') ? 'active' : '' }}"
-                                data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Question
-                                    Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
-                            <ul class="sub-slide-menu">
-                                <li><a class="sub-slide-item {{ Request::routeIs('questions.index') && !request()->has('type') ? 'active' : '' }}"
-                                        href="{{ route('questions.index') }}">List</a></li>
-                                <li><a class="sub-slide-item {{ Request::routeIs('questions.index') && request('type') == 'written' ? 'active' : '' }}"
-                                        href="{{ route('questions.index', ['type' => 'written']) }}">Written
-                                        Question</a></li>
-                                <li><a class="sub-slide-item {{ Request::routeIs('questions.index') && request('type') == 'mcq' ? 'active' : '' }}"
-                                        href="{{ route('questions.index', ['type' => 'mcq']) }}">MCQ Question</a>
+                @canany(['index-exam-category', 'index-exam', 'index-question', 'index-results'])
+                    <li
+                        class="slide {{ Request::routeIs('exam_categories.*') || Request::routeIs('exams.*') || Request::routeIs('questions.*') || Request::routeIs('exam_results.*') ? 'is-expanded' : '' }}">
+                        <a class="side-menu__item {{ Request::routeIs('exam_categories.*') || Request::routeIs('exams.*') || Request::routeIs('questions.*') || Request::routeIs('exam_results.*') ? 'active' : '' }}"
+                            data-bs-toggle="slide" href="#">
+                            <i class="fa-solid fa-file-signature"></i>
+                            <span class="side-menu__label ms-3">Exam Management</span><i
+                                class="fa-solid fa-angle-right"></i>
+                        </a>
+                        <ul class="slide-menu">
+                            @can('index-exam-category')
+                                <li class="sub-slide {{ Request::routeIs('exam_categories.*') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('exam_categories.*') ? 'active' : '' }}"
+                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Category
+                                            Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    <ul class="sub-slide-menu">
+                                        <li><a class="sub-slide-item {{ Request::routeIs('exam_categories.index') ? 'active' : '' }}"
+                                                href="{{ route('exam_categories.index') }}">List</a></li>
+                                        @can('delete-exam-category')
+                                            <li><a class="sub-slide-item {{ Request::routeIs('exam_categories.trash') ? 'active' : '' }}"
+                                                    href="{{ route('exam_categories.trash') }}">Trash</a></li>
+                                        @endcan
+                                    </ul>
                                 </li>
-                                <li><a class="sub-slide-item {{ Request::routeIs('questions.csv.import') ? 'active' : '' }}"
-                                        href="{{ route('questions.csv.import') }}">CSV Upload</a></li>
-                                <li><a class="sub-slide-item {{ Request::routeIs('questions.trash') ? 'active' : '' }}"
-                                        href="{{ route('questions.trash') }}">Trash</a></li>
-                            </ul>
-                        </li>
-                        <li class="sub-slide {{ Request::routeIs('exam_results.*') ? 'is-expanded' : '' }}">
-                            <a class="sub-side-menu__item {{ Request::routeIs('exam_results.*') ? 'active' : '' }}"
-                                data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Results
-                                    Management</span><i class="sub-angle fa fa-angle-right"></i></a>
-                            <ul class="sub-slide-menu">
-                                <li><a class="sub-slide-item {{ Request::routeIs('exam_results.index') ? 'active' : '' }}"
-                                        href="{{ route('exam_results.index') }}">All Results</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
+                            @endcan
+                            @can('index-exam')
+                                <li class="sub-slide {{ Request::routeIs('exams.*') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('exams.*') ? 'active' : '' }}"
+                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Exam
+                                            Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    <ul class="sub-slide-menu">
+                                        <li><a class="sub-slide-item {{ Request::routeIs('exams.index') ? 'active' : '' }}"
+                                                href="{{ route('exams.index') }}">List</a></li>
+                                        @can('delete-exam')
+                                            <li><a class="sub-slide-item {{ Request::routeIs('exams.trash') ? 'active' : '' }}"
+                                                    href="{{ route('exams.trash') }}">Trash</a></li>
+                                        @endcan
+                                    </ul>
+                                </li>
+                            @endcan
+                            @can('index-question')
+                                <li class="sub-slide {{ Request::routeIs('questions.*') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('questions.*') ? 'active' : '' }}"
+                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Question
+                                            Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    <ul class="sub-slide-menu">
+                                        <li><a class="sub-slide-item {{ Request::routeIs('questions.index') && !request()->has('type') ? 'active' : '' }}"
+                                                href="{{ route('questions.index') }}">List</a></li>
+                                        <li><a class="sub-slide-item {{ Request::routeIs('questions.index') && request('type') == 'written' ? 'active' : '' }}"
+                                                href="{{ route('questions.index', ['type' => 'written']) }}">Written
+                                                Question</a></li>
+                                        <li><a class="sub-slide-item {{ Request::routeIs('questions.index') && request('type') == 'mcq' ? 'active' : '' }}"
+                                                href="{{ route('questions.index', ['type' => 'mcq']) }}">MCQ Question</a>
+                                        </li>
+                                        @can('create-question')
+                                            <li><a class="sub-slide-item {{ Request::routeIs('questions.csv.import') ? 'active' : '' }}"
+                                                    href="{{ route('questions.csv.import') }}">CSV Upload</a></li>
+                                        @endcan
+                                        @can('delete-question')
+                                            <li><a class="sub-slide-item {{ Request::routeIs('questions.trash') ? 'active' : '' }}"
+                                                    href="{{ route('questions.trash') }}">Trash</a></li>
+                                        @endcan
+                                    </ul>
+                                </li>
+                            @endcan
+                            @can('index-results')
+                                <li class="sub-slide {{ Request::routeIs('exam_results.*') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('exam_results.*') ? 'active' : '' }}"
+                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Results
+                                            Management</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    <ul class="sub-slide-menu">
+                                        <li><a class="sub-slide-item {{ Request::routeIs('exam_results.index') ? 'active' : '' }}"
+                                                href="{{ route('exam_results.index') }}">All Results</a></li>
+                                    </ul>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcanany
 
                 <li
                     class="slide {{ Request::routeIs('book_categories.index') ? 'is-expanded' : '' }}

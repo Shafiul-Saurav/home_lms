@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class QuestionController extends Controller
 {
     public function index(Request $request)
     {
+        Gate::authorize('index-question');
+
         $query = Question::latest('id');
 
         if ($request->has('type') && in_array($request->type, ['mcq', 'written'])) {
@@ -29,11 +32,15 @@ class QuestionController extends Controller
 
     public function create()
     {
+        Gate::authorize('create-question');
+
         // return view('backend.pages.question.create');
     }
 
     public function store(Request $request)
     {
+        Gate::authorize('create-question');
+
         $request->validate([
             'type' => 'required|in:mcq,written',
             'question_text' => 'required|string',
@@ -62,18 +69,24 @@ class QuestionController extends Controller
 
     public function show(string $id)
     {
+        Gate::authorize('index-question');
+
         $question = Question::findOrFail($id);
         // return view('backend.pages.question.show', compact('question'));
     }
 
     public function edit(string $id)
     {
+        Gate::authorize('edit-question');
+
         $question = Question::findOrFail($id);
         return view('backend.pages.question.edit', compact('question'));
     }
 
     public function update(Request $request, string $id)
     {
+        Gate::authorize('edit-question');
+
         $request->validate([
             'type' => 'required|in:mcq,written',
             'question_text' => 'required|string',
@@ -104,6 +117,8 @@ class QuestionController extends Controller
 
     public function destroy(string $id)
     {
+        Gate::authorize('delete-question');
+
         $question = Question::findOrFail($id);
         $question->delete();
         return redirect()->route('questions.index')->with('warning', 'Question Moved to Trash Successfully');
@@ -111,6 +126,8 @@ class QuestionController extends Controller
 
     public function checkActive($id)
     {
+        Gate::authorize('edit-question');
+
         $question = Question::find($id);
         if ($question) {
             $question->is_active = !$question->is_active;
@@ -121,11 +138,15 @@ class QuestionController extends Controller
     }
     public function csvImportForm()
     {
+        Gate::authorize('create-question');
+
         return view('backend.pages.question.csv_upload');
     }
 
     public function csvImport(Request $request)
     {
+        Gate::authorize('create-question');
+
         $request->validate(['csv_file' => 'required|file|mimes:csv,txt']);
         
         $file = $request->file('csv_file');
@@ -159,6 +180,8 @@ class QuestionController extends Controller
 
     public function csvSample()
     {
+        Gate::authorize('create-question');
+
         $headers = [
             'type(mcq/written)', 'question_text', 'mark', 'negative_mark', 'option_1', 'option_2', 'option_3', 'option_4', 'option_5', 'correct_option(1-5)', 'written_answer_guide', 'is_active(1/0)'
         ];
@@ -182,6 +205,8 @@ class QuestionController extends Controller
 
     public function assignToExam(Request $request)
     {
+        Gate::authorize('edit-question');
+
         $request->validate([
             'exam_id' => 'required|exists:exams,id',
             'question_ids' => 'required|array',
