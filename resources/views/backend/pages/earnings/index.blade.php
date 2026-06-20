@@ -46,7 +46,7 @@
             </div>
         @else
             <!-- Commission Info Banner -->
-            <div class="col-12 mb-4">
+            {{-- <div class="col-12 mb-4">
                 <div class="card bg-light border-0 shadow-sm">
                     <div class="card-body d-flex flex-wrap align-items-center justify-content-between">
                         <div>
@@ -86,7 +86,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Stats Row -->
             <div class="col-lg-6 col-sm-12 col-md-6 col-xl-3 mb-4">
