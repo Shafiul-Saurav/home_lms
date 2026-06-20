@@ -27,7 +27,8 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Course Trashed List</h3>
-                    <a href="{{ route('courses.index') }}" class="btn btn-outline-info border"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
+                    <a href="{{ route('courses.index') }}" class="btn btn-outline-info border"><i
+                            class="fa-solid fa-angles-left fa-fw"></i> Back</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -50,7 +51,8 @@
                                         <td>{{ $course->updated_at->format('d-M-Y') }}</td>
                                         <td>
                                             @if ($course->image)
-                                                <img src="{{ asset('uploads/courses/' . $course->image) }}" alt="" style="height: 100px">
+                                                <img src="{{ asset('uploads/courses/' . $course->image) }}" alt=""
+                                                    style="height: 100px">
                                             @else
                                                 No Image
                                             @endif
@@ -67,10 +69,12 @@
                                                     </a>
                                                 </div>
                                                 <div>
-                                                    <form action="{{ route('courses.forcedelete', ['id' => $course->id]) }}" method="POST">
+                                                    <form action="{{ route('courses.forcedelete', ['id' => $course->id]) }}"
+                                                        method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-outline-danger border show_confirm">
+                                                        <button type="submit"
+                                                            class="btn btn-sm btn-outline-danger border show_confirm">
                                                             <i class="fa-solid fa-radiation"></i>
                                                         </button>
                                                     </form>
@@ -81,7 +85,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{ $courses->links() }}
                     </div>
                 </div>
             </div>

@@ -26,7 +26,7 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Course</h3>
-                    @can('delete-product')
+                    @can('delete-course')
                         <a href="{{ route('courses.trash') }}" class="btn btn-sm btn-outline-warning border">
                             <i class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash
                         </a>
@@ -86,7 +86,8 @@
                                 <div class="form-group">
                                     <label for="subcategory_id">Subcategory</label>
                                     <select name="subcategory_id" id="subcategory_id"
-                                        class="form-control select2-style1 @error('subcategory_id') is-invalid @enderror" disabled>
+                                        class="form-control select2-style1 @error('subcategory_id') is-invalid @enderror"
+                                        disabled>
                                         <option value="">Select Subcategory</option>
                                     </select>
                                     @error('subcategory_id')
@@ -408,10 +409,10 @@
                                     <th>Price</th>
                                     <th>Discount</th>
                                     <th>Type</th>
-                                    @can('edit-product')
+                                    @can('edit-course')
                                         <th>Status</th>
                                     @endcan
-                                    @canany(['edit-product', 'delete-product'])
+                                    @canany(['edit-course', 'delete-course'])
                                         <th>Actions</th>
                                     @endcanany
                                 </tr>
@@ -434,7 +435,7 @@
                                         <td>{{ $course->price }}</td>
                                         <td>{{ $course->discount ?? 'N/A' }}</td>
                                         <td>{{ $course->live_or_record ?? 'N/A' }}</td>
-                                        @can('edit-product')
+                                        @can('edit-course')
                                             <td>
                                                 <div class="material-switch">
                                                     <input id="course-{{ $course->id }}" class="toggle-class"
@@ -445,7 +446,7 @@
                                                 </div>
                                             </td>
                                         @endcan
-                                        @canany(['edit-product', 'delete-product'])
+                                        @canany(['edit-course', 'delete-course'])
                                             <td class="text-center">
                                                 <div class="action-btns d-flex align-items-center justify-content-center">
                                                     <div>
@@ -500,9 +501,9 @@
                             // Handle both Latin and non-Latin characters (like Bangla)
                             var generatedSlug = name.toLowerCase()
                                 .replace(/[^\w\s\u0980-\u09FF-]/g,
-                                '') // Allow Bangla Unicode range along with alphanumeric and spaces/hyphens
+                                    '') // Allow Bangla Unicode range along with alphanumeric and spaces/hyphens
                                 .replace(/[\s_-]+/g,
-                                '-') // Replace spaces, underscores, or multiple hyphens with single hyphen
+                                    '-') // Replace spaces, underscores, or multiple hyphens with single hyphen
                                 .replace(/^-+|-+$/g, '') // Remove leading/trailing hyphens
                                 .trim();
                             slugField.val(generatedSlug);

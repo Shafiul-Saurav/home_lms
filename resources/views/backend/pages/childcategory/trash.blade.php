@@ -27,7 +27,8 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Childcategory Trashed List</h3>
-                    <a href="{{ route('childcategories.index') }}" class="btn btn-outline-info border"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
+                    <a href="{{ route('childcategories.index') }}" class="btn btn-outline-info border"><i
+                            class="fa-solid fa-angles-left fa-fw"></i> Back</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -56,8 +57,9 @@
                                         <td>{{ $childcategory->name }}</td>
                                         <td>{{ $childcategory->slug }}</td>
                                         <td>
-                                            @if($childcategory->file)
-                                                <a href="{{ asset('uploads/childcategories/' . $childcategory->file) }}" target="_blank">View File</a>
+                                            @if ($childcategory->file)
+                                                <a href="{{ asset('uploads/childcategories/' . $childcategory->file) }}"
+                                                    target="_blank">View File</a>
                                             @else
                                                 -
                                             @endif
@@ -65,24 +67,29 @@
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
-                                                    @can('delete-product-childcategory')
-                                                    <a href="{{ route('childcategories.restore', ['id' => $childcategory->id]) }}"
-                                                        class="btn btn-sm btn-outline-success border me-2" data-toggle="tooltip"
-                                                        data-placement="top" data-bs-original-title="Restore"><i class="fa-solid fa-rotate-left fa-fw"></i>
-                                                    </a>
+                                                    @can('delete-course-childcategory')
+                                                        <a href="{{ route('childcategories.restore', ['id' => $childcategory->id]) }}"
+                                                            class="btn btn-sm btn-outline-success border me-2"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            data-bs-original-title="Restore"><i
+                                                                class="fa-solid fa-rotate-left fa-fw"></i>
+                                                        </a>
                                                     @endcan
                                                 </div>
                                                 <div>
-                                                    @can('delete-product-childcategory')
-                                                    <form action="{{ route('childcategories.forcedelete', ['id' => $childcategory->id]) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-outline-danger border show_confirm" data-toggle="tooltip"
-                                                        data-placement="top" data-bs-original-title="Force Delete">
-                                                            <i class="fa-solid fa-radiation"></i>
-                                                        </button>
-                                                    </form>
+                                                    @can('delete-course-childcategory')
+                                                        <form
+                                                            action="{{ route('childcategories.forcedelete', ['id' => $childcategory->id]) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-outline-danger border show_confirm"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                data-bs-original-title="Force Delete">
+                                                                <i class="fa-solid fa-radiation"></i>
+                                                            </button>
+                                                        </form>
                                                     @endcan
                                                 </div>
                                             </div>

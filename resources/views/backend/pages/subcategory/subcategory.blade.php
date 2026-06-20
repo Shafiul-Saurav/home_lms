@@ -36,9 +36,9 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Subcategory</h3>
-                    @can('delete-product-subcategory')
-                    <a href="{{ route('subcategories.trash') }}" class="btn btn-sm btn-outline-warning border"><i
-                            class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @can('delete-course-subcategory')
+                        <a href="{{ route('subcategories.trash') }}" class="btn btn-sm btn-outline-warning border"><i
+                                class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
                     @endcan
                 </div>
                 <div class="card-body">
@@ -48,12 +48,15 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="category_id">Category</label>
-                                    <select name="category_id" class="form-control select2-style1 @error('category_id')
+                                    <select name="category_id"
+                                        class="form-control select2-style1 @error('category_id')
                                         is-invalid
-                                    @enderror" id="category_id" required>
+                                    @enderror"
+                                        id="category_id" required>
                                         <option value="">Select Category</option>
-                                        @foreach($categories as $category)
-                                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}"
+                                                {{ old('category_id') == $category->id ? 'selected' : '' }}>
                                                 {{ $category->name }}
                                             </option>
                                         @endforeach
@@ -68,10 +71,11 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="name">Name</label>
-                                    <input type="text" name="name" class="form-control @error('name')
+                                    <input type="text" name="name"
+                                        class="form-control @error('name')
                                         is-invalid
-                                    @enderror" id="name"
-                                        value="{{ old('name') }}" required>
+                                    @enderror"
+                                        id="name" value="{{ old('name') }}" required>
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -82,9 +86,11 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="file">File</label>
-                                    <input type="file" name="file" class="form-control @error('file')
+                                    <input type="file" name="file"
+                                        class="form-control @error('file')
                                         is-invalid
-                                    @enderror" id="file">
+                                    @enderror"
+                                        id="file">
                                     @error('file')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -122,14 +128,14 @@
                                     <th class="border-bottom-0">Name</th>
                                     <th class="border-bottom-0">Slug</th>
                                     <th class="border-bottom-0">File</th>
-                                    @can('edit-product-subcategory')
-                                    <th class="border-bottom-0">Home Page</th>
+                                    @can('edit-course-subcategory')
+                                        <th class="border-bottom-0">Home Page</th>
                                     @endcan
-                                    @can('edit-product-subcategory')
-                                    <th class="border-bottom-0">Status</th>
+                                    @can('edit-course-subcategory')
+                                        <th class="border-bottom-0">Status</th>
                                     @endcan
-                                    @canany(['edit-product-subcategory', 'delete-product-subcategory'])
-                                    <th class="border-bottom-0">Actions</th>
+                                    @canany(['edit-course-subcategory', 'delete-course-subcategory'])
+                                        <th class="border-bottom-0">Actions</th>
                                     @endcanany
                                 </tr>
                             </thead>
@@ -144,65 +150,70 @@
                                         <td>{{ $subcategory->name }}</td>
                                         <td>{{ $subcategory->slug }}</td>
                                         <td>
-                                            @if($subcategory->file)
-                                                <a href="{{ asset('uploads/subcategories/' . $subcategory->file) }}" target="_blank">View File</a>
+                                            @if ($subcategory->file)
+                                                <a href="{{ asset('uploads/subcategories/' . $subcategory->file) }}"
+                                                    target="_blank">View File</a>
                                             @else
                                                 -
                                             @endif
                                         </td>
-                                        @can('edit-product-subcategory')
-                                        <td>
-                                            <div class="material-switch">
-                                                <input id="home-{{ $subcategory->id }}" class="toggle-class-home" name="is_home"
-                                                    type="checkbox" {{ $subcategory->is_home ? 'checked' : '' }}
-                                                    data-id="{{ $subcategory->id }}">
-                                                <label for="home-{{ $subcategory->id }}" class="label-success"></label>
-                                            </div>
-                                        </td>
-                                        @endcan
-                                        @can('edit-product-subcategory')
-                                        <td>
-                                            <div class="material-switch">
-                                                <input id="active-{{ $subcategory->id }}" class="toggle-class-active" name="is_active"
-                                                    type="checkbox" {{ $subcategory->is_active ? 'checked' : '' }}
-                                                    data-id="{{ $subcategory->id }}">
-                                                <label for="active-{{ $subcategory->id }}" class="label-success"></label>
-                                            </div>
-                                        </td>
-                                        @endcan
-                                        @canany(['edit-product-subcategory', 'delete-product-subcategory'])
-                                        <td class="text-center">
-                                            <div class="action-btns d-flex align-items-center">
-                                                <div>
-                                                    <a href="{{ route('subcategories.show', $subcategory->id) }}" class="btn btn-sm btn-outline-primary border me-2"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        data-bs-original-title="View">
-                                                        <i class="fa-solid fa-eye"></i>
-                                                    </a>
+                                        @can('edit-course-subcategory')
+                                            <td>
+                                                <div class="material-switch">
+                                                    <input id="home-{{ $subcategory->id }}" class="toggle-class-home"
+                                                        name="is_home" type="checkbox"
+                                                        {{ $subcategory->is_home ? 'checked' : '' }}
+                                                        data-id="{{ $subcategory->id }}">
+                                                    <label for="home-{{ $subcategory->id }}" class="label-success"></label>
                                                 </div>
-                                                <div>
-                                                    <a href="{{ route('subcategories.edit', $subcategory->slug) }}"
-                                                        class="btn btn-sm btn-outline-secondary border me-2"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        data-bs-original-title="Edit">
-                                                        <i class="fa-solid fa-pen fa-fw"></i>
-                                                    </a>
+                                            </td>
+                                        @endcan
+                                        @can('edit-course-subcategory')
+                                            <td>
+                                                <div class="material-switch">
+                                                    <input id="active-{{ $subcategory->id }}" class="toggle-class-active"
+                                                        name="is_active" type="checkbox"
+                                                        {{ $subcategory->is_active ? 'checked' : '' }}
+                                                        data-id="{{ $subcategory->id }}">
+                                                    <label for="active-{{ $subcategory->id }}" class="label-success"></label>
                                                 </div>
-                                                <div>
-                                                    <form action="{{ route('subcategories.destroy', $subcategory->slug) }}" method="POST"
-                                                        class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            class="btn btn-sm btn-outline-warning border show_confirm"
+                                            </td>
+                                        @endcan
+                                        @canany(['edit-course-subcategory', 'delete-course-subcategory'])
+                                            <td class="text-center">
+                                                <div class="action-btns d-flex align-items-center">
+                                                    <div>
+                                                        <a href="{{ route('subcategories.show', $subcategory->id) }}"
+                                                            class="btn btn-sm btn-outline-primary border me-2"
                                                             data-toggle="tooltip" data-placement="top"
-                                                            data-bs-original-title="Delete">
-                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
-                                                        </button>
-                                                    </form>
+                                                            data-bs-original-title="View">
+                                                            <i class="fa-solid fa-eye"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div>
+                                                        <a href="{{ route('subcategories.edit', $subcategory->slug) }}"
+                                                            class="btn btn-sm btn-outline-secondary border me-2"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            data-bs-original-title="Edit">
+                                                            <i class="fa-solid fa-pen fa-fw"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div>
+                                                        <form
+                                                            action="{{ route('subcategories.destroy', $subcategory->slug) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-outline-warning border show_confirm"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                data-bs-original-title="Delete">
+                                                                <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
+                                            </td>
                                         @endcanany
                                     </tr>
                                 @endforeach

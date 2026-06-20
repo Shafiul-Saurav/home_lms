@@ -11,7 +11,7 @@ class SubcategoryTrashController extends Controller
 {
     public function trash()
     {
-        Gate::authorize('delete-product-subcategory');
+        Gate::authorize('delete-course-subcategory');
 
         $subcategories = Subcategory::onlyTrashed()->with('category')->latest('id')->paginate(30);
         return view('backend.pages.subcategory.trash', compact('subcategories'));

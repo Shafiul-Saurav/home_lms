@@ -14,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        Gate::authorize('index-product-category');
+        Gate::authorize('index-course-category');
 
         $categories = Category::latest('id')->paginate(30);
         return view('backend.pages.category.category', compact('categories'));
@@ -33,7 +33,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        Gate::authorize('create-product-category');
+        Gate::authorize('create-course-category');
 
         // Handle file upload if present
         $fileName = null;
@@ -65,7 +65,7 @@ class CategoryController extends Controller
      */
     public function edit(string $slug)
     {
-        Gate::authorize('edit-product-category');
+        Gate::authorize('edit-course-category');
 
         $category = Category::where('slug', $slug)->first();
         return view('backend.pages.category.edit', compact('category'));
@@ -76,7 +76,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $slug)
     {
-        Gate::authorize('edit-product-category');
+        Gate::authorize('edit-course-category');
 
         $category = Category::where('slug', $slug)->first();
 
@@ -107,7 +107,7 @@ class CategoryController extends Controller
      */
     public function destroy(string $slug)
     {
-        Gate::authorize('delete-product-category');
+        Gate::authorize('delete-course-category');
 
         $category = Category::where('slug', $slug)->first();
         $category->delete();

@@ -26,9 +26,9 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Category</h3>
-                    @can('delete-product-category')
-                    <a href="{{ route('categories.trash') }}" class="btn btn-sm btn-outline-warning border"><i
-                            class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @can('delete-course-category')
+                        <a href="{{ route('categories.trash') }}" class="btn btn-sm btn-outline-warning border"><i
+                                class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
                     @endcan
                 </div>
                 <div class="card-body">
@@ -38,10 +38,11 @@
                             <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label for="name">Name</label>
-                                    <input type="text" name="name" class="form-control @error('name')
+                                    <input type="text" name="name"
+                                        class="form-control @error('name')
                                         is-invalid
-                                    @enderror" id="name"
-                                        value="{{ old('name') }}" required>
+                                    @enderror"
+                                        id="name" value="{{ old('name') }}" required>
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -52,9 +53,11 @@
                             <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label for="file">File</label>
-                                    <input type="file" name="file" class="form-control @error('file')
+                                    <input type="file" name="file"
+                                        class="form-control @error('file')
                                         is-invalid
-                                    @enderror" id="file">
+                                    @enderror"
+                                        id="file">
                                     @error('file')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -85,14 +88,14 @@
                                     <th class="border-bottom-0">Name</th>
                                     <th class="border-bottom-0">Slug</th>
                                     <th class="border-bottom-0">File</th>
-                                    @can('edit-product-category')
-                                    <th class="border-bottom-0">Home Page</th>
+                                    @can('edit-course-category')
+                                        <th class="border-bottom-0">Home Page</th>
                                     @endcan
-                                    @can('edit-product-category')
-                                    <th class="border-bottom-0">Status</th>
+                                    @can('edit-course-category')
+                                        <th class="border-bottom-0">Status</th>
                                     @endcan
-                                    @canany(['edit-product-category', 'delete-product-category'])
-                                    <th class="border-bottom-0">Actions</th>
+                                    @canany(['edit-course-category', 'delete-course-category'])
+                                        <th class="border-bottom-0">Actions</th>
                                     @endcanany
                                 </tr>
                             </thead>
@@ -106,65 +109,69 @@
                                         <td>{{ $category->name }}</td>
                                         <td>{{ $category->slug }}</td>
                                         <td>
-                                            @if($category->file)
-                                                <img src="{{ asset('uploads/categories/' . $category->file) }}" alt="{{ $category->name }}" style="width: 50px; height: 50px; object-fit: contain;">
+                                            @if ($category->file)
+                                                <img src="{{ asset('uploads/categories/' . $category->file) }}"
+                                                    alt="{{ $category->name }}"
+                                                    style="width: 50px; height: 50px; object-fit: contain;">
                                             @else
                                                 -
                                             @endif
                                         </td>
-                                        @can('edit-product-category')
-                                        <td>
-                                            <div class="material-switch">
-                                                <input id="home-{{ $category->id }}" class="toggle-class-home" name="is_home"
-                                                    type="checkbox" {{ $category->is_home ? 'checked' : '' }}
-                                                    data-id="{{ $category->id }}">
-                                                <label for="home-{{ $category->id }}" class="label-success"></label>
-                                            </div>
-                                        </td>
+                                        @can('edit-course-category')
+                                            <td>
+                                                <div class="material-switch">
+                                                    <input id="home-{{ $category->id }}" class="toggle-class-home"
+                                                        name="is_home" type="checkbox"
+                                                        {{ $category->is_home ? 'checked' : '' }}
+                                                        data-id="{{ $category->id }}">
+                                                    <label for="home-{{ $category->id }}" class="label-success"></label>
+                                                </div>
+                                            </td>
                                         @endcan
-                                        @can('edit-product-category')
-                                        <td>
-                                            <div class="material-switch">
-                                                <input id="active-{{ $category->id }}" class="toggle-class-active" name="is_active"
-                                                    type="checkbox" {{ $category->is_active ? 'checked' : '' }}
-                                                    data-id="{{ $category->id }}">
-                                                <label for="active-{{ $category->id }}" class="label-success"></label>
-                                            </div>
-                                        </td>
+                                        @can('edit-course-category')
+                                            <td>
+                                                <div class="material-switch">
+                                                    <input id="active-{{ $category->id }}" class="toggle-class-active"
+                                                        name="is_active" type="checkbox"
+                                                        {{ $category->is_active ? 'checked' : '' }}
+                                                        data-id="{{ $category->id }}">
+                                                    <label for="active-{{ $category->id }}" class="label-success"></label>
+                                                </div>
+                                            </td>
                                         @endcan
-                                        @canany(['edit-product-category', 'delete-product-category'])
-                                        <td class="text-center">
-                                            <div class="action-btns d-flex align-items-center">
-                                                {{-- <div>
+                                        @canany(['edit-course-category', 'delete-course-category'])
+                                            <td class="text-center">
+                                                <div class="action-btns d-flex align-items-center">
+                                                    {{-- <div>
                                                     <a href="{{ route('categories.show', $category->id) }}" class="btn btn-sm btn-outline-primary border me-2"
                                                         data-toggle="tooltip" data-placement="top"
                                                         data-bs-original-title="View">
                                                         <i class="fa-solid fa-eye"></i>
                                                     </a>
                                                 </div> --}}
-                                                <div>
-                                                    <a href="{{ route('categories.edit', $category->slug) }}"
-                                                        class="btn btn-sm btn-outline-secondary border me-2"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        data-bs-original-title="Edit">
-                                                        <i class="fa-solid fa-pen fa-fw"></i>
-                                                    </a>
-                                                </div>
-                                                <div>
-                                                    <form action="{{ route('categories.destroy', $category->slug) }}" method="POST"
-                                                        class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            class="btn btn-sm btn-outline-warning border show_confirm"
+                                                    <div>
+                                                        <a href="{{ route('categories.edit', $category->slug) }}"
+                                                            class="btn btn-sm btn-outline-secondary border me-2"
                                                             data-toggle="tooltip" data-placement="top"
-                                                            data-bs-original-title="Delete">
-                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
-                                                        </button>
-                                                    </form>
+                                                            data-bs-original-title="Edit">
+                                                            <i class="fa-solid fa-pen fa-fw"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div>
+                                                        <form action="{{ route('categories.destroy', $category->slug) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-outline-warning border show_confirm"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                data-bs-original-title="Delete">
+                                                                <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
+                                            </td>
                                         @endcanany
                                     </tr>
                                 @endforeach

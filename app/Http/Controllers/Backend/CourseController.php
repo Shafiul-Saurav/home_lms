@@ -18,7 +18,7 @@ class CourseController extends Controller
 {
     public function index()
     {
-        Gate::authorize('index-product');
+        Gate::authorize('index-course');
 
         $courses = Course::with('category', 'subcategory')->whereNull('deleted_at')->latest('id')->paginate(100);
         $categories = Category::where('is_active', 1)->get();
@@ -33,7 +33,7 @@ class CourseController extends Controller
 
     public function store(CourseStoreRequest $request)
     {
-        Gate::authorize('create-product');
+        Gate::authorize('create-course');
 
         $course = Course::create([
             'category_id' => $request->category_id,
@@ -70,7 +70,7 @@ class CourseController extends Controller
 
     public function edit(string $id)
     {
-        Gate::authorize('edit-product');
+        Gate::authorize('edit-course');
 
         $course = Course::findOrFail($id);
         $categories = Category::where('is_active', 1)->get();
@@ -110,7 +110,7 @@ class CourseController extends Controller
 
     public function update(CourseUpdateRequest $request, string $id)
     {
-        Gate::authorize('edit-product');
+        Gate::authorize('edit-course');
 
         $course = Course::findOrFail($id);
 
@@ -140,7 +140,7 @@ class CourseController extends Controller
 
     public function destroy(string $id)
     {
-        Gate::authorize('delete-product');
+        Gate::authorize('delete-course');
 
         $course = Course::findOrFail($id);
         $course->delete();
@@ -438,7 +438,7 @@ class CourseController extends Controller
 
     public function deleteLesson(string $id)
     {
-        Gate::authorize('edit-product');
+        Gate::authorize('edit-course');
 
         $lesson = Lesson::findOrFail($id);
         $lesson->delete();
@@ -451,7 +451,7 @@ class CourseController extends Controller
 
     public function updateLessonAjax(Request $request, string $id)
     {
-        Gate::authorize('edit-product');
+        Gate::authorize('edit-course');
 
         $lesson = Lesson::findOrFail($id);
         $lesson->update(['name' => $request->name]);
@@ -464,7 +464,7 @@ class CourseController extends Controller
 
     public function deleteModule(string $id)
     {
-        Gate::authorize('edit-product');
+        Gate::authorize('edit-course');
 
         $module = CourseModule::findOrFail($id);
         $module->delete();
@@ -477,7 +477,7 @@ class CourseController extends Controller
 
     public function updateModuleAjax(Request $request, string $id)
     {
-        Gate::authorize('edit-product');
+        Gate::authorize('edit-course');
 
         $module = CourseModule::findOrFail($id);
         $module->update([

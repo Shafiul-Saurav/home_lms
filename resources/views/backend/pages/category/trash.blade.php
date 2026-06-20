@@ -62,7 +62,7 @@
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
-                                                    @can('delete-product-category')
+                                                    @can('delete-course-category')
                                                         <a href="{{ route('categories.restore', ['id' => $category->id]) }}"
                                                             class="btn btn-sm btn-outline-success border me-2"
                                                             data-toggle="tooltip" data-placement="top"
@@ -72,7 +72,7 @@
                                                     @endcan
                                                 </div>
                                                 <div>
-                                                    @can('delete-product-category')
+                                                    @can('delete-course-category')
                                                         <form
                                                             action="{{ route('categories.forcedelete', ['id' => $category->id]) }}"
                                                             method="POST">

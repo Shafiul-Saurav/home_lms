@@ -15,7 +15,7 @@ class SubcategoryController extends Controller
      */
     public function index()
     {
-        Gate::authorize('index-product-subcategory');
+        Gate::authorize('index-course-subcategory');
 
         $subcategories = Subcategory::with('category')->latest('id')->paginate(30);
         $categories = Category::get();
@@ -35,7 +35,7 @@ class SubcategoryController extends Controller
      */
     public function store(Request $request)
     {
-        Gate::authorize('create-product-subcategory');
+        Gate::authorize('create-course-subcategory');
 
         // Validate the request
         $request->validate([
@@ -74,7 +74,7 @@ class SubcategoryController extends Controller
      */
     public function edit(string $slug)
     {
-        Gate::authorize('edit-product-subcategory');
+        Gate::authorize('edit-course-subcategory');
 
         $subcategory = Subcategory::with('category')->where('slug', $slug)->first();
         $categories = Category::where('is_active', 1)->get(); // Only active categories
@@ -86,7 +86,7 @@ class SubcategoryController extends Controller
      */
     public function update(Request $request, string $slug)
     {
-        Gate::authorize('edit-product-subcategory');
+        Gate::authorize('edit-course-subcategory');
 
         $subcategory = Subcategory::where('slug', $slug)->first();
 
@@ -124,7 +124,7 @@ class SubcategoryController extends Controller
      */
     public function destroy(string $slug)
     {
-        Gate::authorize('delete-product-subcategory');
+        Gate::authorize('delete-course-subcategory');
 
         $subcategory = Subcategory::where('slug', $slug)->first();
         $subcategory->delete();

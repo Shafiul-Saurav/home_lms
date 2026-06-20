@@ -11,7 +11,7 @@ class CategoryTrashController extends Controller
 {
     public function trash()
     {
-        Gate::authorize('delete-product-category');
+        Gate::authorize('delete-course-category');
 
         $categories = Category::onlyTrashed()->latest('id')->paginate(30);
         return view('backend.pages.category.trash', compact('categories'));
@@ -19,7 +19,7 @@ class CategoryTrashController extends Controller
 
     public function restore($id)
     {
-        Gate::authorize('delete-product-category');
+        Gate::authorize('delete-course-category');
 
         $category = Category::onlyTrashed()->findOrFail($id);
         $category->restore();
@@ -29,7 +29,7 @@ class CategoryTrashController extends Controller
 
     public function forceDelete(string $id)
     {
-        Gate::authorize('delete-product-category');
+        Gate::authorize('delete-course-category');
 
         $category = Category::onlyTrashed()->findOrFail($id);
 

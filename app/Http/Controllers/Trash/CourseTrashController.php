@@ -10,7 +10,7 @@ class CourseTrashController extends Controller
 {
     public function trash()
     {
-        Gate::authorize('delete-product');
+        Gate::authorize('delete-course');
 
         $courses = Course::onlyTrashed()->with('category', 'subcategory')->latest('id')->paginate(100);
 
@@ -19,7 +19,7 @@ class CourseTrashController extends Controller
 
     public function restore(string $id)
     {
-        Gate::authorize('delete-product');
+        Gate::authorize('delete-course');
 
         $course = Course::onlyTrashed()->findOrFail($id);
         $course->restore();
@@ -29,7 +29,7 @@ class CourseTrashController extends Controller
 
     public function forceDelete(string $id)
     {
-        Gate::authorize('delete-product');
+        Gate::authorize('delete-course');
 
         $course = Course::onlyTrashed()->findOrFail($id);
 
