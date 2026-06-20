@@ -7,23 +7,30 @@ use App\Http\Requests\AwardStoreRequest;
 use App\Http\Requests\AwardUpdateRequest;
 use App\Models\Award;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 class AwardController extends Controller
 {
     public function index()
     {
+        Gate::authorize('index-award');
+
         $awards = Award::whereNull('deleted_at')->latest('id')->paginate(50);
         return view('backend.pages.award.award', compact('awards'));
     }
 
     public function create()
     {
+        Gate::authorize('create-award');
+
         return redirect()->route('awards.index');
     }
 
     public function store(AwardStoreRequest $request)
     {
+        Gate::authorize('create-award');
+
         $award = Award::create([
             'name' => $request->name,
             'slug' => Str::slug($request->name),
@@ -40,18 +47,24 @@ class AwardController extends Controller
 
     public function show(string $id)
     {
+        Gate::authorize('index-award');
+
         $award = Award::findOrFail($id);
         return view('backend.pages.award.show', compact('award'));
     }
 
     public function edit(string $id)
     {
+        Gate::authorize('edit-award');
+
         $award = Award::findOrFail($id);
         return view('backend.pages.award.edit', compact('award'));
     }
 
     public function update(AwardUpdateRequest $request, string $id)
     {
+        Gate::authorize('edit-award');
+
         $award = Award::findOrFail($id);
 
         $award->update([
@@ -69,6 +82,8 @@ class AwardController extends Controller
 
     public function destroy(string $id)
     {
+        Gate::authorize('delete-award');
+
         $award = Award::findOrFail($id);
         $award->delete();
 
@@ -103,6 +118,8 @@ class AwardController extends Controller
 
     public function checkActive($awardId)
     {
+        Gate::authorize('edit-award');
+
         $award = Award::find($awardId);
 
         if (! $award) {

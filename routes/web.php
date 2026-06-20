@@ -88,6 +88,7 @@ use App\Http\Controllers\Trash\ModuleTrashController;
 use App\Http\Controllers\Trash\PdfBookCategoryTrashController;
 use App\Http\Controllers\Trash\PdfBookSubcategoryTrashController;
 use App\Http\Controllers\Trash\PdfBookTrashController;
+use App\Http\Controllers\Trash\AwardTrashController;
 use App\Http\Controllers\Trash\PermissionTrashController;
 use App\Http\Controllers\Trash\PhotoCategoryTrashController;
 use App\Http\Controllers\Trash\PhotoGalleryTrashController;
@@ -575,6 +576,9 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     // Ajax Call Active
     Route::get('check/award/is_active/{award_id}', [AwardController::class, 'checkActive'])
         ->name('award.is_active.ajax');
+    Route::get('/awards/trash', [AwardTrashController::class, 'trash'])->name('awards.trash');
+    Route::get('/awards/restore/{id}', [AwardTrashController::class, 'restore'])->name('awards.restore');
+    Route::delete('/awards/forcedelete/{id}', [AwardTrashController::class, 'forceDelete'])->name('awards.forcedelete');
     Route::resource('awards', AwardController::class);
 
     // Book Category Route

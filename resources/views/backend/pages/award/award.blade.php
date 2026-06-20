@@ -26,11 +26,17 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Award</h3>
+                    @can('delete-award')
+                        <a href="{{ route('awards.trash') }}" class="btn btn-sm btn-outline-warning border">
+                            <i class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash
+                        </a>
+                    @endcan
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('awards.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="form-row">
+                    @can('create-award')
+                        <form action="{{ route('awards.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-row">
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="name">Name <span class="text-danger">*</span></label>
@@ -91,10 +97,11 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
+                            </div>
 
-                        <button class="btn btn-primary" type="submit">Create</button>
-                    </form>
+                            <button class="btn btn-primary" type="submit">Create</button>
+                        </form>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -116,8 +123,12 @@
                                     <th>Slug</th>
                                     <th>File</th>
                                     <th>Year</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
+                                    @can('edit-award')
+                                        <th>Status</th>
+                                    @endcan
+                                    @canany(['index-award', 'edit-award', 'delete-award'])
+                                        <th>Actions</th>
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -134,39 +145,49 @@
                                             @endif
                                         </td>
                                         <td>{{ $award->year ?? 'N/A' }}</td>
-                                        <td>
-                                            <div class="material-switch">
-                                                <input id="award-{{ $award->id }}" class="toggle-class" name="is_active"
-                                                    type="checkbox" {{ $award->is_active ? 'checked' : '' }}
-                                                    data-id="{{ $award->id }}">
-                                                <label for="award-{{ $award->id }}" class="label-success"></label>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">
-                                            <div class="action-btns d-flex align-items-center justify-content-center">
-                                                <div>
-                                                    <a href="{{ route('awards.show', $award->id) }}"
-                                                        class="btn btn-sm btn-outline-primary border me-1">
-                                                        <i class="fa-solid fa-eye"></i>
-                                                    </a>
+                                        @can('edit-award')
+                                            <td>
+                                                <div class="material-switch">
+                                                    <input id="award-{{ $award->id }}" class="toggle-class" name="is_active"
+                                                        type="checkbox" {{ $award->is_active ? 'checked' : '' }}
+                                                        data-id="{{ $award->id }}">
+                                                    <label for="award-{{ $award->id }}" class="label-success"></label>
                                                 </div>
-                                                <div>
-                                                    <a href="{{ route('awards.edit', $award->id) }}"
-                                                        class="btn btn-sm btn-outline-secondary border me-1">
-                                                        <i class="fa-solid fa-pen fa-fw"></i>
-                                                    </a>
+                                            </td>
+                                        @endcan
+                                        @canany(['index-award', 'edit-award', 'delete-award'])
+                                            <td class="text-center">
+                                                <div class="action-btns d-flex align-items-center justify-content-center">
+                                                    @can('index-award')
+                                                        <div>
+                                                            <a href="{{ route('awards.show', $award->id) }}"
+                                                                class="btn btn-sm btn-outline-primary border me-1">
+                                                                <i class="fa-solid fa-eye"></i>
+                                                            </a>
+                                                        </div>
+                                                    @endcan
+                                                    @can('edit-award')
+                                                        <div>
+                                                            <a href="{{ route('awards.edit', $award->id) }}"
+                                                                class="btn btn-sm btn-outline-secondary border me-1">
+                                                                <i class="fa-solid fa-pen fa-fw"></i>
+                                                            </a>
+                                                        </div>
+                                                    @endcan
+                                                    @can('delete-award')
+                                                        <div>
+                                                            <form action="{{ route('awards.destroy', $award->id) }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-sm btn-outline-warning border show_confirm">
+                                                                    <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    @endcan
                                                 </div>
-                                                <div>
-                                                    <form action="{{ route('awards.destroy', $award->id) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-outline-warning border show_confirm">
-                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </td>
+                                            </td>
+                                        @endcanany
                                     </tr>
                                 @endforeach
                             </tbody>
