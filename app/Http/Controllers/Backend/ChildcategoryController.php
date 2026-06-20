@@ -17,7 +17,7 @@ class ChildcategoryController extends Controller
      */
     public function index()
     {
-        Gate::authorize('index-product-category');
+        Gate::authorize('index-course-category');
 
         $childcategories = Childcategory::with(['category', 'subcategory'])->latest('id')->paginate(30);
         $categories = Category::all();
@@ -37,7 +37,7 @@ class ChildcategoryController extends Controller
      */
     public function store(Request $request)
     {
-        Gate::authorize('create-product-category');
+        Gate::authorize('create-course-category');
 
         // Handle file upload if present
         $fileName = null;
@@ -72,7 +72,7 @@ class ChildcategoryController extends Controller
      */
     public function edit(string $slug)
     {
-        Gate::authorize('edit-product-category');
+        Gate::authorize('edit-course-category');
 
         $childcategory = Childcategory::with(['category', 'subcategory'])->where('slug', $slug)->first();
         $categories = Category::all();
@@ -85,7 +85,7 @@ class ChildcategoryController extends Controller
      */
     public function update(Request $request, string $slug)
     {
-        Gate::authorize('edit-product-category');
+        Gate::authorize('edit-course-category');
 
         $childcategory = Childcategory::where('slug', $slug)->first();
 
@@ -119,7 +119,7 @@ class ChildcategoryController extends Controller
      */
     public function destroy(string $slug)
     {
-        Gate::authorize('delete-product-category');
+        Gate::authorize('delete-course-category');
 
         $childcategory = Childcategory::where('slug', $slug)->first();
         $childcategory->delete();

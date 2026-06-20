@@ -45,7 +45,7 @@ class PermissionController extends Controller
         Permission::create([
             'module_id' => $request->module_id,
             'permission_name' => $request->permission_name,
-            'permission_slug' => preg_replace('/\s+/u', '-', trim($request->permission_name)),
+            'permission_slug' => Str::slug($request->permission_name),
         ]);
 
         return redirect()->back()->with('message', 'Permission Created Successfully 🙂');
@@ -85,7 +85,7 @@ class PermissionController extends Controller
         $permission->update([
             'module_id' => $request->module_id,
             'permission_name' => $request->permission_name,
-            'permission_slug' => preg_replace('/\s+/u', '-', trim($request->permission_name)),
+            'permission_slug' => Str::slug($request->permission_name),
         ]);
         return redirect()->route('permissions.index')->with('message', 'Permission Updated Successfully 🙂');
     }

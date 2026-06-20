@@ -27,18 +27,19 @@
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Permission</h3>
                     @can('delete-permission')
-                    <a href="{{ route('permissions.trash') }}" class="btn btn-sm btn-outline-warning border"><i
-                            class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                        <a href="{{ route('permissions.trash') }}" class="btn btn-sm btn-outline-warning border"><i
+                                class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
                     @endcan
                 </div>
                 <div class="card-body">
                     <form action="{{ route('permissions.store') }}" method="POST">
                         @csrf
                         <div class="form-row">
-                            <div class="col-12 mb-3">
+                            <div class="col-6 mb-3">
                                 <div class="form-group">
-                                    <label for="module_id" class="form-label mb-3">Select Module</label>
-                                    <select id="module_id" name="module_id" class="form-control select2 form-select select2-hidden-accessible
+                                    <label for="module_id" class="form-label">Select Module</label>
+                                    <select id="module_id" name="module_id"
+                                        class="form-control select2-style1
                                     @error('module_id')
                                         is-invalid
                                     @enderror">
@@ -55,13 +56,14 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
+                            <div class="col-6 mb-3">
                                 <div class="form-group">
-                                    <label for="permission_name">Permission Name</label>
-                                    <input type="text" name="permission_name" class="form-control @error('permission_name')
+                                    <label for="permission_name" class="form-label">Permission Name</label>
+                                    <input type="text" name="permission_name"
+                                        class="form-control @error('permission_name')
                                         is-invalid
-                                    @enderror" id="permission_name"
-                                        value="{{ old('permission_name') }}" required>
+                                    @enderror"
+                                        id="permission_name" value="{{ old('permission_name') }}" required>
                                     @error('permission_name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -93,7 +95,7 @@
                                     <th class="border-bottom-0">Permission Name</th>
                                     <th class="border-bottom-0">Permission Slug</th>
                                     @canany(['edit-permission', 'delete-permission'])
-                                    <th class="border-bottom-0">Actions</th>
+                                        <th class="border-bottom-0">Actions</th>
                                     @endcanany
                                 </tr>
                             </thead>
@@ -108,34 +110,35 @@
                                         <td>{{ $permission->permission_name }}</td>
                                         <td>{{ $permission->permission_slug }}</td>
                                         @canany(['edit-permission', 'delete-permission'])
-                                        <td class="text-center">
-                                            <div class="action-btns d-flex align-items-center">
-                                                {{-- @can('edit-permission') --}}
-                                                <div>
-                                                    <a href="{{ route('permissions.edit', $permission->permission_slug) }}"
-                                                        class="btn btn-sm btn-outline-secondary border me-2"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        data-bs-original-title="Edit"><i class="fa-solid fa-pen fa-fw"></i>
-                                                    </a>
-                                                </div>
-                                                {{-- @endcan --}}
-                                                {{-- @can('delete-permission') --}}
-                                                <div>
-                                                    <form action="{{ route('permissions.destroy', $permission->permission_slug) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            class="btn btn-sm btn-outline-warning border show_confirm"
+                                            <td class="text-center">
+                                                <div class="action-btns d-flex align-items-center">
+                                                    {{-- @can('edit-permission') --}}
+                                                    <div>
+                                                        <a href="{{ route('permissions.edit', $permission->permission_slug) }}"
+                                                            class="btn btn-sm btn-outline-secondary border me-2"
                                                             data-toggle="tooltip" data-placement="top"
-                                                            data-bs-original-title="Delete">
-                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
-                                                        </button>
-                                                    </form>
+                                                            data-bs-original-title="Edit"><i class="fa-solid fa-pen fa-fw"></i>
+                                                        </a>
+                                                    </div>
+                                                    {{-- @endcan --}}
+                                                    {{-- @can('delete-permission') --}}
+                                                    <div>
+                                                        <form
+                                                            action="{{ route('permissions.destroy', $permission->permission_slug) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-outline-warning border show_confirm"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                data-bs-original-title="Delete">
+                                                                <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                    {{-- @endcan --}}
                                                 </div>
-                                                {{-- @endcan --}}
-                                            </div>
-                                        </td>
+                                            </td>
                                         @endcanany
                                     </tr>
                                 @endforeach

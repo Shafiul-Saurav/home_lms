@@ -26,24 +26,26 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Update Permission</h3>
-                    <a href="{{ route('permissions.index') }}" class="btn btn-outline-info border"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
+                    <a href="{{ route('permissions.index') }}" class="btn btn-outline-info border"><i
+                            class="fa-solid fa-angles-left fa-fw"></i> Back</a>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('permissions.update', $permission->permission_slug) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="form-row">
-                            <div class="col-12 mb-3">
+                            <div class="col-6 mb-3">
                                 <div class="form-group">
-                                    <label for="module_id" class="form-label mb-3">Select Module</label>
-                                    <select id="module_id" name="module_id" class="form-control select2 form-select select2-hidden-accessible
+                                    <label for="module_id" class="form-label">Select Module</label>
+                                    <select id="module_id" name="module_id"
+                                        class="form-control select2-style1
                                     @error('module_id')
                                         is-invalid
                                     @enderror">
                                         @forelse ($modules as $module)
-                                            <option value="{{ $module->id }}" @if ($permission->module_id == $module->id)
-                                                selected
-                                            @endif>{{ $module->module_name }}</option>
+                                            <option value="{{ $module->id }}"
+                                                @if ($permission->module_id == $module->id) selected @endif>{{ $module->module_name }}
+                                            </option>
                                         @empty
                                         @endforelse
                                     </select>
@@ -54,13 +56,14 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
+                            <div class="col-6 mb-3">
                                 <div class="form-group">
-                                    <label for="permission_name">Permission Name</label>
-                                    <input type="text" name="permission_name" class="form-control @error('permission_name')
+                                    <label for="permission_name" class="form-label">Permission Name</label>
+                                    <input type="text" name="permission_name"
+                                        class="form-control @error('permission_name')
                                         is-invalid
-                                    @enderror" id="permission_name"
-                                        value="{{ $permission->permission_name }}" required>
+                                    @enderror"
+                                        id="permission_name" value="{{ $permission->permission_name }}" required>
                                     @error('permission_name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

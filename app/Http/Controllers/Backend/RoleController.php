@@ -49,7 +49,7 @@ class RoleController extends Controller
 
         Role::updateOrCreate([
             'role_name' => $request->role_name,
-            'role_slug' => preg_replace('/\s+/u', '-', trim($request->role_name)),
+            'role_slug' => Str::slug($request->role_name),
             'role_note' => $request->role_note,
         ])->permissions()->sync($request->input('permissions', []));
 
@@ -91,7 +91,7 @@ class RoleController extends Controller
         $role = Role::where('role_slug', $role_slug)->first();
         // $role->update([
         //     'role_name' => $request->role_name,
-        //     'role_slug' => preg_replace('/\s+/u', '-', trim($request->role_name)),
+        //     'role_slug' Str::slug($request->role_name),
         //     'role_note' => $request->role_note,
         // ]);
 
