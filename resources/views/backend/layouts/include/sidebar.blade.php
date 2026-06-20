@@ -412,70 +412,65 @@
                     </li>
                 @endcanany
 
-                <li
-                    class="slide {{ Request::routeIs('book_categories.index') ? 'is-expanded' : '' }}
-                    {{ Request::routeIs('book_categories.trash') ? 'is-expanded' : '' }}
-                    {{ Request::routeIs('book_subcategories.index') ? 'is-expanded' : '' }}
-                    {{ Request::routeIs('book_subcategories.trash') ? 'is-expanded' : '' }}
-                    {{ Request::routeIs('books.index') ? 'is-expanded' : '' }}
-                    {{ Request::routeIs('books.trash') ? 'is-expanded' : '' }}">
-                    <a class="side-menu__item {{ Request::routeIs('book_categories.index') ? 'active' : '' }}
-                        {{ Request::routeIs('book_categories.trash') ? 'active' : '' }}
-                        {{ Request::routeIs('book_subcategories.index') ? 'active' : '' }}
-                        {{ Request::routeIs('book_subcategories.trash') ? 'active' : '' }}
-                        {{ Request::routeIs('books.index') ? 'active' : '' }}
-                        {{ Request::routeIs('books.trash') ? 'active' : '' }}"
-                        data-bs-toggle="slide" href="#">
-                        <i class="fa-solid fa-book"></i>
-                        <span class="side-menu__label ms-3">Book Management</span><i
-                            class="fa-solid fa-angle-right"></i>
-                    </a>
-                    <ul class="slide-menu">
-                        <li
-                            class="sub-slide {{ Request::routeIs('book_categories.index') ? 'is-expanded' : '' }}
-                            {{ Request::routeIs('book_categories.trash') ? 'is-expanded' : '' }}">
-                            <a class="sub-side-menu__item {{ Request::routeIs('book_categories.index') ? 'active' : '' }}
-                                {{ Request::routeIs('book_categories.trash') ? 'active' : '' }}"
-                                data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Category
-                                    Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
-                            <ul class="sub-slide-menu">
-                                <li><a class="sub-slide-item {{ Request::routeIs('book_categories.index') ? 'active' : '' }}"
-                                        href="{{ route('book_categories.index') }}">List</a></li>
-                                <li><a class="sub-slide-item {{ Request::routeIs('book_categories.trash') ? 'active' : '' }}"
-                                        href="{{ route('book_categories.trash') }}">Trash</a></li>
-                            </ul>
-                        </li>
-                        <li
-                            class="sub-slide {{ Request::routeIs('book_subcategories.index') ? 'is-expanded' : '' }}
-                            {{ Request::routeIs('book_subcategories.trash') ? 'is-expanded' : '' }}">
-                            <a class="sub-side-menu__item {{ Request::routeIs('book_subcategories.index') ? 'active' : '' }}
-                                {{ Request::routeIs('book_subcategories.trash') ? 'active' : '' }}"
-                                data-bs-toggle="sub-slide" href="#"><span
-                                    class="sub-side-menu__label">Subcategory
-                                    Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
-                            <ul class="sub-slide-menu">
-                                <li><a class="sub-slide-item {{ Request::routeIs('book_subcategories.index') ? 'active' : '' }}"
-                                        href="{{ route('book_subcategories.index') }}">List</a></li>
-                                <li><a class="sub-slide-item {{ Request::routeIs('book_subcategories.trash') ? 'active' : '' }}"
-                                        href="{{ route('book_subcategories.trash') }}">Trash</a></li>
-                            </ul>
-                        </li>
-                        <li
-                            class="sub-slide {{ Request::routeIs('books.index') ? 'is-expanded' : '' }}
-                            {{ Request::routeIs('books.trash') ? 'is-expanded' : '' }}">
-                            <a class="sub-side-menu__item {{ Request::routeIs('books.index') ? 'active' : '' }}
-                                {{ Request::routeIs('books.trash') ? 'active' : '' }}"
-                                data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Book
-                                    Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
-                            <ul class="sub-slide-menu">
-                                <li><a class="sub-slide-item {{ Request::routeIs('books.index') ? 'active' : '' }}"
-                                        href="{{ route('books.index') }}">List</a></li>
-                                <li><a class="sub-slide-item {{ Request::routeIs('books.trash') ? 'active' : '' }}"
-                                        href="{{ route('books.trash') }}">Trash</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
+                @canany(['index-book-category', 'index-book-subcategory', 'index-book'])
+                    <li
+                        class="slide {{ Request::routeIs('book_categories.*', 'book_subcategories.*', 'books.*') ? 'is-expanded' : '' }}">
+                        <a class="side-menu__item {{ Request::routeIs('book_categories.*', 'book_subcategories.*', 'books.*') ? 'active' : '' }}"
+                            data-bs-toggle="slide" href="#">
+                            <i class="fa-solid fa-book"></i>
+                            <span class="side-menu__label ms-3">Book Management</span><i
+                                class="fa-solid fa-angle-right"></i>
+                        </a>
+                        <ul class="slide-menu">
+                            @can('index-book-category')
+                                <li class="sub-slide {{ Request::routeIs('book_categories.*') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('book_categories.*') ? 'active' : '' }}"
+                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Category
+                                            Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    <ul class="sub-slide-menu">
+                                        <li><a class="sub-slide-item {{ Request::routeIs('book_categories.index') ? 'active' : '' }}"
+                                                href="{{ route('book_categories.index') }}">List</a></li>
+                                        @can('delete-book-category')
+                                            <li><a class="sub-slide-item {{ Request::routeIs('book_categories.trash') ? 'active' : '' }}"
+                                                    href="{{ route('book_categories.trash') }}">Trash</a></li>
+                                        @endcan
+                                    </ul>
+                                </li>
+                            @endcan
+                            @can('index-book-subcategory')
+                                <li class="sub-slide {{ Request::routeIs('book_subcategories.*') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('book_subcategories.*') ? 'active' : '' }}"
+                                        data-bs-toggle="sub-slide" href="#"><span
+                                            class="sub-side-menu__label">Subcategory
+                                            Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    <ul class="sub-slide-menu">
+                                        <li><a class="sub-slide-item {{ Request::routeIs('book_subcategories.index') ? 'active' : '' }}"
+                                                href="{{ route('book_subcategories.index') }}">List</a></li>
+                                        @can('delete-book-subcategory')
+                                            <li><a class="sub-slide-item {{ Request::routeIs('book_subcategories.trash') ? 'active' : '' }}"
+                                                    href="{{ route('book_subcategories.trash') }}">Trash</a></li>
+                                        @endcan
+                                    </ul>
+                                </li>
+                            @endcan
+                            @can('index-book')
+                                <li class="sub-slide {{ Request::routeIs('books.*') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('books.*') ? 'active' : '' }}"
+                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Book
+                                            Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    <ul class="sub-slide-menu">
+                                        <li><a class="sub-slide-item {{ Request::routeIs('books.index') ? 'active' : '' }}"
+                                                href="{{ route('books.index') }}">List</a></li>
+                                        @can('delete-book')
+                                            <li><a class="sub-slide-item {{ Request::routeIs('books.trash') ? 'active' : '' }}"
+                                                    href="{{ route('books.trash') }}">Trash</a></li>
+                                        @endcan
+                                    </ul>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcanany
 
                 {{-- @can('index-award') --}}
                 <li class="slide {{ Request::routeIs('awards.*') ? 'is-expanded' : '' }}">

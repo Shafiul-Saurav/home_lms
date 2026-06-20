@@ -26,16 +26,17 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Book</h3>
-                    @can('delete-product')
+                    @can('delete-book')
                         <a href="{{ route('books.trash') }}" class="btn btn-sm btn-outline-warning border">
                             <i class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash
                         </a>
                     @endcan
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="form-row">
+                    @can('create-book')
+                        <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-row">
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="name">Name <span class="text-danger">*</span></label>
@@ -174,10 +175,11 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
+                            </div>
 
-                        <button class="btn btn-primary" type="submit">Create</button>
-                    </form>
+                            <button class="btn btn-primary" type="submit">Create</button>
+                        </form>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -202,10 +204,10 @@
                                     <th>Image</th>
                                     <th>Price</th>
                                     <th>Discount</th>
-                                    @can('edit-product')
+                                    @can('edit-book')
                                         <th>Status</th>
                                     @endcan
-                                    @canany(['edit-product', 'delete-product'])
+                                    @canany(['index-book', 'edit-book', 'delete-book'])
                                         <th>Actions</th>
                                     @endcanany
                                 </tr>
@@ -227,7 +229,7 @@
                                         </td>
                                         <td>{{ $book->price }}</td>
                                         <td>{{ $book->discount_amount ?? 'N/A' }}</td>
-                                        @can('edit-product')
+                                        @can('edit-book')
                                             <td>
                                                 <div class="material-switch">
                                                     <input id="book-{{ $book->id }}" class="toggle-class" name="is_active"
@@ -237,30 +239,36 @@
                                                 </div>
                                             </td>
                                         @endcan
-                                        @canany(['edit-product', 'delete-product'])
+                                        @canany(['index-book', 'edit-book', 'delete-book'])
                                             <td class="text-center">
                                                 <div class="action-btns d-flex align-items-center justify-content-center">
-                                                    <div>
-                                                        <a href="{{ route('books.show', $book->id) }}"
-                                                            class="btn btn-sm btn-outline-primary border me-1">
-                                                            <i class="fa-solid fa-eye"></i>
-                                                        </a>
-                                                    </div>
-                                                    <div>
-                                                        <a href="{{ route('books.edit', $book->id) }}"
-                                                            class="btn btn-sm btn-outline-secondary border me-1">
-                                                            <i class="fa-solid fa-pen fa-fw"></i>
-                                                        </a>
-                                                    </div>
-                                                    <div>
-                                                        <form action="{{ route('books.destroy', $book->id) }}" method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-sm btn-outline-warning border show_confirm">
-                                                                <i class="fa-solid fa-trash-can fa-fw"></i>
-                                                            </button>
-                                                        </form>
-                                                    </div>
+                                                    @can('index-book')
+                                                        <div>
+                                                            <a href="{{ route('books.show', $book->id) }}"
+                                                                class="btn btn-sm btn-outline-primary border me-1">
+                                                                <i class="fa-solid fa-eye"></i>
+                                                            </a>
+                                                        </div>
+                                                    @endcan
+                                                    @can('edit-book')
+                                                        <div>
+                                                            <a href="{{ route('books.edit', $book->id) }}"
+                                                                class="btn btn-sm btn-outline-secondary border me-1">
+                                                                <i class="fa-solid fa-pen fa-fw"></i>
+                                                            </a>
+                                                        </div>
+                                                    @endcan
+                                                    @can('delete-book')
+                                                        <div>
+                                                            <form action="{{ route('books.destroy', $book->id) }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-sm btn-outline-warning border show_confirm">
+                                                                    <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    @endcan
                                                 </div>
                                             </td>
                                         @endcanany

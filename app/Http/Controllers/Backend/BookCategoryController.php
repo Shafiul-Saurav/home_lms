@@ -6,22 +6,29 @@ use App\Http\Controllers\Controller;
 use App\Models\BookCategory;
 use App\Http\Requests\BookCategoryStoreRequest;
 use App\Http\Requests\BookCategoryUpdateRequest;
+use Illuminate\Support\Facades\Gate;
 
 class BookCategoryController extends Controller
 {
     public function index()
     {
+        Gate::authorize('index-book-category');
+
         $categories = BookCategory::latest('id')->paginate(30);
         return view('backend.pages.bookcategory.category', compact('categories'));
     }
 
     public function create()
     {
+        Gate::authorize('create-book-category');
+
         return redirect()->route('book_categories.index');
     }
 
     public function store(BookCategoryStoreRequest $request)
     {
+        Gate::authorize('create-book-category');
+
         $fileName = null;
         if ($request->hasFile('file')) {
             $file = $request->file('file');
@@ -42,17 +49,23 @@ class BookCategoryController extends Controller
 
     public function show(string $id)
     {
+        Gate::authorize('index-book-category');
+
         return redirect()->route('book_categories.index');
     }
 
     public function edit(string $id)
     {
+        Gate::authorize('edit-book-category');
+
         $category = BookCategory::findOrFail($id);
         return view('backend.pages.bookcategory.edit', compact('category'));
     }
 
     public function update(BookCategoryUpdateRequest $request, string $id)
     {
+        Gate::authorize('edit-book-category');
+
         $category = BookCategory::findOrFail($id);
 
         $fileName = $category->file;
@@ -79,6 +92,8 @@ class BookCategoryController extends Controller
 
     public function destroy(string $id)
     {
+        Gate::authorize('delete-book-category');
+
         $category = BookCategory::findOrFail($id);
         $category->delete();
 
@@ -87,6 +102,8 @@ class BookCategoryController extends Controller
 
     public function checkActive($category_id)
     {
+        Gate::authorize('edit-book-category');
+
         $category = BookCategory::find($category_id);
         if (!$category) {
             return response()->json(['type' => 'error', 'message' => 'Not found'], 404);
@@ -98,6 +115,8 @@ class BookCategoryController extends Controller
 
     public function checkHome($category_id)
     {
+        Gate::authorize('edit-book-category');
+
         $category = BookCategory::find($category_id);
         if (!$category) {
             return response()->json(['type' => 'error', 'message' => 'Not found'], 404);

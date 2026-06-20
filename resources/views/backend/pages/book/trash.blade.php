@@ -41,9 +41,9 @@
                                     <th>Image</th>
                                     <th>Price</th>
                                     <th>Discount</th>
-                                    @canany(['delete-product'])
+                                    @can('delete-book')
                                         <th>Actions</th>
-                                    @endcanany
+                                    @endcan
                                 </tr>
                             </thead>
                             <tbody>
@@ -63,7 +63,7 @@
                                         </td>
                                         <td>{{ $book->price }}</td>
                                         <td>{{ $book->discount_amount ?? 'N/A' }}</td>
-                                        @canany(['delete-product'])
+                                        @can('delete-book')
                                             <td class="text-center">
                                                 <div class="action-btns d-flex align-items-center justify-content-center">
                                                     <div>
@@ -87,7 +87,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        @endcanany
+                                        @endcan
                                     </tr>
                                 @endforeach
                             </tbody>

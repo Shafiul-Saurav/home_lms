@@ -11,6 +11,7 @@ class BookTrashController extends Controller
 {
     public function trash()
     {
+        Gate::authorize('delete-book');
 
         $books = Book::with('bookCategory', 'bookSubcategory')->onlyTrashed()->latest('id')->paginate(100);
 
@@ -19,6 +20,7 @@ class BookTrashController extends Controller
 
     public function restore($id)
     {
+        Gate::authorize('delete-book');
 
         $book = Book::onlyTrashed()->findOrFail($id);
         $book->restore();
@@ -28,6 +30,7 @@ class BookTrashController extends Controller
 
     public function forceDelete($id)
     {
+        Gate::authorize('delete-book');
 
         $book = Book::onlyTrashed()->findOrFail($id);
 

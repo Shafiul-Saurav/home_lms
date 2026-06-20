@@ -7,11 +7,14 @@ use App\Models\BookSubcategory;
 use App\Models\BookCategory;
 use App\Http\Requests\BookSubcategoryStoreRequest;
 use App\Http\Requests\BookSubcategoryUpdateRequest;
+use Illuminate\Support\Facades\Gate;
 
 class BookSubcategoryController extends Controller
 {
     public function index()
     {
+        Gate::authorize('index-book-subcategory');
+
         $subcategories = BookSubcategory::with('bookCategory')->latest('id')->paginate(30);
         $categories = BookCategory::where('is_active', 1)->get();
         return view('backend.pages.booksubcategory.subcategory', compact('subcategories', 'categories'));
@@ -19,11 +22,15 @@ class BookSubcategoryController extends Controller
 
     public function create()
     {
+        Gate::authorize('create-book-subcategory');
+
         return redirect()->route('book_subcategories.index');
     }
 
     public function store(BookSubcategoryStoreRequest $request)
     {
+        Gate::authorize('create-book-subcategory');
+
         $fileName = null;
         if ($request->hasFile('file')) {
             $file = $request->file('file');
@@ -45,11 +52,15 @@ class BookSubcategoryController extends Controller
 
     public function show(string $id)
     {
+        Gate::authorize('index-book-subcategory');
+
         return redirect()->route('book_subcategories.index');
     }
 
     public function edit(string $id)
     {
+        Gate::authorize('edit-book-subcategory');
+
         $subcategory = BookSubcategory::findOrFail($id);
         $categories = BookCategory::where('is_active', 1)->get();
         return view('backend.pages.booksubcategory.edit', compact('subcategory', 'categories'));
@@ -57,6 +68,8 @@ class BookSubcategoryController extends Controller
 
     public function update(BookSubcategoryUpdateRequest $request, string $id)
     {
+        Gate::authorize('edit-book-subcategory');
+
         $subcategory = BookSubcategory::findOrFail($id);
 
         $fileName = $subcategory->file;
@@ -84,6 +97,8 @@ class BookSubcategoryController extends Controller
 
     public function destroy(string $id)
     {
+        Gate::authorize('delete-book-subcategory');
+
         $subcategory = BookSubcategory::findOrFail($id);
         $subcategory->delete();
 
@@ -92,6 +107,8 @@ class BookSubcategoryController extends Controller
 
     public function checkActive($subcategory_id)
     {
+        Gate::authorize('edit-book-subcategory');
+
         $subcategory = BookSubcategory::find($subcategory_id);
         if (!$subcategory) {
             return response()->json(['type' => 'error', 'message' => 'Not found'], 404);
@@ -103,6 +120,8 @@ class BookSubcategoryController extends Controller
 
     public function checkHome($subcategory_id)
     {
+        Gate::authorize('edit-book-subcategory');
+
         $subcategory = BookSubcategory::find($subcategory_id);
         if (!$subcategory) {
             return response()->json(['type' => 'error', 'message' => 'Not found'], 404);
@@ -114,6 +133,8 @@ class BookSubcategoryController extends Controller
 
     public function getSubcategoriesByCategory($category_id)
     {
+        Gate::authorize('index-book-subcategory');
+
         $subcategories = BookSubcategory::where('book_category_id', $category_id)
             ->where('is_active', 1)
             ->select('id', 'name')

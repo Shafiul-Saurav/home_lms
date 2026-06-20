@@ -39,7 +39,9 @@
                                     <th class="border-bottom-0">Name</th>
                                     <th class="border-bottom-0">Slug</th>
                                     <th class="border-bottom-0">File</th>
-                                    <th class="border-bottom-0">Actions</th>
+                                    @can('delete-book-category')
+                                        <th class="border-bottom-0">Actions</th>
+                                    @endcan
                                 </tr>
                             </thead>
                             <tbody>
@@ -57,29 +59,31 @@
                                                 -
                                             @endif
                                         </td>
-                                        <td class="text-center">
-                                            <div class="action-btns d-flex align-items-center">
-                                                <div>
-                                                    <a href="{{ route('book_categories.restore', $category->id) }}"
-                                                        class="btn btn-sm btn-outline-success border me-2 show_confirm_restore"
-                                                        title="Restore">
-                                                        <i class="fa-solid fa-rotate-left fa-fw"></i>
-                                                    </a>
+                                        @can('delete-book-category')
+                                            <td class="text-center">
+                                                <div class="action-btns d-flex align-items-center">
+                                                    <div>
+                                                        <a href="{{ route('book_categories.restore', $category->id) }}"
+                                                            class="btn btn-sm btn-outline-success border me-2 show_confirm_restore"
+                                                            title="Restore">
+                                                            <i class="fa-solid fa-rotate-left fa-fw"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div>
+                                                        <form action="{{ route('book_categories.forcedelete', $category->id) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-outline-danger border show_confirm_force_delete"
+                                                                title="Permanent Delete">
+                                                                <i class="fa-solid fa-radiation"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <form action="{{ route('book_categories.forcedelete', $category->id) }}"
-                                                        method="POST" class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            class="btn btn-sm btn-outline-danger border show_confirm_force_delete"
-                                                            title="Permanent Delete">
-                                                            <i class="fa-solid fa-radiation"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </td>
+                                            </td>
+                                        @endcan
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -9,12 +9,14 @@ use App\Models\BookCategory;
 use App\Models\Book;
 use App\Models\BookSubcategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Intervention\Image\Facades\Image;
 
 class BookController extends Controller
 {
     public function index()
     {
+        Gate::authorize('index-book');
 
         $books = Book::with('bookCategory', 'bookSubcategory')->whereNull('deleted_at')->latest('id')->paginate(100);
         $categories = BookCategory::where('is_active', 1)->get();
@@ -24,11 +26,14 @@ class BookController extends Controller
 
     public function create()
     {
+        Gate::authorize('create-book');
+
         return redirect()->route('books.index');
     }
 
     public function store(BookStoreRequest $request)
     {
+        Gate::authorize('create-book');
 
         $book = Book::create([
             'book_category_id' => $request->book_category_id,
@@ -52,6 +57,8 @@ class BookController extends Controller
 
     public function show(string $id)
     {
+        Gate::authorize('index-book');
+
         $book = Book::with('bookCategory', 'bookSubcategory')->findOrFail($id);
 
         return view('backend.pages.book.show', compact('book'));
@@ -59,6 +66,7 @@ class BookController extends Controller
 
     public function edit(string $id)
     {
+        Gate::authorize('edit-book');
 
         $book = Book::findOrFail($id);
         $categories = BookCategory::where('is_active', 1)->get();
@@ -75,6 +83,7 @@ class BookController extends Controller
 
     public function update(BookUpdateRequest $request, string $id)
     {
+        Gate::authorize('edit-book');
 
         $book = Book::findOrFail($id);
 
@@ -99,6 +108,7 @@ class BookController extends Controller
 
     public function destroy(string $id)
     {
+        Gate::authorize('delete-book');
 
         $book = Book::findOrFail($id);
         $book->delete();
@@ -176,6 +186,8 @@ class BookController extends Controller
 
     public function getSubcategories($categoryId)
     {
+        Gate::authorize('index-book-subcategory');
+
         $subcategories = BookSubcategory::where('book_category_id', $categoryId)
             ->where('is_active', 1)
             ->select('id', 'name')
@@ -186,6 +198,8 @@ class BookController extends Controller
 
     public function checkActive($bookId)
     {
+        Gate::authorize('edit-book');
+
         $book = Book::find($bookId);
 
         if (! $book) {
