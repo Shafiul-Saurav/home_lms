@@ -869,6 +869,16 @@
                         </ul>
                     </li>
                 @endcan
+
+                @if(in_array(Auth::user()->role_id, [1, 2, 7]))
+                    <li class="slide">
+                        <a class="side-menu__item has-link {{ Request::routeIs('instructor.earnings') ? 'active' : '' }}"
+                            href="{{ route('instructor.earnings') }}">
+                            <i class="fa-solid fa-wallet fa-fw"></i>
+                            <span class="side-menu__label ms-3">My Earnings</span>
+                        </a>
+                    </li>
+                @endif
         </div>
     </div>
 </div>

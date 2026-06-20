@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\BreadcrumbController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildcategoryController;
 use App\Http\Controllers\Backend\InstructorCommissionController;
+use App\Http\Controllers\Backend\InstructorEarningsController;
 use App\Http\Controllers\Backend\ContactController as BackendContactController;
 use App\Http\Controllers\Backend\CopyrightController;
 use App\Http\Controllers\Backend\CouponController;
@@ -476,6 +477,7 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
 
     // Instructor Commission Negotiation Route
     Route::resource('commissions', InstructorCommissionController::class)->except(['show']);
+    Route::get('instructor-earnings', [InstructorEarningsController::class, 'index'])->name('instructor.earnings');
 
     // Subcategory Route
     Route::get('/subcategories/trash', [SubcategoryTrashController::class, 'trash'])->name('subcategories.trash');
