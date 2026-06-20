@@ -478,6 +478,7 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     // Instructor Commission Negotiation Route
     Route::resource('commissions', InstructorCommissionController::class)->except(['show']);
     Route::get('instructor-earnings', [InstructorEarningsController::class, 'index'])->name('instructor.earnings');
+    Route::get('instructor-earnings/{teacher_id}', [InstructorEarningsController::class, 'show'])->name('instructor.earnings.details');
 
     // Subcategory Route
     Route::get('/subcategories/trash', [SubcategoryTrashController::class, 'trash'])->name('subcategories.trash');
