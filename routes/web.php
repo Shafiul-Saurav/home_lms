@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\BookSubcategoryController;
 use App\Http\Controllers\Backend\BreadcrumbController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildcategoryController;
+use App\Http\Controllers\Backend\InstructorCommissionController;
 use App\Http\Controllers\Backend\ContactController as BackendContactController;
 use App\Http\Controllers\Backend\CopyrightController;
 use App\Http\Controllers\Backend\CouponController;
@@ -472,6 +473,9 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     Route::get('check/category/is_home/{category_id}', [CategoryController::class, 'checkHome'])
     ->name('category.is_home.ajax');
     Route::resource('categories', CategoryController::class);
+
+    // Instructor Commission Negotiation Route
+    Route::resource('commissions', InstructorCommissionController::class)->except(['show']);
 
     // Subcategory Route
     Route::get('/subcategories/trash', [SubcategoryTrashController::class, 'trash'])->name('subcategories.trash');

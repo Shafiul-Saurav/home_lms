@@ -235,12 +235,14 @@
                         </ul>
                     </li>
                 @endcan
-                @can('index-product-category')
+                @canany(['index-product-category', 'index-instructor-commission'])
                     <li
                         class="slide {{ Request::routeIs('categories.index') ? 'is-expanded' : '' }}
-                    {{ Request::routeIs('categories.trash') ? 'is-expanded' : '' }}">
+                    {{ Request::routeIs('categories.trash') ? 'is-expanded' : '' }}
+                    {{ Request::routeIs('commissions.*') ? 'is-expanded' : '' }}">
                         <a class="side-menu__item {{ Request::routeIs('categories.index') ? 'active' : '' }}
-                        {{ Request::routeIs('categories.trash') ? 'active' : '' }}"
+                        {{ Request::routeIs('categories.trash') ? 'active' : '' }}
+                        {{ Request::routeIs('commissions.*') ? 'active' : '' }}"
                             data-bs-toggle="slide" href="#">
                             <i class="fa-solid fa-boxes-stacked"></i>
                             <span class="side-menu__label ms-3">Course Management</span><i
@@ -339,9 +341,25 @@
                                     </ul>
                                 </li>
                             @endcan
+                            {{-- @can('index-instructor-commission') --}}
+                                <li
+                                    class="sub-slide {{ Request::routeIs('commissions.*') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('commissions.*') ? 'active' : '' }}"
+                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Commission
+                                            Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    <ul class="sub-slide-menu">
+                                        <li><a class="sub-slide-item {{ Request::routeIs('commissions.index') ? 'active' : '' }}"
+                                                href="{{ route('commissions.index') }}">List</a></li>
+                                        @can('create-instructor-commission')
+                                            <li><a class="sub-slide-item {{ Request::routeIs('commissions.create') ? 'active' : '' }}"
+                                                    href="{{ route('commissions.create') }}">Create</a></li>
+                                        @endcan
+                                    </ul>
+                                </li>
+                            {{-- @endcan --}}
                         </ul>
                     </li>
-                @endcan
+                @endcanany
 
                 <li
                     class="slide {{ Request::routeIs('exam_categories.*') || Request::routeIs('exams.*') || Request::routeIs('questions.*') || Request::routeIs('exam_results.*') ? 'is-expanded' : '' }}">

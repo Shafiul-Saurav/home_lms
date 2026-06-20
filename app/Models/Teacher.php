@@ -36,4 +36,13 @@ class Teacher extends Model
         $courseIds = $this->courses()->pluck('courses.id');
         return CourseReview::whereIn('course_id', $courseIds)->where('is_approved', 1)->count();
     }
+    public function commission()
+    {
+        return $this->hasOne(InstructorCommission::class);
+    }
+
+    public function approvedCommission()
+    {
+        return $this->hasOne(InstructorCommission::class)->where('status', 'approved');
+    }
 }
