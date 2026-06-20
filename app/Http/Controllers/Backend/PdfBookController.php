@@ -9,12 +9,15 @@ use App\Models\PdfBookCategory;
 use App\Models\PdfBook;
 use App\Models\PdfBookSubcategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Intervention\Image\Facades\Image;
 
 class PdfBookController extends Controller
 {
     public function index()
     {
+        Gate::authorize('index-pdf-book');
+
         $books = PdfBook::with('pdfBookCategory', 'pdfBookSubcategory')->whereNull('deleted_at')->latest('id')->paginate(100);
         $categories = PdfBookCategory::where('is_active', 1)->get();
 
@@ -23,11 +26,15 @@ class PdfBookController extends Controller
 
     public function create()
     {
+        Gate::authorize('create-pdf-book');
+
         return redirect()->route('pdf_books.index');
     }
 
     public function store(PdfBookStoreRequest $request)
     {
+        Gate::authorize('create-pdf-book');
+
         $book = PdfBook::create([
             'pdf_book_category_id' => $request->pdf_book_category_id,
             'pdf_book_subcategory_id' => $request->pdf_book_subcategory_id,
@@ -52,12 +59,16 @@ class PdfBookController extends Controller
 
     public function show(string $id)
     {
+        Gate::authorize('index-pdf-book');
+
         $book = PdfBook::with('pdfBookCategory', 'pdfBookSubcategory')->findOrFail($id);
         return view('backend.pages.pdfbook.show', compact('book'));
     }
 
     public function edit(string $id)
     {
+        Gate::authorize('edit-pdf-book');
+
         $book = PdfBook::findOrFail($id);
         $categories = PdfBookCategory::where('is_active', 1)->get();
         $subcategories = [];
@@ -73,6 +84,8 @@ class PdfBookController extends Controller
 
     public function update(PdfBookUpdateRequest $request, string $id)
     {
+        Gate::authorize('edit-pdf-book');
+
         $book = PdfBook::findOrFail($id);
 
         $book->update([
@@ -97,6 +110,8 @@ class PdfBookController extends Controller
 
     public function destroy(string $id)
     {
+        Gate::authorize('delete-pdf-book');
+
         $book = PdfBook::findOrFail($id);
         $book->delete();
 
@@ -194,6 +209,8 @@ class PdfBookController extends Controller
 
     public function getSubcategories($categoryId)
     {
+        Gate::authorize('index-pdf-book-subcategory');
+
         $subcategories = PdfBookSubcategory::where('pdf_book_category_id', $categoryId)
             ->where('is_active', 1)
             ->select('id', 'name')
@@ -204,6 +221,8 @@ class PdfBookController extends Controller
 
     public function checkActive($bookId)
     {
+        Gate::authorize('edit-pdf-book');
+
         $book = PdfBook::find($bookId);
 
         if (!$book) {

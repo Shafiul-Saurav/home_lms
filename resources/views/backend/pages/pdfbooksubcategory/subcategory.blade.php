@@ -26,55 +26,59 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create PDF Book Subcategory</h3>
-                    <a href="{{ route('pdf_book_subcategories.trash') }}" class="btn btn-sm btn-outline-warning border"><i
-                            class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @can('delete-pdf-book-subcategory')
+                        <a href="{{ route('pdf_book_subcategories.trash') }}" class="btn btn-sm btn-outline-warning border"><i
+                                class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @endcan
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('pdf_book_subcategories.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                                <div class="form-group">
-                                    <label for="pdf_book_category_id">Category</label>
-                                    <select name="pdf_book_category_id" id="pdf_book_category_id" class="form-control select2-style1 @error('pdf_book_category_id') is-invalid @enderror" required>
-                                        <option value="">Select Category</option>
-                                        @foreach($categories as $category)
-                                            <option value="{{ $category->id }}" {{ old('pdf_book_category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('pdf_book_category_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                    @can('create-pdf-book-subcategory')
+                        <form action="{{ route('pdf_book_subcategories.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="pdf_book_category_id">Category</label>
+                                        <select name="pdf_book_category_id" id="pdf_book_category_id" class="form-control select2-style1 @error('pdf_book_category_id') is-invalid @enderror" required>
+                                            <option value="">Select Category</option>
+                                            @foreach($categories as $category)
+                                                <option value="{{ $category->id }}" {{ old('pdf_book_category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('pdf_book_category_id')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name"
+                                            value="{{ old('name') }}" required>
+                                        @error('name')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <div class="form-group">
+                                        <label for="file">File (Image)</label>
+                                        <input type="file" name="file" class="form-control @error('file') is-invalid @enderror" id="file">
+                                        @error('file')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="form-group">
-                                    <label for="name">Name</label>
-                                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name"
-                                        value="{{ old('name') }}" required>
-                                    @error('name')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <div class="form-group">
-                                    <label for="file">File (Image)</label>
-                                    <input type="file" name="file" class="form-control @error('file') is-invalid @enderror" id="file">
-                                    @error('file')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Create</button>
-                    </form>
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </form>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -94,9 +98,13 @@
                                     <th class="border-bottom-0">Category</th>
                                     <th class="border-bottom-0">Name</th>
                                     <th class="border-bottom-0">Slug</th>
-                                    <th class="border-bottom-0">Home Page</th>
-                                    <th class="border-bottom-0">Status</th>
-                                    <th class="border-bottom-0">Actions</th>
+                                    @can('edit-pdf-book-subcategory')
+                                        <th class="border-bottom-0">Home Page</th>
+                                        <th class="border-bottom-0">Status</th>
+                                    @endcan
+                                    @canany(['edit-pdf-book-subcategory', 'delete-pdf-book-subcategory'])
+                                        <th class="border-bottom-0">Actions</th>
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -106,47 +114,55 @@
                                         <td>{{ $subcategory->pdfBookCategory ? $subcategory->pdfBookCategory->name : 'N/A' }}</td>
                                         <td>{{ $subcategory->name }}</td>
                                         <td>{{ $subcategory->slug }}</td>
-                                        <td>
-                                            <div class="material-switch">
-                                                <input id="home-{{ $subcategory->id }}" class="toggle-class-home" name="is_home"
-                                                    type="checkbox" {{ $subcategory->is_home ? 'checked' : '' }}
-                                                    data-id="{{ $subcategory->id }}">
-                                                <label for="home-{{ $subcategory->id }}" class="label-success"></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="material-switch">
-                                                <input id="active-{{ $subcategory->id }}" class="toggle-class-active" name="is_active"
-                                                    type="checkbox" {{ $subcategory->is_active ? 'checked' : '' }}
-                                                    data-id="{{ $subcategory->id }}">
-                                                <label for="active-{{ $subcategory->id }}" class="label-success"></label>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">
-                                            <div class="action-btns d-flex align-items-center">
-                                                <div>
-                                                    <a href="{{ route('pdf_book_subcategories.edit', $subcategory->id) }}"
-                                                        class="btn btn-sm btn-outline-secondary border me-2"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        title="Edit">
-                                                        <i class="fa-solid fa-pen fa-fw"></i>
-                                                    </a>
+                                        @can('edit-pdf-book-subcategory')
+                                            <td>
+                                                <div class="material-switch">
+                                                    <input id="home-{{ $subcategory->id }}" class="toggle-class-home" name="is_home"
+                                                        type="checkbox" {{ $subcategory->is_home ? 'checked' : '' }}
+                                                        data-id="{{ $subcategory->id }}">
+                                                    <label for="home-{{ $subcategory->id }}" class="label-success"></label>
                                                 </div>
-                                                <div>
-                                                    <form action="{{ route('pdf_book_subcategories.destroy', $subcategory->id) }}" method="POST"
-                                                        class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            class="btn btn-sm btn-outline-warning border show_confirm"
-                                                            data-toggle="tooltip" data-placement="top"
-                                                            title="Delete">
-                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
-                                                        </button>
-                                                    </form>
+                                            </td>
+                                            <td>
+                                                <div class="material-switch">
+                                                    <input id="active-{{ $subcategory->id }}" class="toggle-class-active" name="is_active"
+                                                        type="checkbox" {{ $subcategory->is_active ? 'checked' : '' }}
+                                                        data-id="{{ $subcategory->id }}">
+                                                    <label for="active-{{ $subcategory->id }}" class="label-success"></label>
                                                 </div>
-                                            </div>
-                                        </td>
+                                            </td>
+                                        @endcan
+                                        @canany(['edit-pdf-book-subcategory', 'delete-pdf-book-subcategory'])
+                                            <td class="text-center">
+                                                <div class="action-btns d-flex align-items-center">
+                                                    @can('edit-pdf-book-subcategory')
+                                                        <div>
+                                                            <a href="{{ route('pdf_book_subcategories.edit', $subcategory->id) }}"
+                                                                class="btn btn-sm btn-outline-secondary border me-2"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="Edit">
+                                                                <i class="fa-solid fa-pen fa-fw"></i>
+                                                            </a>
+                                                        </div>
+                                                    @endcan
+                                                    @can('delete-pdf-book-subcategory')
+                                                        <div>
+                                                            <form action="{{ route('pdf_book_subcategories.destroy', $subcategory->id) }}" method="POST"
+                                                                class="d-inline">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit"
+                                                                    class="btn btn-sm btn-outline-warning border show_confirm"
+                                                                    data-toggle="tooltip" data-placement="top"
+                                                                    title="Delete">
+                                                                    <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    @endcan
+                                                </div>
+                                            </td>
+                                        @endcanany
                                     </tr>
                                 @endforeach
                             </tbody>

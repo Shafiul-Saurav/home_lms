@@ -26,39 +26,43 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create PDF Book Category</h3>
-                    <a href="{{ route('pdf_book_categories.trash') }}" class="btn btn-sm btn-outline-warning border"><i
-                            class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @can('delete-pdf-book-category')
+                        <a href="{{ route('pdf_book_categories.trash') }}" class="btn btn-sm btn-outline-warning border"><i
+                                class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
+                    @endcan
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('pdf_book_categories.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="form-row">
-                            <div class="col-12 mb-3">
-                                <div class="form-group">
-                                    <label for="name">Name</label>
-                                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name"
-                                        value="{{ old('name') }}" required>
-                                    @error('name')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                    @can('create-pdf-book-category')
+                        <form action="{{ route('pdf_book_categories.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-row">
+                                <div class="col-12 mb-3">
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name"
+                                            value="{{ old('name') }}" required>
+                                        @error('name')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <div class="form-group">
+                                        <label for="file">File (Image)</label>
+                                        <input type="file" name="file" class="form-control @error('file') is-invalid @enderror" id="file">
+                                        @error('file')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
-                                <div class="form-group">
-                                    <label for="file">File (Image)</label>
-                                    <input type="file" name="file" class="form-control @error('file') is-invalid @enderror" id="file">
-                                    @error('file')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Create</button>
-                    </form>
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </form>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -79,9 +83,13 @@
                                     <th class="border-bottom-0">Name</th>
                                     <th class="border-bottom-0">Slug</th>
                                     <th class="border-bottom-0">File</th>
-                                    <th class="border-bottom-0">Home Page</th>
-                                    <th class="border-bottom-0">Status</th>
-                                    <th class="border-bottom-0">Actions</th>
+                                    @can('edit-pdf-book-category')
+                                        <th class="border-bottom-0">Home Page</th>
+                                        <th class="border-bottom-0">Status</th>
+                                    @endcan
+                                    @canany(['edit-pdf-book-category', 'delete-pdf-book-category'])
+                                        <th class="border-bottom-0">Actions</th>
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -98,47 +106,55 @@
                                                 -
                                             @endif
                                         </td>
-                                        <td>
-                                            <div class="material-switch">
-                                                <input id="home-{{ $category->id }}" class="toggle-class-home" name="is_home"
-                                                    type="checkbox" {{ $category->is_home ? 'checked' : '' }}
-                                                    data-id="{{ $category->id }}">
-                                                <label for="home-{{ $category->id }}" class="label-success"></label>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="material-switch">
-                                                <input id="active-{{ $category->id }}" class="toggle-class-active" name="is_active"
-                                                    type="checkbox" {{ $category->is_active ? 'checked' : '' }}
-                                                    data-id="{{ $category->id }}">
-                                                <label for="active-{{ $category->id }}" class="label-success"></label>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">
-                                            <div class="action-btns d-flex align-items-center">
-                                                <div>
-                                                    <a href="{{ route('pdf_book_categories.edit', $category->id) }}"
-                                                        class="btn btn-sm btn-outline-secondary border me-2"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        title="Edit">
-                                                        <i class="fa-solid fa-pen fa-fw"></i>
-                                                    </a>
+                                        @can('edit-pdf-book-category')
+                                            <td>
+                                                <div class="material-switch">
+                                                    <input id="home-{{ $category->id }}" class="toggle-class-home" name="is_home"
+                                                        type="checkbox" {{ $category->is_home ? 'checked' : '' }}
+                                                        data-id="{{ $category->id }}">
+                                                    <label for="home-{{ $category->id }}" class="label-success"></label>
                                                 </div>
-                                                <div>
-                                                    <form action="{{ route('pdf_book_categories.destroy', $category->id) }}" method="POST"
-                                                        class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            class="btn btn-sm btn-outline-warning border show_confirm"
-                                                            data-toggle="tooltip" data-placement="top"
-                                                            title="Delete">
-                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
-                                                        </button>
-                                                    </form>
+                                            </td>
+                                            <td>
+                                                <div class="material-switch">
+                                                    <input id="active-{{ $category->id }}" class="toggle-class-active" name="is_active"
+                                                        type="checkbox" {{ $category->is_active ? 'checked' : '' }}
+                                                        data-id="{{ $category->id }}">
+                                                    <label for="active-{{ $category->id }}" class="label-success"></label>
                                                 </div>
-                                            </div>
-                                        </td>
+                                            </td>
+                                        @endcan
+                                        @canany(['edit-pdf-book-category', 'delete-pdf-book-category'])
+                                            <td class="text-center">
+                                                <div class="action-btns d-flex align-items-center">
+                                                    @can('edit-pdf-book-category')
+                                                        <div>
+                                                            <a href="{{ route('pdf_book_categories.edit', $category->id) }}"
+                                                                class="btn btn-sm btn-outline-secondary border me-2"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="Edit">
+                                                                <i class="fa-solid fa-pen fa-fw"></i>
+                                                            </a>
+                                                        </div>
+                                                    @endcan
+                                                    @can('delete-pdf-book-category')
+                                                        <div>
+                                                            <form action="{{ route('pdf_book_categories.destroy', $category->id) }}" method="POST"
+                                                                class="d-inline">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit"
+                                                                    class="btn btn-sm btn-outline-warning border show_confirm"
+                                                                    data-toggle="tooltip" data-placement="top"
+                                                                    title="Delete">
+                                                                    <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    @endcan
+                                                </div>
+                                            </td>
+                                        @endcanany
                                     </tr>
                                 @endforeach
                             </tbody>

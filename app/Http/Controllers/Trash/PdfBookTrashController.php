@@ -5,17 +5,22 @@ namespace App\Http\Controllers\Trash;
 use App\Http\Controllers\Controller;
 use App\Models\PdfBook;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PdfBookTrashController extends Controller
 {
     public function trash()
     {
+        Gate::authorize('delete-pdf-book');
+
         $books = PdfBook::onlyTrashed()->with('pdfBookCategory', 'pdfBookSubcategory')->latest('id')->paginate(30);
         return view('backend.pages.pdfbook.trash', compact('books'));
     }
 
     public function restore($id)
     {
+        Gate::authorize('delete-pdf-book');
+
         $book = PdfBook::onlyTrashed()->findOrFail($id);
         $book->restore();
         return redirect()->back()->with('message', 'PDF Book Restored Successfully');
@@ -23,6 +28,8 @@ class PdfBookTrashController extends Controller
 
     public function forceDelete($id)
     {
+        Gate::authorize('delete-pdf-book');
+
         $book = PdfBook::onlyTrashed()->findOrFail($id);
         
         // Delete image

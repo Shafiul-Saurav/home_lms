@@ -7,11 +7,14 @@ use App\Models\PdfBookCategory;
 use App\Models\PdfBookSubcategory;
 use App\Http\Requests\PdfBookSubcategoryStoreRequest;
 use App\Http\Requests\PdfBookSubcategoryUpdateRequest;
+use Illuminate\Support\Facades\Gate;
 
 class PdfBookSubcategoryController extends Controller
 {
     public function index()
     {
+        Gate::authorize('index-pdf-book-subcategory');
+
         $subcategories = PdfBookSubcategory::with('pdfBookCategory')->latest('id')->paginate(30);
         $categories = PdfBookCategory::where('is_active', 1)->get();
         return view('backend.pages.pdfbooksubcategory.subcategory', compact('subcategories', 'categories'));
@@ -19,11 +22,15 @@ class PdfBookSubcategoryController extends Controller
 
     public function create()
     {
+        Gate::authorize('create-pdf-book-subcategory');
+
         return redirect()->route('pdf_book_subcategories.index');
     }
 
     public function store(PdfBookSubcategoryStoreRequest $request)
     {
+        Gate::authorize('create-pdf-book-subcategory');
+
         $fileName = null;
         if ($request->hasFile('file')) {
             $file = $request->file('file');
@@ -45,11 +52,15 @@ class PdfBookSubcategoryController extends Controller
 
     public function show(string $id)
     {
+        Gate::authorize('index-pdf-book-subcategory');
+
         return redirect()->route('pdf_book_subcategories.index');
     }
 
     public function edit(string $id)
     {
+        Gate::authorize('edit-pdf-book-subcategory');
+
         $subcategory = PdfBookSubcategory::findOrFail($id);
         $categories = PdfBookCategory::where('is_active', 1)->get();
         return view('backend.pages.pdfbooksubcategory.edit', compact('subcategory', 'categories'));
@@ -57,6 +68,8 @@ class PdfBookSubcategoryController extends Controller
 
     public function update(PdfBookSubcategoryUpdateRequest $request, string $id)
     {
+        Gate::authorize('edit-pdf-book-subcategory');
+
         $subcategory = PdfBookSubcategory::findOrFail($id);
 
         $fileName = $subcategory->file;
@@ -84,6 +97,8 @@ class PdfBookSubcategoryController extends Controller
 
     public function destroy(string $id)
     {
+        Gate::authorize('delete-pdf-book-subcategory');
+
         $subcategory = PdfBookSubcategory::findOrFail($id);
         $subcategory->delete();
 
@@ -92,6 +107,8 @@ class PdfBookSubcategoryController extends Controller
 
     public function checkActive($id)
     {
+        Gate::authorize('edit-pdf-book-subcategory');
+
         $subcategory = PdfBookSubcategory::find($id);
         if (!$subcategory) {
             return response()->json(['type' => 'error', 'message' => 'Not found'], 404);
@@ -103,6 +120,8 @@ class PdfBookSubcategoryController extends Controller
 
     public function checkHome($id)
     {
+        Gate::authorize('edit-pdf-book-subcategory');
+
         $subcategory = PdfBookSubcategory::find($id);
         if (!$subcategory) {
             return response()->json(['type' => 'error', 'message' => 'Not found'], 404);
