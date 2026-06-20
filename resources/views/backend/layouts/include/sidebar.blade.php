@@ -235,14 +235,10 @@
                         </ul>
                     </li>
                 @endcan
-                @canany(['index-course-category', 'index-instructor-commission'])
+                @canany(['index-course-category', 'index-course-subcategory', 'index-course-childcategory', 'index-course', 'index-instructor-commission'])
                     <li
-                        class="slide {{ Request::routeIs('categories.index') ? 'is-expanded' : '' }}
-                    {{ Request::routeIs('categories.trash') ? 'is-expanded' : '' }}
-                    {{ Request::routeIs('commissions.*') ? 'is-expanded' : '' }}">
-                        <a class="side-menu__item {{ Request::routeIs('categories.index') ? 'active' : '' }}
-                        {{ Request::routeIs('categories.trash') ? 'active' : '' }}
-                        {{ Request::routeIs('commissions.*') ? 'active' : '' }}"
+                        class="slide {{ Request::routeIs('categories.*', 'subcategories.*', 'childcategories.*', 'courses.*', 'commissions.*') ? 'is-expanded' : '' }}">
+                        <a class="side-menu__item {{ Request::routeIs('categories.*', 'subcategories.*', 'childcategories.*', 'courses.*', 'commissions.*') ? 'active' : '' }}"
                             data-bs-toggle="slide" href="#">
                             <i class="fa-solid fa-boxes-stacked"></i>
                             <span class="side-menu__label ms-3">Course Management</span><i
@@ -251,10 +247,8 @@
                         <ul class="slide-menu">
                             @can('index-course-category')
                                 <li
-                                    class="sub-slide {{ Request::routeIs('categories.index') ? 'is-expanded' : '' }}
-                            {{ Request::routeIs('categories.trash') ? 'is-expanded' : '' }}">
-                                    <a class="sub-side-menu__item {{ Request::routeIs('categories.index') ? 'active' : '' }}
-                                {{ Request::routeIs('categories.trash') ? 'active' : '' }}"
+                                    class="sub-slide {{ Request::routeIs('categories.*') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('categories.*') ? 'active' : '' }}"
                                         data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Category
                                             Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
                                     <ul class="sub-slide-menu">
@@ -269,10 +263,8 @@
                             @endcan
                             @can('index-course-subcategory')
                                 <li
-                                    class="sub-slide {{ Request::routeIs('subcategories.index') ? 'is-expanded' : '' }}
-                            {{ Request::routeIs('subcategories.trash') ? 'is-expanded' : '' }}">
-                                    <a class="sub-side-menu__item {{ Request::routeIs('subcategories.index') ? 'active' : '' }}
-                                {{ Request::routeIs('subcategories.trash') ? 'active' : '' }}"
+                                    class="sub-slide {{ Request::routeIs('subcategories.*') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('subcategories.*') ? 'active' : '' }}"
                                         data-bs-toggle="sub-slide" href="#"><span
                                             class="sub-side-menu__label">Subcategory
                                             Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
@@ -288,10 +280,8 @@
                             @endcan
                             @can('index-course-childcategory')
                                 <li
-                                    class="sub-slide {{ Request::routeIs('childcategories.index') ? 'is-expanded' : '' }}
-                            {{ Request::routeIs('childcategories.trash') ? 'is-expanded' : '' }}">
-                                    <a class="sub-side-menu__item {{ Request::routeIs('childcategories.index') ? 'active' : '' }}
-                                {{ Request::routeIs('childcategories.trash') ? 'active' : '' }}"
+                                    class="sub-slide {{ Request::routeIs('childcategories.*') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('childcategories.*') ? 'active' : '' }}"
                                         data-bs-toggle="sub-slide" href="#"><span
                                             class="sub-side-menu__label">Childcategory
                                             Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
@@ -308,10 +298,8 @@
 
                             @can('index-course')
                                 <li
-                                    class="sub-slide {{ Request::routeIs('courses.index') ? 'is-expanded' : '' }}
-                            {{ Request::routeIs('courses.trash') ? 'is-expanded' : '' }}">
-                                    <a class="sub-side-menu__item {{ Request::routeIs('courses.index') ? 'active' : '' }}
-                                {{ Request::routeIs('courses.trash') ? 'active' : '' }}"
+                                    class="sub-slide {{ Request::routeIs('courses.*') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('courses.*') ? 'active' : '' }}"
                                         data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Course
                                             Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
                                     <ul class="sub-slide-menu">
