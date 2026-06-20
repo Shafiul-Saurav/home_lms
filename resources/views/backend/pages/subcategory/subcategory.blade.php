@@ -182,14 +182,14 @@
                                         @canany(['edit-course-subcategory', 'delete-course-subcategory'])
                                             <td class="text-center">
                                                 <div class="action-btns d-flex align-items-center">
-                                                    <div>
+                                                    {{-- <div>
                                                         <a href="{{ route('subcategories.show', $subcategory->id) }}"
                                                             class="btn btn-sm btn-outline-primary border me-2"
                                                             data-toggle="tooltip" data-placement="top"
                                                             data-bs-original-title="View">
                                                             <i class="fa-solid fa-eye"></i>
                                                         </a>
-                                                    </div>
+                                                    </div> --}}
                                                     <div>
                                                         <a href="{{ route('subcategories.edit', $subcategory->slug) }}"
                                                             class="btn btn-sm btn-outline-secondary border me-2"
@@ -199,8 +199,7 @@
                                                         </a>
                                                     </div>
                                                     <div>
-                                                        <form
-                                                            action="{{ route('subcategories.destroy', $subcategory->slug) }}"
+                                                        <form action="{{ route('subcategories.destroy', $subcategory->slug) }}"
                                                             method="POST" class="d-inline">
                                                             @csrf
                                                             @method('DELETE')
