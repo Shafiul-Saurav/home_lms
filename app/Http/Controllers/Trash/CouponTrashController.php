@@ -11,7 +11,7 @@ class CouponTrashController extends Controller
 {
     public function trash()
     {
-        // Gate::authorize('delete-coupon');
+        Gate::authorize('delete-coupon');
 
         $coupons = Coupon::onlyTrashed()->latest('id')->paginate(100);
         return view('backend.pages.coupons.trash', compact('coupons'));
@@ -19,7 +19,7 @@ class CouponTrashController extends Controller
 
     public function restore(string $id)
     {
-        // Gate::authorize('delete-coupon');
+        Gate::authorize('delete-coupon');
 
         $coupon = Coupon::onlyTrashed()->findOrFail($id);
         $coupon->restore();
@@ -30,7 +30,7 @@ class CouponTrashController extends Controller
 
     public function forceDelete(string $id)
     {
-        // Gate::authorize('delete-coupon');
+        Gate::authorize('delete-coupon');
 
         $coupon = Coupon::onlyTrashed()->findOrFail($id);
         $coupon->forceDelete();

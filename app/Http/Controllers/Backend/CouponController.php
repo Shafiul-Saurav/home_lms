@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Models\Coupon;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CouponStoreRequest;
 use App\Http\Requests\CouponUpdateRequest;
+use App\Models\Coupon;
+use Illuminate\Support\Facades\Gate;
 
 class CouponController extends Controller
 {
@@ -14,7 +15,7 @@ class CouponController extends Controller
      */
     public function index()
     {
-        // Gate::authorize('index-coupon');
+        Gate::authorize('index-coupon');
 
         $coupons = Coupon::latest('id')->paginate(100);
         return view('backend.pages.coupons.coupons', compact('coupons'));

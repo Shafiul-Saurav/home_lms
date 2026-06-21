@@ -56,23 +56,25 @@
                                         <td>{{ $coupon->end_date->format('d-M-Y') }}</td>
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
-                                                <div>
-                                                    <a href="{{ route('coupons.restore', ['id' => $coupon->id]) }}"
-                                                        class="btn btn-sm btn-outline-success border me-2" data-toggle="tooltip"
-                                                        data-placement="top" data-bs-original-title="Restore"><i class="fa-solid fa-rotate-left fa-fw"></i>
-                                                    </a>
-                                                </div>
-                                                <div>
-                                                    <form action="{{ route('coupons.forcedelete', ['id' => $coupon->id]) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-outline-danger border show_confirm" data-toggle="tooltip"
-                                                        data-placement="top" data-bs-original-title="Force Delete">
-                                                            <i class="fa-solid fa-radiation"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
+                                                @can('delete-coupon')
+                                                    <div>
+                                                        <a href="{{ route('coupons.restore', ['id' => $coupon->id]) }}"
+                                                            class="btn btn-sm btn-outline-success border me-2" data-toggle="tooltip"
+                                                            data-placement="top" data-bs-original-title="Restore"><i class="fa-solid fa-rotate-left fa-fw"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div>
+                                                        <form action="{{ route('coupons.forcedelete', ['id' => $coupon->id]) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm btn-outline-danger border show_confirm" data-toggle="tooltip"
+                                                            data-placement="top" data-bs-original-title="Force Delete">
+                                                                <i class="fa-solid fa-radiation"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                @endcan
                                             </div>
                                         </td>
                                     </tr>

@@ -26,10 +26,10 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Coupon</h3>
-                    {{-- @can('delete-coupon') --}}
+                    @can('delete-coupon')
                     <a href="{{ route('coupons.trash') }}" class="btn btn-sm btn-outline-warning border"><i
                             class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
-                    {{-- @endcan --}}
+                    @endcan
                 </div>
                 <div class="card-body">
                     <form action="{{ route('coupons.store') }}" method="POST">
@@ -149,9 +149,7 @@
                                     <th class="border-bottom-0">Valid Until</th>
                                     <th class="border-bottom-0">Usage</th>
                                     <th class="border-bottom-0">Status</th>
-                                    {{-- @canany(['edit-coupon', 'delete-coupon']) --}}
                                     <th class="border-bottom-0">Actions</th>
-                                    {{-- @endcanany --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -177,7 +175,7 @@
                                                 {{ $coupon->used_count }}/Unlimited
                                             @endif
                                         </td>
-                                        {{-- @can('edit-coupon') --}}
+                                        @can('edit-coupon')
                                         <td>
                                             <div class="material-switch">
                                                 <input id="active-{{ $coupon->id }}" class="toggle-class-active" name="is_active"
@@ -186,8 +184,8 @@
                                                 <label for="active-{{ $coupon->id }}" class="label-success"></label>
                                             </div>
                                         </td>
-                                        {{-- @endcan --}}
-                                        {{-- @canany(['edit-coupon', 'delete-coupon']) --}}
+                                        @endcan
+                                        @canany(['edit-coupon', 'delete-coupon'])
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
@@ -197,7 +195,7 @@
                                                         <i class="fa-solid fa-eye"></i>
                                                     </a>
                                                 </div>
-                                                {{-- @can('edit-coupon') --}}
+                                                @can('edit-coupon')
                                                 <div>
                                                     <a href="{{ route('coupons.edit', $coupon->id) }}" class="btn btn-sm btn-outline-info border me-2"
                                                         data-toggle="tooltip" data-placement="top"
@@ -205,8 +203,8 @@
                                                         <i class="fa-solid fa-edit"></i>
                                                     </a>
                                                 </div>
-                                                {{-- @endcan --}}
-                                                {{-- @can('delete-coupon') --}}
+                                                @endcan
+                                                @can('delete-coupon')
                                                 <div>
                                                     <form action="{{ route('coupons.destroy', $coupon->id) }}" method="POST" class="d-inline">
                                                         @csrf
@@ -217,10 +215,10 @@
                                                         </button>
                                                     </form>
                                                 </div>
-                                                {{-- @endcan --}}
+                                                @endcan
                                             </div>
                                         </td>
-                                        {{-- @endcanany --}}
+                                        @endcanany
                                     </tr>
                                 @endforeach
                             </tbody>
