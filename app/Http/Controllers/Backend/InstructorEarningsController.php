@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Course;
 use App\Models\CourseOrder;
 use App\Models\Teacher;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class InstructorEarningsController extends Controller
 {
     public function index(Request $request)
     {
+        Gate::authorize('index-earning');
         $user = Auth::user();
         $teachers = collect();
         $selectedTeacher = null;
@@ -201,6 +201,7 @@ class InstructorEarningsController extends Controller
      */
     public function show($teacher_id)
     {
+        Gate::authorize('view-earning');
         $teacher = Teacher::with('user')->findOrFail($teacher_id);
 
         // Determine commission info for the teacher

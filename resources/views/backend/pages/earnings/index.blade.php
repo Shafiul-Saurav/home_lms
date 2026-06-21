@@ -185,42 +185,46 @@
                                         class="table table-bordered text-nowrap key-buttons border-bottom w-100">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
-                                                <th>Instructor</th>
-                                                <th>Email</th>
-                                                <th>Courses</th>
-                                                <th>Enrolled Students</th>
-                                                <th>Gross Sales</th>
-                                                <th>Admin Share
+                                                <th class="border-bottom-0">#</th>
+                                                <th class="border-bottom-0">Instructor</th>
+                                                <th class="border-bottom-0">Email</th>
+                                                <th class="border-bottom-0">Courses</th>
+                                                <th class="border-bottom-0">Enrolled Students</th>
+                                                <th class="border-bottom-0">Gross Sales</th>
+                                                <th class="border-bottom-0">Admin Share
                                                     ({{ number_format($commissionInfo['admin_percentage'], 2) }}%)</th>
-                                                <th>Gateway Fee
+                                                <th class="border-bottom-0">Gateway Fee
                                                     ({{ number_format($commissionInfo['gateway_percentage'], 2) }}%)</th>
-                                                <th>Net Earnings</th>
-                                                <th>Action</th>
+                                                <th class="border-bottom-0">Net Earnings</th>
+                                                @can('view-earning')
+                                                    <th class="border-bottom-0">Action</th>
+                                                @endcan
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($instructorsData as $index => $data)
                                                 <tr>
-                                                    <td class="text-center fw-bold">{{ $index + 1 }}</td>
-                                                    <td class="fw-semibold">{{ $data['teacher']->user->name }}</td>
-                                                    <td class="text-muted">{{ $data['teacher']->user->email }}</td>
-                                                    <td class="text-center">{{ $data['totals']['courses_count'] }}</td>
-                                                    <td class="text-center fw-bold text-primary">
+                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ $data['teacher']->user->name }}</td>
+                                                    <td>{{ $data['teacher']->user->email }}</td>
+                                                    <td>{{ $data['totals']['courses_count'] }}</td>
+                                                    <td>
                                                         {{ $data['totals']['enrolled_students'] }}</td>
-                                                    <td class="text-end">
+                                                    <td>
                                                         {{ number_format($data['totals']['gross_sales'], 2) }} ৳</td>
-                                                    <td class="text-end text-danger">-
+                                                    <td class="text-danger">-
                                                         {{ number_format($data['totals']['admin_shares'], 2) }} ৳</td>
-                                                    <td class="text-end text-danger">-
+                                                    <td class="text-danger">-
                                                         {{ number_format($data['totals']['gateway_charges'], 2) }} ৳</td>
-                                                    <td class="text-end text-success fw-bold">
+                                                    <td class="text-success">
                                                         {{ number_format($data['totals']['instructor_earnings'], 2) }} ৳
                                                     </td>
-                                                    <td class="text-center"><a
-                                                            href="{{ route('instructor.earnings.details', $data['teacher']->id) }}"
-                                                            class="btn btn-sm btn-primary" title="View Details"><i
-                                                                class="fa-solid fa-eye"></i></a></td>
+                                                    @can('view-earning')
+                                                        <td class="text-center"><a
+                                                                href="{{ route('instructor.earnings.details', $data['teacher']->id) }}"
+                                                                class="btn btn-sm btn-primary" title="View Details"><i
+                                                                    class="fa-solid fa-eye"></i></a></td>
+                                                    @endcan
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -229,24 +233,24 @@
                             @else
                                 <div class="table-responsive export-table">
                                     <table id="file-datatable"
-                                        class="table table-bordered text-nowrap key-buttons border-bottom w-100 table-striped align-middle">
-                                        <thead class="table-light">
+                                        class="table table-bordered text-nowrap key-buttons border-bottom w-100">
+                                        <thead>
                                             <tr>
-                                                <th style="width: 5%">#</th>
-                                                <th>Course Name</th>
-                                                <th class="text-center">Enrolled Students</th>
-                                                <th class="text-end">Gross Sales</th>
-                                                <th class="text-end">Admin Share
+                                                <th class="border-bottom-0">#</th>
+                                                <th class="border-bottom-0">Course Name</th>
+                                                <th class="border-bottom-0">Enrolled Students</th>
+                                                <th class="border-bottom-0">Gross Sales</th>
+                                                <th class="border-bottom-0">Admin Share
                                                     ({{ number_format($commissionInfo['admin_percentage'], 2) }}%)</th>
-                                                <th class="text-end">Gateway Fee
+                                                <th class="border-bottom-0">Gateway Fee
                                                     ({{ number_format($commissionInfo['gateway_percentage'], 2) }}%)</th>
-                                                <th class="text-end text-success fw-bold">Instructor Net Share</th>
+                                                <th class="border-bottom-0 text-success fw-bold">Instructor Net Share</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($coursesData as $data)
                                                 <tr>
-                                                    <td class="text-center fw-bold">{{ $loop->iteration }}</td>
+                                                    <td>{{ $loop->iteration }}</td>
                                                     <td class="fw-semibold">
                                                         {{ $data['course']->name }}
                                                         @if (!$data['course']->is_active)
@@ -255,13 +259,13 @@
                                                     </td>
                                                     <td class="text-center fw-bold text-primary">
                                                         {{ $data['enrollment_count'] }}</td>
-                                                    <td class="text-end">{{ number_format($data['gross_sales'], 2) }} ৳
+                                                    <td class="">{{ number_format($data['gross_sales'], 2) }} ৳
                                                     </td>
-                                                    <td class="text-end text-danger">-
+                                                    <td class="text-danger">-
                                                         {{ number_format($data['admin_share'], 2) }} ৳</td>
-                                                    <td class="text-end text-danger">-
+                                                    <td class="text-danger">-
                                                         {{ number_format($data['gateway_charge'], 2) }} ৳</td>
-                                                    <td class="text-end text-success fw-bold">
+                                                    <td class="text-success fw-bold">
                                                         {{ number_format($data['instructor_earnings'], 2) }} ৳</td>
                                                 </tr>
                                             @endforeach

@@ -29,7 +29,8 @@
                 </div>
                 <div class="ms-auto pageheader-btn">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        {{-- <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li> --}}
+                        <li class="breadcrumb-item"><a href="https://wa.me/01732329071?text=hi">Home</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('instructor.earnings') }}">All Instructors</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Details</li>
                     </ol>
@@ -148,16 +149,16 @@
                         </div>
                     @else
                         <div class="table-responsive export-table">
-                            <table id="file-datatable" class="table table-bordered text-nowrap key-buttons border-bottom w-100 table-striped align-middle">
-                                <thead class="table-light">
+                            <table id="file-datatable" class="table table-bordered text-nowrap key-buttons border-bottom w-100">
+                                <thead>
                                     <tr>
-                                        <th style="width: 5%">#</th>
-                                        <th>Course Name</th>
-                                        <th class="text-center">Enrolled Students</th>
-                                        <th class="text-end">Gross Sales</th>
-                                        <th class="text-end">Admin Share ({{ number_format($commissionInfo['admin_percentage'], 2) }}%)</th>
-                                        <th class="text-end">Gateway Fee ({{ number_format($commissionInfo['gateway_percentage'], 2) }}%)</th>
-                                        <th class="text-end text-success fw-bold">Instructor Net Share</th>
+                                        <th class="border-bottom-0">#</th>
+                                        <th class="border-bottom-0">Course Name</th>
+                                        <th class="border-bottom-0 text-center">Enrolled Students</th>
+                                        <th class="border-bottom-0 text-end">Gross Sales</th>
+                                        <th class="border-bottom-0 text-end">Admin Share ({{ number_format($commissionInfo['admin_percentage'], 2) }}%)</th>
+                                        <th class="border-bottom-0 text-end">Gateway Fee ({{ number_format($commissionInfo['gateway_percentage'], 2) }}%)</th>
+                                        <th class="border-bottom-0 text-end text-success fw-bold">Instructor Net Share</th>
                                     </tr>
                                 </thead>
                                 <tbody>
