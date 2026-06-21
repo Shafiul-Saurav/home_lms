@@ -5,23 +5,30 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\PdfBookOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PdfBookOrderController extends Controller
 {
     public function index()
     {
+        Gate::authorize('index-pdf-book-order');
+
         $orders = PdfBookOrder::with(['user', 'pdfBook'])->latest('id')->paginate(30);
         return view('backend.pages.orders.pdfbookorders.index', compact('orders'));
     }
 
     public function edit(string $id)
     {
+        Gate::authorize('edit-pdf-book-order');
+
         $order = PdfBookOrder::with(['user', 'pdfBook'])->findOrFail($id);
         return view('backend.pages.orders.pdfbookorders.edit', compact('order'));
     }
 
     public function update(Request $request, string $id)
     {
+        Gate::authorize('edit-pdf-book-order');
+
         $order = PdfBookOrder::findOrFail($id);
 
         $request->validate([
@@ -37,6 +44,8 @@ class PdfBookOrderController extends Controller
 
     public function destroy(string $id)
     {
+        Gate::authorize('delete-pdf-book-order');
+
         $order = PdfBookOrder::findOrFail($id);
         $order->delete();
 

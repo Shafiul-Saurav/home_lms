@@ -558,32 +558,42 @@
                     </li>
                 @endcanany
 
-                <li
-                    class="slide {{ Request::routeIs('orders.course_enrollment*') ? 'is-expanded' : '' }} {{ Request::routeIs('orders.bookorders*') ? 'is-expanded' : '' }} {{ Request::routeIs('orders.pdfbookorders*') ? 'is-expanded' : '' }}">
-                    <a class="side-menu__item {{ Request::routeIs('orders.course_enrollment*') ? 'active' : '' }} {{ Request::routeIs('orders.bookorders*') ? 'active' : '' }} {{ Request::routeIs('orders.pdfbookorders*') ? 'active' : '' }}"
-                        data-bs-toggle="slide" href="#">
-                        <i class="fa-solid fa-graduation-cap fa-fw"></i>
-                        <span class="side-menu__label ms-3">Enrollment</span><i class="fa-solid fa-angle-right"></i>
-                    </a>
-                    <ul class="slide-menu">
-                        <li><a href="{{ route('orders.course_enrollment') }}"
-                                class="slide-item {{ Request::routeIs('orders.course_enrollment') ? 'active' : '' }}">Course
-                                Enrollment</a>
-                        </li>
-                        <li><a href="{{ route('orders.course_enrollment.manual') }}"
-                                class="slide-item {{ Request::routeIs('orders.course_enrollment.manual') ? 'active' : '' }}">Manual
-                                Enrollment</a>
-                        </li>
-                        <li><a href="{{ route('orders.bookorders') }}"
-                                class="slide-item {{ Request::routeIs('orders.bookorders*') ? 'active' : '' }}">Book
-                                Order</a>
-                        </li>
-                        <li><a href="{{ route('orders.pdfbookorders') }}"
-                                class="slide-item {{ Request::routeIs('orders.pdfbookorders*') ? 'active' : '' }}">PDF
-                                Book Order</a>
-                        </li>
-                    </ul>
-                </li>
+                @canany(['index-course-order', 'create-course-order', 'index-book-order', 'index-pdf-book-order'])
+                    <li
+                        class="slide {{ Request::routeIs('orders.course_enrollment*') ? 'is-expanded' : '' }} {{ Request::routeIs('orders.bookorders*') ? 'is-expanded' : '' }} {{ Request::routeIs('orders.pdfbookorders*') ? 'is-expanded' : '' }}">
+                        <a class="side-menu__item {{ Request::routeIs('orders.course_enrollment*') ? 'active' : '' }} {{ Request::routeIs('orders.bookorders*') ? 'active' : '' }} {{ Request::routeIs('orders.pdfbookorders*') ? 'active' : '' }}"
+                            data-bs-toggle="slide" href="#">
+                            <i class="fa-solid fa-graduation-cap fa-fw"></i>
+                            <span class="side-menu__label ms-3">Enrollment</span><i class="fa-solid fa-angle-right"></i>
+                        </a>
+                        <ul class="slide-menu">
+                            @can('index-course-order')
+                                <li><a href="{{ route('orders.course_enrollment') }}"
+                                        class="slide-item {{ Request::routeIs('orders.course_enrollment') ? 'active' : '' }}">Course
+                                        Enrollment</a>
+                                </li>
+                            @endcan
+                            @can('create-course-order')
+                                <li><a href="{{ route('orders.course_enrollment.manual') }}"
+                                        class="slide-item {{ Request::routeIs('orders.course_enrollment.manual') ? 'active' : '' }}">Manual
+                                        Enrollment</a>
+                                </li>
+                            @endcan
+                            @can('index-book-order')
+                                <li><a href="{{ route('orders.bookorders') }}"
+                                        class="slide-item {{ Request::routeIs('orders.bookorders*') ? 'active' : '' }}">Book
+                                        Order</a>
+                                </li>
+                            @endcan
+                            @can('index-pdf-book-order')
+                                <li><a href="{{ route('orders.pdfbookorders') }}"
+                                        class="slide-item {{ Request::routeIs('orders.pdfbookorders*') ? 'active' : '' }}">PDF
+                                        Book Order</a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcanany
 
                 {{-- @can('index-coupon') --}}
                 <li

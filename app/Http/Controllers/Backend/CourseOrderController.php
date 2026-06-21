@@ -7,23 +7,30 @@ use App\Models\Course;
 use App\Models\CourseOrder;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CourseOrderController extends Controller
 {
     public function index()
     {
+        Gate::authorize('index-course-order');
+
         $orders = CourseOrder::with(['user', 'course'])->latest('id')->paginate(30);
         return view('backend.pages.orders.course_enrollment.index', compact('orders'));
     }
 
     public function edit(string $id)
     {
+        Gate::authorize('edit-course-order');
+
         $order = CourseOrder::with(['user', 'course'])->findOrFail($id);
         return view('backend.pages.orders.course_enrollment.edit', compact('order'));
     }
 
     public function update(Request $request, string $id)
     {
+        Gate::authorize('edit-course-order');
+
         $order = CourseOrder::findOrFail($id);
 
         $request->validate([
@@ -41,6 +48,8 @@ class CourseOrderController extends Controller
 
     public function destroy(string $id)
     {
+        Gate::authorize('delete-course-order');
+
         $order = CourseOrder::findOrFail($id);
         $order->delete();
 
@@ -49,6 +58,8 @@ class CourseOrderController extends Controller
 
     public function manualEnroll()
     {
+        Gate::authorize('create-course-order');
+
         // Students have role_id = 4
         $users = User::with('profile.profileImage')
             ->where('role_id', 4)
@@ -65,6 +76,8 @@ class CourseOrderController extends Controller
      */
     public function getEnrolledCourses(string $userId)
     {
+        Gate::authorize('create-course-order');
+
         $enrolled = CourseOrder::where('user_id', $userId)
             ->where('status', 'Enrolled')
             ->where('payment_status', 'Completed')
@@ -76,6 +89,8 @@ class CourseOrderController extends Controller
 
     public function manualEnrollConfirm(Request $request)
     {
+        Gate::authorize('create-course-order');
+
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'course_id' => 'required|exists:courses,id',

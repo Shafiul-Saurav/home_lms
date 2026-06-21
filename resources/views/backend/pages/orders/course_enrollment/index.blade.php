@@ -26,9 +26,11 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Course Enrollment List</h3>
-                    <a href="{{ route('orders.course_enrollment.manual') }}" class="btn btn-sm btn-primary">
-                        <i class="fa-solid fa-plus fa-fw"></i> Manual Enroll Student
-                    </a>
+                    @can('create-course-order')
+                        <a href="{{ route('orders.course_enrollment.manual') }}" class="btn btn-sm btn-primary">
+                            <i class="fa-solid fa-plus fa-fw"></i> Manual Enroll Student
+                        </a>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <div class="table-responsive export-table">
@@ -44,7 +46,9 @@
                                     <th class="border-bottom-0">Payment Status</th>
                                     <th class="border-bottom-0">Payment Method</th>
                                     <th class="border-bottom-0">Date</th>
-                                    <th class="border-bottom-0">Actions</th>
+                                    @canany(['edit-course-order', 'delete-course-order'])
+                                        <th class="border-bottom-0">Actions</th>
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -88,25 +92,31 @@
                                         @endif
 
                                         <td>{{ $order->created_at?->format('d M Y') ?? '-' }}</td>
-                                        <td class="text-center">
-                                            <div class="action-btns d-flex align-items-center justify-content-center">
-                                                <a href="{{ route('orders.course_enrollment.edit', $order->id) }}"
-                                                    class="btn btn-sm btn-outline-secondary border me-2"
-                                                    title="Edit">
-                                                    <i class="fa-solid fa-pen fa-fw"></i>
-                                                </a>
-                                                <form action="{{ route('orders.course_enrollment.destroy', $order->id) }}" method="POST"
-                                                    class="d-inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-outline-warning border show_confirm"
-                                                        title="Delete">
-                                                        <i class="fa-solid fa-trash-can fa-fw"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </td>
+                                        @canany(['edit-course-order', 'delete-course-order'])
+                                            <td class="text-center">
+                                                <div class="action-btns d-flex align-items-center justify-content-center">
+                                                    @can('edit-course-order')
+                                                        <a href="{{ route('orders.course_enrollment.edit', $order->id) }}"
+                                                            class="btn btn-sm btn-outline-secondary border me-2"
+                                                            title="Edit">
+                                                            <i class="fa-solid fa-pen fa-fw"></i>
+                                                        </a>
+                                                    @endcan
+                                                    @can('delete-course-order')
+                                                        <form action="{{ route('orders.course_enrollment.destroy', $order->id) }}" method="POST"
+                                                            class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-outline-warning border show_confirm"
+                                                                title="Delete">
+                                                                <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                            </button>
+                                                        </form>
+                                                    @endcan
+                                                </div>
+                                            </td>
+                                        @endcanany
                                     </tr>
                                 @endforeach
                             </tbody>

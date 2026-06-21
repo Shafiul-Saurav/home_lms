@@ -40,7 +40,9 @@
                                     <th class="border-bottom-0">Payment Status</th>
                                     <th class="border-bottom-0">Payment Method</th>
                                     <th class="border-bottom-0">Date</th>
-                                    <th class="border-bottom-0">Actions</th>
+                                    @canany(['edit-pdf-book-order', 'delete-pdf-book-order'])
+                                        <th class="border-bottom-0">Actions</th>
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -76,25 +78,31 @@
                                             <td><span class="badge bg-primary">Unknown</span></td>
                                         @endif
                                         <td>{{ $order->created_at?->format('d M Y') ?? '-' }}</td>
-                                        <td class="text-center">
-                                            <div class="action-btns d-flex align-items-center justify-content-center">
-                                                <a href="{{ route('orders.pdfbookorders.edit', $order->id) }}"
-                                                    class="btn btn-sm btn-outline-secondary border me-2"
-                                                    title="Edit">
-                                                    <i class="fa-solid fa-pen fa-fw"></i>
-                                                </a>
-                                                <form action="{{ route('orders.pdfbookorders.destroy', $order->id) }}" method="POST"
-                                                    class="d-inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="btn btn-sm btn-outline-warning border show_confirm"
-                                                        title="Delete">
-                                                        <i class="fa-solid fa-trash-can fa-fw"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </td>
+                                        @canany(['edit-pdf-book-order', 'delete-pdf-book-order'])
+                                            <td class="text-center">
+                                                <div class="action-btns d-flex align-items-center justify-content-center">
+                                                    @can('edit-pdf-book-order')
+                                                        <a href="{{ route('orders.pdfbookorders.edit', $order->id) }}"
+                                                            class="btn btn-sm btn-outline-secondary border me-2"
+                                                            title="Edit">
+                                                            <i class="fa-solid fa-pen fa-fw"></i>
+                                                        </a>
+                                                    @endcan
+                                                    @can('delete-pdf-book-order')
+                                                        <form action="{{ route('orders.pdfbookorders.destroy', $order->id) }}" method="POST"
+                                                            class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-outline-warning border show_confirm"
+                                                                title="Delete">
+                                                                <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                            </button>
+                                                        </form>
+                                                    @endcan
+                                                </div>
+                                            </td>
+                                        @endcanany
                                     </tr>
                                 @endforeach
                             </tbody>

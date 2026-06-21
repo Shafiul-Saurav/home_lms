@@ -5,23 +5,30 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\BookOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class BookOrderController extends Controller
 {
     public function index()
     {
+        Gate::authorize('index-book-order');
+
         $orders = BookOrder::with(['user', 'book'])->latest('id')->paginate(30);
         return view('backend.pages.orders.bookorders.index', compact('orders'));
     }
 
     public function edit(string $id)
     {
+        Gate::authorize('edit-book-order');
+
         $order = BookOrder::with(['user', 'book'])->findOrFail($id);
         return view('backend.pages.orders.bookorders.edit', compact('order'));
     }
 
     public function update(Request $request, string $id)
     {
+        Gate::authorize('edit-book-order');
+
         $order = BookOrder::findOrFail($id);
 
         $request->validate([
@@ -39,6 +46,8 @@ class BookOrderController extends Controller
 
     public function destroy(string $id)
     {
+        Gate::authorize('delete-book-order');
+
         $order = BookOrder::findOrFail($id);
         $order->delete();
 
