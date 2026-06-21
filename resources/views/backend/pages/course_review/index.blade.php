@@ -38,8 +38,12 @@
                                     <th class="border-bottom-0">User Name</th>
                                     <th class="border-bottom-0">Rating</th>
                                     <th class="border-bottom-0">Comment</th>
-                                    <th class="border-bottom-0">Status</th>
-                                    <th class="border-bottom-0">Actions</th>
+                                    @can('edit-course-review')
+                                        <th class="border-bottom-0">Status</th>
+                                    @endcan
+                                    @can('delete-course-review')
+                                        <th class="border-bottom-0">Actions</th>
+                                    @endcan
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,43 +55,46 @@
                                         <td>{{ Str::limit($review->course->name, 30) }}</td>
                                         <td>{{ $review->user->name }}</td>
                                         <td>
-                                            @for($i=1; $i<=5; $i++)
-                                                <i class="fa{{ $i <= $review->rating ? 's' : 'r' }} fa-star text-warning"></i>
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <i
+                                                    class="fa{{ $i <= $review->rating ? 's' : 'r' }} fa-star text-warning"></i>
                                             @endfor
                                         </td>
                                         <td>{{ Str::limit($review->comment, 50) }}</td>
-                                        <td>
-                                            <div class="material-switch">
-                                                <input id="active-{{ $review->id }}" class="toggle-class-approval" name="is_approved"
-                                                    type="checkbox" {{ $review->is_approved ? 'checked' : '' }}
-                                                    data-id="{{ $review->id }}">
-                                                <label for="active-{{ $review->id }}" class="label-success"></label>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">
-                                            <div class="action-btns d-flex align-items-center">
-                                                <div>
-                                                    <form action="{{ route('course-reviews.destroy', $review->id) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            class="btn btn-sm btn-outline-warning border show_confirm"
-                                                            data-toggle="tooltip" data-placement="top"
-                                                            data-bs-original-title="Delete">
-                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
-                                                        </button>
-                                                    </form>
+                                        @can('edit-course-review')
+                                            <td>
+                                                <div class="material-switch">
+                                                    <input id="active-{{ $review->id }}" class="toggle-class-approval"
+                                                        name="is_approved" type="checkbox"
+                                                        {{ $review->is_approved ? 'checked' : '' }}
+                                                        data-id="{{ $review->id }}">
+                                                    <label for="active-{{ $review->id }}" class="label-success"></label>
                                                 </div>
-                                            </div>
-                                        </td>
+                                            </td>
+                                        @endcan
+                                        @can('delete-course-review')
+                                            <td class="text-center">
+                                                <div class="action-btns d-flex align-items-center">
+                                                    <div>
+                                                        <form action="{{ route('course-reviews.destroy', $review->id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="btn btn-sm btn-outline-warning border show_confirm"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                data-bs-original-title="Delete">
+                                                                <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        @endcan
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                    </div>
-                    <div class="mt-3">
-                        {{ $reviews->links() }}
                     </div>
                 </div>
             </div>

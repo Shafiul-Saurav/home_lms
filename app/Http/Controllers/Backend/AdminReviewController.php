@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\CourseReview;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class AdminReviewController extends Controller
 {
@@ -13,7 +14,7 @@ class AdminReviewController extends Controller
      */
     public function index()
     {
-        // Gate::authorize('index-course-review'); // Optional: check if you need to add this permission
+        Gate::authorize('index-course-review');
         $reviews = CourseReview::with(['course', 'user'])->latest('id')->paginate(20);
         return view('backend.pages.course_review.index', compact('reviews'));
     }
@@ -23,7 +24,7 @@ class AdminReviewController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Gate::authorize('update-course-review');
+        Gate::authorize('edit-course-review');
         $review = CourseReview::findOrFail($id);
         
         // If it's an AJAX request for status toggle
@@ -56,7 +57,7 @@ class AdminReviewController extends Controller
      */
     public function destroy(string $id)
     {
-        // Gate::authorize('delete-course-review');
+        Gate::authorize('delete-course-review');
         $review = CourseReview::findOrFail($id);
         $review->delete();
 

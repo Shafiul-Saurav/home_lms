@@ -235,7 +235,8 @@
                         </ul>
                     </li>
                 @endcan
-                @canany(['index-course-category', 'index-course-subcategory', 'index-course-childcategory', 'index-course', 'index-instructor-commission'])
+                @canany(['index-course-category', 'index-course-subcategory', 'index-course-childcategory',
+                    'index-course', 'index-instructor-commission'])
                     <li
                         class="slide {{ Request::routeIs('categories.*', 'subcategories.*', 'childcategories.*', 'courses.*', 'commissions.*') ? 'is-expanded' : '' }}">
                         <a class="side-menu__item {{ Request::routeIs('categories.*', 'subcategories.*', 'childcategories.*', 'courses.*', 'commissions.*') ? 'active' : '' }}"
@@ -246,8 +247,7 @@
                         </a>
                         <ul class="slide-menu">
                             @can('index-course-category')
-                                <li
-                                    class="sub-slide {{ Request::routeIs('categories.*') ? 'is-expanded' : '' }}">
+                                <li class="sub-slide {{ Request::routeIs('categories.*') ? 'is-expanded' : '' }}">
                                     <a class="sub-side-menu__item {{ Request::routeIs('categories.*') ? 'active' : '' }}"
                                         data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Category
                                             Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
@@ -262,8 +262,7 @@
                                 </li>
                             @endcan
                             @can('index-course-subcategory')
-                                <li
-                                    class="sub-slide {{ Request::routeIs('subcategories.*') ? 'is-expanded' : '' }}">
+                                <li class="sub-slide {{ Request::routeIs('subcategories.*') ? 'is-expanded' : '' }}">
                                     <a class="sub-side-menu__item {{ Request::routeIs('subcategories.*') ? 'active' : '' }}"
                                         data-bs-toggle="sub-slide" href="#"><span
                                             class="sub-side-menu__label">Subcategory
@@ -279,8 +278,7 @@
                                 </li>
                             @endcan
                             @can('index-course-childcategory')
-                                <li
-                                    class="sub-slide {{ Request::routeIs('childcategories.*') ? 'is-expanded' : '' }}">
+                                <li class="sub-slide {{ Request::routeIs('childcategories.*') ? 'is-expanded' : '' }}">
                                     <a class="sub-side-menu__item {{ Request::routeIs('childcategories.*') ? 'active' : '' }}"
                                         data-bs-toggle="sub-slide" href="#"><span
                                             class="sub-side-menu__label">Childcategory
@@ -297,8 +295,7 @@
                             @endcan
 
                             @can('index-course')
-                                <li
-                                    class="sub-slide {{ Request::routeIs('courses.*') ? 'is-expanded' : '' }}">
+                                <li class="sub-slide {{ Request::routeIs('courses.*') ? 'is-expanded' : '' }}">
                                     <a class="sub-side-menu__item {{ Request::routeIs('courses.*') ? 'active' : '' }}"
                                         data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Course
                                             Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
@@ -596,22 +593,26 @@
                 @endcanany
 
                 @can('index-coupon')
-                <li class="slide {{ Request::routeIs('coupons.index') ? 'is-expanded' : '' }} {{ Request::routeIs('coupons.trash') ? 'is-expanded' : '' }}">
-                    <a class="side-menu__item {{ Request::routeIs('coupons.index') ? 'active' : '' }} {{ Request::routeIs('coupons.trash') ? 'active' : '' }}"
-                        data-bs-toggle="slide" href="#">
-                        <i class="fa-solid fa-ticket fa-fw"></i>
-                        <span class="side-menu__label ms-3">Coupon Management</span><i class="fa-solid fa-angle-right"></i></a>
-                    <ul class="slide-menu">
-                        @can('index-coupon')
-                        <li><a href="{{ route('coupons.index') }}"
-                                class="slide-item {{ Request::routeIs('coupons.index') ? 'active' : '' }}">List</a></li>
-                        @endcan
-                        @can('delete-coupon')
-                        <li><a href="{{ route('coupons.trash') }}"
-                                class="slide-item {{ Request::routeIs('coupons.trash') ? 'active' : '' }}">Trash</a></li>
-                        @endcan
-                    </ul>
-                </li>
+                    <li
+                        class="slide {{ Request::routeIs('coupons.index') ? 'is-expanded' : '' }} {{ Request::routeIs('coupons.trash') ? 'is-expanded' : '' }}">
+                        <a class="side-menu__item {{ Request::routeIs('coupons.index') ? 'active' : '' }} {{ Request::routeIs('coupons.trash') ? 'active' : '' }}"
+                            data-bs-toggle="slide" href="#">
+                            <i class="fa-solid fa-ticket fa-fw"></i>
+                            <span class="side-menu__label ms-3">Coupon Management</span><i
+                                class="fa-solid fa-angle-right"></i></a>
+                        <ul class="slide-menu">
+                            @can('index-coupon')
+                                <li><a href="{{ route('coupons.index') }}"
+                                        class="slide-item {{ Request::routeIs('coupons.index') ? 'active' : '' }}">List</a>
+                                </li>
+                            @endcan
+                            @can('delete-coupon')
+                                <li><a href="{{ route('coupons.trash') }}"
+                                        class="slide-item {{ Request::routeIs('coupons.trash') ? 'active' : '' }}">Trash</a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
                 @endcan
                 @can('index-service')
                     <li class="slide {{ Request::routeIs('services.index') ? 'is-expanded' : '' }}">
@@ -727,7 +728,7 @@
                     </li>
                 @endcan
 
-                    {{-- Reusing permission for now --}}
+                @can('index-course-review')
                     <li class="slide {{ Request::routeIs('course-reviews.index') ? 'is-expanded' : '' }}">
                         <a class="side-menu__item {{ Request::routeIs('course-reviews.index') ? 'active' : '' }}"
                             data-bs-toggle="slide" href="#">
@@ -740,6 +741,8 @@
                             </li>
                         </ul>
                     </li>
+                @endcan
+
                 @can('index-blog')
                     <li
                         class="slide {{ Request::routeIs('postcategories.index') ? 'is-expanded' : '' }}
@@ -794,24 +797,6 @@
                         </ul>
                     </li>
                 @endcan
-
-                {{-- @can('index-order')
-                    <li
-                        class="slide {{ Request::routeIs('orders.index') ? 'is-expanded' : '' }} {{ Request::routeIs('orders.show') ? 'is-expanded' : '' }}">
-                        <a class="side-menu__item {{ Request::routeIs('orders.index') ? 'active' : '' }} {{ Request::routeIs('orders.show') ? 'active' : '' }}"
-                            data-bs-toggle="slide" href="#">
-                            <i class="fa-solid fa-shopping-cart fa-fw"></i>
-                            <span class="side-menu__label ms-3">Order Management</span><i
-                                class="fa-solid fa-angle-right"></i></a>
-                        <ul class="slide-menu">
-                            @can('index-order')
-                                <li><a href="{{ route('orders.index') }}"
-                                        class="slide-item {{ Request::routeIs('orders.index') ? 'active' : '' }}">List</a>
-                                </li>
-                            @endcan
-                        </ul>
-                    </li>
-                @endcan --}}
                 @can('index-company-policy')
                     <li
                         class="slide {{ Request::routeIs('faqs.index') ? 'is-expanded' : '' }}
