@@ -259,6 +259,19 @@ class CourseController extends Controller
         return view('frontend.pages.courses.course_video', compact('course', 'module', 'modules', 'lessons', 'isEnrolled', 'isLoggedIn', 'completedModuleIds'));
     }
 
+    public function inspectLogout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return response()->json([
+            'success' => true,
+            'redirect' => route('login'),
+        ]);
+    }
+
     public function markAsCompleted(Request $request)
     {
         $request->validate([

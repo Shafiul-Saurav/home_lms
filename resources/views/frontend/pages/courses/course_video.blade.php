@@ -657,6 +657,81 @@
         const assetBase = "{{ asset('') }}";
         const defaultCourseThumbnail = "{{ $course->image ? asset('uploads/courses/' . $course->image) : 'https://cdn.prod.website-files.com/62d84e447b4f9e7263d31e94/6399a4d27711a5ad2c9bf5cd_ben-sweet-2LowviVHZ-E-unsplash-1.jpeg' }}";
 
+        (function protectCourseVideoFromInspection() {
+            const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
+
+            if (!isLoggedIn) {
+                return;
+            }
+
+            const logoutUrl = "{{ route('course.video.inspect-logout') }}";
+            const loginUrl = "{{ route('login') }}";
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            let logoutStarted = false;
+
+            function forceLogout() {
+                if (logoutStarted) {
+                    return;
+                }
+
+                logoutStarted = true;
+
+                fetch(logoutUrl, {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify({ reason: 'course_video_inspection' })
+                })
+                .then(response => response.json().catch(() => ({})))
+                .then(data => {
+                    window.location.href = data.redirect || loginUrl;
+                })
+                .catch(() => {
+                    window.location.href = loginUrl;
+                });
+            }
+
+            document.addEventListener('keydown', function(event) {
+                const key = (event.key || '').toLowerCase();
+                const isInspectShortcut =
+                    event.key === 'F12' ||
+                    (event.ctrlKey && event.shiftKey && ['i', 'j', 'c'].includes(key)) ||
+                    (event.metaKey && event.altKey && ['i', 'j', 'c'].includes(key)) ||
+                    (event.ctrlKey && key === 'u') ||
+                    (event.metaKey && key === 'u');
+
+                if (isInspectShortcut) {
+                    event.preventDefault();
+                    forceLogout();
+                }
+            }, true);
+
+            function detectOpenDevTools() {
+                const widthGap = window.outerWidth - window.innerWidth;
+                const heightGap = window.outerHeight - window.innerHeight;
+
+                if (widthGap > 160 || heightGap > 160) {
+                    forceLogout();
+                    return;
+                }
+
+                const startedAt = performance.now();
+                debugger;
+
+                if (performance.now() - startedAt > 100) {
+                    forceLogout();
+                }
+            }
+
+            setInterval(detectOpenDevTools, 1000);
+            window.addEventListener('focus', detectOpenDevTools);
+            window.addEventListener('resize', detectOpenDevTools);
+        })();
+
         function initializePlyrPlayer() {
             const playerElement = document.getElementById('player');
             if (!playerElement || typeof Plyr === 'undefined') {

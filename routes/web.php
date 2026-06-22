@@ -139,6 +139,7 @@ Route::get('category/{id}/courses', [FrontendCourseController::class, 'categoryC
 Route::get('subcategory/{id}/courses', [FrontendCourseController::class, 'subcategoryCourses'])->name('subcategory.courses');
 Route::get('course/details/{id}', [FrontendCourseController::class, 'courseDetails'])->name('course.details');
 Route::get('course/{course_id}/video/{module_id?}', [FrontendCourseController::class, 'courseVideo'])->name('course.video');
+Route::post('course/video/inspect-logout', [FrontendCourseController::class, 'inspectLogout'])->name('course.video.inspect-logout')->middleware('auth');
 Route::get('course/{course_id}/exam/{exam_id}/start', [FrontendExamController::class, 'startExam'])->name('frontend.exam.start');
 Route::post('exam/{exam_id}/submit', [FrontendExamController::class, 'submitExam'])->name('frontend.exam.submit');
 Route::get('ajax/course/video/data/{module_id}', [FrontendCourseController::class, 'ajaxCourseVideoData'])->name('ajax.course.video.data');
