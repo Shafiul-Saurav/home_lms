@@ -125,6 +125,15 @@ class InstructorEarningsController extends Controller
         // For admin view, compute aggregated data per instructor
         $instructorsData = collect();
         if (Auth::user()->role_id != 7) {
+            $adminTotals = [
+                'courses_count' => 0,
+                'enrolled_students' => 0,
+                'gross_sales' => 0.00,
+                'admin_shares' => 0.00,
+                'gateway_charges' => 0.00,
+                'instructor_earnings' => 0.00,
+            ];
+
             foreach ($teachers as $teacher) {
                 // Reset metrics for each teacher
                 $teacherTotals = [
@@ -173,6 +182,14 @@ class InstructorEarningsController extends Controller
                     $teacherTotals['instructor_earnings'] += $instructorShare;
                 }
 
+                // Accumulate admin-wide totals
+                $adminTotals['courses_count'] += $teacherTotals['courses_count'];
+                $adminTotals['enrolled_students'] += $teacherTotals['enrolled_students'];
+                $adminTotals['gross_sales'] += $teacherTotals['gross_sales'];
+                $adminTotals['admin_shares'] += $teacherTotals['admin_shares'];
+                $adminTotals['gateway_charges'] += $teacherTotals['gateway_charges'];
+                $adminTotals['instructor_earnings'] += $teacherTotals['instructor_earnings'];
+
                 // Round per teacher totals
                 $teacherTotals['gross_sales'] = round($teacherTotals['gross_sales'], 2);
                 $teacherTotals['admin_shares'] = round($teacherTotals['admin_shares'], 2);
@@ -184,6 +201,20 @@ class InstructorEarningsController extends Controller
                     'totals' => $teacherTotals,
                 ]);
             }
+
+            // Round admin-wide totals and use them for dashboard summary cards
+            $adminTotals['gross_sales'] = round($adminTotals['gross_sales'], 2);
+            $adminTotals['admin_shares'] = round($adminTotals['admin_shares'], 2);
+            $adminTotals['gateway_charges'] = round($adminTotals['gateway_charges'], 2);
+            $adminTotals['instructor_earnings'] = round($adminTotals['instructor_earnings'], 2);
+
+            $totals = [
+                'enrolled_students' => $adminTotals['enrolled_students'],
+                'gross_sales' => $adminTotals['gross_sales'],
+                'admin_shares' => $adminTotals['admin_shares'],
+                'gateway_charges' => $adminTotals['gateway_charges'],
+                'instructor_earnings' => $adminTotals['instructor_earnings'],
+            ];
         }
 
         return view('backend.pages.earnings.index', compact(
