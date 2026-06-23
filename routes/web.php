@@ -44,6 +44,8 @@ use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\ServiceController;
 use App\Http\Controllers\Backend\ServicetwoController;
 use App\Http\Controllers\Backend\ServicetwocategoryController;
+use App\Http\Controllers\Backend\HowweworkController;
+use App\Http\Controllers\Backend\WhatyougetController;
 use App\Http\Controllers\Backend\ShurjopayAPIController;
 use App\Http\Controllers\Backend\SSLCommerzAPIController;
 use App\Http\Controllers\Backend\StuffController;
@@ -451,6 +453,16 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     Route::get('check/servicetwo/is_active/{service_id}', [ServicetwoController::class, 'checkActive'])
     ->name('servicetwo.is_active.ajax');
     Route::resource('servicetwos', ServicetwoController::class);
+
+    //How We Work Route
+    Route::get('check/howwework/is_active/{id}', [HowweworkController::class, 'checkActive'])
+    ->name('howwework.is_active.ajax');
+    Route::resource('howweworks', HowweworkController::class);
+
+    //What You Get Route
+    Route::get('check/whatyouget/is_active/{id}', [WhatyougetController::class, 'checkActive'])
+    ->name('whatyouget.is_active.ajax');
+    Route::resource('whatyougets', WhatyougetController::class);
 
     //Coupon Route
     Route::get('/coupons/trash', [CouponTrashController::class, 'trash'])->name('coupons.trash');

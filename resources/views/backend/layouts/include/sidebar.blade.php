@@ -615,8 +615,8 @@
                     </li>
                 @endcan
                 @can('index-service')
-                    <li class="slide {{ Request::routeIs('services.index', 'servicetwocategories.index', 'servicetwos.index') ? 'is-expanded' : '' }}">
-                        <a class="side-menu__item {{ Request::routeIs('services.index', 'servicetwocategories.index', 'servicetwos.index') ? 'active' : '' }}"
+                    <li class="slide {{ Request::routeIs('services.index', 'servicetwocategories.index', 'servicetwos.index', 'howweworks.index', 'whatyougets.index') ? 'is-expanded' : '' }}">
+                        <a class="side-menu__item {{ Request::routeIs('services.index', 'servicetwocategories.index', 'servicetwos.index', 'howweworks.index', 'whatyougets.index') ? 'active' : '' }}"
                             data-bs-toggle="slide" href="#">
                             <i class="fa-brands fa-servicestack"></i>
                             <span class="side-menu__label ms-3">Services</span><i class="fa-solid fa-angle-right"></i></a>
@@ -633,6 +633,14 @@
                             {{-- @can('index-servicetwo') --}}
                                 <li><a href="{{ route('servicetwos.index') }}"
                                         class="slide-item {{ Request::routeIs('servicetwos.index') ? 'active' : '' }}">Service Two</a></li>
+                            {{-- @endcan --}}
+                            {{-- @can('index-howwework') --}}
+                                <li><a href="{{ route('howweworks.index') }}"
+                                        class="slide-item {{ Request::routeIs('howweworks.index') ? 'active' : '' }}">How We Work</a></li>
+                            {{-- @endcan --}}
+                            {{-- @can('index-whatyouget') --}}
+                                <li><a href="{{ route('whatyougets.index') }}"
+                                        class="slide-item {{ Request::routeIs('whatyougets.index') ? 'active' : '' }}">What You Get</a></li>
                             {{-- @endcan --}}
                         </ul>
                     </li>
