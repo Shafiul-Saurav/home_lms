@@ -8,10 +8,11 @@ use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use App\Services\InstructorWithdrawalService;
 
 class InstructorEarningsController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, InstructorWithdrawalService $withdrawalService)
     {
         Gate::authorize('index-earning');
         $user = Auth::user();
@@ -217,13 +218,19 @@ class InstructorEarningsController extends Controller
             ];
         }
 
+        $withdrawalSummary = null;
+        if ($selectedTeacher) {
+            $withdrawalSummary = $withdrawalService->calculateWithdrawalSummary($selectedTeacher);
+        }
+
         return view('backend.pages.earnings.index', compact(
             'teachers',
             'selectedTeacher',
             'coursesData',
             'totals',
             'commissionInfo',
-            'instructorsData'
+            'instructorsData',
+            'withdrawalSummary'
         ));
     }
 

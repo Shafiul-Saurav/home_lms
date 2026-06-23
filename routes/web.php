@@ -14,6 +14,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildcategoryController;
 use App\Http\Controllers\Backend\InstructorCommissionController;
 use App\Http\Controllers\Backend\InstructorEarningsController;
+use App\Http\Controllers\Backend\InstructorWithdrawalController;
 use App\Http\Controllers\Backend\ContactController as BackendContactController;
 use App\Http\Controllers\Backend\CopyrightController;
 use App\Http\Controllers\Backend\CouponController;
@@ -481,6 +482,10 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     Route::resource('commissions', InstructorCommissionController::class)->except(['show']);
     Route::get('instructor-earnings', [InstructorEarningsController::class, 'index'])->name('instructor.earnings');
     Route::get('instructor-earnings/{teacher_id}', [InstructorEarningsController::class, 'show'])->name('instructor.earnings.details');
+    Route::get('instructor-withdrawals', [InstructorWithdrawalController::class, 'index'])->name('instructor.withdrawals.index');
+    Route::post('instructor-withdrawals', [InstructorWithdrawalController::class, 'store'])->name('instructor.withdrawals.store');
+    Route::post('instructor-withdrawals/{id}/approve', [InstructorWithdrawalController::class, 'approve'])->name('instructor.withdrawals.approve');
+    Route::post('instructor-withdrawals/{id}/reject', [InstructorWithdrawalController::class, 'reject'])->name('instructor.withdrawals.reject');
 
     // Subcategory Route
     Route::get('/subcategories/trash', [SubcategoryTrashController::class, 'trash'])->name('subcategories.trash');

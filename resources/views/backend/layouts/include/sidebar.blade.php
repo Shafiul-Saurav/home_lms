@@ -871,6 +871,15 @@
                                 <span class="side-menu__label ms-3">Instructor Earnings</span>
                             </a>
                         </li>
+                        @if(in_array(Auth::user()->role_id, [1, 2]))
+                            <li class="slide">
+                                <a class="side-menu__item has-link {{ Request::routeIs('instructor.withdrawals.index') ? 'active' : '' }}"
+                                    href="{{ route('instructor.withdrawals.index') }}">
+                                    <i class="fa-solid fa-hand-holding-dollar fa-fw"></i>
+                                    <span class="side-menu__label ms-3">Withdrawal Requests</span>
+                                </a>
+                            </li>
+                        @endif
                     @endif
                 @endcan
             </div>

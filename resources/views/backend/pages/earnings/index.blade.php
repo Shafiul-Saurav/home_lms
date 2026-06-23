@@ -88,6 +88,37 @@
                 </div>
             </div> --}}
 
+            @if (Auth::user()->role_id == 7 && isset($withdrawalSummary))
+                <!-- Withdrawal Summary Banner -->
+                <div class="col-12 mb-4">
+                    <div class="card border-0 shadow-sm bg-light">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-7">
+                                    <h5 class="mb-1 fw-bold text-dark">
+                                        <i class="fa-solid fa-wallet text-primary me-2"></i>
+                                        Withdrawal Balance Summary
+                                    </h5>
+                                    <p class="mb-0 text-muted">
+                                        Available for Withdrawal: <strong class="text-success">{{ number_format($withdrawalSummary['available_balance'], 2) }} ৳</strong> |
+                                        Pending: <strong class="text-warning">{{ number_format($withdrawalSummary['pending_amount'], 2) }} ৳</strong> |
+                                        Approved: <strong class="text-primary">{{ number_format($withdrawalSummary['approved_amount'], 2) }} ৳</strong>
+                                    </p>
+                                </div>
+                                <div class="col-md-5 text-md-end mt-3 mt-md-0">
+                                    <button class="btn btn-primary me-1" data-bs-toggle="modal" data-bs-target="#requestWithdrawalModal">
+                                        <i class="fa-solid fa-hand-holding-dollar me-1"></i> Request Withdrawal
+                                    </button>
+                                    <a href="{{ route('instructor.withdrawals.index') }}" class="btn btn-outline-primary">
+                                        <i class="fa-solid fa-clock-rotate-left me-1"></i> View Request
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <!-- Stats Row -->
             <div class="col-lg-6 col-sm-12 col-md-6 col-xl-3 mb-4">
                 <div class="card shadow-sm border-0 h-100">
@@ -294,8 +325,95 @@
             </div>
         @endif
     </div>
+
+    @if (Auth::user()->role_id == 7 && isset($withdrawalSummary))
+        <!-- Request Withdrawal Modal -->
+        <div class="modal fade" id="requestWithdrawalModal" tabindex="-1" aria-labelledby="requestWithdrawalModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header border-bottom">
+                        <h5 class="modal-title fw-bold text-dark" id="requestWithdrawalModalLabel">
+                            <i class="fa-solid fa-hand-holding-dollar text-primary me-2"></i>Request Withdrawal
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('instructor.withdrawals.store') }}" method="POST">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="mb-3 bg-light p-3 text-center">
+                                <span class="text-muted d-block small mb-1">Available for Withdrawal</span>
+                                <h3 class="mb-0 fw-bold text-success">{{ number_format($withdrawalSummary['available_balance'], 2) }} ৳</h3>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="amount" class="form-label fw-semibold">Withdrawal Amount <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">৳</span>
+                                    <input type="number" step="0.01" min="0.01" max="{{ $withdrawalSummary['available_balance'] }}"
+                                        name="amount" id="amount" class="form-control @error('amount') is-invalid @enderror"
+                                        value="{{ old('amount', $withdrawalSummary['available_balance']) }}" required>
+                                    @error('amount')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                                <small class="form-text text-muted">You can withdraw your entire net earning or a smaller amount.</small>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="account_name" class="form-label fw-semibold">Account Holder Name <span class="text-danger">*</span></label>
+                                <input type="text" name="account_name" id="account_name" class="form-control @error('account_name') is-invalid @enderror"
+                                    value="{{ old('account_name') }}" placeholder="e.g. John Doe" required>
+                                @error('account_name')
+                                    <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="account_number" class="form-label fw-semibold">Account / Card / BKash Number <span class="text-danger">*</span></label>
+                                <input type="text" name="account_number" id="account_number" class="form-control @error('account_number') is-invalid @enderror"
+                                    value="{{ old('account_number') }}" placeholder="e.g. 017XXXXXXXX or Account No." required>
+                                @error('account_number')
+                                    <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="account_details" class="form-label fw-semibold">Account/Bank Details <span class="text-danger">*</span></label>
+                                <textarea name="account_details" id="account_details" rows="3" class="form-control @error('account_details') is-invalid @enderror"
+                                    placeholder="e.g. Bank Name, Branch, Routing Number or Mobile Wallet Type (bKash/Nagad/Rocket)" required>{{ old('account_details') }}</textarea>
+                                @error('account_details')
+                                    <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group mb-0">
+                                <label for="note" class="form-label fw-semibold">Note / Remarks (Optional)</label>
+                                <textarea name="note" id="note" rows="2" class="form-control @error('note') is-invalid @enderror"
+                                    placeholder="Any additional notes for the admin...">{{ old('note') }}</textarea>
+                                @error('note')
+                                    <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="modal-footer border-top">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Submit Request</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endif
 @endsection
 
 @push('backend_script')
     @include('backend.pages.common.script')
+    @if ($errors->has('amount') || $errors->has('account_name') || $errors->has('account_number') || $errors->has('account_details'))
+        <script>
+            $(document).ready(function() {
+                var requestModal = new bootstrap.Modal(document.getElementById('requestWithdrawalModal'));
+                requestModal.show();
+            });
+        </script>
+    @endif
 @endpush
