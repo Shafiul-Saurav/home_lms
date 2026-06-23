@@ -615,8 +615,8 @@
                     </li>
                 @endcan
                 @can('index-service')
-                    <li class="slide {{ Request::routeIs('services.index') ? 'is-expanded' : '' }}">
-                        <a class="side-menu__item {{ Request::routeIs('services.index') ? 'active' : '' }}"
+                    <li class="slide {{ Request::routeIs('services.index', 'servicetwocategories.index', 'servicetwos.index') ? 'is-expanded' : '' }}">
+                        <a class="side-menu__item {{ Request::routeIs('services.index', 'servicetwocategories.index', 'servicetwos.index') ? 'active' : '' }}"
                             data-bs-toggle="slide" href="#">
                             <i class="fa-brands fa-servicestack"></i>
                             <span class="side-menu__label ms-3">Services</span><i class="fa-solid fa-angle-right"></i></a>
@@ -626,6 +626,14 @@
                                         class="slide-item {{ Request::routeIs('services.index') ? 'active' : '' }}">Services
                                         Settings</a></li>
                             @endcan
+                            {{-- @can('index-servicetwocategory') --}}
+                                <li><a href="{{ route('servicetwocategories.index') }}"
+                                        class="slide-item {{ Request::routeIs('servicetwocategories.index') ? 'active' : '' }}">Service Two Category</a></li>
+                            {{-- @endcan --}}
+                            {{-- @can('index-servicetwo') --}}
+                                <li><a href="{{ route('servicetwos.index') }}"
+                                        class="slide-item {{ Request::routeIs('servicetwos.index') ? 'active' : '' }}">Service Two</a></li>
+                            {{-- @endcan --}}
                         </ul>
                     </li>
                 @endcan
