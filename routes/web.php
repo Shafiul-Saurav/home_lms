@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\AdminProfileController;
 use App\Http\Controllers\Backend\AdminReviewController;
 use App\Http\Controllers\Backend\BookCategoryController;
 use App\Http\Controllers\Backend\BookController;
+use App\Http\Controllers\Backend\PartnerController;
 use App\Http\Controllers\Backend\BookSubcategoryController;
 use App\Http\Controllers\Backend\BreadcrumbController;
 use App\Http\Controllers\Backend\CategoryController;
@@ -453,6 +454,10 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     Route::get('check/servicetwo/is_active/{service_id}', [ServicetwoController::class, 'checkActive'])
     ->name('servicetwo.is_active.ajax');
     Route::resource('servicetwos', ServicetwoController::class);
+
+    Route::resource('partners', PartnerController::class);
+// AJAX toggle active status for partners
+Route::get('check/partner/is_active/{id}', [PartnerController::class, 'checkActive'])->name('partner.is_active.ajax');
 
     //How We Work Route
     Route::get('check/howwework/is_active/{id}', [HowweworkController::class, 'checkActive'])

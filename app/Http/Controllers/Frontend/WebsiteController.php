@@ -20,6 +20,7 @@ use App\Models\WebsiteLink;
 use App\Models\CourseOrder;
 use App\Models\User;
 use App\Models\Teacher;
+use App\Models\Partner;
 use App\Models\Award;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
@@ -123,27 +124,29 @@ class WebsiteController extends Controller
                 $q->where('is_active', 1);
             }])->latest('id')->get();
 
+        $partners = Partner::where('is_active', 1)->get();
         return view('frontendone.pages.home', compact(
-            'homeSliders',
-            'website_link',
-            'about',
-            'testimonials',
-            'posts',
-            'logo_fav',
-            'categories',
-            'popularCourses',
-            'popularBooks',
-            'heroStudentCountLabel',
-            'heroCourseCountLabel',
-            'heroAvatars',
-            'studentsCounter',
-            'coursesCounter',
-            'tutorsCounter',
-            'awardsCounter',
-            'teachers',
-            'serviceCategories',
-            'photoGalleries'
-        ));
+    'homeSliders',
+    'website_link',
+    'about',
+    'testimonials',
+    'posts',
+    'logo_fav',
+    'categories',
+    'popularCourses',
+    'popularBooks',
+    'heroStudentCountLabel',
+    'heroCourseCountLabel',
+    'heroAvatars',
+    'studentsCounter',
+    'coursesCounter',
+    'tutorsCounter',
+    'awardsCounter',
+    'teachers',
+    'serviceCategories',
+    'photoGalleries',
+    'partners'
+));
     }
 
     public function about()

@@ -80,6 +80,12 @@
                                         class="slide-item {{ Request::routeIs('copyright.index') ? 'active' : '' }}">Copyright
                                         Setting</a></li>
                             @endcan
+                        <li>
+                            <a class="slide-item {{ Request::routeIs('partners.index') ? 'active' : '' }}" href="{{ route('partners.index') }}">
+                                <i class="fa-solid fa-handshake fa-fw"></i>
+                                <span class="sidemenu-label ms-3">Partners</span>
+                            </a>
+                        </li>
                         </ul>
                     </li>
                 @endcan
