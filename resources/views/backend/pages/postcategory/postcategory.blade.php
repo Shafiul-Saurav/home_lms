@@ -70,9 +70,9 @@
                                     <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">Last Updated</th>
                                     <th class="border-bottom-0">Category Name</th>
-                                    @can('edit-post-category')
+                                    {{-- @can('edit-post-category')
                                     <th class="border-bottom-0">Home Page</th>
-                                    @endcan
+                                    @endcan --}}
                                     @can('edit-post-category')
                                     <th class="border-bottom-0">Status</th>
                                     @endcan
@@ -90,14 +90,14 @@
                                         <td>{{ $category->updated_at->format('d-M-Y') }}</td>
                                         <td>{{ $category->title }}</td>
                                         @can('edit-post-category')
-                                        <td>
+                                        {{-- <td>
                                             <div class="material-switch">
                                                 <input id="home-{{ $category->id }}" class="toggle-class-home" name="is_home"
                                                     type="checkbox" {{ $category->is_home ? 'checked' : '' }}
                                                     data-id="{{ $category->id }}">
                                                 <label for="home-{{ $category->id }}" class="label-success"></label>
                                             </div>
-                                        </td>
+                                        </td> --}}
                                         @endcan
                                         @can('edit-post-category')
                                         <td>

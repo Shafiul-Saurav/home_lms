@@ -16,10 +16,18 @@
         <div class="mentor-carousel-wrap">
             <div class="owl-carousel owl-theme mentor-carousel">
                 @foreach($teachers as $teacher)
+                    @php
+                        $mentorImage = 'https://via.placeholder.com/150';
+                        if ($teacher->profile_image && $teacher->profile_image !== 'default_profile_image.jpg') {
+                            $mentorImage = asset('uploads/teachers/' . $teacher->profile_image);
+                        } elseif ($teacher->user->profile && $teacher->user->profile->profileImage) {
+                            $mentorImage = asset($teacher->user->profile->profileImage->profile_image);
+                        }
+                    @endphp
                     <div class="item">
                         <div class="mentor-card">
                             <div class="mentor-img mentor-avatar">
-                                <img src="{{ $teacher->user->profile && $teacher->user->profile->profileImage ? asset($teacher->user->profile->profileImage->profile_image) : 'https://via.placeholder.com/150' }}" alt="{{ $teacher->user->name }}">
+                                <img src="{{ $mentorImage }}" alt="{{ $teacher->user->name }}">
                             </div>
                             <div class="mentor-info">
                                 <h4>{{ $teacher->user->name }}</h4>

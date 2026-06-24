@@ -48,7 +48,8 @@ class WebsiteController extends Controller
 
         $posts = Post::with(['postCategory', 'user'])
             ->where('is_home', 1)
-            ->latest('id')->limit(3)->get();
+            ->where('is_active', 1)
+            ->latest('id')->limit(6)->get();
 
         $categories = Category::where('is_active', 1)->where('is_home', 1)
             ->with(['courses' => function($q) {
