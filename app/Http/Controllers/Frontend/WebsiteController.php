@@ -59,6 +59,13 @@ class WebsiteController extends Controller
         $popularCourses = Course::where('is_active', 1)->latest('id')->limit(6)->get();
         $popularBooks = Book::where('is_active', 1)->latest('id')->limit(6)->get();
 
+        $photoGalleries = Photogallery::with('photoCategory')
+            ->where('is_home', 1)
+            ->where('is_active', 1)
+            ->latest('id')
+            ->limit(5)
+            ->get();
+
         $heroStudentCount = CourseOrder::where('status', 'Enrolled')
             ->where('payment_status', 'Completed')
             ->distinct()
@@ -134,7 +141,8 @@ class WebsiteController extends Controller
             'tutorsCounter',
             'awardsCounter',
             'teachers',
-            'serviceCategories'
+            'serviceCategories',
+            'photoGalleries'
         ));
     }
 
