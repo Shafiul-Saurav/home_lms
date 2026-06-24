@@ -29,7 +29,7 @@
                     <a href="{{ route('servicetwos.index') }}" class="btn btn-info"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('servicetwos.update', $service->id) }}" method="POST">
+                    <form action="{{ route('servicetwos.update', $service->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="form-row">
@@ -59,8 +59,27 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="service_icon">Service Icon</label>
-                                    <input type="text" name="service_icon" class="form-control @error('service_icon') is-invalid @enderror" id="service_icon" value="{{ $service->service_icon }}" required>
+                                    <input type="file" name="service_icon" class="form-control @error('service_icon') is-invalid @enderror" id="service_icon">
+                                    @if ($service->service_icon)
+                                        <div class="mt-2">
+                                            <img src="{{ asset('uploads/servicetwos/' . $service->service_icon) }}" alt="current icon" width="80" style="object-fit: contain;">
+                                        </div>
+                                    @endif
                                     @error('service_icon')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="image">Service Image</label>
+                                    <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" id="image">
+                                    @if ($service->image)
+                                        <div class="mt-2">
+                                            <img src="{{ asset('uploads/servicetwos/' . $service->image) }}" alt="current image" width="100" style="object-fit: cover;">
+                                        </div>
+                                    @endif
+                                    @error('image')
                                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>

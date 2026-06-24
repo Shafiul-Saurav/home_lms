@@ -28,7 +28,7 @@
                     <h3 class="card-title">Create Service Two</h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('servicetwos.store') }}" method="POST">
+                    <form action="{{ route('servicetwos.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-row">
                             <div class="col-12 mb-3">
@@ -57,8 +57,17 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="service_icon">Service Icon</label>
-                                    <input type="text" name="service_icon" class="form-control @error('service_icon') is-invalid @enderror" id="service_icon" value="{{ old('service_icon') }}" required>
+                                    <input type="file" name="service_icon" class="form-control @error('service_icon') is-invalid @enderror" id="service_icon">
                                     @error('service_icon')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="image">Service Image</label>
+                                    <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" id="image">
+                                    @error('image')
                                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
@@ -104,6 +113,8 @@
                                     <th class="border-bottom-0">Last Updated</th>
                                     <th class="border-bottom-0">Category</th>
                                     <th class="border-bottom-0">Service Name</th>
+                                    <th class="border-bottom-0">Icon</th>
+                                    <th class="border-bottom-0">Image</th>
                                     <th class="border-bottom-0">Type</th>
                                     <th class="border-bottom-0">Status</th>
                                     <th class="border-bottom-0">Actions</th>
@@ -116,6 +127,20 @@
                                         <td>{{ $service->updated_at->format('d-M-Y') }}</td>
                                         <td>{{ $service->category->title ?? 'N/A' }}</td>
                                         <td>{{ $service->title }}</td>
+                                        <td>
+                                            @if ($service->service_icon)
+                                                <img src="{{ asset('uploads/servicetwos/' . $service->service_icon) }}" alt="icon" width="40" height="40" style="object-fit: contain;">
+                                            @else
+                                                <span class="text-muted">No Icon</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($service->image)
+                                                <img src="{{ asset('uploads/servicetwos/' . $service->image) }}" alt="image" width="50" height="35" style="object-fit: cover;">
+                                            @else
+                                                <span class="text-muted">No Image</span>
+                                            @endif
+                                        </td>
                                         <td>{{ $service->service_type }}</td>
                                         <td>
                                             <div class="material-switch">

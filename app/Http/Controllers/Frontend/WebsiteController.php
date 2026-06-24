@@ -109,6 +109,12 @@ class WebsiteController extends Controller
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
 
+        // Fetch dynamic service categories and their respective services
+        $serviceCategories = \App\Models\Servicetwocategory::where('is_active', 1)
+            ->with(['servicetwos' => function($q) {
+                $q->where('is_active', 1);
+            }])->latest('id')->get();
+
         return view('frontendone.pages.home', compact(
             'homeSliders',
             'website_link',
@@ -126,7 +132,8 @@ class WebsiteController extends Controller
             'coursesCounter',
             'tutorsCounter',
             'awardsCounter',
-            'teachers'
+            'teachers',
+            'serviceCategories'
         ));
     }
 

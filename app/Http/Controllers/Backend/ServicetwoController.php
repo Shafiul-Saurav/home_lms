@@ -7,6 +7,7 @@ use App\Models\Servicetwo;
 use App\Models\Servicetwocategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Intervention\Image\Facades\Image;
 
 class ServicetwoController extends Controller
 {
@@ -24,17 +25,27 @@ class ServicetwoController extends Controller
     {
         // Gate::authorize('create-servicetwo');
 
-        $validated = $request->validate([
+        $request->validate([
             'servicetwocategory_id' => 'required|exists:servicetwocategories,id',
             'title' => 'required|string|max:255',
-            'service_icon' => 'required|string|max:255',
+            'service_icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'description' => 'required|string',
             'service_type' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        Servicetwo::create(array_merge($validated, [
+        $service = Servicetwo::create([
+            'servicetwocategory_id' => $request->servicetwocategory_id,
+            'title' => $request->title,
+            'description' => $request->description,
+            'service_type' => $request->service_type,
             'is_active' => $request->has('is_active') ? 1 : 0,
-        ]));
+            'image' => 'default_service.jpg',
+            'service_icon' => null,
+        ]);
+
+        $this->imageUpload($request, $service->id);
+        $this->iconUpload($request, $service->id);
 
         return redirect()->back()->with('message', 'Service Two Created Successfully 🙂');
     }
@@ -44,6 +55,18 @@ class ServicetwoController extends Controller
         // Gate::authorize('delete-servicetwo');
 
         $service = Servicetwo::findOrFail($id);
+        if ($service->image && $service->image !== 'default_service.jpg') {
+            $imagePath = public_path('uploads/servicetwos/' . $service->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+        if ($service->service_icon) {
+            $iconPath = public_path('uploads/servicetwos/' . $service->service_icon);
+            if (file_exists($iconPath)) {
+                unlink($iconPath);
+            }
+        }
         $service->delete();
 
         return redirect()->back()->with('warning', 'Service Two Deleted Successfully');
@@ -65,19 +88,97 @@ class ServicetwoController extends Controller
 
         $service = Servicetwo::findOrFail($id);
 
-        $validated = $request->validate([
+        $request->validate([
             'servicetwocategory_id' => 'required|exists:servicetwocategories,id',
             'title' => 'required|string|max:255',
-            'service_icon' => 'required|string|max:255',
+            'service_icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'description' => 'required|string',
             'service_type' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        $service->update(array_merge($validated, [
+        $service->update([
+            'servicetwocategory_id' => $request->servicetwocategory_id,
+            'title' => $request->title,
+            'description' => $request->description,
+            'service_type' => $request->service_type,
             'is_active' => $request->has('is_active') ? 1 : 0,
-        ]));
+        ]);
+
+        $this->imageUpload($request, $service->id);
+        $this->iconUpload($request, $service->id);
 
         return redirect()->route('servicetwos.index')->with('message', 'Service Two Updated Successfully 🙂');
+    }
+
+    public function imageUpload(Request $request, int $serviceId): void
+    {
+        $service = Servicetwo::findOrFail($serviceId);
+
+        if ($request->hasFile('image')) {
+            if ($service->image && $service->image !== 'default_service.jpg') {
+                $oldImagePath = public_path('uploads/servicetwos/' . $service->image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+
+            $imageLocation = public_path('uploads/servicetwos/');
+            $uploadedImage = $request->file('image');
+            $newImageName = $service->id . '.' . $uploadedImage->getClientOriginalExtension();
+
+            if (!file_exists($imageLocation)) {
+                mkdir($imageLocation, 0755, true);
+            }
+
+            $newImageLocation = $imageLocation . $newImageName;
+
+            if ($uploadedImage->getClientOriginalExtension() === 'webp') {
+                Image::make($uploadedImage)->resize(600, 450)->save($newImageLocation);
+            } else {
+                Image::make($uploadedImage)->resize(600, 450)->save($newImageLocation, 80);
+            }
+
+            $service->update([
+                'image' => $newImageName,
+            ]);
+        }
+    }
+
+    public function iconUpload(Request $request, int $serviceId): void
+    {
+        $service = Servicetwo::findOrFail($serviceId);
+
+        if ($request->hasFile('service_icon')) {
+            if ($service->service_icon) {
+                $oldIconPath = public_path('uploads/servicetwos/' . $service->service_icon);
+                if (file_exists($oldIconPath)) {
+                    unlink($oldIconPath);
+                }
+            }
+
+            $imageLocation = public_path('uploads/servicetwos/');
+            $uploadedIcon = $request->file('service_icon');
+            $newIconName = $service->id . '_icon.' . $uploadedIcon->getClientOriginalExtension();
+
+            if (!file_exists($imageLocation)) {
+                mkdir($imageLocation, 0755, true);
+            }
+
+            $newIconLocation = $imageLocation . $newIconName;
+
+            if ($uploadedIcon->getClientOriginalExtension() === 'svg') {
+                $uploadedIcon->move($imageLocation, $newIconName);
+            } elseif ($uploadedIcon->getClientOriginalExtension() === 'webp') {
+                Image::make($uploadedIcon)->resize(100, 100)->save($newIconLocation);
+            } else {
+                Image::make($uploadedIcon)->resize(100, 100)->save($newIconLocation, 80);
+            }
+
+            $service->update([
+                'service_icon' => $newIconName,
+            ]);
+        }
     }
 
     public function checkActive($service_id)
