@@ -28,10 +28,10 @@ class ServicetwoController extends Controller
         $request->validate([
             'servicetwocategory_id' => 'required|exists:servicetwocategories,id',
             'title' => 'required|string|max:255',
-            'service_icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'service_icon' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'description' => 'required|string',
             'service_type' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:2048',
         ]);
 
         $service = Servicetwo::create([
@@ -91,10 +91,10 @@ class ServicetwoController extends Controller
         $request->validate([
             'servicetwocategory_id' => 'required|exists:servicetwocategories,id',
             'title' => 'required|string|max:255',
-            'service_icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'service_icon' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'description' => 'required|string',
             'service_type' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:2048',
         ]);
 
         $service->update([
@@ -133,7 +133,10 @@ class ServicetwoController extends Controller
 
             $newImageLocation = $imageLocation . $newImageName;
 
-            if ($uploadedImage->getClientOriginalExtension() === 'webp') {
+            $ext = strtolower($uploadedImage->getClientOriginalExtension());
+            if ($ext === 'avif') {
+                $uploadedImage->move($imageLocation, $newImageName);
+            } elseif ($ext === 'webp') {
                 Image::make($uploadedImage)->resize(600, 450)->save($newImageLocation);
             } else {
                 Image::make($uploadedImage)->resize(600, 450)->save($newImageLocation, 80);
@@ -167,9 +170,10 @@ class ServicetwoController extends Controller
 
             $newIconLocation = $imageLocation . $newIconName;
 
-            if ($uploadedIcon->getClientOriginalExtension() === 'svg') {
+            $ext = strtolower($uploadedIcon->getClientOriginalExtension());
+            if ($ext === 'svg' || $ext === 'avif') {
                 $uploadedIcon->move($imageLocation, $newIconName);
-            } elseif ($uploadedIcon->getClientOriginalExtension() === 'webp') {
+            } elseif ($ext === 'webp') {
                 Image::make($uploadedIcon)->resize(100, 100)->save($newIconLocation);
             } else {
                 Image::make($uploadedIcon)->resize(100, 100)->save($newIconLocation, 80);

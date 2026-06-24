@@ -34,27 +34,34 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="servicetwocategory_id">Category</label>
-                                    <select name="servicetwocategory_id" id="servicetwocategory_id" class="form-control @error('servicetwocategory_id') is-invalid @enderror" required>
+                                    <select name="servicetwocategory_id" id="servicetwocategory_id"
+                                        class="form-control @error('servicetwocategory_id') is-invalid @enderror" required>
                                         <option value="">Select Category</option>
-                                        @foreach($categories as $category)
-                                            <option value="{{ $category->id }}" {{ old('servicetwocategory_id') == $category->id ? 'selected' : '' }}>{{ $category->title }}</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}"
+                                                {{ old('servicetwocategory_id') == $category->id ? 'selected' : '' }}>
+                                                {{ $category->title }}</option>
                                         @endforeach
                                     </select>
                                     @error('servicetwocategory_id')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="title">Service Name</label>
-                                    <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" id="title" value="{{ old('title') }}" required>
+                                    <input type="text" name="title"
+                                        class="form-control @error('title') is-invalid @enderror" id="title"
+                                        value="{{ old('title') }}" required>
                                     @error('title')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
+                            {{-- <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="service_icon">Service Icon</label>
                                     <input type="file" name="service_icon" class="form-control @error('service_icon') is-invalid @enderror" id="service_icon">
@@ -62,31 +69,38 @@
                                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="image">Service Image</label>
-                                    <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" id="image">
+                                    <input type="file" name="image"
+                                        class="form-control @error('image') is-invalid @enderror" id="image">
                                     @error('image')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="service_type">Service Type</label>
-                                    <input type="text" name="service_type" class="form-control @error('service_type') is-invalid @enderror" id="service_type" value="{{ old('service_type') }}" required>
+                                    <input type="text" name="service_type"
+                                        class="form-control @error('service_type') is-invalid @enderror" id="service_type"
+                                        value="{{ old('service_type') }}" required>
                                     @error('service_type')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" id="summernote" cols="30" rows="10" class="form-control @error('description') is-invalid @enderror" required>{{ old('description') }}</textarea>
+                                    <textarea name="description" id="summernote" cols="30" rows="10"
+                                        class="form-control @error('description') is-invalid @enderror" required>{{ old('description') }}</textarea>
                                     @error('description')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -129,14 +143,17 @@
                                         <td>{{ $service->title }}</td>
                                         <td>
                                             @if ($service->service_icon)
-                                                <img src="{{ asset('uploads/servicetwos/' . $service->service_icon) }}" alt="icon" width="40" height="40" style="object-fit: contain;">
+                                                <img src="{{ asset('uploads/servicetwos/' . $service->service_icon) }}"
+                                                    alt="icon" width="40" height="40"
+                                                    style="object-fit: contain;">
                                             @else
                                                 <span class="text-muted">No Icon</span>
                                             @endif
                                         </td>
                                         <td>
                                             @if ($service->image)
-                                                <img src="{{ asset('uploads/servicetwos/' . $service->image) }}" alt="image" width="50" height="35" style="object-fit: cover;">
+                                                <img src="{{ asset('uploads/servicetwos/' . $service->image) }}"
+                                                    alt="image" width="50" height="35" style="object-fit: cover;">
                                             @else
                                                 <span class="text-muted">No Image</span>
                                             @endif
@@ -144,22 +161,32 @@
                                         <td>{{ $service->service_type }}</td>
                                         <td>
                                             <div class="material-switch">
-                                                <input id="active-{{ $service->id }}" class="toggle-class-active" name="is_active" type="checkbox" {{ $service->is_active ? 'checked' : '' }} data-id="{{ $service->id }}">
+                                                <input id="active-{{ $service->id }}" class="toggle-class-active"
+                                                    name="is_active" type="checkbox"
+                                                    {{ $service->is_active ? 'checked' : '' }}
+                                                    data-id="{{ $service->id }}">
                                                 <label for="active-{{ $service->id }}" class="label-success"></label>
                                             </div>
                                         </td>
                                         <td class="text-center">
                                             <div class="action-btns d-flex align-items-center">
                                                 <div>
-                                                    <a href="{{ route('servicetwos.edit', $service->id) }}" class="btn btn-sm btn-outline-secondary border me-2" data-toggle="tooltip" data-placement="top" data-bs-original-title="Edit">
+                                                    <a href="{{ route('servicetwos.edit', $service->id) }}"
+                                                        class="btn btn-sm btn-outline-secondary border me-2"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        data-bs-original-title="Edit">
                                                         <i class="fa-solid fa-pen fa-fw"></i>
                                                     </a>
                                                 </div>
                                                 <div>
-                                                    <form action="{{ route('servicetwos.destroy', $service->id) }}" method="POST">
+                                                    <form action="{{ route('servicetwos.destroy', $service->id) }}"
+                                                        method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-outline-warning border show_confirm" data-toggle="tooltip" data-placement="top" data-bs-original-title="Delete">
+                                                        <button type="submit"
+                                                            class="btn btn-sm btn-outline-warning border show_confirm"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            data-bs-original-title="Delete">
                                                             <i class="fa-solid fa-trash-can fa-fw"></i>
                                                         </button>
                                                     </form>

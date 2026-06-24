@@ -26,37 +26,46 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Update Service Two</h3>
-                    <a href="{{ route('servicetwos.index') }}" class="btn btn-info"><i class="fa-solid fa-angles-left fa-fw"></i> Back</a>
+                    <a href="{{ route('servicetwos.index') }}" class="btn btn-info"><i
+                            class="fa-solid fa-angles-left fa-fw"></i> Back</a>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('servicetwos.update', $service->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('servicetwos.update', $service->id) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="form-row">
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="servicetwocategory_id">Category</label>
-                                    <select name="servicetwocategory_id" id="servicetwocategory_id" class="form-control @error('servicetwocategory_id') is-invalid @enderror" required>
+                                    <select name="servicetwocategory_id" id="servicetwocategory_id"
+                                        class="form-control @error('servicetwocategory_id') is-invalid @enderror" required>
                                         <option value="">Select Category</option>
-                                        @foreach($categories as $category)
-                                            <option value="{{ $category->id }}" {{ $service->servicetwocategory_id == $category->id ? 'selected' : '' }}>{{ $category->title }}</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}"
+                                                {{ $service->servicetwocategory_id == $category->id ? 'selected' : '' }}>
+                                                {{ $category->title }}</option>
                                         @endforeach
                                     </select>
                                     @error('servicetwocategory_id')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="title">Service Name</label>
-                                    <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" id="title" value="{{ $service->title }}" required>
+                                    <input type="text" name="title"
+                                        class="form-control @error('title') is-invalid @enderror" id="title"
+                                        value="{{ $service->title }}" required>
                                     @error('title')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
+                            {{-- <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="service_icon">Service Icon</label>
                                     <input type="file" name="service_icon" class="form-control @error('service_icon') is-invalid @enderror" id="service_icon">
@@ -69,42 +78,51 @@
                                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="image">Service Image</label>
-                                    <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" id="image">
+                                    <input type="file" name="image"
+                                        class="form-control @error('image') is-invalid @enderror" id="image">
                                     @if ($service->image)
                                         <div class="mt-2">
-                                            <img src="{{ asset('uploads/servicetwos/' . $service->image) }}" alt="current image" width="100" style="object-fit: cover;">
+                                            <img src="{{ asset('uploads/servicetwos/' . $service->image) }}"
+                                                alt="current image" width="100" style="object-fit: cover;">
                                         </div>
                                     @endif
                                     @error('image')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="service_type">Service Type</label>
-                                    <input type="text" name="service_type" class="form-control @error('service_type') is-invalid @enderror" id="service_type" value="{{ $service->service_type }}" required>
+                                    <input type="text" name="service_type"
+                                        class="form-control @error('service_type') is-invalid @enderror" id="service_type"
+                                        value="{{ $service->service_type }}" required>
                                     @error('service_type')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" id="summernote" cols="30" rows="10" class="form-control @error('description') is-invalid @enderror" required>{{ $service->description }}</textarea>
+                                    <textarea name="description" id="summernote" cols="30" rows="10"
+                                        class="form-control @error('description') is-invalid @enderror" required>{{ $service->description }}</textarea>
                                     @error('description')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-check">
-                                    <input type="checkbox" name="is_active" class="form-check-input" id="is_active" value="1" {{ $service->is_active ? 'checked' : '' }}>
+                                    <input type="checkbox" name="is_active" class="form-check-input" id="is_active"
+                                        value="1" {{ $service->is_active ? 'checked' : '' }}>
                                     <label class="form-check-label" for="is_active">Active</label>
                                 </div>
                             </div>
