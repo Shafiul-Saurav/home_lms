@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('servicetwocategory_id')->constrained('servicetwocategories')->onDelete('cascade');
             $table->string('title');
-            $table->string('service_icon');
+            $table->string('service_icon')->nullable();
+            $table->string('image')->nullable();
             $table->longText('description');
             $table->string('service_type');
             $table->boolean('is_active')->default(false);
