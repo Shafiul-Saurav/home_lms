@@ -28,7 +28,7 @@
                     </p>
 
                     <div class="review-user">
-                        <img src="https://cdn-icons-png.magnific.com/512/12965/12965382.png" alt="">
+                        <img src="https://cdn-icons-png.flaticon.com/512/12965/12965382.png" alt="">
                         <div>
                             <h5>Arif Hossain</h5>
                             <span>Student, Dhaka</span>
@@ -53,7 +53,7 @@
                     </p>
 
                     <div class="review-user">
-                        <img src="https://cdn-icons-png.magnific.com/512/12965/12965382.png" alt="">
+                        <img src="https://cdn-icons-png.flaticon.com/512/12965/12965382.png" alt="">
                         <div>
                             <h5>Mst. Jannatul</h5>
                             <span>Student, Chattogram</span>
@@ -78,7 +78,7 @@
                     </p>
 
                     <div class="review-user">
-                        <img src="https://cdn-icons-png.magnific.com/512/12965/12965382.png" alt="">
+                        <img src="https://cdn-icons-png.flaticon.com/512/12965/12965382.png" alt="">
                         <div>
                             <h5>Sabbir Ahmed</h5>
                             <span>Junior Developer, Sylhet</span>

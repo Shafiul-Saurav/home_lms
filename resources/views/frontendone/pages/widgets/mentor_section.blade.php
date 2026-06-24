@@ -15,146 +15,31 @@
 
         <div class="mentor-carousel-wrap">
             <div class="owl-carousel owl-theme mentor-carousel">
-
-                <div class="item">
-                    <div class="mentor-card">
-                        <div class="mentor-img mentor-avatar">
-                            <img src="https://hacktolive.net/images/user/sondip.png" alt="Tanvir Rahman">
-                        </div>
-                        <div class="mentor-info">
-                            <h4>Tanvir Rahman</h4>
-                            <p>SOC Analyst Trainer</p>
-                            <div class="mentor-social">
-                                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                @foreach($teachers as $teacher)
+                    <div class="item">
+                        <div class="mentor-card">
+                            <div class="mentor-img mentor-avatar">
+                                <img src="{{ $teacher->user->profile && $teacher->user->profile->profileImage ? asset($teacher->user->profile->profileImage->profile_image) : 'https://via.placeholder.com/150' }}" alt="{{ $teacher->user->name }}">
+                            </div>
+                            <div class="mentor-info">
+                                <h4>{{ $teacher->user->name }}</h4>
+                                <p>{{ $teacher->qualification ?? 'Mentor' }}</p>
+                                <div class="mentor-social">
+                                    @if(isset($teacher->facebook))
+                                        <a href="{{ $teacher->facebook }}"><i class="fa-brands fa-facebook-f"></i></a>
+                                    @endif
+                                    @if(isset($teacher->linkedin))
+                                        <a href="{{ $teacher->linkedin }}"><i class="fa-brands fa-linkedin-in"></i></a>
+                                    @endif
+                                    @if(isset($teacher->youtube))
+                                        <a href="{{ $teacher->youtube }}"><i class="fa-brands fa-youtube"></i></a>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="item">
-                    <div class="mentor-card">
-                        <div class="mentor-img mentor-avatar">
-                            <img src="https://hacktolive.net/images/user/Admin1.jpg" alt="Nusrat Jahan">
-                        </div>
-                        <div class="mentor-info">
-                            <h4>Nusrat Jahan</h4>
-                            <p>Web Security Mentor</p>
-                            <div class="mentor-social">
-                                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="item">
-                    <div class="mentor-card">
-                        <div class="mentor-img mentor-avatar">
-                            <img src="https://hacktolive.net/images/user/Admin2.jpg" alt="Mehedi Hasan">
-                        </div>
-                        <div class="mentor-info">
-                            <h4>Mehedi Hasan</h4>
-                            <p>Ethical Hacking Expert</p>
-                            <div class="mentor-social">
-                                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="item">
-                    <div class="mentor-card">
-                        <div class="mentor-img mentor-avatar">
-                            <img src="https://hacktolive.net/images/user/Admin3.png" alt="Rakib Ahmed">
-                        </div>
-                        <div class="mentor-info">
-                            <h4>Rakib Ahmed</h4>
-                            <p>Network Security Trainer</p>
-                            <div class="mentor-social">
-                                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="item">
-                    <div class="mentor-card">
-                        <div class="mentor-img mentor-avatar">
-                            <img src="https://hacktolive.net/images/user/asif.jpg" alt="Sumaiya Akter">
-                        </div>
-                        <div class="mentor-info">
-                            <h4>Sumaiya Akter</h4>
-                            <p>Cyber Career Coach</p>
-                            <div class="mentor-social">
-                                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="item">
-                    <div class="mentor-card">
-                        <div class="mentor-img mentor-avatar">
-                            <img src="https://hacktolive.net/images/user/siful.png" alt="Fahim Islam">
-                        </div>
-                        <div class="mentor-info">
-                            <h4>Fahim Islam</h4>
-                            <p>Linux Security Expert</p>
-                            <div class="mentor-social">
-                                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="item">
-                    <div class="mentor-card">
-                        <div class="mentor-img mentor-avatar">
-                            <img src="https://hacktolive.net/images/user/zahid.jpg" alt="Jannatul Ferdous">
-                        </div>
-                        <div class="mentor-info">
-                            <h4>Jannatul Ferdous</h4>
-                            <p>Cyber Awareness Trainer</p>
-                            <div class="mentor-social">
-                                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="item">
-                    <div class="mentor-card">
-                        <div class="mentor-img mentor-avatar">
-                            <img src="https://ui-avatars.com/api/?name=Hasib+Mahmud&size=500&background=BBF7D0&color=111827&bold=true&format=png"
-                                alt="Hasib Mahmud">
-                        </div>
-                        <div class="mentor-info">
-                            <h4>Hasib Mahmud</h4>
-                            <p>Penetration Testing Mentor</p>
-                            <div class="mentor-social">
-                                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                @endforeach
             </div>
         </div>
-
     </div>
 </section>
