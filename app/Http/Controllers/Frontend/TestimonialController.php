@@ -42,9 +42,13 @@ class TestimonialController extends Controller
                 'is_active' => false,
             ]);
 
+            $viewPath = request('theme') === 'frontendone' 
+                ? 'frontendone.pages.widgets.partials.review_item' 
+                : 'frontend.pages.widgets.partials.testimonial_item';
+
             return response()->json([
                 'success' => 'Thank you for your review!',
-                'testimonial' => view('frontend.pages.widgets.partials.testimonial_item', compact('testimonial'))->render(),
+                'testimonial' => view($viewPath, compact('testimonial'))->render(),
             ]);
         }
 

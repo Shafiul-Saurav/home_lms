@@ -15,9 +15,6 @@
     <!-- Header Section -->
     @include('frontendone.layouts.include.header')
 
-    <!-- Hero Image Slider Only -->
-    @include('frontendone.layouts.include.hero-slider')
-
     @yield('frontendone_content')
 
     <!-- Footer -->
