@@ -63,7 +63,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Gallery</a>
+                    <a class="nav-link" href="{{ route('photo.gallery') }}">Gallery</a>
                 </li>
 
                 <li class="nav-item">
@@ -137,7 +137,7 @@
             </li>
 
             <li>
-                <a class="mobile-nav-link" href="#">Gallery</a>
+                <a class="mobile-nav-link" href="{{ route('photo.gallery') }}">Gallery</a>
             </li>
 
             <li>

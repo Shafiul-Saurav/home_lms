@@ -197,7 +197,7 @@ class WebsiteController extends Controller
         $categories = Photocategory::get();
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
-        return view('frontend.pages.gallery.photo.photogallery', compact('galleries', 'categories', 'logo_fav'));
+        return view('frontendone.pages.gallery.photo.photogallery', compact('galleries', 'categories', 'logo_fav'));
     }
 
     public function videoGallery()
