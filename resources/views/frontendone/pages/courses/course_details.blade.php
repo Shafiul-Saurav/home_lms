@@ -555,37 +555,46 @@
 
                 <div class="row g-4">
                     @forelse($relatedCourses as $related)
-                        <div class="col-md-6 col-xl-4">
-                            <div class="course-card-dark h-100">
-                                <div class="course-thumb"><img src="{{ asset('uploads/courses/' . $related->image) }}"
-                                        alt="{{ $related->name }}"></div>
+                        <div class="col-xl-4 col-lg-4 col-md-6">
+                            <div class="course-card-modern">
+                                <div class="course-thumb">
+                                    <img src="{{ asset('uploads/courses/' . $related->image) }}" alt="{{ $related->name }}">
+                                </div>
                                 <div class="course-content">
                                     <h3>{{ $related->name }}</h3>
-                                    <p class="desc">{!! \Illuminate\Support\Str::words(strip_tags($related->description), 16, '...') !!}</p>
+                                    <p class="desc">{{ \Illuminate\Support\Str::words(strip_tags($related->short_description ?? $related->description), 10, '...') }}</p>
                                     <div class="course-meta">
-                                        <span><i class="fa-regular fa-star"></i> {{ $related->averageRating() }}
-                                            ({{ $related->reviewCount() }})
-                                        </span>
-                                        <span><i class="fa-regular fa-file-lines"></i> {{ $related->lessons()->count() }}
-                                            lessons</span>
-                                        <span><i class="fa-regular fa-clock"></i> {{ $related->courseModules()->count() }}
-                                            modules</span>
+                                        <span><i class="fa-regular fa-star"></i> {{ $related->averageRating() ?? 0 }} ({{ $related->reviewCount() ?? 0 }})</span>
+                                        <span><i class="fa-regular fa-user"></i> {{ $related->students_count ?? 0 }}</span>
+                                        <span><i class="fa-regular fa-file-lines"></i> {{ $related->lessons()->count() }} lessons</span>
+                                        @if($related->duration)
+                                        <span><i class="fa-regular fa-clock"></i> {{ $related->duration }}</span>
+                                        @endif
                                     </div>
+                                    <ul class="course-list">
+                                        @foreach($related->features ?? [] as $feature)
+                                            <li><i class="fa-solid fa-check"></i> {{ $feature }}</li>
+                                        @endforeach
+                                    </ul>
                                     <div class="course-bottom">
                                         <div class="price-box">
-                                            @if ($related->discount)
-                                                @php $relatedFinalPrice = $related->price - $related->discount; @endphp
-                                                <h4>{{ number_format($relatedFinalPrice, 2) }} Tk</h4>
-                                                <div class="price-old-row"><del>{{ number_format($related->price, 2) }}
-                                                        Tk</del></div>
-                                            @elseif($related->price > 0)
-                                                <h4>{{ number_format($related->price, 2) }} Tk</h4>
+                                            @if($related->discount && $related->discount > 0)
+                                                @php
+                                                    $relFinalPrice = $related->price - $related->discount;
+                                                    $relDiscountPct = round(($related->discount / $related->price) * 100);
+                                                @endphp
+                                                <h4>{{ $relFinalPrice }} Tk</h4>
+                                                <div class="price-old-row">
+                                                    <del>{{ $related->price }} Tk</del>
+                                                    <span class="discount">{{ $relDiscountPct }}% OFF</span>
+                                                </div>
                                             @else
-                                                <h4>Free</h4>
+                                                <h4>{{ $related->price ?? '0' }} Tk</h4>
                                             @endif
                                         </div>
-                                        <a href="{{ route('course.details', $related->id) }}" class="enroll-btn">View
-                                            Course <i class="fa-solid fa-arrow-right"></i></a>
+                                        <a href="{{ route('course.details', $related->id) }}" class="enroll-btn">
+                                            Enroll Now <i class="fa-solid fa-arrow-right"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
