@@ -5,66 +5,6 @@
 @push('frontendone_style')
     @include('frontend.pages.common.style')
     <style>
-        /* Scoped styling for modernized breadcrumbs */
-        .site-breadcrumb {
-            padding: 120px 0 80px 0;
-            text-align: center;
-            background-size: cover !important;
-            background-position: center !important;
-            position: relative;
-        }
-
-        .site-breadcrumb::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(13, 15, 18, 0.75);
-        }
-
-        .site-breadcrumb .container {
-            position: relative;
-            z-index: 2;
-        }
-
-        .breadcrumb-title {
-            color: #fff;
-            font-size: 32px;
-            font-weight: 900;
-            margin-bottom: 12px;
-        }
-
-        .breadcrumb-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .breadcrumb-menu li,
-        .breadcrumb-menu li a {
-            color: #aeb5bf;
-            font-size: 14px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .breadcrumb-menu li a:hover {
-            color: var(--primary);
-        }
-
-        .breadcrumb-menu li.active {
-            color: var(--primary);
-        }
-
-        .breadcrumb-menu li:not(:last-child)::after {
-            content: '/';
-            margin-left: 10px;
-            color: #aeb5bf;
-        }
-
         /* Modern reset-password styling matching CyberBD style guidelines */
         .auth-area {
             background: #f8fafc;

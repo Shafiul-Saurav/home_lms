@@ -188,7 +188,7 @@ class WebsiteController extends Controller
         // Awards: count active awards from database
         $awardsCount = Award::where('is_active', 1)->count();
         $awardsCounter = $formatCounter($awardsCount);
-        return view('frontend.pages.about.about_page', compact('about', 'testimonials', 'logo_fav', 'studentsCounter', 'coursesCounter', 'tutorsCounter', 'awardsCounter'));
+        return view('frontendone.pages.about.about_page', compact('about', 'testimonials', 'logo_fav', 'studentsCounter', 'coursesCounter', 'tutorsCounter', 'awardsCounter'));
     }
 
     public function photoGallery()

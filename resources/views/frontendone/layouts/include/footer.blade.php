@@ -28,7 +28,7 @@
                 <h4 class="footer-title">Quick Links</h4>
                 <div class="footer-links">
                     <a href="#">Home</a>
-                    <a href="#">About CyberBD</a>
+                    <a href="{{ route('about') }}">About CyberBD</a>
                     <a href="#">Hacking & Security Posts</a>
                     <a href="#">Download Resources</a>
                     <a href="#">Contact Us</a>
