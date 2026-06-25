@@ -113,8 +113,8 @@
         }
 
         .course-price-box {
-            background: linear-gradient(135deg, #0d1f36, #12345a);
-            color: #fff;
+            background: #fff;
+            color: #000000;
             border-radius: 22px;
             padding: 20px;
             margin-bottom: 20px;
@@ -479,52 +479,58 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4 order-1 order-lg-2">
+                    <div class="col-lg-4 order-1 order-lg-2" id="sidebarCol">
                         <div class="sidebar-card">
                             <div class="thumb"><img src="{{ asset('uploads/courses/' . $courseInfo->image) }}"
                                     alt="{{ $courseInfo->name }}"></div>
                             <div class="sidebar-scroll">
-                            <div class="course-price-box">
-                                <div class="d-flex flex-row justify-content-between">
-                                    <div>
-                                        <p class="mb-1 text-uppercase small">Course Price</p>
+                                <div class="course-price-box">
+                                    <div class="d-flex flex-row justify-content-between">
+                                        <div>
+                                            <p class="mb-1 text-uppercase small">Course Price</p>
+                                        </div>
+                                        <div>
+                                            @if ($courseInfo->discount && $courseInfo->discount > 0)
+                                                @php
+                                                    $finalPrice = $courseInfo->price - $courseInfo->discount;
+                                                    $discountPct = $courseInfo->price > 0 ? round(($courseInfo->discount / $courseInfo->price) * 100) : 0;
+                                                @endphp
+                                                <h2 style="font-size:2rem;font-weight:900;color:#5cb800;margin:0 0 4px;">
+                                                    {{ number_format($finalPrice, 2) }} Tk
+                                                </h2>
+                                                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                                                    <del style="color:#999;font-size:0.95rem;">{{ number_format($courseInfo->price, 2) }} Tk</del>
+                                                    <span style="background:#ffe0d6;color:#e05a2b;font-size:0.78rem;font-weight:800;padding:3px 9px;border-radius:4px;">{{ $discountPct }}% OFF</span>
+                                                </div>
+                                            @elseif($courseInfo->price > 0)
+                                                <h2 style="font-size:2rem;font-weight:900;color:#5cb800;margin:0;">
+                                                    {{ number_format($courseInfo->price, 2) }} Tk
+                                                </h2>
+                                            @else
+                                                <h2 style="font-size:2rem;font-weight:900;color:#5cb800;margin:0;">Free</h2>
+                                            @endif
+                                        </div>
                                     </div>
-                                    <div>
-                                        @if ($courseInfo->discount)
-                                            <del>${{ number_format($courseInfo->price, 2) }}</del>
-                                            <h3 class="current-price">
-                                                ${{ number_format($courseInfo->price - $courseInfo->discount, 2) }}
-                                            </h3>
-                                        @elseif($courseInfo->price > 0)
-                                            <h3 class="current-price">
-                                                ${{ number_format($courseInfo->price, 2) }}
-                                            </h3>
-                                        @else
-                                            <h3 class="current-price">Free</h3>
-                                        @endif
 
-                                    </div>
+                                    <ul class="course-info-list mb-4">
+                                        <li><span><i
+                                                    class="fa-solid fa-layer-group me-2"></i>Level</span><strong>{{ ucfirst($courseInfo->live_or_record ?? 'All Level') }}</strong>
+                                        </li>
+                                        <li><span><i
+                                                    class="fa-solid fa-book-open me-2"></i>Lessons</span><strong>{{ $courseInfo->lessons()->count() }}</strong>
+                                        </li>
+                                        <li><span><i
+                                                    class="fa-solid fa-list-check me-2"></i>Modules</span><strong>{{ $courseInfo->courseModules()->count() }}</strong>
+                                        </li>
+                                        <li><span><i
+                                                    class="fa-solid fa-globe me-2"></i>Language</span><strong>{{ $courseInfo->language ?? 'English' }}</strong>
+                                        </li>
+                                        <li><span><i
+                                                    class="fa-solid fa-user-tie me-2"></i>Instructor</span><strong>{{ $instructorName }}</strong>
+                                        </li>
+                                    </ul>
+
                                 </div>
-
-                                <ul class="course-info-list mb-4">
-                                <li><span><i
-                                            class="fa-solid fa-layer-group me-2"></i>Level</span><strong>{{ ucfirst($courseInfo->live_or_record ?? 'All Level') }}</strong>
-                                </li>
-                                <li><span><i
-                                            class="fa-solid fa-book-open me-2"></i>Lessons</span><strong>{{ $courseInfo->lessons()->count() }}</strong>
-                                </li>
-                                <li><span><i
-                                            class="fa-solid fa-list-check me-2"></i>Modules</span><strong>{{ $courseInfo->courseModules()->count() }}</strong>
-                                </li>
-                                <li><span><i
-                                            class="fa-solid fa-globe me-2"></i>Language</span><strong>{{ $courseInfo->language ?? 'English' }}</strong>
-                                </li>
-                                <li><span><i
-                                            class="fa-solid fa-user-tie me-2"></i>Instructor</span><strong>{{ $instructorName }}</strong>
-                                </li>
-                            </ul>
-
-                            </div>
                             </div>
                             <div class="px-2 pt-2 pb-1">
                                 <a href="#course-reviews" class="enroll-btn w-100 justify-content-center d-flex">View
@@ -536,7 +542,7 @@
                 </div>
         </section>
 
-        <section class="section-padding pt-0 pb-120">
+        <section class="section-padding pt-0 pb-120" id="related-section">
             <div class="container">
                 <div class="row mb-4">
                     <div class="col-lg-6 mx-auto text-center">
@@ -742,5 +748,57 @@
                 });
             });
         });
+    </script>
+    <script>
+        (function() {
+            if (window.innerWidth < 992) return;
+
+            var sidebar = document.querySelector('.sidebar-card');
+            var sidebarCol = document.getElementById('sidebarCol');
+            var relatedSec = document.getElementById('related-section');
+
+            if (!sidebar || !sidebarCol || !relatedSec) return;
+
+            var TOP_OFFSET = 90;
+            var GAP = 20;
+
+            // Make the column a positioned container for absolute fallback
+            sidebarCol.style.position = 'relative';
+
+            function update() {
+                if (window.innerWidth < 992) {
+                    sidebar.style.cssText = '';
+                    sidebarCol.style.position = '';
+                    return;
+                }
+
+                var colWidth = sidebarCol.offsetWidth;
+                var sidebarH = sidebar.offsetHeight;
+                var relatedTop = relatedSec.getBoundingClientRect().top + window.pageYOffset;
+                var colTop = sidebarCol.getBoundingClientRect().top + window.pageYOffset;
+                var scrollY = window.pageYOffset;
+
+                // Scroll position at which sidebar bottom would touch related section
+                var unstickAt = relatedTop - TOP_OFFSET - sidebarH - GAP;
+
+                if (scrollY >= unstickAt) {
+                    // Detach: position absolute inside column
+                    sidebar.style.position = 'absolute';
+                    sidebar.style.top = (unstickAt - colTop + TOP_OFFSET) + 'px';
+                    sidebar.style.width = colWidth + 'px';
+                } else {
+                    // Fixed to viewport
+                    sidebar.style.position = 'fixed';
+                    sidebar.style.top = TOP_OFFSET + 'px';
+                    sidebar.style.width = colWidth + 'px';
+                }
+            }
+
+            window.addEventListener('scroll', update, {
+                passive: true
+            });
+            window.addEventListener('resize', update);
+            update();
+        })();
     </script>
 @endpush
