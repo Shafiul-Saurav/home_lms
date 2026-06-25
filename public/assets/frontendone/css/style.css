@@ -129,8 +129,8 @@ img {
 
 .dropdown-submenu>.dropdown-menu {
     top: 0;
-    left: 100%;
-    margin-left: 8px;
+    left: calc(100% - 1px);
+    margin-left: 0;
     display: none;
 }
 
@@ -458,61 +458,60 @@ img {
     box-shadow: 0 8px 24px rgba(166, 255, 52, 0.28);
 }
 
-.course-card-dark {
-    /* background: #1d2127; */
-    border-radius: 10px;
+.course-card-modern {
+    position: relative;
+    background: #ffffff;
+    border-radius: 24px;
     overflow: hidden;
-    color: #fff;
+    color: #000;
     height: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     transition: 0.35s;
-    box-shadow: 0 15px 45px rgb(0 0 0 / 38%);
-    ;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
 }
 
-.course-card-dark:hover {
+.course-card-modern:hover {
     transform: translateY(-10px);
-    box-shadow: 0 25px 75px rgba(0, 0, 0, 0.22);
+    box-shadow: 0 28px 75px rgba(0, 0, 0, 0.34);
 }
 
-.course-thumb {
-    height: 205px;
+.course-card-modern .course-thumb {
+    height: 230px;
     overflow: hidden;
 }
 
-.course-thumb img {
+.course-card-modern .course-thumb img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: 0.5s;
 }
 
-.course-card-dark:hover .course-thumb img {
+.course-card-modern:hover .course-thumb img {
     transform: scale(1.08);
 }
 
-.course-content {
-    padding: 18px;
+.course-card-modern .course-content {
+    padding: 22px;
 }
 
-.course-content h3 {
-    font-size: 17px;
+.course-card-modern .course-content h3 {
+    font-size: 18px;
     line-height: 1.45;
-    font-weight: 600;
-    margin-bottom: 11px;
-    font-family: system-ui;
-    color: black;
+    font-weight: 800;
+    margin-bottom: 10px;
+    font-family: "Inter", sans-serif;
+    color: #000;
 }
 
-.course-content .desc {
+.course-card-modern .course-content .desc {
     color: #b7bec8;
     font-size: 13px;
-    line-height: 1.65;
+    line-height: 1.7;
     margin-bottom: 15px;
-    color: #393939;
 }
 
-.course-meta {
+.course-card-modern .course-meta {
     display: flex;
     align-items: center;
     gap: 16px;
@@ -522,18 +521,18 @@ img {
     flex-wrap: wrap;
 }
 
-.course-meta i {
+.course-card-modern .course-meta i {
     color: #ffc107;
 }
 
-.course-list {
+.course-card-modern .course-list {
     list-style: none;
     padding: 0;
     margin: 0 0 17px;
     display: none;
 }
 
-.course-list li {
+.course-card-modern .course-list li {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -542,25 +541,25 @@ img {
     margin-bottom: 8px;
 }
 
-.course-list li i {
+.course-card-modern .course-list li i {
     color: var(--primary);
 }
 
-.course-bottom {
+.course-card-modern .course-bottom {
     display: flex;
     justify-content: space-between;
     align-items: end;
     gap: 15px;
 }
 
-.price-box h4 {
+.course-card-modern .price-box h4 {
     font-size: 22px;
     font-weight: 900;
-    color: #13c35f;
+    color: var(--primary);
     margin-bottom: 3px;
 }
 
-.price-box del {
+.course-card-modern .price-box del {
     color: #8d96a3;
     font-size: 12px;
 }
@@ -1462,23 +1461,42 @@ img {
     top: 100%;
     left: 0;
     z-index: 99999;
-    margin-top: 12px;
+    margin-top: 4px;
+    display: none;
+}
+
+.desktop-menu .nav-item.dropdown:hover>.dropdown-menu,
+.desktop-menu .nav-item.dropdown:focus-within>.dropdown-menu,
+.desktop-menu .nav-item.dropdown.show>.dropdown-menu {
+    display: block;
 }
 
 .desktop-menu .dropdown-submenu {
     position: relative;
+    padding-right: 14px;
+}
+
+.desktop-menu .dropdown-submenu::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -14px;
+    width: 14px;
+    height: 100%;
 }
 
 .desktop-menu .dropdown-submenu>.dropdown-menu {
     position: absolute !important;
     top: 0;
-    left: 100%;
-    margin-left: 8px;
+    left: calc(100% - 2px);
+    margin-left: 0;
     margin-top: 0;
     display: none;
 }
 
-.desktop-menu .dropdown-submenu:hover>.dropdown-menu {
+.desktop-menu .dropdown-submenu:hover>.dropdown-menu,
+.desktop-menu .dropdown-submenu:focus-within>.dropdown-menu,
+.desktop-menu .dropdown-submenu.show>.dropdown-menu {
     display: block;
 }
 

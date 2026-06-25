@@ -128,3 +128,39 @@ $(document).ready(function () {
         });
     });
 });
+// desktop navbar hover fix
+$(document).ready(function () {
+    var desktopMenuTimers = new WeakMap();
+
+    $(document).on('mouseenter', '.desktop-menu .nav-item.dropdown', function () {
+        var item = $(this);
+        var timer = desktopMenuTimers.get(this);
+        if (timer) clearTimeout(timer);
+        item.addClass('show');
+        item.children('.dropdown-menu').addClass('show');
+    });
+
+    $(document).on('mouseleave', '.desktop-menu .nav-item.dropdown', function () {
+        var item = $(this);
+        var timer = setTimeout(function () {
+            item.removeClass('show');
+            item.children('.dropdown-menu').removeClass('show');
+            item.find('.dropdown-submenu').removeClass('show').children('.dropdown-menu').removeClass('show');
+        }, 220);
+        desktopMenuTimers.set(this, timer);
+    });
+
+    $(document).on('mouseenter', '.desktop-menu .dropdown-submenu', function () {
+        var item = $(this);
+        var parent = item.closest('.nav-item.dropdown');
+        var timer = desktopMenuTimers.get(parent[0]);
+        if (timer) clearTimeout(timer);
+        parent.addClass('show');
+        item.addClass('show');
+        item.children('.dropdown-menu').addClass('show');
+    });
+
+    $(document).on('mouseleave', '.desktop-menu .dropdown-submenu', function () {
+        $(this).removeClass('show').children('.dropdown-menu').removeClass('show');
+    });
+});

@@ -42,7 +42,7 @@
                     }
                 @endphp
                 <div class="col-xl-4 col-lg-4 col-md-6" data-course-type="{{ $courseType }}">
-                    <div class="course-card-dark">
+                    <div class="course-card-modern">
                         <div class="course-thumb">
                             <img src="{{ asset('uploads/courses/' . $course->image) }}" alt="{{ $course->title }}">
                         </div>

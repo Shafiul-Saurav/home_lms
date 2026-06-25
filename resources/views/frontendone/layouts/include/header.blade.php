@@ -15,7 +15,7 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="{{ route('courses') }}" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle" href="{{ route('courses') }}">
                         Courses
                     </a>
                     <ul class="dropdown-menu">
@@ -35,7 +35,7 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle" href="#">
                         Services
                     </a>
                     <ul class="dropdown-menu">

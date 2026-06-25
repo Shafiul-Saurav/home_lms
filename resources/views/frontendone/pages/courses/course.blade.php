@@ -1,4 +1,4 @@
-﻿@extends('frontendone.layouts.master')
+@extends('frontendone.layouts.master')
 
 @section('title', 'Courses')
 
@@ -60,6 +60,21 @@
             .course-hero { padding-top: 135px; }
             .course-sidebar-modern { position: static; }
             .course-grid-shell { padding: 20px; }
+        }
+
+        /*pagination style*/
+        .active>.page-link, .page-link.active {
+            z-index: 3;
+            color: #fff;
+            background-color: #76bd10;
+            border-color: #76bd10;
+        }
+
+        .page-link, .page-link.active {
+            z-index: 3;
+            color: #76bd10;
+            background-color: #ebebeb;
+            border-color: #fff;
         }
     </style>
 @endpush
