@@ -56,9 +56,10 @@
         }
 
         .sidebar-card {
-            padding: 24px;
-            position: sticky;
-            top: 110px;
+            padding: 10px;
+            position: fixed;
+            top: 90px;
+            width: inherit;
         }
 
         .sidebar-card .thumb {
@@ -82,7 +83,7 @@
         }
 
         .course-price-box .current-price {
-            font-size: 2rem;
+            font-size: 16px;
             font-weight: 800;
             margin: 0;
         }
@@ -378,18 +379,27 @@
                                                 </div>
                                             </div>
                                             <div class="course-price-box flex-grow-1 mb-0" style="min-width:220px;">
-                                                <p class="mb-1 text-uppercase small">Course Price</p>
-                                                @if ($courseInfo->discount)
-                                                    <del>${{ number_format($courseInfo->price, 2) }}</del>
-                                                    <h3 class="current-price">
-                                                        ${{ number_format($courseInfo->price - $courseInfo->discount, 2) }}
-                                                    </h3>
-                                                @elseif($courseInfo->price > 0)
-                                                    <h3 class="current-price">${{ number_format($courseInfo->price, 2) }}
-                                                    </h3>
-                                                @else
-                                                    <h3 class="current-price">Free</h3>
-                                                @endif
+                                                <div class="d-flex flex-row justify-content-between">
+                                                    <div>
+                                                        <p class="mb-1 text-uppercase small">Course Price</p>
+                                                    </div>
+                                                    <div>
+                                                        @if ($courseInfo->discount)
+                                                            <del>${{ number_format($courseInfo->price, 2) }}</del>
+                                                            <h3 class="current-price">
+                                                                ${{ number_format($courseInfo->price - $courseInfo->discount, 2) }}
+                                                            </h3>
+                                                        @elseif($courseInfo->price > 0)
+                                                            <h3 class="current-price">
+                                                                ${{ number_format($courseInfo->price, 2) }}
+                                                            </h3>
+                                                        @else
+                                                            <h3 class="current-price">Free</h3>
+                                                        @endif
+
+                                                    </div>
+
+                                                </div>
                                             </div>
                                         </div>
 
@@ -436,19 +446,28 @@
                             <div class="thumb"><img src="{{ asset('uploads/courses/' . $courseInfo->image) }}"
                                     alt="{{ $courseInfo->name }}"></div>
                             <div class="course-price-box">
-                                <p class="mb-2 text-uppercase small">Course Price</p>
-                                @if ($courseInfo->discount)
-                                    <del>${{ number_format($courseInfo->price, 2) }}</del>
-                                    <h3 class="current-price">
-                                        ${{ number_format($courseInfo->price - $courseInfo->discount, 2) }}</h3>
-                                @elseif($courseInfo->price > 0)
-                                    <h3 class="current-price">${{ number_format($courseInfo->price, 2) }}</h3>
-                                @else
-                                    <h3 class="current-price">Free</h3>
-                                @endif
-                            </div>
+                                <div class="d-flex flex-row justify-content-between">
+                                    <div>
+                                        <p class="mb-1 text-uppercase small">Course Price</p>
+                                    </div>
+                                    <div>
+                                        @if ($courseInfo->discount)
+                                            <del>${{ number_format($courseInfo->price, 2) }}</del>
+                                            <h3 class="current-price">
+                                                ${{ number_format($courseInfo->price - $courseInfo->discount, 2) }}
+                                            </h3>
+                                        @elseif($courseInfo->price > 0)
+                                            <h3 class="current-price">
+                                                ${{ number_format($courseInfo->price, 2) }}
+                                            </h3>
+                                        @else
+                                            <h3 class="current-price">Free</h3>
+                                        @endif
 
-                            <ul class="course-info-list mb-4">
+                                    </div>
+                                </div>
+
+                                <ul class="course-info-list mb-4">
                                 <li><span><i
                                             class="fa-solid fa-layer-group me-2"></i>Level</span><strong>{{ ucfirst($courseInfo->live_or_record ?? 'All Level') }}</strong>
                                 </li>
@@ -466,12 +485,13 @@
                                 </li>
                             </ul>
 
-                            <a href="#course-reviews" class="enroll-btn w-100 justify-content-center d-flex">View Reviews
-                                <i class="fa-solid fa-comments"></i></a>
+                                <a href="#course-reviews" class="enroll-btn w-100 justify-content-center d-flex">View
+                                    Reviews
+                                    <i class="fa-solid fa-comments"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </section>
 
         <section class="section-padding pt-0 pb-120">
@@ -496,7 +516,8 @@
                                     <p class="desc">{!! \Illuminate\Support\Str::words(strip_tags($related->description), 16, '...') !!}</p>
                                     <div class="course-meta">
                                         <span><i class="fa-regular fa-star"></i> {{ $related->averageRating() }}
-                                            ({{ $related->reviewCount() }})</span>
+                                            ({{ $related->reviewCount() }})
+                                        </span>
                                         <span><i class="fa-regular fa-file-lines"></i> {{ $related->lessons()->count() }}
                                             lessons</span>
                                         <span><i class="fa-regular fa-clock"></i> {{ $related->courseModules()->count() }}
@@ -667,13 +688,13 @@
                         $('#review-list').append(response.html);
                         if (response.hasMore) btn.data('page', response.nextPage).html(
                             'Load More Reviews <i class="fa-solid fa-rotate-right ms-2"></i>'
-                            );
+                        );
                         else btn.remove();
                     },
                     error: function() {
                         btn.html(
                             'Load More Reviews <i class="fa-solid fa-rotate-right ms-2"></i>'
-                            );
+                        );
                         Swal.fire('Error', 'Failed to load more reviews.', 'error');
                     }
                 });
