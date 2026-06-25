@@ -62,6 +62,44 @@
             width: inherit;
         }
 
+        @media (min-width: 992px) {
+            .sidebar-scroll {
+                max-height: calc(100vh - 90px - 310px);
+                overflow-y: auto;
+                scroll-behavior: smooth;
+                padding-right: 4px;
+                scrollbar-width: thin;
+                scrollbar-color: transparent transparent;
+            }
+
+            .sidebar-scroll::-webkit-scrollbar {
+                width: 7px;
+            }
+
+            .sidebar-scroll::-webkit-scrollbar-track {
+                background: transparent;
+                border-radius: 999px;
+            }
+
+            .sidebar-scroll::-webkit-scrollbar-thumb {
+                background: transparent;
+                border-radius: 999px;
+                transition: background 0.2s ease;
+            }
+
+            .sidebar-scroll:hover::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            .sidebar-scroll:hover::-webkit-scrollbar-thumb {
+                background: rgba(166, 255, 52, 0.65);
+            }
+
+            .sidebar-scroll:hover {
+                scrollbar-color: rgba(166, 255, 52, 0.65) rgba(255, 255, 255, 0.1);
+            }
+        }
+
         .sidebar-card .thumb {
             border-radius: 20px;
             overflow: hidden;
@@ -445,6 +483,7 @@
                         <div class="sidebar-card">
                             <div class="thumb"><img src="{{ asset('uploads/courses/' . $courseInfo->image) }}"
                                     alt="{{ $courseInfo->name }}"></div>
+                            <div class="sidebar-scroll">
                             <div class="course-price-box">
                                 <div class="d-flex flex-row justify-content-between">
                                     <div>
@@ -485,6 +524,9 @@
                                 </li>
                             </ul>
 
+                            </div>
+                            </div>
+                            <div class="px-2 pt-2 pb-1">
                                 <a href="#course-reviews" class="enroll-btn w-100 justify-content-center d-flex">View
                                     Reviews
                                     <i class="fa-solid fa-comments"></i></a>
