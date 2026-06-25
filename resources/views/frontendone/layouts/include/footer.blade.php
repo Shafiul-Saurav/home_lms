@@ -31,7 +31,7 @@
                     <a href="{{ route('about') }}">About CyberBD</a>
                     <a href="#">Hacking & Security Posts</a>
                     <a href="#">Download Resources</a>
-                    <a href="#">Contact Us</a>
+                    <a href="{{ route('contact.page') }}">Contact Us</a>
                     <a href="#">FAQ</a>
                 </div>
             </div>

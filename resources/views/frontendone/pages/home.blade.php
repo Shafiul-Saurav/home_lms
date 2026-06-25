@@ -5,7 +5,7 @@
 @push('frontendone_style')
     @include('frontend.pages.common.style')
     <style>
-        .owl-carousel .owl-item img {
+        .owl-carousel .owl-item .review-user img {
             width: 45px;
             height: 45px;
         }

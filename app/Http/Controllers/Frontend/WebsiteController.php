@@ -267,7 +267,7 @@ class WebsiteController extends Controller
     {
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
-        return view('frontend.pages.contact.contact', compact('logo_fav'));
+        return view('frontendone.pages.contact.contact_page', compact('logo_fav'));
     }
 
     public function searchResults(Request $request)

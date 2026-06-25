@@ -20,7 +20,7 @@
         <!-- breadcrumb end -->
 
         <!-- about area -->
-        <div class="about-area py-120">
+        <div class="about-area py-5">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">
@@ -35,10 +35,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="about-experience">
-                                <h5>30<span>+</span></h5>
-                                <p>Years Of Experience</p>
-                            </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -47,33 +43,7 @@
                                 <span class="site-title-tagline"><i class="far fa-lightbulb-on"></i> About Us</span>
                                 {!! $about->description !!}
                             </div>
-                            <div class="about-content">
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <div class="about-item">
-                                            <div class="icon">
-                                                <img src="{{ asset('assets/frontend') }}/img/icon/learn.svg" alt="" />
-                                            </div>
-                                            <div class="content">
-                                                <h6>Flexible Learning</h6>
-                                                <p>Take a look at our up of the round shows</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="about-item">
-                                            <div class="icon">
-                                                <img src="{{ asset('assets/frontend') }}/img/icon/support.svg" alt="" />
-                                            </div>
-                                            <div class="content">
-                                                <h6>24/7 Live Support</h6>
-                                                <p>Take a look at our up of the round shows</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="about.html" class="theme-btn">Discover More<i class="fas fa-arrow-right"></i></a>
+                            <a href="{{ route('about') }}" class="enroll-btn">Discover More<i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
