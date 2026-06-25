@@ -10,14 +10,47 @@
             <p>Bangladeshi students are building cyber security skills with our practical training system.</p>
         </div>
 
-        <div class="row g-4" id="review-list">
-            @forelse($testimonials ?? collect() as $testimonial)
-                @include('frontendone.pages.widgets.partials.review_item', ['testimonial' => $testimonial])
-            @empty
-                <div class="col-12 text-center py-5">
-                    <p class="text-muted">No reviews available yet.</p>
-                </div>
-            @endforelse
+        <div class="review-carousel-wrap">
+            <div class="owl-carousel owl-theme review-carousel" id="review-list">
+                @forelse($testimonials ?? collect() as $testimonial)
+                    <div class="item">
+                        <div class="review-card">
+                            <div class="stars">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    @if ($i <= ($testimonial->rating ?? 0))
+                                        <i class="fa-solid fa-star"></i>
+                                    @else
+                                        <i class="fa-regular fa-star"></i>
+                                    @endif
+                                @endfor
+                            </div>
+
+                            <p>{{ $testimonial->review }}</p>
+
+                            <div class="review-user">
+                                @php
+                                    $avatar = data_get($testimonial, 'user.profile.profileImage.profile_image');
+                                @endphp
+                                <img src="{{ $avatar ? asset($avatar) : 'https://cdn-icons-png.flaticon.com/512/12965/12965382.png' }}" alt="">
+                                <div>
+                                    <h5>{{ data_get($testimonial, 'user.name', 'Anonymous') }}</h5>
+                                    <span>
+                                        @if(data_get($testimonial, 'short_description'))
+                                            {{ data_get($testimonial, 'short_description') }}
+                                        @elseif(data_get($testimonial, 'user.role_id') == 4)
+                                            Student
+                                        @endif
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12 text-center py-5">
+                        <p class="text-muted">No reviews available yet.</p>
+                    </div>
+                @endforelse
+            </div>
         </div>
 
         <div class="text-center mt-4">

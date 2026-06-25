@@ -126,27 +126,27 @@ class WebsiteController extends Controller
 
         $partners = Partner::where('is_active', 1)->get();
         return view('frontendone.pages.home', compact(
-    'homeSliders',
-    'website_link',
-    'about',
-    'testimonials',
-    'posts',
-    'logo_fav',
-    'categories',
-    'popularCourses',
-    'popularBooks',
-    'heroStudentCountLabel',
-    'heroCourseCountLabel',
-    'heroAvatars',
-    'studentsCounter',
-    'coursesCounter',
-    'tutorsCounter',
-    'awardsCounter',
-    'teachers',
-    'serviceCategories',
-    'photoGalleries',
-    'partners'
-));
+            'homeSliders',
+            'website_link',
+            'about',
+            'testimonials',
+            'posts',
+            'logo_fav',
+            'categories',
+            'popularCourses',
+            'popularBooks',
+            'heroStudentCountLabel',
+            'heroCourseCountLabel',
+            'heroAvatars',
+            'studentsCounter',
+            'coursesCounter',
+            'tutorsCounter',
+            'awardsCounter',
+            'teachers',
+            'serviceCategories',
+            'photoGalleries',
+            'partners'
+        ));
     }
 
     public function about()
