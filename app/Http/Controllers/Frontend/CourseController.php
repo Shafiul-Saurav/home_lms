@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\CourseModule;
+use App\Models\CourseReview;
 use App\Models\Exam;
 use App\Models\Lesson;
 use App\Models\LessonCompletion;
@@ -41,12 +42,12 @@ class CourseController extends Controller
         $html = '<div class="row g-4 course-grid-area">';
 
         foreach ($courses as $course) {
-            $html .= view('frontend.pages.courses.course_filter', compact('course'))->render();
+            $html .= view('frontendone.pages.courses.partials.course_filter', compact('course'))->render();
         }
 
         $html .= '</div>';
         $html .= '<div id="pagination-wrapper">';
-        $html .= view('frontend.pages.courses.partials.pagination', compact('courses'))->render();
+        $html .= view('frontendone.pages.courses.partials.pagination', compact('courses'))->render();
         $html .= '</div>';
 
         return $html;
@@ -132,8 +133,8 @@ class CourseController extends Controller
 
         if ($request->ajax()) {
             $html = $this->renderCourseGrid($courses);
-            $pagination = view('frontend.pages.courses.partials.pagination', compact('courses'))->render();
-            $topfilter = view('frontend.pages.courses.course_topfilter', compact('courses'))->render();
+            $pagination = view('frontendone.pages.courses.partials.pagination', compact('courses'))->render();
+            $topfilter = view('frontendone.pages.courses.partials.course_topfilter', compact('courses'))->render();
 
             return response()->json([
                 'html' => $html,
@@ -143,7 +144,7 @@ class CourseController extends Controller
             ]);
         }
 
-        return view('frontend.pages.courses.courses', compact(
+        return view('frontendone.pages.courses.course', compact(
             'courses',
             'categories',
             'subcategories',
@@ -184,6 +185,12 @@ class CourseController extends Controller
         // Fetch course exams
         $exams = Exam::where('course_id', $id)->where('is_active', 1)->get();
 
+        $reviews = CourseReview::with('user.profile.profileImage')
+            ->where('course_id', $id)
+            ->where('is_approved', 1)
+            ->latest()
+            ->paginate(5);
+
         // Check if user is logged in and enrolled
         $isLoggedIn = Auth::check();
         $isEnrolled = false;
@@ -199,13 +206,14 @@ class CourseController extends Controller
                 ->toArray();
         }
 
-        return view('frontend.pages.courses.course_details', compact(
+        return view('frontendone.pages.courses.course_details', compact(
             'courseInfo',
             'category',
             'modules',
             'lessons',
             'relatedCourses',
             'exams',
+            'reviews',
             'isLoggedIn',
             'isEnrolled',
             'completedModuleIds'
@@ -437,8 +445,8 @@ class CourseController extends Controller
 
         if ($request->ajax()) {
             $html = $this->renderCourseGrid($courses);
-            $pagination = view('frontend.pages.courses.partials.pagination', compact('courses'))->render();
-            $topfilter = view('frontend.pages.courses.course_topfilter', compact('courses'))->render();
+            $pagination = view('frontendone.pages.courses.partials.pagination', compact('courses'))->render();
+            $topfilter = view('frontendone.pages.courses.partials.course_topfilter', compact('courses'))->render();
 
             return response()->json([
                 'html' => $html,
@@ -531,8 +539,8 @@ class CourseController extends Controller
 
         if ($request->ajax()) {
             $html = $this->renderCourseGrid($courses);
-            $pagination = view('frontend.pages.courses.partials.pagination', compact('courses'))->render();
-            $topfilter = view('frontend.pages.courses.course_topfilter', compact('courses'))->render();
+            $pagination = view('frontendone.pages.courses.partials.pagination', compact('courses'))->render();
+            $topfilter = view('frontendone.pages.courses.partials.course_topfilter', compact('courses'))->render();
 
             return response()->json([
                 'html' => $html,
@@ -672,3 +680,6 @@ class CourseController extends Controller
         return null;
     }
 }
+
+
+

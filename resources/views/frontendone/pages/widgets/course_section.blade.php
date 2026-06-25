@@ -47,7 +47,7 @@
                             <img src="{{ asset('uploads/courses/' . $course->image) }}" alt="{{ $course->title }}">
                         </div>
                         <div class="course-content">
-                            <h3>{{ $course->title }}</h3>
+                            <h3>{{ $course->name }}</h3>
                             <p class="desc">{{ \Illuminate\Support\Str::words(strip_tags($course->short_description ?? $course->description), 10, '...') }}</p>
                             <div class="course-meta">
                                 <span><i class="fa-regular fa-star"></i> {{ $course->averageRating() ?? 0 }} ({{ $course->reviewCount() ?? 0 }})</span>

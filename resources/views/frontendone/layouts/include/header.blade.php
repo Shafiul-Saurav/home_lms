@@ -11,11 +11,11 @@
             <ul class="navbar-nav mx-auto flex-row">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="{{ route('home') }}">Home</a>
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle" href="{{ route('courses') }}" data-bs-toggle="dropdown">
                         Courses
                     </a>
                     <ul class="dropdown-menu">
@@ -99,7 +99,7 @@
         <ul class="mobile-nav-list">
 
             <li>
-                <a class="mobile-nav-link" href="#">Home</a>
+                <a class="mobile-nav-link" href="{{ route('home') }}">Home</a>
             </li>
 
             <li>

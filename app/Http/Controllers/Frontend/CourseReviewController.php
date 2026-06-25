@@ -19,7 +19,7 @@ class CourseReviewController extends Controller
 
         if (request()->ajax()) {
             return response()->json([
-                'html' => view('frontend.pages.courses.partials.review_items', compact('reviews'))->render(),
+                'html' => view('frontendone.pages.courses.partials.review_items', compact('reviews'))->render(),
                 'hasMore' => $reviews->hasMorePages(),
                 'nextPage' => $reviews->currentPage() + 1,
                 'total' => $reviews->total()
@@ -60,7 +60,8 @@ class CourseReviewController extends Controller
 
         return response()->json([
             'success' => 'Review posted successfully!',
-            'review' => view('frontend.pages.courses.partials.review_items', ['reviews' => collect([$review])])->render()
+            'review' => view('frontendone.pages.courses.partials.review_items', ['reviews' => collect([$review])])->render()
         ]);
     }
 }
+
