@@ -21,7 +21,7 @@
             transition: 0.3s ease;
             height: 100%;
             display: flex;
-            align-items: flex-start;
+            align-items: center; /* FIXED: Changed from flex-start to center for flawless vertical alignment */
             gap: 20px;
         }
 
@@ -49,6 +49,10 @@
             color: #fff;
         }
 
+        .contact-info-card .info-content {
+            flex-grow: 1; /* Ensures text area manages space properly */
+        }
+
         .contact-info-card .info-content h5 {
             font-size: 16px;
             font-weight: 800;
@@ -62,6 +66,7 @@
             color: #4b5563;
             margin: 0;
             line-height: 1.5;
+            word-break: break-word; /* Prevents overflow strings from breaking the structural column grid */
         }
 
         /* Contact Form Layout styling carefully matched to Login Page */
@@ -124,7 +129,6 @@
             position: relative;
         }
 
-        /* FIXED: Absolute alignment reference mapping using input-icon custom class */
         .form-icon-contact i.input-icon {
             position: absolute;
             left: 18px;
@@ -262,7 +266,7 @@
                             </div>
                             <div class="info-content">
                                 <h5>Email Us</h5>
-                                <p>{{ $website_link->email ?? 'meenamart25@gmail.com' }}</p> <br>
+                                <p>{{ $website_link->email ?? 'meenamart25@gmail.com' }}</p>
                             </div>
                         </div>
                     </div>
@@ -364,7 +368,7 @@
                     @if(isset($website_link->map_link) && str_contains($website_link->map_link, '<iframe'))
                         {!! $website_link->map_link !!}
                     @else
-                        <iframe src="https://maps.google.com/maps?q=Savar%20DOHS,%20Ashulia&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe>
+                        <iframe src="https://maps.google.com/maps?q=Savar%20DOHS&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe>
                     @endif
                 </div>
             </div>

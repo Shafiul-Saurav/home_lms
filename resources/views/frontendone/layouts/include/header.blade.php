@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg main-navbar fixed-top">
     <div class="container">
 
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{{ route('home') }}">
             Cyber<span>BD</span>
         </a>
 
@@ -67,7 +67,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="{{ route('contact.page') }}">Contact</a>
                 </li>
 
             </ul>
@@ -91,7 +91,7 @@
 <!-- Mobile Side Nav -->
 <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileSideNav">
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title">Cyber<span>BD</span></h5>
+        <a href="{{ route('home') }}"><h5 class="offcanvas-title">Cyber<span>BD</span></h5></a>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
     </div>
 
@@ -145,12 +145,12 @@
             </li>
 
             <li>
-                <a class="mobile-nav-link" href="#">Contact</a>
+                <a class="mobile-nav-link" href="{{ route('contact.page') }}">Contact</a>
             </li>
 
         </ul>
 
-        <a href="#" class="mobile-join-btn">
+        <a href="{{ route('login')}}" class="mobile-join-btn">
             Enroll Now <i class="fa-solid fa-arrow-right"></i>
         </a>
     </div>
