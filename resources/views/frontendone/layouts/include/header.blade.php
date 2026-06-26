@@ -59,7 +59,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">News</a>
+                    <a class="nav-link" href="{{ route('news.search') }}">News</a>
                 </li>
 
                 <li class="nav-item">
@@ -72,7 +72,7 @@
 
             </ul>
 
-            <a href="#" class="nav-action">
+            <a href="{{ route('login') }}" class="nav-action">
                 Enroll Now <i class="fa-solid fa-arrow-right"></i>
             </a>
         </div>
@@ -133,7 +133,7 @@
             </li>
 
             <li>
-                <a class="mobile-nav-link" href="#">News</a>
+                <a class="mobile-nav-link" href="{{ route('news.search') }}">News</a>
             </li>
 
             <li>

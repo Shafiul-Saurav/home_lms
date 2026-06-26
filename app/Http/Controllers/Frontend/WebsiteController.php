@@ -231,7 +231,7 @@ class WebsiteController extends Controller
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
 
-        return view('frontend.pages.news.posts', compact('posts', 'popularPosts', 'postCategories', 'logo_fav'));
+        return view('frontendone.pages.news.posts', compact('posts', 'popularPosts', 'postCategories', 'logo_fav'));
     }
 
     public function newsDetails($id)

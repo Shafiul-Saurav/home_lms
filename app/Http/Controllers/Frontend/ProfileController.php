@@ -63,17 +63,17 @@ class ProfileController extends Controller
         if ($profile) {
             $profileImage = ProfileImage::where('profile_id', Auth::user()->profile->id)->first();
 
-            return view('frontend.pages.account.dashboard', compact('user', 'profile', 'profileImage', 'enrolledCount', 'completedCount', 'recentOrders', 'purchasedPdfBooksCount'));
+            return view('frontendone.pages.account.dashboard', compact('user', 'profile', 'profileImage', 'enrolledCount', 'completedCount', 'recentOrders', 'purchasedPdfBooksCount'));
         }
 
-        return view('frontend.pages.account.dashboard', compact('user', 'profile', 'enrolledCount', 'completedCount', 'recentOrders', 'purchasedPdfBooksCount'));
+        return view('frontendone.pages.account.dashboard', compact('user', 'profile', 'enrolledCount', 'completedCount', 'recentOrders', 'purchasedPdfBooksCount'));
     }
 
     public function generalSetting()
     {
         $user = Auth::user();
 
-        return view('frontend.pages.account.generalsetting', compact('user'));
+        return view('frontendone.pages.account.generalsetting', compact('user'));
     }
 
     public function generalStore(Request $request)
@@ -101,7 +101,7 @@ class ProfileController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        return view('frontend.pages.account.personalsetting', compact('user', 'profile'));
+        return view('frontendone.pages.account.personalsetting', compact('user', 'profile'));
     }
 
     public function personalStore(Request $request)
@@ -207,11 +207,11 @@ class ProfileController extends Controller
 
         if ($request->ajax()) {
             return response()->json([
-                'html' => view('frontend.pages.account.partials.mycourses_list', compact('user', 'enrolledCourses'))->render(),
+                'html' => view('frontendone.pages.account.partials.mycourses_list', compact('user', 'enrolledCourses'))->render(),
             ]);
         }
 
-        return view('frontend.pages.account.mycourses', compact('user', 'enrolledCourses'));
+        return view('frontendone.pages.account.mycourses', compact('user', 'enrolledCourses'));
     }
 
     public function courseOrders()
@@ -222,7 +222,7 @@ class ProfileController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view('frontend.pages.account.course_order', compact('user', 'orders'));
+        return view('frontendone.pages.account.course_order', compact('user', 'orders'));
     }
 
     public function courseOrderDetails(CourseOrder $order)
@@ -233,7 +233,7 @@ class ProfileController extends Controller
 
         $order->load('course');
 
-        return view('frontend.pages.account.course_order_details', compact('order'));
+        return view('frontendone.pages.account.course_order_details', compact('order'));
     }
 
     public function bookOrders()
@@ -244,7 +244,7 @@ class ProfileController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view('frontend.pages.account.book_order', compact('user', 'orders'));
+        return view('frontendone.pages.account.book_order', compact('user', 'orders'));
     }
 
     public function bookOrderDetails(BookOrder $order)
@@ -255,7 +255,7 @@ class ProfileController extends Controller
 
         $order->load('book');
 
-        return view('frontend.pages.account.book_order_details', compact('order'));
+        return view('frontendone.pages.account.book_order_details', compact('order'));
     }
 
     public function pdfBookOrders()
@@ -266,7 +266,7 @@ class ProfileController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view('frontend.pages.account.pdf_book_order', compact('user', 'orders'));
+        return view('frontendone.pages.account.pdf_book_order', compact('user', 'orders'));
     }
 
     public function pdfBookOrderDetails(PdfBookOrder $order)
@@ -277,6 +277,6 @@ class ProfileController extends Controller
 
         $order->load('pdfBook');
 
-        return view('frontend.pages.account.pdf_book_order_details', compact('order'));
+        return view('frontendone.pages.account.pdf_book_order_details', compact('order'));
     }
 }
