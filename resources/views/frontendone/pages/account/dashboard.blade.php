@@ -4,6 +4,24 @@
 
 @push('frontendone_style')
     @include('frontend.pages.common.style')
+    <style>
+        /*pagination style*/
+        .active>.page-link,
+        .page-link.active {
+            z-index: 3;
+            color: #fff;
+            background-color: #76bd10;
+            border-color: #76bd10;
+        }
+
+        .page-link,
+        .page-link.active {
+            z-index: 3;
+            color: #76bd10;
+            background-color: #ebebeb;
+            border-color: #fff;
+        }
+    </style>
 @endpush
 
 @section('frontendone_content')
@@ -13,7 +31,7 @@
         <!-- breadcrumb end -->
 
         <!-- user dashboard -->
-        <div class="user-account py-100">
+        <div class="user-account py-5">
             <div class="container">
                 <div class="row g-4">
                     <div class="col-lg-4 col-xl-3">
@@ -48,7 +66,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row mt-4">
                                     <div class="col-md-6 col-lg-6 col-xl-4">
                                         <div class="user-widget c1">
                                             <div class="info">
@@ -67,7 +85,7 @@
                                                 <span>Enrolled Courses</span>
                                             </div>
                                             <div class="icon">
-                                                <i class="fa-solid fa-books"></i>
+                                                <i class="fa-solid fa-book"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -138,14 +156,14 @@
                                                                 <div class="action-dropdown dropdown">
                                                                     <button class="action-icon-btn" type="button"
                                                                         data-bs-toggle="dropdown">
-                                                                        <i class="far fa-ellipsis"></i>
+                                                                        <i class="fa-solid fa-ellipsis"></i>
                                                                     </button>
                                                                     <ul class="dropdown-menu dropdown-menu-end"
                                                                         style="max-height: none !important; overflow: visible !important;">
                                                                         <li>
                                                                             <a class="dropdown-item"
                                                                                 href="{{ route('course.order.details', $order->id) }}"><i
-                                                                                    class="far fa-eye"></i> Order
+                                                                                    class="fa-solid fa-eye"></i> Order
                                                                                 Details</a>
                                                                         </li>
                                                                     </ul>
@@ -160,9 +178,48 @@
                                                 </tbody>
                                             </table>
                                         </div>
+                                        @if ($recentOrders->hasPages())
+                                            <div class="pagination-area mt-4 d-flex justify-content-center">
+                                                <nav aria-label="Page navigation">
+                                                    <ul class="pagination mb-0">
+                                                        @if ($recentOrders->onFirstPage())
+                                                            <li class="page-item disabled"><span class="page-link"><i
+                                                                        class="fa-solid fa-arrow-left"></i></span></li>
+                                                        @else
+                                                            <li class="page-item"><a class="page-link"
+                                                                    href="{{ $recentOrders->previousPageUrl() }}"
+                                                                    aria-label="Previous"><i
+                                                                        class="fa-solid fa-arrow-left"></i></a></li>
+                                                        @endif
+
+                                                        @foreach ($recentOrders->getUrlRange(1, $recentOrders->lastPage()) as $page => $url)
+                                                            @if ($page == $recentOrders->currentPage())
+                                                                <li class="page-item active"><span
+                                                                        class="page-link">{{ $page }}</span></li>
+                                                            @else
+                                                                <li class="page-item"><a class="page-link"
+                                                                        href="{{ $url }}">{{ $page }}</a>
+                                                                </li>
+                                                            @endif
+                                                        @endforeach
+
+                                                        @if ($recentOrders->hasMorePages())
+                                                            <li class="page-item"><a class="page-link"
+                                                                    href="{{ $recentOrders->nextPageUrl() }}"
+                                                                    aria-label="Next"><i
+                                                                        class="fa-solid fa-arrow-right"></i></a></li>
+                                                        @else
+                                                            <li class="page-item disabled"><span class="page-link"><i
+                                                                        class="fa-solid fa-arrow-right"></i></span></li>
+                                                        @endif
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

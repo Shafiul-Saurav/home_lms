@@ -57,8 +57,7 @@ class ProfileController extends Controller
         $recentOrders = CourseOrder::with('course')
             ->where('user_id', $user->id)
             ->latest()
-            ->take(5)
-            ->get();
+            ->paginate(5);
 
         if ($profile) {
             $profileImage = ProfileImage::where('profile_id', Auth::user()->profile->id)->first();

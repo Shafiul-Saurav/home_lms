@@ -1,5 +1,36 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg main-navbar fixed-top">
+    @php
+        $headerProfileImage = auth()->user()?->profile?->profileImage?->profile_image;
+        $liveClasses = collect();
+
+        if (auth()->check()) {
+            $user = auth()->user();
+            $enrolledCourses = $user
+                ->courseOrders()
+                ->where('payment_status', 'Completed')
+                ->where('status', 'Enrolled')
+                ->pluck('course_id')
+                ->toArray();
+
+            if (!empty($enrolledCourses)) {
+                $liveClasses = \App\Models\CourseModule::whereIn('course_id', $enrolledCourses)
+                    ->where('live_record', 'live')
+                    ->whereNotNull('date')
+                    ->whereNotNull('time')
+                    ->get()
+                    ->map(function ($module) {
+                        return [
+                            'title' => $module->title,
+                            'course_name' => optional(\App\Models\Course::find($module->course_id))->name ?? 'Course',
+                            'link' => route('course.video', [$module->course_id, $module->id]),
+                            'course_id' => $module->course_id,
+                            'module_id' => $module->id,
+                        ];
+                    });
+            }
+        }
+    @endphp
     <div class="container">
 
         <a class="navbar-brand" href="{{ route('home') }}">
@@ -72,9 +103,37 @@
 
             </ul>
 
-            <a href="{{ route('login') }}" class="nav-action">
-                Enroll Now <i class="fa-solid fa-arrow-right"></i>
-            </a>
+            @guest('web')
+                <a href="{{ route('login') }}" class="nav-action">
+                    Enroll Now <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            @endguest
+
+            @auth('web')
+                <li class="nav-item dropdown">
+                    <a href="{{ route('user.dashboard') }}" class="nav-link dropdown-toggle">
+                        <img id="headerProfileImage"
+                            src="{{ $headerProfileImage ? asset($headerProfileImage) : asset('assets/frontend/img/testimonial/images.png') }}"
+                            alt="{{ auth()->user()->name ?? 'User' }}"
+                            style="width: 35px; height: 35px; border-radius: 50%;" />
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('user.dashboard') }}">Dashboard</a></li>
+                        <li><a class="dropdown-item" href="{{ route('general.setting') }}">Settings</a></li>
+                        <li>
+                            <a href="#" class="dropdown-item"
+                                onclick="event.preventDefault(); document.getElementById('logoutForm').submit()">
+                                <i class="fa-solid fa-right-from-bracket icon"></i> Logout
+                            </a>
+                            <form action="{{ route('user.logout') }}" id="logoutForm" method="POST">
+                                @csrf
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            @endauth
+
+
         </div>
 
         <!-- Mobile Button -->
@@ -91,7 +150,9 @@
 <!-- Mobile Side Nav -->
 <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileSideNav">
     <div class="offcanvas-header">
-        <a href="{{ route('home') }}"><h5 class="offcanvas-title">Cyber<span>BD</span></h5></a>
+        <a href="{{ route('home') }}">
+            <h5 class="offcanvas-title">Cyber<span>BD</span></h5>
+        </a>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
     </div>
 
@@ -150,7 +211,7 @@
 
         </ul>
 
-        <a href="{{ route('login')}}" class="mobile-join-btn">
+        <a href="{{ route('login') }}" class="mobile-join-btn">
             Enroll Now <i class="fa-solid fa-arrow-right"></i>
         </a>
     </div>
