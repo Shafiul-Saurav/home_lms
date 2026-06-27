@@ -110,27 +110,30 @@
             @endguest
 
             @auth('web')
-                <li class="nav-item dropdown">
-                    <a href="{{ route('user.dashboard') }}" class="nav-link dropdown-toggle">
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <img id="headerProfileImage"
                             src="{{ $headerProfileImage ? asset($headerProfileImage) : asset('assets/frontend/img/testimonial/images.png') }}"
                             alt="{{ auth()->user()->name ?? 'User' }}"
-                            style="width: 35px; height: 35px; border-radius: 50%;" />
+                            style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;" />
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-end" style="right: 0; left: auto;">
                         <li><a class="dropdown-item" href="{{ route('user.dashboard') }}">Dashboard</a></li>
                         <li><a class="dropdown-item" href="{{ route('general.setting') }}">Settings</a></li>
                         <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
                             <a href="#" class="dropdown-item"
                                 onclick="event.preventDefault(); document.getElementById('logoutForm').submit()">
-                                <i class="fa-solid fa-right-from-bracket icon"></i> Logout
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
                             </a>
                             <form action="{{ route('user.logout') }}" id="logoutForm" method="POST">
                                 @csrf
                             </form>
                         </li>
                     </ul>
-                </li>
+                </div>
             @endauth
 
 
