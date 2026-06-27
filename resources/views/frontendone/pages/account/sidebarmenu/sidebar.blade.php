@@ -51,10 +51,10 @@
                 <ul class="sidebar-menu-list">
                     <li><a class="{{ $isCourseOrders ? 'active' : '' }}"
                             href="{{ route('user.course.orders') }}">Course Orders</a></li>
-                    <li><a class="{{ $isBookOrders ? 'active' : '' }}" href="{{ route('user.book.orders') }}">Book
+                    {{-- <li><a class="{{ $isBookOrders ? 'active' : '' }}" href="{{ route('user.book.orders') }}">Book
                             Orders</a></li>
                     <li><a class="{{ $isPdfBookOrders ? 'active' : '' }}"
-                            href="{{ route('user.pdf.book.orders') }}">PDF Book Orders</a></li>
+                            href="{{ route('user.pdf.book.orders') }}">PDF Book Orders</a></li> --}}
                 </ul>
             </div>
         </li>

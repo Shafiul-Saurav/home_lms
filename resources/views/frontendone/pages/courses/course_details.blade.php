@@ -273,10 +273,10 @@
                                         data-bs-target="#course-instructor" type="button">Instructor</button></li>
                                 <li class="nav-item"><button class="nav-link" data-bs-toggle="pill"
                                         data-bs-target="#course-reviews" type="button">Reviews</button></li>
-                                @if (isset($exams) && $exams->isNotEmpty())
+                                {{-- @if (isset($exams) && $exams->isNotEmpty())
                                     <li class="nav-item"><button class="nav-link" data-bs-toggle="pill"
                                             data-bs-target="#course-exams" type="button">Exams</button></li>
-                                @endif
+                                @endif --}}
                             </ul>
 
                             <div class="tab-content">
@@ -453,7 +453,7 @@
                                     </div>
                                 </div>
 
-                                @if (isset($exams) && $exams->isNotEmpty())
+                                {{-- @if (isset($exams) && $exams->isNotEmpty())
                                     <div class="tab-pane fade" id="course-exams">
                                         <div class="tab-panel-box">
                                             <h4 class="mb-4">Exams</h4>
@@ -474,7 +474,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                @endif
+                                @endif --}}
                             </div>
                         </div>
                     </div>

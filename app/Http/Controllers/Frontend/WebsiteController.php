@@ -270,6 +270,20 @@ class WebsiteController extends Controller
         return view('frontendone.pages.contact.contact_page', compact('logo_fav'));
     }
 
+    public function mentors()
+    {
+        $teachers = Teacher::with(['user.profile.profileImage'])
+            ->whereHas('user', function ($q) {
+                $q->where('role_id', 7);
+            })
+            ->withCount('courses')
+            ->latest('id')
+            ->get();
+
+        $logo_fav = LogoFavicon::first();
+
+        return view('frontendone.pages.mentors.mentors', compact('teachers', 'logo_fav'));
+    }
     public function searchResults(Request $request)
     {
         $query = $request->get('q');
@@ -436,3 +450,5 @@ class WebsiteController extends Controller
         return $html;
     }
 }
+
+

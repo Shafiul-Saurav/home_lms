@@ -335,7 +335,7 @@
                     </li>
                 @endcanany
 
-                @canany(['index-exam-category', 'index-exam', 'index-question', 'index-results'])
+                {{-- @canany(['index-exam-category', 'index-exam', 'index-question', 'index-results'])
                     <li
                         class="slide {{ Request::routeIs('exam_categories.*') || Request::routeIs('exams.*') || Request::routeIs('questions.*') || Request::routeIs('exam_results.*') ? 'is-expanded' : '' }}">
                         <a class="side-menu__item {{ Request::routeIs('exam_categories.*') || Request::routeIs('exams.*') || Request::routeIs('questions.*') || Request::routeIs('exam_results.*') ? 'active' : '' }}"
@@ -413,9 +413,9 @@
                             @endcan
                         </ul>
                     </li>
-                @endcanany
+                @endcanany --}}
 
-                @canany(['index-book-category', 'index-book-subcategory', 'index-book'])
+                {{-- @canany(['index-book-category', 'index-book-subcategory', 'index-book'])
                     <li
                         class="slide {{ Request::routeIs('book_categories.*', 'book_subcategories.*', 'books.*') ? 'is-expanded' : '' }}">
                         <a class="side-menu__item {{ Request::routeIs('book_categories.*', 'book_subcategories.*', 'books.*') ? 'active' : '' }}"
@@ -473,7 +473,7 @@
                             @endcan
                         </ul>
                     </li>
-                @endcanany
+                @endcanany --}}
 
                 @can('index-award')
                     <li class="slide {{ Request::routeIs('awards.*') ? 'is-expanded' : '' }}">
@@ -500,7 +500,7 @@
                         </ul>
                     </li>
                 @endcan
-                @canany(['index-pdf-book-category', 'index-pdf-book-subcategory', 'index-pdf-book'])
+                {{-- @canany(['index-pdf-book-category', 'index-pdf-book-subcategory', 'index-pdf-book'])
                     <li
                         class="slide {{ Request::routeIs('pdf_book_categories.*') || Request::routeIs('pdf_book_subcategories.*') || Request::routeIs('pdf_books.*') ? 'is-expanded' : '' }}">
                         <a class="side-menu__item {{ Request::routeIs('pdf_book_categories.*') || Request::routeIs('pdf_book_subcategories.*') || Request::routeIs('pdf_books.*') ? 'active' : '' }}"
@@ -559,7 +559,7 @@
                             @endcan
                         </ul>
                     </li>
-                @endcanany
+                @endcanany --}}
 
                 @canany(['index-course-order', 'create-course-order', 'index-book-order', 'index-pdf-book-order'])
                     <li
@@ -582,7 +582,7 @@
                                         Enrollment</a>
                                 </li>
                             @endcan
-                            @can('index-book-order')
+                            {{-- @can('index-book-order')
                                 <li><a href="{{ route('orders.bookorders') }}"
                                         class="slide-item {{ Request::routeIs('orders.bookorders*') ? 'active' : '' }}">Book
                                         Order</a>
@@ -593,7 +593,7 @@
                                         class="slide-item {{ Request::routeIs('orders.pdfbookorders*') ? 'active' : '' }}">PDF
                                         Book Order</a>
                                 </li>
-                            @endcan
+                            @endcan --}}
                         </ul>
                     </li>
                 @endcanany

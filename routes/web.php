@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\Auth\SocialiteLoginController;
@@ -138,6 +138,7 @@ Route::get('news', [WebsiteController::class, 'search'])->name('news.search');
 Route::get('news/details/{id}', [WebsiteController::class, 'newsDetails'])->name('news.details');
 Route::get('faqs', [WebsiteController::class, 'faq'])->name('faq.page');
 Route::get('contacts', [WebsiteController::class, 'contact'])->name('contact.page');
+Route::get('mentors', [WebsiteController::class, 'mentors'])->name('mentors');
 
 // Course Routes
 Route::get('courses', [FrontendCourseController::class, 'courses'])->name('courses');
@@ -784,3 +785,4 @@ Route::post('/otp/verify', [OtpController::class, 'verifyOtp'])->name('otp.verif
 Route::post('/otp/resend', [OtpController::class, 'resendOtp'])->name('otp.resend');
 Route::get('/reset-password', [OtpController::class, 'showResetPasswordForm'])->name('password.reset.form');
 Route::post('/reset-password', [OtpController::class, 'resetPassword'])->name('password.update');
+

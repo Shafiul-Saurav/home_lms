@@ -4,6 +4,24 @@
 
 @push('frontendone_style')
     @include('frontend.pages.common.style')
+    <style>
+        /* pagination style */
+        .active>.page-link,
+        .page-link.active {
+            z-index: 3;
+            color: #fff;
+            background-color: #76bd10;
+            border-color: #76bd10;
+        }
+
+        .page-link,
+        .page-link.active {
+            z-index: 3;
+            color: #76bd10;
+            background-color: #ebebeb;
+            border-color: #fff;
+        }
+    </style>
 @endpush
 
 @section('frontendone_content')
@@ -26,7 +44,7 @@
                                     <div class="user-card user-course">
                                         <div class="header">
                                             <h4 class="title">My Courses</h4>
-                                            <div class="right">
+                                            {{-- <div class="right">
                                                 <div class="filter">
                                                     <select class="select" name="status" id="status-filter">
                                                         <option value="">Default</option>
@@ -41,7 +59,7 @@
                                                         <i class="far fa-search"></i>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <div id="my-courses-container">
                                             @include('frontendone.pages.account.partials.mycourses_list')
