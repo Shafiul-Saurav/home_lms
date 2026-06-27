@@ -1,130 +1,71 @@
-@extends('frontendone.layouts.master')
+﻿@extends('frontendone.layouts.master')
 
 @section('title', 'PDF Book Orders')
 
 @push('frontendone_style')
     @include('frontend.pages.common.style')
-@endpush
-
-@push('frontendone_style')
     <style>
-        .user-table.table-responsive {
-            overflow: visible !important;
-        }
-
-        .user-table .table .dropdown-menu {
-            max-height: none !important;
-            overflow: visible !important;
-            z-index: 1055;
-        }
-
-        .user-table .table .dropdown-menu .dropdown-item {
-            white-space: nowrap;
-        }
-
-        .user-table .responsive-toggle-col {
-            display: none;
-            width: 44px;
-            min-width: 44px;
-        }
-
-        .responsive-row-toggle {
-            align-items: center;
-            background: #edf8f3;
-            border: 1px solid #d4efe3;
-            border-radius: 50%;
-            color: var(--theme-color);
-            display: inline-flex;
-            height: 30px;
-            justify-content: center;
-            transition: all .2s ease;
-            width: 30px;
-        }
-
-        .responsive-row-toggle[aria-expanded="true"] {
-            background: var(--theme-color);
+        /* pagination style */
+        .active>.page-link,
+        .page-link.active {
+            z-index: 3;
             color: #fff;
+            background-color: #76bd10;
+            border-color: #76bd10;
         }
 
-        .responsive-row-toggle .fa-minus {
-            display: none;
+        .page-link,
+        .page-link.active {
+            z-index: 3;
+            color: #76bd10;
+            background-color: #ebebeb;
+            border-color: #fff;
         }
 
-        .responsive-row-toggle[aria-expanded="true"] .fa-plus {
-            display: none;
+        .orders-card {
+            border-radius: 18px;
+            overflow: hidden;
         }
 
-        .responsive-row-toggle[aria-expanded="true"] .fa-minus {
-            display: inline-block;
+        .orders-card .header {
+            padding-bottom: 18px;
         }
 
-        .responsive-child-row {
-            display: none;
+        .orders-card .header-right .theme-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 10px;
         }
 
-        .responsive-child-row.is-open {
-            display: table-row;
+        .orders-card .user-table .table {
+            margin-bottom: 0;
         }
 
-        .responsive-child-list {
-            display: grid;
-            gap: 12px;
-            padding: 8px 0;
+        .orders-card .user-table .table tbody tr {
+            transition: background-color 0.2s ease;
         }
 
-        .responsive-child-item {
-            align-items: flex-start;
-            display: flex;
-            gap: 12px;
-            justify-content: space-between;
+        .orders-card .user-table .table tbody tr:hover {
+            background: rgba(118, 189, 16, 0.04);
         }
 
-        .responsive-child-label {
-            color: #6c757d;
-            font-weight: 600;
+        .orders-card .user-table .table td,
+        .orders-card .user-table .table th {
+            vertical-align: middle;
         }
 
-        .responsive-child-value {
-            text-align: right;
-            white-space: normal;
-        }
-
-        @media (min-width: 768px) {
-            .user-table .order-responsive-table tbody tr td:nth-child(2) {
-                border-left-style: solid;
-                border-top-left-radius: 12px;
-                border-bottom-left-radius: 12px;
-            }
-        }
-
-        @media (max-width: 767.98px) {
-            .user-table.table-responsive {
-                overflow-x: visible !important;
-            }
-
-            .user-table .responsive-toggle-col {
-                display: table-cell;
-            }
-
-            .order-responsive-table th.responsive-hidden,
-            .order-responsive-table td.responsive-hidden {
-                display: none;
-            }
-
-            .order-responsive-table {
-                text-wrap: nowrap;
-            }
+        .orders-card .pagination-area {
+            margin-top: 28px;
         }
     </style>
 @endpush
 
 @section('frontendone_content')
     <main class="main">
-        <!-- breadcrumb -->
         <x-frontend.pages.common.breadcrumb :title="'PDF Book Orders'" :breadcrumb="[['name' => 'Home', 'url' => route('home')], ['name' => 'PDF Book Orders', 'url' => '#']]" />
-        <!-- breadcrumb end -->
 
-        <!-- user dashboard -->
         <div class="user-account py-5">
             <div class="container">
                 <div class="row g-4">
@@ -133,36 +74,24 @@
                     </div>
                     <div class="col-lg-8 col-xl-9">
                         <div class="user-wrapper">
-                            <div class="user-card">
+                            <div class="user-card orders-card mb-0">
                                 <div class="header">
                                     <h4 class="title">PDF Book Orders</h4>
-                                    <div class="right">
-                                        <div class="filter">
-                                            <select class="select">
-                                                <option value="">Default</option>
-                                                <option value="1">Pending</option>
-                                                <option value="2">Processing</option>
-                                                <option value="3">Completed</option>
-                                                <option value="4">Cancelled</option>
-                                            </select>
-                                        </div>
-                                        <div class="search">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Search..." />
-                                                <i class="far fa-search"></i>
-                                            </div>
-                                        </div>
+                                    <div class="header-right">
+                                        <a href="{{ route('user.dashboard') }}" class="theme-btn" style="color:#76bd10;">
+                                            Back to Dashboard
+                                            <i class="fas fa-arrow-right"></i>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="user-table table-responsive">
-                                    <table class="table table-borderless text-nowrap order-responsive-table">
+                                    <table class="table table-borderless table-hover align-middle text-nowrap">
                                         <thead>
                                             <tr>
-                                                <th class="responsive-toggle-col"></th>
                                                 <th>#Order No</th>
-                                                <th class="responsive-hidden">Purchased Date</th>
-                                                <th class="responsive-hidden">Total</th>
-                                                <th class="responsive-hidden">Status</th>
+                                                <th>Purchased Date</th>
+                                                <th>Total</th>
+                                                <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -181,42 +110,23 @@
                                                         : ucfirst($order->status);
                                                 @endphp
                                                 <tr>
-                                                    <td class="responsive-toggle-col">
-                                                        <button class="responsive-row-toggle" type="button"
-                                                            aria-expanded="false" aria-label="Show order details">
-                                                            <i class="far fa-plus"></i>
-                                                            <i class="far fa-minus"></i>
-                                                        </button>
+                                                    <td>
+                                                        <span class="code">{{ $order->order_number ?? sprintf('#%s', str_pad($order->id, 6, '0', STR_PAD_LEFT)) }}</span>
                                                     </td>
-                                                    <td><span
-                                                            class="code">{{ $order->order_number ?? sprintf('#%s', str_pad($order->id, 6, '0', STR_PAD_LEFT)) }}</span>
-                                                    </td>
-                                                    <td class="responsive-hidden">
-                                                        {{ $order->created_at?->format('F j, Y') ?? optional($order->date)->format('F j, Y') }}
-                                                    </td>
-                                                    <td class="responsive-hidden">
-                                                        {{ $order->currency ?? 'BDT' }}{{ number_format($order->amount, 2) }}
-                                                    </td>
-                                                    <td class="responsive-hidden"><span
-                                                            class="badge {{ $badgeClass }}">{{ $displayStatus }}</span>
-                                                    </td>
+                                                    <td>{{ $order->created_at?->format('F j, Y') ?? optional($order->date)->format('F j, Y') }}</td>
+                                                    <td>{{ $order->currency ?? 'BDT' }}{{ number_format($order->amount, 2) }}</td>
+                                                    <td><span class="badge {{ $badgeClass }}">{{ $displayStatus }}</span></td>
                                                     <td>
                                                         <div class="action-dropdown dropdown">
-                                                            <button class="action-icon-btn" type="button"
-                                                                data-bs-toggle="dropdown">
-                                                                <i class="far fa-ellipsis"></i>
+                                                            <button class="action-icon-btn" type="button" data-bs-toggle="dropdown">
+                                                                <i class="fa-solid fa-ellipsis"></i>
                                                             </button>
-                                                            <ul class="dropdown-menu dropdown-menu-end"
-                                                                style="max-height: none !important; overflow: visible !important;">
+                                                            <ul class="dropdown-menu dropdown-menu-end" style="max-height: none !important; overflow: visible !important;">
                                                                 <li>
-                                                                    <a class="dropdown-item"
-                                                                        href="{{ route('pdf.book.order.details', $order) }}"><i
-                                                                            class="far fa-file-alt"></i> Order Details</a>
+                                                                    <a class="dropdown-item" href="{{ route('pdf.book.order.details', $order) }}"><i class="fa-solid fa-eye"></i> Order Details</a>
                                                                 </li>
                                                                 <li>
-                                                                    <a class="dropdown-item"
-                                                                        href="{{ route('pdf.book.details', $order->pdf_book_id) }}"><i
-                                                                            class="far fa-eye"></i> View PDF Book</a>
+                                                                    <a class="dropdown-item" href="{{ route('pdf.book.details', $order->pdf_book_id) }}"><i class="fa-solid fa-file-pdf"></i> View PDF Book</a>
                                                                 </li>
                                                             </ul>
                                                         </div>
@@ -224,36 +134,39 @@
                                                 </tr>
                                             @empty
                                                 <tr>
-                                                    <td colspan="6" class="text-center">You have no PDF book orders yet.
-                                                    </td>
+                                                    <td colspan="5" class="text-center py-4">You have no PDF book orders yet.</td>
                                                 </tr>
                                             @endforelse
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="pagination-area mt-4">
-                                    <ul class="pagination mt-4">
-                                        <li class="page-item {{ $orders->onFirstPage() ? 'disabled' : '' }}">
-                                            <a class="page-link" href="{{ $orders->previousPageUrl() ?: '#' }}"
-                                                aria-label="Previous">
-                                                <span aria-hidden="true"><i class="far fa-angle-double-left"></i></span>
-                                            </a>
-                                        </li>
+                                @if ($orders->hasPages())
+                                    <div class="pagination-area mt-4 d-flex justify-content-center">
+                                        <nav aria-label="Page navigation">
+                                            <ul class="pagination mb-0">
+                                                @if ($orders->onFirstPage())
+                                                    <li class="page-item disabled"><span class="page-link"><i class="fa-solid fa-arrow-left"></i></span></li>
+                                                @else
+                                                    <li class="page-item"><a class="page-link" href="{{ $orders->previousPageUrl() }}" aria-label="Previous"><i class="fa-solid fa-arrow-left"></i></a></li>
+                                                @endif
 
-                                        @for ($i = 1; $i <= $orders->lastPage(); $i++)
-                                            <li class="page-item {{ $orders->currentPage() == $i ? 'active' : '' }}">
-                                                <a class="page-link" href="{{ $orders->url($i) }}">{{ $i }}</a>
-                                            </li>
-                                        @endfor
+                                                @foreach ($orders->getUrlRange(1, $orders->lastPage()) as $page => $url)
+                                                    @if ($page == $orders->currentPage())
+                                                        <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
+                                                    @else
+                                                        <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
+                                                    @endif
+                                                @endforeach
 
-                                        <li class="page-item {{ $orders->hasMorePages() ? '' : 'disabled' }}">
-                                            <a class="page-link" href="{{ $orders->nextPageUrl() ?: '#' }}"
-                                                aria-label="Next">
-                                                <span aria-hidden="true"><i class="far fa-angle-double-right"></i></span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                                @if ($orders->hasMorePages())
+                                                    <li class="page-item"><a class="page-link" href="{{ $orders->nextPageUrl() }}" aria-label="Next"><i class="fa-solid fa-arrow-right"></i></a></li>
+                                                @else
+                                                    <li class="page-item disabled"><span class="page-link"><i class="fa-solid fa-arrow-right"></i></span></li>
+                                                @endif
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -265,47 +178,4 @@
 
 @push('frontendone_script')
     @include('frontend.pages.common.script')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.order-responsive-table').forEach(function(table) {
-                table.querySelectorAll('.responsive-row-toggle').forEach(function(button) {
-                    button.addEventListener('click', function() {
-                        var row = button.closest('tr');
-                        var childRow = row.nextElementSibling;
-                        var isOpen = button.getAttribute('aria-expanded') === 'true';
-
-                        if (!childRow || !childRow.classList.contains(
-                                'responsive-child-row')) {
-                            childRow = document.createElement('tr');
-                            childRow.className = 'responsive-child-row';
-                            childRow.innerHTML = '<td colspan="' + row.children.length +
-                                '"><div class="responsive-child-list"></div></td>';
-
-                            row.querySelectorAll('td.responsive-hidden').forEach(function(
-                                cell) {
-                                var columnIndex = Array.prototype.indexOf.call(row
-                                    .children, cell);
-                                var label = table.querySelectorAll('thead th')[
-                                    columnIndex].textContent.trim();
-                                var item = document.createElement('div');
-                                item.className = 'responsive-child-item';
-                                item.innerHTML =
-                                    '<span class="responsive-child-label">' +
-                                    label +
-                                    '</span><span class="responsive-child-value">' +
-                                    cell.innerHTML + '</span>';
-                                childRow.querySelector('.responsive-child-list')
-                                    .appendChild(item);
-                            });
-
-                            row.parentNode.insertBefore(childRow, row.nextSibling);
-                        }
-
-                        button.setAttribute('aria-expanded', String(!isOpen));
-                        childRow.classList.toggle('is-open', !isOpen);
-                    });
-                });
-            });
-        });
-    </script>
 @endpush

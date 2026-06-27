@@ -219,7 +219,7 @@ class ProfileController extends Controller
         $orders = CourseOrder::with('course')
             ->where('user_id', $user->id)
             ->latest()
-            ->paginate(10);
+            ->paginate(5);
 
         return view('frontendone.pages.account.course_order', compact('user', 'orders'));
     }
