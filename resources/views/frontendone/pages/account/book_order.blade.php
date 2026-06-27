@@ -114,7 +114,7 @@
     <main class="main">
         <x-frontend.pages.common.breadcrumb :title="'Book Orders'" :breadcrumb="[['name' => 'Home', 'url' => route('home')], ['name' => 'Book Orders', 'url' => '#']]" />
 
-        <div class="user-account py-100">
+        <div class="user-account py-5">
             <div class="container">
                 <div class="row g-4">
                     <div class="col-lg-4 col-xl-3">

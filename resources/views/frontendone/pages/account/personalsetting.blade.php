@@ -43,7 +43,7 @@
             transition: 0.3s;
             box-shadow: none;
         }
-        
+
         .form-icon-contact input.form-control,
         .form-icon-contact select.form-control {
             height: 54px;
@@ -99,7 +99,7 @@
         <!-- breadcrumb end -->
 
         <!-- user profile -->
-        <div class="user-account py-100">
+        <div class="user-account py-5">
             <div class="container">
                 <div class="row g-4">
                     <div class="col-lg-4 col-xl-3">

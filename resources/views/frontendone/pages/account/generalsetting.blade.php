@@ -5,6 +5,9 @@
 @push('frontendone_style')
     @include('frontend.pages.common.style')
     <style>
+        .user-wrapper .user-card {
+            margin-bottom: 0 !important;
+        }
         .form-group-contact {
             margin-bottom: 22px;
         }
@@ -43,7 +46,7 @@
             transition: 0.3s;
             box-shadow: none;
         }
-        
+
         .form-icon-contact input.form-control {
             height: 54px;
         }
@@ -98,7 +101,7 @@
         <!-- breadcrumb end -->
 
         <!-- user profile -->
-        <div class="user-account py-100">
+        <div class="user-account py-5">
             <div class="container">
                 <div class="row g-4">
                     <div class="col-lg-4 col-xl-3">
@@ -118,7 +121,7 @@
                                                         <div class="form-group-contact">
                                                             <label class="form-label">Full Name</label>
                                                             <div class="form-icon-contact">
-                                                                <input type="text" name="name" class="form-control"
+                                                                <input type="text" name="name" class="form-control bg-light"
                                                                     value="{{ $user->name ?? (auth()->user()->name ?? '') }}"
                                                                     placeholder="Full Name" disabled />
                                                                 <i class="fa-solid fa-user input-icon"></i>
@@ -129,7 +132,7 @@
                                                         <div class="form-group-contact">
                                                             <label class="form-label">Email</label>
                                                             <div class="form-icon-contact">
-                                                                <input type="text" name="email" class="form-control"
+                                                                <input type="text" name="email" class="form-control bg-light"
                                                                     value="{{ $user->email ?? (auth()->user()->email ?? '') }}"
                                                                     placeholder="Email" disabled />
                                                                 <i class="fa-solid fa-envelope input-icon"></i>
@@ -220,7 +223,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="auth-btn-contact mt-3">
-                                                        <button type="submit"><span class="far fa-key"></span> Change Password</button>
+                                                        <button type="submit"><span class="fa-solid fa-key"></span> Change Password</button>
                                                     </div>
                                                 </form>
                                             </div>

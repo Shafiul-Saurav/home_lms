@@ -16,7 +16,7 @@
         ]" />
         <!-- breadcrumb end -->
 
-        <div class="user-account py-100">
+        <div class="user-account py-5">
             <div class="container">
                 <div class="row g-4">
                     <div class="col-lg-4 col-xl-3">

@@ -42,8 +42,8 @@
                             <div class="user-card">
                                 <h4 class="title">Summary</h4>
                                 <div class="row">
-                                    <div class="col-md-6 col-lg-6 col-xl-6">
-                                        <div class="user-widget c1">
+                                    <div class="col-md-6 col-lg-6 col-xl-6 mb-2 mb-lg-0">
+                                        <div class="user-widget c3">
                                             <div class="info">
                                                 <h1>{{ auth()->user()->name ?? 'N/A' }}</h1>
                                                 <span>Welcome</span>
@@ -53,7 +53,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-lg-6 col-xl-6">
+                                    <div class="col-md-6 col-lg-6 col-xl-6 mb-2 mb-lg-0">
                                         <div class="user-widget c3">
                                             <div class="info">
                                                 <h1>{{ \Carbon\Carbon::parse(auth()->user()->created_at)->format('M Y') ?? 'N/A' }}
@@ -66,9 +66,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mt-4">
-                                    <div class="col-md-6 col-lg-6 col-xl-4">
-                                        <div class="user-widget c1">
+                                <div class="row mt-lg-4">
+                                    <div class="col-md-6 col-lg-6 col-xl-4 mb-2 mb-lg-0">
+                                        <div class="user-widget c3">
                                             <div class="info">
                                                 <h1>{{ $completedCount ?? 0 }}</h1>
                                                 <span>Completed Courses</span>
@@ -78,8 +78,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-lg-6 col-xl-4">
-                                        <div class="user-widget c2">
+                                    <div class="col-md-6 col-lg-6 col-xl-4 mb-2 mb-lg-0">
+                                        <div class="user-widget c3">
                                             <div class="info">
                                                 <h1>{{ $enrolledCount ?? 0 }}</h1>
                                                 <span>Enrolled Courses</span>
@@ -89,7 +89,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-lg-6 col-xl-4">
+                                    <div class="col-md-6 col-lg-6 col-xl-4 mb-2 mb-lg-0">
                                         <div class="user-widget c3">
                                             <div class="info">
                                                 <h1>{{ $purchasedPdfBooksCount ?? 0 }}</h1>
@@ -109,7 +109,7 @@
                                         <div class="header">
                                             <h4 class="title">Recent Orders</h4>
                                             <div class="header-right">
-                                                <a href="{{ route('user.course.orders') }}" class="theme-btn">View All<i
+                                                <a href="{{ route('user.course.orders') }}" class="theme-btn" style="color:#76bd10;">View All<i
                                                         class="fas fa-arrow-right"></i></a>
                                             </div>
                                         </div>
