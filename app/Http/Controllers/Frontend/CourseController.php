@@ -111,7 +111,7 @@ class CourseController extends Controller
         }
 
         // Paginate results
-        $courses = $query->paginate(9);
+        $courses = $query->paginate(8);
 
         // Fetch all categories and subcategories for the filter sidebar
         $categories = Category::where('is_active', 1)->withCount(['courses' => function ($q) {

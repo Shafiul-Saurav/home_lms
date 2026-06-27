@@ -609,7 +609,7 @@ img {
     border: 1px solid #edf0f5;
     box-shadow: 0 14px 35px rgba(0, 0, 0, 0.06);
     transition: 0.35s;
-    height: 100%;
+    /* height: 100%; */
 }
 
 .mentor-card:hover {
