@@ -304,7 +304,9 @@
                                                         <div class="accordion-body">
                                                             @forelse($lesson->courseModules as $module)
                                                                 <div
-                                                                    class="curriculum-item {{ $isEnrolled || $module->free_paid === 'free' ? 'unlock' : '' }}">
+                                                                    class="curriculum-item {{ $isEnrolled || $module->free_paid === 'free' ? 'unlock' : '' }}"
+                                                                    style="cursor:pointer;"
+                                                                    onclick="@if($isEnrolled || $module->free_paid === 'free') window.location.href='{{ route('course.video', ['course_id' => $courseInfo->id, 'module_id' => $module->id]) }}' @else toastr.error('Please enroll in this course to access this content') @endif">
                                                                     <div>
                                                                         <strong class="d-block mb-1">
                                                                             @if ($module->pdf_file)
@@ -328,6 +330,7 @@
                                                                             class="fa-solid {{ $isEnrolled || $module->free_paid === 'free' ? 'fa-unlock' : 'fa-lock' }} me-1"></i>{{ ucfirst($module->free_paid ?? 'paid') }}
                                                                     </div>
                                                                 </div>
+
                                                             @empty
                                                                 <div class="alert alert-warning mb-0">Curriculum will be
                                                                     updated soon.</div>

@@ -264,7 +264,7 @@ class CourseController extends Controller
             return redirect()->back()->with('error', 'Please enroll in this course to access this content');
         }
 
-        return view('frontend.pages.courses.course_video', compact('course', 'module', 'modules', 'lessons', 'isEnrolled', 'isLoggedIn', 'completedModuleIds'));
+        return view('frontendone.pages.courses.course_video', compact('course', 'module', 'modules', 'lessons', 'isEnrolled', 'isLoggedIn', 'completedModuleIds'));
     }
 
     public function inspectLogout(Request $request)
