@@ -16,3 +16,49 @@
 <link rel="stylesheet" href="{{ asset('ijaboCropTool/ijaboCropTool.min.css') }}">
 
 @stack('frontendone_style')
+
+<style>
+    @media (max-width: 575.98px) {
+        .enroll-btn {
+            padding: 6px 10px !important;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+            .course-card-modern .course-content {
+                padding: 10px;
+            }
+
+            .course-card-modern .course-content h3 {
+                font-size: 14px;
+                margin-bottom: 5px;
+            }
+
+            .course-card-modern .course-content .desc {
+                display: none;
+            }
+            .course-card-modern .course-content .course-meta {
+                gap: 10px;
+                margin-bottom: 10px;
+                font-size: 10px;
+            }
+
+            .course-card-modern .price-box h4 {
+                font-size: 13px;
+                margin-bottom: 0px;
+            }
+
+            .course-card-modern .course-bottom {
+                align-items: start;
+                gap: 10px;
+            }
+
+            .price-old-row {
+                line-height: 6.2px;
+            }
+
+            .course-card-modern .price-box .price-old-row del {
+                font-size: 10px !important;
+            }
+        }
+</style>

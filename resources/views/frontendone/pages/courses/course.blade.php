@@ -155,7 +155,7 @@
 
                             <div id="course-grid">
                                 @if ($courses->count() > 0)
-                                    <div class="row g-4 course-grid-area">
+                                    <div class="row g-4 course-grid-area p-0 p-md-3">
                                         @foreach ($courses as $course)
                                             @include('frontendone.pages.courses.partials.course_filter', ['course' => $course])
                                         @endforeach

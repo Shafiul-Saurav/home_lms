@@ -6,7 +6,7 @@
     $finalPrice = $course->price - ($course->discount ?? 0);
 @endphp
 
-<div class="col-xl-6 col-lg-6 col-md-6" data-course-type="{{ $courseType }}">
+<div class="col-xl-6 col-lg-6 col-md-6 col-6 px-1 px-md-2" data-course-type="{{ $courseType }}">
     <div class="course-card-modern">
         <div class="course-thumb">
             <img src="{{ asset('uploads/courses/' . $course->image) }}" alt="{{ $course->name }}">

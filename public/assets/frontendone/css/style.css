@@ -476,13 +476,13 @@ img {
 }
 
 .course-card-modern .course-thumb {
-    height: 230px;
+    /* height: 230px; */
     overflow: hidden;
 }
 
 .course-card-modern .course-thumb img {
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     object-fit: cover;
     transition: 0.5s;
 }
@@ -1196,14 +1196,9 @@ img {
         font-size: 14px;
     }
 
-    .hero-slide-img {
+    /* .hero-slide-img {
         height: 260px;
-    }
-
-    .course-thumb {
-        height: 190px;
-    }
-
+    } */
     .course-filter-wrap {
         gap: 10px;
         margin-bottom: 32px;
