@@ -13,5 +13,6 @@
 
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{{ asset('assets/frontendone') }}/css/style.css">
+<link rel="stylesheet" href="{{ asset('ijaboCropTool/ijaboCropTool.min.css') }}">
 
 @stack('frontendone_style')
