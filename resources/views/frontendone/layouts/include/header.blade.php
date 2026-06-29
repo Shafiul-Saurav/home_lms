@@ -212,8 +212,16 @@
                     <li><a href="#">Cyber Training</a></li>
                     <li><a href="#">Security Consulting</a></li>
                     <li><a href="#">Corporate Workshop</a></li>
-                    <li><a href="#">Website Security Audit</a></li>
-                    <li><a href="#">Server Security</a></li>
+                    <li>
+                        <button class="mobile-dropdown-btn" style="padding-left: 0;">
+                            Solutions <i class="fa-solid fa-angle-down"></i>
+                        </button>
+                        <ul class="mobile-submenu">
+                            <li><a href="#">Website Security Audit</a></li>
+                            <li><a href="#">Server Security</a></li>
+                            <li><a href="#">Cloud Security</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </li>
 
