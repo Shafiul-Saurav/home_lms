@@ -140,6 +140,8 @@ Route::get('news/details/{id}', [WebsiteController::class, 'newsDetails'])->name
 Route::get('faqs', [WebsiteController::class, 'faq'])->name('faq.page');
 Route::get('contacts', [WebsiteController::class, 'contact'])->name('contact.page');
 Route::get('mentors', [WebsiteController::class, 'mentors'])->name('mentors');
+Route::get('service/category/{id}', [WebsiteController::class, 'serviceCategory'])->name('service.category');
+Route::get('service/subcategory/{id}', [WebsiteController::class, 'serviceSubcategory'])->name('service.subcategory');
 
 // Course Routes
 Route::get('courses', [FrontendCourseController::class, 'courses'])->name('courses');

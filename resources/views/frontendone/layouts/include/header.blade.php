@@ -96,15 +96,15 @@
                             @foreach($headerServiceCategories as $scat)
                                 @if($scat->subcategories && $scat->subcategories->count())
                                     <li class="dropdown-submenu">
-                                        <a class="dropdown-item dropdown-toggle" href="#">{{ $scat->title }}</a>
+                                        <a class="dropdown-item dropdown-toggle" href="{{ route('service.category', $scat->id) }}">{{ $scat->title }}</a>
                                         <ul class="dropdown-menu">
                                             @foreach($scat->subcategories as $ssub)
-                                                <li><a class="dropdown-item" href="#">{{ $ssub->name }}</a></li>
+                                                <li><a class="dropdown-item" href="{{ route('service.subcategory', $ssub->id) }}">{{ $ssub->name }}</a></li>
                                             @endforeach
                                         </ul>
                                     </li>
                                 @else
-                                    <li><a class="dropdown-item" href="#">{{ $scat->title }}</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('service.category', $scat->id) }}">{{ $scat->title }}</a></li>
                                 @endif
                             @endforeach
                         @else
@@ -237,11 +237,11 @@
                                     </button>
                                     <ul class="mobile-submenu">
                                         @foreach($scat->subcategories as $ssub)
-                                            <li><a href="#">{{ $ssub->name }}</a></li>
+                                            <li><a href="{{ route('service.subcategory', $ssub->id) }}">{{ $ssub->name }}</a></li>
                                         @endforeach
                                     </ul>
                                 @else
-                                    <a href="#">{{ $scat->title }}</a>
+                                    <a href="{{ route('service.category', $scat->id) }}">{{ $scat->title }}</a>
                                 @endif
                             </li>
                         @endforeach

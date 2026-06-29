@@ -18,6 +18,7 @@ use App\Models\Photogallery;
 use App\Models\Post;
 use App\Models\Postcategory;
 use App\Models\Servicetwocategory;
+use App\Models\Servicetwosubcategory;
 use App\Models\Teacher;
 use App\Models\Testimonial;
 use App\Models\User;
@@ -449,6 +450,38 @@ class WebsiteController extends Controller
         $html .= '</div>';
 
         return $html;
+    }
+
+    /**
+     * Display services by category
+     */
+    public function serviceCategory($id)
+    {
+        $category = Servicetwocategory::with(['servicetwos' => function($q) {
+            $q->where('is_active', 1);
+        }])->findOrFail($id);
+
+        $logo_fav = LogoFavicon::first();
+
+        return view('frontendone.pages.services.category', compact('category', 'logo_fav'));
+    }
+
+    /**
+     * Display services by subcategory
+     */
+    public function serviceSubcategory($subcategoryId)
+    {
+        $subcategory = Servicetwosubcategory::with(['category'])->findOrFail($subcategoryId);
+
+        // Get services for this subcategory
+        $services = $subcategory->category->servicetwos()
+            ->where('servicetwosubcategory_id', $subcategoryId)
+            ->where('is_active', 1)
+            ->get();
+
+        $logo_fav = LogoFavicon::first();
+
+        return view('frontendone.pages.services.subcategory', compact('subcategory', 'services', 'logo_fav'));
     }
 }
 
