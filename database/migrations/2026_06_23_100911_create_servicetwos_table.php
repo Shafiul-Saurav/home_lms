@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->longText('description');
             $table->string('service_type');
+            $table->string('url')->nullable();
             $table->boolean('is_active')->default(false);
             $table->timestamps();
         });
