@@ -124,7 +124,7 @@ class CourseController extends Controller
 
         // Get selected filters for the view
         $selectedCategory = $request->input('category');
-        $selectedSubcategory = $request->input('category');
+        $selectedSubcategory = $request->input('subcategory');
         $selectedPrice = $request->input('price');
         $selectedSort = $request->input('sort_by', 'latest');
 
@@ -456,12 +456,17 @@ class CourseController extends Controller
             ]);
         }
 
+        $selectedCategory = $category->id;
+        $selectedSubcategory = null;
+
         return view('frontendone.pages.courses.categories.category_courses', compact(
             'courses',
             'categories',
             'subcategories',
             'logo_fav',
-            'category'
+            'category',
+            'selectedCategory',
+            'selectedSubcategory'
         ));
     }
 
@@ -550,12 +555,17 @@ class CourseController extends Controller
             ]);
         }
 
+        $selectedCategory = $subcategory->category_id;
+        $selectedSubcategory = $subcategory->id;
+
         return view('frontendone.pages.courses.categories.subcategory_courses', compact(
             'courses',
             'categories',
             'subcategories',
             'logo_fav',
-            'subcategory'
+            'subcategory',
+            'selectedCategory',
+            'selectedSubcategory'
         ));
     }
 
@@ -680,6 +690,3 @@ class CourseController extends Controller
         return null;
     }
 }
-
-
-

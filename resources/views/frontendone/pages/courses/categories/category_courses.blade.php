@@ -113,14 +113,28 @@
 
                             <div class="mb-4">
                                 <h4 class="widget-title">Category</h4>
+                                @php
+                                    $activeCategoryIds = collect(explode(',', request('category', '')))->filter()->map(fn ($id) => (int) $id)->all();
+                                    $hasCategoryFilter = !empty($activeCategoryIds);
+                                    $isCurrentCategorySelected = isset($selectedCategory) && !is_null($selectedCategory);
+                                @endphp
                                 <div>
                                     <div class="form-check">
-                                        <input class="form-check-input category-filter" type="checkbox" value="" id="cat-all" {{ empty(request('category')) ? 'checked' : '' }}>
+                                        <input class="form-check-input category-filter" type="checkbox" value="" id="cat-all" {{ empty($activeCategoryIds) && !$isCurrentCategorySelected ? 'checked' : '' }}>
                                         <label class="form-check-label" for="cat-all">All Categories ({{ $categories->sum('courses_count') }})</label>
                                     </div>
                                     @foreach ($categories as $cat)
                                         <div class="form-check">
-                                            <input class="form-check-input category-filter" type="checkbox" value="{{ $cat->id }}" id="cat-{{ $cat->id }}" {{ in_array($cat->id, explode(',', request('category', ''))) ? 'checked' : '' }}>
+                                            @php
+                                                $categoryChecked = false;
+
+                                                if ($hasCategoryFilter) {
+                                                    $categoryChecked = in_array((int) $cat->id, $activeCategoryIds);
+                                                } elseif (isset($selectedCategory) && (int) $selectedCategory === (int) $cat->id) {
+                                                    $categoryChecked = true;
+                                                }
+                                            @endphp
+                                            <input class="form-check-input category-filter" type="checkbox" value="{{ $cat->id }}" id="cat-{{ $cat->id }}" {{ $categoryChecked ? 'checked' : '' }}>
                                             <label class="form-check-label" for="cat-{{ $cat->id }}">{{ $cat->name }} ({{ $cat->courses_count }})</label>
                                         </div>
                                     @endforeach
@@ -255,3 +269,7 @@
         });
     </script>
 @endpush
+
+
+
+
