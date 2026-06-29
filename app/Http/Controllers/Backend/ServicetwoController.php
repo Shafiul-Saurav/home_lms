@@ -16,7 +16,7 @@ class ServicetwoController extends Controller
     {
         // Gate::authorize('index-servicetwo');
 
-        $servicetwos = Servicetwo::latest('id')->paginate(100);
+        $servicetwos = Servicetwo::latest('id')->with('subcategory')->paginate(100);
         $categories = Servicetwocategory::latest('id')->get();
 
         return view('backend.pages.servicetwos.servicetwos', compact('servicetwos', 'categories'));
