@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\Auth\SocialiteLoginController;
@@ -6,20 +6,19 @@ use App\Http\Controllers\Backend\AboutController;
 use App\Http\Controllers\Backend\AdminLoginController;
 use App\Http\Controllers\Backend\AdminProfileController;
 use App\Http\Controllers\Backend\AdminReviewController;
+use App\Http\Controllers\Backend\AwardController;
 use App\Http\Controllers\Backend\BookCategoryController;
 use App\Http\Controllers\Backend\BookController;
-use App\Http\Controllers\Backend\PartnerController;
+use App\Http\Controllers\Backend\BookOrderController;
 use App\Http\Controllers\Backend\BookSubcategoryController;
 use App\Http\Controllers\Backend\BreadcrumbController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ChildcategoryController;
-use App\Http\Controllers\Backend\InstructorCommissionController;
-use App\Http\Controllers\Backend\InstructorEarningsController;
-use App\Http\Controllers\Backend\InstructorWithdrawalController;
 use App\Http\Controllers\Backend\ContactController as BackendContactController;
 use App\Http\Controllers\Backend\CopyrightController;
 use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\CourseController;
+use App\Http\Controllers\Backend\CourseOrderController;
 use App\Http\Controllers\Backend\DepartmentController;
 use App\Http\Controllers\Backend\ExamCategoryController;
 use App\Http\Controllers\Backend\ExamController;
@@ -27,11 +26,17 @@ use App\Http\Controllers\Backend\ExamResultController;
 use App\Http\Controllers\Backend\FaqController;
 use App\Http\Controllers\Backend\HomeController as BackendHomeController;
 use App\Http\Controllers\Backend\HomeSliderController;
+use App\Http\Controllers\Backend\HowweworkController;
+use App\Http\Controllers\Backend\InstructorCommissionController;
+use App\Http\Controllers\Backend\InstructorEarningsController;
+use App\Http\Controllers\Backend\InstructorWithdrawalController;
 use App\Http\Controllers\Backend\LogoFaviconController;
 use App\Http\Controllers\Backend\ModuleController;
 use App\Http\Controllers\Backend\PageController;
+use App\Http\Controllers\Backend\PartnerController;
 use App\Http\Controllers\Backend\PdfBookCategoryController;
 use App\Http\Controllers\Backend\PdfBookController;
+use App\Http\Controllers\Backend\PdfBookOrderController;
 use App\Http\Controllers\Backend\PdfBookSubcategoryController;
 use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Backend\PhotoCategoryController;
@@ -43,24 +48,20 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\QuestionController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\ServiceController;
-use App\Http\Controllers\Backend\ServicetwoController;
 use App\Http\Controllers\Backend\ServicetwocategoryController;
-use App\Http\Controllers\Backend\HowweworkController;
-use App\Http\Controllers\Backend\WhatyougetController;
+use App\Http\Controllers\Backend\ServicetwoController;
+use App\Http\Controllers\Backend\ServicetwoSubcategoryController;
 use App\Http\Controllers\Backend\ShurjopayAPIController;
 use App\Http\Controllers\Backend\SSLCommerzAPIController;
 use App\Http\Controllers\Backend\StuffController;
 use App\Http\Controllers\Backend\SubcategoryController;
 use App\Http\Controllers\Backend\TeacherController;
-use App\Http\Controllers\Backend\AwardController;
-use App\Http\Controllers\Backend\CourseOrderController;
-use App\Http\Controllers\Backend\BookOrderController;
-use App\Http\Controllers\Backend\PdfBookOrderController;
 use App\Http\Controllers\Backend\TermsAndConditionsController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\VideoGalleryController;
 use App\Http\Controllers\Backend\WebsiteLinkController;
+use App\Http\Controllers\Backend\WhatyougetController;
 use App\Http\Controllers\Frontend\BookPaymentController;
 use App\Http\Controllers\Frontend\CommentController;
 use App\Http\Controllers\Frontend\ContactController;
@@ -73,12 +74,13 @@ use App\Http\Controllers\Frontend\PdfBookPaymentController;
 use App\Http\Controllers\Frontend\PhysicalBookController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\ProfileImageController;
-use App\Http\Controllers\Frontend\ShurjopayCourseController;
 use App\Http\Controllers\Frontend\ShurjopayBookController;
+use App\Http\Controllers\Frontend\ShurjopayCourseController;
 use App\Http\Controllers\Frontend\ShurjopayPdfController;
 use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
 use App\Http\Controllers\Frontend\UserLogoutController;
 use App\Http\Controllers\Frontend\WebsiteController;
+use App\Http\Controllers\Trash\AwardTrashController;
 use App\Http\Controllers\Trash\BookCategoryTrashController;
 use App\Http\Controllers\Trash\BookSubcategoryTrashController;
 use App\Http\Controllers\Trash\BookTrashController;
@@ -94,7 +96,6 @@ use App\Http\Controllers\Trash\ModuleTrashController;
 use App\Http\Controllers\Trash\PdfBookCategoryTrashController;
 use App\Http\Controllers\Trash\PdfBookSubcategoryTrashController;
 use App\Http\Controllers\Trash\PdfBookTrashController;
-use App\Http\Controllers\Trash\AwardTrashController;
 use App\Http\Controllers\Trash\PermissionTrashController;
 use App\Http\Controllers\Trash\PhotoCategoryTrashController;
 use App\Http\Controllers\Trash\PhotoGalleryTrashController;
@@ -455,6 +456,13 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     Route::get('check/servicetwo/is_active/{service_id}', [ServicetwoController::class, 'checkActive'])
     ->name('servicetwo.is_active.ajax');
     Route::resource('servicetwos', ServicetwoController::class);
+
+    //Service Two Subcategory Route
+    Route::get('check/servicetwosubcategory/is_active/{subcategory_id}', [ServicetwoSubcategoryController::class, 'checkActive'])
+    ->name('servicetwosubcategory.is_active.ajax');
+    Route::get('servicetwo/get-subcategories/{category_id}', [ServicetwoSubcategoryController::class, 'getSubcategories'])
+    ->name('servicetwo.get.subcategories');
+    Route::resource('servicetwosubcategories', ServicetwoSubcategoryController::class);
 
     Route::resource('partners', PartnerController::class);
 // AJAX toggle active status for partners

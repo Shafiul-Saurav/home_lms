@@ -635,6 +635,8 @@
                             {{-- @can('index-servicetwocategory') --}}
                                 <li><a href="{{ route('servicetwocategories.index') }}"
                                         class="slide-item {{ Request::routeIs('servicetwocategories.index') ? 'active' : '' }}">Service Two Category</a></li>
+                                <li><a href="{{ route('servicetwosubcategories.index') }}"
+                                        class="slide-item {{ Request::routeIs('servicetwosubcategories.index') ? 'active' : '' }}">Service Two Subcategory</a></li>
                             {{-- @endcan --}}
                             {{-- @can('index-servicetwo') --}}
                                 <li><a href="{{ route('servicetwos.index') }}"

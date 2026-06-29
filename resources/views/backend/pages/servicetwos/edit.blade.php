@@ -55,6 +55,25 @@
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-group">
+                                    <label for="servicetwosubcategory_id">Subcategory</label>
+                                    <select name="servicetwosubcategory_id" id="servicetwosubcategory_id"
+                                        class="form-control @error('servicetwosubcategory_id') is-invalid @enderror"
+                                        {{ $subcategories->count() ? '' : 'disabled' }}>
+                                        <option value="">Select Subcategory</option>
+                                        @foreach ($subcategories as $sub)
+                                            <option value="{{ $sub->id }}"
+                                                {{ $service->servicetwosubcategory_id == $sub->id ? 'selected' : '' }}>
+                                                {{ $sub->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('servicetwosubcategory_id')
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
                                     <label for="title">Service Name</label>
                                     <input type="text" name="title"
                                         class="form-control @error('title') is-invalid @enderror" id="title"
@@ -150,7 +169,38 @@
 @push('backend_script')
     @include('backend.pages.common.script')
     <script>
+        var selectedSubcategoryId = {{ $service->servicetwosubcategory_id ?? 'null' }};
+
         $(document).ready(function() {
+            var subcategoryBaseUrl = "{{ url('admin/servicetwo/get-subcategories') }}";
+
+            // AJAX: load subcategories when category changes
+            $('#servicetwocategory_id').on('change', function() {
+                var categoryId = $(this).val();
+                var $subSelect = $('#servicetwosubcategory_id');
+                $subSelect.empty().append('<option value="">Select Subcategory</option>').prop('disabled', true);
+
+                if (categoryId) {
+                    $.ajax({
+                        url: subcategoryBaseUrl + '/' + categoryId,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            if (data.length > 0) {
+                                $.each(data, function(i, sub) {
+                                    var selected = (selectedSubcategoryId && sub.id == selectedSubcategoryId) ? 'selected' : '';
+                                    $subSelect.append('<option value="' + sub.id + '" ' + selected + '>' + sub.name + '</option>');
+                                });
+                                $subSelect.prop('disabled', false);
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error('Subcategory fetch error:', xhr.responseText);
+                        }
+                    });
+                }
+            });
+
             $('#summernote').summernote({
                 height: 300,
                 callbacks: {

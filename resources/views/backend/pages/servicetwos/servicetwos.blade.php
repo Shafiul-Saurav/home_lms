@@ -51,6 +51,19 @@
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-group">
+                                    <label for="servicetwosubcategory_id">Subcategory</label>
+                                    <select name="servicetwosubcategory_id" id="servicetwosubcategory_id"
+                                        class="form-control @error('servicetwosubcategory_id') is-invalid @enderror" disabled>
+                                        <option value="">Select Subcategory</option>
+                                    </select>
+                                    @error('servicetwosubcategory_id')
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
                                     <label for="title">Service Name</label>
                                     <input type="text" name="title"
                                         class="form-control @error('title') is-invalid @enderror" id="title"
@@ -138,6 +151,7 @@
                                     <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">Last Updated</th>
                                     <th class="border-bottom-0">Category</th>
+                                    <th class="border-bottom-0">Subcategory</th>
                                     <th class="border-bottom-0">Service Name</th>
                                     <th class="border-bottom-0">Icon</th>
                                     <th class="border-bottom-0">Image</th>
@@ -152,6 +166,7 @@
                                         <td><strong>{{ $servicetwos->firstItem() + $loop->index }}</strong></td>
                                         <td>{{ $service->updated_at->format('d-M-Y') }}</td>
                                         <td>{{ $service->category->title ?? 'N/A' }}</td>
+                                        <td>{{ $service->subcategory->name ?? 'N/A' }}</td>
                                         <td>{{ $service->title }}</td>
                                         <td>
                                             @if ($service->service_icon)
@@ -238,6 +253,33 @@
                         console.error(err);
                     }
                 });
+            });
+
+            // AJAX: load subcategories when category changes (create form)
+            var subcategoryBaseUrl = "{{ url('admin/servicetwo/get-subcategories') }}";
+            $('#servicetwocategory_id').on('change', function() {
+                var categoryId = $(this).val();
+                var $subSelect = $('#servicetwosubcategory_id');
+                $subSelect.empty().append('<option value="">Select Subcategory</option>').prop('disabled', true);
+
+                if (categoryId) {
+                    $.ajax({
+                        url: subcategoryBaseUrl + '/' + categoryId,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            if (data.length > 0) {
+                                $.each(data, function(i, sub) {
+                                    $subSelect.append('<option value="' + sub.id + '">' + sub.name + '</option>');
+                                });
+                                $subSelect.prop('disabled', false);
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error('Subcategory fetch error:', xhr.responseText);
+                        }
+                    });
+                }
             });
 
             $('#summernote').summernote({

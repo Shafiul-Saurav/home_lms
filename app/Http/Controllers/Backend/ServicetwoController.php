@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Servicetwo;
 use App\Models\Servicetwocategory;
+use App\Models\Servicetwosubcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Intervention\Image\Facades\Image;
@@ -26,24 +27,26 @@ class ServicetwoController extends Controller
         // Gate::authorize('create-servicetwo');
 
         $request->validate([
-            'servicetwocategory_id' => 'required|exists:servicetwocategories,id',
-            'title' => 'required|string|max:255',
-            'service_icon' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'description' => 'required|string',
-            'service_type' => 'required|string|max:255',
-            'url' => 'nullable|url|max:255',
-            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:2048',
+            'servicetwocategory_id'    => 'required|exists:servicetwocategories,id',
+            'servicetwosubcategory_id' => 'nullable|exists:servicetwosubcategories,id',
+            'title'                    => 'required|string|max:255',
+            'service_icon'             => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+            'description'              => 'required|string',
+            'service_type'             => 'required|string|max:255',
+            'url'                      => 'nullable|url|max:255',
+            'image'                    => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:2048',
         ]);
 
         $service = Servicetwo::create([
-            'servicetwocategory_id' => $request->servicetwocategory_id,
-            'title' => $request->title,
-            'description' => $request->description,
-            'service_type' => $request->service_type,
-            'url' => $request->url,
-            'is_active' => $request->has('is_active') ? 1 : 0,
-            'image' => 'default_service.jpg',
-            'service_icon' => null,
+            'servicetwocategory_id'    => $request->servicetwocategory_id,
+            'servicetwosubcategory_id' => $request->servicetwosubcategory_id ?: null,
+            'title'                    => $request->title,
+            'description'              => $request->description,
+            'service_type'             => $request->service_type,
+            'url'                      => $request->url,
+            'is_active'                => $request->has('is_active') ? 1 : 0,
+            'image'                    => 'default_service.jpg',
+            'service_icon'             => null,
         ]);
 
         $this->imageUpload($request, $service->id);
@@ -80,8 +83,11 @@ class ServicetwoController extends Controller
 
         $service = Servicetwo::findOrFail($id);
         $categories = Servicetwocategory::latest('id')->get();
+        $subcategories = $service->servicetwocategory_id
+            ? Servicetwosubcategory::where('category_id', $service->servicetwocategory_id)->where('is_active', 1)->orderBy('name')->get()
+            : collect();
 
-        return view('backend.pages.servicetwos.edit', compact('service', 'categories'));
+        return view('backend.pages.servicetwos.edit', compact('service', 'categories', 'subcategories'));
     }
 
     public function update(Request $request, string $id)
@@ -91,22 +97,24 @@ class ServicetwoController extends Controller
         $service = Servicetwo::findOrFail($id);
 
         $request->validate([
-            'servicetwocategory_id' => 'required|exists:servicetwocategories,id',
-            'title' => 'required|string|max:255',
-            'service_icon' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'description' => 'required|string',
-            'service_type' => 'required|string|max:255',
-            'url' => 'nullable|url|max:255',
-            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:2048',
+            'servicetwocategory_id'    => 'required|exists:servicetwocategories,id',
+            'servicetwosubcategory_id' => 'nullable|exists:servicetwosubcategories,id',
+            'title'                    => 'required|string|max:255',
+            'service_icon'             => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+            'description'              => 'required|string',
+            'service_type'             => 'required|string|max:255',
+            'url'                      => 'nullable|url|max:255',
+            'image'                    => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:2048',
         ]);
 
         $service->update([
-            'servicetwocategory_id' => $request->servicetwocategory_id,
-            'title' => $request->title,
-            'description' => $request->description,
-            'service_type' => $request->service_type,
-            'url' => $request->url,
-            'is_active' => $request->has('is_active') ? 1 : 0,
+            'servicetwocategory_id'    => $request->servicetwocategory_id,
+            'servicetwosubcategory_id' => $request->servicetwosubcategory_id ?: null,
+            'title'                    => $request->title,
+            'description'              => $request->description,
+            'service_type'             => $request->service_type,
+            'url'                      => $request->url,
+            'is_active'                => $request->has('is_active') ? 1 : 0,
         ]);
 
         $this->imageUpload($request, $service->id);
