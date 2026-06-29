@@ -31,6 +31,7 @@ class ServicetwoController extends Controller
             'service_icon' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'description' => 'required|string',
             'service_type' => 'required|string|max:255',
+            'url' => 'nullable|url|max:255',
             'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:2048',
         ]);
 
@@ -39,6 +40,7 @@ class ServicetwoController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'service_type' => $request->service_type,
+            'url' => $request->url,
             'is_active' => $request->has('is_active') ? 1 : 0,
             'image' => 'default_service.jpg',
             'service_icon' => null,
@@ -94,6 +96,7 @@ class ServicetwoController extends Controller
             'service_icon' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'description' => 'required|string',
             'service_type' => 'required|string|max:255',
+            'url' => 'nullable|url|max:255',
             'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:2048',
         ]);
 
@@ -102,6 +105,7 @@ class ServicetwoController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'service_type' => $request->service_type,
+            'url' => $request->url,
             'is_active' => $request->has('is_active') ? 1 : 0,
         ]);
 

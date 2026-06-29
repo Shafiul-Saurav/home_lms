@@ -4,24 +4,25 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\About;
+use App\Models\Award;
 use App\Models\Book;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\CourseOrder;
 use App\Models\Faq;
 use App\Models\HomeSlider;
 use App\Models\LogoFavicon;
+use App\Models\Partner;
 use App\Models\Photocategory;
 use App\Models\Photogallery;
 use App\Models\Post;
 use App\Models\Postcategory;
+use App\Models\Servicetwocategory;
+use App\Models\Teacher;
 use App\Models\Testimonial;
+use App\Models\User;
 use App\Models\Videogallery;
 use App\Models\WebsiteLink;
-use App\Models\CourseOrder;
-use App\Models\User;
-use App\Models\Teacher;
-use App\Models\Partner;
-use App\Models\Award;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 
@@ -119,7 +120,7 @@ class WebsiteController extends Controller
         $logo_fav = LogoFavicon::first();
 
         // Fetch dynamic service categories and their respective services
-        $serviceCategories = \App\Models\Servicetwocategory::where('is_active', 1)
+        $serviceCategories = Servicetwocategory::where('is_active', 1)
             ->with(['servicetwos' => function($q) {
                 $q->where('is_active', 1);
             }])->latest('id')->get();

@@ -95,6 +95,18 @@
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="form-group">
+                                    <label for="url">Service URL</label>
+                                    <input type="url" name="url"
+                                        class="form-control @error('url') is-invalid @enderror" id="url"
+                                        value="{{ old('url') }}">
+                                    @error('url')
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
                                     <label for="description">Description</label>
                                     <textarea name="description" id="summernote" cols="30" rows="10"
                                         class="form-control @error('description') is-invalid @enderror" required>{{ old('description') }}</textarea>
