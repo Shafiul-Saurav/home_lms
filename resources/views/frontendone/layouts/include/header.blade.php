@@ -1,6 +1,8 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg main-navbar fixed-top">
     @php
+        use App\Models\Category;
+
         $headerProfileImage = auth()->user()?->profile?->profileImage?->profile_image;
         $liveClasses = collect();
 
@@ -30,6 +32,12 @@
                     });
             }
         }
+
+        // Fetch active categories with active subcategories for header menu
+        $headerCategories = Category::where('is_active', 1)
+            ->with(['subcategories' => function ($q) { $q->where('is_active', 1); }])
+            ->orderBy('name')
+            ->get();
     @endphp
     <div class="container">
 
@@ -50,18 +58,24 @@
                         Courses
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">SOC Analyst Training</a></li>
-                        <li><a class="dropdown-item" href="#">Ethical Hacking</a></li>
-                        <li><a class="dropdown-item" href="#">Web Security</a></li>
-
-                        <li class="dropdown-submenu">
-                            <a class="dropdown-item dropdown-toggle" href="#">Advanced Security</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Penetration Testing</a></li>
-                                <li><a class="dropdown-item" href="#">Malware Analysis</a></li>
-                                <li><a class="dropdown-item" href="#">Network Defense</a></li>
-                            </ul>
-                        </li>
+                        @if($headerCategories->count())
+                            @foreach($headerCategories as $hcat)
+                                @if($hcat->subcategories && $hcat->subcategories->count())
+                                    <li class="dropdown-submenu">
+                                        <a class="dropdown-item dropdown-toggle" href="{{ route('category.courses', $hcat->id) }}">{{ $hcat->name }}</a>
+                                        <ul class="dropdown-menu">
+                                            @foreach($hcat->subcategories as $hsub)
+                                                <li><a class="dropdown-item" href="{{ route('subcategory.courses', $hsub->id) }}">{{ $hsub->name }}</a></li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @else
+                                    <li><a class="dropdown-item" href="{{ route('category.courses', $hcat->id) }}">{{ $hcat->name }}</a></li>
+                                @endif
+                            @endforeach
+                        @else
+                            <li><a class="dropdown-item" href="{{ route('courses') }}">All Courses</a></li>
+                        @endif
                     </ul>
                 </li>
 
@@ -171,11 +185,22 @@
                     Courses <i class="fa-solid fa-angle-down"></i>
                 </button>
                 <ul class="mobile-submenu">
-                    <li><a href="#">SOC Analyst Training</a></li>
-                    <li><a href="#">Ethical Hacking</a></li>
-                    <li><a href="#">Web Security</a></li>
-                    <li><a href="#">Penetration Testing</a></li>
-                    <li><a href="#">Network Defense</a></li>
+                    @if($headerCategories->count())
+                        @foreach($headerCategories as $hcat)
+                            <li>
+                                <a href="{{ route('category.courses', $hcat->id) }}">{{ $hcat->name }}</a>
+                                @if($hcat->subcategories && $hcat->subcategories->count())
+                                    <ul>
+                                        @foreach($hcat->subcategories as $hsub)
+                                            <li><a href="{{ route('subcategory.courses', $hsub->id) }}">{{ $hsub->name }}</a></li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </li>
+                        @endforeach
+                    @else
+                        <li><a href="{{ route('courses') }}">All Courses</a></li>
+                    @endif
                 </ul>
             </li>
 

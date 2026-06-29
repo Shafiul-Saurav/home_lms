@@ -456,7 +456,7 @@ class CourseController extends Controller
             ]);
         }
 
-        return view('frontend.pages.courses.categories.category_courses', compact(
+        return view('frontendone.pages.courses.categories.category_courses', compact(
             'courses',
             'categories',
             'subcategories',
@@ -550,7 +550,7 @@ class CourseController extends Controller
             ]);
         }
 
-        return view('frontend.pages.courses.categories.subcategory_courses', compact(
+        return view('frontendone.pages.courses.categories.subcategory_courses', compact(
             'courses',
             'categories',
             'subcategories',
