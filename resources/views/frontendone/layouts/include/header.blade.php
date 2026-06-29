@@ -188,13 +188,18 @@
                     @if($headerCategories->count())
                         @foreach($headerCategories as $hcat)
                             <li>
-                                <a href="{{ route('category.courses', $hcat->id) }}">{{ $hcat->name }}</a>
                                 @if($hcat->subcategories && $hcat->subcategories->count())
-                                    <ul>
+                                    <button class="mobile-dropdown-btn">
+                                        {{ $hcat->name }} <i class="fa-solid fa-angle-down"></i>
+                                    </button>
+                                    <ul class="mobile-submenu">
+                                        <li><a href="{{ route('category.courses', $hcat->id) }}">All {{ $hcat->name }}</a></li>
                                         @foreach($hcat->subcategories as $hsub)
                                             <li><a href="{{ route('subcategory.courses', $hsub->id) }}">{{ $hsub->name }}</a></li>
                                         @endforeach
                                     </ul>
+                                @else
+                                    <a href="{{ route('category.courses', $hcat->id) }}">{{ $hcat->name }}</a>
                                 @endif
                             </li>
                         @endforeach
@@ -213,7 +218,7 @@
                     <li><a href="#">Security Consulting</a></li>
                     <li><a href="#">Corporate Workshop</a></li>
                     <li>
-                        <button class="mobile-dropdown-btn" style="padding-left: 0;">
+                        <button class="mobile-dropdown-btn">
                             Solutions <i class="fa-solid fa-angle-down"></i>
                         </button>
                         <ul class="mobile-submenu">

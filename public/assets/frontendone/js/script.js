@@ -63,7 +63,20 @@ $(document).ready(function () {
     });
 
     $('.mobile-dropdown-btn').on('click', function () {
-        $(this).next('.mobile-submenu').slideToggle(250);
+        var $submenu = $(this).next('.mobile-submenu');
+        var $parent = $(this).parent('li');
+        var isOpen = $submenu.hasClass('active');
+
+        // Close all sibling submenus
+        $parent.siblings('li').find('.mobile-submenu.active').slideUp(250, function() {
+            $(this).removeClass('active');
+        });
+        $parent.siblings('li').find('.mobile-dropdown-btn i').removeClass('fa-angle-up').addClass('fa-angle-down');
+
+        // Toggle current submenu
+        $submenu.slideToggle(250, function() {
+            $(this).toggleClass('active');
+        });
         $(this).find('i').toggleClass('fa-angle-down fa-angle-up');
     });
 
@@ -224,7 +237,7 @@ $(function() {
                 // Strip down bootstrap grids inside server response before adding element to the active stream
                 var dynamicHtml = $(res.testimonial).removeClass('col-lg-4 col-md-6').prop('outerHTML');
                 var newSlide = '<div class="item">' + dynamicHtml + '</div>';
-                
+
                 // Append element directly to Owl storage layer safely
                 $('.review-carousel').trigger('add.owl.carousel', [newSlide, 0]).trigger('refresh.owl.carousel');
 
