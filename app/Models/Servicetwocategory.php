@@ -20,4 +20,10 @@ class Servicetwocategory extends Model
     {
         return $this->hasMany(ServicetwoSubcategory::class, 'category_id', 'id');
     }
+
+    // Alias for convenience
+    public function subcategories()
+    {
+        return $this->servicetwosubcategories();
+    }
 }

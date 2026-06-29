@@ -2,6 +2,8 @@
 <nav class="navbar navbar-expand-lg main-navbar fixed-top">
     @php
         use App\Models\Category;
+        use App\Models\Servicetwocategory;
+        use App\Models\Servicetwosubcategory;
 
         $headerProfileImage = auth()->user()?->profile?->profileImage?->profile_image;
         $liveClasses = collect();
@@ -37,6 +39,12 @@
         $headerCategories = Category::where('is_active', 1)
             ->with(['subcategories' => function ($q) { $q->where('is_active', 1); }])
             ->orderBy('name')
+            ->get();
+
+        // Fetch active service two categories with active subcategories for header menu
+        $headerServiceCategories = Servicetwocategory::where('is_active', 1)
+            ->with(['subcategories' => function ($q) { $q->where('is_active', 1); }])
+            ->orderBy('title')
             ->get();
     @endphp
     <div class="container">
@@ -84,18 +92,24 @@
                         Services
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Cyber Training</a></li>
-                        <li><a class="dropdown-item" href="#">Security Consulting</a></li>
-                        <li><a class="dropdown-item" href="#">Corporate Workshop</a></li>
-
-                        <li class="dropdown-submenu">
-                            <a class="dropdown-item dropdown-toggle" href="#">Solutions</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Website Security Audit</a></li>
-                                <li><a class="dropdown-item" href="#">Server Security</a></li>
-                                <li><a class="dropdown-item" href="#">Cloud Security</a></li>
-                            </ul>
-                        </li>
+                        @if($headerServiceCategories->count())
+                            @foreach($headerServiceCategories as $scat)
+                                @if($scat->subcategories && $scat->subcategories->count())
+                                    <li class="dropdown-submenu">
+                                        <a class="dropdown-item dropdown-toggle" href="#">{{ $scat->title }}</a>
+                                        <ul class="dropdown-menu">
+                                            @foreach($scat->subcategories as $ssub)
+                                                <li><a class="dropdown-item" href="#">{{ $ssub->name }}</a></li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @else
+                                    <li><a class="dropdown-item" href="#">{{ $scat->title }}</a></li>
+                                @endif
+                            @endforeach
+                        @else
+                            <li><a class="dropdown-item" href="#">No Services Available</a></li>
+                        @endif
                     </ul>
                 </li>
 
@@ -214,19 +228,26 @@
                     Services <i class="fa-solid fa-angle-down"></i>
                 </button>
                 <ul class="mobile-submenu">
-                    <li><a href="#">Cyber Training</a></li>
-                    <li><a href="#">Security Consulting</a></li>
-                    <li><a href="#">Corporate Workshop</a></li>
-                    <li>
-                        <button class="mobile-dropdown-btn">
-                            Solutions <i class="fa-solid fa-angle-down"></i>
-                        </button>
-                        <ul class="mobile-submenu">
-                            <li><a href="#">Website Security Audit</a></li>
-                            <li><a href="#">Server Security</a></li>
-                            <li><a href="#">Cloud Security</a></li>
-                        </ul>
-                    </li>
+                    @if($headerServiceCategories->count())
+                        @foreach($headerServiceCategories as $scat)
+                            <li>
+                                @if($scat->subcategories && $scat->subcategories->count())
+                                    <button class="mobile-dropdown-btn">
+                                        {{ $scat->title }} <i class="fa-solid fa-angle-down"></i>
+                                    </button>
+                                    <ul class="mobile-submenu">
+                                        @foreach($scat->subcategories as $ssub)
+                                            <li><a href="#">{{ $ssub->name }}</a></li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <a href="#">{{ $scat->title }}</a>
+                                @endif
+                            </li>
+                        @endforeach
+                    @else
+                        <li><a href="#">No Services Available</a></li>
+                    @endif
                 </ul>
             </li>
 
