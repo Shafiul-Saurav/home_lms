@@ -42,6 +42,20 @@ class WebsiteController extends Controller
         View::share('website_link', $website_link);
     }
 
+    public function services()
+    {
+        $categories = Servicetwocategory::where('is_active', 1)
+            ->with(['servicetwos' => function ($q) {
+                $q->where('is_active', 1);
+            }])
+            ->latest('id')
+            ->get();
+
+        $logo_fav = LogoFavicon::first();
+
+        return view('frontendone.pages.services.index', compact('categories', 'logo_fav'));
+    }
+
     public function home()
     {
         $homeSliders = HomeSlider::latest('id')->get();

@@ -62,6 +62,16 @@
                         </div>
                     @endforelse
                 </div>
+
+                <div class="row mt-5">
+                    <div class="col-12">
+                        @php
+                            $services = $category->servicetwos->where('is_active', 1);
+                            $timeslots = App\Models\ServiceConsultationTimeslot::where('is_active', 1)->get();
+                        @endphp
+                        @include('frontendone.pages.services.consultation_form', compact('services', 'timeslots'))
+                    </div>
+                </div>
             </div>
         </div>
     </main>

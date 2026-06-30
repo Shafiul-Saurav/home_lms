@@ -642,6 +642,10 @@
                                 <li><a href="{{ route('servicetwos.index') }}"
                                         class="slide-item {{ Request::routeIs('servicetwos.index') ? 'active' : '' }}">Service Two</a></li>
                             {{-- @endcan --}}
+                                <li><a href="{{ route('service_consultation_timeslots.index') }}"
+                                        class="slide-item {{ Request::routeIs('service_consultation_timeslots.*') ? 'active' : '' }}">Consultation Timeslots</a></li>
+                                <li><a href="{{ route('service_consultations.index') }}"
+                                        class="slide-item {{ Request::routeIs('service_consultations.*') ? 'active' : '' }}">Service Consultations</a></li>
                             {{-- @can('index-howwework') --}}
                                 <li><a href="{{ route('howweworks.index') }}"
                                         class="slide-item {{ Request::routeIs('howweworks.index') ? 'active' : '' }}">How We Work</a></li>

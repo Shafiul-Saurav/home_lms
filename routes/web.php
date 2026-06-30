@@ -47,6 +47,8 @@ use App\Http\Controllers\Backend\PrivacyPolicyController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\QuestionController;
 use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\Backend\ServiceConsultationController as BackendServiceConsultationController;
+use App\Http\Controllers\Backend\ServiceConsultationTimeslotController;
 use App\Http\Controllers\Backend\ServiceController;
 use App\Http\Controllers\Backend\ServicetwocategoryController;
 use App\Http\Controllers\Backend\ServicetwoController;
@@ -74,6 +76,7 @@ use App\Http\Controllers\Frontend\PdfBookPaymentController;
 use App\Http\Controllers\Frontend\PhysicalBookController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\ProfileImageController;
+use App\Http\Controllers\Frontend\ServiceConsultationController;
 use App\Http\Controllers\Frontend\ShurjopayBookController;
 use App\Http\Controllers\Frontend\ShurjopayCourseController;
 use App\Http\Controllers\Frontend\ShurjopayPdfController;
@@ -142,6 +145,7 @@ Route::get('contacts', [WebsiteController::class, 'contact'])->name('contact.pag
 Route::get('mentors', [WebsiteController::class, 'mentors'])->name('mentors');
 Route::get('service/category/{id}', [WebsiteController::class, 'serviceCategory'])->name('service.category');
 Route::get('service/subcategory/{id}', [WebsiteController::class, 'serviceSubcategory'])->name('service.subcategory');
+Route::post('service/consultations', [ServiceConsultationController::class, 'store'])->name('service.consultations.store');
 
 // Course Routes
 Route::get('courses', [FrontendCourseController::class, 'courses'])->name('courses');
@@ -458,6 +462,16 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     Route::get('check/servicetwo/is_active/{service_id}', [ServicetwoController::class, 'checkActive'])
     ->name('servicetwo.is_active.ajax');
     Route::resource('servicetwos', ServicetwoController::class);
+
+    //Service Consultation Timeslot Routes
+    Route::get('check/service-consultation-timeslot/is_active/{timeslot_id}', [ServiceConsultationTimeslotController::class, 'checkActive'])
+        ->name('service_consultation_timeslot.is_active.ajax');
+    Route::resource('service_consultation_timeslots', ServiceConsultationTimeslotController::class);
+
+    //Service Consultation Routes
+    Route::get('check/service-consultation/is_active/{consultation_id}', [BackendServiceConsultationController::class, 'checkActive'])
+        ->name('service_consultations.is_active.ajax');
+    Route::resource('service_consultations', BackendServiceConsultationController::class);
 
     //Service Two Subcategory Route
     Route::get('check/servicetwosubcategory/is_active/{subcategory_id}', [ServicetwoSubcategoryController::class, 'checkActive'])
