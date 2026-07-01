@@ -32,17 +32,17 @@
                             <div class="service-grid-card">
                                 @if ($service->image && file_exists(public_path('uploads/servicetwos/' . $service->image)))
                                     <img src="{{ asset('uploads/servicetwos/' . $service->image) }}"
-                                        alt="{{ $service->title }}" style="width: 100%; height: 300px; object-fit: cover;">
+                                        alt="{{ $service->title }}" style="width: 100%; height: 250px; object-fit: cover;">
                                 @else
                                     <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=700&q=80"
-                                        alt="{{ $service->title }}" style="width: 100%; height: 300px; object-fit: cover;">
+                                        alt="{{ $service->title }}" style="width: 100%; height: 250px; object-fit: cover;">
                                 @endif
                                 <div class="service-grid-content">
                                     <h4>
                                         @if ($service->service_icon && file_exists(public_path('uploads/servicetwos/' . $service->service_icon)))
                                             <img src="{{ asset('uploads/servicetwos/' . $service->service_icon) }}"
                                                 alt=""
-                                                style="width: 24px; height: 24px; object-fit: contain; margin-right: 8px; vertical-align: middle;">
+                                                style="width: 24px; height: 24px; object-fit: contain; margin-right: 8px; verical-align: middle;">
                                         @endif
                                         {{ $service->title }}
                                     </h4>
