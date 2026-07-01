@@ -5,6 +5,9 @@
 @push('frontendone_style')
     @include('frontend.pages.common.style')
     <style>
+        .course-sidebar-modern .form-check label {
+            font-size: 13px !important;
+        }
         .course-hero {
             padding: 155px 0 85px;
             background: linear-gradient(135deg, #07111f 0%, #0d1f36 50%, #12345a 100%);
