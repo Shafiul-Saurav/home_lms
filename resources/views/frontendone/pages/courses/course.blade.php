@@ -28,7 +28,8 @@
             margin: 18px 0 14px;
         }
 
-        .course-sidebar-modern, .course-grid-shell {
+        .course-sidebar-modern,
+        .course-grid-shell {
             background: #fff;
             border-radius: 28px;
             box-shadow: 0 18px 50px rgba(8, 15, 30, 0.08);
@@ -47,7 +48,8 @@
             color: #102949;
         }
 
-        .course-sidebar-modern .form-control, .course-sidebar-modern .form-select {
+        .course-sidebar-modern .form-control,
+        .course-sidebar-modern .form-select {
             border-radius: 14px;
             min-height: 48px;
         }
@@ -57,24 +59,71 @@
         }
 
         @media (max-width: 991px) {
-            .course-hero { padding-top: 135px; }
-            .course-sidebar-modern { position: static; }
-            .course-grid-shell { padding: 20px; }
+            .course-hero {
+                padding-top: 135px;
+            }
+
+            .course-sidebar-modern {
+                position: static;
+            }
+
+            .course-grid-shell {
+                padding: 20px;
+            }
         }
 
         /*pagination style*/
-        .active>.page-link, .page-link.active {
+        .active>.page-link,
+        .page-link.active {
             z-index: 3;
             color: #fff;
             background-color: #76bd10;
             border-color: #76bd10;
         }
 
-        .page-link, .page-link.active {
+        .page-link,
+        .page-link.active {
             z-index: 3;
             color: #76bd10;
             background-color: #ebebeb;
             border-color: #fff;
+        }
+
+        @media (max-width: 1443px) and (min-width: 1200px) {
+            .course-card-modern .course-content {
+                padding: 10px;
+            }
+            .course-card-modern .price-box h4 {
+                font-size: 15px;
+            }
+
+            .course-card-modern .price-box .price-old-row del {
+                font-size: 10px !important;
+            }
+
+            .enroll-btn {
+                min-width: 90px;
+                padding: 5px 5px;
+                font-size: 12px;
+                font-weight: 700;
+            }
+        }
+
+        @media (max-width: 2520px) and (min-width: 1440px) {
+            .course-card-modern .price-box h4 {
+                font-size: 17px;
+            }
+
+            .course-card-modern .price-box .price-old-row del {
+                font-size: 12px !important;
+            }
+
+            .enroll-btn {
+                min-width: 90px;
+                padding: 5px 6px;
+                font-size: 12px;
+                font-weight: 700;
+            }
         }
     </style>
 @endpush
@@ -87,10 +136,13 @@
                     <div class="col-lg-8">
                         <span class="hero-kicker"><i class="fa-solid fa-graduation-cap"></i> Browse All Courses</span>
                         <h1>Find the right cyber security course for your next step.</h1>
-                        <p class="mb-0" style="max-width:720px;color:rgba(255,255,255,.82)">Explore live, recorded, free and paid training built for learners who want practical skills, real-world labs and career-ready guidance.</p>
+                        <p class="mb-0" style="max-width:720px;color:rgba(255,255,255,.82)">Explore live, recorded, free and
+                            paid training built for learners who want practical skills, real-world labs and career-ready
+                            guidance.</p>
                     </div>
                     <div class="col-lg-4 text-lg-end">
-                        <a href="#courseGridSection" class="enroll-btn d-inline-flex align-items-center gap-2">Jump to Courses <i class="fa-solid fa-arrow-down"></i></a>
+                        <a href="#courseGridSection" class="enroll-btn d-inline-flex align-items-center gap-2">Jump to
+                            Courses <i class="fa-solid fa-arrow-down"></i></a>
                     </div>
                 </div>
             </div>
@@ -105,8 +157,10 @@
                                 <h4 class="widget-title">Search Courses</h4>
                                 <form id="searchForm" action="{{ route('courses') }}" method="GET">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" name="search" id="searchInput" placeholder="Search course" value="{{ request('search') }}">
-                                        <button class="btn btn-dark" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                        <input type="text" class="form-control" name="search" id="searchInput"
+                                            placeholder="Search course" value="{{ request('search') }}">
+                                        <button class="btn btn-dark" type="submit"><i
+                                                class="fa-solid fa-magnifying-glass"></i></button>
                                     </div>
                                 </form>
                             </div>
@@ -115,13 +169,19 @@
                                 <h4 class="widget-title">Category</h4>
                                 <div>
                                     <div class="form-check">
-                                        <input class="form-check-input category-filter" type="checkbox" value="" id="cat-all" {{ empty(request('category')) ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="cat-all">All Categories ({{ $categories->sum('courses_count') }})</label>
+                                        <input class="form-check-input category-filter" type="checkbox" value=""
+                                            id="cat-all" {{ empty(request('category')) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="cat-all">All Categories
+                                            ({{ $categories->sum('courses_count') }})</label>
                                     </div>
                                     @foreach ($categories as $category)
                                         <div class="form-check">
-                                            <input class="form-check-input category-filter" type="checkbox" value="{{ $category->id }}" id="cat-{{ $category->id }}" {{ in_array($category->id, explode(',', request('category', ''))) ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="cat-{{ $category->id }}">{{ $category->name }} ({{ $category->courses_count }})</label>
+                                            <input class="form-check-input category-filter" type="checkbox"
+                                                value="{{ $category->id }}" id="cat-{{ $category->id }}"
+                                                {{ in_array($category->id, explode(',', request('category', ''))) ? 'checked' : '' }}>
+                                            <label class="form-check-label"
+                                                for="cat-{{ $category->id }}">{{ $category->name }}
+                                                ({{ $category->courses_count }})</label>
                                         </div>
                                     @endforeach
                                 </div>
@@ -131,15 +191,20 @@
                                 <h4 class="widget-title">Course Price</h4>
                                 <div>
                                     <div class="form-check">
-                                        <input class="form-check-input price-filter" type="checkbox" value="" id="price-all" {{ empty(request('price')) ? 'checked' : '' }}>
+                                        <input class="form-check-input price-filter" type="checkbox" value=""
+                                            id="price-all" {{ empty(request('price')) ? 'checked' : '' }}>
                                         <label class="form-check-label" for="price-all">All</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input price-filter" type="checkbox" value="free" id="price-free" {{ in_array('free', explode(',', request('price', ''))) ? 'checked' : '' }}>
+                                        <input class="form-check-input price-filter" type="checkbox" value="free"
+                                            id="price-free"
+                                            {{ in_array('free', explode(',', request('price', ''))) ? 'checked' : '' }}>
                                         <label class="form-check-label" for="price-free">Free</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input price-filter" type="checkbox" value="paid" id="price-paid" {{ in_array('paid', explode(',', request('price', ''))) ? 'checked' : '' }}>
+                                        <input class="form-check-input price-filter" type="checkbox" value="paid"
+                                            id="price-paid"
+                                            {{ in_array('paid', explode(',', request('price', ''))) ? 'checked' : '' }}>
                                         <label class="form-check-label" for="price-paid">Paid</label>
                                     </div>
                                 </div>
@@ -150,19 +215,25 @@
                     <div class="col-lg-8 col-xl-9">
                         <div class="course-grid-shell">
                             <div id="top-filter-area">
-                                @include('frontendone.pages.courses.partials.course_topfilter', ['courses' => $courses])
+                                @include('frontendone.pages.courses.partials.course_topfilter', [
+                                    'courses' => $courses,
+                                ])
                             </div>
 
                             <div id="course-grid">
                                 @if ($courses->count() > 0)
                                     <div class="row g-4 course-grid-area p-0 p-md-3">
                                         @foreach ($courses as $course)
-                                            @include('frontendone.pages.courses.partials.course_filter', ['course' => $course])
+                                            @include('frontendone.pages.courses.partials.course_filter', [
+                                                'course' => $course,
+                                            ])
                                         @endforeach
                                     </div>
 
                                     <div id="pagination-wrapper">
-                                        @include('frontendone.pages.courses.partials.pagination', ['courses' => $courses])
+                                        @include('frontendone.pages.courses.partials.pagination', [
+                                            'courses' => $courses,
+                                        ])
                                     </div>
                                 @else
                                     <div class="alert alert-warning text-center mb-0">
@@ -189,7 +260,9 @@
                     url: url,
                     type: 'GET',
                     dataType: 'json',
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
                     success: function(response) {
                         $('#course-grid').html(response.html);
                         $('#top-filter-area').html(response.topfilter);
@@ -207,7 +280,8 @@
                 let search = $('#searchInput').val();
                 search ? urlParams.set('search', search) : urlParams.delete('search');
 
-                let categories = [], allCategoriesChecked = false;
+                let categories = [],
+                    allCategoriesChecked = false;
                 $('.category-filter:checked').each(function() {
                     if ($(this).val() === '') allCategoriesChecked = true;
                     else categories.push($(this).val());
@@ -216,7 +290,8 @@
                 else if (categories.length > 0) urlParams.set('category', categories.join(','));
                 else urlParams.delete('category');
 
-                let prices = [], allPricesChecked = false;
+                let prices = [],
+                    allPricesChecked = false;
                 $('.price-filter:checked').each(function() {
                     if ($(this).val() === '') allPricesChecked = true;
                     else prices.push($(this).val());
