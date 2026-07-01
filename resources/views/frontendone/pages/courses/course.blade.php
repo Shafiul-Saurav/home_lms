@@ -68,6 +68,51 @@
             min-height: 48px;
         }
 
+        .filter-panel {
+            border: 1px solid #e9ecef;
+            border-radius: 18px;
+            overflow: hidden;
+        }
+
+        .filter-panel-header {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 14px 16px;
+            background: #f8f9fa;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #102949;
+        }
+
+        .filter-panel-header .widget-title {
+            margin-bottom: 0;
+            font-size: 1.05rem;
+            font-weight: 800;
+        }
+
+        .filter-panel-body {
+            padding: 0 16px 16px;
+            display: none;
+        }
+
+        .filter-panel-body.show {
+            display: block;
+        }
+
+        .filter-toggle-icon {
+            font-size: 0.85rem;
+            transition: transform 0.2s ease;
+        }
+
+        .filter-panel-header[aria-expanded="false"] .filter-toggle-icon {
+            transform: rotate(180deg);
+        }
+
         .course-grid-shell {
             padding: 28px;
         }
@@ -181,47 +226,59 @@
                             </div>
 
                             <div class="mb-4">
-                                <h4 class="widget-title">Category</h4>
-                                <div>
-                                    <div class="form-check">
-                                        <input class="form-check-input category-filter" type="checkbox" value=""
-                                            id="cat-all" {{ empty(request('category')) ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="cat-all">All Categories
-                                            ({{ $categories->sum('courses_count') }})</label>
-                                    </div>
-                                    @foreach ($categories as $category)
+                                <div class="filter-panel">
+                                    <button type="button" class="filter-panel-header" data-target="#categoryFilterBody"
+                                        aria-expanded="true">
+                                        <span class="widget-title mb-0">Category</span>
+                                        <i class="fa-solid fa-chevron-up filter-toggle-icon"></i>
+                                    </button>
+                                    <div class="filter-panel-body show" id="categoryFilterBody">
                                         <div class="form-check">
-                                            <input class="form-check-input category-filter" type="checkbox"
-                                                value="{{ $category->id }}" id="cat-{{ $category->id }}"
-                                                {{ in_array($category->id, explode(',', request('category', ''))) ? 'checked' : '' }}>
-                                            <label class="form-check-label"
-                                                for="cat-{{ $category->id }}">{{ $category->name }}
-                                                ({{ $category->courses_count }})
-                                            </label>
+                                            <input class="form-check-input category-filter" type="checkbox" value=""
+                                                id="cat-all" {{ empty(request('category')) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="cat-all">All Categories
+                                                ({{ $categories->sum('courses_count') }})</label>
                                         </div>
-                                    @endforeach
+                                        @foreach ($categories as $category)
+                                            <div class="form-check">
+                                                <input class="form-check-input category-filter" type="checkbox"
+                                                    value="{{ $category->id }}" id="cat-{{ $category->id }}"
+                                                    {{ in_array($category->id, explode(',', request('category', ''))) ? 'checked' : '' }}>
+                                                <label class="form-check-label"
+                                                    for="cat-{{ $category->id }}">{{ $category->name }}
+                                                    ({{ $category->courses_count }})
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                             <hr>
-                            <div>
-                                <h4 class="widget-title">Course Price</h4>
-                                <div>
-                                    <div class="form-check">
-                                        <input class="form-check-input price-filter" type="checkbox" value=""
-                                            id="price-all" {{ empty(request('price')) ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="price-all">All</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input price-filter" type="checkbox" value="free"
-                                            id="price-free"
-                                            {{ in_array('free', explode(',', request('price', ''))) ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="price-free">Free</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input price-filter" type="checkbox" value="paid"
-                                            id="price-paid"
-                                            {{ in_array('paid', explode(',', request('price', ''))) ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="price-paid">Paid</label>
+                            <div class="mb-4">
+                                <div class="filter-panel">
+                                    <button type="button" class="filter-panel-header" data-target="#priceFilterBody"
+                                        aria-expanded="true">
+                                        <span class="widget-title mb-0">Course Price</span>
+                                        <i class="fa-solid fa-chevron-up filter-toggle-icon"></i>
+                                    </button>
+                                    <div class="filter-panel-body show" id="priceFilterBody">
+                                        <div class="form-check">
+                                            <input class="form-check-input price-filter" type="checkbox" value=""
+                                                id="price-all" {{ empty(request('price')) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="price-all">All</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input price-filter" type="checkbox" value="free"
+                                                id="price-free"
+                                                {{ in_array('free', explode(',', request('price', ''))) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="price-free">Free</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input price-filter" type="checkbox" value="paid"
+                                                id="price-paid"
+                                                {{ in_array('paid', explode(',', request('price', ''))) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="price-paid">Paid</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -329,6 +386,23 @@
                 let query = urlParams.toString();
                 return window.location.pathname + (query ? '?' + query : '');
             }
+
+            function setFilterPanelState() {
+                $('.filter-panel-header').each(function() {
+                    let target = $($(this).data('target'));
+                    let expanded = target.hasClass('show');
+                    $(this).attr('aria-expanded', expanded ? 'true' : 'false');
+                    $(this).find('.filter-toggle-icon').toggleClass('fa-chevron-up fa-chevron-down', !expanded);
+                });
+            }
+
+            $(document).on('click', '.filter-panel-header', function() {
+                let target = $($(this).data('target'));
+                target.toggleClass('show');
+                setFilterPanelState();
+            });
+
+            setFilterPanelState();
 
             $(document).on('change', '.category-filter, .price-filter, #sort_by', function() {
                 filterCourses(buildFilterUrl());
