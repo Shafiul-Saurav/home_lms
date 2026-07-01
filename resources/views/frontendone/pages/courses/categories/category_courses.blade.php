@@ -355,7 +355,12 @@
                     let target = $($(this).data('target'));
                     let expanded = target.hasClass('show');
                     $(this).attr('aria-expanded', expanded ? 'true' : 'false');
-                    $(this).find('.filter-toggle-icon').toggleClass('fa-chevron-up fa-chevron-down', !expanded);
+                    let icon = $(this).find('.filter-toggle-icon');
+                    if (expanded) {
+                        icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                    } else {
+                        icon.removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                    }
                 });
             }
 
