@@ -5,6 +5,20 @@
 @push('frontendone_style')
     @include('frontend.pages.common.style')
     <style>
+        .course-sidebar-modern .form-check label {
+            font-size: 13px !important;
+        }
+
+        .form-check-input:checked {
+            background-color: #74bd0d;
+            border-color: #74bd0d;
+        }
+
+        .form-check-input:focus {
+            border-color: #74bd0d;
+            box-shadow: 0 0 0 0.25rem rgba(116, 189, 13, 0.25);
+        }
+
         .course-hero {
             padding: 155px 0 85px;
             background: linear-gradient(135deg, #07111f 0%, #0d1f36 50%, #12345a 100%);
@@ -93,6 +107,7 @@
             .course-card-modern .course-content {
                 padding: 10px;
             }
+
             .course-card-modern .price-box h4 {
                 font-size: 15px;
             }
@@ -181,12 +196,13 @@
                                                 {{ in_array($category->id, explode(',', request('category', ''))) ? 'checked' : '' }}>
                                             <label class="form-check-label"
                                                 for="cat-{{ $category->id }}">{{ $category->name }}
-                                                ({{ $category->courses_count }})</label>
+                                                ({{ $category->courses_count }})
+                                            </label>
                                         </div>
                                     @endforeach
                                 </div>
                             </div>
-
+                            <hr>
                             <div>
                                 <h4 class="widget-title">Course Price</h4>
                                 <div>

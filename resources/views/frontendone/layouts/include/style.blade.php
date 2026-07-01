@@ -24,6 +24,25 @@
         }
     }
 
+    .form-control:focus {
+        border-color: #74bd0d;
+        box-shadow: 0 0 0 0.25rem rgba(116, 189, 13, 0.25);
+    }
+
+    .form-select:focus {
+        border-color: #74bd0d;
+        box-shadow: 0 0 0 0.25rem rgba(116, 189, 13, 0.25);
+    }
+
+    .form-check-input:checked {
+        background-color: #74bd0d;
+        border-color: #74bd0d;
+    }
+    .form-check-input:focus {
+        border-color: #74bd0d;
+        box-shadow: 0 0 0 0.25rem rgba(116, 189, 13, 0.25);
+    }
+
     @media (max-width: 575.98px) {
             .course-card-modern .course-content {
                 padding: 10px;
