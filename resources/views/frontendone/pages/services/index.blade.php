@@ -36,7 +36,7 @@
                                             @foreach($category->servicetwos()->where('is_active', 1)->take(3)->get() as $service)
                                                 <li class="d-flex justify-content-between align-items-center py-2 border-top">
                                                     <span>{{ $service->title }}</span>
-                                                    <a href="{{ route('service.category', $category->id) }}?service_id={{ $service->id }}" class="small text-primary">Book</a>
+                                                    <a href="{{ route('service.track', ['service' => $service->id, 'category_id' => $category->id]) }}" class="small text-primary">Book</a>
                                                 </li>
                                             @endforeach
                                         </ul>

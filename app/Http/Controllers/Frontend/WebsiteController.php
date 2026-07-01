@@ -17,6 +17,7 @@ use App\Models\Photocategory;
 use App\Models\Photogallery;
 use App\Models\Post;
 use App\Models\Postcategory;
+use App\Models\Servicetwo;
 use App\Models\Servicetwocategory;
 use App\Models\Servicetwosubcategory;
 use App\Models\Teacher;
@@ -478,6 +479,28 @@ class WebsiteController extends Controller
         $logo_fav = LogoFavicon::first();
 
         return view('frontendone.pages.services.category', compact('category', 'logo_fav'));
+    }
+
+    public function trackServiceClick(Request $request, Servicetwo $service)
+    {
+        $service->increment('visitor_count');
+
+        if ($request->filled('redirect')) {
+            return redirect()->away($request->query('redirect'));
+        }
+
+        if ($request->filled('category_id')) {
+            return redirect()->route('service.category', [
+                'id' => $request->query('category_id'),
+                'service_id' => $service->id,
+            ]);
+        }
+
+        if ($service->url) {
+            return redirect()->away($service->url);
+        }
+
+        return redirect()->back();
     }
 
     /**

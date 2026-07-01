@@ -123,6 +123,23 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
+                    <div class="card overflow-hidden">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="">Service Clicks</h5>
+                                    <h3 class="mb-2 fw-semibold">{{ $totalServiceClicks }}</h3>
+                                </div>
+                                <div class="col col-auto top-icn dash">
+                                    <div class="counter-icon bg-primary dash ms-auto box-shadow-primary">
+                                        <i class="fa-solid fa-hand-pointer"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {{-- <div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
                     <div class="card overflow-hidden">
                         <div class="card-body">

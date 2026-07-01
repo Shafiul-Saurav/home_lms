@@ -48,7 +48,7 @@
                                     </h4>
                                     <p>{!! $service->description !!}</p>
                                     @if ($service->service_type)
-                                        <a target="_blank" href="{{ $service->url ?? '#' }}">{{ $service->service_type }} <i
+                                        <a target="_blank" href="{{ route('service.track', ['service' => $service->id]) }}">{{ $service->service_type }} <i
                                                 class="fa-solid fa-arrow-right"></i></a>
                                     @endif
                                 </div>

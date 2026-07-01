@@ -144,6 +144,7 @@ Route::get('faqs', [WebsiteController::class, 'faq'])->name('faq.page');
 Route::get('contacts', [WebsiteController::class, 'contact'])->name('contact.page');
 Route::get('mentors', [WebsiteController::class, 'mentors'])->name('mentors');
 Route::get('service/category/{id}', [WebsiteController::class, 'serviceCategory'])->name('service.category');
+Route::get('service/track/{service}', [WebsiteController::class, 'trackServiceClick'])->name('service.track');
 Route::get('service/subcategory/{id}', [WebsiteController::class, 'serviceSubcategory'])->name('service.subcategory');
 Route::post('service/consultations', [ServiceConsultationController::class, 'store'])->name('service.consultations.store');
 
@@ -472,6 +473,7 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     Route::get('check/service-consultation/is_active/{consultation_id}', [BackendServiceConsultationController::class, 'checkActive'])
         ->name('service_consultations.is_active.ajax');
     Route::resource('service_consultations', BackendServiceConsultationController::class);
+    Route::get('service-clicks', [BackendHomeController::class, 'serviceClickTracking'])->name('service.clicks');
 
     //Service Two Subcategory Route
     Route::get('check/servicetwosubcategory/is_active/{subcategory_id}', [ServicetwoSubcategoryController::class, 'checkActive'])
