@@ -598,6 +598,21 @@
                     </li>
                 @endcanany
 
+                {{-- @can('index-certificate') --}}
+                    <li class="slide {{ Request::routeIs('certificates.*') ? 'is-expanded' : '' }}">
+                        <a class="side-menu__item {{ Request::routeIs('certificates.*') ? 'active' : '' }}"
+                            data-bs-toggle="slide" href="#">
+                            <i class="fa-solid fa-certificate"></i>
+                            <span class="side-menu__label ms-3">Certificate Requests</span><i
+                                class="fa-solid fa-angle-right"></i></a>
+                        <ul class="slide-menu">
+                            <li><a href="{{ route('certificates.index') }}"
+                                    class="slide-item {{ Request::routeIs('certificates.index') ? 'active' : '' }}">List</a>
+                            </li>
+                        </ul>
+                    </li>
+                {{-- @endcan --}}
+
                 @can('index-coupon')
                     <li
                         class="slide {{ Request::routeIs('coupons.index') ? 'is-expanded' : '' }} {{ Request::routeIs('coupons.trash') ? 'is-expanded' : '' }}">

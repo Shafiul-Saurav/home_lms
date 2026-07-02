@@ -7,6 +7,7 @@ use App\Http\Requests\ProfilePasswordChangeRequest;
 use App\Models\BookOrder;
 use App\Models\CourseOrder;
 use App\Models\CourseModule;
+use App\Models\CreateCertificate;
 use App\Models\LessonCompletion;
 use App\Models\PdfBookOrder;
 use App\Models\Profile;
@@ -204,13 +205,17 @@ class ProfileController extends Controller
             $order->progress = $totalModules > 0 ? round(($completedCount / $totalModules) * 100) : 0;
         }
 
+        $certificateRequests = CreateCertificate::where('user_id', $user->id)
+            ->pluck('status', 'course_id')
+            ->toArray();
+
         if ($request->ajax()) {
             return response()->json([
-                'html' => view('frontendone.pages.account.partials.mycourses_list', compact('user', 'enrolledCourses'))->render(),
+                'html' => view('frontendone.pages.account.partials.mycourses_list', compact('user', 'enrolledCourses', 'certificateRequests'))->render(),
             ]);
         }
 
-        return view('frontendone.pages.account.mycourses', compact('user', 'enrolledCourses'));
+        return view('frontendone.pages.account.mycourses', compact('user', 'enrolledCourses', 'certificateRequests'));
     }
 
     public function courseOrders()
@@ -233,6 +238,79 @@ class ProfileController extends Controller
         $order->load('course');
 
         return view('frontendone.pages.account.course_order_details', compact('order'));
+    }
+
+    public function myCertificates(Request $request)
+    {
+        $user = Auth::user();
+
+        $certificates = CreateCertificate::with('course')
+            ->where('user_id', $user->id)
+            ->latest()
+            ->paginate(8);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('frontendone.pages.account.partials.certificates_list', compact('certificates'))->render(),
+            ]);
+        }
+
+        return view('frontendone.pages.account.certificates', compact('user', 'certificates'));
+    }
+
+    public function certificateDetails(CreateCertificate $certificate)
+    {
+        $user = Auth::user();
+        abort_unless($certificate->user_id === $user->id, 403);
+
+        $certificate->load('course');
+        return view('frontendone.pages.account.certificate_details', compact('certificate'));
+    }
+
+    public function applyCertificate(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'course_id' => 'required|exists:courses,id',
+        ]);
+
+        $courseId = $request->input('course_id');
+
+        $isEnrolled = $user->courseOrders()
+            ->where('course_id', $courseId)
+            ->where('status', 'Enrolled')
+            ->where('payment_status', 'Completed')
+            ->exists();
+
+        if (! $isEnrolled) {
+            return redirect()->back()->with('error', 'You must be enrolled in the course to request a certificate.');
+        }
+
+        $totalModules = CourseModule::where('course_id', $courseId)->count();
+        $completedModules = LessonCompletion::where('user_id', $user->id)
+            ->where('course_id', $courseId)
+            ->count();
+
+        if ($totalModules > 0 && $completedModules < $totalModules) {
+            return redirect()->back()->with('error', 'You must complete all course modules before applying for a certificate.');
+        }
+
+        $existingRequest = CreateCertificate::where('user_id', $user->id)
+            ->where('course_id', $courseId)
+            ->first();
+
+        if ($existingRequest) {
+            return redirect()->back()->with('info', 'A certificate request already exists for this course.');
+        }
+
+        CreateCertificate::create([
+            'user_id' => $user->id,
+            'course_id' => $courseId,
+            'status' => 'pending',
+        ]);
+
+        return redirect()->route('user.certificates')->with('success', 'Certificate request submitted successfully.');
     }
 
     public function bookOrders()

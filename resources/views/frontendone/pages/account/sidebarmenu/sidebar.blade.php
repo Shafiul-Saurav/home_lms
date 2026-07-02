@@ -4,6 +4,7 @@
         $isGeneralSetting = request()->routeIs('general.setting');
         $isPersonalSetting = request()->routeIs('personal.setting');
         $isMyCourses = request()->routeIs('my.courses');
+        $isCertificates = request()->routeIs('user.certificates') || request()->routeIs('certificate.details');
         $isCourseOrders = request()->routeIs('user.course.orders');
         $isBookOrders = request()->routeIs('user.book.orders');
         $isPdfBookOrders = request()->routeIs('user.pdf.book.orders');
@@ -61,6 +62,11 @@
         <li>
             <a class="{{ $isMyCourses ? 'active' : '' }}" href="{{ route('my.courses') }}">
                 <i class="fa-solid fa-book-open-reader icon"></i> My Courses
+            </a>
+        </li>
+        <li>
+            <a class="{{ $isCertificates ? 'active' : '' }}" href="{{ route('user.certificates') }}">
+                <i class="fa-solid fa-certificate icon"></i> Certificates
             </a>
         </li>
         {{-- <li>

@@ -63,7 +63,7 @@
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="{{ route('courses') }}">
-                        Courses
+                        Academy
                     </a>
                     <ul class="dropdown-menu">
                         @if($headerCategories->count())

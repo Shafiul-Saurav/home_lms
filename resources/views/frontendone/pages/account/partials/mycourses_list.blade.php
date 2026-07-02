@@ -37,9 +37,27 @@
                                 <span class="discount">Learning</span>
                             </div>
                         </div>
-                        <a href="{{ route('course.video', ['course_id' => $course->id]) }}" class="enroll-btn">
-                            Continue Learning <i class="fa-solid fa-arrow-right"></i>
-                        </a>
+                        @php
+                            $courseModulesCount = $course->courseModules()->count();
+                            $certificateStatus = $certificateRequests[$course->id] ?? null;
+                        @endphp
+                        @if(($order->progress ?? 0) >= 100 || $courseModulesCount === 0)
+                            @if($certificateStatus)
+                                <span class="badge bg-info text-white me-2">
+                                    {{ ucfirst($certificateStatus) }}
+                                </span>
+                            @else
+                                <form action="{{ route('certificates.apply') }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                    <button type="submit" class="enroll-btn">Apply Certificate <i class="fa-solid fa-certificate"></i></button>
+                                </form>
+                            @endif
+                        @else
+                            <a href="{{ route('course.video', ['course_id' => $course->id]) }}" class="enroll-btn">
+                                Continue Learning <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>

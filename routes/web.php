@@ -74,7 +74,6 @@ use App\Http\Controllers\Frontend\ExamController as FrontendExamController;
 use App\Http\Controllers\Frontend\PDFBookController as FrontendPDFBookController;
 use App\Http\Controllers\Frontend\PdfBookPaymentController;
 use App\Http\Controllers\Frontend\PhysicalBookController;
-use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\ProfileImageController;
 use App\Http\Controllers\Frontend\ServiceConsultationController;
 use App\Http\Controllers\Frontend\ShurjopayBookController;
@@ -83,6 +82,8 @@ use App\Http\Controllers\Frontend\ShurjopayPdfController;
 use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
 use App\Http\Controllers\Frontend\UserLogoutController;
 use App\Http\Controllers\Frontend\WebsiteController;
+use App\Http\Controllers\Frontend\ProfileController;
+use App\Http\Controllers\Admin\CertificateController as AdminCertificateController;
 use App\Http\Controllers\Trash\AwardTrashController;
 use App\Http\Controllers\Trash\BookCategoryTrashController;
 use App\Http\Controllers\Trash\BookSubcategoryTrashController;
@@ -201,6 +202,10 @@ Route::prefix('user')->middleware(['auth', 'is_user'])->group(function(){
 
     Route::post('image/crop',[ProfileImageController::class, 'crop'])->name('image.crop');
 
+    // Certificate Routes
+    Route::get('/certificates', [ProfileController::class, 'myCertificates'])->name('user.certificates');
+    Route::post('/certificates/apply', [ProfileController::class, 'applyCertificate'])->name('certificates.apply');
+    Route::get('/certificates/{certificate}', [ProfileController::class, 'certificateDetails'])->name('certificate.details');
 
     //Testimonial Route
     Route::get('testimonial_view', [FrontendTestimonialController::class, 'testimonialView'])->name('testimonial.view');
@@ -368,6 +373,14 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     // Ajax Call Active
     Route::get('check/user/is_active/{user_id}', [UserController::class, 'checkActive'])
         ->name('user.is_active.ajax');
+
+    // Admin certificate management
+    Route::get('certificates', [AdminCertificateController::class, 'index'])->name('certificates.index');
+    Route::get('certificates/{certificate}', [AdminCertificateController::class, 'show'])->name('certificates.show');
+    Route::post('certificates/{certificate}/approve', [AdminCertificateController::class, 'approve'])->name('certificates.approve');
+    Route::post('certificates/{certificate}/reject', [AdminCertificateController::class, 'reject'])->name('certificates.reject');
+    Route::delete('certificates/{certificate}', [AdminCertificateController::class, 'destroy'])->name('certificates.destroy');
+
     Route::resource('/users', UserController::class);
 
     // Page Route

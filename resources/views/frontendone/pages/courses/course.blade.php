@@ -208,6 +208,31 @@
             </div>
         </section>
 
+        <section class="section-padding pb-4">
+            <div class="container">
+                <div class="row g-4 text-center">
+                    <div class="col-md-4">
+                        <div class="feature-card p-4 rounded-4 shadow-sm" style="background:#0f2344; color:#fff;">
+                            <h2 class="mb-2">50K+</h2>
+                            <p class="mb-0">Student Enrolled</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card p-4 rounded-4 shadow-sm" style="background:#142b56; color:#fff;">
+                            <h2 class="mb-2">50+</h2>
+                            <p class="mb-0">Expert Courses</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card p-4 rounded-4 shadow-sm" style="background:#183661; color:#fff;">
+                            <h2 class="mb-2">3K+</h2>
+                            <p class="mb-0">Certificate Issued</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="section-padding py-5" id="courseGridSection">
             <div class="container">
                 <div class="row g-4">
