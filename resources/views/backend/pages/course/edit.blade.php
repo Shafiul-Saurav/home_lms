@@ -288,7 +288,7 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" id="summernote"
+                                    <textarea name="description"
                                         class="form-control @error('description') is-invalid @enderror"
                                         rows="4">{{ old('description', $course->description) }}</textarea>
                                     @error('description')
@@ -484,7 +484,7 @@
                                                             <div class="input-group-text bg-primary-transparent text-primary">
                                                                 <i class="fe fe-calendar text-20"></i>
                                                             </div>
-                                                            <input class="form-control fc-datepicker" placeholder="DD/MM/YYYY" type="text" 
+                                                            <input class="form-control fc-datepicker" placeholder="DD/MM/YYYY" type="text"
                                                                 value="{{ !empty($module['date']) ? \Carbon\Carbon::parse($module['date'])->format('d/m/Y') : '' }}">
                                                             <input type="hidden" name="modules[{{ $moduleIndex }}][date]" value="{{ $module['date'] ?? '' }}">
                                                         </div>
@@ -681,7 +681,7 @@
                                     <div class="input-group-text bg-primary-transparent text-primary">
                                         <i class="fe fe-calendar text-20"></i>
                                     </div>
-                                    <input class="form-control fc-datepicker module-modal-date" placeholder="DD/MM/YYYY" type="text" 
+                                    <input class="form-control fc-datepicker module-modal-date" placeholder="DD/MM/YYYY" type="text"
                                         data-module-id="{{ $module->id }}"
                                         value="{{ old('modules.existing_' . $module->id . '.date', $module->date) ? \Carbon\Carbon::parse(old('modules.existing_' . $module->id . '.date', $module->date))->format('d/m/Y') : '' }}">
                                     <input type="hidden" name="modules[existing_{{ $module->id }}][date]" value="{{ old('modules.existing_' . $module->id . '.date', $module->date) }}">

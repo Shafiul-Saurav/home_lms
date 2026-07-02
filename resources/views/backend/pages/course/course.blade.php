@@ -192,7 +192,7 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" id="summernote" class="form-control @error('description') is-invalid @enderror"
+                                    <textarea name="description" class="form-control @error('description') is-invalid @enderror"
                                         rows="4">{{ old('description') }}</textarea>
                                     @error('description')
                                         <span class="invalid-feedback"
