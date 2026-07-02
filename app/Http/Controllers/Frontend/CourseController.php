@@ -146,7 +146,7 @@ class CourseController extends Controller
             ]);
         }
 
-        return view('frontendone.pages.courses.course', compact(
+        return view('frontendone.pages.courses.courses', compact(
             'courses',
             'categories',
             'subcategories',
@@ -156,6 +156,113 @@ class CourseController extends Controller
             'selectedPrice',
             'selectedSort',
             'testimonials'
+        ));
+    }
+    public function academy(Request $request)
+    {
+        $query = Course::with(['teachers.user', 'category']);
+        $testimonials = Testimonial::with('user')->where('is_active', 1)->get();
+
+        // Filter by active courses only
+        $query->where('is_active', 1);
+
+        // Search filter
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('description', 'LIKE', "%{$search}%");
+            });
+        }
+
+        // Category filter
+        if ($request->filled('category')) {
+            $categoryIds = explode(',', $request->input('category'));
+            $query->whereIn('category_id', $categoryIds);
+        }
+
+        // Subcategory filter
+        if ($request->filled('subcategory')) {
+            $query->where('subcategory_id', $request->input('subcategory'));
+        }
+
+        // Price filter
+        if ($request->filled('price')) {
+            $priceFilters = explode(',', $request->input('price'));
+            if (in_array('free', $priceFilters) && in_array('paid', $priceFilters)) {
+                // If both are selected, no need to filter by price to show all
+            } elseif (in_array('free', $priceFilters)) {
+                $query->where('price', 0);
+            } elseif (in_array('paid', $priceFilters)) {
+                $query->where('price', '>', 0);
+            }
+        }
+
+        // Sort by
+        $sortBy = $request->input('sort_by', 'latest');
+        switch ($sortBy) {
+            case 'featured':
+                $query->orderBy('id', 'desc');
+                break;
+            case 'low_price':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'high_price':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'latest':
+            default:
+                $query->latest('id');
+                break;
+        }
+
+        // Paginate results
+        $courses = $query->paginate(9);
+
+        // Fetch all categories and subcategories for the filter sidebar
+        $categories = Category::where('is_active', 1)->withCount(['courses' => function ($q) {
+            $q->where('is_active', 1);
+        }])->get();
+
+        $subcategories = Subcategory::where('is_active', 1)->withCount(['courses' => function ($q) {
+            $q->where('is_active', 1);
+        }])->get();
+
+        // Get selected filters for the view
+        $selectedCategory = $request->input('category');
+        $selectedSubcategory = $request->input('subcategory');
+        $selectedPrice = $request->input('price');
+        $selectedSort = $request->input('sort_by', 'latest');
+
+        // Fetch logo/favicon data
+        $logo_fav = LogoFavicon::first();
+
+        if ($request->ajax()) {
+            $html = $this->renderCourseGrid($courses);
+            $pagination = view('frontendone.pages.courses.partials.pagination', compact('courses'))->render();
+            $topfilter = view('frontendone.pages.courses.partials.course_topfilter', compact('courses'))->render();
+
+            return response()->json([
+                'html' => $html,
+                'pagination' => $pagination,
+                'topfilter' => $topfilter,
+                'total' => $courses->total()
+            ]);
+        }
+
+        $popularCourses = Course::where('is_active', 1)->latest('id')->limit(6)->get();
+
+        return view('frontendone.pages.courses.academy', compact(
+            'courses',
+            'categories',
+            'subcategories',
+            'logo_fav',
+            'selectedCategory',
+            'selectedSubcategory',
+            'selectedPrice',
+            'selectedSort',
+            'testimonials',
+            'popularCourses'
         ));
     }
 

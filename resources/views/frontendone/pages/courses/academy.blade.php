@@ -1,6 +1,6 @@
 @extends('frontendone.layouts.master')
 
-@section('title', 'Courses')
+@section('title', 'Academy')
 
 @push('frontendone_style')
     @include('frontend.pages.common.style')
@@ -147,45 +147,6 @@
             background-color: #ebebeb;
             border-color: #fff;
         }
-
-        @media (max-width: 1443px) and (min-width: 1200px) {
-            .course-card-modern .course-content {
-                padding: 10px;
-            }
-
-            .course-card-modern .price-box h4 {
-                font-size: 15px;
-            }
-
-            .course-card-modern .price-box .price-old-row del {
-                font-size: 10px !important;
-            }
-
-            .enroll-btn {
-                min-width: 90px;
-                padding: 5px 5px;
-                font-size: 12px;
-                font-weight: 700;
-            }
-        }
-
-        @media (max-width: 2520px) and (min-width: 1440px) {
-            .course-card-modern .price-box h4 {
-                font-size: 17px;
-            }
-
-            .course-card-modern .price-box .price-old-row del {
-                font-size: 12px !important;
-            }
-
-            .enroll-btn {
-                min-width: 90px;
-                padding: 5px 6px;
-                font-size: 12px;
-                font-weight: 700;
-            }
-        }
-
         /* Categories marquee styles */
         .categories-marquee {
             overflow: hidden;
@@ -378,119 +339,8 @@
             </div>
         </section>
 
-        <section class="section-padding py-5" id="courseGridSection">
-            <div class="container">
-                <div class="row g-4">
-                    <div class="col-lg-4 col-xl-3">
-                        <aside class="course-sidebar-modern">
-                            <div class="mb-4">
-                                <h4 class="widget-title">Search Courses</h4>
-                                <form id="searchForm" action="{{ route('courses') }}" method="GET">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="search" id="searchInput"
-                                            placeholder="Search course" value="{{ request('search') }}">
-                                        <button class="btn btn-dark" type="submit"><i
-                                                class="fa-solid fa-magnifying-glass"></i></button>
-                                    </div>
-                                </form>
-                            </div>
-
-                            <div class="mb-4">
-                                <div class="filter-panel">
-                                    <button type="button" class="filter-panel-header" data-target="#categoryFilterBody"
-                                        aria-expanded="true">
-                                        <span class="widget-title mb-0">Category</span>
-                                        <i class="fa-solid fa-chevron-up filter-toggle-icon"></i>
-                                    </button>
-                                    <div class="filter-panel-body show" id="categoryFilterBody">
-                                        <div class="form-check">
-                                            <input class="form-check-input category-filter" type="checkbox"
-                                                value="" id="cat-all"
-                                                {{ empty(request('category')) ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="cat-all">All Categories
-                                                ({{ $categories->sum('courses_count') }})</label>
-                                        </div>
-                                        @foreach ($categories as $category)
-                                            <div class="form-check">
-                                                <input class="form-check-input category-filter" type="checkbox"
-                                                    value="{{ $category->id }}" id="cat-{{ $category->id }}"
-                                                    {{ in_array($category->id, explode(',', request('category', ''))) ? 'checked' : '' }}>
-                                                <label class="form-check-label"
-                                                    for="cat-{{ $category->id }}">{{ $category->name }}
-                                                    ({{ $category->courses_count }})
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="mb-4">
-                                <div class="filter-panel">
-                                    <button type="button" class="filter-panel-header" data-target="#priceFilterBody"
-                                        aria-expanded="true">
-                                        <span class="widget-title mb-0">Course Price</span>
-                                        <i class="fa-solid fa-chevron-up filter-toggle-icon"></i>
-                                    </button>
-                                    <div class="filter-panel-body show" id="priceFilterBody">
-                                        <div class="form-check">
-                                            <input class="form-check-input price-filter" type="checkbox" value=""
-                                                id="price-all" {{ empty(request('price')) ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="price-all">All</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input price-filter" type="checkbox" value="free"
-                                                id="price-free"
-                                                {{ in_array('free', explode(',', request('price', ''))) ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="price-free">Free</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input price-filter" type="checkbox" value="paid"
-                                                id="price-paid"
-                                                {{ in_array('paid', explode(',', request('price', ''))) ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="price-paid">Paid</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </aside>
-                    </div>
-
-                    <div class="col-lg-8 col-xl-9">
-                        <div class="course-grid-shell">
-                            <div id="top-filter-area">
-                                @include('frontendone.pages.courses.partials.course_topfilter', [
-                                    'courses' => $courses,
-                                ])
-                            </div>
-
-                            <div id="course-grid">
-                                @if ($courses->count() > 0)
-                                    <div class="row g-4 course-grid-area p-0 p-md-3">
-                                        @foreach ($courses as $course)
-                                            @include('frontendone.pages.courses.partials.course_filter', [
-                                                'course' => $course,
-                                            ])
-                                        @endforeach
-                                    </div>
-
-                                    <div id="pagination-wrapper">
-                                        @include('frontendone.pages.courses.partials.pagination', [
-                                            'courses' => $courses,
-                                        ])
-                                    </div>
-                                @else
-                                    <div class="alert alert-warning text-center mb-0">
-                                        <h3 class="mb-2">No Courses Found</h3>
-                                        <p class="mb-0">Try adjusting your search, category or price filters.</p>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!-- Course Section -->
+        @include('frontendone.pages.widgets.course_section')
 
         <!-- Student Review -->
         @include('frontendone.pages.widgets.review_section')

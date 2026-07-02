@@ -62,7 +62,7 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="{{ route('courses') }}">
+                    <a class="nav-link dropdown-toggle" href="{{ route('academy') }}">
                         Academy
                     </a>
                     <ul class="dropdown-menu">

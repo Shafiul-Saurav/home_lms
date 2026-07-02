@@ -4,6 +4,23 @@
 
 @push('frontendone_style')
     @include('frontend.pages.common.style')
+    <style>
+        .service-info-card {
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 25px 55px rgba(0, 0, 0, 0.08);
+        }
+
+        .service-info-card .card-body {
+            padding: 30px;
+        }
+    </style>
 @endpush
 
 @section('frontendone_content')
@@ -91,18 +108,92 @@
         @include('frontendone.pages.widgets.service_section')
 
         <div class="container">
-            <div class="row mt-5">
-                <div class="col-12">
-                    <div class="">
+            @php
+                $howWeWorks = App\Models\Howwework::where('is_active', 1)->get();
+                $whatYouGets = App\Models\Whatyouget::where('is_active', 1)->get();
+            @endphp
+
+            <section class="py-5">
+                <div class="row mb-4">
+                    <div class="section-heading">
+                        <span class="sub-title">
+                            <i class="fa-solid fa-gears"></i>
+                            How We Work
+                        </span>
+                        <h2>Our Engagement Methodology</h2>
+                        <p>
+                            Every HackToLive engagement follows a structured, transparent process from scoping to final
+                            sign-off.
+                        </p>
+                    </div>
+                </div>
+                <div class="row gy-4">
+                    @forelse($howWeWorks as $item)
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card service-info-card h-100">
+                                <div class="card-body">
+                                    @php $howIcon = $item->service_icon ?: 'fa-solid fa-circle-check'; @endphp
+                                    <div class="d-flex align-items-center gap-3 mb-3">
+                                        <div class="fs-2 text-success"><i class="{{ $howIcon }}"></i></div>
+                                        <h5 class="mb-0">{{ $item->title }}</h5>
+                                    </div>
+                                    <p class="text-muted" style="font-size: 14px;">{{ $item->description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-12">
+                            <div class="alert alert-info mb-0">No active "How We Work" entries found.</div>
+                        </div>
+                    @endforelse
+                </div>
+            </section>
+        </div>
+        <section class="py-5 bg-light">
+            <div class="container">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="section-heading">
+                            <span class="sub-title">
+                                <i class="fa-solid fa-award"></i>
+                                What You Get
+                            </span>
+                            <h2>What You Receive from Our Services</h2>
+                            <p>
+                                Discover the key benefits and outcomes included in every active service plan.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row gy-4">
+                    @forelse($whatYouGets as $item)
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card service-info-card h-100">
+                                <div class="card-body">
+                                    @php $whatIcon = $item->service_icon ?: 'fa-solid fa-circle-check'; @endphp
+                                    <div class="d-flex align-items-center gap-3 mb-3">
+                                        <div class="fs-2 text-success"><i class="{{ $whatIcon }}"></i></div>
+                                        <h5 class="mb-0">{{ $item->title }}</h5>
+                                    </div>
+                                    <p class="text-muted" style="font-size: 14px;">{{ $item->description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-12">
+                            <div class="alert alert-info mb-0">No active "What You Get" entries found.</div>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+        </section>
+
+        <section class="py-5">
+            <div class="container">
+                <div class="row mt-4">
+                    <div class="col-12">
                         <div class="my-5">
                             <div class="row">
-                                {{-- <div class="col-lg-5">
-                                    <h3 class="mb-3">Request a consultation</h3>
-                                    <p class="text-muted mb-0">
-                                        Select a service, pick a time slot, and send your requirements. Our team will get
-                                        back to you shortly.
-                                    </p>
-                                </div> --}}
                                 <div class="col-lg-10 offset-lg-1">
                                     @php
                                         $services = App\Models\Servicetwo::where('is_active', 1)->get();
@@ -120,8 +211,10 @@
                         </div>
                     </div>
                 </div>
+
             </div>
-        </div>
+        </section>
+
     </main>
 @endsection
 
