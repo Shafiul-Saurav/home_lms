@@ -88,7 +88,7 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#">
+                    <a class="nav-link dropdown-toggle" href="{{ route('services') }}">
                         Services
                     </a>
                     <ul class="dropdown-menu">

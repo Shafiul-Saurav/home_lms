@@ -3,20 +3,18 @@
 @section('title', $subcategory->name . ' - Services')
 
 @push('frontendone_style')
+    @include('frontend.pages.common.style')
 @endpush
 
 @section('frontendone_content')
     <main class="main">
         <!-- breadcrumb -->
-        <x-frontend.pages.common.breadcrumb
-            :title="$subcategory->name"
-            :breadcrumb="[
-                ['name' => 'Home', 'url' => route('home')],
-                ['name' => 'Services', 'url' => '#'],
-                ['name' => $subcategory->category->title, 'url' => route('service.category', $subcategory->category->id)],
-                ['name' => $subcategory->name, 'url' => '#']
-            ]"
-        />
+        <x-frontend.pages.common.breadcrumb :title="$subcategory->name" :breadcrumb="[
+            ['name' => 'Home', 'url' => route('home')],
+            ['name' => 'Services', 'url' => '#'],
+            ['name' => $subcategory->category->title, 'url' => route('service.category', $subcategory->category->id)],
+            ['name' => $subcategory->name, 'url' => '#'],
+        ]" />
         <!-- breadcrumb end -->
 
         <div class="service-area py-5">
@@ -35,20 +33,26 @@
                         <div class="col-lg-6">
                             <div class="service-grid-card">
                                 @if ($service->image && file_exists(public_path('uploads/servicetwos/' . $service->image)))
-                                    <img src="{{ asset('uploads/servicetwos/' . $service->image) }}" alt="{{ $service->title }}" style="width: 100%; height: 300px; object-fit: cover;">
+                                    <img src="{{ asset('uploads/servicetwos/' . $service->image) }}"
+                                        alt="{{ $service->title }}" style="width: 100%; height: 300px; object-fit: cover;">
                                 @else
-                                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=700&q=80" alt="{{ $service->title }}" style="width: 100%; height: 300px; object-fit: cover;">
+                                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=700&q=80"
+                                        alt="{{ $service->title }}" style="width: 100%; height: 300px; object-fit: cover;">
                                 @endif
                                 <div class="service-grid-content">
                                     <h4>
                                         @if ($service->service_icon && file_exists(public_path('uploads/servicetwos/' . $service->service_icon)))
-                                            <img src="{{ asset('uploads/servicetwos/' . $service->service_icon) }}" alt="" style="width: 24px; height: 24px; object-fit: contain; margin-right: 8px; vertical-align: middle;">
+                                            <img src="{{ asset('uploads/servicetwos/' . $service->service_icon) }}"
+                                                alt=""
+                                                style="width: 24px; height: 24px; object-fit: contain; margin-right: 8px; vertical-align: middle;">
                                         @endif
                                         {{ $service->title }}
                                     </h4>
                                     <p>{!! $service->description !!}</p>
                                     @if ($service->service_type)
-                                        <a target="_blank" href="{{ route('service.track', ['service' => $service->id]) }}">{{ $service->service_type }} <i class="fa-solid fa-arrow-right"></i></a>
+                                        <a target="_blank"
+                                            href="{{ route('service.track', ['service' => $service->id]) }}">{{ $service->service_type }}
+                                            <i class="fa-solid fa-arrow-right"></i></a>
                                     @endif
                                 </div>
                             </div>
@@ -67,7 +71,10 @@
                         @php
                             $timeslots = App\Models\ServiceConsultationTimeslot::where('is_active', 1)->get();
                         @endphp
-                        @include('frontendone.pages.services.consultation_form', ['services' => $services, 'timeslots' => $timeslots])
+                        @include('frontendone.pages.services.consultation_form', [
+                            'services' => $services,
+                            'timeslots' => $timeslots,
+                        ])
                     </div>
                 </div>
             </div>
@@ -76,4 +83,5 @@
 @endsection
 
 @push('frontendone_script')
+    @include('frontend.pages.common.script')
 @endpush

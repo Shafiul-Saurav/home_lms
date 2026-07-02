@@ -45,6 +45,12 @@ class WebsiteController extends Controller
 
     public function services()
     {
+        // Fetch dynamic service categories and their respective services
+        $serviceCategories = Servicetwocategory::where('is_active', 1)
+            ->with(['servicetwos' => function($q) {
+                $q->where('is_active', 1);
+            }])->latest('id')->get();
+
         $categories = Servicetwocategory::where('is_active', 1)
             ->with(['servicetwos' => function ($q) {
                 $q->where('is_active', 1);
@@ -54,7 +60,7 @@ class WebsiteController extends Controller
 
         $logo_fav = LogoFavicon::first();
 
-        return view('frontendone.pages.services.index', compact('categories', 'logo_fav'));
+        return view('frontendone.pages.services.index', compact('serviceCategories', 'categories', 'logo_fav'));
     }
 
     public function home()

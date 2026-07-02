@@ -81,3 +81,8 @@
             }
         }
 </style>
+        <style>
+            /* Use a deeper theme color for text selection across the site */
+            ::selection { background: #76bd10; color: #fff; }
+            ::-moz-selection { background: #76bd10; color: #fff; }
+        </style>
