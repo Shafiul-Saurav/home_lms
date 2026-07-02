@@ -24,9 +24,9 @@
 @endpush
 
 @section('frontendone_content')
-    <main class="main">
+    <main class="main py-5">
         <!-- breadcrumb -->
-        <x-frontend.pages.common.breadcrumb :title="'Services'" :breadcrumb="[['name' => 'Home', 'url' => route('home')], ['name' => 'Services', 'url' => '#']]" />
+        {{-- <x-frontend.pages.common.breadcrumb :title="'Services'" :breadcrumb="[['name' => 'Home', 'url' => route('home')], ['name' => 'Services', 'url' => '#']]" /> --}}
         <!-- breadcrumb end -->
         {{-- <section class="py-5" style="padding-top: 120px!important;">
             <div class="container">

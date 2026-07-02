@@ -222,10 +222,8 @@
                                                 <th class="border-bottom-0">Courses</th>
                                                 <th class="border-bottom-0">Enrolled Students</th>
                                                 <th class="border-bottom-0">Gross Sales</th>
-                                                <th class="border-bottom-0">Admin Share
-                                                    ({{ number_format($commissionInfo['admin_percentage'], 2) }}%)</th>
-                                                <th class="border-bottom-0">Gateway Fee
-                                                    ({{ number_format($commissionInfo['gateway_percentage'], 2) }}%)</th>
+                                                <th class="border-bottom-0">Admin Share</th>
+                                                <th class="border-bottom-0">Gateway Fee</th>
                                                 <th class="border-bottom-0">Net Earnings</th>
                                                 @can('view-earning')
                                                     <th class="border-bottom-0">Action</th>
@@ -244,9 +242,13 @@
                                                     <td>
                                                         {{ number_format($data['totals']['gross_sales'], 2) }} ৳</td>
                                                     <td class="text-danger">-
-                                                        {{ number_format($data['totals']['admin_shares'], 2) }} ৳</td>
+                                                        {{ number_format($data['totals']['admin_shares'], 2) }} ৳
+                                                        <small class="text-muted">({{ number_format($data['commission']['admin_percentage'], 2) }}%)</small>
+                                                    </td>
                                                     <td class="text-danger">-
-                                                        {{ number_format($data['totals']['gateway_charges'], 2) }} ৳</td>
+                                                        {{ number_format($data['totals']['gateway_charges'], 2) }} ৳
+                                                        <small class="text-muted">({{ number_format($data['commission']['gateway_percentage'], 2) }}%)</small>
+                                                    </td>
                                                     <td class="text-success">
                                                         {{ number_format($data['totals']['instructor_earnings'], 2) }} ৳
                                                     </td>
@@ -271,10 +273,8 @@
                                                 <th class="border-bottom-0">Course Name</th>
                                                 <th class="border-bottom-0">Enrolled Students</th>
                                                 <th class="border-bottom-0">Gross Sales</th>
-                                                <th class="border-bottom-0">Admin Share
-                                                    ({{ number_format($commissionInfo['admin_percentage'], 2) }}%)</th>
-                                                <th class="border-bottom-0">Gateway Fee
-                                                    ({{ number_format($commissionInfo['gateway_percentage'], 2) }}%)</th>
+                                                <th class="border-bottom-0">Admin Share</th>
+                                                <th class="border-bottom-0">Gateway Fee</th>
                                                 <th class="border-bottom-0 text-success fw-bold">Instructor Net Share</th>
                                             </tr>
                                         </thead>

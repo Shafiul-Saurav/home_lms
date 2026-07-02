@@ -200,6 +200,7 @@ class InstructorEarningsController extends Controller
                 $instructorsData->push([
                     'teacher' => $teacher,
                     'totals' => $teacherTotals,
+                    'commission' => $tCommissionInfo,
                 ]);
             }
 
