@@ -122,8 +122,9 @@
                 </div>
             </div>
         </div>
-    @endsection
+    </main>
+@endsection
 
-    @push('frontendone_script')
-        @include('frontend.pages.common.script')
-    @endpush
+@push('frontendone_script')
+    @include('frontend.pages.common.script')
+@endpush
