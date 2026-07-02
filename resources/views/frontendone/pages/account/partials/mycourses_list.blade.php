@@ -50,7 +50,7 @@
                                 <form action="{{ route('certificates.apply') }}" method="POST" class="d-inline">
                                     @csrf
                                     <input type="hidden" name="course_id" value="{{ $course->id }}">
-                                    <button type="submit" class="enroll-btn">Apply Certificate <i class="fa-solid fa-certificate"></i></button>
+                                    <button type="submit" class="enroll-btn border-0">Apply Certificate <i class="fa-solid fa-certificate"></i></button>
                                 </form>
                             @endif
                         @else

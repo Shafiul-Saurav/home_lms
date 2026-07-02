@@ -21,6 +21,44 @@
             background-color: #ebebeb;
             border-color: #fff;
         }
+
+        /* @media (max-width: 1443px) and (min-width: 1200px) {
+            .course-card-modern .course-content {
+                padding: 10px;
+            }
+
+            .course-card-modern .price-box h4 {
+                font-size: 15px;
+            }
+
+            .course-card-modern .price-box .price-old-row del {
+                font-size: 10px !important;
+            }
+
+            .enroll-btn {
+                min-width: 90px;
+                padding: 5px 5px;
+                font-size: 12px;
+                font-weight: 700;
+            }
+        }
+
+        @media (max-width: 2520px) and (min-width: 1440px) {
+            .course-card-modern .price-box h4 {
+                font-size: 17px;
+            }
+
+            .course-card-modern .price-box .price-old-row del {
+                font-size: 12px !important;
+            }
+
+            .enroll-btn {
+                min-width: 90px;
+                padding: 5px 6px;
+                font-size: 12px;
+                font-weight: 700;
+            }
+        } */
     </style>
 @endpush
 
