@@ -1,4 +1,4 @@
-<section class="auth-area consultation-request" style="padding: 90px 0; background: #f8fafc;">
+<section class="auth-area consultation-request">
     <style>
         .consultation-request .form-control:focus,
         .consultation-request textarea:focus,
