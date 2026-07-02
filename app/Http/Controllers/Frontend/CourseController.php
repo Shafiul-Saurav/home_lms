@@ -12,6 +12,7 @@ use App\Models\Lesson;
 use App\Models\LessonCompletion;
 use App\Models\LogoFavicon;
 use App\Models\Subcategory;
+use App\Models\Testimonial;
 use App\Models\User;
 use App\Models\WebsiteLink;
 use Illuminate\Http\Request;
@@ -56,6 +57,7 @@ class CourseController extends Controller
     public function courses(Request $request)
     {
         $query = Course::with(['teachers.user', 'category']);
+        $testimonials = Testimonial::with('user')->where('is_active', 1)->get();
 
         // Filter by active courses only
         $query->where('is_active', 1);
@@ -152,7 +154,8 @@ class CourseController extends Controller
             'selectedCategory',
             'selectedSubcategory',
             'selectedPrice',
-            'selectedSort'
+            'selectedSort',
+            'testimonials'
         ));
     }
 

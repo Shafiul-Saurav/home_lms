@@ -185,6 +185,69 @@
                 font-weight: 700;
             }
         }
+
+        /* Categories marquee styles */
+        .categories-marquee {
+            overflow: hidden;
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+            will-change: transform;
+        }
+
+        .marquee-item {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #fff;
+            padding: 8px 10px;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(8, 15, 30, 0.06);
+            min-width: 220px;
+        }
+
+        .marquee-thumb {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .marquee-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .marquee-name {
+            font-weight: 700;
+            color: #102949;
+        }
+
+        @keyframes marquee-scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .owl-carousel .owl-item .review-user img {
+            width: 45px;
+            height: 45px;
+        }
     </style>
 @endpush
 
@@ -208,25 +271,107 @@
             </div>
         </section>
 
-        <section class="section-padding pb-4">
+        <section class="section-padding py-5">
             <div class="container">
+                @php
+                    use App\Models\CourseOrder;
+                    use App\Models\CreateCertificate;
+                    use App\Models\Course;
+
+                    // Dynamic values (counts)
+                    $enrolledCountDynamic = CourseOrder::where('status', 'Enrolled')
+                        ->where('payment_status', 'Completed')
+                        ->count();
+
+                    $certificatesIssuedDynamic = CreateCertificate::where('status', 'approved')->count();
+
+                    $expertCoursesCount = Course::count();
+
+                    // Base offsets as requested
+                    $enrolledBase = 3000;
+                    $certificatesBase = 3000;
+
+                    $enrolledDisplay = $enrolledBase + $enrolledCountDynamic;
+                    $certificatesDisplay = $certificatesBase + $certificatesIssuedDynamic;
+                @endphp
+
                 <div class="row g-4 text-center">
                     <div class="col-md-4">
                         <div class="feature-card p-4 rounded-4 shadow-sm" style="background:#0f2344; color:#fff;">
-                            <h2 class="mb-2">50K+</h2>
+                            <h2 class="mb-2"><span class="counter" data-from="0"
+                                    data-to="{{ $enrolledDisplay }}">0</span>+</h2>
                             <p class="mb-0">Student Enrolled</p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="feature-card p-4 rounded-4 shadow-sm" style="background:#142b56; color:#fff;">
-                            <h2 class="mb-2">50+</h2>
+                            <h2 class="mb-2">{{ $expertCoursesCount > 0 ? $expertCoursesCount : '50+' }}</h2>
                             <p class="mb-0">Expert Courses</p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="feature-card p-4 rounded-4 shadow-sm" style="background:#183661; color:#fff;">
-                            <h2 class="mb-2">3K+</h2>
+                            <h2 class="mb-2"><span class="counter" data-from="0"
+                                    data-to="{{ $certificatesDisplay }}">0</span>+</h2>
                             <p class="mb-0">Certificate Issued</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Explore Course Categories Marquee -->
+        <section class="section-padding py-5 bg-light">
+            <div class="container">
+                <div class="row mb-3">
+                    <div class="col-12 text-center">
+                        <h3 class="mb-2">Explore Course Categories</h3>
+                        <p class="mb-0">Choose from our comprehensive range of cybersecurity specializations</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="categories-marquee py-2" style="background:transparent;">
+                            <div class="marquee-wrap" style="overflow:hidden;">
+                                <div class="marquee-track"
+                                    style="animation: marquee-scroll linear infinite; animation-duration: {{ max(12, $categories->count() * 4) }}s;">
+                                    @foreach ($categories as $category)
+                                        <a href="{{ route('courses', array_merge(request()->all(), ['category' => $category->id])) }}"
+                                            class="text-decoration-none">
+                                            <div class="marquee-item">
+                                                <div class="marquee-thumb">
+                                                    @if ($category->file)
+                                                        <img src="{{ asset('uploads/categories/' . $category->file) }}"
+                                                            alt="{{ $category->name }}">
+                                                    @else
+                                                        <span style="font-size:12px;color:#6b7280;">No Image</span>
+                                                    @endif
+                                                </div>
+                                                <div class="marquee-name">{{ $category->name }}</div>
+                                            </div>
+                                        </a>
+                                    @endforeach
+
+                                    {{-- duplicate items for seamless loop --}}
+                                    @foreach ($categories as $category)
+                                        <a href="{{ route('courses', array_merge(request()->all(), ['category' => $category->id])) }}"
+                                            class="text-decoration-none">
+                                            <div class="marquee-item">
+                                                <div class="marquee-thumb">
+                                                    @if ($category->file)
+                                                        <img src="{{ asset('uploads/categories/' . $category->file) }}"
+                                                            alt="{{ $category->name }}">
+                                                    @else
+                                                        <span style="font-size:12px;color:#6b7280;">No Image</span>
+                                                    @endif
+                                                </div>
+                                                <div class="marquee-name">{{ $category->name }}</div>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -259,8 +404,9 @@
                                     </button>
                                     <div class="filter-panel-body show" id="categoryFilterBody">
                                         <div class="form-check">
-                                            <input class="form-check-input category-filter" type="checkbox" value=""
-                                                id="cat-all" {{ empty(request('category')) ? 'checked' : '' }}>
+                                            <input class="form-check-input category-filter" type="checkbox"
+                                                value="" id="cat-all"
+                                                {{ empty(request('category')) ? 'checked' : '' }}>
                                             <label class="form-check-label" for="cat-all">All Categories
                                                 ({{ $categories->sum('courses_count') }})</label>
                                         </div>
@@ -345,11 +491,61 @@
                 </div>
             </div>
         </section>
+
+        <!-- Student Review -->
+        @include('frontendone.pages.widgets.review_section')
     </main>
 @endsection
 
 @push('frontendone_script')
     @include('frontend.pages.common.script')
+    <script>
+        (function() {
+            function animateCounter(el, start, end, duration) {
+                let startTime = null;
+                const step = (timestamp) => {
+                    if (!startTime) startTime = timestamp;
+                    const progress = Math.min((timestamp - startTime) / duration, 1);
+                    const value = Math.floor(progress * (end - start) + start);
+                    el.textContent = value.toLocaleString();
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    } else {
+                        el.textContent = end.toLocaleString();
+                    }
+                };
+                requestAnimationFrame(step);
+            }
+
+            function startCounters() {
+                document.querySelectorAll('.counter').forEach(function(el) {
+                    const from = parseInt(el.getAttribute('data-from') || '0', 10);
+                    const to = parseInt(el.getAttribute('data-to') || '0', 10);
+                    animateCounter(el, from, to, 1400);
+                });
+            }
+
+            // Start when visible to the user
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver(function(entries, obs) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            startCounters();
+                            obs.disconnect();
+                        }
+                    });
+                }, {
+                    threshold: 0.2
+                });
+
+                const target = document.querySelector('.feature-card .counter');
+                if (target) observer.observe(target);
+                else startCounters();
+            } else {
+                startCounters();
+            }
+        })();
+    </script>
     <script>
         $(function() {
             function filterCourses(url) {

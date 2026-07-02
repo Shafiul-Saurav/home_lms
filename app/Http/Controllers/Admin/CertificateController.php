@@ -16,7 +16,7 @@ class CertificateController extends Controller
     {
         $certificates = CreateCertificate::with(['user', 'course'])
             ->orderBy('created_at', 'desc')
-            ->paginate(20);
+            ->paginate(5);
 
         return view('backend.pages.certificate.index', compact('certificates'));
     }

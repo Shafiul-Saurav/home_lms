@@ -7,6 +7,7 @@
         }
 
         const { jsPDF } = window.jspdf;
+        const themeColor = (getComputedStyle(document.documentElement).getPropertyValue('--theme-color') || '#76bd10').trim();
 
         function createCertificatePdf(data) {
             const doc = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'a4' });
@@ -17,12 +18,19 @@
             doc.setFillColor('#08192b');
             doc.rect(0, 0, width, height, 'F');
 
-            // Outer border
-            doc.setDrawColor('#7cc576');
-            doc.setLineWidth(10);
-            doc.rect(24, 24, width - 48, height - 48, 'S');
+            // Outer border (theme color)
+            try {
+                doc.setDrawColor(themeColor);
+                doc.setLineWidth(10);
+                doc.rect(24, 24, width - 48, height - 48, 'S');
+            } catch (e) {
+                // fallback
+                doc.setDrawColor('#76bd10');
+                doc.setLineWidth(10);
+                doc.rect(24, 24, width - 48, height - 48, 'S');
+            }
 
-            // Inner gradient-style block
+            // Inner block
             doc.setFillColor('#0f2b4d');
             doc.roundedRect(48, 48, width - 96, height - 96, 18, 18, 'F');
 
@@ -58,7 +66,7 @@
             doc.text(data.courseName, width / 2, 330, { align: 'center' });
 
             // Divider
-            doc.setDrawColor('#5070c0');
+            doc.setDrawColor('#e3e8ee');
             doc.setLineWidth(2);
             doc.line(120, 360, width - 120, 360);
 
@@ -79,8 +87,12 @@
             doc.setFontSize(16);
             doc.text('Director of Education', 140, height - 80);
 
-            // Seal circle
-            doc.setFillColor('#7cc576');
+            // Seal circle (theme color)
+            try {
+                doc.setFillColor(themeColor);
+            } catch (e) {
+                doc.setFillColor('#76bd10');
+            }
             doc.circle(width - 140, height - 130, 48, 'F');
             doc.setFontSize(10);
             doc.setTextColor('#08192b');
