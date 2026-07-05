@@ -90,7 +90,7 @@
                     </li>
                 @endcan
 
-                <li
+                {{-- <li
                     class="slide {{ Request::routeIs('sslcommerz.index') ? 'is-expanded' : '' }} {{ Request::routeIs('shurjopay.index') ? 'is-expanded' : '' }}">
                     <a class="side-menu__item {{ Request::routeIs('sslcommerz.index') ? 'active' : '' }} {{ Request::routeIs('shurjopay.index') ? 'active' : '' }}"
                         data-bs-toggle="slide" href="#">
@@ -106,7 +106,7 @@
                                 class="slide-item {{ Request::routeIs('shurjopay.index') ? 'active' : '' }}">Shurjopay
                                 Configuration</a></li>
                     </ul>
-                </li>
+                </li> --}}
                 @can('index-module')
                     <li
                         class="slide {{ Request::routeIs('modules.index') ? 'is-expanded' : '' }}
@@ -283,7 +283,7 @@
                                     </ul>
                                 </li>
                             @endcan
-                            @can('index-course-childcategory')
+                            {{-- @can('index-course-childcategory')
                                 <li class="sub-slide {{ Request::routeIs('childcategories.*') ? 'is-expanded' : '' }}">
                                     <a class="sub-side-menu__item {{ Request::routeIs('childcategories.*') ? 'active' : '' }}"
                                         data-bs-toggle="sub-slide" href="#"><span
@@ -298,7 +298,7 @@
                                         @endcan
                                     </ul>
                                 </li>
-                            @endcan
+                            @endcan --}}
 
                             @can('index-course')
                                 <li class="sub-slide {{ Request::routeIs('courses.*') ? 'is-expanded' : '' }}">
@@ -476,7 +476,7 @@
                 @endcanany --}}
 
                 @can('index-award')
-                    <li class="slide {{ Request::routeIs('awards.*') ? 'is-expanded' : '' }}">
+                    {{-- <li class="slide {{ Request::routeIs('awards.*') ? 'is-expanded' : '' }}">
                         <a class="side-menu__item {{ Request::routeIs('awards.*') ? 'active' : '' }}"
                             data-bs-toggle="slide" href="#">
                             <i class="fa-solid fa-award"></i>
@@ -498,7 +498,7 @@
                                 </ul>
                             </li>
                         </ul>
-                    </li>
+                    </li> --}}
                 @endcan
                 {{-- @canany(['index-pdf-book-category', 'index-pdf-book-subcategory', 'index-pdf-book'])
                     <li
