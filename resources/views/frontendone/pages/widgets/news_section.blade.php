@@ -21,8 +21,8 @@
             </div>
 
             <div class="course-filter-bar" id="newsFilterBar">
-                <button type="button" class="filter-btn" data-filter="blog">Blog</button>
-                <button type="button" class="filter-btn active" data-filter="news">News</button>
+                <button type="button" class="filter-btn active" data-filter="blog">Blog</button>
+                <button type="button" class="filter-btn" data-filter="news">News</button>
             </div>
 
             <div class="course-filter-dots" aria-hidden="true">
