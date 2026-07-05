@@ -86,16 +86,28 @@
                                     <div class="form-icon" style="position: relative;">
                                         <i class="fa-solid fa-clock" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #9ca3af;"></i>
                                         <select name="timeslot_id" id="timeslot_id" class="form-control @error('timeslot_id') is-invalid @enderror" style="padding-left: 50px; height: 54px; border-radius: 14px; border: 1px solid #edf0f5; font-size: 14px; font-weight: 600; background: #fff; color: #111827;">
-                                            <option value="">Choose a timeslot (optional)</option>
+                                            <option value="">Choose a timeline</option>
                                             @foreach($timeslots as $timeslot)
-                                                <option value="{{ $timeslot->id }}" {{ old('timeslot_id') == $timeslot->id ? 'selected' : '' }}>{{ $timeslot->label }} ({{ \Carbon\Carbon::createFromFormat('H:i:s', $timeslot->start_time)->format('h:i A') }} - {{ \Carbon\Carbon::createFromFormat('H:i:s', $timeslot->end_time)->format('h:i A') }})</option>
+                                                @php
+                                                    try {
+                                                        $startTime = $timeslot->start_time ? \Carbon\Carbon::parse($timeslot->start_time)->format('h:i A') : null;
+                                                    } catch (\Exception $e) {
+                                                        $startTime = null;
+                                                    }
+                                                    try {
+                                                        $endTime = $timeslot->end_time ? \Carbon\Carbon::parse($timeslot->end_time)->format('h:i A') : null;
+                                                    } catch (\Exception $e) {
+                                                        $endTime = null;
+                                                    }
+                                                @endphp
+                                                <option value="{{ $timeslot->id }}" {{ old('timeslot_id') == $timeslot->id ? 'selected' : '' }}>{{ $timeslot->label }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     @error('timeslot_id')<div class="invalid-feedback" style="display:block; margin-top:6px;">{{ $message }}</div>@enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="form-icon" style="position: relative;">
                                         <i class="fa-solid fa-calendar-days" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #9ca3af;"></i>
@@ -103,7 +115,7 @@
                                     </div>
                                     @error('expected_timeline')<div class="invalid-feedback" style="display:block; margin-top:6px;">{{ $message }}</div>@enderror
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="project_requirement" style="display:block; margin-bottom:8px; font-size: 14px; font-weight: 700; color: #4b5563;">Project Requirement</label>

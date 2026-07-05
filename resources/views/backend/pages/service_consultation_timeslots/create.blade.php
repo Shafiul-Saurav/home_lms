@@ -30,7 +30,7 @@
                                 <input type="text" name="label" value="{{ old('label') }}" class="form-control @error('label') is-invalid @enderror" required>
                                 @error('label')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
-                            <div class="col-md-3">
+                            {{-- <div class="col-md-3">
                                 <label class="form-label">Start Time</label>
                                 <input type="time" name="start_time" value="{{ old('start_time') }}" class="form-control @error('start_time') is-invalid @enderror" required>
                                 @error('start_time')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -39,13 +39,13 @@
                                 <label class="form-label">End Time</label>
                                 <input type="time" name="end_time" value="{{ old('end_time') }}" class="form-control @error('end_time') is-invalid @enderror" required>
                                 @error('end_time')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                            </div>
-                            <div class="col-md-6 mt-4">
+                            </div> --}}
+                            {{-- <div class="col-md-6 mt-4">
                                 <div class="form-check">
                                     <input type="checkbox" name="is_active" class="form-check-input" id="is_active" value="1" {{ old('is_active') ? 'checked' : '' }}>
                                     <label class="form-check-label" for="is_active">Active</label>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <button type="submit" class="btn btn-primary mt-4">Save</button>
                     </form>

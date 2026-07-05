@@ -23,8 +23,8 @@ class ServiceConsultationTimeslotController extends Controller
     {
         $data = $request->validate([
             'label' => 'required|string|max:255',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after:start_time',
+            'start_time' => 'nullable|date_format:H:i',
+            'end_time' => 'nullable|date_format:H:i|after:start_time',
             'is_active' => 'nullable|boolean',
         ]);
 
@@ -46,8 +46,8 @@ class ServiceConsultationTimeslotController extends Controller
 
         $data = $request->validate([
             'label' => 'required|string|max:255',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after:start_time',
+            'start_time' => 'nullable|date_format:H:i',
+            'end_time' => 'nullable|date_format:H:i|after:start_time',
             'is_active' => 'nullable|boolean',
         ]);
 

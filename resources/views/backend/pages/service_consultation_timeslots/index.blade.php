@@ -35,8 +35,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Label</th>
-                                    <th>Start</th>
-                                    <th>End</th>
+                                    {{-- <th>Start</th>
+                                    <th>End</th> --}}
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -46,8 +46,8 @@
                                     <tr>
                                         <td>{{ $timeslots->firstItem() + $loop->index }}</td>
                                         <td>{{ $timeslot->label }}</td>
-                                        <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $timeslot->start_time)->format('h:i A') }}</td>
-                                        <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $timeslot->end_time)->format('h:i A') }}</td>
+                                        {{-- <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $timeslot->start_time)->format('h:i A') }}</td>
+                                        <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $timeslot->end_time)->format('h:i A') }}</td> --}}
                                         <td>
                                             <div class="material-switch">
                                                 <input id="active-{{ $timeslot->id }}" class="toggle-class-active" type="checkbox" {{ $timeslot->is_active ? 'checked' : '' }} data-id="{{ $timeslot->id }}">
