@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('service_consultation_timeslots', function (Blueprint $table) {
             $table->id();
             $table->string('label');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
