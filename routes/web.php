@@ -177,7 +177,9 @@ Route::get('pdf-book/details/{id}', [FrontendPDFBookController::class, 'pdfBookD
 Route::get('pdf-book/category/{slug}', [FrontendPDFBookController::class, 'pdfBookCategory'])->name('pdf.book.category');
 Route::get('pdf-book/subcategory/{slug}', [FrontendPDFBookController::class, 'pdfBookSubcategory'])->name('pdf.book.subcategory');
 
+Route::get('products', [WebsiteController::class, 'products'])->name('products');
 Route::get('category/{id}/products', [WebsiteController::class, 'categoryProducts'])->name('category.products');
+Route::get('product/{slug}', [WebsiteController::class, 'productDetails'])->name('product.details');
 Route::get('search', [WebsiteController::class, 'searchResults'])->name('search.results');
 Route::get('search/suggestions', [WebsiteController::class, 'searchSuggestions'])->name('search.suggestions');
 // Teachers listing (frontend)

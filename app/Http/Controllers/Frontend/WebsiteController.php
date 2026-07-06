@@ -25,6 +25,8 @@ use App\Models\Testimonial;
 use App\Models\User;
 use App\Models\Videogallery;
 use App\Models\WebsiteLink;
+use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 
@@ -315,6 +317,138 @@ class WebsiteController extends Controller
         $logo_fav = LogoFavicon::first();
 
         return view('frontend.pages.search.results', compact('query', 'logo_fav'));
+    }
+
+    /**
+     * Display all products on the frontend.
+     */
+    public function products(Request $request)
+    {
+        $productsQuery = Product::with(['category', 'subcategory', 'productImages'])
+            ->where('is_active', 1);
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $productsQuery->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('description', 'LIKE', "%{$search}%")
+                  ->orWhere('short_description', 'LIKE', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('category')) {
+            $categoryIds = explode(',', $request->input('category'));
+            $productsQuery->whereIn('category_id', $categoryIds);
+        }
+
+        if ($request->filled('price')) {
+            $priceFilters = explode(',', $request->input('price'));
+            if (in_array('free', $priceFilters) && !in_array('paid', $priceFilters)) {
+                $productsQuery->where('sell_price', 0);
+            } elseif (in_array('paid', $priceFilters) && !in_array('free', $priceFilters)) {
+                $productsQuery->where('sell_price', '>', 0);
+            }
+        }
+
+        $sortBy = $request->input('sort_by', 'latest');
+        switch ($sortBy) {
+            case 'low_price':
+                $productsQuery->orderBy('sell_price', 'asc');
+                break;
+            case 'high_price':
+                $productsQuery->orderBy('sell_price', 'desc');
+                break;
+            case 'latest':
+            default:
+                $productsQuery->latest('id');
+                break;
+        }
+
+        $products = $productsQuery->paginate(9)->withQueryString();
+
+        $productCategories = ProductCategory::where('is_active', 1)
+            ->withCount(['products' => function ($q) {
+                $q->where('is_active', 1);
+            }])
+            ->with(['subcategories' => function($q) {
+                $q->where('is_active', 1)
+                  ->withCount(['products' => function($q2) { $q2->where('is_active', 1); }]);
+            }])
+            ->get();
+
+        if ($request->ajax()) {
+            $html = view('frontendone.pages.products.partials.product_grid', compact('products'))->render();
+            $topfilter = view('frontendone.pages.products.product_topfilter', compact('products'))->render();
+
+            return response()->json([
+                'html' => $html,
+                'topfilter' => $topfilter,
+            ]);
+        }
+
+        return view('frontendone.pages.products.products', compact('products', 'productCategories'));
+    }
+
+    /**
+     * Display products for a product category.
+     */
+    public function categoryProducts(Request $request, $id)
+    {
+        $category = ProductCategory::findOrFail($id);
+
+        $productsQuery = Product::with(['category', 'subcategory', 'productImages'])
+            ->where('category_id', $id)
+            ->where('is_active', 1);
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $productsQuery->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('description', 'LIKE', "%{$search}%")
+                  ->orWhere('short_description', 'LIKE', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('price')) {
+            $priceFilters = explode(',', $request->input('price'));
+            if (in_array('free', $priceFilters) && !in_array('paid', $priceFilters)) {
+                $productsQuery->where('sell_price', 0);
+            } elseif (in_array('paid', $priceFilters) && !in_array('free', $priceFilters)) {
+                $productsQuery->where('sell_price', '>', 0);
+            }
+        }
+
+        $products = $productsQuery->latest('id')->paginate(9)->withQueryString();
+
+        $productCategories = ProductCategory::where('is_active', 1)
+            ->withCount(['products' => function ($q) {
+                $q->where('is_active', 1);
+            }])
+            ->with(['subcategories' => function($q) {
+                $q->where('is_active', 1)
+                  ->withCount(['products' => function($q2) { $q2->where('is_active', 1); }]);
+            }])
+            ->get();
+
+        return view('frontendone.pages.products.category_products', compact('category', 'products', 'productCategories'));
+    }
+
+    public function productDetails($slug)
+    {
+        $productInfo = Product::with(['category', 'subcategory', 'productImages'])
+            ->where('slug', $slug)
+            ->where('is_active', 1)
+            ->firstOrFail();
+
+        $relatedProducts = Product::with('productImages')
+            ->where('category_id', $productInfo->category_id)
+            ->where('id', '!=', $productInfo->id)
+            ->where('is_active', 1)
+            ->latest('id')
+            ->limit(4)
+            ->get();
+
+        return view('frontendone.pages.products.product_details', compact('productInfo', 'relatedProducts'));
     }
 
     /**

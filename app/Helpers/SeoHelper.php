@@ -38,7 +38,7 @@ class SeoHelper
     {
         // Strip HTML tags
         $cleanDescription = strip_tags($description);
-        
+
         // Truncate if too long
         if (strlen($cleanDescription) > $maxLength) {
             $cleanDescription = substr($cleanDescription, 0, $maxLength - 3) . '...';
@@ -58,23 +58,23 @@ class SeoHelper
     public static function generateKeywords($productName, $categoryName = null, $additionalKeywords = [])
     {
         $keywords = [];
-        
+
         // Split product name into words
         $nameWords = explode(' ', $productName);
         $keywords = array_merge($keywords, $nameWords);
-        
+
         // Add category if available
         if ($categoryName) {
             $categoryWords = explode(' ', $categoryName);
             $keywords = array_merge($keywords, $categoryWords);
         }
-        
+
         // Add additional keywords
         $keywords = array_merge($keywords, $additionalKeywords);
-        
+
         // Remove duplicates and empty values
         $keywords = array_filter(array_unique($keywords));
-        
+
         return implode(', ', $keywords);
     }
 
@@ -116,17 +116,17 @@ class SeoHelper
     public static function generateProductStructuredData($product, $siteName)
     {
         $images = [];
-        
+
         // Add main image
         if (!empty($product->image) && $product->image !== 'default_product.jpg') {
             $images[] = asset('uploads/products/' . $product->image);
         }
-        
+
         // Add additional images
         foreach ($product->productImages as $image) {
             $images[] = asset('uploads/products/' . $image->multiple_image);
         }
-        
+
         // Fallback if no images
         if (empty($images)) {
             $images[] = asset('uploads/logos/default.png');
@@ -142,7 +142,7 @@ class SeoHelper
                 '@type' => 'Offer',
                 'url' => route('product.details', $product->slug),
                 'priceCurrency' => 'BDT',
-                'price' => $product->sale_price,
+                'price' => $product->sell_price,
                 'availability' => $product->is_stock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
                 'priceValidUntil' => date('Y-m-d', strtotime('+1 year')),
             ],
@@ -206,7 +206,7 @@ class SeoHelper
         if (!str_starts_with($url, 'http')) {
             $url = url($url);
         }
-        
+
         // Remove query parameters for canonical (unless they change content)
         $urlParts = explode('?', $url);
         return $urlParts[0];

@@ -114,7 +114,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('mentors') }}">Mentors</a>
+                    <a class="nav-link" href="{{ route('products') }}">Products</a>
                 </li>
 
                 <li class="nav-item">
@@ -252,7 +252,7 @@
             </li>
 
             <li>
-                <a class="mobile-nav-link" href="{{ route('mentors') }}">Mentors</a>
+                <a class="mobile-nav-link" href="{{ route('products') }}">Products</a>
             </li>
 
             <li>

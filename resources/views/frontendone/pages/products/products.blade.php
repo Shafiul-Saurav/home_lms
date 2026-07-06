@@ -1,0 +1,410 @@
+@extends('frontendone.layouts.master')
+
+@section('title', 'All Products')
+
+@push('frontendone_style')
+    @include('frontend.pages.common.style')
+    <style>
+        .product-card-modern {
+            border-radius: 24px;
+            overflow: hidden;
+            transition: transform .25s ease, box-shadow .25s ease;
+            background: #fff;
+            box-shadow: 0 18px 50px rgba(8,15,30,.06);
+        }
+        .product-card-modern:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 24px 60px rgba(8,15,30,.1);
+        }
+        .product-thumb img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+        }
+        .product-card-modern .product-content {
+            padding: 24px;
+        }
+        .product-card-modern h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+        .product-card-modern .desc {
+            margin-bottom: 16px;
+            color: #556679;
+        }
+        .product-card-modern .price-box h4 {
+            margin-bottom: 0;
+            color: #16335c;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        .product-card-modern .price-old-row del {
+            color: #9aa1af;
+            font-size: .95rem;
+        }
+        .product-card-modern .price-old-row .discount {
+            color: #74bd0d;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+        .product-card-modern .theme-btn {
+            min-width: 120px;
+        }
+        .product-sidebar-modern,
+        .product-grid-shell {
+            background: #fff;
+            border-radius: 28px;
+            box-shadow: 0 18px 50px rgba(8,15,30,0.08);
+        }
+        .product-sidebar-modern {
+            position: sticky;
+            top: 110px;
+            padding: 24px;
+        }
+        .product-sidebar-modern .widget-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: #102949;
+        }
+        .product-sidebar-modern .form-control,
+        .product-sidebar-modern .form-select {
+            border-radius: 14px;
+            min-height: 48px;
+        }
+        .filter-panel {
+            border: 1px solid #e9ecef;
+            border-radius: 18px;
+            overflow: hidden;
+        }
+        .filter-panel-header {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 14px 16px;
+            background: #f8f9fa;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #102949;
+        }
+        .filter-panel-header .widget-title {
+            margin-bottom: 0;
+            font-size: 1.05rem;
+            font-weight: 800;
+        }
+        .filter-panel-body {
+            padding: 0 16px 16px;
+            display: none;
+        }
+        .filter-panel-body.show {
+            display: block;
+        }
+        .filter-toggle-icon {
+            font-size: 0.85rem;
+            transition: transform 0.2s ease;
+        }
+        .filter-panel-header[aria-expanded="false"] .filter-toggle-icon {
+            transform: rotate(180deg);
+        }
+        @media (max-width: 991px) {
+            .product-sidebar-modern {
+                position: static;
+            }
+            .product-grid-shell {
+                padding: 20px;
+            }
+        }
+        .active>.page-link,
+        .page-link.active {
+            z-index: 3;
+            color: #fff;
+            background-color: #76bd10;
+            border-color: #76bd10;
+        }
+        .page-link,
+        .page-link.active {
+            z-index: 3;
+            color: #76bd10;
+            background-color: #ebebeb;
+            border-color: #fff;
+        }
+        /* Categories marquee styles */
+        .categories-marquee {
+            overflow: hidden;
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+            will-change: transform;
+        }
+
+        .marquee-item {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #fff;
+            padding: 8px 10px;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(8, 15, 30, 0.06);
+            min-width: 220px;
+        }
+
+        .marquee-thumb {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .marquee-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .marquee-name {
+            font-weight: 700;
+            color: #102949;
+        }
+
+        @keyframes marquee-scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+@endpush
+
+@section('frontendone_content')
+    <main class="main">
+        <x-frontend.pages.common.breadcrumb
+            :title="'All Products'"
+            :breadcrumb="[
+                ['name' => 'Home', 'url' => route('home')],
+                ['name' => 'All Products', 'url' => '#']
+            ]"
+        />
+
+            <!-- Explore Product Categories Marquee -->
+            <section class="section-padding py-4 bg-light">
+                <div class="container">
+                    <div class="row mb-3">
+                        <div class="col-12 text-center">
+                            <h3 class="mb-2">Explore Product Categories</h3>
+                            <p class="mb-0">Browse products by category to narrow down your search.</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="categories-marquee py-2" style="background:transparent;">
+                                <div class="marquee-wrap" style="overflow:hidden;">
+                                    <div class="marquee-track"
+                                        style="animation: marquee-scroll linear infinite; animation-duration: {{ max(12, $productCategories->count() * 4) }}s;">
+                                        @foreach ($productCategories as $pcat)
+                                            <a href="{{ route('category.products', $pcat->id) }}" class="text-decoration-none">
+                                                <div class="marquee-item">
+                                                    <div class="marquee-thumb">
+                                                        @if ($pcat->file)
+                                                            <img src="{{ asset('uploads/product_categories/' . $pcat->file) }}" alt="{{ $pcat->name }}">
+                                                        @else
+                                                            <span style="font-size:12px;color:#6b7280;">No Image</span>
+                                                        @endif
+                                                    </div>
+                                                    <div class="marquee-name">{{ $pcat->name }}</div>
+                                                </div>
+                                            </a>
+                                        @endforeach
+
+                                        {{-- duplicate items for seamless loop --}}
+                                        @foreach ($productCategories as $pcat)
+                                            <a href="{{ route('category.products', $pcat->id) }}" class="text-decoration-none">
+                                                <div class="marquee-item">
+                                                    <div class="marquee-thumb">
+                                                        @if ($pcat->file)
+                                                            <img src="{{ asset('uploads/product_categories/' . $pcat->file) }}" alt="{{ $pcat->name }}">
+                                                        @else
+                                                            <span style="font-size:12px;color:#6b7280;">No Image</span>
+                                                        @endif
+                                                    </div>
+                                                    <div class="marquee-name">{{ $pcat->name }}</div>
+                                                </div>
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        <section class="section-padding py-5" id="productGridSection">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-lg-4 col-xl-3">
+                        @include('frontendone.pages.products.partials.sidebar')
+                    </div>
+
+                    <div class="col-lg-8 col-xl-9">
+                        <div class="product-grid-shell p-4">
+                            <div id="top-filter-area">
+                                @include('frontendone.pages.products.product_topfilter', [
+                                    'products' => $products,
+                                ])
+                            </div>
+
+                            <div id="product-grid">
+                                @if($products->count() > 0)
+                                    <div class="row g-4 product-grid-area">
+                                        @foreach($products as $product)
+                                            @include('frontendone.pages.products.product_item')
+                                        @endforeach
+                                    </div>
+
+                                    <div class="col-12 mt-4" id="pagination-wrapper">
+                                        @include('frontendone.pages.products.partials.pagination')
+                                    </div>
+                                @else
+                                    <div class="alert alert-warning text-center mb-0">
+                                        <h3>No Products Found</h3>
+                                        <p>We couldn't find any products right now. Please check back later or try a different search.</p>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+@endsection
+
+@push('frontendone_script')
+    @include('frontend.pages.common.script')
+    <script>
+        $(function() {
+            function filterProducts(url) {
+                $('#product-grid').css('opacity', '0.55');
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function(response) {
+                        $('#product-grid').html(response.html);
+                        $('#top-filter-area').html(response.topfilter);
+                        $('#product-grid').css('opacity', '1');
+                        history.pushState({}, '', url);
+                    },
+                    error: function() {
+                        window.location.href = url;
+                    }
+                });
+            }
+
+            function buildFilterUrl(pageUrl = null) {
+                let urlParams = new URLSearchParams(window.location.search);
+                let search = $('#searchInput').val();
+                search ? urlParams.set('search', search) : urlParams.delete('search');
+
+                let categories = [];
+                let allCategoriesChecked = false;
+                $('.category-filter:checked').each(function() {
+                    if ($(this).val() === '') allCategoriesChecked = true;
+                    else categories.push($(this).val());
+                });
+                if (allCategoriesChecked) urlParams.delete('category');
+                else if (categories.length > 0) urlParams.set('category', categories.join(','));
+                else urlParams.delete('category');
+
+                // Subcategory filters
+                let subcategories = [];
+                $('.subcategory-filter:checked').each(function() {
+                    subcategories.push($(this).val());
+                });
+                if (allCategoriesChecked) urlParams.delete('subcategory');
+                else if (subcategories.length > 0) urlParams.set('subcategory', subcategories.join(','));
+                else urlParams.delete('subcategory');
+
+                let prices = [];
+                let allPricesChecked = false;
+                $('.price-filter:checked').each(function() {
+                    if ($(this).val() === '') allPricesChecked = true;
+                    else prices.push($(this).val());
+                });
+                if (allPricesChecked) urlParams.delete('price');
+                else if (prices.length > 0) urlParams.set('price', prices.join(','));
+                else urlParams.delete('price');
+
+                let sortBy = $('#sort_by').val();
+                sortBy ? urlParams.set('sort_by', sortBy) : urlParams.delete('sort_by');
+
+                if (pageUrl) {
+                    let pageParam = new URL(pageUrl, window.location.origin).searchParams.get('page');
+                    if (pageParam) urlParams.set('page', pageParam);
+                } else {
+                    urlParams.delete('page');
+                }
+
+                let query = urlParams.toString();
+                return window.location.pathname + (query ? '?' + query : '');
+            }
+
+            function setFilterPanelState() {
+                $('.filter-panel-header').each(function() {
+                    let target = $($(this).data('target'));
+                    let expanded = target.hasClass('show');
+                    $(this).attr('aria-expanded', expanded ? 'true' : 'false');
+                    let icon = $(this).find('.filter-toggle-icon');
+                    if (expanded) {
+                        icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                    } else {
+                        icon.removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                    }
+                });
+            }
+
+            $(document).on('click', '.filter-panel-header', function() {
+                let target = $($(this).data('target'));
+                target.toggleClass('show');
+                setFilterPanelState();
+            });
+
+            setFilterPanelState();
+
+            $(document).on('change', '.category-filter, .subcategory-filter, .price-filter, #sort_by', function() {
+                filterProducts(buildFilterUrl());
+            });
+
+            $(document).on('submit', '#searchForm', function(e) {
+                e.preventDefault();
+                filterProducts(buildFilterUrl());
+            });
+
+            $(document).on('click', '.pagination a', function(e) {
+                e.preventDefault();
+                filterProducts(buildFilterUrl($(this).attr('href')));
+            });
+        });
+    </script>
+@endpush
