@@ -1,7 +1,7 @@
 <aside class="product-sidebar-modern">
     <div class="mb-4">
         <h4 class="widget-title">Search Products</h4>
-        <form id="searchForm" action="{{ route('products') }}" method="GET">
+        <form id="searchForm" action="{{ request()->url() }}" method="GET">
             <div class="input-group">
                 <input type="text" class="form-control" name="search" id="searchInput"
                     placeholder="Search product" value="{{ request('search') }}">

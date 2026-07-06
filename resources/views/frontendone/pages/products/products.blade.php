@@ -430,10 +430,15 @@
             });
 
             $(document).on('click', '.category-collapse-toggle', function() {
+                let button = $(this);
                 let target = $($(this).data('target'));
-                target.toggleClass('show');
-                $(this).attr('aria-expanded', target.hasClass('show') ? 'true' : 'false');
-                $(this).find('i').toggleClass('rotate-180');
+                let opening = !target.is(':visible');
+                target.stop(true, true).slideToggle(180, function() {
+                    let visible = target.is(':visible');
+                    target.toggleClass('show', visible);
+                    button.attr('aria-expanded', visible ? 'true' : 'false');
+                    button.find('i').toggleClass('rotate-180', visible);
+                });
             });
 
             setFilterPanelState();

@@ -177,6 +177,38 @@
         .filter-panel-body button i{
             font-size: 12px;
         }
+
+        .category-collapse-group {
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 12px;
+        }
+        .category-collapse-group:last-child {
+            border-bottom: none;
+        }
+        .category-collapse-header {
+            cursor: default;
+            gap: 10px;
+        }
+        .category-collapse-toggle {
+            color: #102949;
+            font-size: 0.95rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+        }
+        .category-collapse-toggle i {
+            transition: transform 0.2s ease;
+        }
+        .category-collapse-toggle i.rotate-180 {
+            transform: rotate(180deg);
+        }
+        .subcategory-list {
+            display: none;
+        }
+        .subcategory-list.show {
+            display: block;
+        }
+
         @media (max-width: 991px) {
             .product-hero { padding-top: 100px; }
         }
@@ -235,5 +267,123 @@
 
 @push('frontendone_script')
     @include('frontend.pages.common.script')
+    <script>
+        $(function() {
+            function filterProducts(url) {
+                $('#product-grid').css('opacity', '0.55');
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function(response) {
+                        $('#product-grid').html(response.html);
+                        $('#top-filter-area').html(response.topfilter);
+                        $('#product-grid').css('opacity', '1');
+                        history.pushState({}, '', url);
+                    },
+                    error: function() {
+                        window.location.href = url;
+                    }
+                });
+            }
+
+            function buildFilterUrl(pageUrl = null) {
+                let urlParams = new URLSearchParams(window.location.search);
+                let search = $('#searchInput').val();
+                search ? urlParams.set('search', search) : urlParams.delete('search');
+
+                let categories = [];
+                let allCategoriesChecked = false;
+                $('.category-filter:checked').each(function() {
+                    if ($(this).val() === '') allCategoriesChecked = true;
+                    else categories.push($(this).val());
+                });
+                if (allCategoriesChecked) urlParams.delete('category');
+                else if (categories.length > 0) urlParams.set('category', categories.join(','));
+                else urlParams.delete('category');
+
+                let subcategories = [];
+                $('.subcategory-filter:checked').each(function() {
+                    subcategories.push($(this).val());
+                });
+                if (allCategoriesChecked) urlParams.delete('subcategory');
+                else if (subcategories.length > 0) urlParams.set('subcategory', subcategories.join(','));
+                else urlParams.delete('subcategory');
+
+                let prices = [];
+                let allPricesChecked = false;
+                $('.price-filter:checked').each(function() {
+                    if ($(this).val() === '') allPricesChecked = true;
+                    else prices.push($(this).val());
+                });
+                if (allPricesChecked) urlParams.delete('price');
+                else if (prices.length > 0) urlParams.set('price', prices.join(','));
+                else urlParams.delete('price');
+
+                let sortBy = $('#sort_by').val();
+                sortBy ? urlParams.set('sort_by', sortBy) : urlParams.delete('sort_by');
+
+                if (pageUrl) {
+                    let pageParam = new URL(pageUrl, window.location.origin).searchParams.get('page');
+                    if (pageParam) urlParams.set('page', pageParam);
+                } else {
+                    urlParams.delete('page');
+                }
+
+                let query = urlParams.toString();
+                return window.location.pathname + (query ? '?' + query : '');
+            }
+
+            function setFilterPanelState() {
+                $('.filter-panel-header').each(function() {
+                    let target = $($(this).data('target'));
+                    let expanded = target.hasClass('show');
+                    $(this).attr('aria-expanded', expanded ? 'true' : 'false');
+                    let icon = $(this).find('.filter-toggle-icon');
+                    if (expanded) {
+                        icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                    } else {
+                        icon.removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                    }
+                });
+            }
+
+            $(document).on('click', '.filter-panel-header', function() {
+                let target = $($(this).data('target'));
+                target.toggleClass('show');
+                setFilterPanelState();
+            });
+
+            $(document).on('click', '.category-collapse-toggle', function() {
+                let button = $(this);
+                let target = $($(this).data('target'));
+                target.stop(true, true).slideToggle(180, function() {
+                    let visible = target.is(':visible');
+                    target.toggleClass('show', visible);
+                    button.attr('aria-expanded', visible ? 'true' : 'false');
+                    button.find('i').toggleClass('rotate-180', visible);
+                });
+            });
+
+            setFilterPanelState();
+
+            $(document).on('change', '.category-filter, .subcategory-filter, .price-filter, #sort_by', function() {
+                filterProducts(buildFilterUrl());
+            });
+
+            $(document).on('submit', '#searchForm', function(e) {
+                e.preventDefault();
+                filterProducts(buildFilterUrl());
+            });
+
+            $(document).on('click', '.pagination a', function(e) {
+                e.preventDefault();
+                filterProducts(buildFilterUrl($(this).attr('href')));
+            });
+        });
+    </script>
 
 @endpush

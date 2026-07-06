@@ -397,8 +397,14 @@ class WebsiteController extends Controller
         $category = ProductCategory::findOrFail($id);
 
         $productsQuery = Product::with(['category', 'subcategory', 'productImages'])
-            ->where('category_id', $id)
             ->where('is_active', 1);
+
+        if ($request->filled('category')) {
+            $categoryIds = explode(',', $request->input('category'));
+            $productsQuery->whereIn('category_id', $categoryIds);
+        } else {
+            $productsQuery->where('category_id', $id);
+        }
 
         if ($request->filled('search')) {
             $search = $request->input('search');
@@ -407,6 +413,11 @@ class WebsiteController extends Controller
                   ->orWhere('description', 'LIKE', "%{$search}%")
                   ->orWhere('short_description', 'LIKE', "%{$search}%");
             });
+        }
+
+        if ($request->filled('subcategory')) {
+            $subcategoryIds = explode(',', $request->input('subcategory'));
+            $productsQuery->whereIn('subcategory_id', $subcategoryIds);
         }
 
         if ($request->filled('price')) {
@@ -418,7 +429,21 @@ class WebsiteController extends Controller
             }
         }
 
-        $products = $productsQuery->latest('id')->paginate(9)->withQueryString();
+        $sortBy = $request->input('sort_by', 'latest');
+        switch ($sortBy) {
+            case 'low_price':
+                $productsQuery->orderBy('sell_price', 'asc');
+                break;
+            case 'high_price':
+                $productsQuery->orderBy('sell_price', 'desc');
+                break;
+            case 'latest':
+            default:
+                $productsQuery->latest('id');
+                break;
+        }
+
+        $products = $productsQuery->paginate(9)->withQueryString();
 
         $productCategories = ProductCategory::where('is_active', 1)
             ->withCount(['products' => function ($q) {
@@ -429,6 +454,16 @@ class WebsiteController extends Controller
                   ->withCount(['products' => function($q2) { $q2->where('is_active', 1); }]);
             }])
             ->get();
+
+        if ($request->ajax()) {
+            $html = view('frontendone.pages.products.partials.product_grid', compact('products'))->render();
+            $topfilter = view('frontendone.pages.products.product_topfilter', compact('products'))->render();
+
+            return response()->json([
+                'html' => $html,
+                'topfilter' => $topfilter,
+            ]);
+        }
 
         return view('frontendone.pages.products.category_products', compact('category', 'products', 'productCategories'));
     }
