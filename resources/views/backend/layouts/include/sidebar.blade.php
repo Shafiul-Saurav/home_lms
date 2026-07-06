@@ -66,14 +66,14 @@
                                         Setting</a></li>
                             @endcan
                             @can('index-weblink')
-                                <li><a href="{{ route('website_link.index') }}"
+                                {{-- <li><a href="{{ route('website_link.index') }}"
                                         class="slide-item {{ Request::routeIs('website_link.index') ? 'active' : '' }}">Website
-                                        Link Setting</a></li>
+                                        Link Setting</a></li> --}}
                             @endcan
                             @can('index-home-slider')
-                                <li><a href="{{ route('home_slider.index') }}"
+                                {{-- <li><a href="{{ route('home_slider.index') }}"
                                         class="slide-item {{ Request::routeIs('home_slider.index') ? 'active' : '' }}">Home
-                                        Slider Setting</a></li>
+                                        Slider Setting</a></li> --}}
                             @endcan
                             @can('index-copyright')
                                 <li><a href="{{ route('copyright.index') }}"

@@ -365,6 +365,27 @@
         @include('backend.pages.common.script')
         <script>
             $(document).ready(function() {
+                function slugify(value) {
+                    return value.toString().trim().toLowerCase()
+                        .replace(/&/g, '-and-')
+                        .replace(/[^a-z0-9]+/g, '_')
+                        .replace(/^_+|_+$/g, '');
+                }
+
+                let slugManuallyEdited = false;
+
+                $('#slug').on('input', function() {
+                    if ($(this).val().trim() !== '') {
+                        slugManuallyEdited = true;
+                    }
+                });
+
+                $('#name').on('input', function() {
+                    if (!slugManuallyEdited) {
+                        $('#slug').val(slugify($(this).val()));
+                    }
+                });
+
                 // Add multiple image field
                 $(document).on('click', '.addImageField', function() {
                     var fieldCount = $('#multipleImageFields .d-flex').length;
@@ -381,6 +402,47 @@
                 $(document).on('click', '.removeImageField', function() {
                     $(this).closest('.d-flex').remove();
                 });
+
+                // Load related subcategories when a category is selected
+                $('#category_id').on('change', function() {
+                    var categoryId = $(this).val();
+
+                    if (categoryId) {
+                        var url = "{{ route('product_subcategory.get_by_category', ['categoryId' => ':categoryId']) }}";
+                        url = url.replace(':categoryId', categoryId);
+
+                        $.ajax({
+                            url: url,
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function(data) {
+                                $('#subcategory_id').empty();
+                                $('#subcategory_id').append('<option value="">Select Subcategory</option>');
+
+                                $.each(data, function(index, item) {
+                                    $('#subcategory_id').append('<option value="' + item.id + '">' + item.name + '</option>');
+                                });
+
+                                $('#subcategory_id').prop('disabled', false);
+                            },
+                            error: function() {
+                                $('#subcategory_id').empty();
+                                $('#subcategory_id').append('<option value="">Select Subcategory</option>');
+                                $('#subcategory_id').prop('disabled', true);
+                            }
+                        });
+                    } else {
+                        $('#subcategory_id').empty();
+                        $('#subcategory_id').append('<option value="">Select Subcategory</option>');
+                        $('#subcategory_id').prop('disabled', true);
+                    }
+                });
+
+                // Load subcategories on page load when a category was already selected
+                var selectedCategoryId = $('#category_id').val();
+                if (selectedCategoryId) {
+                    $('#category_id').trigger('change');
+                }
 
                 // Delete existing image
                 $(document).on('click', '.delete-image', function(e) {

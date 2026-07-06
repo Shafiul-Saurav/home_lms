@@ -605,6 +605,8 @@ Route::get('check/partner/is_active/{id}', [PartnerController::class, 'checkActi
         ->name('product_subcategory.is_active.ajax');
     Route::get('check/product/subcategory/is_home/{subcategory_id}', [ProductSubcategoryController::class, 'checkHome'])
         ->name('product_subcategory.is_home.ajax');
+    Route::get('product-subcategories/by-category/{categoryId}', [ProductSubcategoryController::class, 'getSubcategories'])
+        ->name('product_subcategory.get_by_category');
     Route::resource('product_subcategories', ProductSubcategoryController::class);
 
     //Product Route

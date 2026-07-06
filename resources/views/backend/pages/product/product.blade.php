@@ -336,12 +336,12 @@
                                     <th class="border-bottom-0" width="10%">Purchase Price</th>
                                     <th class="border-bottom-0" width="10%">Sell Price</th>
                                     <th class="border-bottom-0" width="10%">In Stock</th>
-                                    @can('edit-product')
+                                    {{-- @can('edit-product') --}}
                                         <th class="border-bottom-0" width="10%">Status</th>
-                                    @endcan
-                                    @canany(['edit-product', 'delete-product'])
+                                    {{-- @endcan --}}
+                                    {{-- @canany(['edit-product', 'delete-product']) --}}
                                         <th class="border-bottom-0" width="20%">Actions</th>
-                                    @endcanany
+                                    {{-- @endcanany --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -371,7 +371,7 @@
                                                 <span class="badge bg-danger">Out of Stock</span>
                                             @endif
                                         </td>
-                                        @can('edit-product')
+                                        {{-- @can('edit-product') --}}
                                             <td width="10%">
                                                 <div class="material-switch">
                                                     <input id="product-{{ $product->id }}" class="toggle-class"
@@ -381,8 +381,8 @@
                                                     <label for="product-{{ $product->id }}" class="label-success"></label>
                                                 </div>
                                             </td>
-                                        @endcan
-                                        @canany(['edit-product', 'delete-product'])
+                                        {{-- @endcan --}}
+                                        {{-- @canany(['edit-product', 'delete-product']) --}}
                                             <td width="20%" class="text-center">
                                                 <div class="action-btns d-flex align-items-center justify-content-center">
                                                     <div>
@@ -416,7 +416,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        @endcanany
+                                        {{-- @endcanany --}}
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -431,6 +431,27 @@
         @include('backend.pages.common.script')
         <script>
             $(document).ready(function() {
+                function slugify(value) {
+                    return value.toString().trim().toLowerCase()
+                        .replace(/&/g, '-and-')
+                        .replace(/[^a-z0-9]+/g, '_')
+                        .replace(/^_+|_+$/g, '');
+                }
+
+                let slugManuallyEdited = false;
+
+                $('#slug').on('input', function() {
+                    if ($(this).val().trim() !== '') {
+                        slugManuallyEdited = true;
+                    }
+                });
+
+                $('#name').on('input', function() {
+                    if (!slugManuallyEdited) {
+                        $('#slug').val(slugify($(this).val()));
+                    }
+                });
+
                 // Toggle active status using event delegation
                 $(document).on('change', '.toggle-class', function() {
                     var is_active = $(this).prop('checked') ? 1 : 0;
@@ -492,6 +513,47 @@
                 $(document).on('click', '.removeImageField', function() {
                     $(this).closest('.d-flex').remove();
                 });
+
+                // Load related subcategories when a category is selected
+                $('#category_id').on('change', function() {
+                    var categoryId = $(this).val();
+
+                    if (categoryId) {
+                        var url = "{{ route('product_subcategory.get_by_category', ['categoryId' => ':categoryId']) }}";
+                        url = url.replace(':categoryId', categoryId);
+
+                        $.ajax({
+                            url: url,
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function(data) {
+                                $('#subcategory_id').empty();
+                                $('#subcategory_id').append('<option value="">Select Subcategory</option>');
+
+                                $.each(data, function(index, item) {
+                                    $('#subcategory_id').append('<option value="' + item.id + '">' + item.name + '</option>');
+                                });
+
+                                $('#subcategory_id').prop('disabled', false);
+                            },
+                            error: function() {
+                                $('#subcategory_id').empty();
+                                $('#subcategory_id').append('<option value="">Select Subcategory</option>');
+                                $('#subcategory_id').prop('disabled', true);
+                            }
+                        });
+                    } else {
+                        $('#subcategory_id').empty();
+                        $('#subcategory_id').append('<option value="">Select Subcategory</option>');
+                        $('#subcategory_id').prop('disabled', true);
+                    }
+                });
+
+                // Load subcategories on page load when a category was already selected
+                var selectedCategoryId = $('#category_id').val();
+                if (selectedCategoryId) {
+                    $('#category_id').trigger('change');
+                }
 
             });
         </script>

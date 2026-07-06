@@ -166,4 +166,14 @@ class ProductSubcategoryController extends Controller
             'message' => 'Status Updated',
         ]);
     }
+
+    public function getSubcategories($categoryId)
+    {
+        $subcategories = ProductSubcategory::where('product_category_id', $categoryId)
+            ->where('is_active', 1)
+            ->select('id', 'name')
+            ->get();
+
+        return response()->json($subcategories);
+    }
 }
