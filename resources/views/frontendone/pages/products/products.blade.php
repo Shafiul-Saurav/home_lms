@@ -103,12 +103,51 @@
         .filter-panel-body.show {
             display: block;
         }
+
+        .filter-panel-body .form-check-label {
+            font-size: 13px;
+        }
+
+        .filter-panel-body button i{
+            font-size: 12px;
+        }
+
         .filter-toggle-icon {
             font-size: 0.85rem;
             transition: transform 0.2s ease;
         }
         .filter-panel-header[aria-expanded="false"] .filter-toggle-icon {
             transform: rotate(180deg);
+        }
+        .category-collapse-group {
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 12px;
+        }
+        .category-collapse-group:last-child {
+            border-bottom: none;
+        }
+        .category-collapse-header {
+            cursor: default;
+            gap: 10px;
+        }
+        .category-collapse-toggle {
+            color: #102949;
+            font-size: 0.95rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+        }
+        .category-collapse-toggle i {
+            transition: transform 0.2s ease;
+        }
+        .category-collapse-toggle i.rotate-180 {
+            transform: rotate(180deg);
+        }
+        .subcategory-list {
+            display: none;
+        }
+        .subcategory-list.show {
+            display: block;
         }
         @media (max-width: 991px) {
             .product-sidebar-modern {
@@ -388,6 +427,13 @@
                 let target = $($(this).data('target'));
                 target.toggleClass('show');
                 setFilterPanelState();
+            });
+
+            $(document).on('click', '.category-collapse-toggle', function() {
+                let target = $($(this).data('target'));
+                target.toggleClass('show');
+                $(this).attr('aria-expanded', target.hasClass('show') ? 'true' : 'false');
+                $(this).find('i').toggleClass('rotate-180');
             });
 
             setFilterPanelState();

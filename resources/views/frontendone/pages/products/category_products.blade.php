@@ -3,7 +3,9 @@
 @section('title', $category->name . ' Products')
 
 @push('frontendone_style')
+    @include('frontend.pages.common.style')
     <style>
+
         .product-hero {
             padding: 120px 0 80px;
             background: linear-gradient(135deg, #07111f 0%, #0d1f36 50%, #12345a 100%);
@@ -68,6 +70,113 @@
         .product-card-modern .theme-btn {
             min-width: 120px;
         }
+
+        .product-card-modern {
+            border-radius: 24px;
+            overflow: hidden;
+            transition: transform .25s ease, box-shadow .25s ease;
+            background: #fff;
+            box-shadow: 0 18px 50px rgba(8,15,30,.06);
+        }
+        .product-card-modern:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 24px 60px rgba(8,15,30,.1);
+        }
+        .product-thumb img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+        }
+        .product-card-modern .product-content {
+            padding: 24px;
+        }
+        .product-card-modern h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+        .product-card-modern .desc {
+            margin-bottom: 16px;
+            color: #556679;
+        }
+        .product-card-modern .price-box h4 {
+            margin-bottom: 0;
+            color: #16335c;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        .product-card-modern .price-old-row del {
+            color: #9aa1af;
+            font-size: .95rem;
+        }
+        .product-card-modern .price-old-row .discount {
+            color: #74bd0d;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+        .product-card-modern .theme-btn {
+            min-width: 120px;
+        }
+        .product-sidebar-modern,
+        .product-grid-shell {
+            background: #fff;
+            border-radius: 28px;
+            box-shadow: 0 18px 50px rgba(8,15,30,0.08);
+        }
+        .product-sidebar-modern {
+            position: sticky;
+            top: 110px;
+            padding: 24px;
+        }
+        .product-sidebar-modern .widget-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: #102949;
+        }
+        .product-sidebar-modern .form-control,
+        .product-sidebar-modern .form-select {
+            border-radius: 14px;
+            min-height: 48px;
+        }
+        .filter-panel {
+            border: 1px solid #e9ecef;
+            border-radius: 18px;
+            overflow: hidden;
+        }
+        .filter-panel-header {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 14px 16px;
+            background: #f8f9fa;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #102949;
+        }
+        .filter-panel-header .widget-title {
+            margin-bottom: 0;
+            font-size: 1.05rem;
+            font-weight: 800;
+        }
+        .filter-panel-body {
+            padding: 0 16px 16px;
+            display: none;
+        }
+        .filter-panel-body.show {
+            display: block;
+        }
+
+        .filter-panel-body .form-check-label {
+            font-size: 13px;
+        }
+
+        .filter-panel-body button i{
+            font-size: 12px;
+        }
         @media (max-width: 991px) {
             .product-hero { padding-top: 100px; }
         }
@@ -83,19 +192,6 @@
                 ['name' => $category->name . ' Products', 'url' => '#']
             ]"
         />
-
-        <section class="product-hero">
-            <div class="container">
-                <div class="row align-items-end gy-4">
-                    <div class="col-lg-8">
-                        <span class="product-kicker"><i class="fa-solid fa-box-open"></i> {{ $category->name }}</span>
-                        <h1 class="mt-3">{{ $category->name }} Products</h1>
-                        <p class="mb-0" style="max-width:720px;color:rgba(255,255,255,.8)">Browse the latest products from the {{ $category->name }} collection. Filter by price, stock and category to find the perfect item.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section class="section-padding py-5">
             <div class="container">
                 <div class="row g-4">
@@ -136,3 +232,8 @@
         </section>
     </main>
 @endsection
+
+@push('frontendone_script')
+    @include('frontend.pages.common.script')
+
+@endpush

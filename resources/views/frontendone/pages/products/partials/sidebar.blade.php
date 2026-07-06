@@ -25,24 +25,34 @@
                     <label class="form-check-label" for="cat-all">All Categories</label>
                 </div>
                 @foreach($productCategories as $productCategory)
-                    <div class="form-check">
-                        <input class="form-check-input category-filter" type="checkbox"
-                            value="{{ $productCategory->id }}" id="cat-{{ $productCategory->id }}"
-                            {{ in_array($productCategory->id, explode(',', request('category', ''))) ? 'checked' : '' }}>
-                        <label class="form-check-label" for="cat-{{ $productCategory->id }}">{{ $productCategory->name }} ({{ $productCategory->products_count }})</label>
-                    </div>
-                    @if($productCategory->subcategories && $productCategory->subcategories->isNotEmpty())
-                        <div class="ms-3 mt-2">
-                            @foreach($productCategory->subcategories as $subcat)
-                                <div class="form-check">
-                                    <input class="form-check-input subcategory-filter" type="checkbox"
-                                        value="{{ $subcat->id }}" id="subcat-{{ $subcat->id }}"
-                                        {{ in_array($subcat->id, explode(',', request('subcategory', ''))) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="subcat-{{ $subcat->id }}">{{ $subcat->name }} @if(isset($subcat->products_count))( {{ $subcat->products_count }} )@endif</label>
-                                </div>
-                            @endforeach
+                    <div class="category-collapse-group mb-3">
+                        <div class="category-collapse-header d-flex align-items-center justify-content-between gap-2">
+                            <div class="form-check mb-0 w-100">
+                                <input class="form-check-input category-filter" type="checkbox"
+                                    value="{{ $productCategory->id }}" id="cat-{{ $productCategory->id }}"
+                                    {{ in_array($productCategory->id, explode(',', request('category', ''))) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="cat-{{ $productCategory->id }}">{{ $productCategory->name }} ({{ $productCategory->products_count }})</label>
+                            </div>
+                            @if($productCategory->subcategories && $productCategory->subcategories->isNotEmpty())
+                                <button type="button" class="btn btn-link p-0 category-collapse-toggle" data-target="#subcats-{{ $productCategory->id }}" aria-expanded="false">
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                            @endif
                         </div>
-                    @endif
+
+                        @if($productCategory->subcategories && $productCategory->subcategories->isNotEmpty())
+                            <div class="subcategory-list collapse" id="subcats-{{ $productCategory->id }}">
+                                @foreach($productCategory->subcategories as $subcat)
+                                    <div class="form-check ms-3 mt-2">
+                                        <input class="form-check-input subcategory-filter" type="checkbox"
+                                            value="{{ $subcat->id }}" id="subcat-{{ $subcat->id }}"
+                                            {{ in_array($subcat->id, explode(',', request('subcategory', ''))) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="subcat-{{ $subcat->id }}">{{ $subcat->name }} @if(isset($subcat->products_count))( {{ $subcat->products_count }} )@endif</label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
                 @endforeach
             </div>
         </div>
