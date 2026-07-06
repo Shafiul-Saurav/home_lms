@@ -241,6 +241,50 @@
                         </ul>
                     </li>
                 @endcan
+                @canany(['index-course-category', 'index-course-subcategory', 'index-course'])
+                    <li
+                        class="slide {{ Request::routeIs('product_categories.*', 'product_subcategories.*', 'products.*') ? 'is-expanded' : '' }}">
+                        <a class="side-menu__item {{ Request::routeIs('product_categories.*', 'product_subcategories.*', 'products.*') ? 'active' : '' }}"
+                            data-bs-toggle="slide" href="#">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span class="side-menu__label ms-3">Product Management</span><i
+                                class="fa-solid fa-angle-right"></i>
+                        </a>
+                        <ul class="slide-menu">
+                            @can('index-course-category')
+                                <li class="sub-slide {{ Request::routeIs('product_categories.*') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('product_categories.*') ? 'active' : '' }}"
+                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Category</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    <ul class="sub-slide-menu">
+                                        <li><a class="sub-slide-item {{ Request::routeIs('product_categories.index') ? 'active' : '' }}"
+                                                href="{{ route('product_categories.index') }}">List</a></li>
+                                    </ul>
+                                </li>
+                            @endcan
+                            @can('index-course-subcategory')
+                                <li class="sub-slide {{ Request::routeIs('product_subcategories.*') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('product_subcategories.*') ? 'active' : '' }}"
+                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Subcategory</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    <ul class="sub-slide-menu">
+                                        <li><a class="sub-slide-item {{ Request::routeIs('product_subcategories.index') ? 'active' : '' }}"
+                                                href="{{ route('product_subcategories.index') }}">List</a></li>
+                                    </ul>
+                                </li>
+                            @endcan
+                            @can('index-course')
+                                <li class="sub-slide {{ Request::routeIs('products.*') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('products.*') ? 'active' : '' }}"
+                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Product</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    <ul class="sub-slide-menu">
+                                        <li><a class="sub-slide-item {{ Request::routeIs('products.index') ? 'active' : '' }}"
+                                                href="{{ route('products.index') }}">List</a></li>
+                                    </ul>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcanany
+
                 @canany(['index-course-category', 'index-course-subcategory', 'index-course-childcategory',
                     'index-course', 'index-instructor-commission'])
                     <li

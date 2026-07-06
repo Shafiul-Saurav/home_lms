@@ -44,7 +44,9 @@ use App\Http\Controllers\Backend\PhotoGalleryController;
 use App\Http\Controllers\Backend\PostCategoryController;
 use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\PrivacyPolicyController;
+use App\Http\Controllers\Backend\ProductCategoryController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\ProductSubcategoryController;
 use App\Http\Controllers\Backend\QuestionController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\ServiceConsultationController as BackendServiceConsultationController;
@@ -590,6 +592,20 @@ Route::get('check/partner/is_active/{id}', [PartnerController::class, 'checkActi
     Route::get('get-childcategories/{subcategory_id}', [ChildcategoryController::class, 'getChildcategories']);
 
     Route::resource('childcategories', ChildcategoryController::class);
+
+    // Product Category Route
+    Route::get('check/product/category/is_active/{category_id}', [ProductCategoryController::class, 'checkActive'])
+        ->name('product_category.is_active.ajax');
+    Route::get('check/product/category/is_home/{category_id}', [ProductCategoryController::class, 'checkHome'])
+        ->name('product_category.is_home.ajax');
+    Route::resource('product_categories', ProductCategoryController::class);
+
+    // Product Subcategory Route
+    Route::get('check/product/subcategory/is_active/{subcategory_id}', [ProductSubcategoryController::class, 'checkActive'])
+        ->name('product_subcategory.is_active.ajax');
+    Route::get('check/product/subcategory/is_home/{subcategory_id}', [ProductSubcategoryController::class, 'checkHome'])
+        ->name('product_subcategory.is_home.ajax');
+    Route::resource('product_subcategories', ProductSubcategoryController::class);
 
     //Product Route
     Route::get('/products/trash', [ProductTrashController::class, 'trash'])->name('products.trash');
