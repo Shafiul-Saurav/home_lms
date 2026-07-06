@@ -404,8 +404,12 @@
                 });
 
                 // Load related subcategories when a category is selected
+                var initialSubcategoryId = "{{ old('subcategory_id', $product->subcategory_id) }}";
+                var preserveSubcategorySelection = true;
+
                 $('#category_id').on('change', function() {
                     var categoryId = $(this).val();
+                    var preserveSelection = preserveSubcategorySelection;
 
                     if (categoryId) {
                         var url = "{{ route('product_subcategory.get_by_category', ['categoryId' => ':categoryId']) }}";
@@ -420,21 +424,28 @@
                                 $('#subcategory_id').append('<option value="">Select Subcategory</option>');
 
                                 $.each(data, function(index, item) {
-                                    $('#subcategory_id').append('<option value="' + item.id + '">' + item.name + '</option>');
+                                    var selected = '';
+                                    if (preserveSelection && item.id == initialSubcategoryId) {
+                                        selected = ' selected';
+                                    }
+                                    $('#subcategory_id').append('<option value="' + item.id + '"' + selected + '>' + item.name + '</option>');
                                 });
 
                                 $('#subcategory_id').prop('disabled', false);
+                                preserveSubcategorySelection = false;
                             },
                             error: function() {
                                 $('#subcategory_id').empty();
                                 $('#subcategory_id').append('<option value="">Select Subcategory</option>');
                                 $('#subcategory_id').prop('disabled', true);
+                                preserveSubcategorySelection = false;
                             }
                         });
                     } else {
                         $('#subcategory_id').empty();
                         $('#subcategory_id').append('<option value="">Select Subcategory</option>');
                         $('#subcategory_id').prop('disabled', true);
+                        preserveSubcategorySelection = false;
                     }
                 });
 

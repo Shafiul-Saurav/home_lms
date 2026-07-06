@@ -26,10 +26,10 @@
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
                     <h3 class="card-title">Create Product</h3>
-                    @can('delete-product')
+                    {{-- @can('delete-product') --}}
                         <a href="{{ route('products.trash') }}" class="btn btn-sm btn-outline-warning border"><i
                                 class="fa-solid fa-trash-can-arrow-up fa-fw"></i> View Trash</a>
-                    @endcan
+                    {{-- @endcan --}}
                 </div>
                 <div class="card-body">
                     <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
