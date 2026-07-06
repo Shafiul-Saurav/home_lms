@@ -3,6 +3,7 @@
 @section('title', $productInfo->name . ' | Product')
 
 @push('frontendone_style')
+@include('frontend.pages.common.style')
     <style>
         .product-detail-hero {
             padding: 120px 0 70px;
@@ -72,6 +73,18 @@
             height: 120px;
             object-fit: cover;
         }
+        .product-gallery-main img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+        .product-gallery-thumbs button img {
+            border: 2px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+        .product-gallery-thumbs button img.active {
+            border-color: #76bd10;
+        }
         @media (max-width: 991px) {
             .product-detail-hero {
                 padding-top: 100px;
@@ -115,13 +128,34 @@
                         <div class="product-detail-card mb-4">
                             <div class="row g-4">
                                 <div class="col-md-6">
-                                    @if(!empty($productInfo->image))
-                                        <img src="{{ asset('uploads/products/' . $productInfo->image) }}" alt="{{ $productInfo->name }}" class="img-fluid rounded-4">
-                                    @elseif($productInfo->productImages->isNotEmpty())
-                                        <img src="{{ asset('uploads/products/' . $productInfo->productImages->first()->multiple_image) }}" alt="{{ $productInfo->name }}" class="img-fluid rounded-4">
-                                    @else
-                                        <img src="{{ asset('assets/frontend/img/default-product.png') }}" alt="{{ $productInfo->name }}" class="img-fluid rounded-4">
-                                    @endif
+                                    <div class="product-gallery">
+                                        <div class="product-gallery-main mb-3">
+                                            @php
+                                                $galleryImages = collect();
+                                                if (!empty($productInfo->image)) {
+                                                    $galleryImages->push('uploads/products/' . $productInfo->image);
+                                                }
+                                                $productInfo->productImages->each(function ($image) use ($galleryImages) {
+                                                    $galleryImages->push('uploads/products/' . $image->multiple_image);
+                                                });
+                                                $galleryImages = $galleryImages->unique();
+                                                $mainImage = $galleryImages->first() ? asset($galleryImages->first()) : asset('assets/frontend/img/default-product.png');
+                                            @endphp
+                                            <img id="mainProductImage" src="{{ $mainImage }}" alt="{{ $productInfo->name }}" class="img-fluid rounded-4">
+                                        </div>
+
+                                        @if($galleryImages->count() > 1)
+                                            <div class="row g-2 product-gallery-thumbs">
+                                                @foreach($galleryImages as $index => $galleryImage)
+                                                    <div class="col-3">
+                                                        <button type="button" class="product-gallery-thumb p-0 border-0 bg-transparent" data-image="{{ asset($galleryImage) }}">
+                                                            <img src="{{ asset($galleryImage) }}" alt="{{ $productInfo->name }} thumbnail" class="img-fluid rounded-4{{ $index === 0 ? ' active' : '' }}">
+                                                        </button>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="price-box mb-4">
@@ -141,10 +175,14 @@
                                         <li><strong>Category:</strong> {{ $productInfo->category->name ?? 'Uncategorized' }}</li>
                                         <li><strong>Subcategory:</strong> {{ $productInfo->subcategory->name ?? 'N/A' }}</li>
                                         <li><strong>Available Quantity:</strong> {{ $productInfo->product_quantity ?? 'N/A' }}</li>
-                                        <li><strong>Color:</strong> {{ $productInfo->color ?? 'N/A' }}</li>
-                                        <li><strong>Size:</strong> {{ $productInfo->size ?? 'N/A' }}</li>
                                     </ul>
-                                    <a href="#product-description" class="theme-btn py-1">See Details</a>
+                                    <form action="{{ route('cart.add') }}" method="POST" class="d-flex gap-2 align-items-center flex-wrap">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $productInfo->id }}">
+                                        <input type="number" name="qty" value="1" min="1" class="form-control form-control-sm" style="width:100px;">
+                                        <button type="submit" class="theme-btn py-1">Add to Cart</button>
+                                    </form>
+                                    <a href="#product-description" class="theme-btn py-1 ms-2">See Details</a>
                                 </div>
                             </div>
                         </div>
@@ -213,3 +251,17 @@
         </section>
     </main>
 @endsection
+
+@push('frontendone_script')
+    <script>
+        $(function() {
+            $(document).on('click', '.product-gallery-thumb', function() {
+                var imageUrl = $(this).data('image');
+                $('#mainProductImage').attr('src', imageUrl);
+                $('.product-gallery-thumb img').removeClass('active');
+                $(this).find('img').addClass('active');
+            });
+        });
+    </script>
+@endpush
+

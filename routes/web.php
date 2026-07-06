@@ -83,6 +83,7 @@ use App\Http\Controllers\Frontend\ShurjopayCourseController;
 use App\Http\Controllers\Frontend\ShurjopayPdfController;
 use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
 use App\Http\Controllers\Frontend\UserLogoutController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\WebsiteController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Admin\CertificateController as AdminCertificateController;
@@ -182,6 +183,13 @@ Route::get('category/{id}/products', [WebsiteController::class, 'categoryProduct
 Route::get('product/{slug}', [WebsiteController::class, 'productDetails'])->name('product.details');
 Route::get('search', [WebsiteController::class, 'searchResults'])->name('search.results');
 Route::get('search/suggestions', [WebsiteController::class, 'searchSuggestions'])->name('search.suggestions');
+Route::get('cart', [CartController::class, 'cart'])->name('cart.index');
+Route::post('cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+Route::post('cart/update', [CartController::class, 'updateCart'])->name('cart.update');
+Route::post('cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+Route::get('checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::post('checkout', [CartController::class, 'processCheckout'])->name('cart.checkout.process');
+Route::get('checkout/success', [CartController::class, 'success'])->name('cart.checkout.success');
 // Teachers listing (frontend)
 Route::get('teachers', [WebsiteController::class, 'teachers'])->name('teachers');
 // Teacher details (frontend)

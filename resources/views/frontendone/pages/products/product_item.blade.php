@@ -28,7 +28,12 @@
                     <h4 class="text-success">Free</h4>
                 @endif
             </div>
-            <a href="{{ route('product.details', $product->slug) }}" class="theme-btn py-1">View Details</a>
+            <form action="{{ route('cart.add') }}" method="POST">
+                @csrf
+                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                <input type="hidden" name="qty" value="1">
+                <button type="submit" class="enroll-btn">Add to Cart</button>
+            </form>
         </div>
     </div>
 </div>

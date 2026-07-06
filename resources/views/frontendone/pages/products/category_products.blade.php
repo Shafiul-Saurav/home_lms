@@ -209,6 +209,77 @@
             display: block;
         }
 
+        .fixed-cart-panel {
+            position: fixed;
+            top: 130px;
+            right: 24px;
+            width: auto;
+            z-index: 999;
+        }
+        .fixed-cart-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            border-radius: 18px;
+            border: 1px solid rgba(118, 189, 16, 0.18);
+            background: #05148b;
+            color: #fff;
+            box-shadow: 0 18px 45px rgba(8, 15, 30, 0.14);
+            cursor: pointer;
+            min-width: 160px;
+        }
+        .fixed-cart-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 22px 50px rgba(8, 15, 30, 0.18);
+        }
+        .fixed-cart-card .cart-card-icon-wrap {
+            width: 52px;
+            height: 52px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: #0c37c7;
+        }
+        .fixed-cart-card .cart-card-icon {
+            font-size: 1.2rem;
+            color: #fff;
+        }
+        .fixed-cart-card .cart-card-count {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 2px;
+            color: #fff;
+        }
+        .fixed-cart-card .cart-card-total {
+            font-size: 14px;
+            color: #e8f1ff;
+        }
+
+        .cart-sidebar .offcanvas-header {
+            padding: 1.25rem 1.5rem;
+        }
+        .cart-sidebar .offcanvas-body {
+            padding: 1.5rem;
+        }
+        .cart-sidebar .offcanvas-title {
+            font-weight: 800;
+            color: #0d0f12;
+        }
+        .cart-sidebar-item .btn-outline-danger {
+            min-width: 38px;
+            min-height: 38px;
+            border-radius: 10px;
+        }
+        .cart-sidebar-item .text-dark {
+            color: #111827 !important;
+        }
+        .cart-sidebar-footer .btn.theme-btn {
+            padding: 12px 18px;
+        }
+        .cart-sidebar-footer .btn-outline-secondary {
+            padding: 12px 18px;
+        }
+
         @media (max-width: 991px) {
             .product-hero { padding-top: 100px; }
         }
@@ -262,6 +333,8 @@
                 </div>
             </div>
         </section>
+
+        @include('frontendone.pages.products.partials.fixed_cart_card')
     </main>
 @endsection
 
