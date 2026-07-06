@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Models\Product;
-use App\Models\Category;
+use App\Models\ProductCategory;
 use App\Models\ProductImage;
+use App\Models\ProductSubcategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+// use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Gate;
+// use Illuminate\Support\Facades\Gate;
 
 class ProductController extends Controller
 {
@@ -19,10 +20,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        Gate::authorize('index-product');
+        // Gate::authorize('index-product');
 
-        $products = Product::with('category', 'subcategory', 'childcategory')->whereNull('deleted_at')->latest('id')->paginate(100);
-        $categories = Category::where('is_active', 1)->get();
+        $products = Product::with('category', 'subcategory')->whereNull('deleted_at')->latest('id')->paginate(100);
+        $categories = ProductCategory::where('is_active', 1)->get();
         return view('backend.pages.product.product', compact('products', 'categories'));
     }
 
@@ -31,10 +32,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        Gate::authorize('create-product');
+        // Gate::authorize('create-product');
 
-        $categories = Category::where('is_active', 1)->get();
-        return view('backend.pages.product.create', compact('categories'));
+        $categories = ProductCategory::where('is_active', 1)->get();
+        // return view('backend.pages.product.create', compact('categories'));
     }
 
     /**
@@ -42,7 +43,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        Gate::authorize('create-product');
+        // Gate::authorize('create-product');
 
         // Validation
         $request->validate([
@@ -53,18 +54,14 @@ class ProductController extends Controller
             'long_description' => 'nullable|string',
             'additional_info' => 'nullable|string',
             'type' => 'nullable|string|in:normal,variable',
-            'category_id' => 'nullable|exists:categories,id',
-            'subcategory_id' => 'nullable|exists:subcategories,id',
-            'childcategory_id' => 'nullable|exists:childcategories,id',
+            'category_id' => 'nullable|exists:product_categories,id',
+            'subcategory_id' => 'nullable|exists:product_subcategories,id',
             'purchase_price' => 'required|numeric|min:0',
             'sell_price' => 'required|numeric|min:0',
             'product_quantity' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'video' => 'nullable|file|mimes:mp4,mov,avi,wmv,flv|max:27648', // 27MB limit
             'multiple_image' => 'nullable',
             'multiple_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'color' => 'nullable|string|max:50',
-            'size' => 'nullable|string|max:50',
             'discount_type' => 'nullable|string|in:percentage,fixed',
             'discount_amount' => 'nullable|numeric|min:0',
             'is_stock' => 'required|boolean',
@@ -84,12 +81,11 @@ class ProductController extends Controller
             'type' => $request->type,
             'category_id' => $request->category_id,
             'subcategory_id' => $request->subcategory_id,
-            'childcategory_id' => $request->childcategory_id,
             'purchase_price' => $request->purchase_price,
             'sell_price' => $request->sell_price,
             'product_quantity' => $request->product_quantity,
-            'color' => $request->type === 'variable' ? $request->color : null,
-            'size' => $request->type === 'variable' ? $request->size : null,
+            'color' => null,
+            'size' => null,
             'discount_type' => $request->discount_type,
             'discount_amount' => $request->discount_amount,
             'is_stock' => $request->is_stock,
@@ -98,7 +94,6 @@ class ProductController extends Controller
         ]);
 
         $this->image_upload($request, $product->id);
-        $this->video_upload($request, $product->id);
         $this->multiple_image_upload($request, $product->id);
 
         return redirect()->back()->with('message', 'Product Created Successfully 🙂');
@@ -109,7 +104,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::with('category', 'subcategory', 'childcategory', 'productImages')->findOrFail($id);
+        $product = Product::with('category', 'subcategory', 'productImages')->findOrFail($id);
         return view('backend.pages.product.show', compact('product'));
     }
 
@@ -118,24 +113,17 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        Gate::authorize('edit-product');
+        // Gate::authorize('edit-product');
 
         $product = Product::findOrFail($id);
-        $categories = Category::where('is_active', 1)->get();
+        $categories = ProductCategory::where('is_active', 1)->get();
 
-        // Get subcategories based on selected category
         $subcategories = [];
-        if($product->category_id) {
-            $subcategories = \App\Models\Subcategory::where('category_id', $product->category_id)->where('is_active', 1)->get();
+        if ($product->category_id) {
+            $subcategories = ProductSubcategory::where('product_category_id', $product->category_id)->where('is_active', 1)->get();
         }
 
-        // Get childcategories based on selected subcategory
-        $childcategories = [];
-        if($product->subcategory_id) {
-            $childcategories = \App\Models\Childcategory::where('subcategory_id', $product->subcategory_id)->where('is_active', 1)->get();
-        }
-
-        return view('backend.pages.product.edit', compact('product', 'categories', 'subcategories', 'childcategories'));
+        return view('backend.pages.product.edit', compact('product', 'categories', 'subcategories'));
     }
 
     /**
@@ -143,7 +131,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        Gate::authorize('edit-product');
+        // Gate::authorize('edit-product');
 
         // Validation
         $request->validate([
@@ -154,18 +142,14 @@ class ProductController extends Controller
             'long_description' => 'nullable|string',
             'additional_info' => 'nullable|string',
             'type' => 'nullable|string|in:normal,variable',
-            'category_id' => 'nullable|exists:categories,id',
-            'subcategory_id' => 'nullable|exists:subcategories,id',
-            'childcategory_id' => 'nullable|exists:childcategories,id',
+            'category_id' => 'nullable|exists:product_categories,id',
+            'subcategory_id' => 'nullable|exists:product_subcategories,id',
             'purchase_price' => 'required|numeric|min:0',
             'sell_price' => 'required|numeric|min:0',
             'product_quantity' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'video' => 'nullable|file|mimes:mp4,mov,avi,wmv,flv|max:27648', // 27MB limit
             'multiple_image' => 'nullable',
             'multiple_image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
-            'color' => 'nullable|string|max:50',
-            'size' => 'nullable|string|max:50',
             'discount_type' => 'nullable|string|in:percentage,fixed',
             'discount_amount' => 'nullable|numeric|min:0',
             'is_stock' => 'required|boolean',
@@ -187,12 +171,11 @@ class ProductController extends Controller
             'type' => $request->type,
             'category_id' => $request->category_id,
             'subcategory_id' => $request->subcategory_id,
-            'childcategory_id' => $request->childcategory_id,
             'purchase_price' => $request->purchase_price,
             'sell_price' => $request->sell_price,
             'product_quantity' => $request->product_quantity,
-            'color' => $request->type === 'variable' ? $request->color : null,
-            'size' => $request->type === 'variable' ? $request->size : null,
+            'color' => null,
+            'size' => null,
             'discount_type' => $request->discount_type,
             'discount_amount' => $request->discount_amount,
             'is_stock' => $request->is_stock,
@@ -200,7 +183,6 @@ class ProductController extends Controller
         ]);
 
         $this->image_upload($request, $product->id);
-        $this->video_upload($request, $product->id);
         $this->multiple_image_upload($request, $product->id);
 
         return redirect()->route('products.index')->with('message', 'Product Updated Successfully 🙂');
@@ -211,7 +193,7 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        Gate::authorize('delete-product');
+        // Gate::authorize('delete-product');
 
         $product = Product::findOrFail($id);
 
@@ -370,7 +352,7 @@ class ProductController extends Controller
      */
     public function getSubcategories($categoryId)
     {
-        $subcategories = \App\Models\Subcategory::where('category_id', $categoryId)
+        $subcategories = ProductSubcategory::where('product_category_id', $categoryId)
             ->where('is_active', 1)
             ->select('id', 'name')
             ->get();

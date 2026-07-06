@@ -141,25 +141,6 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4 mb-3">
-                                <div class="form-group">
-                                    <label for="childcategory_id">Child Category</label>
-                                    <select name="childcategory_id" class="form-control @error('childcategory_id') is-invalid @enderror" id="childcategory_id" {{ $product->subcategory_id ? '' : 'disabled' }}>
-                                        <option value="">Select Child Category</option>
-                                        @foreach ($childcategories as $childcategory)
-                                            <option value="{{ $childcategory->id }}" {{ old('childcategory_id', $product->childcategory_id) == $childcategory->id ? 'selected' : '' }}>
-                                                {!! $childcategory->name !!}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('childcategory_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="short_description">Short Description</label>
@@ -256,32 +237,6 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6 mb-3" id="color_field" style="display: {{ old('type', $product->type) == 'variable' ? 'block' : 'none' }};">
-                                <div class="form-group">
-                                    <label for="color">Color</label>
-                                    <input type="text" name="color" class="form-control @error('color') is-invalid @enderror" id="color"
-                                        value="{{ old('color', $product->color) }}">
-                                    @error('color')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-3" id="size_field" style="display: {{ old('type', $product->type) == 'variable' ? 'block' : 'none' }};">
-                                <div class="form-group">
-                                    <label for="size">Size</label>
-                                    <input type="text" name="size" class="form-control @error('size') is-invalid @enderror" id="size"
-                                        value="{{ old('size', $product->size) }}">
-                                    @error('size')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="purchase_price">Purchase Price <span class="text-danger">*</span></label>
@@ -365,25 +320,6 @@
                                     @if ($product->image)
                                         <div class="mt-2">
                                             <img src="{{ asset('uploads/products') }}/{{ $product->image }}" alt="" style="height: 100px">
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <div class="form-group">
-                                    <label for="video">Product Video</label>
-                                    <input type="file" name="video" class="form-control @error('video') is-invalid @enderror" id="video">
-                                    @error('video')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                    <small class="form-text text-muted">Upload a product video (mp4, mov, avi, wmv, flv). Max size: 27MB</small>
-
-                                    @if ($product->video)
-                                        <div class="mt-2">
-                                            <a href="{{ asset('uploads/products/' . $product->video) }}" target="_blank">View Current Video</a>
                                         </div>
                                     @endif
                                 </div>
@@ -491,133 +427,7 @@
                     });
                 });
 
-                // Handle product type change
-                $('#product_type').change(function() {
-                    if ($(this).val() === 'variable') {
-                        $('#color_field').show();
-                        $('#size_field').show();
-                    } else {
-                        $('#color_field').hide();
-                        $('#size_field').hide();
-                        // Clear values when hidden
-                        $('#color').val('');
-                        $('#size').val('');
-                    }
-                });
-
-                // Dependent dropdown functionality
-                $('#category_id').on('change', function() {
-                    var categoryId = $(this).val();
-
-                    if(categoryId) {
-                        $.ajax({
-                            url: '/admin/get-subcategories/' + categoryId,
-                            type: "GET",
-                            dataType: "json",
-                            success: function(data) {
-                                $('#subcategory_id').empty();
-                                $('#subcategory_id').append('<option value="">Select Subcategory</option>');
-
-                                $.each(data, function(key, value) {
-                                    $('#subcategory_id').append('<option value="' + value.id + '">' + value.name + '</option>');
-                                });
-
-                                $('#subcategory_id').prop('disabled', false);
-
-                                // Also reset childcategory when category changes
-                                $('#childcategory_id').empty();
-                                $('#childcategory_id').append('<option value="">Select Child Category</option>');
-                                $('#childcategory_id').prop('disabled', true);
-                            },
-                            error: function(xhr, status, error) {
-                                console.error(xhr.responseText);
-                                alert('Error loading subcategories');
-                            }
-                        });
-                    } else {
-                        $('#subcategory_id').empty();
-                        $('#subcategory_id').append('<option value="">Select Subcategory</option>');
-                        $('#subcategory_id').prop('disabled', true);
-
-                        $('#childcategory_id').empty();
-                        $('#childcategory_id').append('<option value="">Select Child Category</option>');
-                        $('#childcategory_id').prop('disabled', true);
-                    }
-                });
-
-                // Load subcategories if category is already selected on page load
-                var selectedCategoryId = $('#category_id').val();
-                var selectedSubcategoryId = '{{ old('subcategory_id', $product->subcategory_id) }}';
-                var selectedChildcategoryId = '{{ old('childcategory_id', $product->childcategory_id) }}';
-
-                if(selectedCategoryId) {
-                    $.ajax({
-                        url: '/admin/get-subcategories/' + selectedCategoryId,
-                        type: "GET",
-                        dataType: "json",
-                        success: function(data) {
-                            $('#subcategory_id').empty();
-                            $('#subcategory_id').append('<option value="">Select Subcategory</option>');
-
-                            $.each(data, function(key, value) {
-                                $('#subcategory_id').append('<option value="' + value.id + '">' + value.name + '</option>');
-                            });
-
-                            $('#subcategory_id').prop('disabled', false);
-
-                            // Now set the selected value after options are loaded
-                            if(selectedSubcategoryId) {
-                                $('#subcategory_id').val(selectedSubcategoryId);
-
-                                // Load childcategories for the selected subcategory
-                                if(selectedChildcategoryId) {
-                                    loadChildcategories(selectedSubcategoryId, selectedChildcategoryId);
-                                } else {
-                                    loadChildcategories(selectedSubcategoryId, null);
-                                }
-                            }
-                        }
-                    });
-                }
-
-                $('#subcategory_id').on('change', function() {
-                    var subcategoryId = $(this).val();
-
-                    if(subcategoryId) {
-                        loadChildcategories(subcategoryId, null); // Don't pre-select on change, just load options
-                    } else {
-                        $('#childcategory_id').empty();
-                        $('#childcategory_id').append('<option value="">Select Child Category</option>');
-                        $('#childcategory_id').prop('disabled', true);
-                    }
-                });
-
-                function loadChildcategories(subcategoryId, selectedChildcategoryId = null) {
-                    $.ajax({
-                        url: '/admin/get-childcategories/' + subcategoryId,
-                        type: "GET",
-                        dataType: "json",
-                        success: function(data) {
-                            $('#childcategory_id').empty();
-                            $('#childcategory_id').append('<option value="">Select Child Category</option>');
-
-                            $.each(data, function(key, value) {
-                                $('#childcategory_id').append('<option value="' + value.id + '" ' + (value.id == selectedChildcategoryId ? 'selected' : '') + '>' + value.name + '</option>');
-                            });
-
-                            $('#childcategory_id').prop('disabled', false);
-
-                            // If a childcategory was selected, enable the dropdown
-                            if(selectedChildcategoryId) {
-                                $('#childcategory_id').val(selectedChildcategoryId);
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(xhr.responseText);
-                            alert('Error loading child categories');
-                        }
-                    });
-                }
+                // No extra dependent dropdown logic is required for the simplified product form.
             });
         </script>
         <script>
