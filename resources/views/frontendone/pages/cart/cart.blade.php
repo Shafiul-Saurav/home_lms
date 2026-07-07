@@ -7,7 +7,31 @@
     <style>
         td a {
             color: #76bd10 !important;
+        }
 
+        .cart-remove-btn {
+            border: 1px solid #ff4d24;
+            color: #ff4d24;
+            background: transparent;
+            min-width: 38px;
+            min-height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+        }
+
+        .cart-summary-box {
+            min-width: 220px;
+            text-align: right;
+        }
+
+        .cart-summary-row {
+            justify-content: flex-end;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
         }
     </style>
 @endpush
@@ -56,7 +80,8 @@
                                                             <a href="{{ route('product.details', $item['slug']) }}" class="fw-semibold">{{ $item['name'] }}</a>
                                                         </div>
                                                     </td>
-                                                    <td>${{ number_format($item['price'], 2) }}
+                                                    <td>
+                                                        <span @if(isset($item['original_price']) && $item['original_price'] > $item['price']) style="color: #76bd10; font-weight: 600;" @endif>${{ number_format($item['price'], 2) }}</span>
                                                         @if(isset($item['original_price']) && $item['original_price'] > $item['price'])
                                                             <del class="text-muted ms-2 d-block" style="font-size: 0.85rem;">${{ number_format($item['original_price'], 2) }}</del>
                                                         @endif
@@ -67,7 +92,9 @@
                                                     </td>
                                                     <td>${{ number_format($item['price'] * $item['qty'], 2) }}</td>
                                                     <td>
-                                                        <button type="submit" formaction="{{ route('cart.remove') }}" formmethod="POST" class="btn btn-danger btn-sm" name="remove_product_id" value="{{ $item['id'] }}">Remove</button>
+                                                        <button type="submit" formaction="{{ route('cart.remove') }}" formmethod="POST" class="cart-remove-btn" name="remove_product_id" value="{{ $item['id'] }}" aria-label="Remove item">
+                                                            <i class="fa-solid fa-xmark"></i>
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -75,16 +102,16 @@
                                     </table>
                                 </div>
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-primary">Update Cart</button>
+                                    <button type="submit" class="btn mb-2" style="background-color: #ff4d24; color: white; border: none;">Update Cart</button>
                                 </div>
                             </form>
 
-                            <div class="d-flex justify-content-end align-items-center gap-3 mt-4">
-                                <div class="text-end">
+                            <div class="d-flex justify-content-end gap-3 mt-4 flex-column flex-sm-row align-items-sm-center text-sm-end">
+                                <div class="cart-summary-box">
                                     <p class="mb-1 text-muted">Total</p>
-                                    <h4>${{ number_format($total, 2) }}</h4>
+                                    <h4 class="mb-0">${{ number_format($total, 2) }}</h4>
                                 </div>
-                                <a href="{{ route('cart.checkout') }}" class="btn btn-success btn-lg">Proceed to Checkout</a>
+                                <a href="{{ route('cart.checkout') }}" class="btn theme-btn" style="background-color: #76bd10; color: white; border: none;">Proceed to Checkout</a>
                             </div>
                         @else
                             <div class="alert alert-info text-center">
