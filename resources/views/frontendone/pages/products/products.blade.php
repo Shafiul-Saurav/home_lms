@@ -119,7 +119,7 @@
             border-bottom: none;
         }
         .category-collapse-header {
-            cursor: default;
+            cursor: pointer;
             gap: 10px;
         }
         .category-collapse-toggle {
@@ -525,6 +525,23 @@
                 let button = $(this);
                 let target = $($(this).data('target'));
                 let opening = !target.is(':visible');
+                target.stop(true, true).slideToggle(180, function() {
+                    let visible = target.is(':visible');
+                    target.toggleClass('show', visible);
+                    button.attr('aria-expanded', visible ? 'true' : 'false');
+                    button.find('i').toggleClass('rotate-180', visible);
+                });
+            });
+
+            // Allow clicking the whole category header to toggle its subcategory list
+            $(document).on('click', '.category-collapse-header', function(e) {
+                // Ignore clicks on inputs, labels, links or the toggle button itself
+                if ($(e.target).closest('input, label, a, .category-collapse-toggle').length) return;
+
+                let button = $(this).find('.category-collapse-toggle');
+                if (!button.length) return;
+
+                let target = $(button.data('target'));
                 target.stop(true, true).slideToggle(180, function() {
                     let visible = target.is(':visible');
                     target.toggleClass('show', visible);
