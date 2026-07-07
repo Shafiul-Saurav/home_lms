@@ -38,7 +38,7 @@
                         <form action="{{ route('cart.remove') }}" method="POST" class="m-0">
                             @csrf
                             <input type="hidden" name="remove_product_id" value="{{ $item['id'] }}">
-                            <button type="submit" class="btn btn-sm btn-outline-danger p-2" aria-label="Remove item">
+                            <button type="submit" class="btn btn-sm p-2" style="border: 1px solid #ff4d24; color: #ff4d24; background: transparent;" aria-label="Remove item">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
                         </form>
@@ -50,14 +50,14 @@
                     <span class="text-muted">Total</span>
                     <strong>৳{{ number_format($cartTotal, 2) }}</strong>
                 </div>
-                <a href="{{ route('cart.index') }}" class="btn theme-btn w-100 mb-2">View Cart</a>
-                <a href="{{ route('cart.checkout') }}" class="btn btn-outline-secondary w-100">Checkout</a>
+                <a href="{{ route('cart.index') }}" class="btn w-100 mb-2" style="background-color: #ff4d24; color: white; border: none;">View Cart</a>
+                <a href="{{ route('cart.checkout') }}" class="btn theme-btn w-100" style="background-color: #76bd10; color: white; border: none;">Checkout</a>
             </div>
         @else
             <div class="alert alert-warning mb-4">
                 <strong>Your Cart Is Empty !!</strong>
             </div>
-            <a href="{{ route('products') }}" class="btn theme-btn w-100" data-bs-dismiss="offcanvas">Continue Shopping</a>
+            <a href="{{ route('products') }}" class="enroll-btn w-100" data-bs-dismiss="offcanvas">Continue Shopping</a>
         @endif
     </div>
 </div>
