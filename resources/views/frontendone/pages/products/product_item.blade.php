@@ -14,7 +14,7 @@
         <div class="course-content">
             <span class="text-uppercase" style="font-size: 12px; font-weight: 700; color: #ff4d24; display: block; margin-bottom: 6px;">{{ $product->category->name ?? 'Uncategorized' }}</span>
             <h3><a href="{{ route('product.details', $product->slug) }}">{{ Str::limit($product->name, 55) }}</a></h3>
-            <p class="desc">{{ Str::limit(strip_tags($product->short_description ?? $product->description), 80) }}</p>
+            <p class="desc">{{ Str::limit(strip_tags($product->short_description ?? $product->description), 50) }}</p>
 
             <div class="course-bottom">
                 <div class="price-box">

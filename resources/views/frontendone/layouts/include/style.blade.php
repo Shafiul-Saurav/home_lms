@@ -21,6 +21,13 @@
     @media (max-width: 575.98px) {
         .enroll-btn {
             padding: 6px 10px !important;
+            width: 100% !important;
+            min-width: unset !important;
+            display: block;
+            text-align: center;
+        }
+        .course-card-modern .course-bottom form {
+            width: 100%;
         }
     }
 
@@ -89,6 +96,14 @@
 
         .course-card-modern .course-content h3 a:hover {
             color: #76bd10;
+        }
+
+        .course-card-modern .course-content .desc {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 12px;
         }
 
         @media (max-width: 2520px) and (min-width: 1200px) {
