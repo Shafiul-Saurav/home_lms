@@ -76,7 +76,7 @@
                         @csrf
                         @method('PUT')
                         <div class="form-row">
-                            <div class="col-12 mb-3">
+                            <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label for="name">Name <span class="text-danger">*</span></label>
                                     <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name"
@@ -89,7 +89,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 mb-3">
+                            <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label for="slug">Slug</label>
                                     <input type="text" name="slug" class="form-control @error('slug') is-invalid @enderror" id="slug"
@@ -103,7 +103,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="category_id">Category</label>
                                     <select name="category_id" class="form-control @error('category_id') is-invalid @enderror" id="category_id">
@@ -122,7 +122,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="subcategory_id">Subcategory</label>
                                     <select name="subcategory_id" class="form-control @error('subcategory_id') is-invalid @enderror" id="subcategory_id" {{ $product->category_id ? '' : 'disabled' }}>
@@ -157,7 +157,7 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" id="summernote" class="form-control @error('description') is-invalid @enderror"
+                                    <textarea name="description" class="form-control @error('description') is-invalid @enderror"
                                         rows="4">{{ old('description', $product->description) }}</textarea>
                                     @error('description')
                                         <span class="invalid-feedback" role="alert">
@@ -167,7 +167,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 mb-3">
+                            {{-- <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="long_description">Long Description</label>
                                     <textarea name="long_description" class="form-control @error('long_description') is-invalid @enderror"
@@ -178,9 +178,9 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
 
-                            <div class="col-12 mb-3">
+                            {{-- <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="additional_info">Additional Information</label>
                                     <textarea name="additional_info" class="form-control @error('additional_info') is-invalid @enderror"
@@ -191,7 +191,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
@@ -206,7 +206,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            {{-- <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="is_home">Show on Home Page</label>
                                     <select name="is_home" class="form-control @error('is_home') is-invalid @enderror" id="is_home">
@@ -219,9 +219,9 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
 
-                            <div class="col-md-6 mb-3">
+                            {{-- <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="type">Type</label>
                                     <select name="type" class="form-control @error('type') is-invalid @enderror" id="product_type">
@@ -235,7 +235,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">

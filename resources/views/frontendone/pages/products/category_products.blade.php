@@ -292,6 +292,21 @@
         @media (max-width: 991px) {
             .product-hero { padding-top: 100px; }
         }
+
+        .active>.page-link,
+        .page-link.active {
+            z-index: 3;
+            color: #fff;
+            background-color: #76bd10;
+            border-color: #76bd10;
+        }
+        .page-link,
+        .page-link.active {
+            z-index: 3;
+            color: #76bd10;
+            background-color: #ebebeb;
+            border-color: #fff;
+        }
     </style>
 @endpush
 
@@ -307,17 +322,17 @@
         <section class="section-padding py-5">
             <div class="container">
                 <div class="row g-4">
-                    <div class="col-lg-4 col-xl-3">
+                    {{-- <div class="col-lg-4 col-xl-3">
                         @include('frontendone.pages.products.partials.sidebar')
-                    </div>
+                    </div> --}}
 
-                    <div class="col-lg-8 col-xl-9">
+                    <div class="col-lg-12 col-xl-10 offset-xl-1">
                         <div class="product-grid-shell p-4">
-                            <div id="top-filter-area">
+                            {{-- <div id="top-filter-area">
                                 @include('frontendone.pages.products.product_topfilter', [
                                     'products' => $products,
                                 ])
-                            </div>
+                            </div> --}}
 
                             <div id="product-grid">
                                 @if($products->count() > 0)
