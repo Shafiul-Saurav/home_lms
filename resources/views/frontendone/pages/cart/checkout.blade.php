@@ -182,7 +182,7 @@
                                 <span id="summary-grand-total">${{ number_format($total - $discountTotal + 70, 2) }}</span>
                             </div>
                             <div class="mt-3 text-end">
-                                <button type="submit" form="checkout-form" class="btn btn-success w-100">Place Order</button>
+                                <button type="submit" form="checkout-form" class="enroll-btn border-0 py-2 w-100">Place Order</button>
                             </div>
                         </div>
                     </div>
@@ -196,10 +196,17 @@
     @include('frontend.pages.common.script')
     <script>
         $(function() {
+            function getShippingAmount(option) {
+                if (option === 'outside_dhaka') {
+                    return 130;
+                }
+                return 70;
+            }
+
             function updateCheckoutTotals() {
                 var subtotal = parseFloat({{ number_format($total, 2, '.', '') }});
                 var discount = parseFloat({{ number_format($discountTotal ?? 0, 2, '.', '') }});
-                var shipping = parseFloat($('#shipping_option').val() || 70);
+                var shipping = getShippingAmount($('#shipping_option').val());
                 var grandTotal = subtotal - discount + shipping;
 
                 $('#summary-shipping').text('৳' + shipping.toFixed(0));

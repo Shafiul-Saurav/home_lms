@@ -2,6 +2,10 @@
 
 @section('title', 'Order Confirmed')
 
+@push('frontendone_style')
+    @include('frontend.pages.common.style')
+@endpush
+
 @section('frontendone_content')
     <main class="main">
         <x-frontend.pages.common.breadcrumb
@@ -35,3 +39,7 @@
         </section>
     </main>
 @endsection
+
+@push('frontendone_script')
+    @include('frontend.pages.common.script')
+@endpush
