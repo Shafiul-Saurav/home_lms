@@ -38,7 +38,16 @@
         .product-detail-card .price-box {
             margin-bottom: 20px;
         }
-        .product-detail-card .price-box h2 {
+        .product-detail-card .product-name {
+            margin: 0;
+            font-size: 2.2rem;
+            color: #16335c;
+            font-weight: 900;
+        }
+        .product-detail-card .product-price {
+            margin-bottom: 24px;
+        }
+        .product-detail-card .product-price h2 {
             margin: 0;
             font-size: 2rem;
             color: #16335c;
@@ -90,6 +99,86 @@
                 padding-top: 100px;
             }
         }
+
+         .fixed-cart-panel {
+            position: fixed;
+            top: 50%;
+            right: 24px;
+            width: auto;
+            z-index: 999;
+        }
+        .fixed-cart-card {
+            border-radius: 18px;
+            border: 1px solid rgba(118, 189, 16, 0.18);
+            background: #97dd35;
+            color: #fff;
+            box-shadow: 0 18px 45px rgba(8, 15, 30, 0.14);
+            cursor: pointer;
+            min-width: 100px;
+            padding: 14px 8px;
+        }
+        .fixed-cart-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 22px 50px rgba(8, 15, 30, 0.18);
+        }
+        .fixed-cart-card .cart-card-icon-wrap {
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            border-radius: 10px;
+            background: #76bd10;
+            margin: 0 auto;
+        }
+        .fixed-cart-card .cart-card-icon {
+            font-size: 14px;
+            color: #fff;
+        }
+        .fixed-cart-card .cart-card-count {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 2px;
+            color: #fff;
+        }
+        .fixed-cart-card .cart-card-total {
+            font-size: 14px;
+            color: #e8f1ff;
+        }
+
+        .cart-sidebar {
+            background: #fff;
+            color: #111827;
+        }
+        .cart-sidebar .offcanvas-header {
+            padding: 1.25rem 1.5rem;
+            background: #fff;
+            color: #111827;
+        }
+        .cart-sidebar .offcanvas-body {
+            padding: 1.5rem;
+            background: #f8fafc;
+        }
+        .cart-sidebar .offcanvas-title {
+            font-weight: 800;
+            color: #0d0f12;
+        }
+        .cart-sidebar .btn-close {
+            filter: invert(0);
+        }
+        .cart-sidebar-item .btn-outline-danger {
+            min-width: 38px;
+            min-height: 38px;
+            border-radius: 10px;
+        }
+        .cart-sidebar-item .text-dark {
+            color: #111827 !important;
+        }
+        .cart-sidebar-footer .btn.theme-btn {
+            padding: 12px 18px;
+        }
+        .cart-sidebar-footer .btn-outline-secondary {
+            padding: 12px 18px;
+        }
     </style>
 @endpush
 
@@ -103,23 +192,6 @@
                 ['name' => $productInfo->name, 'url' => '#']
             ]"
         />
-
-        <section class="product-detail-hero">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <span class="meta-pill"><i class="fa-solid fa-tags"></i> {{ $productInfo->subcategory->name ?? $productInfo->category->name ?? 'Uncategorized' }}</span>
-                        <h1>{{ $productInfo->name }}</h1>
-                        <p class="mb-0" style="max-width:760px;color:rgba(255,255,255,.82);">{!! Str::limit(strip_tags($productInfo->long_description ?? $productInfo->description), 200) !!}</p>
-                        <div class="mt-4">
-                            <span class="meta-pill"><i class="fa-solid fa-box"></i> {{ $productInfo->product_quantity ?? 'Stock info unavailable' }}</span>
-                            <span class="meta-pill"><i class="fa-solid fa-calendar-days"></i> Updated {{ optional($productInfo->updated_at)->format('M d, Y') }}</span>
-                            <span class="meta-pill"><i class="fa-solid fa-circle-check"></i> {{ $productInfo->is_stock ? 'In Stock' : 'Out of Stock' }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <section class="section-padding py-5">
             <div class="container">
@@ -159,6 +231,14 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="price-box mb-4">
+                                        <h2 class="product-name">{{ $productInfo->name }}</h2>
+                                    </div>
+                                    <ul class="list-unstyled mb-4">
+                                        <li><strong>Category:</strong> {{ $productInfo->category->name ?? 'Uncategorized' }}</li>
+                                        {{-- <li><strong>Subcategory:</strong> {{ $productInfo->subcategory->name ?? 'N/A' }}</li> --}}
+                                        <li><strong>Available Quantity:</strong> {{ $productInfo->product_quantity ?? 'N/A' }}</li>
+                                    </ul>
+                                    <div class="product-price">
                                         @if($productInfo->discount_amount && $productInfo->discount_amount > 0)
                                             @php
                                                 if(strtolower(trim($productInfo->discount_type)) === 'percentage') {
@@ -180,16 +260,11 @@
                                             <h2 class="text-success">Free</h2>
                                         @endif
                                     </div>
-                                    <ul class="list-unstyled mb-4">
-                                        <li><strong>Category:</strong> {{ $productInfo->category->name ?? 'Uncategorized' }}</li>
-                                        <li><strong>Subcategory:</strong> {{ $productInfo->subcategory->name ?? 'N/A' }}</li>
-                                        <li><strong>Available Quantity:</strong> {{ $productInfo->product_quantity ?? 'N/A' }}</li>
-                                    </ul>
                                     <form action="{{ route('cart.add') }}" method="POST" class="d-flex gap-2 align-items-center flex-wrap">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $productInfo->id }}">
                                         <input type="number" name="qty" value="1" min="1" class="form-control form-control-sm" style="width:100px;">
-                                        <button type="submit" class="theme-btn py-1">Add to Cart</button>
+                                        <button type="submit" class="enroll-btn border-0">Add to Cart</button>
                                     </form>
                                     <a href="#product-description" class="theme-btn py-1 ms-2">See Details</a>
                                 </div>
@@ -258,10 +333,12 @@
                 </div>
             </div>
         </section>
+        @include('frontendone.pages.products.partials.fixed_cart_card')
     </main>
 @endsection
 
 @push('frontendone_script')
+@include('frontend.pages.common.script')
     <script>
         $(function() {
             $(document).on('click', '.product-gallery-thumb', function() {
