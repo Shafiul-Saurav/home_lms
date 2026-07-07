@@ -99,20 +99,19 @@
                                                 </tr>
                                             @endforeach
                                         </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="3" class="text-end fw-semibold">Total</td>
+                                                <td colspan="2" class="fw-semibold">${{ number_format($total, 2) }}</td>
+                                            </tr>
+                                        </tfoot>
                                     </table>
                                 </div>
                                 <div class="text-end">
-                                    <button type="submit" class="btn mb-2" style="background-color: #ff4d24; color: white; border: none;">Update Cart</button>
+                                    <button type="submit" class="btn me-1" style="background-color: #ff4d24; color: white; border: none;">Update Cart</button>
+                                    <a href="{{ route('cart.checkout') }}" class="btn theme-btn" style="background-color: #76bd10; color: white; border: none;">Proceed to Checkout</a>
                                 </div>
                             </form>
-
-                            <div class="d-flex justify-content-end gap-3 mt-4 flex-column flex-sm-row align-items-sm-center text-sm-end">
-                                <div class="cart-summary-box">
-                                    <p class="mb-1 text-muted">Total</p>
-                                    <h4 class="mb-0">${{ number_format($total, 2) }}</h4>
-                                </div>
-                                <a href="{{ route('cart.checkout') }}" class="btn theme-btn" style="background-color: #76bd10; color: white; border: none;">Proceed to Checkout</a>
-                            </div>
                         @else
                             <div class="alert alert-info text-center">
                                 Your cart is empty. <a href="{{ route('products') }}">Browse products</a> to add items.
