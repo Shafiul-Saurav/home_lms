@@ -50,7 +50,7 @@
         .product-detail-card .product-price h2 {
             margin: 0;
             font-size: 2rem;
-            color: #16335c;
+            color: #a6ff34;
             font-weight: 900;
         }
         .product-detail-card .price-old-row del {
@@ -60,6 +60,7 @@
         .product-detail-tabs .nav-link {
             border-radius: 999px;
             padding: 10px 18px;
+            color: #76bd10;
         }
         .product-detail-tabs .nav-link.active {
             background: #0d1f36;
@@ -266,6 +267,10 @@
                                         <input type="number" name="qty" value="1" min="1" class="form-control form-control-sm" style="width:100px;">
                                         <button type="submit" class="enroll-btn border-0">Add to Cart</button>
                                     </form>
+                                    <div class="mt-3">
+                                        <strong>Description:</strong>
+                                        <span class="text-muted">{!! Str::limit(strip_tags($productInfo->short_description ?? $productInfo->description), 50) !!}</span>
+                                    </div>
                                     <a href="#product-description" class="theme-btn py-1 ms-2">See Details</a>
                                 </div>
                             </div>
@@ -274,18 +279,13 @@
                         <div class="product-detail-tabs">
                             <ul class="nav nav-tabs mb-4" role="tablist">
                                 <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#product-description" type="button">Description</button></li>
-                                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#product-additional" type="button">Additional Info</button></li>
+                                {{-- <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#product-additional" type="button">Additional Info</button></li> --}}
                                 <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#product-specs" type="button">Specifications</button></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane fade show active" id="product-description">
                                     <div class="tab-panel-box">
-                                        {!! $productInfo->long_description ?? $productInfo->description !!}
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="product-additional">
-                                    <div class="tab-panel-box">
-                                        {!! $productInfo->additional_info ?? '<p>No additional information available.</p>' !!}
+                                        {!! $productInfo->short_description ?? $productInfo->description !!}
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="product-specs">

@@ -81,13 +81,7 @@
 
 @section('frontendone_content')
     <main class="main">
-        <x-frontend.pages.common.breadcrumb
-            :title="'Checkout'"
-            :breadcrumb="[
-                ['name' => 'Home', 'url' => route('home')],
-                ['name' => 'Checkout', 'url' => '#']
-            ]"
-        />
+        <x-frontend.pages.common.breadcrumb :title="'Checkout'" :breadcrumb="[['name' => 'Home', 'url' => route('home')], ['name' => 'Checkout', 'url' => '#']]" />
 
         <section class="section-padding py-5 checkout-area">
             <div class="container">
@@ -97,35 +91,52 @@
                             <h4>Billing Details</h4>
                             <form action="{{ route('cart.checkout.process') }}" method="POST" id="checkout-form">
                                 @csrf
-                                <div class="mb-3">
-                                    <label class="form-label">Name</label>
-                                    <input type="text" name="name" class="form-control" value="{{ old('name') }}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" name="email" class="form-control" value="{{ old('email') }}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Phone</label>
-                                    <input type="text" name="phone" class="form-control" value="{{ old('phone') }}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Address</label>
-                                    <textarea name="address" class="form-control" rows="4" required>{{ old('address') }}</textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Shipping</label>
-                                    <select name="shipping_option" id="shipping_option" class="form-select" required>
-                                        <option value="70">Inside Dhaka (৳70)</option>
-                                        <option value="130">Outside Dhaka (৳130)</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Order Notes (Optional)</label>
-                                    <textarea name="notes" class="form-control" rows="3">{{ old('notes') }}</textarea>
-                                </div>
-                                <div class="checkout-actions">
-                                    <button type="submit" class="btn btn-success">Place Order</button>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Name</label>
+                                            <input type="text" name="name" class="form-control"
+                                                value="{{ old('name') }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Email</label>
+                                            <input type="email" name="email" class="form-control"
+                                                value="{{ old('email') }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Phone</label>
+                                            <input type="text" name="phone" class="form-control"
+                                                value="{{ old('phone') }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Address</label>
+                                            <input type="text" name="address" class="form-control"
+                                                value="{{ old('address') }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Shipping</label>
+                                            <select name="shipping_option" id="shipping_option" class="form-select"
+                                                required>
+                                                <option value="70">Inside Dhaka (৳70)</option>
+                                                <option value="130">Outside Dhaka (৳130)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Order Notes (Optional)</label>
+                                            <input type="text" name="notes" class="form-control"
+                                                value="{{ old('notes') }}">
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -134,13 +145,22 @@
                     <div class="col-lg-5">
                         <div class="checkout-summary">
                             <h4>Order Summary</h4>
-                            @foreach($cart as $item)
+                            @php
+                                $discountTotal = 0;
+                            @endphp
+                            @foreach ($cart as $item)
+                                @php
+                                    $lineTotal = $item['price'] * $item['qty'];
+                                    if (isset($item['original_price']) && $item['original_price'] > $item['price']) {
+                                        $discountTotal += ($item['original_price'] - $item['price']) * $item['qty'];
+                                    }
+                                @endphp
                                 <div class="summary-line">
                                     <div>
                                         <h6 class="mb-1">{{ $item['name'] }}</h6>
                                         <small>Qty: {{ $item['qty'] }}</small>
                                     </div>
-                                    <div>${{ number_format($item['price'] * $item['qty'], 2) }}</div>
+                                    <div>${{ number_format($lineTotal, 2) }}</div>
                                 </div>
                             @endforeach
 
@@ -150,12 +170,19 @@
                                 <span id="summary-subtotal">${{ number_format($total, 2) }}</span>
                             </div>
                             <div class="summary-line">
+                                <span class="summary-title">Discount</span>
+                                <span id="summary-discount">-${{ number_format($discountTotal, 2) }}</span>
+                            </div>
+                            <div class="summary-line">
                                 <span class="summary-title">Shipping</span>
                                 <span id="summary-shipping">৳70</span>
                             </div>
                             <div class="summary-line grand-total">
                                 <span>Total</span>
-                                <span id="summary-grand-total">${{ number_format($total + 70, 2) }}</span>
+                                <span id="summary-grand-total">${{ number_format($total - $discountTotal + 70, 2) }}</span>
+                            </div>
+                            <div class="mt-3 text-end">
+                                <button type="submit" form="checkout-form" class="btn btn-success w-100">Place Order</button>
                             </div>
                         </div>
                     </div>
@@ -171,10 +198,12 @@
         $(function() {
             function updateCheckoutTotals() {
                 var subtotal = parseFloat({{ number_format($total, 2, '.', '') }});
+                var discount = parseFloat({{ number_format($discountTotal ?? 0, 2, '.', '') }});
                 var shipping = parseFloat($('#shipping_option').val() || 70);
-                var grandTotal = subtotal + shipping;
+                var grandTotal = subtotal - discount + shipping;
 
                 $('#summary-shipping').text('৳' + shipping.toFixed(0));
+                $('#summary-discount').text('-$' + discount.toFixed(2));
                 $('#summary-grand-total').text('$' + grandTotal.toFixed(2));
             }
 
