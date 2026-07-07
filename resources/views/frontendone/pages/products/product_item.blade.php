@@ -19,10 +19,19 @@
             <div class="course-bottom">
                 <div class="price-box">
                     @if($product->discount_amount && $product->discount_amount > 0)
-                        <h4>{{ number_format($product->sell_price - $product->discount_amount) }} Tk</h4>
+                        @php
+                            if(strtolower(trim($product->discount_type)) === 'percentage') {
+                                $discountPercentage = $product->discount_amount;
+                                $finalPrice = $product->sell_price * (1 - $discountPercentage / 100);
+                            } else {
+                                $finalPrice = $product->sell_price - $product->discount_amount;
+                                $discountPercentage = round(($product->discount_amount / max($product->sell_price, 1)) * 100);
+                            }
+                        @endphp
+                        <h4>{{ number_format($finalPrice) }} Tk</h4>
                         <div class="price-old-row">
                             <del>{{ number_format($product->sell_price) }} Tk</del>
-                            <span class="discount">{{ round(($product->discount_amount / max($product->sell_price, 1)) * 100) }}% OFF</span>
+                            <span class="discount">{{ $discountPercentage }}% OFF</span>
                         </div>
                     @elseif($product->sell_price > 0)
                         <h4>{{ number_format($product->sell_price) }} Tk</h4>

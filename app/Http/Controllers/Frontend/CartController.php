@@ -27,9 +27,17 @@ class CartController extends Controller
 
         $product = Product::with('productImages')->where('is_active', 1)->findOrFail($data['product_id']);
 
-        $price = $product->discount_amount && $product->discount_amount > 0
-            ? $product->sell_price - $product->discount_amount
-            : $product->sell_price;
+        // Calculate final price based on discount type
+        $originalPrice = $product->sell_price;
+        $discountedPrice = $originalPrice;
+
+        if ($product->discount_amount && $product->discount_amount > 0) {
+            if (strtolower(trim($product->discount_type)) === 'percentage') {
+                $discountedPrice = $originalPrice * (1 - $product->discount_amount / 100);
+            } else {
+                $discountedPrice = $originalPrice - $product->discount_amount;
+            }
+        }
 
         $image = $product->image
             ? asset('uploads/products/' . $product->image)
@@ -48,7 +56,8 @@ class CartController extends Controller
                 'id' => $product->id,
                 'name' => $product->name,
                 'slug' => $product->slug,
-                'price' => $price,
+                'original_price' => $originalPrice,
+                'price' => $discountedPrice,
                 'qty' => $qty,
                 'image' => $image,
             ];

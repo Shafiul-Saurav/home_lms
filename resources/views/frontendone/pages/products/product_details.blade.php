@@ -160,10 +160,19 @@
                                 <div class="col-md-6">
                                     <div class="price-box mb-4">
                                         @if($productInfo->discount_amount && $productInfo->discount_amount > 0)
-                                            <h2>${{ number_format($productInfo->sell_price - $productInfo->discount_amount, 2) }}</h2>
+                                            @php
+                                                if(strtolower(trim($productInfo->discount_type)) === 'percentage') {
+                                                    $discountPercentage = $productInfo->discount_amount;
+                                                    $finalPrice = $productInfo->sell_price * (1 - $discountPercentage / 100);
+                                                } else {
+                                                    $finalPrice = $productInfo->sell_price - $productInfo->discount_amount;
+                                                    $discountPercentage = round(($productInfo->discount_amount / max($productInfo->sell_price, 1)) * 100);
+                                                }
+                                            @endphp
+                                            <h2>${{ number_format($finalPrice, 2) }}</h2>
                                             <div class="price-old-row">
                                                 <del>${{ number_format($productInfo->sell_price, 2) }}</del>
-                                                <span class="discount">{{ round(($productInfo->discount_amount / max($productInfo->sell_price, 1)) * 100) }}% OFF</span>
+                                                <span class="discount">{{ $discountPercentage }}% OFF</span>
                                             </div>
                                         @elseif($productInfo->sell_price > 0)
                                             <h2>${{ number_format($productInfo->sell_price, 2) }}</h2>

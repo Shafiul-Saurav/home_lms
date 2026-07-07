@@ -33,7 +33,11 @@
                         <img src="{{ $item['image'] }}" alt="{{ $item['name'] }}" class="rounded-3" style="width:64px; height:64px; object-fit:cover;">
                         <div class="flex-grow-1">
                             <div class="fw-semibold text-dark">{{ Str::limit($item['name'], 30) }}</div>
-                            <div class="text-muted small">Qty: {{ $item['qty'] }} • ৳{{ number_format($item['price'], 2) }}</div>
+                            <div class="text-muted small">Qty: {{ $item['qty'] }} • ৳{{ number_format($item['price'], 2) }}
+                                @if(isset($item['original_price']) && $item['original_price'] > $item['price'])
+                                    <del class="ms-2">৳{{ number_format($item['original_price'], 2) }}</del>
+                                @endif
+                            </div>
                         </div>
                         <form action="{{ route('cart.remove') }}" method="POST" class="m-0">
                             @csrf

@@ -2,6 +2,16 @@
 
 @section('title', 'Shopping Cart')
 
+@push('frontendone_style')
+    @include('frontend.pages.common.style')
+    <style>
+        td a {
+            color: #76bd10 !important;
+
+        }
+    </style>
+@endpush
+
 @section('frontendone_content')
     <main class="main">
         <x-frontend.pages.common.breadcrumb
@@ -46,7 +56,11 @@
                                                             <a href="{{ route('product.details', $item['slug']) }}" class="fw-semibold">{{ $item['name'] }}</a>
                                                         </div>
                                                     </td>
-                                                    <td>${{ number_format($item['price'], 2) }}</td>
+                                                    <td>${{ number_format($item['price'], 2) }}
+                                                        @if(isset($item['original_price']) && $item['original_price'] > $item['price'])
+                                                            <del class="text-muted ms-2 d-block" style="font-size: 0.85rem;">${{ number_format($item['original_price'], 2) }}</del>
+                                                        @endif
+                                                    </td>
                                                     <td style="width:120px;">
                                                         <input type="hidden" name="product_id[]" value="{{ $item['id'] }}">
                                                         <input type="number" name="qty[]" value="{{ $item['qty'] }}" min="1" class="form-control form-control-sm">
@@ -83,3 +97,7 @@
         </section>
     </main>
 @endsection
+
+@push('frontendone_script')
+    @include('frontend.pages.common.script')
+@endpush
