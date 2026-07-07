@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductOrder;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -137,6 +138,7 @@ class CartController extends Controller
             'phone' => 'required|string|max:50',
             'address' => 'required|string|max:500',
             'notes' => 'nullable|string|max:1000',
+            'shipping_option' => 'required|in:inside_dhaka,outside_dhaka',
         ]);
 
         $cart = session()->get('cart', []);
@@ -145,11 +147,50 @@ class CartController extends Controller
             return redirect()->route('cart.index')->with('warning', 'Your cart is empty.');
         }
 
+        $shippingAmount = $data['shipping_option'] === 'outside_dhaka' ? 130 : 70;
         $total = collect($cart)->sum(function ($item) {
             return $item['price'] * $item['qty'];
         });
+        $discountTotal = collect($cart)->sum(function ($item) {
+            return isset($item['original_price']) && $item['original_price'] > $item['price']
+                ? ($item['original_price'] - $item['price']) * $item['qty']
+                : 0;
+        });
 
-        $checkoutData = array_merge($data, ['total' => $total, 'items' => $cart]);
+        foreach ($cart as $item) {
+            ProductOrder::create([
+                'user_id' => auth()->id(),
+                'product_id' => $item['id'],
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+                'address' => $data['address'],
+                'order_number' => 'PROD-' . strtoupper(uniqid()),
+                'transaction_id' => null,
+                'currency' => 'BDT',
+                'amount' => ($item['price'] * $item['qty']) + $shippingAmount - ($item['discount_amount'] ?? 0) * $item['qty'],
+                'price' => $item['price'],
+                'discount_amount' => isset($item['original_price']) && $item['original_price'] > $item['price']
+                    ? ($item['original_price'] - $item['price']) * $item['qty']
+                    : 0,
+                'shipping_amount' => $shippingAmount,
+                'shipping_type' => $data['shipping_option'],
+                'coupon_name' => null,
+                'qty' => $item['qty'],
+                'date' => now()->toDateString(),
+                'agree' => true,
+                'status' => 'pending',
+                'payment_status' => 'Pending',
+                'payment_method' => 'COD',
+            ]);
+        }
+
+        $checkoutData = array_merge($data, [
+            'total' => $total,
+            'discount_total' => $discountTotal,
+            'shipping_amount' => $shippingAmount,
+            'items' => $cart,
+        ]);
 
         session()->forget('cart');
         session()->flash('checkout_data', $checkoutData);

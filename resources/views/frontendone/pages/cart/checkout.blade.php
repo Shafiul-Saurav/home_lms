@@ -125,8 +125,8 @@
                                             <label class="form-label">Shipping</label>
                                             <select name="shipping_option" id="shipping_option" class="form-select"
                                                 required>
-                                                <option value="70">Inside Dhaka (৳70)</option>
-                                                <option value="130">Outside Dhaka (৳130)</option>
+                                                <option value="inside_dhaka">Inside Dhaka (৳70)</option>
+                                                <option value="outside_dhaka">Outside Dhaka (৳130)</option>
                                             </select>
                                         </div>
                                     </div>
