@@ -104,6 +104,37 @@
             display: block;
         }
 
+        .category-collapse-group {
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 12px;
+        }
+        .category-collapse-group:last-child {
+            border-bottom: none;
+        }
+        .category-collapse-header {
+            cursor: pointer;
+            gap: 10px;
+        }
+        .category-collapse-toggle {
+            color: #102949;
+            font-size: 0.95rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+        }
+        .category-collapse-toggle i {
+            transition: transform 0.2s ease;
+        }
+        .category-collapse-toggle i.rotate-180 {
+            transform: rotate(180deg);
+        }
+        .subcategory-list {
+            display: none;
+        }
+        .subcategory-list.show {
+            display: block;
+        }
+
         .filter-toggle-icon {
             font-size: 0.85rem;
             transition: transform 0.2s ease;
@@ -233,14 +264,33 @@
                                                 ({{ $categories->sum('courses_count') }})</label>
                                         </div>
                                         @foreach ($categories as $category)
-                                            <div class="form-check">
-                                                <input class="form-check-input category-filter" type="checkbox"
-                                                    value="{{ $category->id }}" id="cat-{{ $category->id }}"
-                                                    {{ in_array($category->id, explode(',', request('category', ''))) ? 'checked' : '' }}>
-                                                <label class="form-check-label"
-                                                    for="cat-{{ $category->id }}">{{ $category->name }}
-                                                    ({{ $category->courses_count }})
-                                                </label>
+                                            <div class="category-collapse-group mb-3">
+                                                <div class="category-collapse-header d-flex align-items-center justify-content-between gap-2">
+                                                    <div class="form-check mb-0 w-100">
+                                                        <input class="form-check-input category-filter" type="checkbox"
+                                                            value="{{ $category->id }}" id="cat-{{ $category->id }}"
+                                                            {{ in_array($category->id, explode(',', request('category', ''))) ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="cat-{{ $category->id }}">{{ $category->name }} ({{ $category->courses_count }})</label>
+                                                    </div>
+                                                    @if($category->subcategories && $category->subcategories->isNotEmpty())
+                                                        <button type="button" class="btn btn-link p-0 category-collapse-toggle" data-target="#subcats-{{ $category->id }}" aria-expanded="false">
+                                                            <i class="fa-solid fa-chevron-down"></i>
+                                                        </button>
+                                                    @endif
+                                                </div>
+
+                                                @if($category->subcategories && $category->subcategories->isNotEmpty())
+                                                    <div class="subcategory-list collapse" id="subcats-{{ $category->id }}">
+                                                        @foreach($category->subcategories as $subcat)
+                                                            <div class="form-check ms-3 mt-2">
+                                                                <input class="form-check-input subcategory-filter" type="checkbox"
+                                                                    value="{{ $subcat->id }}" id="subcat-{{ $subcat->id }}"
+                                                                    {{ in_array($subcat->id, explode(',', request('subcategory', ''))) ? 'checked' : '' }}>
+                                                                <label class="form-check-label" for="subcat-{{ $subcat->id }}">{{ $subcat->name }} @if(isset($subcat->courses_count))( {{ $subcat->courses_count }} )@endif</label>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                @endif
                                             </div>
                                         @endforeach
                                     </div>
@@ -398,6 +448,32 @@
                 let target = $($(this).data('target'));
                 target.toggleClass('show');
                 setFilterPanelState();
+            });
+
+            // category collapse toggle button
+            $(document).on('click', '.category-collapse-toggle', function() {
+                let button = $(this);
+                let target = $($(this).data('target'));
+                target.stop(true, true).slideToggle(180, function() {
+                    let visible = target.is(':visible');
+                    target.toggleClass('show', visible);
+                    button.attr('aria-expanded', visible ? 'true' : 'false');
+                    button.find('i').toggleClass('rotate-180', visible);
+                });
+            });
+
+            // clicking the header toggles the subcategory list (ignore clicks on inputs/labels/toggle)
+            $(document).on('click', '.category-collapse-header', function(e) {
+                if ($(e.target).closest('input, label, a, .category-collapse-toggle').length) return;
+                let button = $(this).find('.category-collapse-toggle');
+                if (!button.length) return;
+                let target = $(button.data('target'));
+                target.stop(true, true).slideToggle(180, function() {
+                    let visible = target.is(':visible');
+                    target.toggleClass('show', visible);
+                    button.attr('aria-expanded', visible ? 'true' : 'false');
+                    button.find('i').toggleClass('rotate-180', visible);
+                });
             });
 
             setFilterPanelState();
