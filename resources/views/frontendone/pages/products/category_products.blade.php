@@ -211,37 +211,36 @@
 
         .fixed-cart-panel {
             position: fixed;
-            top: 130px;
+            top: 50%;
             right: 24px;
             width: auto;
             z-index: 999;
         }
-        .fixed-cart-card {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
+         .fixed-cart-card {
             border-radius: 18px;
             border: 1px solid rgba(118, 189, 16, 0.18);
-            background: #05148b;
+            background: #97dd35;
             color: #fff;
             box-shadow: 0 18px 45px rgba(8, 15, 30, 0.14);
             cursor: pointer;
-            min-width: 160px;
+            min-width: 100px;
+            padding: 14px 8px;
         }
         .fixed-cart-card:hover {
             transform: translateY(-1px);
             box-shadow: 0 22px 50px rgba(8, 15, 30, 0.18);
         }
         .fixed-cart-card .cart-card-icon-wrap {
-            width: 52px;
-            height: 52px;
+            width: 30px;
+            height: 30px;
             display: grid;
             place-items: center;
-            border-radius: 14px;
-            background: #0c37c7;
+            border-radius: 10px;
+            background: #76bd10;
+            margin: 0 auto;
         }
         .fixed-cart-card .cart-card-icon {
-            font-size: 1.2rem;
+            font-size: 14px;
             color: #fff;
         }
         .fixed-cart-card .cart-card-count {
@@ -255,15 +254,25 @@
             color: #e8f1ff;
         }
 
+        .cart-sidebar {
+            background: #fff;
+            color: #111827;
+        }
         .cart-sidebar .offcanvas-header {
             padding: 1.25rem 1.5rem;
+            background: #fff;
+            color: #111827;
         }
         .cart-sidebar .offcanvas-body {
             padding: 1.5rem;
+            background: #f8fafc;
         }
         .cart-sidebar .offcanvas-title {
             font-weight: 800;
             color: #0d0f12;
+        }
+        .cart-sidebar .btn-close {
+            filter: invert(0);
         }
         .cart-sidebar-item .btn-outline-danger {
             min-width: 38px;

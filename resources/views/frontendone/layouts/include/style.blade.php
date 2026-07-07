@@ -68,7 +68,8 @@
             }
 
             .course-card-modern .course-bottom {
-                align-items: start;
+                flex-direction: column;
+                align-items: flex-start;
                 gap: 10px;
             }
 
@@ -78,6 +79,33 @@
 
             .course-card-modern .price-box .price-old-row del {
                 font-size: 10px !important;
+            }
+        }
+
+        .course-card-modern .course-content h3 a {
+            color: #000;
+            transition: color 0.3s;
+        }
+
+        .course-card-modern .course-content h3 a:hover {
+            color: #76bd10;
+        }
+
+        @media (max-width: 2520px) and (min-width: 1200px) {
+            .course-card-modern .course-content {
+                padding: 10px;
+            }
+            .course-card-modern .price-box h4 {
+                font-size: 15px !important;
+            }
+            .course-card-modern .price-box .price-old-row del {
+                font-size: 10px !important;
+            }
+            .enroll-btn {
+                min-width: 90px;
+                padding: 5px 5px;
+                font-size: 11px;
+                font-weight: 700;
             }
         }
 </style>
