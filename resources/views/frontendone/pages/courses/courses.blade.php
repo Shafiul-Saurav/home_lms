@@ -419,6 +419,17 @@
                 let sortBy = $('#sort_by').val();
                 sortBy ? urlParams.set('sort_by', sortBy) : urlParams.delete('sort_by');
 
+                // subcategories
+                let subcategories = [],
+                    allSubcatsChecked = false;
+                $('.subcategory-filter:checked').each(function() {
+                    if ($(this).val() === '') allSubcatsChecked = true;
+                    else subcategories.push($(this).val());
+                });
+                if (allSubcatsChecked) urlParams.delete('subcategory');
+                else if (subcategories.length > 0) urlParams.set('subcategory', subcategories.join(','));
+                else urlParams.delete('subcategory');
+
                 if (pageUrl) {
                     let pageParam = new URL(pageUrl, window.location.origin).searchParams.get('page');
                     if (pageParam) urlParams.set('page', pageParam);
@@ -478,7 +489,7 @@
 
             setFilterPanelState();
 
-            $(document).on('change', '.category-filter, .price-filter, #sort_by', function() {
+            $(document).on('change', '.category-filter, .subcategory-filter, .price-filter, #sort_by', function() {
                 filterCourses(buildFilterUrl());
             });
 

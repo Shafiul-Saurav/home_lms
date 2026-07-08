@@ -341,6 +341,14 @@ class WebsiteController extends Controller
             $productsQuery->whereIn('category_id', $categoryIds);
         }
 
+        // Subcategory filter (support multiple subcategory IDs)
+        if ($request->filled('subcategory')) {
+            $subcategoryIds = array_filter(explode(',', $request->input('subcategory')));
+            if (!empty($subcategoryIds)) {
+                $productsQuery->whereIn('subcategory_id', $subcategoryIds);
+            }
+        }
+
         if ($request->filled('price')) {
             $priceFilters = explode(',', $request->input('price'));
             if (in_array('free', $priceFilters) && !in_array('paid', $priceFilters)) {

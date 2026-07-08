@@ -77,9 +77,12 @@ class CourseController extends Controller
             $query->whereIn('category_id', $categoryIds);
         }
 
-        // Subcategory filter
+        // Subcategory filter (support multiple subcategory IDs)
         if ($request->filled('subcategory')) {
-            $query->where('subcategory_id', $request->input('subcategory'));
+            $subcategoryIds = array_filter(explode(',', $request->input('subcategory')));
+            if (!empty($subcategoryIds)) {
+                $query->whereIn('subcategory_id', $subcategoryIds);
+            }
         }
 
         // Price filter
@@ -181,9 +184,12 @@ class CourseController extends Controller
             $query->whereIn('category_id', $categoryIds);
         }
 
-        // Subcategory filter
+        // Subcategory filter (support multiple subcategory IDs)
         if ($request->filled('subcategory')) {
-            $query->where('subcategory_id', $request->input('subcategory'));
+            $subcategoryIds = array_filter(explode(',', $request->input('subcategory')));
+            if (!empty($subcategoryIds)) {
+                $query->whereIn('subcategory_id', $subcategoryIds);
+            }
         }
 
         // Price filter
