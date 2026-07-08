@@ -211,20 +211,20 @@
 
         .fixed-cart-panel {
             position: fixed;
-            top: 50%;
+            top: 45%;
             right: 24px;
             width: auto;
             z-index: 999;
         }
-         .fixed-cart-card {
+        .fixed-cart-card {
             border-radius: 18px;
             border: 1px solid rgba(118, 189, 16, 0.18);
             background: #97dd35;
             color: #fff;
             box-shadow: 0 18px 45px rgba(8, 15, 30, 0.14);
             cursor: pointer;
-            min-width: 100px;
-            padding: 14px 8px;
+            min-width: 90px;
+            padding: 8px;
         }
         .fixed-cart-card:hover {
             transform: translateY(-1px);
