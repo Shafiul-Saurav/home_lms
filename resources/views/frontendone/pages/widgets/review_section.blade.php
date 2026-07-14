@@ -74,6 +74,7 @@
                     <div class="modal-body" style="padding: 24px;">
                         <form id="testimonial-form">
                             @csrf
+                            <div id="testimonial-validation-errors" class="text-danger mb-3" style="display:none; font-size: 14px; line-height: 1.4;"></div>
                             <div class="mb-4">
                                 <label class="form-label" style="font-weight: 700; font-size: 14px; margin-bottom: 8px; display: block; color: #111827;">Rating</label>
                                 <div class="rating-stars-container">
@@ -84,12 +85,12 @@
                                 </div>
                             </div>
                             <div class="mb-4">
-                                <label class="form-label" style="font-weight: 700; font-size: 14px; margin-bottom: 8px; display: block; color: #111827;">Short description</label>
-                                <input type="text" name="short_description" class="form-control" placeholder="e.g. SOC Student, Dhaka" maxlength="255" style="border-radius: 12px; border: 1px solid #edf0f5; height: 48px; padding: 10px 16px; font-size: 14px; font-weight: 600;">
+                                <label class="form-label" style="font-weight: 700; font-size: 14px; margin-bottom: 8px; display: block; color: #111827;">Short Title</label>
+                                <input type="text" name="short_description" class="form-control" placeholder="e.g. SOC Student, Dhaka" maxlength="40" style="border-radius: 12px; border: 1px solid #edf0f5; height: 48px; padding: 10px 16px; font-size: 14px; font-weight: 600;">
                             </div>
                             <div class="mb-4">
                                 <label class="form-label" style="font-weight: 700; font-size: 14px; margin-bottom: 8px; display: block; color: #111827;">Review</label>
-                                <textarea name="review" class="form-control" rows="4" placeholder="Write your review here..." maxlength="255" style="border-radius: 12px; border: 1px solid #edf0f5; padding: 12px 16px; font-size: 14px; font-weight: 600;"></textarea>
+                                <textarea name="review" class="form-control" rows="4" placeholder="Write your review here..." maxlength="150" style="border-radius: 12px; border: 1px solid #edf0f5; padding: 12px 16px; font-size: 14px; font-weight: 600;"></textarea>
                             </div>
                             <div class="text-end">
                                 <button type="submit" id="submit-testimonial-btn" class="nav-action disabled" disabled style="border: none;">SEND REVIEW</button>

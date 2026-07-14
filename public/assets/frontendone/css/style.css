@@ -969,6 +969,7 @@ img {
     color: #5f6876;
     line-height: 1.8;
     font-size: 15px;
+    min-height: 150px;
 }
 
 .review-user {

@@ -26,8 +26,8 @@ class TestimonialController extends Controller
             $data = request()->validate([
                 'rating' => 'required|integer|min:1|max:5',
                 // Match FormRequest / DB limit
-                'review' => 'required|string|max:255',
-                'short_description' => 'nullable|string|max:255',
+                'review' => 'required|string|max:200',
+                'short_description' => 'nullable|string|max:40',
             ]);
 
             if (Auth::user()->testimonial) {
@@ -42,8 +42,8 @@ class TestimonialController extends Controller
                 'is_active' => false,
             ]);
 
-            $viewPath = request('theme') === 'frontendone' 
-                ? 'frontendone.pages.widgets.partials.review_item' 
+            $viewPath = request('theme') === 'frontendone'
+                ? 'frontendone.pages.widgets.partials.review_item'
                 : 'frontend.pages.widgets.partials.testimonial_item';
 
             return response()->json([

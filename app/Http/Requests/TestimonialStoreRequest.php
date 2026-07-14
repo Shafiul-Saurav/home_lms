@@ -23,7 +23,7 @@ class TestimonialStoreRequest extends FormRequest
     {
         return [
             'rating' => 'required|numeric',
-            'review' => 'required|string|max:150',
+            'review' => 'required|string|max:200',
             'short_description' => 'required|string|max:40',
         ];
     }

@@ -85,16 +85,48 @@
             });
 
             $(document).on('input', 'textarea[name="review"]', validateTestimonialForm);
+            $(document).on('input', 'input[name="short_description"]', validateTestimonialForm);
 
             function validateTestimonialForm() {
                 var rating = $('#testimonial-rating').val();
-                var review = $('textarea[name="review"]').val().trim();
+                var reviewRaw = $('textarea[name="review"]').val();
+                var review = reviewRaw.trim();
+                var shortDescriptionRaw = $('input[name="short_description"]').val();
+                var shortDescription = shortDescriptionRaw.trim();
                 var btn = $('#submit-testimonial-btn');
-                if (rating && review.length > 0) {
-                    btn.prop('disabled', false).removeClass('disabled');
-                } else {
-                    btn.prop('disabled', true).addClass('disabled');
+                var errors = [];
+
+                if (!rating) {
+                    errors.push('Rating is required.');
                 }
+
+                if (!review.length) {
+                    if (reviewRaw.length && review.length === 0) {
+                        // whitespace-only input; do not show an error message
+                    } else {
+                        errors.push('Review is required.');
+                    }
+                } else if (review.length > 200) {
+                    errors.push('Review cannot exceed 200 characters.');
+                }
+
+                if (shortDescription.length > 40) {
+                    errors.push('Short title cannot exceed 40 characters.');
+                }
+
+                if (errors.length) {
+                    $('#testimonial-validation-errors').html(errors.join('<br>')).show();
+                } else {
+                    $('#testimonial-validation-errors').hide().html('');
+                }
+
+                if (rating && review.length > 0 && review.length <= 150 && shortDescription.length <= 40) {
+                    btn.prop('disabled', false).removeClass('disabled');
+                    return true;
+                }
+
+                btn.prop('disabled', true).addClass('disabled');
+                return false;
             }
 
             // AJAX submit
