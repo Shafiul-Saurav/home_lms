@@ -256,7 +256,7 @@ class CourseController extends Controller
             ]);
         }
 
-        $popularCourses = Course::where('is_active', 1)->latest('id')->limit(6)->get();
+        $popularCourses = Course::where('is_active', 1)->latest('id')->limit(8)->get();
 
         return view('frontendone.pages.courses.academy', compact(
             'courses',

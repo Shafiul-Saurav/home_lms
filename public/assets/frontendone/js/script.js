@@ -39,6 +39,40 @@ $(document).ready(function () {
         }
     });
 
+    // Review tab switching (Customer / Student)
+    $(document).on('click', '#review-tab-customer, #review-tab-student', function() {
+        var isCustomer = $(this).attr('id') === 'review-tab-customer';
+        var $btn = $(this);
+        $('#review-tab-customer, #review-tab-student').removeClass('active');
+        $btn.addClass('active');
+
+        var $carousel = $('.review-carousel');
+
+        // choose the HTML source from hidden containers
+        var newHtml = isCustomer ? $('#review-items-customers').html() : $('#review-items-students').html();
+
+        // Replace carousel contents and reinit
+        try {
+            $carousel.trigger('destroy.owl.carousel');
+        } catch (e) {}
+        $carousel.html(newHtml || '');
+        $carousel.owlCarousel({
+            loop: true,
+            margin: 24,
+            nav: false,
+            dots: true,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            autoplayHoverPause: true,
+            smartSpeed: 900,
+            responsive: {
+                0: { items: 1 },
+                768: { items: 2 },
+                1200: { items: 3 }
+            }
+        });
+    });
+
     $('#heroImageSlider').carousel({
         interval: 3500,
         ride: 'carousel',

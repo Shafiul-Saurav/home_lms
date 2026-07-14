@@ -4,7 +4,7 @@
             @if($review->user && $review->user->profile && $review->user->profile->profileImage)
                 <img src="{{ asset($review->user->profile->profileImage->profile_image) }}" alt="{{ $review->user->name }}">
             @else
-                <img src="{{ asset('assets/frontend/img/instructor/rev-1.png') }}" alt="User">
+                <img src="{{ asset('assets/frontend/img/testimonial/images.png') }}" alt="User">
             @endif
             <div class="info">
                 <div>

@@ -118,7 +118,7 @@
             }
             .enroll-btn {
                 min-width: 90px;
-                padding: 5px 5px;
+                padding: 8px 10px;
                 font-size: 11px;
                 font-weight: 700;
             }

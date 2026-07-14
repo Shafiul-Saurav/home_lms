@@ -12,8 +12,13 @@
             <img src="{{ asset('uploads/courses/' . $course->image) }}" alt="{{ $course->name }}">
         </div>
         <div class="course-content">
-            <h3>{{ $course->name }}</h3>
-            <p class="desc">{{ \Illuminate\Support\Str::words(strip_tags($course->short_description ?? $course->description), 10, '...') }}</p>
+                <div class="d-flex justify-content-between align-items-start">
+                    <h3 class="mb-0">{{ $course->name }}</h3>
+                    <span class="course-badge" style="background: {{ $courseType === 'live' ? '#ff896f' : '#76bd10' }}; color: #fff; padding: 3px 8px; border-radius: 12px; font-weight: 700; font-size: 10px; text-transform: capitalize;">
+                        {{ ucfirst($courseType) }}
+                    </span>
+                </div>
+                <p class="desc">{{ \Illuminate\Support\Str::words(strip_tags($course->short_description ?? $course->description), 10, '...') }}</p>
             <div class="course-meta">
                 <span><i class="fa-regular fa-star"></i> {{ $course->averageRating() ?? 0 }} ({{ $course->reviewCount() ?? 0 }})</span>
                 <span><i class="fa-regular fa-user"></i> {{ $course->students_count ?? 0 }}</span>
@@ -31,11 +36,11 @@
                 <div class="price-box">
                     @if($course->discount && $course->discount > 0)
                         @php
-                            $discountPercent = round(($course->discount / $course->price) * 100);
+                            $discountPercent = $course->price > 0 ? round(($course->discount / $course->price) * 100) : 0;
                         @endphp
-                        <h4>{{ $finalPrice }} Tk</h4>
+                        <h4>{{ $finalPrice > 0 ? $finalPrice . ' Tk' : 'Free' }}</h4>
                         <div class="price-old-row">
-                            <del>{{ $course->price }} Tk</del>
+                            <del>{{ $course->price > 0 ? $course->price . ' Tk' : 'Free' }}</del>
                             <span class="discount">{{ $discountPercent }}% OFF</span>
                         </div>
                     @elseif($course->price > 0)

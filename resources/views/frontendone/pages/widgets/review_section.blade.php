@@ -10,14 +10,30 @@
             <p>Hear from students who built practical cyber security skills and clients who trust us for enterprise-grade security services.</p>
         </div>
 
+        <div class="course-filter-wrap mb-3">
+            <div class="course-filter-dots" aria-hidden="true">
+                <span></span><span></span><span></span>
+            </div>
+
+            <div class="course-filter-bar" id="reviewFilterBar">
+                <button type="button" class="filter-btn active" id="review-tab-customer" data-filter="customer">Customer</button>
+                <button type="button" class="filter-btn" id="review-tab-student" data-filter="student">Student</button>
+            </div>
+
+            <div class="course-filter-dots" aria-hidden="true">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+
         <div class="review-carousel-wrap">
             <div class="owl-carousel owl-theme review-carousel" id="review-list">
-                @forelse($testimonials ?? collect() as $testimonial)
+                {{-- Render customer testimonials by default --}}
+                @forelse($customerTestimonials ?? collect() as $testimonial)
                     <div class="item">
                         <div class="review-card">
                             <div class="stars">
                                 @for ($i = 1; $i <= 5; $i++)
-                                    @if ($i <= ($testimonial->rating ?? 0))
+                                    @if ($i <= (data_get($testimonial, 'rating', 0)))
                                         <i class="fa-solid fa-star"></i>
                                     @else
                                         <i class="fa-regular fa-star"></i>
@@ -25,19 +41,103 @@
                                 @endfor
                             </div>
 
-                            <p>{{ $testimonial->review }}</p>
+                            <p>{{ data_get($testimonial, 'review', '') }}</p>
 
                             <div class="review-user">
                                 @php
                                     $avatar = data_get($testimonial, 'user.profile.profileImage.profile_image');
                                 @endphp
-                                <img src="{{ $avatar ? asset($avatar) : 'https://cdn-icons-png.flaticon.com/512/12965/12965382.png' }}" alt="">
+                                <img src="{{ $avatar ? asset($avatar) : asset('assets/frontend/img/testimonial/images.png') }}" alt="">
                                 <div>
-                                    <h5>{{ data_get($testimonial, 'user.name', 'Anonymous') }}</h5>
+                                    <h5>{{ data_get($testimonial, 'user.name', data_get($testimonial, 'name', 'Anonymous')) }}</h5>
                                     <span>
                                         @if(data_get($testimonial, 'short_description'))
                                             {{ data_get($testimonial, 'short_description') }}
-                                        @elseif(data_get($testimonial, 'user.role_id') == 4)
+                                        @else
+                                            {{ data_get($testimonial, 'user.role_id') == 4 ? 'Student' : 'Customer' }}
+                                        @endif
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12 text-center py-5">
+                        <p class="text-muted">No customer reviews available yet.</p>
+                    </div>
+                @endforelse
+            </div>
+
+            {{-- Hidden container for customer items (used by JS to swap) --}}
+            <div id="review-items-customers" style="display:none;">
+                @forelse($customerTestimonials ?? collect() as $testimonial)
+                    <div class="item">
+                        <div class="review-card">
+                            <div class="stars">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    @if ($i <= (data_get($testimonial, 'rating', 0)))
+                                        <i class="fa-solid fa-star"></i>
+                                    @else
+                                        <i class="fa-regular fa-star"></i>
+                                    @endif
+                                @endfor
+                            </div>
+
+                            <p>{{ data_get($testimonial, 'review', '') }}</p>
+
+                            <div class="review-user">
+                                @php
+                                    $avatar = data_get($testimonial, 'user.profile.profileImage.profile_image');
+                                @endphp
+                                <img src="{{ $avatar ? asset($avatar) : asset('assets/frontend/img/testimonial/images.png') }}" alt="">
+                                <div>
+                                    <h5>{{ data_get($testimonial, 'user.name', data_get($testimonial, 'name', 'Anonymous')) }}</h5>
+                                    <span>
+                                        @if(data_get($testimonial, 'short_description'))
+                                            {{ data_get($testimonial, 'short_description') }}
+                                        @else
+                                            {{ data_get($testimonial, 'user.role_id') == 4 ? 'Student' : 'Customer' }}
+                                        @endif
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12 text-center py-5">
+                        <p class="text-muted">No customer reviews available yet.</p>
+                    </div>
+                @endforelse
+            </div>
+
+            {{-- Hidden container for student items (used by JS to swap) --}}
+            <div id="review-items-students" style="display:none;">
+                @forelse($studentTestimonials ?? collect() as $testimonial)
+                    <div class="item">
+                        <div class="review-card">
+                            <div class="stars">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    @if ($i <= (data_get($testimonial, 'rating', 0)))
+                                        <i class="fa-solid fa-star"></i>
+                                    @else
+                                        <i class="fa-regular fa-star"></i>
+                                    @endif
+                                @endfor
+                            </div>
+
+                            <p>{{ data_get($testimonial, 'review', '') }}</p>
+
+                            <div class="review-user">
+                                @php
+                                    $avatar = data_get($testimonial, 'user.profile.profileImage.profile_image');
+                                @endphp
+                                <img src="{{ $avatar ? asset($avatar) : asset('assets/frontend/img/testimonial/images.png') }}" alt="">
+                                <div>
+                                    <h5>{{ data_get($testimonial, 'user.name', data_get($testimonial, 'name', 'Anonymous')) }}</h5>
+                                    <span>
+                                        @if(data_get($testimonial, 'short_description'))
+                                            {{ data_get($testimonial, 'short_description') }}
+                                        @else
                                             Student
                                         @endif
                                     </span>
@@ -47,7 +147,7 @@
                     </div>
                 @empty
                     <div class="col-12 text-center py-5">
-                        <p class="text-muted">No reviews available yet.</p>
+                        <p class="text-muted">No student reviews available yet.</p>
                     </div>
                 @endforelse
             </div>

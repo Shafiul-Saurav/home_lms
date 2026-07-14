@@ -24,6 +24,7 @@ use App\Models\Teacher;
 use App\Models\Testimonial;
 use App\Models\User;
 use App\Models\Videogallery;
+use App\Models\CourseReview;
 use App\Models\WebsiteLink;
 use App\Models\Product;
 use App\Models\ProductCategory;
@@ -51,6 +52,25 @@ class WebsiteController extends Controller
         $website_link = WebsiteLink::first();
         $about = About::latest('id')->first();
         $testimonials = Testimonial::with('user')->where('is_active', 1)->get();
+        // Course reviews to be shown as customer reviews alongside non-student testimonials
+        // course_reviews table uses `is_approved` flag (not `is_active`)
+        $courseReviews = CourseReview::with('user')->where('is_approved', 1)->get();
+
+        // Normalize CourseReview items to match Testimonial shape (use `review` key instead of `comment`)
+        $courseReviews = $courseReviews->map(function ($r) {
+            return (object) [
+                'rating' => data_get($r, 'rating', 0),
+                'review' => data_get($r, 'comment', ''),
+                'user' => data_get($r, 'user'),
+                'short_description' => null,
+            ];
+        });
+
+        // Customer testimonials: show the same testimonials as before (all active testimonials)
+        $customerTestimonials = $testimonials;
+
+        // Student testimonials on the homepage should show course reviews (CourseReview)
+        $studentTestimonials = $courseReviews; // already normalized above to match testimonial shape
 
         $posts = Post::with(['postCategory', 'user'])
             ->where('is_home', 1)
@@ -135,6 +155,8 @@ class WebsiteController extends Controller
             'website_link',
             'about',
             'testimonials',
+            'studentTestimonials',
+            'customerTestimonials',
             'posts',
             'logo_fav',
             'categories',
