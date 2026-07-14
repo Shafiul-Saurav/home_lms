@@ -4,10 +4,10 @@
         <div class="section-heading">
             <span class="sub-title">
                 <i class="fa-solid fa-star"></i>
-                Student Reviews
+                Testimonials
             </span>
-            <h2>What Our Students Say</h2>
-            <p>Bangladeshi students are building cyber security skills with our practical training system.</p>
+            <h2>What Our Students & Clients Say</h2>
+            <p>Hear from students who built practical cyber security skills and clients who trust us for enterprise-grade security services.</p>
         </div>
 
         <div class="review-carousel-wrap">

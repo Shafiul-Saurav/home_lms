@@ -7,10 +7,9 @@
                         <i class="fa-solid fa-graduation-cap"></i>
                         Popular Courses
                     </span>
-                    <h2>Bangladesh Cyber Security Courses</h2>
+                    <h2>Hacktolive Practical Cyber Security Training Programs</h2>
                     <p>
-                        Practical cyber security, SOC analyst, ethical hacking and web security courses for students and
-                        professionals.
+                        Industry & International Certificate focused training in SOC Implementation & Analysis, Ethical Hacking, Penetration Testing, Web Security, Reverse Engineering & Digital Forensic, designed to take you from beginner to job-ready professional.
                     </p>
                 </div>
 

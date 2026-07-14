@@ -45,26 +45,6 @@ class WebsiteController extends Controller
         View::share('website_link', $website_link);
     }
 
-    public function services()
-    {
-        // Fetch dynamic service categories and their respective services
-        $serviceCategories = Servicetwocategory::where('is_active', 1)
-            ->with(['servicetwos' => function($q) {
-                $q->where('is_active', 1);
-            }])->latest('id')->get();
-
-        $categories = Servicetwocategory::where('is_active', 1)
-            ->with(['servicetwos' => function ($q) {
-                $q->where('is_active', 1);
-            }])
-            ->latest('id')
-            ->get();
-
-        $logo_fav = LogoFavicon::first();
-
-        return view('frontendone.pages.services.index', compact('serviceCategories', 'categories', 'logo_fav'));
-    }
-
     public function home()
     {
         $homeSliders = HomeSlider::latest('id')->get();
@@ -214,6 +194,26 @@ class WebsiteController extends Controller
         $awardsCount = Award::where('is_active', 1)->count();
         $awardsCounter = $formatCounter($awardsCount);
         return view('frontendone.pages.about.about_page', compact('about', 'testimonials', 'logo_fav', 'studentsCounter', 'coursesCounter', 'tutorsCounter', 'awardsCounter'));
+    }
+
+    public function services()
+    {
+        // Fetch dynamic service categories and their respective services
+        $serviceCategories = Servicetwocategory::where('is_active', 1)
+            ->with(['servicetwos' => function($q) {
+                $q->where('is_active', 1);
+            }])->latest('id')->get();
+
+        $categories = Servicetwocategory::where('is_active', 1)
+            ->with(['servicetwos' => function ($q) {
+                $q->where('is_active', 1);
+            }])
+            ->latest('id')
+            ->get();
+
+        $logo_fav = LogoFavicon::first();
+
+        return view('frontendone.pages.services.index', compact('serviceCategories', 'categories', 'logo_fav'));
     }
 
     public function photoGallery()

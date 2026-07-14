@@ -1361,7 +1361,7 @@ img {
     background: linear-gradient(rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.85)), url('https://www.fortinet.com/content/dam/fortinet/images/general/globe-bg.jpg') no-repeat center center;
     background-size: cover;
     min-height: 100vh;
-    padding: 100px 0 160px 0;
+    padding: 0;
     /* Extra bottom padding for the curved shape cutout */
     /* The Rounded/Curved Bottom Shape */
     clip-path: ellipse(110% 100% at 50% 0%);

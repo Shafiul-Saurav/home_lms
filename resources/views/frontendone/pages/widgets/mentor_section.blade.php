@@ -6,10 +6,9 @@
                 <i class="fa-solid fa-user-tie"></i>
                 Our Mentors
             </span>
-            <h2>Meet Our Bangladeshi Mentors</h2>
+            <h2>Learn from Experienced Cybersecurity Professionals</h2>
             <p>
-                Learn from experienced trainers, cyber security professionals and software engineers from
-                Bangladesh.
+                 Learn from experienced trainers and cybersecurity professionals with industry expertise, dedicated to delivering practical, hands-on learning and real-world guidance.
             </p>
         </div>
 

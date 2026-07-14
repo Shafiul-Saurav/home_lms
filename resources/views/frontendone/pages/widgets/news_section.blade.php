@@ -4,12 +4,11 @@
         <div class="section-heading">
             <span class="sub-title">
                 <i class="fa-regular fa-newspaper"></i>
-                Latest News
+                Knowledge Hub
             </span>
-            <h2>Cyber Security News & Blog</h2>
+            <h2>Cybersecurity News, Insights & Practical Guides</h2>
             <p>
-                Latest cyber security updates, training news, career guidelines and technology awareness for
-                Bangladeshi learners.
+                Stay ahead with global cybersecurity news, expert insights, technical blogs, room walkthroughs, practical lab guides, and hands-on security techniques from the HackToLive team.
             </p>
         </div>
 

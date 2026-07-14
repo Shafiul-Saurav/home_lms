@@ -6,8 +6,8 @@
                 <i class="fa-solid fa-handshake"></i>
                 Our Partners
             </span>
-            <h2>Trusted By Training Partners</h2>
-            <p>Our training and workshop programs are designed for Bangladeshi learners and organizations.</p>
+            <h2>Our Training & Institutional Partners</h2>
+            <p>Our programs are built in partnership with universities, corporate organizations and training institutes committed to advancing cyber security skills.</p>
         </div>
 
         <div class="owl-carousel brand-carousel owl-theme">

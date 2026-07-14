@@ -4,12 +4,11 @@
         <div class="section-heading">
             <span class="sub-title">
                 <i class="fa-solid fa-shield-halved"></i>
-                Our Services
+                Our Services and Solutions
             </span>
-            <h2>Cyber Security Training & Professional Services</h2>
+            <h2>Cyber Security Services, Solutions & Professional Training</h2>
             <p>
-                Bangladesh focused cyber security training, corporate workshop, SOC implementation and practical
-                security solutions.
+                Bridging cybersecurity education and enterprise security, HackToLive provides professional training, penetration testing, phishing simulations, SOC implementation, vulnerability assessments, and strategic security audit & consultation.
             </p>
         </div>
 

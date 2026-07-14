@@ -2,8 +2,27 @@
     <div class="dot-grid d-none d-md-block"></div>
 
     <div class="container position-relative z-1 py-5">
-        <p class="section-subtitle text-uppercase tracking-wider mb-2">Fortiguard Labs</p>
-        <h2 class="section-title fw-extrabold mb-5">Global Threat Protection Delivered Daily</h2>
+        <p class="section-subtitle text-uppercase tracking-wider mb-2">OUR IMPACT</p>
+        <h2 class="section-title fw-extrabold mb-5">Trusted by Students & Businesses</h2>
+        <p>
+            From individual learners to enterprise clients — our training and security services deliver measurable results, trusted across the industry.
+        </p>
+
+        {{-- <p>Student/Learner side:</p>
+
+        <ul class="list-unstyled">
+            <li>Students Trained</li>
+            <li>Certified Professionals</li>
+            <li>Success Rate</li>
+        </ul>
+        <p>
+            Client/Enterprise side:
+        </p>
+        <ul class="list-unstyled">
+            <li>Satisfied Clients</li>
+            <li>Enterprises Secured</li>
+            <li>Client Satisfaction Rate</li>
+        </ul> --}}
 
         <div class="row g-4 justify-content-center mt-4">
             <div class="col-6 col-md-4 mb-4">

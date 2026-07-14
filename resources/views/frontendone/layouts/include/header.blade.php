@@ -118,7 +118,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('news.search') }}">News</a>
+                    <a class="nav-link" href="{{ route('news.search') }}">News & Blog</a>
                 </li>
 
                 <li class="nav-item">
@@ -126,14 +126,17 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('contact.page') }}">Contact</a>
+                    <a class="nav-link" href="{{ route('contact.page') }}">About Us</a>
                 </li>
 
             </ul>
 
             @guest('web')
-                <a href="{{ route('login') }}" class="nav-action">
-                    Enroll Now <i class="fa-solid fa-arrow-right"></i>
+                <a href="{{ route('login') }}" class="nav-action me-2">
+                    Sign In
+                </a>
+                <a href="{{ route('register') }}" class="nav-action">
+                    Sign Up
                 </a>
             @endguest
 

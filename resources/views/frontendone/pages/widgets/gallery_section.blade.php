@@ -4,11 +4,11 @@
         <div class="section-heading">
             <span class="sub-title">
                 <i class="fa-regular fa-images"></i>
-                Image Gallery
+                Gallery
             </span>
-            <h2>Training, Workshop & Student Moments</h2>
+            <h2>Building the Cybersecurity Community</h2>
             <p>
-                Explore our class activities, cyber security workshops, mentor sessions and practical lab moments.
+                A collection of moments from cybersecurity training, enterprise collaborations, workshops, client meetings, community events, and team activities that power HackToLive.
             </p>
         </div>
 
