@@ -62,7 +62,7 @@ class WebsiteController extends Controller
                 $q->where('is_active', 1)->limit(4);
             }])->latest('id')->get();
 
-        $popularCourses = Course::where('is_active', 1)->latest('id')->limit(6)->get();
+        $popularCourses = Course::where('is_active', 1)->latest('id')->limit(8)->get();
         $popularBooks = Book::where('is_active', 1)->latest('id')->limit(6)->get();
 
         $photoGalleries = Photogallery::with('photoCategory')

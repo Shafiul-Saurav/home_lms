@@ -396,7 +396,7 @@
                                                     course.</p>
                                             </div>
                                             @auth
-                                                <button type="button" class="enroll-btn" id="give-review-btn">Give Review <i
+                                                <button type="button" class="enroll-btn border-0" id="give-review-btn">Give Review <i
                                                         class="fa-solid fa-pen-to-square"></i></button>
                                             @else
                                                 <a href="{{ route('login') }}" class="enroll-btn">Login to Review <i

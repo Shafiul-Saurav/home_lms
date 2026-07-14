@@ -148,7 +148,7 @@
                         $('.star-icon').removeClass('fa-solid').addClass('fa-regular').css(
                             'color', '#ccc');
 
-                        // Check if the review list has the empty state
+                            // Check if the review list has the empty state
                         if ($('#review-list').find('.text-muted').closest('.col-12').length) {
                             $('#review-list').html(res.testimonial);
                         } else {
@@ -160,8 +160,9 @@
                             icon: 'success',
                             title: res.success,
                             confirmButtonColor: '#76bd10'
+                        }).then(function() {
+                            window.location.reload();
                         });
-                        $('#give-testimonial-btn').remove();
                     },
                     error: function(xhr) {
                         btn.prop('disabled', false).text('SEND REVIEW');

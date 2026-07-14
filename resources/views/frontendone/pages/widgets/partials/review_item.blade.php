@@ -1,4 +1,4 @@
-<div class="col-lg-4 col-md-6">
+<div class="item">
     <div class="review-card">
         <div class="stars">
             @for ($i = 1; $i <= 5; $i++)

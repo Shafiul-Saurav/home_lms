@@ -44,7 +44,7 @@
                         $courseType = 'recorded';
                     }
                 @endphp
-                <div class="col-xl-4 col-lg-4 col-md-6 col-6 px-1 px-md-2" data-course-type="{{ $courseType }}">
+                <div class="col-xl-3 col-lg-3 col-md-6 col-6 px-1 px-md-2" data-course-type="{{ $courseType }}">
                     <div class="course-card-modern">
                         <div class="course-thumb">
                             <img src="{{ asset('uploads/courses/' . $course->image) }}" alt="{{ $course->title }}">
