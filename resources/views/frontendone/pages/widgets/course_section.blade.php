@@ -1,4 +1,4 @@
-<section class="section-padding course-section">
+<section class="section-padding course-section" id="courseGridSection">
     <div class="container">
         <div class="row gx-0">
             <div class="col-12">

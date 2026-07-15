@@ -20,8 +20,8 @@
         }
 
         .course-hero {
-            padding: 155px 0 85px;
-            background: linear-gradient(135deg, #07111f 0%, #0d1f36 50%, #12345a 100%);
+            padding: 155px 0px 1px 0px;
+            background: linear-gradient(135deg, #07111f 0%, #000102 50%, #000000 100%);
             color: #fff;
         }
 
@@ -36,7 +36,7 @@
         }
 
         .course-hero h1 {
-            font-size: clamp(2.2rem, 4vw, 4.2rem);
+            font-size: 40px;
             line-height: 1.05;
             font-weight: 800;
             margin: 18px 0 14px;
@@ -147,6 +147,7 @@
             background-color: #ebebeb;
             border-color: #fff;
         }
+
         /* Categories marquee styles */
         .categories-marquee {
             overflow: hidden;
@@ -209,6 +210,12 @@
             width: 45px;
             height: 45px;
         }
+
+        @media (max-width: 576px) {
+            .course-hero h1 {
+                font-size: 24px;
+            }
+        }
     </style>
 @endpush
 
@@ -216,23 +223,24 @@
     <main class="main">
         <section class="course-hero">
             <div class="container">
-                <div class="row align-items-end g-4">
-                    <div class="col-lg-8">
-                        <span class="hero-kicker"><i class="fa-solid fa-graduation-cap"></i> Browse All Courses</span>
-                        <h1>Find the right cyber security course for your next step.</h1>
-                        <p class="mb-0" style="max-width:720px;color:rgba(255,255,255,.82)">Explore live, recorded, free and
-                            paid training built for learners who want practical skills, real-world labs and career-ready
-                            guidance.</p>
-                    </div>
-                    <div class="col-lg-4 text-lg-end">
-                        <a href="#courseGridSection" class="enroll-btn d-inline-flex align-items-center gap-2">Jump to
+                <div class="section-heading">
+                    <span class="sub-title">
+                        <i class="fa-solid fa-graduation-cap"></i> Browse All Courses
+                    </span>
+                    <h1><span style="color: #74bd0d">Master Cybersecurity Skills</span> From Industry Experts</h1>
+                    <p>
+                        Join thousands of students learning ethical hacking, penetration testing, and web security. Get
+                        certified and launch your cybersecurity career with hands-on training in Bengali.
+                    </p>
+                    <div class="mt-4">
+                        <a href="#courseGridSection" class="enroll-btn gap-2">Jump to
                             Courses <i class="fa-solid fa-arrow-down"></i></a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="section-padding py-5">
+        <section class="section-padding pb-5 pt-1" style="background-color: #000000">
             <div class="container">
                 @php
                     use App\Models\CourseOrder;
@@ -258,21 +266,21 @@
 
                 <div class="row g-4 text-center">
                     <div class="col-md-4">
-                        <div class="feature-card p-4 rounded-4 shadow-sm" style="background:#0f2344; color:#fff;">
-                            <h2 class="mb-2"><span class="counter" data-from="0"
+                        <div class="feature-card p-4 rounded-4 shadow-sm" style="background:#000000; color:#fff;">
+                            <h2 style="color: #74bd0d;" class="mb-2"><span class="counter" data-from="0"
                                     data-to="{{ $enrolledDisplay }}">0</span>+</h2>
                             <p class="mb-0">Student Enrolled</p>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="feature-card p-4 rounded-4 shadow-sm" style="background:#142b56; color:#fff;">
-                            <h2 class="mb-2">{{ $expertCoursesCount > 0 ? $expertCoursesCount : '50+' }}</h2>
+                        <div class="feature-card p-4 rounded-4 shadow-sm" style="background:#000000; color:#fff;">
+                            <h2 style="color: #74bd0d;" class="mb-2">{{ $expertCoursesCount > 0 ? $expertCoursesCount : '50+' }}</h2>
                             <p class="mb-0">Expert Courses</p>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="feature-card p-4 rounded-4 shadow-sm" style="background:#183661; color:#fff;">
-                            <h2 class="mb-2"><span class="counter" data-from="0"
+                        <div class="feature-card p-4 rounded-4 shadow-sm" style="background:#000000; color:#fff;">
+                            <h2 style="color: #74bd0d;" class="mb-2"><span class="counter" data-from="0"
                                     data-to="{{ $certificatesDisplay }}">0</span>+</h2>
                             <p class="mb-0">Certificate Issued</p>
                         </div>

@@ -2,6 +2,7 @@
 <nav class="navbar navbar-expand-lg main-navbar fixed-top">
     @php
         use App\Models\Category;
+        use App\Models\ProductCategory;
         use App\Models\Servicetwocategory;
         use App\Models\Servicetwosubcategory;
 
@@ -45,6 +46,12 @@
         $headerServiceCategories = Servicetwocategory::where('is_active', 1)
             ->with(['subcategories' => function ($q) { $q->where('is_active', 1); }])
             ->orderBy('title')
+            ->get();
+
+        // Fetch active product categories with active subcategories for header menu
+        $headerProductCategories = ProductCategory::where('is_active', 1)
+            ->with(['subcategories' => function ($q) { $q->where('is_active', 1); }])
+            ->orderBy('name')
             ->get();
     @endphp
     <div class="container">
@@ -113,8 +120,30 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('products') }}">Shop</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="{{ route('products') }}">
+                        Shop
+                    </a>
+                    <ul class="dropdown-menu">
+                        @if($headerProductCategories->count())
+                            @foreach($headerProductCategories as $pcat)
+                                @if($pcat->subcategories && $pcat->subcategories->count())
+                                    <li class="dropdown-submenu">
+                                        <a class="dropdown-item dropdown-toggle" href="{{ route('category.products', $pcat->id) }}">{{ $pcat->name }}</a>
+                                        <ul class="dropdown-menu">
+                                            @foreach($pcat->subcategories as $psub)
+                                                <li><a class="dropdown-item" href="{{ route('products', ['category' => $pcat->id, 'subcategory' => $psub->id]) }}">{{ $psub->name }}</a></li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @else
+                                    <li><a class="dropdown-item" href="{{ route('category.products', $pcat->id) }}">{{ $pcat->name }}</a></li>
+                                @endif
+                            @endforeach
+                        @else
+                            <li><a class="dropdown-item" href="{{ route('products') }}">All Products</a></li>
+                        @endif
+                    </ul>
                 </li>
 
                 <li class="nav-item">
@@ -255,7 +284,32 @@
             </li>
 
             <li>
-                <a class="mobile-nav-link" href="{{ route('products') }}">Products</a>
+                <button class="mobile-nav-link mobile-dropdown-btn">
+                    Shop <i class="fa-solid fa-angle-down"></i>
+                </button>
+                <ul class="mobile-submenu">
+                    @if($headerProductCategories->count())
+                        @foreach($headerProductCategories as $pcat)
+                            <li>
+                                @if($pcat->subcategories && $pcat->subcategories->count())
+                                    <button class="mobile-dropdown-btn">
+                                        {{ $pcat->name }} <i class="fa-solid fa-angle-down"></i>
+                                    </button>
+                                    <ul class="mobile-submenu">
+                                        <li><a href="{{ route('category.products', $pcat->id) }}">All {{ $pcat->name }}</a></li>
+                                        @foreach($pcat->subcategories as $psub)
+                                            <li><a href="{{ route('products', ['category' => $pcat->id, 'subcategory' => $psub->id]) }}">{{ $psub->name }}</a></li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <a href="{{ route('category.products', $pcat->id) }}">{{ $pcat->name }}</a>
+                                @endif
+                            </li>
+                        @endforeach
+                    @else
+                        <li><a href="{{ route('products') }}">All Products</a></li>
+                    @endif
+                </ul>
             </li>
 
             <li>

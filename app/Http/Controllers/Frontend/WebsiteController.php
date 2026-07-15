@@ -52,8 +52,7 @@ class WebsiteController extends Controller
         $website_link = WebsiteLink::first();
         $about = About::latest('id')->first();
         $testimonials = Testimonial::with('user')->where('is_active', 1)->get();
-        // Course reviews to be shown as customer reviews alongside non-student testimonials
-        // course_reviews table uses `is_approved` flag (not `is_active`)
+        
         $courseReviews = CourseReview::with('user')->where('is_approved', 1)->get();
 
         // Normalize CourseReview items to match Testimonial shape (use `review` key instead of `comment`)

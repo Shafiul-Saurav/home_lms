@@ -59,6 +59,44 @@ class CourseController extends Controller
         $query = Course::with(['teachers.user', 'category']);
         $testimonials = Testimonial::with('user')->where('is_active', 1)->get();
 
+        // Course reviews to be shown on the student tab
+        $courseReviews = CourseReview::with('user')->where('is_approved', 1)->get();
+
+        // Normalize CourseReview items to match Testimonial shape (use `review` key instead of `comment`)
+        $courseReviews = $courseReviews->map(function ($r) {
+            return (object) [
+                'rating' => data_get($r, 'rating', 0),
+                'review' => data_get($r, 'comment', ''),
+                'user' => data_get($r, 'user'),
+                'short_description' => null,
+            ];
+        });
+
+        // Customer testimonials: show same testimonials as before
+        $customerTestimonials = $testimonials;
+
+        // Student testimonials: use course reviews
+        $studentTestimonials = $courseReviews;
+
+        // Course reviews to be shown on the student tab
+        $courseReviews = CourseReview::with('user')->where('is_approved', 1)->get();
+
+        // Normalize CourseReview items to match Testimonial shape (use `review` key instead of `comment`)
+        $courseReviews = $courseReviews->map(function ($r) {
+            return (object) [
+                'rating' => data_get($r, 'rating', 0),
+                'review' => data_get($r, 'comment', ''),
+                'user' => data_get($r, 'user'),
+                'short_description' => null,
+            ];
+        });
+
+        // Customer testimonials: show same testimonials as before
+        $customerTestimonials = $testimonials;
+
+        // Student testimonials: use course reviews
+        $studentTestimonials = $courseReviews;
+
         // Filter by active courses only
         $query->where('is_active', 1);
 
@@ -166,6 +204,25 @@ class CourseController extends Controller
         $query = Course::with(['teachers.user', 'category']);
         $testimonials = Testimonial::with('user')->where('is_active', 1)->get();
 
+        // Course reviews to be shown on the student tab
+        $courseReviews = CourseReview::with('user')->where('is_approved', 1)->get();
+
+        // Normalize CourseReview items to match Testimonial shape (use `review` key instead of `comment`)
+        $courseReviews = $courseReviews->map(function ($r) {
+            return (object) [
+                'rating' => data_get($r, 'rating', 0),
+                'review' => data_get($r, 'comment', ''),
+                'user' => data_get($r, 'user'),
+                'short_description' => null,
+            ];
+        });
+
+        // Customer testimonials: show same testimonials as before
+        $customerTestimonials = $testimonials;
+
+        // Student testimonials: use course reviews
+        $studentTestimonials = $courseReviews;
+
         // Filter by active courses only
         $query->where('is_active', 1);
 
@@ -268,6 +325,8 @@ class CourseController extends Controller
             'selectedPrice',
             'selectedSort',
             'testimonials',
+            'studentTestimonials',
+            'customerTestimonials',
             'popularCourses'
         ));
     }
