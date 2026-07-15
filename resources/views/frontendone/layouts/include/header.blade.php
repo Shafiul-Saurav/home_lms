@@ -132,7 +132,7 @@
                                         <a class="dropdown-item dropdown-toggle" href="{{ route('category.products', $pcat->id) }}">{{ $pcat->name }}</a>
                                         <ul class="dropdown-menu">
                                             @foreach($pcat->subcategories as $psub)
-                                                <li><a class="dropdown-item" href="{{ route('products', ['category' => $pcat->id, 'subcategory' => $psub->id]) }}">{{ $psub->name }}</a></li>
+                                                <li><a class="dropdown-item" href="{{ route('subcategory.products', $psub->id) }}">{{ $psub->name }}</a></li>
                                             @endforeach
                                         </ul>
                                     </li>
@@ -298,7 +298,7 @@
                                     <ul class="mobile-submenu">
                                         <li><a href="{{ route('category.products', $pcat->id) }}">All {{ $pcat->name }}</a></li>
                                         @foreach($pcat->subcategories as $psub)
-                                            <li><a href="{{ route('products', ['category' => $pcat->id, 'subcategory' => $psub->id]) }}">{{ $psub->name }}</a></li>
+                                            <li><a href="{{ route('subcategory.products', $psub->id) }}">{{ $psub->name }}</a></li>
                                         @endforeach
                                     </ul>
                                 @else

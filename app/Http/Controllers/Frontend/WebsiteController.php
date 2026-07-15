@@ -28,6 +28,7 @@ use App\Models\CourseReview;
 use App\Models\WebsiteLink;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\ProductSubcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 
@@ -52,7 +53,7 @@ class WebsiteController extends Controller
         $website_link = WebsiteLink::first();
         $about = About::latest('id')->first();
         $testimonials = Testimonial::with('user')->where('is_active', 1)->get();
-        
+
         $courseReviews = CourseReview::with('user')->where('is_approved', 1)->get();
 
         // Normalize CourseReview items to match Testimonial shape (use `review` key instead of `comment`)
@@ -495,6 +496,86 @@ class WebsiteController extends Controller
         }
 
         return view('frontendone.pages.products.category_products', compact('category', 'products', 'productCategories'));
+    }
+
+    /**
+     * Display products for a product subcategory.
+     */
+    public function subcategoryProducts(Request $request, $id)
+    {
+        $subcategory = ProductSubcategory::findOrFail($id);
+
+        $productsQuery = Product::with(['category', 'subcategory', 'productImages'])
+            ->where('is_active', 1);
+
+        // If explicit category filter provided, respect it; otherwise filter by this subcategory
+        if ($request->filled('category')) {
+            $categoryIds = explode(',', $request->input('category'));
+            $productsQuery->whereIn('category_id', $categoryIds);
+        } else {
+            $productsQuery->where('subcategory_id', $id);
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $productsQuery->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('description', 'LIKE', "%{$search}%")
+                  ->orWhere('short_description', 'LIKE', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('subcategory')) {
+            $subcategoryIds = explode(',', $request->input('subcategory'));
+            $productsQuery->whereIn('subcategory_id', $subcategoryIds);
+        }
+
+        if ($request->filled('price')) {
+            $priceFilters = explode(',', $request->input('price'));
+            if (in_array('free', $priceFilters) && !in_array('paid', $priceFilters)) {
+                $productsQuery->where('sell_price', 0);
+            } elseif (in_array('paid', $priceFilters) && !in_array('free', $priceFilters)) {
+                $productsQuery->where('sell_price', '>', 0);
+            }
+        }
+
+        $sortBy = $request->input('sort_by', 'latest');
+        switch ($sortBy) {
+            case 'low_price':
+                $productsQuery->orderBy('sell_price', 'asc');
+                break;
+            case 'high_price':
+                $productsQuery->orderBy('sell_price', 'desc');
+                break;
+            case 'latest':
+            default:
+                $productsQuery->latest('id');
+                break;
+        }
+
+        $products = $productsQuery->paginate(9)->withQueryString();
+
+        $productCategories = ProductCategory::where('is_active', 1)
+            ->withCount(['products' => function ($q) {
+                $q->where('is_active', 1);
+            }])
+            ->with(['subcategories' => function($q) {
+                $q->where('is_active', 1)
+                  ->withCount(['products' => function($q2) { $q2->where('is_active', 1); }]);
+            }])
+            ->get();
+
+        if ($request->ajax()) {
+            $html = view('frontendone.pages.products.partials.product_grid', compact('products'))->render();
+            $topfilter = view('frontendone.pages.products.product_topfilter', compact('products'))->render();
+
+            return response()->json([
+                'html' => $html,
+                'topfilter' => $topfilter,
+            ]);
+        }
+
+        return view('frontendone.pages.products.subcategory_products', compact('subcategory', 'products', 'productCategories'));
     }
 
     public function productDetails($slug)

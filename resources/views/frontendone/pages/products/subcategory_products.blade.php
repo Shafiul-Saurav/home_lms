@@ -1,83 +1,72 @@
 @extends('frontendone.layouts.master')
 
-@section('title', $category->name . ' Products')
+@section('title', $subcategory->name . ' Products')
 
 @push('frontendone_style')
     @include('frontend.pages.common.style')
     <style>
+
         .product-hero {
             padding: 120px 0 80px;
             background: linear-gradient(135deg, #07111f 0%, #0d1f36 50%, #12345a 100%);
             color: #fff;
         }
-
         .product-hero h1 {
             font-size: clamp(2.2rem, 4vw, 4.2rem);
             font-weight: 800;
             margin: 0;
         }
-
         .product-hero .product-kicker {
             display: inline-flex;
             align-items: center;
             gap: 8px;
             padding: 8px 14px;
             border-radius: 999px;
-            background: rgba(255, 255, 255, .12);
+            background: rgba(255,255,255,.12);
             font-weight: 700;
         }
-
         .product-card-modern {
             border-radius: 24px;
             overflow: hidden;
             transition: transform .25s ease, box-shadow .25s ease;
             background: #fff;
-            box-shadow: 0 18px 50px rgba(8, 15, 30, .06);
+            box-shadow: 0 18px 50px rgba(8,15,30,.06);
         }
-
         .product-card-modern:hover {
             transform: translateY(-4px);
-            box-shadow: 0 24px 60px rgba(8, 15, 30, .1);
+            box-shadow: 0 24px 60px rgba(8,15,30,.1);
         }
-
         .product-thumb img {
             width: 100%;
             height: 260px;
             object-fit: cover;
         }
-
         .product-card-modern .product-content {
             padding: 24px;
         }
-
         .product-card-modern h3 {
             font-size: 1.2rem;
             margin-bottom: 12px;
         }
-
         .product-card-modern .desc {
             margin-bottom: 16px;
             color: #556679;
         }
-
         .product-card-modern .price-box h4 {
             margin-bottom: 0;
             color: #16335c;
             font-size: 1.4rem;
             font-weight: 700;
         }
-
         .product-card-modern .price-old-row del {
             color: #9aa1af;
             font-size: .95rem;
         }
-
         .product-card-modern .price-old-row .discount {
             color: #74bd0d;
             font-weight: 700;
             margin-left: 10px;
         }
-
         .product-card-modern .theme-btn {
             min-width: 120px;
         }
@@ -87,88 +76,73 @@
             overflow: hidden;
             transition: transform .25s ease, box-shadow .25s ease;
             background: #fff;
-            box-shadow: 0 18px 50px rgba(8, 15, 30, .06);
+            box-shadow: 0 18px 50px rgba(8,15,30,.06);
         }
-
         .product-card-modern:hover {
             transform: translateY(-4px);
-            box-shadow: 0 24px 60px rgba(8, 15, 30, .1);
+            box-shadow: 0 24px 60px rgba(8,15,30,.1);
         }
-
         .product-thumb img {
             width: 100%;
             height: 260px;
             object-fit: cover;
         }
-
         .product-card-modern .product-content {
             padding: 24px;
         }
-
         .product-card-modern h3 {
             font-size: 1.2rem;
             margin-bottom: 12px;
         }
-
         .product-card-modern .desc {
             margin-bottom: 16px;
             color: #556679;
         }
-
         .product-card-modern .price-box h4 {
             margin-bottom: 0;
             color: #16335c;
             font-size: 1.4rem;
             font-weight: 700;
         }
-
         .product-card-modern .price-old-row del {
             color: #9aa1af;
             font-size: .95rem;
         }
-
         .product-card-modern .price-old-row .discount {
             color: #74bd0d;
             font-weight: 700;
             margin-left: 10px;
         }
-
         .product-card-modern .theme-btn {
             min-width: 120px;
         }
-
         .product-sidebar-modern,
         .product-grid-shell {
             background: #fff;
             border-radius: 28px;
-            box-shadow: 0 18px 50px rgba(8, 15, 30, 0.08);
+            box-shadow: 0 18px 50px rgba(8,15,30,0.08);
         }
-
         .product-sidebar-modern {
             position: sticky;
             top: 110px;
             padding: 24px;
         }
-
         .product-sidebar-modern .widget-title {
             font-size: 1.05rem;
             font-weight: 800;
             margin-bottom: 16px;
             color: #102949;
         }
-
         .product-sidebar-modern .form-control,
         .product-sidebar-modern .form-select {
             border-radius: 14px;
             min-height: 48px;
         }
-
         .filter-panel {
             border: 1px solid #e9ecef;
             border-radius: 18px;
             overflow: hidden;
         }
-
         .filter-panel-header {
             width: 100%;
             display: flex;
@@ -183,18 +157,15 @@
             font-size: 1rem;
             color: #102949;
         }
-
         .filter-panel-header .widget-title {
             margin-bottom: 0;
             font-size: 1.05rem;
             font-weight: 800;
         }
-
         .filter-panel-body {
             padding: 0 16px 16px;
             display: none;
         }
-
         .filter-panel-body.show {
             display: block;
         }
@@ -203,7 +174,7 @@
             font-size: 13px;
         }
 
-        .filter-panel-body button i {
+        .filter-panel-body button i{
             font-size: 12px;
         }
 
@@ -211,16 +182,13 @@
             border-bottom: 1px solid #e9ecef;
             padding-bottom: 12px;
         }
-
         .category-collapse-group:last-child {
             border-bottom: none;
         }
-
         .category-collapse-header {
             cursor: default;
             gap: 10px;
         }
-
         .category-collapse-toggle {
             color: #102949;
             font-size: 0.95rem;
@@ -228,19 +196,15 @@
             background: transparent;
             cursor: pointer;
         }
-
         .category-collapse-toggle i {
             transition: transform 0.2s ease;
         }
-
         .category-collapse-toggle i.rotate-180 {
             transform: rotate(180deg);
         }
-
         .subcategory-list {
             display: none;
         }
-
         .subcategory-list.show {
             display: block;
         }
@@ -252,7 +216,6 @@
             width: auto;
             z-index: 999;
         }
-
         .fixed-cart-card {
             border-radius: 18px;
             border: 1px solid rgba(118, 189, 16, 0.18);
@@ -263,12 +226,10 @@
             min-width: 90px;
             padding: 8px;
         }
-
         .fixed-cart-card:hover {
             transform: translateY(-1px);
             box-shadow: 0 22px 50px rgba(8, 15, 30, 0.18);
         }
-
         .fixed-cart-card .cart-card-icon-wrap {
             width: 30px;
             height: 30px;
@@ -278,19 +239,16 @@
             background: #76bd10;
             margin: 0 auto;
         }
-
         .fixed-cart-card .cart-card-icon {
             font-size: 14px;
             color: #fff;
         }
-
         .fixed-cart-card .cart-card-count {
             font-size: 15px;
             font-weight: 700;
             margin-bottom: 2px;
             color: #fff;
         }
-
         .fixed-cart-card .cart-card-total {
             font-size: 14px;
             color: #e8f1ff;
@@ -300,49 +258,39 @@
             background: #fff;
             color: #111827;
         }
-
         .cart-sidebar .offcanvas-header {
             padding: 1.25rem 1.5rem;
             background: #fff;
             color: #111827;
         }
-
         .cart-sidebar .offcanvas-body {
             padding: 1.5rem;
             background: #f8fafc;
         }
-
         .cart-sidebar .offcanvas-title {
             font-weight: 800;
             color: #0d0f12;
         }
-
         .cart-sidebar .btn-close {
             filter: invert(0);
         }
-
         .cart-sidebar-item .btn-outline-danger {
             min-width: 38px;
             min-height: 38px;
             border-radius: 10px;
         }
-
         .cart-sidebar-item .text-dark {
             color: #111827 !important;
         }
-
         .cart-sidebar-footer .btn.theme-btn {
             padding: 12px 18px;
         }
-
         .cart-sidebar-footer .btn-outline-secondary {
             padding: 12px 18px;
         }
 
         @media (max-width: 991px) {
-            .product-hero {
-                padding-top: 100px;
-            }
+            .product-hero { padding-top: 100px; }
         }
 
         .active>.page-link,
@@ -352,7 +300,6 @@
             background-color: #76bd10;
             border-color: #76bd10;
         }
-
         .page-link,
         .page-link.active {
             z-index: 3;
@@ -365,119 +312,39 @@
 
 @section('frontendone_content')
     <main class="main">
-        <x-frontend.pages.common.breadcrumb :title="$category->name . ' Products'" :breadcrumb="[
-            ['name' => 'Home', 'url' => route('home')],
-            ['name' => $category->name . ' Products', 'url' => '#'],
-        ]" />
+        <x-frontend.pages.common.breadcrumb
+            :title="$subcategory->name . ' Products'"
+            :breadcrumb="[
+                ['name' => 'Home', 'url' => route('home')],
+                ['name' => $subcategory->name . ' Products', 'url' => '#']
+            ]"
+        />
         <section class="section-padding py-5">
             <div class="container">
                 <div class="row g-4">
-                    <div class="section-heading">
-                        <span class="sub-title">
-                            <i class="fa-solid fa-shield-halved"></i>
-                            <h2>All Category Products</h2>
-                        </span>
-                    </div>
 
-                    <div class="col-lg-12 col-xl-12">
+                    <div class="col-lg-12 col-xl-10 offset-xl-1">
+                        <div class="product-grid-shell p-4">
 
-                        <div id="product-grid">
-                            @if ($products->count() > 0)
-                                <div class="row g-4 product-grid-area">
-                                    @foreach ($products as $product)
-                                        <div class="col-xl-3 col-lg-4 col-md-6 col-6 px-1 px-md-2">
-                                            <div class="course-card-modern">
-                                                <div class="course-thumb">
-                                                    <a href="{{ route('product.details', $product->slug) }}">
-                                                        @if (!empty($product->image))
-                                                            <img src="{{ asset('uploads/products/' . $product->image) }}"
-                                                                alt="{{ $product->name }}">
-                                                        @elseif($product->productImages->first())
-                                                            <img src="{{ asset('uploads/products/' . $product->productImages->first()->multiple_image) }}"
-                                                                alt="{{ $product->name }}">
-                                                        @else
-                                                            <img src="{{ asset('assets/frontend/img/default-product.png') }}"
-                                                                alt="{{ $product->name }}">
-                                                        @endif
-                                                    </a>
-                                                </div>
-                                                <div class="course-content">
-                                                    <span class="text-uppercase"
-                                                        style="font-size: 12px; font-weight: 700; color: #ff4d24; display: block; margin-bottom: 6px;">{{ $product->category->name ?? 'Uncategorized' }}</span>
-                                                    <h3><a
-                                                            href="{{ route('product.details', $product->slug) }}">{{ Str::limit($product->name, 55) }}</a>
-                                                    </h3>
-                                                    <p class="desc">
-                                                        {{ Str::limit(strip_tags($product->short_description ?? $product->description), 50) }}
-                                                    </p>
+                            <div id="product-grid">
+                                @if($products->count() > 0)
+                                    <div class="row g-4 product-grid-area">
+                                        @foreach($products as $product)
+                                            @include('frontendone.pages.products.product_item')
+                                        @endforeach
+                                    </div>
 
-                                                    <div class="course-bottom">
-                                                        <div class="price-box">
-                                                            @if ($product->discount_amount && $product->discount_amount > 0)
-                                                                @php
-                                                                    if (
-                                                                        strtolower(
-                                                                            trim($product->discount_type),
-                                                                        ) === 'percentage'
-                                                                    ) {
-                                                                        $discountPercentage =
-                                                                            $product->discount_amount;
-                                                                        $finalPrice =
-                                                                            $product->sell_price *
-                                                                            (1 - $discountPercentage / 100);
-                                                                    } else {
-                                                                        $finalPrice =
-                                                                            $product->sell_price -
-                                                                            $product->discount_amount;
-                                                                        $discountPercentage = round(
-                                                                            ($product->discount_amount /
-                                                                                max($product->sell_price, 1)) *
-                                                                                100,
-                                                                        );
-                                                                    }
-                                                                @endphp
-                                                                <h4>{{ number_format($finalPrice) }} Tk</h4>
-                                                                <div class="price-old-row">
-                                                                    <del>{{ number_format($product->sell_price) }}
-                                                                        Tk</del>
-                                                                    <span class="discount">{{ $discountPercentage }}%
-                                                                        OFF</span>
-                                                                </div>
-                                                            @elseif($product->sell_price > 0)
-                                                                <h4>{{ number_format($product->sell_price) }} Tk</h4>
-                                                            @else
-                                                                <h4>Free</h4>
-                                                            @endif
-                                                        </div>
-                                                        <form action="{{ route('cart.add') }}" method="POST"
-                                                            class="m-0">
-                                                            @csrf
-                                                            <input type="hidden" name="product_id"
-                                                                value="{{ $product->id }}">
-                                                            <input type="hidden" name="qty" value="1">
-                                                            <button type="submit" class="enroll-btn border-0">
-                                                                Add to Cart
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-
-                                <div class="col-12 mt-4" id="pagination-wrapper">
-                                    @include('frontendone.pages.products.partials.pagination')
-                                </div>
-                            @else
-                                <div class="alert alert-warning text-center mb-0">
-                                    <h3>No Products Found</h3>
-                                    <p>We couldn't find any products in this category right now. Please check back later
-                                        or browse another category.</p>
-                                </div>
-                            @endif
+                                    <div class="col-12 mt-4" id="pagination-wrapper">
+                                        @include('frontendone.pages.products.partials.pagination')
+                                    </div>
+                                @else
+                                    <div class="alert alert-warning text-center mb-0">
+                                        <h3>No Products Found</h3>
+                                        <p>We couldn't find any products in this subcategory right now. Please check back later or browse another category.</p>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -607,4 +474,5 @@
             });
         });
     </script>
+
 @endpush
