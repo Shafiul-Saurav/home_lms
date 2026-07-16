@@ -27,9 +27,32 @@
         }
 
         .sidebar_fixed {
-            position: absolute;
-            top: 25px;
-            right: 0px;
+            position: relative;
+        }
+
+        .consultation-sidebar {
+            background: #fff;
+            border-radius: 28px;
+            box-shadow: 0 18px 50px rgba(8, 15, 30, .08);
+            padding: 10px;
+            position: fixed;
+            top: 90%;
+            width: inherit;
+        }
+
+        @media (min-width: 992px) {
+            .consultation-sidebar {
+                max-height: none;
+                overflow-y: visible;
+                scroll-behavior: smooth;
+                padding-right: 0;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .consultation-sidebar {
+                position: static;
+            }
         }
     </style>
 @endpush
@@ -122,20 +145,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-4 sidebar_fixed">
-                        <div class="mb-5">
-                            {{-- <div class="row">
+                    <div class="col-xl-4" id="sidebarCol">
+                        <div class="consultation-sidebar">
+                            <div class="mb-5">
+                                {{-- <div class="row">
                                 <div class="col-12"> --}}
-                            @php
-                                $services = App\Models\Servicetwo::where('is_active', 1)->get();
-                                $timeslots = App\Models\ServiceConsultationTimeslot::where('is_active', 1)->get();
-                                $selectedServiceId = request('service_id');
-                            @endphp
-                            @include(
-                                'frontendone.pages.services.consultation_form',
-                                compact('services', 'timeslots', 'selectedServiceId'))
-                            {{-- </div>
+                                @php
+                                    $services = App\Models\Servicetwo::where('is_active', 1)->get();
+                                    $timeslots = App\Models\ServiceConsultationTimeslot::where('is_active', 1)->get();
+                                    $selectedServiceId = request('service_id');
+                                @endphp
+                                @include(
+                                    'frontendone.pages.services.consultation_form',
+                                    compact('services', 'timeslots', 'selectedServiceId'))
+                                {{-- </div>
                             </div> --}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -147,4 +172,56 @@
 
 @push('frontendone_script')
     @include('frontend.pages.common.script')
+    <script>
+        (function() {
+            if (window.innerWidth < 992) return;
+
+            var sidebar = document.querySelector('.consultation-sidebar');
+            var sidebarCol = document.getElementById('sidebarCol');
+            var serviceInfoArea = document.querySelector('.service-info-area');
+
+            if (!sidebar || !sidebarCol || !serviceInfoArea) return;
+
+            var TOP_OFFSET = 90;
+            var GAP = 20;
+
+            // Make the column a positioned container for absolute fallback
+            sidebarCol.style.position = 'relative';
+
+            function update() {
+                if (window.innerWidth < 992) {
+                    sidebar.style.cssText = '';
+                    sidebarCol.style.position = '';
+                    return;
+                }
+
+                var colWidth = sidebarCol.offsetWidth;
+                var sidebarH = sidebar.offsetHeight;
+                var sectionBottom = serviceInfoArea.getBoundingClientRect().bottom + window.pageYOffset;
+                var colTop = sidebarCol.getBoundingClientRect().top + window.pageYOffset;
+                var scrollY = window.pageYOffset;
+
+                // Scroll position at which sidebar bottom would touch section end
+                var unstickAt = sectionBottom - TOP_OFFSET - sidebarH - GAP;
+
+                if (scrollY >= unstickAt) {
+                    // Detach: position absolute inside column
+                    sidebar.style.position = 'absolute';
+                    sidebar.style.top = (unstickAt - colTop + TOP_OFFSET) + 'px';
+                    sidebar.style.width = colWidth + 'px';
+                } else {
+                    // Fixed to viewport
+                    sidebar.style.position = 'fixed';
+                    sidebar.style.top = TOP_OFFSET + 'px';
+                    sidebar.style.width = colWidth + 'px';
+                }
+            }
+
+            window.addEventListener('scroll', update, {
+                passive: true
+            });
+            window.addEventListener('resize', update);
+            update();
+        })();
+    </script>
 @endpush
