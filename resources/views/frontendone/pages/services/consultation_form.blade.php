@@ -15,8 +15,8 @@
     </style>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="auth-form" style="padding: 40px; border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.05);">
+            <div class="col-lg-12">
+                <div class="auth-form p-4" style="border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.05);">
                     <div class="auth-header text-center mb-4">
                         <i class="fa-solid fa-headset" style="font-size: 34px; color: #76bd10; margin-bottom: 12px;"></i>
                         <p style="font-size: 14px; font-weight: 700; color: #76bd10; margin-bottom: 8px;">Consultation Request</p>
@@ -31,7 +31,7 @@
                     <form action="{{ route('service.consultations.store') }}" method="POST">
                         @csrf
                         <div class="row gy-3">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="form-icon" style="position: relative;">
                                         <i class="fa-solid fa-user" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #9ca3af;"></i>
@@ -40,7 +40,7 @@
                                     @error('name')<div class="invalid-feedback" style="display:block; margin-top:6px;">{{ $message }}</div>@enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <div class="form-icon" style="position: relative;">
                                         <i class="fa-solid fa-envelope" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #9ca3af;"></i>
