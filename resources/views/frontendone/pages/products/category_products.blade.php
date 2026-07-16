@@ -371,16 +371,15 @@
         ]" />
         <section class="section-padding py-5">
             <div class="container">
-                <div class="row g-4">
+                <div class="row g-4 pt-5">
                     <div class="section-heading">
                         <span class="sub-title">
-                            <i class="fa-solid fa-shield-halved"></i>
-                            <h2>All Category Products</h2>
+                            <h2 class="mb-0"><i class="fa-solid fa-boxes-stacked"></i></h2>
+                            <h2 class="mb-0">All Category Products</h1>
                         </span>
                     </div>
 
                     <div class="col-lg-12 col-xl-12">
-
                         <div id="product-grid">
                             @if ($products->count() > 0)
                                 <div class="row g-4 product-grid-area">

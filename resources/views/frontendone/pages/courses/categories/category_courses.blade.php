@@ -8,6 +8,7 @@
         .course-sidebar-modern .form-check label {
             font-size: 13px !important;
         }
+
         .course-hero {
             padding: 155px 0 85px;
             background: linear-gradient(135deg, #07111f 0%, #0d1f36 50%, #12345a 100%);
@@ -31,7 +32,8 @@
             margin: 18px 0 14px;
         }
 
-        .course-sidebar-modern, .course-grid-shell {
+        .course-sidebar-modern,
+        .course-grid-shell {
             background: #fff;
             border-radius: 28px;
             box-shadow: 0 18px 50px rgba(8, 15, 30, 0.08);
@@ -50,7 +52,8 @@
             color: #102949;
         }
 
-        .course-sidebar-modern .form-control, .course-sidebar-modern .form-select {
+        .course-sidebar-modern .form-control,
+        .course-sidebar-modern .form-select {
             border-radius: 14px;
             min-height: 48px;
         }
@@ -105,20 +108,30 @@
         }
 
         @media (max-width: 991px) {
-            .course-hero { padding-top: 135px; }
-            .course-sidebar-modern { position: static; }
-            .course-grid-shell { padding: 20px; }
+            .course-hero {
+                padding-top: 135px;
+            }
+
+            .course-sidebar-modern {
+                position: static;
+            }
+
+            .course-grid-shell {
+                padding: 20px;
+            }
         }
 
         /*pagination style*/
-        .active>.page-link, .page-link.active {
+        .active>.page-link,
+        .page-link.active {
             z-index: 3;
             color: #fff;
             background-color: #76bd10;
             border-color: #76bd10;
         }
 
-        .page-link, .page-link.active {
+        .page-link,
+        .page-link.active {
             z-index: 3;
             color: #76bd10;
             background-color: #ebebeb;
@@ -129,6 +142,7 @@
             .course-card-modern .course-content {
                 padding: 10px;
             }
+
             .course-card-modern .price-box h4 {
                 font-size: 15px;
             }
@@ -166,119 +180,115 @@
 
 @section('frontendone_content')
     <main class="main">
-        <section class="course-hero">
-            <div class="container">
-                <div class="row align-items-end g-4">
-                    <div class="col-lg-8">
-                        <span class="hero-kicker"><i class="fa-solid fa-graduation-cap"></i> Browse Category</span>
-                        <h1>{{ $category->name }} Courses</h1>
-                        <p class="mb-0" style="max-width:720px;color:rgba(255,255,255,.82)">Explore courses under the "{{ $category->name }}" category.</p>
-                    </div>
-                    <div class="col-lg-4 text-lg-end">
-                        <a href="#courseGridSection" class="enroll-btn d-inline-flex align-items-center gap-2">Jump to Courses <i class="fa-solid fa-arrow-down"></i></a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section-padding py-5" id="courseGridSection">
+        <x-frontend.pages.common.breadcrumb :title="$category->name . ' Courses'" :breadcrumb="[['name' => 'Home', 'url' => route('home')], ['name' => $category->name . ' Courses', 'url' => '#']]" />
+        <section class="section-padding py-5">
             <div class="container">
                 <div class="row g-4">
-                    <div class="col-lg-4 col-xl-3">
-                        <aside class="course-sidebar-modern">
-                            <div class="mb-4">
-                                <h4 class="widget-title">Search Courses</h4>
-                                <form id="searchForm" action="{{ route('courses') }}" method="GET">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="search" id="searchInput" placeholder="Search course" value="{{ request('search') }}">
-                                        <button class="btn btn-dark" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-                                    </div>
-                                </form>
-                            </div>
+                    <div class="section-heading">
+                        <span class="sub-title">
+                            <h2 class="mb-0"><i class="fa-solid fa-boxes-stacked"></i></h2>
+                            <h2 class="mb-0">All Category Courses</h2>
+                        </span>
+                    </div>
+                    <div class="col-lg-12 col-xl-12">
+                        <div class="product-grid-shell p-4">
+                            <div id="course-grid">
+                                @if ($courses->count() > 0)
+                                    <div class="row g-4 course-grid-area">
+                                        @foreach ($courses as $course)
+                                            @php
+                                                $courseType = $course->live_or_record ?? 'recorded';
+                                                if ($courseType === 'record') {
+                                                    $courseType = 'recorded';
+                                                }
+                                                $finalPrice = $course->price - ($course->discount ?? 0);
+                                            @endphp
 
-                            <div class="mb-4">
-                                <div class="filter-panel">
-                                    <button type="button" class="filter-panel-header" data-target="#categoryFilterBody"
-                                        aria-expanded="true">
-                                        <span class="widget-title mb-0">Category</span>
-                                        <i class="fa-solid fa-chevron-up filter-toggle-icon"></i>
-                                    </button>
-                                    <div class="filter-panel-body show" id="categoryFilterBody">
-                                        @php
-                                            $activeCategoryIds = collect(explode(',', request('category', '')))->filter()->map(fn ($id) => (int) $id)->all();
-                                            $hasCategoryFilter = !empty($activeCategoryIds);
-                                            $isCurrentCategorySelected = isset($selectedCategory) && !is_null($selectedCategory);
-                                        @endphp
-                                        <div class="form-check">
-                                            <input class="form-check-input category-filter" type="checkbox" value="" id="cat-all" {{ empty($activeCategoryIds) && !$isCurrentCategorySelected ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="cat-all">All Categories ({{ $categories->sum('courses_count') }})</label>
-                                        </div>
-                                        @foreach ($categories as $cat)
-                                            <div class="form-check">
-                                                @php
-                                                    $categoryChecked = false;
-
-                                                    if ($hasCategoryFilter) {
-                                                        $categoryChecked = in_array((int) $cat->id, $activeCategoryIds);
-                                                    } elseif (isset($selectedCategory) && (int) $selectedCategory === (int) $cat->id) {
-                                                        $categoryChecked = true;
-                                                    }
-                                                @endphp
-                                                <input class="form-check-input category-filter" type="checkbox" value="{{ $cat->id }}" id="cat-{{ $cat->id }}" {{ $categoryChecked ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="cat-{{ $cat->id }}">{{ $cat->name }} ({{ $cat->courses_count }})</label>
+                                            <div class="col-xl-3 col-lg-6 col-md-6 col-6 px-1 px-md-2"
+                                                data-course-type="{{ $courseType }}">
+                                                <div class="course-card-modern">
+                                                    <div class="course-thumb">
+                                                        <img src="{{ asset('uploads/courses/' . $course->image) }}"
+                                                            alt="{{ $course->name }}">
+                                                    </div>
+                                                    <div class="course-content">
+                                                        <div class="d-flex justify-content-between align-items-start">
+                                                            <h3 class="mb-0">{{ $course->name }}</h3>
+                                                            <span class="course-badge"
+                                                                style="background: {{ $courseType === 'live' ? '#ff896f' : '#76bd10' }}; color: #fff; padding: 3px 8px; border-radius: 12px; font-weight: 700; font-size: 10px; text-transform: capitalize;">
+                                                                {{ ucfirst($courseType) }}
+                                                            </span>
+                                                        </div>
+                                                        <p class="desc">
+                                                            {{ \Illuminate\Support\Str::words(strip_tags($course->short_description ?? $course->description), 10, '...') }}
+                                                        </p>
+                                                        <div class="course-meta">
+                                                            <span><i class="fa-regular fa-star"></i>
+                                                                {{ $course->averageRating() ?? 0 }}
+                                                                ({{ $course->reviewCount() ?? 0 }})</span>
+                                                            <span><i class="fa-regular fa-user"></i>
+                                                                {{ $course->students_count ?? 0 }}</span>
+                                                            <span><i class="fa-regular fa-file-lines"></i>
+                                                                {{ $course->lessons_count ?? $course->courseModules()->count() }}
+                                                                lessons</span>
+                                                            @if ($course->duration)
+                                                                <span><i class="fa-regular fa-clock"></i>
+                                                                    {{ $course->duration }}</span>
+                                                            @endif
+                                                        </div>
+                                                        <ul class="course-list">
+                                                            @foreach ($course->features ?? [] as $feature)
+                                                                <li><i class="fa-solid fa-check"></i> {{ $feature }}
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                        <div class="course-bottom">
+                                                            <div class="price-box">
+                                                                @if ($course->discount && $course->discount > 0)
+                                                                    @php
+                                                                        $discountPercent =
+                                                                            $course->price > 0
+                                                                                ? round(
+                                                                                    ($course->discount /
+                                                                                        $course->price) *
+                                                                                        100,
+                                                                                )
+                                                                                : 0;
+                                                                    @endphp
+                                                                    <h4>{{ $finalPrice > 0 ? $finalPrice . ' Tk' : 'Free' }}
+                                                                    </h4>
+                                                                    <div class="price-old-row">
+                                                                        <del>{{ $course->price > 0 ? $course->price . ' Tk' : 'Free' }}</del>
+                                                                        <span class="discount">{{ $discountPercent }}%
+                                                                            OFF</span>
+                                                                    </div>
+                                                                @elseif($course->price > 0)
+                                                                    <h4>{{ $course->price }} Tk</h4>
+                                                                @else
+                                                                    <h4>Free</h4>
+                                                                @endif
+                                                            </div>
+                                                            <a href="{{ route('course.details', $course->id) }}"
+                                                                class="enroll-btn">
+                                                                Enroll Now <i class="fa-solid fa-arrow-right"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         @endforeach
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="mb-4">
-                                <div class="filter-panel">
-                                    <button type="button" class="filter-panel-header" data-target="#priceFilterBody"
-                                        aria-expanded="true">
-                                        <span class="widget-title mb-0">Course Price</span>
-                                        <i class="fa-solid fa-chevron-up filter-toggle-icon"></i>
-                                    </button>
-                                    <div class="filter-panel-body show" id="priceFilterBody">
-                                        <div class="form-check">
-                                            <input class="form-check-input price-filter" type="checkbox" value="" id="price-all" {{ empty(request('price')) ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="price-all">All</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input price-filter" type="checkbox" value="free" id="price-free" {{ in_array('free', explode(',', request('price', ''))) ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="price-free">Free</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input price-filter" type="checkbox" value="paid" id="price-paid" {{ in_array('paid', explode(',', request('price', ''))) ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="price-paid">Paid</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </aside>
-                    </div>
-
-                    <div class="col-lg-8 col-xl-9">
-                        <div class="course-grid-shell">
-                            <div id="top-filter-area">
-                                @include('frontendone.pages.courses.partials.course_topfilter', ['courses' => $courses])
-                            </div>
-
-                            <div id="course-grid">
-                                @if ($courses->count() > 0)
-                                    <div class="row g-4 course-grid-area p-0 p-md-3">
-                                        @foreach ($courses as $course)
-                                            @include('frontendone.pages.courses.partials.course_filter', ['course' => $course])
-                                        @endforeach
-                                    </div>
-
-                                    <div id="pagination-wrapper">
-                                        @include('frontendone.pages.courses.partials.pagination', ['courses' => $courses])
+                                    <div class="col-12 mt-4" id="pagination-wrapper">
+                                        @include('frontendone.pages.courses.partials.pagination', [
+                                            'courses' => $courses,
+                                        ])
                                     </div>
                                 @else
                                     <div class="alert alert-warning text-center mb-0">
-                                        <h3 class="mb-2">No Courses Found</h3>
-                                        <p class="mb-0">Try adjusting your search, category or price filters.</p>
+                                        <h3>No Courses Found</h3>
+                                        <p>We couldn't find any courses in this category right now. Please check back later
+                                            or browse another category.</p>
                                     </div>
                                 @endif
                             </div>
@@ -300,7 +310,9 @@
                     url: url,
                     type: 'GET',
                     dataType: 'json',
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
                     success: function(response) {
                         $('#course-grid').html(response.html);
                         $('#top-filter-area').html(response.topfilter);
@@ -318,7 +330,8 @@
                 let search = $('#searchInput').val();
                 search ? urlParams.set('search', search) : urlParams.delete('search');
 
-                let categories = [], allCategoriesChecked = false;
+                let categories = [],
+                    allCategoriesChecked = false;
                 $('.category-filter:checked').each(function() {
                     if ($(this).val() === '') allCategoriesChecked = true;
                     else categories.push($(this).val());
@@ -327,7 +340,8 @@
                 else if (categories.length > 0) urlParams.set('category', categories.join(','));
                 else urlParams.delete('category');
 
-                let prices = [], allPricesChecked = false;
+                let prices = [],
+                    allPricesChecked = false;
                 $('.price-filter:checked').each(function() {
                     if ($(this).val() === '') allPricesChecked = true;
                     else prices.push($(this).val());
@@ -388,7 +402,3 @@
         });
     </script>
 @endpush
-
-
-
-
