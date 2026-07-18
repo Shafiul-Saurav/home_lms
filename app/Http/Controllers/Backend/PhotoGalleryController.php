@@ -42,7 +42,7 @@ class PhotoGalleryController extends Controller
         // dd($request->all());
 
         $gallery = Photogallery::create([
-            'category_id' => $request->category_id,
+            // 'category_id' => $request->category_id,
             'title' => $request->title,
             'price' => $request->price,
             'description' => $request->description,
@@ -83,7 +83,7 @@ class PhotoGalleryController extends Controller
         Gate::authorize('edit-photo-gallery');
 
         $request->validate([
-            'category_id' => 'nullable|numeric',
+            // 'category_id' => 'nullable|numeric',
             'title' => 'nullable|string|max:50',
             'price' => 'nullable|string',
             'description' => 'nullable|string',
@@ -92,7 +92,7 @@ class PhotoGalleryController extends Controller
 
         $gallery = Photogallery::findOrFail($id);
         $gallery->update([
-            'category_id' => $request->category_id,
+            // 'category_id' => $request->category_id,
             'title' => $request->title,
             'price' => $request->price,
             'description' => $request->description,

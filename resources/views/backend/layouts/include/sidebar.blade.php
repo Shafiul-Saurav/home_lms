@@ -737,7 +737,7 @@
                             <span class="side-menu__label ms-3">Gallery</span><i class="fa-solid fa-angle-right"></i>
                         </a>
                         <ul class="slide-menu">
-                            @can('index-gallery-category')
+                            {{-- @can('index-gallery-category')
                                 <li
                                     class="sub-slide {{ Request::routeIs('photocategories.index') ? 'is-expanded' : '' }}
                             {{ Request::routeIs('photocategories.trash') ? 'is-expanded' : '' }}">
@@ -754,7 +754,7 @@
                                         @endcan
                                     </ul>
                                 </li>
-                            @endcan
+                            @endcan --}}
                             @can('index-photo-gallery')
                                 <li
                                     class="sub-slide {{ Request::routeIs('photogalleries.index') ? 'is-expanded' : '' }}
@@ -773,7 +773,7 @@
                                     </ul>
                                 </li>
                             @endcan
-                            @can('index-video-gallery')
+                            {{-- @can('index-video-gallery')
                                 <li
                                     class="sub-slide {{ Request::routeIs('videogalleries.index') ? 'is-expanded' : '' }}
                         {{ Request::routeIs('videogalleries.trash') ? 'is-expanded' : '' }}">
@@ -790,7 +790,7 @@
                                         @endcan
                                     </ul>
                                 </li>
-                            @endcan
+                            @endcan --}}
                         </ul>
                     </li>
                 @endcan

@@ -34,7 +34,7 @@
                         @csrf
                         @method('PUT')
                         <div class="form-row">
-                            <div class="col-12 mb-3">
+                            {{-- <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="category_id" class="form-label mb-3">Select Photo Category</label>
                                     <select id="category_id" name="category_id"
@@ -56,7 +56,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="title">Title</label>
@@ -71,7 +71,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
+                            {{-- <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="price">Price</label>
                                     <input type="number" name="price" class="form-control @error('price')
@@ -84,7 +84,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="gall_image">Gallery Image <span class="text-danger">*</span></label>
@@ -99,7 +99,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
+                            {{-- <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="description">Description</label>
                                     <textarea name="description" id="summernote"
@@ -113,7 +113,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <button type="submit" class="btn btn-secondary" type="submit">Update</button>
                     </form>

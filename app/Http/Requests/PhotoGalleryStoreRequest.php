@@ -22,7 +22,7 @@ class PhotoGalleryStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_id' => 'nullable|numeric',
+            // 'category_id' => 'nullable|numeric',
             'title' => 'nullable|string|max:50',
             'price' => 'nullable|string',
             'description' => 'nullable|string',
