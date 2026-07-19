@@ -350,8 +350,63 @@
         <!-- Course Section -->
         @include('frontendone.pages.widgets.course_section')
 
-        <!-- Student Review -->
-        @include('frontendone.pages.widgets.review_section')
+        <!-- Customer-only Review -->
+        @php
+            $customerTestimonials = App\Models\Testimonial::with('user.profile.profileImage')
+                ->where('is_active', 1)
+                ->latest('id')
+                ->get();
+        @endphp
+
+        <section class="section-padding review-section">
+            <div class="container">
+                <div class="section-heading text-center">
+                    <span class="sub-title">
+                        <i class="fa-solid fa-star"></i>
+                        Testimonials
+                    </span>
+                    <h2>What Our Customers Say</h2>
+                    <p>Hear from clients who trust us for enterprise-grade security services.</p>
+                </div>
+
+                <div class="review-carousel-wrap">
+                    <div class="owl-carousel owl-theme review-carousel" id="academy-review-list">
+                        @forelse($customerTestimonials as $testimonial)
+                            <div class="item">
+                                <div class="review-card">
+                                    <div class="stars">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= (data_get($testimonial, 'rating', 0)))
+                                                <i class="fa-solid fa-star"></i>
+                                            @else
+                                                <i class="fa-regular fa-star"></i>
+                                            @endif
+                                        @endfor
+                                    </div>
+
+                                    <p>{{ data_get($testimonial, 'review', '') }}</p>
+
+                                    <div class="review-user">
+                                        @php
+                                            $avatar = data_get($testimonial, 'user.profile.profileImage.profile_image');
+                                        @endphp
+                                        <img src="{{ $avatar ? asset($avatar) : asset('assets/frontend/img/testimonial/images.png') }}" style="width:45px;height:45px;" alt="">
+                                        <div>
+                                            <h5>{{ data_get($testimonial, 'user.name', data_get($testimonial, 'name', 'Anonymous')) }}</h5>
+                                            <span>{{ data_get($testimonial, 'short_description') ?: 'Customer' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="col-12 text-center py-5">
+                                <p class="text-muted">No customer reviews available yet.</p>
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 @endsection
 
