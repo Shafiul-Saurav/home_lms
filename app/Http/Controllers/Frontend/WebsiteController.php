@@ -274,7 +274,7 @@ class WebsiteController extends Controller
         $query = $request->input('query');
         $categoryId = $request->input('category');
 
-        $postsQuery = Post::with(['postCategory', 'user']);
+        $postsQuery = Post::with(['postCategory', 'user'])->where('is_active', 1);
 
         if ($query) {
             $postsQuery->where('title', 'LIKE', "%{$query}%");
@@ -284,9 +284,9 @@ class WebsiteController extends Controller
             $postsQuery->where('category_id', $categoryId);
         }
 
-        $posts = $postsQuery->latest('id')->paginate(3);
+        $posts = $postsQuery->latest('id')->paginate(6);
 
-        $popularPosts = Post::latest('id')->limit(5)->get();
+        $popularPosts = Post::where('is_active', 1)->latest('id')->limit(5)->get();
         $postCategories = Postcategory::withCount('posts')->get();
 
         // Fetch logo/favicon data
@@ -297,15 +297,15 @@ class WebsiteController extends Controller
 
     public function newsDetails($id)
     {
-        $post = Post::findOrFail($id);
-        $popularPosts = Post::latest('id')->where('id', '!=', $id)->limit(5)->get();
+        $post = Post::where('id', $id)->where('is_active', 1)->firstOrFail();
+        $popularPosts = Post::where('is_active', 1)->latest('id')->where('id', '!=', $id)->limit(5)->get();
         $postCategories = Postcategory::withCount('posts')->get();
 
         // Get the previous post
-        $previousPost = Post::where('id', '<', $post->id)->orderBy('id', 'desc')->first();
+        $previousPost = Post::where('is_active', 1)->where('id', '<', $post->id)->orderBy('id', 'desc')->first();
 
         // Get the next post
-        $nextPost = Post::where('id', '>', $post->id)->orderBy('id', 'asc')->first();
+        $nextPost = Post::where('is_active', 1)->where('id', '>', $post->id)->orderBy('id', 'asc')->first();
 
         // Paginate the comments for the post (excluding replies)
         $comments = $post->comments()->whereNull('parent_id')->paginate(5);
@@ -381,7 +381,7 @@ class WebsiteController extends Controller
         $groupedProducts = [];
 
         if (!$showNoProducts) {
-            $categoriesToQuery = $hasCategoryFilter 
+            $categoriesToQuery = $hasCategoryFilter
                 ? $productCategories->whereIn('id', $categoryIds)
                 : $productCategories;
 

@@ -200,6 +200,8 @@ Route::get('teacher/{id}', [WebsiteController::class, 'teacherDetails'])->name('
 
 Route::prefix('user')->middleware(['auth', 'is_user'])->group(function(){
     Route::get('/dashboard', [ProfileController::class, 'userDashboard'])->name('user.dashboard');
+    Route::get('/posts/create', [ProfileController::class, 'createPost'])->name('user.posts.create');
+    Route::post('/posts/store', [ProfileController::class, 'storePost'])->name('user.posts.store');
     Route::get('/generalSetting', [ProfileController::class, 'generalSetting'])->name('general.setting');
     Route::post('/general_store', [ProfileController::class, 'generalStore'])->name('general.store');
     Route::get('/personalSetting', [ProfileController::class, 'personalSetting'])->name('personal.setting');

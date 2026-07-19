@@ -13,6 +13,9 @@ use App\Models\PdfBookOrder;
 use App\Models\Profile;
 use App\Models\ProfileImage;
 use App\Models\User;
+use App\Models\Post;
+use App\Models\Postcategory;
+use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -355,5 +358,48 @@ class ProfileController extends Controller
         $order->load('pdfBook');
 
         return view('frontendone.pages.account.pdf_book_order_details', compact('order'));
+    }
+
+    // ─── Blog Post Creation ───────────────────────────────────────────────────
+
+    public function createPost()
+    {
+        $postCategories = Postcategory::where('is_active', 1)->get();
+        return view('frontendone.pages.news.create', compact('postCategories'));
+    }
+
+    public function storePost(Request $request)
+    {
+        $request->validate([
+            'category_id'  => ['required', 'exists:postcategories,id'],
+            'title'        => ['required', 'string', 'max:255'],
+            'description'  => ['required', 'string'],
+            'short_des'    => ['required', 'string'],
+            'long_des'     => ['required', 'string'],
+            'post_image'   => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+        ]);
+
+        $post = Post::create([
+            'user_id'     => Auth::id(),
+            'category_id' => $request->category_id,
+            'title'       => $request->title,
+            'description' => $request->description,
+            'short_des'   => $request->short_des,
+            'long_des'    => $request->long_des,
+            'is_active'   => 0,  // inactive until admin approves
+            'is_home'     => 0,
+        ]);
+
+        if ($request->hasFile('post_image')) {
+            $photo_location = 'public/uploads/posts/';
+            $uploaded_photo = $request->file('post_image');
+            $new_photo_name = $post->id . '.' . $uploaded_photo->getClientOriginalExtension();
+            $new_photo_location = $photo_location . $new_photo_name;
+            Image::make($uploaded_photo)->resize(600, 450)->save(base_path($new_photo_location), 80);
+            $post->update(['post_image' => $new_photo_name]);
+        }
+
+        return redirect()->route('news.search')
+            ->with('message', 'Your post has been submitted and is awaiting admin approval.');
     }
 }
