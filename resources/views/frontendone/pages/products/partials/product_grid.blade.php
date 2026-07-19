@@ -1,3 +1,9 @@
+@if(!empty($selectedCategoryName))
+    <div class="mb-3">
+        <h3 class="mb-2">{{ $selectedCategoryName }}</h3>
+    </div>
+@endif
+
 @if($products->count() > 0)
     <div class="row g-4 product-grid-area">
         @foreach($products as $product)

@@ -360,56 +360,6 @@ class WebsiteController extends Controller
      */
     public function products(Request $request)
     {
-        $productsQuery = Product::with(['category', 'subcategory', 'productImages'])
-            ->where('is_active', 1);
-
-        if ($request->filled('search')) {
-            $search = $request->input('search');
-            $productsQuery->where(function ($q) use ($search) {
-                $q->where('name', 'LIKE', "%{$search}%")
-                  ->orWhere('description', 'LIKE', "%{$search}%")
-                  ->orWhere('short_description', 'LIKE', "%{$search}%");
-            });
-        }
-
-        if ($request->filled('category')) {
-            $categoryIds = explode(',', $request->input('category'));
-            $productsQuery->whereIn('category_id', $categoryIds);
-        }
-
-        // Subcategory filter (support multiple subcategory IDs)
-        if ($request->filled('subcategory')) {
-            $subcategoryIds = array_filter(explode(',', $request->input('subcategory')));
-            if (!empty($subcategoryIds)) {
-                $productsQuery->whereIn('subcategory_id', $subcategoryIds);
-            }
-        }
-
-        if ($request->filled('price')) {
-            $priceFilters = explode(',', $request->input('price'));
-            if (in_array('free', $priceFilters) && !in_array('paid', $priceFilters)) {
-                $productsQuery->where('sell_price', 0);
-            } elseif (in_array('paid', $priceFilters) && !in_array('free', $priceFilters)) {
-                $productsQuery->where('sell_price', '>', 0);
-            }
-        }
-
-        $sortBy = $request->input('sort_by', 'latest');
-        switch ($sortBy) {
-            case 'low_price':
-                $productsQuery->orderBy('sell_price', 'asc');
-                break;
-            case 'high_price':
-                $productsQuery->orderBy('sell_price', 'desc');
-                break;
-            case 'latest':
-            default:
-                $productsQuery->latest('id');
-                break;
-        }
-
-        $products = $productsQuery->paginate(9)->withQueryString();
-
         $productCategories = ProductCategory::where('is_active', 1)
             ->withCount(['products' => function ($q) {
                 $q->where('is_active', 1);
@@ -420,8 +370,77 @@ class WebsiteController extends Controller
             }])
             ->get();
 
+        $hasCategoryFilter = $request->filled('category');
+        $categoryIds = [];
+        if ($hasCategoryFilter) {
+            $categoryIds = array_filter(explode(',', $request->input('category')));
+        }
+
+        $showNoProducts = ($hasCategoryFilter && in_array('none', $categoryIds));
+
+        $groupedProducts = [];
+
+        if (!$showNoProducts) {
+            $categoriesToQuery = $hasCategoryFilter 
+                ? $productCategories->whereIn('id', $categoryIds)
+                : $productCategories;
+
+            foreach ($categoriesToQuery as $pc) {
+                $productsQuery = Product::with(['category', 'subcategory', 'productImages'])
+                    ->where('is_active', 1)
+                    ->where('category_id', $pc->id);
+
+                if ($request->filled('search')) {
+                    $search = $request->input('search');
+                    $productsQuery->where(function ($q) use ($search) {
+                        $q->where('name', 'LIKE', "%{$search}%")
+                          ->orWhere('description', 'LIKE', "%{$search}%")
+                          ->orWhere('short_description', 'LIKE', "%{$search}%");
+                    });
+                }
+
+                if ($request->filled('subcategory')) {
+                    $subcategoryIds = array_filter(explode(',', $request->input('subcategory')));
+                    if (!empty($subcategoryIds)) {
+                        $productsQuery->whereIn('subcategory_id', $subcategoryIds);
+                    }
+                }
+
+                if ($request->filled('price')) {
+                    $priceFilters = explode(',', $request->input('price'));
+                    if (in_array('free', $priceFilters) && !in_array('paid', $priceFilters)) {
+                        $productsQuery->where('sell_price', 0);
+                    } elseif (in_array('paid', $priceFilters) && !in_array('free', $priceFilters)) {
+                        $productsQuery->where('sell_price', '>', 0);
+                    }
+                }
+
+                $sortBy = $request->input('sort_by', 'latest');
+                switch ($sortBy) {
+                    case 'low_price':
+                        $productsQuery->orderBy('sell_price', 'asc');
+                        break;
+                    case 'high_price':
+                        $productsQuery->orderBy('sell_price', 'desc');
+                        break;
+                    case 'latest':
+                    default:
+                        $productsQuery->latest('id');
+                        break;
+                }
+
+                if (!$hasCategoryFilter && !$request->filled('search') && !$request->filled('subcategory') && !$request->filled('price')) {
+                    $groupedProducts[$pc->id] = $productsQuery->limit(6)->get();
+                } else {
+                    $groupedProducts[$pc->id] = $productsQuery->get();
+                }
+            }
+        }
+
+        $products = collect();
+
         if ($request->ajax()) {
-            $html = view('frontendone.pages.products.partials.product_grid', compact('products'))->render();
+            $html = view('frontendone.pages.products.partials.grouped_product_grid', compact('productCategories', 'groupedProducts'))->render();
             $topfilter = view('frontendone.pages.products.product_topfilter', compact('products'))->render();
 
             return response()->json([
@@ -430,7 +449,7 @@ class WebsiteController extends Controller
             ]);
         }
 
-        return view('frontendone.pages.products.products', compact('products', 'productCategories'));
+        return view('frontendone.pages.products.products', compact('products', 'productCategories', 'groupedProducts'));
     }
 
     /**
@@ -487,7 +506,10 @@ class WebsiteController extends Controller
                 break;
         }
 
-        $products = $productsQuery->paginate(9)->withQueryString();
+        $products = $productsQuery->paginate(9);
+        if ($request->query()) {
+            $products->appends($request->query());
+        }
 
         $productCategories = ProductCategory::where('is_active', 1)
             ->withCount(['products' => function ($q) {
@@ -567,7 +589,10 @@ class WebsiteController extends Controller
                 break;
         }
 
-        $products = $productsQuery->paginate(9)->withQueryString();
+        $products = $productsQuery->paginate(9);
+        if ($request->query()) {
+            $products->appends($request->query());
+        }
 
         $productCategories = ProductCategory::where('is_active', 1)
             ->withCount(['products' => function ($q) {

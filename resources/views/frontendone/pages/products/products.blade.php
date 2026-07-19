@@ -401,22 +401,7 @@
                             </div>
 
                             <div id="product-grid">
-                                @if($products->count() > 0)
-                                    <div class="row g-4 product-grid-area">
-                                        @foreach($products as $product)
-                                            @include('frontendone.pages.products.product_item')
-                                        @endforeach
-                                    </div>
-
-                                    <div class="col-12 mt-4" id="pagination-wrapper">
-                                        @include('frontendone.pages.products.partials.pagination')
-                                    </div>
-                                @else
-                                    <div class="alert alert-warning text-center mb-0">
-                                        <h3>No Products Found</h3>
-                                        <p>We couldn't find any products right now. Please check back later or try a different search.</p>
-                                    </div>
-                                @endif
+                                @include('frontendone.pages.products.partials.grouped_product_grid', compact('productCategories', 'groupedProducts'))
                             </div>
                         </div>
                     </div>
@@ -464,9 +449,13 @@
                     if ($(this).val() === '') allCategoriesChecked = true;
                     else categories.push($(this).val());
                 });
-                if (allCategoriesChecked) urlParams.delete('category');
-                else if (categories.length > 0) urlParams.set('category', categories.join(','));
-                else urlParams.delete('category');
+                if (allCategoriesChecked) {
+                    urlParams.delete('category');
+                } else if (categories.length > 0) {
+                    urlParams.set('category', categories.join(','));
+                } else {
+                    urlParams.set('category', 'none');
+                }
 
                 // Subcategory filters
                 let subcategories = [];
@@ -553,6 +542,39 @@
             setFilterPanelState();
 
             $(document).on('change', '.category-filter, .subcategory-filter, .price-filter, #sort_by', function() {
+                if ($(this).hasClass('category-filter')) {
+                    let checked = $(this).is(':checked');
+                    let value = $(this).val();
+
+                    if (value === '') {
+                        if (checked) {
+                            $('.category-filter').not(this).prop('checked', false);
+                            $('.subcategory-filter').prop('checked', false);
+                        }
+                    } else {
+                        $('#cat-all').prop('checked', false);
+                        $(this).closest('.category-collapse-group').find('.subcategory-filter').prop('checked', checked);
+                    }
+                }
+
+                if ($(this).hasClass('subcategory-filter')) {
+                    let checked = $(this).is(':checked');
+                    let parentCategoryCheckbox = $(this).closest('.category-collapse-group').find('.category-filter').first();
+                    if (checked) {
+                        parentCategoryCheckbox.prop('checked', true);
+                        $('#cat-all').prop('checked', false);
+                    } else {
+                        let groupHasChecked = $(this).closest('.category-collapse-group').find('.subcategory-filter:checked').length > 0;
+                        if (!groupHasChecked) {
+                            parentCategoryCheckbox.prop('checked', false);
+                        }
+                    }
+                }
+
+                if ($(this).hasClass('price-filter') || $(this).is('#sort_by')) {
+                    // keep current filter state
+                }
+
                 filterProducts(buildFilterUrl());
             });
 
