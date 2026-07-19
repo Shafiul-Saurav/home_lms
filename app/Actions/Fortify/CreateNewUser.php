@@ -23,8 +23,31 @@ class CreateNewUser implements CreatesNewUsers
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => [
+                'required', 'string', 'email', 'max:255', 'unique:users',
+                function ($attribute, $value, $fail) {
+                    $blockedDomains = [
+                        'mailinator.com', 'yopmail.com', 'tempmail.com', 
+                        'temp-mail.org', 'guerrillamail.com', 'sharklasers.com',
+                        'dispostable.com', 'getairmail.com', 'maildrop.cc'
+                    ];
+                    $domain = strtolower(substr(strrchr($value, "@"), 1));
+                    if (in_array($domain, $blockedDomains)) {
+                        $fail('Temporary or disposable email addresses are not allowed.');
+                    }
+                }
+            ],
+            'phone' => ['required', 'string', 'max:20'],
             'password' => $this->passwordRules(),
+            'captcha' => [
+                'required',
+                'integer',
+                function ($attribute, $value, $fail) {
+                    if (session('captcha_result') === null || intval($value) !== intval(session('captcha_result'))) {
+                        $fail('Robot check failed. Please solve the math problem correctly.');
+                    }
+                }
+            ],
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
@@ -32,6 +55,7 @@ class CreateNewUser implements CreatesNewUsers
             'role_id' => '4',
             'name' => $input['name'],
             'email' => $input['email'],
+            'phone' => $input['phone'],
             'password' => Hash::make($input['password']),
         ]);
 

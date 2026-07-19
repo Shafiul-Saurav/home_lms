@@ -283,6 +283,20 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="form-icon">
+                                        <i class="fa-solid fa-phone"></i>
+                                        <input type="text" name="phone" id="phone"
+                                            class="form-control @error('phone') is-invalid @enderror"
+                                            placeholder="Your Phone Number" value="{{ old('phone') }}" required
+                                            autocomplete="tel" />
+                                    </div>
+                                    @error('phone')
+                                        <span class="invalid-feedback" role="alert" style="display: block; margin-top: 6px;">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-icon">
                                         <i class="fa-solid fa-lock"></i>
                                         <input type="password" id="password" name="password"
                                             class="form-control @error('password') is-invalid @enderror"
@@ -306,6 +320,24 @@
                                                 class="fa-solid fa-eye-slash"></i></span>
                                     </div>
                                 </div>
+                                @php
+                                    $num1 = rand(1, 9);
+                                    $num2 = rand(1, 9);
+                                    session(['captcha_result' => $num1 + $num2]);
+                                @endphp
+                                <div class="form-group">
+                                    <div class="form-icon">
+                                        <i class="fa-solid fa-robot"></i>
+                                        <input type="text" name="captcha" id="captcha"
+                                            class="form-control @error('captcha') is-invalid @enderror"
+                                            placeholder="Solve this: {{ $num1 }} + {{ $num2 }} = ?" required />
+                                    </div>
+                                    @error('captcha')
+                                        <span class="invalid-feedback" role="alert" style="display: block; margin-top: 6px;">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                                 <div class="auth-group">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="terms" id="agree"
@@ -320,7 +352,7 @@
                                 </div>
                             </form>
                             <div class="auth-bottom">
-                                <div class="auth-social">
+                                {{-- <div class="auth-social">
                                     <p>Continue with social media</p>
                                     <div class="auth-social-list">
                                         <a href="{{ route('login.provider', ['provider' => 'google']) }}"><i
@@ -330,7 +362,7 @@
                                         <a href="{{ route('login.provider', ['provider' => 'twitter']) }}"><i
                                                 class="fa-brands fa-x-twitter"></i></a>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <p class="auth-bottom-text">Already have an account? <a
                                         href="{{ route('login') }}">Login.</a></p>
                             </div>
