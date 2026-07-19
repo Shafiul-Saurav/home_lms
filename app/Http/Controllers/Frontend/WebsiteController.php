@@ -235,7 +235,21 @@ class WebsiteController extends Controller
 
         $logo_fav = LogoFavicon::first();
 
-        return view('frontendone.pages.services.index', compact('serviceCategories', 'categories', 'logo_fav'));
+        // Fetch student course reviews for the services page and normalize shape
+        $courseReviews = CourseReview::with('user')->where('is_approved', 1)->latest('id')->get();
+        $studentTestimonials = $courseReviews->map(function ($r) {
+            return (object) [
+                'rating' => data_get($r, 'rating', 0),
+                'review' => data_get($r, 'comment', ''),
+                'user' => data_get($r, 'user'),
+                'short_description' => data_get($r, 'short_description', null),
+            ];
+        });
+
+        // To show student reviews by default in the shared widget, pass them as both customer and student lists.
+        $customerTestimonials = $studentTestimonials;
+
+        return view('frontendone.pages.services.index', compact('serviceCategories', 'categories', 'logo_fav', 'studentTestimonials', 'customerTestimonials'));
     }
 
     public function photoGallery()
