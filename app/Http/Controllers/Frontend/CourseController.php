@@ -56,107 +56,6 @@ class CourseController extends Controller
 
     public function courses(Request $request)
     {
-        $query = Course::with(['teachers.user', 'category']);
-        $testimonials = Testimonial::with('user')->where('is_active', 1)->get();
-
-        // Course reviews to be shown on the student tab
-        $courseReviews = CourseReview::with('user')->where('is_approved', 1)->get();
-
-        // Normalize CourseReview items to match Testimonial shape (use `review` key instead of `comment`)
-        $courseReviews = $courseReviews->map(function ($r) {
-            return (object) [
-                'rating' => data_get($r, 'rating', 0),
-                'review' => data_get($r, 'comment', ''),
-                'user' => data_get($r, 'user'),
-                'short_description' => null,
-            ];
-        });
-
-        // Customer testimonials: show same testimonials as before
-        $customerTestimonials = $testimonials;
-
-        // Student testimonials: use course reviews
-        $studentTestimonials = $courseReviews;
-
-        // Course reviews to be shown on the student tab
-        $courseReviews = CourseReview::with('user')->where('is_approved', 1)->get();
-
-        // Normalize CourseReview items to match Testimonial shape (use `review` key instead of `comment`)
-        $courseReviews = $courseReviews->map(function ($r) {
-            return (object) [
-                'rating' => data_get($r, 'rating', 0),
-                'review' => data_get($r, 'comment', ''),
-                'user' => data_get($r, 'user'),
-                'short_description' => null,
-            ];
-        });
-
-        // Customer testimonials: show same testimonials as before
-        $customerTestimonials = $testimonials;
-
-        // Student testimonials: use course reviews
-        $studentTestimonials = $courseReviews;
-
-        // Filter by active courses only
-        $query->where('is_active', 1);
-
-        // Search filter
-        if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'LIKE', "%{$search}%")
-                  ->orWhere('description', 'LIKE', "%{$search}%");
-            });
-        }
-
-        // Category filter
-        if ($request->filled('category')) {
-            $categoryIds = explode(',', $request->input('category'));
-            $query->whereIn('category_id', $categoryIds);
-        }
-
-        // Subcategory filter (support multiple subcategory IDs)
-        if ($request->filled('subcategory')) {
-            $subcategoryIds = array_filter(explode(',', $request->input('subcategory')));
-            if (!empty($subcategoryIds)) {
-                $query->whereIn('subcategory_id', $subcategoryIds);
-            }
-        }
-
-        // Price filter
-        if ($request->filled('price')) {
-            $priceFilters = explode(',', $request->input('price'));
-            if (in_array('free', $priceFilters) && in_array('paid', $priceFilters)) {
-                // If both are selected, no need to filter by price to show all
-            } elseif (in_array('free', $priceFilters)) {
-                $query->where('price', 0);
-            } elseif (in_array('paid', $priceFilters)) {
-                $query->where('price', '>', 0);
-            }
-        }
-
-        // Sort by
-        $sortBy = $request->input('sort_by', 'latest');
-        switch ($sortBy) {
-            case 'featured':
-                $query->orderBy('id', 'desc');
-                break;
-            case 'low_price':
-                $query->orderBy('price', 'asc');
-                break;
-            case 'high_price':
-                $query->orderBy('price', 'desc');
-                break;
-            case 'latest':
-            default:
-                $query->latest('id');
-                break;
-        }
-
-        // Paginate results
-        $courses = $query->paginate(9);
-
-        // Fetch all categories and subcategories for the filter sidebar
         $categories = Category::where('is_active', 1)->withCount(['courses' => function ($q) {
             $q->where('is_active', 1);
         }])->get();
@@ -165,25 +64,106 @@ class CourseController extends Controller
             $q->where('is_active', 1);
         }])->get();
 
-        // Get selected filters for the view
+        $testimonials = Testimonial::with('user')->where('is_active', 1)->get();
+
+        $hasCategoryFilter = $request->filled('category');
+        $categoryIds = [];
+        if ($hasCategoryFilter) {
+            $categoryIds = array_filter(explode(',', $request->input('category')));
+        }
+
+        $showNoCourses = ($hasCategoryFilter && in_array('none', $categoryIds));
+
+        $groupedCourses = [];
+
+        if (!$showNoCourses) {
+            $categoriesToQuery = $hasCategoryFilter 
+                ? $categories->whereIn('id', $categoryIds)
+                : $categories;
+
+            foreach ($categoriesToQuery as $category) {
+                $coursesQuery = Course::with(['teachers.user', 'category'])
+                    ->where('is_active', 1)
+                    ->where('category_id', $category->id);
+
+                if ($request->filled('search')) {
+                    $search = $request->input('search');
+                    $coursesQuery->where(function ($q) use ($search) {
+                        $q->where('name', 'LIKE', "%{$search}%")
+                          ->orWhere('description', 'LIKE', "%{$search}%");
+                    });
+                }
+
+                if ($request->filled('subcategory')) {
+                    $subcategoryIds = array_filter(explode(',', $request->input('subcategory')));
+                    if (!empty($subcategoryIds)) {
+                        $coursesQuery->whereIn('subcategory_id', $subcategoryIds);
+                    }
+                }
+
+                if ($request->filled('price')) {
+                    $priceFilters = explode(',', $request->input('price'));
+                    if (in_array('free', $priceFilters) && in_array('paid', $priceFilters)) {
+                        // both
+                    } elseif (in_array('free', $priceFilters)) {
+                        $coursesQuery->where('price', 0);
+                    } elseif (in_array('paid', $priceFilters)) {
+                        $coursesQuery->where('price', '>', 0);
+                    }
+                }
+
+                $sortBy = $request->input('sort_by', 'latest');
+                switch ($sortBy) {
+                    case 'featured':
+                        $coursesQuery->orderBy('id', 'desc');
+                        break;
+                    case 'low_price':
+                        $coursesQuery->orderBy('price', 'asc');
+                        break;
+                    case 'high_price':
+                        $coursesQuery->orderBy('price', 'desc');
+                        break;
+                    case 'latest':
+                    default:
+                        $coursesQuery->latest('id');
+                        break;
+                }
+
+                if (!$hasCategoryFilter && !$request->filled('search') && !$request->filled('subcategory') && !$request->filled('price')) {
+                    $groupedCourses[$category->id] = $coursesQuery->limit(6)->get();
+                } else {
+                    $groupedCourses[$category->id] = $coursesQuery->get();
+                }
+            }
+        }
+
+        $totalCoursesCount = 0;
+        foreach ($groupedCourses as $catId => $list) {
+            $totalCoursesCount += $list->count();
+        }
+
+        $courses = new \Illuminate\Pagination\LengthAwarePaginator(
+            collect(),
+            $totalCoursesCount,
+            $totalCoursesCount > 0 ? $totalCoursesCount : 9,
+            1
+        );
+
         $selectedCategory = $request->input('category');
         $selectedSubcategory = $request->input('subcategory');
         $selectedPrice = $request->input('price');
         $selectedSort = $request->input('sort_by', 'latest');
 
-        // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
 
         if ($request->ajax()) {
-            $html = $this->renderCourseGrid($courses);
-            $pagination = view('frontendone.pages.courses.partials.pagination', compact('courses'))->render();
+            $html = view('frontendone.pages.courses.partials.grouped_course_grid', compact('categories', 'groupedCourses'))->render();
             $topfilter = view('frontendone.pages.courses.partials.course_topfilter', compact('courses'))->render();
 
             return response()->json([
                 'html' => $html,
-                'pagination' => $pagination,
                 'topfilter' => $topfilter,
-                'total' => $courses->total()
+                'total' => $totalCoursesCount
             ]);
         }
 
@@ -196,7 +176,8 @@ class CourseController extends Controller
             'selectedSubcategory',
             'selectedPrice',
             'selectedSort',
-            'testimonials'
+            'testimonials',
+            'groupedCourses'
         ));
     }
     public function academy(Request $request)

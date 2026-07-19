@@ -337,26 +337,7 @@
                             </div>
 
                             <div id="course-grid">
-                                @if ($courses->count() > 0)
-                                    <div class="row g-4 course-grid-area p-0 p-md-3">
-                                        @foreach ($courses as $course)
-                                            @include('frontendone.pages.courses.partials.course_filter', [
-                                                'course' => $course,
-                                            ])
-                                        @endforeach
-                                    </div>
-
-                                    <div id="pagination-wrapper">
-                                        @include('frontendone.pages.courses.partials.pagination', [
-                                            'courses' => $courses,
-                                        ])
-                                    </div>
-                                @else
-                                    <div class="alert alert-warning text-center mb-0">
-                                        <h3 class="mb-2">No Courses Found</h3>
-                                        <p class="mb-0">Try adjusting your search, category or price filters.</p>
-                                    </div>
-                                @endif
+                                @include('frontendone.pages.courses.partials.grouped_course_grid', compact('categories', 'groupedCourses'))
                             </div>
                         </div>
                     </div>
@@ -402,9 +383,13 @@
                     if ($(this).val() === '') allCategoriesChecked = true;
                     else categories.push($(this).val());
                 });
-                if (allCategoriesChecked) urlParams.delete('category');
-                else if (categories.length > 0) urlParams.set('category', categories.join(','));
-                else urlParams.delete('category');
+                if (allCategoriesChecked) {
+                    urlParams.delete('category');
+                } else if (categories.length > 0) {
+                    urlParams.set('category', categories.join(','));
+                } else {
+                    urlParams.set('category', 'none');
+                }
 
                 let prices = [],
                     allPricesChecked = false;
@@ -490,6 +475,39 @@
             setFilterPanelState();
 
             $(document).on('change', '.category-filter, .subcategory-filter, .price-filter, #sort_by', function() {
+                if ($(this).hasClass('category-filter')) {
+                    let checked = $(this).is(':checked');
+                    let value = $(this).val();
+
+                    if (value === '') {
+                        if (checked) {
+                            $('.category-filter').not(this).prop('checked', false);
+                            $('.subcategory-filter').prop('checked', false);
+                        }
+                    } else {
+                        $('#cat-all').prop('checked', false);
+                        $(this).closest('.category-collapse-group').find('.subcategory-filter').prop('checked', checked);
+                    }
+                }
+
+                if ($(this).hasClass('subcategory-filter')) {
+                    let checked = $(this).is(':checked');
+                    let parentCategoryCheckbox = $(this).closest('.category-collapse-group').find('.category-filter').first();
+                    if (checked) {
+                        parentCategoryCheckbox.prop('checked', true);
+                        $('#cat-all').prop('checked', false);
+                    } else {
+                        let groupHasChecked = $(this).closest('.category-collapse-group').find('.subcategory-filter:checked').length > 0;
+                        if (!groupHasChecked) {
+                            parentCategoryCheckbox.prop('checked', false);
+                        }
+                    }
+                }
+
+                if ($(this).hasClass('price-filter') || $(this).is('#sort_by')) {
+                    // keep current filter state
+                }
+
                 filterCourses(buildFilterUrl());
             });
 
