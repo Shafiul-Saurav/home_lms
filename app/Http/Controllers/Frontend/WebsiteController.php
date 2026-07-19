@@ -429,11 +429,7 @@ class WebsiteController extends Controller
                         break;
                 }
 
-                if (!$hasCategoryFilter && !$request->filled('search') && !$request->filled('subcategory') && !$request->filled('price')) {
-                    $groupedProducts[$pc->id] = $productsQuery->limit(6)->get();
-                } else {
-                    $groupedProducts[$pc->id] = $productsQuery->get();
-                }
+                $groupedProducts[$pc->id] = $productsQuery->get();
             }
         }
 

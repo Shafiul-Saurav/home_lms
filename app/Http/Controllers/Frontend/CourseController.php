@@ -129,11 +129,7 @@ class CourseController extends Controller
                         break;
                 }
 
-                if (!$hasCategoryFilter && !$request->filled('search') && !$request->filled('subcategory') && !$request->filled('price')) {
-                    $groupedCourses[$category->id] = $coursesQuery->limit(6)->get();
-                } else {
-                    $groupedCourses[$category->id] = $coursesQuery->get();
-                }
+                $groupedCourses[$category->id] = $coursesQuery->get();
             }
         }
 
