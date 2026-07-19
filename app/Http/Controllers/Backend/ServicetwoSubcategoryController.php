@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\ServicetwoCategory;
-use App\Models\ServicetwoSubcategory;
+use App\Models\Servicetwocategory;
+use App\Models\Servicetwosubcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -15,8 +15,8 @@ class ServicetwoSubcategoryController extends Controller
      */
     public function index()
     {
-        $subcategories = ServicetwoSubcategory::with('category')->latest('id')->paginate(30);
-        $categories = ServicetwoCategory::get();
+        $subcategories = Servicetwosubcategory::with('category')->latest('id')->paginate(30);
+        $categories = Servicetwocategory::get();
         return view('backend.pages.servicetwosubcategories.index', compact('subcategories', 'categories'));
     }
 
@@ -40,7 +40,7 @@ class ServicetwoSubcategoryController extends Controller
             'name' => 'required|unique:servicetwosubcategories,name',
         ]);
 
-        ServicetwoSubcategory::create([
+        Servicetwosubcategory::create([
             'category_id' => $request->category_id,
             'name' => $request->name,
             'slug' => Str::slug($request->name),
@@ -62,8 +62,8 @@ class ServicetwoSubcategoryController extends Controller
      */
     public function edit(string $id)
     {
-        $subcategory = ServicetwoSubcategory::findOrFail($id);
-        $categories = ServicetwoCategory::get();
+        $subcategory = Servicetwosubcategory::findOrFail($id);
+        $categories = Servicetwocategory::get();
         return view('backend.pages.servicetwosubcategories.edit', compact('subcategory', 'categories'));
     }
 
@@ -72,7 +72,7 @@ class ServicetwoSubcategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $subcategory = ServicetwoSubcategory::findOrFail($id);
+        $subcategory = Servicetwosubcategory::findOrFail($id);
 
         $request->validate([
             'category_id' => 'required|exists:servicetwocategories,id',
@@ -93,7 +93,7 @@ class ServicetwoSubcategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        ServicetwoSubcategory::findOrFail($id)->delete();
+        Servicetwosubcategory::findOrFail($id)->delete();
         return redirect()->back()->with('warning', 'Subcategory Deleted Successfully');
     }
 
@@ -102,7 +102,7 @@ class ServicetwoSubcategoryController extends Controller
      */
     public function getSubcategories($category_id)
     {
-        $subcategories = ServicetwoSubcategory::where('category_id', $category_id)
+        $subcategories = Servicetwosubcategory::where('category_id', $category_id)
             ->orderBy('name')
             ->get(['id', 'name']);
         return response()->json($subcategories);
@@ -110,7 +110,7 @@ class ServicetwoSubcategoryController extends Controller
 
     public function checkActive($subcategory_id)
     {
-        $subcategory = ServicetwoSubcategory::find($subcategory_id);
+        $subcategory = Servicetwosubcategory::find($subcategory_id);
         if (!$subcategory) {
             return response()->json([
                 'type'    => 'error',

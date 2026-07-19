@@ -56,9 +56,9 @@
                             @endcan
 
                             @can('index-page')
-                                <li><a href="{{ route('pages.index') }}"
+                                {{-- <li><a href="{{ route('pages.index') }}"
                                         class="slide-item {{ Request::routeIs('pages.index') ? 'active' : '' }}">Page
-                                        Create</a></li>
+                                        Create</a></li> --}}
                             @endcan
                             @can('index-banner')
                                 <li><a href="{{ route('breadcrumb.index') }}"
@@ -687,19 +687,19 @@
                             <span class="side-menu__label ms-3">Services</span><i class="fa-solid fa-angle-right"></i></a>
                         <ul class="slide-menu">
                             @can('index-service')
-                                <li><a href="{{ route('services.index') }}"
+                                {{-- <li><a href="{{ route('services.index') }}"
                                         class="slide-item {{ Request::routeIs('services.index') ? 'active' : '' }}">Services
-                                        Settings</a></li>
+                                        Settings</a></li> --}}
                             @endcan
                             {{-- @can('index-servicetwocategory') --}}
                                 <li><a href="{{ route('servicetwocategories.index') }}"
-                                        class="slide-item {{ Request::routeIs('servicetwocategories.index') ? 'active' : '' }}">Service Two Category</a></li>
+                                        class="slide-item {{ Request::routeIs('servicetwocategories.index') ? 'active' : '' }}">Service Category</a></li>
                                 <li><a href="{{ route('servicetwosubcategories.index') }}"
-                                        class="slide-item {{ Request::routeIs('servicetwosubcategories.index') ? 'active' : '' }}">Service Two Subcategory</a></li>
+                                        class="slide-item {{ Request::routeIs('servicetwosubcategories.index') ? 'active' : '' }}">Service Subcategory</a></li>
                             {{-- @endcan --}}
                             {{-- @can('index-servicetwo') --}}
                                 <li><a href="{{ route('servicetwos.index') }}"
-                                        class="slide-item {{ Request::routeIs('servicetwos.index') ? 'active' : '' }}">Service Two</a></li>
+                                        class="slide-item {{ Request::routeIs('servicetwos.index') ? 'active' : '' }}">Service</a></li>
                             {{-- @endcan --}}
                                 <li><a href="{{ route('service_consultation_timeslots.index') }}"
                                         class="slide-item {{ Request::routeIs('service_consultation_timeslots.*') ? 'active' : '' }}">Consultation Timeslots</a></li>

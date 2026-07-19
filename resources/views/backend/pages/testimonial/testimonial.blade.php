@@ -44,7 +44,7 @@
                                     <th class="border-bottom-0">Review</th>
                                     <th class="border-bottom-0">Rating</th>
                                     @can('edit-testimonial')
-                                    <th class="border-bottom-0">Home Page</th>
+                                    {{-- <th class="border-bottom-0">Home Page</th> --}}
                                     @endcan
                                     @can('edit-testimonial')
                                     <th class="border-bottom-0">Status</th>
@@ -79,14 +79,14 @@
                                         <td>{{ $testimonial->review }}</td>
                                         <td>{{ $testimonial->rating }}</td>
                                         @can('edit-testimonial')
-                                        <td>
+                                        {{-- <td>
                                             <div class="material-switch">
                                                 <input id="home-{{ $testimonial->id }}" class="toggle-class-home" name="is_home"
                                                     type="checkbox" {{ $testimonial->is_home ? 'checked' : '' }}
                                                     data-id="{{ $testimonial->id }}">
                                                 <label for="home-{{ $testimonial->id }}" class="label-success"></label>
                                             </div>
-                                        </td>
+                                        </td> --}}
                                         @endcan
                                         @can('edit-testimonial')
                                         <td>

@@ -153,14 +153,14 @@
                         <div class="col-lg-4 col-md-6">
                             <a href="{{ asset('uploads/photogalleries/' . $gallery->gall_image) }}" class="gallery-popup-item" title="{{ $gallery->title ?: 'Practical Lab' }}">
                                 <div class="gallery-item">
-                                    <img src="{{ asset('uploads/photogalleries/' . $gallery->gall_image) }}" alt="{{ $gallery->title }}">
+                                    <img src="{{ asset('uploads/photogalleries/' . $gallery->gall_image) }}" alt="{{ $gallery->title }}" class="img-fluid w-100">
                                     <div class="gallery-icon">
                                         <i class="fa-solid fa-plus"></i>
                                     </div>
                                     <div class="gallery-overlay">
                                         <div>
                                             <h4>{{ $gallery->title ?: 'Practical Lab' }}</h4>
-                                            <p>{{ $gallery->photoCategory?->category_name ?: 'Hands-on hacking practice' }}</p>
+                                            {{-- <p>{{ $gallery->photoCategory?->category_name ?: 'Hands-on hacking practice' }}</p> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -189,7 +189,7 @@
                 gallery: {
                     enabled: true, // Enables native left/right arrow navigation carousel toggling
                     navigateByImgClick: true,
-                    preload: [0, 1] 
+                    preload: [0, 1]
                 },
                 image: {
                     tError: '<a href="%url%">The image</a> could not be loaded.',
