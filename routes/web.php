@@ -226,6 +226,10 @@ Route::prefix('user')->middleware(['auth', 'is_user'])->group(function(){
     Route::post('/certificates/apply', [ProfileController::class, 'applyCertificate'])->name('certificates.apply');
     Route::get('/certificates/{certificate}', [ProfileController::class, 'certificateDetails'])->name('certificate.details');
 
+    // Instructor Request Routes
+    Route::post('/request-instructor', [\App\Http\Controllers\Frontend\InstructorRequestController::class, 'store'])->name('instructor.request.store');
+    Route::post('/cancel-instructor-request', [\App\Http\Controllers\Frontend\InstructorRequestController::class, 'cancel'])->name('instructor.request.cancel');
+
     //Testimonial Route
     Route::get('testimonial_view', [FrontendTestimonialController::class, 'testimonialView'])->name('testimonial.view');
     Route::post('testimonial_store', [FrontendTestimonialController::class, 'testimonialStore'])->name('testimonial.store');
@@ -401,6 +405,12 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     Route::delete('certificates/{certificate}', [AdminCertificateController::class, 'destroy'])->name('certificates.destroy');
 
     Route::resource('/users', UserController::class);
+
+    // Instructor Request Routes
+    Route::get('instructor-requests', [\App\Http\Controllers\Backend\InstructorRequestController::class, 'index'])->name('instructor-requests.index');
+    Route::get('instructor-requests/{id}', [\App\Http\Controllers\Backend\InstructorRequestController::class, 'show'])->name('instructor-requests.show');
+    Route::post('instructor-requests/{id}/approve', [\App\Http\Controllers\Backend\InstructorRequestController::class, 'approve'])->name('instructor-requests.approve');
+    Route::post('instructor-requests/{id}/reject', [\App\Http\Controllers\Backend\InstructorRequestController::class, 'reject'])->name('instructor-requests.reject');
 
     // Page Route
     Route::resource('/pages', PageController::class);

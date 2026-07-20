@@ -63,13 +63,19 @@ class ProfileController extends Controller
             ->latest()
             ->paginate(5);
 
+        // Get instructor request if exists
+        $instructorRequest = \App\Models\InstructorRequest::where('user_id', $user->id)->first();
+        
+        // Get profile completion percentage
+        $profileCompletionPercentage = $user->profileCompletionPercentage();
+
         if ($profile) {
             $profileImage = ProfileImage::where('profile_id', Auth::user()->profile->id)->first();
 
-            return view('frontendone.pages.account.dashboard', compact('user', 'profile', 'profileImage', 'enrolledCount', 'completedCount', 'recentOrders', 'purchasedPdfBooksCount'));
+            return view('frontendone.pages.account.dashboard', compact('user', 'profile', 'profileImage', 'enrolledCount', 'completedCount', 'recentOrders', 'purchasedPdfBooksCount', 'instructorRequest', 'profileCompletionPercentage'));
         }
 
-        return view('frontendone.pages.account.dashboard', compact('user', 'profile', 'enrolledCount', 'completedCount', 'recentOrders', 'purchasedPdfBooksCount'));
+        return view('frontendone.pages.account.dashboard', compact('user', 'profile', 'enrolledCount', 'completedCount', 'recentOrders', 'purchasedPdfBooksCount', 'instructorRequest', 'profileCompletionPercentage'));
     }
 
     public function generalSetting()

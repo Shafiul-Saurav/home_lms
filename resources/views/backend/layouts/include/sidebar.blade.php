@@ -200,12 +200,14 @@
                         {{ Request::routeIs('users.trash') ? 'is-expanded' : '' }}
                         {{ Request::routeIs('users.system-owner') ? 'is-expanded' : '' }}
                         {{ Request::routeIs('users.student') ? 'is-expanded' : '' }}
-                        {{ Request::routeIs('users.teacher') ? 'is-expanded' : '' }}">
+                        {{ Request::routeIs('users.teacher') ? 'is-expanded' : '' }}
+                        {{ Request::routeIs('instructor-requests.*') ? 'is-expanded' : '' }}">
                                     <a class="sub-side-menu__item {{ Request::routeIs('users.index') ? 'active' : '' }}
                         {{ Request::routeIs('users.trash') ? 'active' : '' }}
                         {{ Request::routeIs('users.system-owner') ? 'active' : '' }}
                         {{ Request::routeIs('users.student') ? 'active' : '' }}
-                        {{ Request::routeIs('users.teacher') ? 'active' : '' }}"
+                        {{ Request::routeIs('users.teacher') ? 'active' : '' }}
+                        {{ Request::routeIs('instructor-requests.*') ? 'active' : '' }}"
                                         data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">User
                                             Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
                                     <ul class="sub-slide-menu">
@@ -217,6 +219,8 @@
                                                 href="{{ route('users.student') }}">All Students</a></li>
                                         <li><a class="sub-slide-item {{ Request::routeIs('users.teacher') ? 'active' : '' }}"
                                                 href="{{ route('users.teacher') }}">All Teachers</a></li>
+                                        <li><a class="sub-slide-item {{ Request::routeIs('instructor-requests.*') ? 'active' : '' }}"
+                                                href="{{ route('instructor-requests.index') }}">Instructor Requests</a></li>
                                         @can('delete-user')
                                             <li><a class="sub-slide-item {{ Request::routeIs('users.trash') ? 'active' : '' }}"
                                                     href="{{ route('users.trash') }}">Trash</a></li>

@@ -21,6 +21,64 @@
             background-color: #ebebeb;
             border-color: #fff;
         }
+
+        .instructor-button-section {
+            background: linear-gradient(135deg, #76bd10 0%, #a6ff34 100%);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .instructor-btn {
+            background-color: #fff;
+            color: #76bd10;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .instructor-btn:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .instructor-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .request-status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .request-status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .request-status-approved {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .request-status-rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
     </style>
 @endpush
 
@@ -40,7 +98,24 @@
                     <div class="col-lg-8 col-xl-9">
                         <div class="user-wrapper">
                             <div class="user-card">
-                                <h4 class="title">Summary</h4>
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+                                    <h4 class="title mb-0">Summary</h4>
+                                    @if (auth()->user()->role_id == 4)
+                                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                                            @if ($instructorRequest && $instructorRequest->status === 'pending')
+                                                <span class="request-status-badge request-status-pending">Request Pending</span>
+                                            @elseif ($instructorRequest && $instructorRequest->status === 'approved')
+                                                <span class="request-status-badge request-status-approved">Request Approved</span>
+                                            @elseif ($instructorRequest && $instructorRequest->status === 'rejected')
+                                                <span class="request-status-badge request-status-rejected">Request Rejected</span>
+                                            @else
+                                                <button type="button" class="instructor-btn" id="openInstructorRequestModal">
+                                                    <i class="fa-solid fa-chalkboard-user"></i> Become an Instructor
+                                                </button>
+                                            @endif
+                                        </div>
+                                    @endif
+                                </div>
                                 <div class="row">
                                     <div class="col-md-6 col-lg-6 col-xl-6 mb-2 mb-lg-0">
                                         <div class="user-widget c3">
@@ -227,8 +302,108 @@
         </div>
         <!-- user dashboard end -->
     </main>
+
+    @if (auth()->user()->role_id == 4 && !$instructorRequest)
+        <div class="modal fade" id="instructorRequestModal" tabindex="-1" aria-labelledby="instructorRequestModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="instructorRequestModalLabel">Become an Instructor</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="instructorRequestForm" action="{{ route('instructor.request.store') }}" method="POST">
+                        @csrf
+                        <div class="modal-body">
+                            <p class="text-muted mb-3">Fill in your details below and submit your request for admin review.</p>
+                            <div class="mb-3">
+                                <label for="bio" class="form-label">Bio</label>
+                                <textarea name="bio" id="bio" class="form-control" rows="4" placeholder="Write a short bio about yourself..." required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="qualification" class="form-label">Qualification</label>
+                                <textarea name="qualification" id="qualification" class="form-control" rows="4" placeholder="Mention your academic or professional qualifications..." required></textarea>
+                            </div>
+                            <div class="alert alert-info mb-0">
+                                <i class="fa-solid fa-circle-info me-2"></i>
+                                Your profile must be 100% complete before sending the request.
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-success" style="background-color: #76bd10; border-color: #76bd10;">
+                                <i class="fa-solid fa-paper-plane me-2"></i>Send Request
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endif
 @endsection
 
 @push('frontendone_script')
     @include('frontend.pages.common.script')
+    <script>
+        $(document).ready(function () {
+            $('#openInstructorRequestModal').on('click', function (e) {
+                e.preventDefault();
+
+                @if ($profileCompletionPercentage < 100)
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Profile Incomplete',
+                        text: 'To make request you need to complete ur profile 100%.',
+                        confirmButtonText: 'OK'
+                    });
+                @else
+                    $('#instructorRequestModal').modal('show');
+                @endif
+            });
+
+            $('#instructorRequestForm').on('submit', function (e) {
+                e.preventDefault();
+
+                const form = $(this);
+                const submitBtn = form.find('button[type=submit]');
+                submitBtn.prop('disabled', true).html('<i class="fa-solid fa-spinner fa-spin me-2"></i>Sending...');
+
+                $.ajax({
+                    url: form.attr('action'),
+                    type: 'POST',
+                    data: form.serialize(),
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function (response) {
+                        Swal.fire({
+                            icon: response.type === 'success' ? 'success' : 'error',
+                            title: response.type === 'success' ? 'Request Sent' : 'Request Failed',
+                            text: response.message,
+                            confirmButtonText: 'OK'
+                        });
+
+                        if (response.type === 'success') {
+                            $('#instructorRequestModal').modal('hide');
+                            form[0].reset();
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1200);
+                        }
+                    },
+                    error: function (xhr) {
+                        const message = xhr.responseJSON?.message || 'Something went wrong.';
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Request Failed',
+                            text: message,
+                            confirmButtonText: 'OK'
+                        });
+                    },
+                    complete: function () {
+                        submitBtn.prop('disabled', false).html('<i class="fa-solid fa-paper-plane me-2"></i>Send Request');
+                    }
+                });
+            });
+        });
+    </script>
 @endpush

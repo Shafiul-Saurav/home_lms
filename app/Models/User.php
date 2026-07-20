@@ -127,6 +127,11 @@ class User extends Authenticatable
         return $this->hasMany(LessonCompletion::class);
     }
 
+    public function instructorRequest()
+    {
+        return $this->hasOne(InstructorRequest::class);
+    }
+
     public function isEnrolledInCourse($courseId)
     {
         return $this->courseOrders()

@@ -25,6 +25,8 @@ class IsSystemAdmin
     }
     public function handle(Request $request, Closure $next): Response
     {
+        // Block students (role_id = 4) from admin dashboard
+        // Allow instructors (role_id = 7) with limited access to admin dashboard
         if($this->auth->user()->role_id == 4) {
             return new Response('<div style="margin-top: 130px;"><center><img src="https://forum.hestiacp.com/uploads/default/original/1X/8592157f8ed594f456bb3eefe8660e1e06ec51fc.png"
             alt="login form"/></center></div>', 401);

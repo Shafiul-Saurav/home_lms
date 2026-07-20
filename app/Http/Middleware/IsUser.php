@@ -25,7 +25,8 @@ class IsUser
     }
     public function handle(Request $request, Closure $next): Response
     {
-        if($this->auth->user()->role_id != 4) {
+        // Allow students (role_id = 4) and instructors (role_id = 7) to access user dashboard
+        if($this->auth->user()->role_id != 4 && $this->auth->user()->role_id != 7) {
             return new Response('<div style="margin-top: 130px; width: 100%;"><center><img src="https://forum.hestiacp.com/uploads/default/original/1X/8592157f8ed594f456bb3eefe8660e1e06ec51fc.png"
             alt="login form"/></center></div>', 401);
         }
