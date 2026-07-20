@@ -379,6 +379,14 @@
                                 </ul>
                             </li>
                             {{-- @endcan --}}
+                            <li class="sub-slide {{ Request::routeIs('batches.*') ? 'is-expanded' : '' }}">
+                                <a class="sub-side-menu__item {{ Request::routeIs('batches.*') ? 'active' : '' }}"
+                                    data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Batches</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                <ul class="sub-slide-menu">
+                                    <li><a class="sub-slide-item {{ Request::routeIs('batches.index') ? 'active' : '' }}" href="{{ route('batches.index') }}">List</a></li>
+                                    <li><a class="sub-slide-item {{ Request::routeIs('batches.create') ? 'active' : '' }}" href="{{ route('batches.create') }}">Create</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                 @endcanany

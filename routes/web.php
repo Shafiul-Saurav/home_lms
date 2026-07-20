@@ -60,6 +60,7 @@ use App\Http\Controllers\Backend\SSLCommerzAPIController;
 use App\Http\Controllers\Backend\StuffController;
 use App\Http\Controllers\Backend\SubcategoryController;
 use App\Http\Controllers\Backend\TeacherController;
+use App\Http\Controllers\Backend\BatchController;
 use App\Http\Controllers\Backend\TermsAndConditionsController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\UserController;
@@ -390,6 +391,13 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     Route::post('teachers/{id}/assign-courses', [TeacherController::class, 'assignCourses'])->name('teachers.assign-courses');
     Route::delete('teachers/{teacher_id}/remove-course/{course_id}', [TeacherController::class, 'removeCourse'])->name('teachers.remove-course');
     Route::resource('teachers', TeacherController::class);
+    // Batch Routes (batch-course many-to-many)
+    Route::post('batches/{id}/assign-courses', [BatchController::class, 'assignCourses'])->name('batches.assign-courses');
+    Route::delete('batches/{batch_id}/remove-course/{course_id}', [BatchController::class, 'removeCourse'])->name('batches.remove-course');
+    Route::resource('batches', BatchController::class);
+    // Ajax Call Active for Batches
+    Route::get('check/batch/is_active/{batch_id}', [BatchController::class, 'checkActive'])
+        ->name('batch.is_active.ajax');
     Route::get('/users/trash', [UserTrashController::class, 'trash'])->name('users.trash');
     Route::get('/users/restore/{id}', [UserTrashController::class, 'restore'])
     ->name('users.restore');
