@@ -522,7 +522,7 @@
                                         <li><i class="fad fa-user"></i> Instructor:
                                             <span>{{ $courseInfo->teachers->first()->user->name ?? 'Instructor' }}</span>
                                         </li>
-                                        <li><i class="fad fa-layer-group"></i> Level :
+                                        <li><i class="fad fa-layer-group"></i> Type :
                                             <span>{{ ucfirst($courseInfo->live_or_record ?? 'All Level') }}</span></li>
                                         <li><i class="fad fa-book"></i> Lectures :
                                             <span>{{ $courseInfo->lessons()->count() }} Lessons</span></li>
