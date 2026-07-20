@@ -7,6 +7,7 @@
         $isMyCourses = request()->routeIs('my.courses');
         $isCertificates = request()->routeIs('user.certificates') || request()->routeIs('certificate.details');
         $isCourseOrders = request()->routeIs('user.course.orders');
+        $isProductOrders = request()->routeIs('user.product.orders');
         $isBookOrders = request()->routeIs('user.book.orders');
         $isPdfBookOrders = request()->routeIs('user.pdf.book.orders');
         $profileImage = auth()->user()?->profile?->profileImage?->profile_image;
@@ -76,7 +77,7 @@
             </a>
         </li>
         @php
-            $isOrdersSectionOpen = $isCourseOrders || $isBookOrders || $isPdfBookOrders;
+            $isOrdersSectionOpen = $isCourseOrders || $isProductOrders || $isBookOrders || $isPdfBookOrders;
         @endphp
         <li class="sidebar-menu">
             <a href="#sidebar-menu2" data-bs-toggle="collapse" class="{{ $isOrdersSectionOpen ? '' : 'collapsed' }}">
@@ -87,6 +88,8 @@
                 <ul class="sidebar-menu-list">
                     <li><a class="{{ $isCourseOrders ? 'active' : '' }}"
                             href="{{ route('user.course.orders') }}">Course Orders</a></li>
+                    <li><a class="{{ $isProductOrders ? 'active' : '' }}"
+                            href="{{ route('user.product.orders') }}">Product Orders</a></li>
                     {{-- <li><a class="{{ $isBookOrders ? 'active' : '' }}" href="{{ route('user.book.orders') }}">Book
                             Orders</a></li>
                     <li><a class="{{ $isPdfBookOrders ? 'active' : '' }}"

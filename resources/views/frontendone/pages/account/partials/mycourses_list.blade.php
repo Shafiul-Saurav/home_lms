@@ -64,8 +64,12 @@
         </div>
     @empty
         <div class="col-12">
-            <div class="alert alert-info text-center">
-                No enrolled courses found matching your criteria.
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 48px 16px;">
+                <i class="fa-solid fa-book-open" style="font-size: 48px; color: #d1d5db;"></i>
+                <p style="color: #6b7280; font-weight: 600; margin: 0;">No Courses Yet</p>
+                <a href="{{ route('courses') ?? '#' }}" class="theme-btn" style="padding: 10px 24px; border-radius: 8px; background-color: #76bd10; color: #fff; text-decoration: none; font-weight: 700;">
+                    <i class="fa-solid fa-graduation-cap"></i> Explore Courses
+                </a>
             </div>
         </div>
     @endforelse

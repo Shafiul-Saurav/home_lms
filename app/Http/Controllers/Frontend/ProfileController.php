@@ -243,6 +243,28 @@ class ProfileController extends Controller
         return view('frontendone.pages.account.course_order', compact('user', 'orders'));
     }
 
+    public function productOrders()
+    {
+        $user = Auth::user();
+        $orders = \App\Models\ProductOrder::with('product')
+            ->where('user_id', $user->id)
+            ->latest()
+            ->paginate(5);
+
+        return view('frontendone.pages.account.product_order', compact('user', 'orders'));
+    }
+
+    public function productOrderDetails(\App\Models\ProductOrder $order)
+    {
+        $user = Auth::user();
+
+        abort_unless($order->user_id === $user->id, 403);
+
+        $order->load('product');
+
+        return view('frontendone.pages.account.product_order_details', compact('order'));
+    }
+
     public function courseOrderDetails(CourseOrder $order)
     {
         $user = Auth::user();

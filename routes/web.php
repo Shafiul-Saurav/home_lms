@@ -211,6 +211,8 @@ Route::prefix('user')->middleware(['auth', 'is_user'])->group(function(){
     Route::get('/my-courses', [ProfileController::class, 'myCourses'])->name('my.courses');
     Route::get('/course-orders', [ProfileController::class, 'courseOrders'])->name('user.course.orders');
     Route::get('/course-order/{order}', [ProfileController::class, 'courseOrderDetails'])->name('course.order.details');
+    Route::get('/product-orders', [ProfileController::class, 'productOrders'])->name('user.product.orders');
+    Route::get('/product-order/{order}', [ProfileController::class, 'productOrderDetails'])->name('product.order.details');
     Route::get('/book-orders', [ProfileController::class, 'bookOrders'])->name('user.book.orders');
     Route::get('/book-order/{order}', [ProfileController::class, 'bookOrderDetails'])->name('book.order.details');
     Route::get('/pdf-book-orders', [ProfileController::class, 'pdfBookOrders'])->name('user.pdf.book.orders');

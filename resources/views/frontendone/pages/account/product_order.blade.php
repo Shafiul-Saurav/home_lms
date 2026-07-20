@@ -1,6 +1,6 @@
-﻿@extends('frontendone.layouts.master')
+@extends('frontendone.layouts.master')
 
-@section('title', 'Course Orders')
+@section('title', 'Product Orders')
 
 @push('frontendone_style')
     @include('frontend.pages.common.style')
@@ -22,16 +22,16 @@
             border-color: #fff;
         }
 
-        .course-orders-card {
+        .product-orders-card {
             border-radius: 18px;
             overflow: hidden;
         }
 
-        .course-orders-card .header {
+        .product-orders-card .header {
             padding-bottom: 18px;
         }
 
-        .course-orders-card .header-right .theme-btn {
+        .product-orders-card .header-right .theme-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
@@ -39,24 +39,24 @@
             border-radius: 10px;
         }
 
-        .course-orders-card .user-table .table {
+        .product-orders-card .user-table .table {
             margin-bottom: 0;
         }
 
-        .course-orders-card .user-table .table tbody tr {
+        .product-orders-card .user-table .table tbody tr {
             transition: background-color 0.2s ease;
         }
 
-        .course-orders-card .user-table .table tbody tr:hover {
+        .product-orders-card .user-table .table tbody tr:hover {
             background: rgba(118, 189, 16, 0.04);
         }
 
-        .course-orders-card .user-table .table td,
-        .course-orders-card .user-table .table th {
+        .product-orders-card .user-table .table td,
+        .product-orders-card .user-table .table th {
             vertical-align: middle;
         }
 
-        .course-orders-card .pagination-area {
+        .product-orders-card .pagination-area {
             margin-top: 28px;
         }
     </style>
@@ -64,7 +64,7 @@
 
 @section('frontendone_content')
     <main class="main">
-        <x-frontend.pages.common.breadcrumb :title="'Course Orders'" :breadcrumb="[['name' => 'Home', 'url' => route('home')], ['name' => 'Course Orders', 'url' => '#']]" />
+        <x-frontend.pages.common.breadcrumb :title="'Product Orders'" :breadcrumb="[['name' => 'Home', 'url' => route('home')], ['name' => 'Product Orders', 'url' => '#']]" />
 
         <div class="user-account py-5">
             <div class="container">
@@ -74,9 +74,9 @@
                     </div>
                     <div class="col-lg-8 col-xl-9">
                         <div class="user-wrapper">
-                            <div class="user-card course-orders-card mb-0">
+                            <div class="user-card product-orders-card mb-0">
                                 <div class="header">
-                                    <h4 class="title">Orders List</h4>
+                                    <h4 class="title">Product Orders List</h4>
                                     <div class="header-right">
                                         <a href="{{ route('user.dashboard') }}" class="theme-btn" style="color:#76bd10;">
                                             Back to Dashboard
@@ -89,7 +89,8 @@
                                         <thead>
                                             <tr>
                                                 <th>#Order No</th>
-                                                <th>Purchased Date</th>
+                                                <th>Product Name</th>
+                                                {{-- <th>Purchased Date</th> --}}
                                                 <th>Total</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
@@ -100,8 +101,9 @@
                                                 @php
                                                     $status = strtolower($order->payment_status ?: $order->status);
                                                     $badgeClass = match ($status) {
-                                                        'completed', 'enrolled' => 'badge-success',
-                                                        'pending' => 'badge-info',
+                                                        'completed', 'delivered' => 'badge-success',
+                                                        'pending', 'processing' => 'badge-info',
+                                                        'shipped' => 'badge-warning',
                                                         'failed', 'cancelled' => 'badge-danger',
                                                         default => 'badge-primary',
                                                     };
@@ -113,7 +115,8 @@
                                                     <td>
                                                         <span class="code">{{ $order->order_number ?? sprintf('#%s', str_pad($order->id, 6, '0', STR_PAD_LEFT)) }}</span>
                                                     </td>
-                                                    <td>{{ $order->created_at?->format('F j, Y') ?? optional($order->date)->format('F j, Y') }}</td>
+                                                    <td>{{ $order->product->name ?? $order->name ?? 'N/A' }}</td>
+                                                    {{-- <td>{{ $order->created_at?->format('F j, Y') ?? optional($order->date)->format('F j, Y') }}</td> --}}
                                                     <td>{{ $order->currency ?? 'BDT' }}{{ number_format($order->amount, 2) }}</td>
                                                     <td><span class="badge {{ $badgeClass }}">{{ $displayStatus }}</span></td>
                                                     <td>
@@ -122,11 +125,11 @@
                                                                 <i class="fa-solid fa-ellipsis"></i>
                                                             </button>
                                                             <ul class="dropdown-menu dropdown-menu-end" style="max-height: none !important; overflow: visible !important;">
+                                                                {{-- <li>
+                                                                    <a class="dropdown-item" href="{{ route('product.details', $order->product_id) }}"><i class="fa-solid fa-eye"></i> View Product</a>
+                                                                </li> --}}
                                                                 <li>
-                                                                    <a class="dropdown-item" href="{{ route('course.details', $order->course_id) }}"><i class="fa-solid fa-eye"></i> View Course</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a class="dropdown-item" href="{{ route('course.order.details', $order->id) }}"><i class="fa-solid fa-file-lines"></i> View Order Details</a>
+                                                                    <a class="dropdown-item" href="{{ route('product.order.details', $order->id) }}"><i class="fa-solid fa-file-lines"></i> View Order Details</a>
                                                                 </li>
                                                             </ul>
                                                         </div>
@@ -134,12 +137,12 @@
                                                 </tr>
                                             @empty
                                                 <tr>
-                                                    <td colspan="5" class="text-center py-5">
+                                                    <td colspan="6" class="text-center py-5">
                                                         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;">
-                                                            <i class="fa-solid fa-shopping-cart" style="font-size: 48px; color: #d1d5db;"></i>
-                                                            <p style="color: #6b7280; font-weight: 600; margin: 0;">No Course Orders Yet</p>
-                                                            <a href="{{ route('courses') }}" class="theme-btn" style="padding: 10px 24px; border-radius: 8px; background-color: #76bd10; color: #fff; text-decoration: none; font-weight: 700;">
-                                                                <i class="fa-solid fa-book"></i> Enroll in a Course
+                                                            <i class="fa-solid fa-boxes-stacked" style="font-size: 48px; color: #d1d5db;"></i>
+                                                            <p style="color: #6b7280; font-weight: 600; margin: 0;">No Product Orders Yet</p>
+                                                            <a href="{{ route('products') ?? '#' }}" class="theme-btn" style="padding: 10px 24px; border-radius: 8px; background-color: #76bd10; color: #fff; text-decoration: none; font-weight: 700;">
+                                                                <i class="fa-solid fa-shopping-bag"></i> Shop Products
                                                             </a>
                                                         </div>
                                                     </td>
