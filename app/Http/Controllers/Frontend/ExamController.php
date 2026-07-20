@@ -21,6 +21,10 @@ class ExamController extends Controller
             return redirect()->back()->with('notification', 'Exam not found or inactive.');
         }
 
+        if (Auth::check() && Auth::user()->profileCompletionPercentage() < 90) {
+            return redirect()->back()->with('error', 'You must complete at least 90% of your profile to participate in exams.');
+        }
+
         $course = Course::with('teachers')->findOrFail($course_id);
 
         // Check Enrollment Logic
@@ -102,6 +106,10 @@ class ExamController extends Controller
         // Validate request
         if (!$userId) {
             return redirect()->route('login')->with('notification', 'Please login to submit exam.');
+        }
+
+        if (Auth::user()->profileCompletionPercentage() < 90) {
+            return redirect()->back()->with('error', 'You must complete at least 90% of your profile to submit exams.');
         }
 
         // Check if exam is still available

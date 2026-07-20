@@ -290,6 +290,11 @@ class ProfileController extends Controller
             return redirect()->back()->with('error', 'You must be enrolled in the course to request a certificate.');
         }
 
+        // Check profile completion percentage
+        if ($user->profileCompletionPercentage() < 90) {
+            return redirect()->back()->with('error', 'You must complete at least 90% of your profile to apply for a certificate.');
+        }
+
         $totalModules = CourseModule::where('course_id', $courseId)->count();
         $completedModules = LessonCompletion::where('user_id', $user->id)
             ->where('course_id', $courseId)

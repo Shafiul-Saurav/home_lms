@@ -22,6 +22,30 @@
         </div>
         <h5>{{ auth()->user()->name ?? 'Guest' }}</h5>
         <p><a href="mailto:{{ auth()->user()->email }}">{{ auth()->user()->email ?? 'No email' }}</a></p>
+        @php
+            $profilePercentage = auth()->user()?->profileCompletionPercentage() ?? 0;
+            if ($profilePercentage < 50) {
+                $barColor = '#e05a2b';
+            } elseif ($profilePercentage < 90) {
+                $barColor = '#ffc107';
+            } else {
+                $barColor = '#68a900';
+            }
+        @endphp
+        <div class="profile-completion-box mt-3" style="text-align: left; padding: 10px; background: #f8fafc; border-radius: 12px; border: 1px solid #edf0f5;">
+            <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 11px; font-weight: 700; color: #4b5563;">
+                <span>Profile Completion</span>
+                <span style="color: {{ $barColor }}">{{ $profilePercentage }}%</span>
+            </div>
+            <div class="progress" style="height: 6px; border-radius: 3px; background-color: #e5e7eb; overflow: hidden; margin-bottom: 0;">
+                <div class="progress-bar" role="progressbar" style="width: {{ $profilePercentage }}%; background-color: {{ $barColor }}; height: 100%;" aria-valuenow="{{ $profilePercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            @if ($profilePercentage < 90)
+                <div class="mt-1 text-danger" style="font-size: 9px; font-weight: 600; line-height: 1.2;">
+                    * Complete 90% to finish courses.
+                </div>
+            @endif
+        </div>
     </div>
     <ul class="sidebar-list">
         <li>

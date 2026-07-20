@@ -440,6 +440,13 @@ class CourseController extends Controller
         ]);
 
         $user = Auth::user();
+        if ($user->profileCompletionPercentage() < 90) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You must complete at least 90% of your profile to complete this lesson.',
+            ], 403);
+        }
+
         $moduleId = $request->module_id;
         $courseId = $request->course_id;
 

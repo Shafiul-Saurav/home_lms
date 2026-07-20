@@ -258,10 +258,10 @@
                                 <div class="form-group">
                                     <div class="form-icon">
                                         <i class="fa-solid fa-envelope"></i>
-                                        <input type="email" name="email" id="email"
+                                        <input type="text" name="email" id="email"
                                             class="form-control @error('email') is-invalid @enderror"
-                                            placeholder="Your Email" value="{{ old('email') }}" required
-                                            autocomplete="email" autofocus />
+                                            placeholder="Email or Phone Number" value="{{ old('email') }}" required
+                                            autofocus />
                                     </div>
                                     @error('email')
                                         <span class="invalid-feedback" role="alert" style="display: block; margin-top: 6px;">

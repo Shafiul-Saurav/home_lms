@@ -798,6 +798,18 @@
                     <div class="course-single-tab" data-aos="fade-left">
                         <div class="module-list-title px-3 pt-3">
                             <h3 class="mb-2">Course Curriculum</h3>
+                            @if (Auth::check() && Auth::user()->profileCompletionPercentage() < 90)
+                                <div class="alert alert-warning border-0 small mb-3 shadow-sm" style="background-color: #fffbeb; border-left: 4px solid #f59e0b; border-radius: 8px; padding: 12px;">
+                                    <div class="d-flex align-items-start gap-2">
+                                        <i class="fa-solid fa-triangle-exclamation text-warning mt-1" style="font-size: 14px;"></i>
+                                        <div>
+                                            <strong class="text-warning-dark d-block mb-1" style="color: #b45309; font-size: 12px; font-weight: 700;">Complete Your Profile ({{ Auth::user()->profileCompletionPercentage() }}%)</strong>
+                                            <span style="color: #d97706; font-size: 11px; font-weight: 600; line-height: 1.3; display: block;">You must complete at least 90% of your profile to track progress and complete this course.</span>
+                                            <a href="{{ route('personal.setting') }}" class="btn btn-warning btn-sm mt-2 px-3 fw-bold" style="background-color: #f59e0b; border: none; color: #fff; border-radius: 20px; font-size: 10px; padding: 4px 10px;">Update Profile</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                             <div class="course-progress-container mb-3">
                                 @php
                                     $totalModules = count($modules);
@@ -1769,6 +1781,8 @@
                             icon.classList.add('text-success');
                             icon.style.opacity = '1';
                         });
+                    } else {
+                        toastr.error(data.message || 'Failed to mark lesson as completed.');
                     }
                 })
                 .catch(error => {

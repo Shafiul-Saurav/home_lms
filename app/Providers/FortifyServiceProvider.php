@@ -47,13 +47,20 @@ class FortifyServiceProvider extends ServiceProvider
                 ]
             ]);
 
-            $email = $request->input('email');
+            $loginInput = $request->input('email');
             $ip = $request->ip();
+
+            // Find user by email or phone
+            $user = \App\Models\User::where('email', $loginInput)
+                ->orWhere('phone', $loginInput)
+                ->first();
+
+            $email = $user ? $user->email : $loginInput;
 
             // 2. Check permanent block in database
             if (\App\Models\BlockedEntity::where('type', 'email')->where('value', $email)->exists()) {
                 throw \Illuminate\Validation\ValidationException::withMessages([
-                    'email' => ['This email address has been permanently blocked due to multiple failed login attempts.'],
+                    'email' => ['This account has been permanently blocked due to multiple failed login attempts.'],
                 ]);
             }
 
@@ -81,8 +88,6 @@ class FortifyServiceProvider extends ServiceProvider
             }
 
             // 4. Attempt login
-            $user = \App\Models\User::where('email', $email)->first();
-
             if ($user && \Illuminate\Support\Facades\Hash::check($request->input('password'), $user->password)) {
                 // Success: reset counters
                 \Illuminate\Support\Facades\Cache::forget("login_fails_email_{$email}");

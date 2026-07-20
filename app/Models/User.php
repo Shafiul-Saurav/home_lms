@@ -143,4 +143,45 @@ class User extends Authenticatable
             ->where('payment_status', 'Completed')
             ->exists();
     }
+
+    /**
+     * Calculate profile completion percentage based on biodata and social links.
+     */
+    public function profileCompletionPercentage()
+    {
+        $fields = [
+            'name' => !empty($this->name),
+            'email' => !empty($this->email),
+            'phone' => !empty($this->phone),
+        ];
+
+        $profile = $this->profile;
+        if ($profile) {
+            $fields['nid_num'] = !empty($profile->nid_num);
+            $fields['address'] = !empty($profile->address);
+            $fields['gender'] = !empty($profile->gender);
+            $fields['facebook'] = !empty($profile->facebook);
+            $fields['twitter'] = !empty($profile->twitter);
+            $fields['linkedIn'] = !empty($profile->linkedIn);
+            $fields['instagram'] = !empty($profile->instagram);
+
+            $profileImage = $profile->profileImage;
+            $fields['profile_image'] = ($profileImage && !empty($profileImage->profile_image));
+        } else {
+            $fields['nid_num'] = false;
+            $fields['address'] = false;
+            $fields['gender'] = false;
+            $fields['facebook'] = false;
+            $fields['twitter'] = false;
+            $fields['linkedIn'] = false;
+            $fields['instagram'] = false;
+            $fields['profile_image'] = false;
+        }
+
+        $totalFields = count($fields);
+        $filledFields = count(array_filter($fields));
+
+        return round(($filledFields / $totalFields) * 100);
+    }
 }
+
