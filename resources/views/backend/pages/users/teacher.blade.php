@@ -38,6 +38,7 @@
                                     <th class="border-bottom-0">Profile</th>
                                     <th class="border-bottom-0">Teacher Name</th>
                                     <th class="border-bottom-0">Teacher Email</th>
+                                    <th class="border-bottom-0">Phone</th>
                                     <th class="border-bottom-0">Role</th>
                                     @can('edit-user')
                                     <th class="border-bottom-0">Status</th>
@@ -71,6 +72,7 @@
                                         </td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
+                                        <td>{{ $user->phone ?? 'N/A' }}</td>
                                         <td>
                                             <span class="badge bg-primary">{{ $user->role->role_name ?? 'N/A' }}</span>
                                         </td>

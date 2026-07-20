@@ -38,6 +38,8 @@
                                     <th class="border-bottom-0">Profile</th>
                                     <th class="border-bottom-0">Student Name</th>
                                     <th class="border-bottom-0">Student Email</th>
+                                    <th class="border-bottom-0">Phone</th>
+                                    <th class="border-bottom-0">Enrolled Courses</th>
                                     <th class="border-bottom-0">Role</th>
                                     @can('edit-user')
                                     <th class="border-bottom-0">Status</th>
@@ -72,6 +74,18 @@
                                         </td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
+                                        <td>{{ $user->phone ?? 'N/A' }}</td>
+                                        <td>
+                                            @if($user->courseOrders && $user->courseOrders->count() > 0)
+                                                <ul style="margin: 0; padding-left: 20px;">
+                                                    @foreach($user->courseOrders as $order)
+                                                        <li>{{ $order->course?->name ?? 'N/A' }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                                <span class="badge bg-secondary">No Courses</span>
+                                            @endif
+                                        </td>
                                         <td>
                                             <span class="badge bg-primary">{{ $user->role->role_name ?? 'N/A' }}</span>
                                         </td>

@@ -57,8 +57,8 @@ class UserController extends Controller
     {
         //authorize this user to access/give access to admin dashboard
         Gate::authorize('index-user');
-        $users = User::with(['role:id,role_name,role_slug', 'profile.profileImage'])
-        ->select(['id', 'role_id', 'name', 'email', 'is_active', 'updated_at', 'profile_photo_path'])
+        $users = User::with(['role:id,role_name,role_slug', 'profile.profileImage', 'courseOrders.course:id,name'])
+        ->select(['id', 'role_id', 'name', 'email', 'phone', 'is_active', 'updated_at', 'profile_photo_path'])
         ->whereIn('role_id', [4])
         ->paginate(1000);
 
@@ -75,8 +75,8 @@ class UserController extends Controller
     {
          //authorize this user to access/give access to admin dashboard
         Gate::authorize('index-user');
-        $users = User::with(['role:id,role_name,role_slug'])
-        ->select(['id', 'role_id', 'name', 'email', 'is_active', 'updated_at'])
+        $users = User::with(['role:id,role_name,role_slug', 'teacher'])
+        ->select(['id', 'role_id', 'name', 'email', 'phone', 'is_active', 'updated_at'])
         ->whereIn('role_id', [7])
         ->paginate(1000);
 
