@@ -59,7 +59,7 @@
             outline: none;
         }
 
-        .form-icon-contact .form-control:focus ~ i.input-icon {
+        .form-icon-contact .form-control:focus~i.input-icon {
             color: #76bd10;
         }
 
@@ -139,9 +139,12 @@
                                                                 <select name="gender"
                                                                     class="form-control @error('gender') is-invalid @enderror">
                                                                     <option value="">Select Gender</option>
-                                                                    <option value="male" @selected(old('gender', $profile->gender ?? '') === 'male')>Male</option>
-                                                                    <option value="female" @selected(old('gender', $profile->gender ?? '') === 'female')>Female</option>
-                                                                    <option value="other" @selected(old('gender', $profile->gender ?? '') === 'other')>Other</option>
+                                                                    <option value="male" @selected(old('gender', $profile->gender ?? '') === 'male')>Male
+                                                                    </option>
+                                                                    <option value="female" @selected(old('gender', $profile->gender ?? '') === 'female')>
+                                                                        Female</option>
+                                                                    <option value="other" @selected(old('gender', $profile->gender ?? '') === 'other')>
+                                                                        Other</option>
                                                                 </select>
                                                                 <i class="fa-solid fa-venus-mars input-icon"></i>
                                                             </div>
@@ -239,7 +242,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="auth-btn-contact mt-3">
-                                                    <button type="submit"><span class="far fa-save"></span> Save Changes</button>
+                                                    <button type="submit"><span class="far fa-save"></span> Save
+                                                        Changes</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -258,4 +262,38 @@
 
 @push('frontendone_script')
     @include('frontend.pages.common.script')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form[action="{{ route('personal.store') }}"]');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    Swal.fire({
+                        title: 'Warning!',
+                        html: `
+                            <div class="text-start" style="font-size: 14px; line-height: 1.6; text-align: left;">
+                                <p style="font-size: 14px; color: #e05a2b;; font-style: italic;">
+                                    Please provide authentic information. If any fake or false information is found during verification, the administration reserves the right to restrict account access.
+                                </p>
+                            </div>
+                        `,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Proceed',
+                        cancelButtonText: 'Cancel',
+                        customClass: {
+                            popup: 'rounded-3'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            }
+        });
+    </script>
 @endpush

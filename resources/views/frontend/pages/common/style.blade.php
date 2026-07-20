@@ -3,27 +3,29 @@
 <style>
     /* Custom SweetAlert2 styles */
     .swal2-popup {
-        background: rgba(0, 0, 0, 0.8) !important;
+        background: #fff !important;
         /* Semi-transparent background */
-        color: #ffffff;
+        color: #000000;
         /* Light text color */
     }
 
     .swal2-title,
     .swal2-content {
-        color: #ffffff !important;
+        color: #e05a2b !important;
         /* Light text color for title and content */
     }
 
     /* Optional: Customize button colors to match the light theme */
     .swal2-confirm {
-        background-color: #3085d6 !important;
-        border-color: #3085d6 !important;
+        background-color: #76bd10 !important;
+        border-color: #76bd10 !important;
+        border-radius: 20px !important;
     }
 
     .swal2-cancel {
-        background-color: #d33 !important;
-        border-color: #d33 !important;
+        background-color: #e05a2b !important;
+        border-color: #e05a2b !important;
+        border-radius: 20px !important;
     }
 
     /* Scoped styling for modernized breadcrumbs */

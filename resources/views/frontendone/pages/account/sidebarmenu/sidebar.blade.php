@@ -1,6 +1,7 @@
 <div class="user-sidebar">
     @php
         $isDashboard = request()->routeIs('user.dashboard');
+        $isAboutMe = request()->routeIs('user.about.me');
         $isGeneralSetting = request()->routeIs('general.setting');
         $isPersonalSetting = request()->routeIs('personal.setting');
         $isMyCourses = request()->routeIs('my.courses');
@@ -33,16 +34,21 @@
                 $barColor = '#68a900';
             }
         @endphp
-        <div class="profile-completion-box mt-3" style="text-align: left; padding: 10px; background: #f8fafc; border-radius: 12px; border: 1px solid #edf0f5;">
-            <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 11px; font-weight: 700; color: #4b5563;">
+        <div class="profile-completion-box mt-3"
+            style="text-align: left; padding: 10px; background: #f8fafc; border-radius: 12px; border: 1px solid #edf0f5;">
+            <div class="d-flex justify-content-between align-items-center mb-1"
+                style="font-size: 11px; font-weight: 700; color: #4b5563;">
                 <span>Profile Completion</span>
                 <span style="color: {{ $barColor }}">{{ $profilePercentage }}%</span>
             </div>
-            <div class="progress" style="height: 6px; border-radius: 3px; background-color: #e5e7eb; overflow: hidden; margin-bottom: 0;">
-                <div class="progress-bar" role="progressbar" style="width: {{ $profilePercentage }}%; background-color: {{ $barColor }}; height: 100%;" aria-valuenow="{{ $profilePercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress"
+                style="height: 6px; border-radius: 3px; background-color: #e5e7eb; overflow: hidden; margin-bottom: 0;">
+                <div class="progress-bar" role="progressbar"
+                    style="width: {{ $profilePercentage }}%; background-color: {{ $barColor }}; height: 100%;"
+                    aria-valuenow="{{ $profilePercentage }}" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             @if ($profilePercentage < 90)
-                <div class="mt-1 text-danger" style="font-size: 9px; font-weight: 600; line-height: 1.2;">
+                <div class="mt-1" style="font-size: 9px; font-weight: 600; line-height: 1.2; color: #76bd10;">
                     * Complete 90% to finish courses.
                 </div>
             @endif
@@ -52,6 +58,11 @@
         <li>
             <a class="{{ $isDashboard ? 'active' : '' }}" href="{{ route('user.dashboard') }}">
                 <i class="fa-solid fa-chart-line icon"></i> Dashboard
+            </a>
+        </li>
+        <li>
+            <a class="{{ $isAboutMe ? 'active' : '' }}" href="{{ route('user.about.me') }}">
+                <i class="fa-solid fa-address-card icon"></i> About Me
             </a>
         </li>
         <li>

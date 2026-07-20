@@ -205,6 +205,7 @@ Route::prefix('user')->middleware(['auth', 'is_user'])->group(function(){
     Route::get('/generalSetting', [ProfileController::class, 'generalSetting'])->name('general.setting');
     Route::post('/general_store', [ProfileController::class, 'generalStore'])->name('general.store');
     Route::get('/personalSetting', [ProfileController::class, 'personalSetting'])->name('personal.setting');
+    Route::get('/aboutMe', [ProfileController::class, 'aboutMe'])->name('user.about.me');
     Route::post('/personal_store', [ProfileController::class, 'personalStore'])->name('personal.store');
     Route::post('myupdate/password', [ProfileController::class, 'updatePassword'])->name('mypostupdate.password');
     Route::get('/my-courses', [ProfileController::class, 'myCourses'])->name('my.courses');

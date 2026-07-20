@@ -149,6 +149,7 @@ class User extends Authenticatable
      */
     public function profileCompletionPercentage()
     {
+        // 10 non-image fields contributing to 80% of completion
         $fields = [
             'name' => !empty($this->name),
             'email' => !empty($this->email),
@@ -164,9 +165,6 @@ class User extends Authenticatable
             $fields['twitter'] = !empty($profile->twitter);
             $fields['linkedIn'] = !empty($profile->linkedIn);
             $fields['instagram'] = !empty($profile->instagram);
-
-            $profileImage = $profile->profileImage;
-            $fields['profile_image'] = ($profileImage && !empty($profileImage->profile_image));
         } else {
             $fields['nid_num'] = false;
             $fields['address'] = false;
@@ -175,13 +173,26 @@ class User extends Authenticatable
             $fields['twitter'] = false;
             $fields['linkedIn'] = false;
             $fields['instagram'] = false;
-            $fields['profile_image'] = false;
         }
 
-        $totalFields = count($fields);
-        $filledFields = count(array_filter($fields));
+        $totalOtherFields = count($fields); // 10
+        $filledOtherFields = count(array_filter($fields));
 
-        return round(($filledFields / $totalFields) * 100);
+        // Calculate contribution of other fields (max 80%)
+        $percentage = ($filledOtherFields / $totalOtherFields) * 80;
+
+        // Calculate contribution of profile image (adds 20%)
+        $hasProfileImage = false;
+        if ($profile) {
+            $profileImage = $profile->profileImage;
+            $hasProfileImage = ($profileImage && !empty($profileImage->profile_image));
+        }
+
+        if ($hasProfileImage) {
+            $percentage += 20;
+        }
+
+        return round($percentage);
     }
 }
 

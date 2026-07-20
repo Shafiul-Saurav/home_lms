@@ -107,6 +107,17 @@ class ProfileController extends Controller
         return view('frontendone.pages.account.personalsetting', compact('user', 'profile'));
     }
 
+    public function aboutMe()
+    {
+        $user = Auth::user();
+        $profile = Profile::firstOrNew([
+            'user_id' => Auth::id(),
+        ]);
+        $profileImage = ProfileImage::where('profile_id', $profile->id)->first();
+
+        return view('frontendone.pages.account.aboutme', compact('user', 'profile', 'profileImage'));
+    }
+
     public function personalStore(Request $request)
     {
         $validated = $request->validate([
