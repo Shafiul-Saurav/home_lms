@@ -19,6 +19,34 @@ class CourseOrderController extends Controller
         return view('backend.pages.orders.course_enrollment.index', compact('orders'));
     }
 
+    public function liveIndex()
+    {
+        Gate::authorize('index-course-order');
+
+        $orders = CourseOrder::with(['user', 'course'])
+            ->whereHas('course', function ($query) {
+                $query->where('live_or_record', 'live');
+            })
+            ->latest('id')
+            ->paginate(30);
+
+        return view('backend.pages.orders.course_enrollment.live', compact('orders'));
+    }
+
+    public function recordedIndex()
+    {
+        Gate::authorize('index-course-order');
+
+        $orders = CourseOrder::with(['user', 'course'])
+            ->whereHas('course', function ($query) {
+                $query->where('live_or_record', 'record');
+            })
+            ->latest('id')
+            ->paginate(30);
+
+        return view('backend.pages.orders.course_enrollment.recorded', compact('orders'));
+    }
+
     public function edit(string $id)
     {
         Gate::authorize('edit-course-order');

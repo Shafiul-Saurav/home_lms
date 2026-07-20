@@ -55,11 +55,15 @@
                                 </tr>
                                 <tr>
                                     <th>Bio</th>
-                                    <td>{{ $request->bio }}</td>
+                                    <td style="white-space: pre-line; word-break: break-word; overflow-wrap: anywhere;">
+                                        {{ $request->bio }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>Qualification</th>
-                                    <td>{{ $request->qualification }}</td>
+                                    <td style="white-space: pre-line; word-break: break-word; overflow-wrap: anywhere;">
+                                        {{ $request->qualification }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>Status</th>

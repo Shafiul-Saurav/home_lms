@@ -79,6 +79,25 @@
             background-color: #f8d7da;
             color: #721c24;
         }
+
+        .role-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .role-badge-instructor {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .role-badge-student {
+            background-color: #e2e3ff;
+            color: #1e1fff;
+        }
     </style>
 @endpush
 
@@ -100,21 +119,26 @@
                             <div class="user-card">
                                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
                                     <h4 class="title mb-0">Summary</h4>
-                                    @if (auth()->user()->role_id == 4)
-                                        <div class="d-flex align-items-center gap-2 flex-wrap">
-                                            @if ($instructorRequest && $instructorRequest->status === 'pending')
-                                                <span class="request-status-badge request-status-pending">Request Pending</span>
-                                            @elseif ($instructorRequest && $instructorRequest->status === 'approved')
-                                                <span class="request-status-badge request-status-approved">Request Approved</span>
-                                            @elseif ($instructorRequest && $instructorRequest->status === 'rejected')
-                                                <span class="request-status-badge request-status-rejected">Request Rejected</span>
-                                            @else
-                                                <button type="button" class="instructor-btn" id="openInstructorRequestModal">
-                                                    <i class="fa-solid fa-chalkboard-user"></i> Become an Instructor
-                                                </button>
+                                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                                        @if (auth()->user()->role_id == 7)
+                                            <span class="role-badge role-badge-instructor">Instructor</span>
+                                        @else
+                                            <span class="role-badge role-badge-student">Student</span>
+                                            @if (auth()->user()->role_id == 4)
+                                                @if ($instructorRequest && $instructorRequest->status === 'pending')
+                                                    <span class="request-status-badge request-status-pending">Request Pending</span>
+                                                @elseif ($instructorRequest && $instructorRequest->status === 'approved')
+                                                    <span class="request-status-badge request-status-approved">Request Approved</span>
+                                                @elseif ($instructorRequest && $instructorRequest->status === 'rejected')
+                                                    <span class="request-status-badge request-status-rejected">Request Rejected</span>
+                                                @else
+                                                    <button type="button" class="instructor-btn" id="openInstructorRequestModal">
+                                                        <i class="fa-solid fa-chalkboard-user"></i> Become an Instructor
+                                                    </button>
+                                                @endif
                                             @endif
-                                        </div>
-                                    @endif
+                                        @endif
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 col-lg-6 col-xl-6 mb-2 mb-lg-0">

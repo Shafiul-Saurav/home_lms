@@ -336,6 +336,8 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
             ->name('orders.user.enrolled_courses');
         Route::post('course-enrollment/manual', [CourseOrderController::class, 'manualEnrollConfirm'])->name('orders.course_enrollment.manual_confirm');
         Route::get('course-enrollment', [CourseOrderController::class, 'index'])->name('orders.course_enrollment');
+        Route::get('course-enrollment/live', [CourseOrderController::class, 'liveIndex'])->name('orders.course_enrollment.live');
+        Route::get('course-enrollment/recorded', [CourseOrderController::class, 'recordedIndex'])->name('orders.course_enrollment.recorded');
         Route::get('course-enrollment/{id}/edit', [CourseOrderController::class, 'edit'])->name('orders.course_enrollment.edit');
         Route::put('course-enrollment/{id}', [CourseOrderController::class, 'update'])->name('orders.course_enrollment.update');
         Route::delete('course-enrollment/{id}', [CourseOrderController::class, 'destroy'])->name('orders.course_enrollment.destroy');

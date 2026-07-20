@@ -142,14 +142,24 @@ class UserController extends Controller
         //authorize this user to access/give access to admin dashboard
         Gate::authorize('edit-user');
 
-        // dd($request->all(), $id);
-        $user = User::where('id', $id)->first();
+        $user = User::findOrFail($id);
+        $oldRoleId = $user->role_id;
+
         $user->update([
             'role_id' => $request->role_id,
             // 'name' => $request->name,
             // 'email' => $request->email,
             // 'password' => Hash::make($request->password),
         ]);
+
+        // If the user was an instructor and is now changed to a non-instructor role,
+        // clear the old approved instructor request so the dashboard does not continue
+        // showing a stale "Request Approved" state.
+        if ($oldRoleId == 7 && $request->role_id != 7) {
+            if ($user->instructorRequest) {
+                $user->instructorRequest()->delete();
+            }
+        }
 
         return redirect()->route('users.index')->with('message', 'User Updated Successfully 🙂');
     }

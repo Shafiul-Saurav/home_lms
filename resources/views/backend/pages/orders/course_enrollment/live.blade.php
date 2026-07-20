@@ -1,6 +1,6 @@
 @extends('backend.layouts.master')
 
-@section('title', 'Course Enrollment Orders')
+@section('title', 'Live Course Enrollment Orders')
 
 @push('backend_style')
     @include('backend.pages.common.style')
@@ -11,12 +11,12 @@
         <div class="col-12">
             <div class="page-header">
                 <div>
-                    <h1 class="page-title">Course Enrollment Orders</h1>
+                    <h1 class="page-title">Live Course Enrollment Orders</h1>
                 </div>
                 <div class="ms-auto pageheader-btn">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Course Enrollment</li>
+                        <li class="breadcrumb-item active" aria-current="page">Live Course Enrollment</li>
                     </ol>
                 </div>
             </div>
@@ -25,7 +25,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
-                    <h3 class="card-title">Course Enrollment List</h3>
+                    <h3 class="card-title">Live Course Enrollment List</h3>
                     @can('create-course-order')
                         <a href="{{ route('orders.course_enrollment.manual') }}" class="btn btn-sm btn-primary">
                             <i class="fa-solid fa-plus fa-fw"></i> Manual Enroll Student

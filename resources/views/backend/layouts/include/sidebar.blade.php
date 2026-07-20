@@ -619,8 +619,16 @@
                         </a>
                         <ul class="slide-menu">
                             @can('index-course-order')
+                                <li><a href="{{ route('orders.course_enrollment.live') }}"
+                                        class="slide-item {{ Request::routeIs('orders.course_enrollment.live') ? 'active' : '' }}">Live Course
+                                        Enrollment</a>
+                                </li>
+                                <li><a href="{{ route('orders.course_enrollment.recorded') }}"
+                                        class="slide-item {{ Request::routeIs('orders.course_enrollment.recorded') ? 'active' : '' }}">Recorded Course
+                                        Enrollment</a>
+                                </li>
                                 <li><a href="{{ route('orders.course_enrollment') }}"
-                                        class="slide-item {{ Request::routeIs('orders.course_enrollment') ? 'active' : '' }}">Course
+                                        class="slide-item {{ Request::routeIs('orders.course_enrollment') ? 'active' : '' }}">All Course
                                         Enrollment</a>
                                 </li>
                             @endcan
