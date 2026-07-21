@@ -153,7 +153,7 @@
                                     <th class="border-bottom-0">Author</th>
                                     <th class="border-bottom-0">Image</th>
                                     {{-- @can('edit-news') --}}
-                                    {{-- <th class="border-bottom-0">Home Page</th> --}}
+                                    <th class="border-bottom-0">Home Page</th>
                                     {{-- @endcan --}}
                                     {{-- @can('edit-news') --}}
                                     <th class="border-bottom-0">Status</th>
@@ -177,14 +177,14 @@
                                         </td>
 
                                         {{-- @can('edit-news') --}}
-                                        {{-- <td>
+                                        <td>
                                             <div class="material-switch">
                                                 <input id="home-{{ $item->id }}" class="toggle-class-home" name="is_home"
                                                     type="checkbox" {{ $item->is_home ? 'checked' : '' }}
                                                     data-id="{{ $item->id }}">
                                                 <label for="home-{{ $item->id }}" class="label-success"></label>
                                             </div>
-                                        </td> --}}
+                                        </td>
                                         {{-- @endcan --}}
 
                                         {{-- @can('edit-news') --}}

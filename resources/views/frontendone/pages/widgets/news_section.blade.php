@@ -33,18 +33,12 @@
 
         <div class="row g-4" id="newsGrid">
             @foreach($posts as $post)
-                @php
-                    $newsType = strtolower($post->postCategory->title ?? 'news');
-                    if (!in_array($newsType, ['news', 'blog'])) {
-                        $newsType = 'news';
-                    }
-                @endphp
-                <div class="col-lg-4 col-md-6" data-news-type="{{ $newsType }}">
+                <div class="col-lg-4 col-md-6" data-news-type="blog">
                     <div class="news-card">
                         <div class="news-img">
                             <img src="{{ $post->post_image ? asset('uploads/posts/' . $post->post_image) : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80' }}"
                                 alt="{{ $post->title }}">
-                            <span class="news-badge">{{ $post->postCategory->title ?? 'News' }}</span>
+                            <span class="news-badge">{{ $post->postCategory->title ?? 'Blog' }}</span>
                         </div>
 
                         <div class="news-content">
@@ -66,7 +60,66 @@
                     </div>
                 </div>
             @endforeach
+
+            @foreach($news as $item)
+                <div class="col-lg-4 col-md-6" data-news-type="news">
+                    <div class="news-card">
+                        <div class="news-img">
+                            <img src="{{ $item->news_image ? asset('uploads/news/' . $item->news_image) : 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80' }}"
+                                alt="{{ $item->title }}">
+                            <span class="news-badge">{{ $item->newsCategory->title ?? 'News' }}</span>
+                        </div>
+
+                        <div class="news-content">
+                            <div class="news-meta">
+                                <span><i class="fa-regular fa-calendar"></i> {{ $item->created_at ? $item->created_at->format('d M, Y') : '' }}</span>
+                                <span><i class="fa-regular fa-user"></i> {{ $item->user->name ?? 'Admin' }}</span>
+                            </div>
+
+                            <h3>{{ $item->title }}</h3>
+
+                            <p>
+                                {{ \Illuminate\Support\Str::words(strip_tags($item->short_des ?? $item->description), 15, '...') }}
+                            </p>
+
+                            <a href="{{ route('frontend.news.show', $item->id) }}" class="read-more">
+                                Read More <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
+
+        @push('frontendone_script')
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const filterButtons = document.querySelectorAll('#newsFilterBar .filter-btn');
+                    const cards = document.querySelectorAll('#newsGrid [data-news-type]');
+
+                    function filterNews(type) {
+                        cards.forEach(card => {
+                            if (type === 'all' || card.dataset.newsType === type) {
+                                card.style.display = '';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        });
+                    }
+
+                    filterButtons.forEach(button => {
+                        button.addEventListener('click', function() {
+                            filterButtons.forEach(btn => btn.classList.remove('active'));
+                            this.classList.add('active');
+                            filterNews(this.dataset.filter);
+                        });
+                    });
+
+                    // initialize default filter
+                    filterNews('blog');
+                });
+            </script>
+        @endpush
 
     </div>
 </section>

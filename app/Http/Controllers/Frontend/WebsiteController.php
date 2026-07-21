@@ -15,6 +15,7 @@ use App\Models\LogoFavicon;
 use App\Models\Partner;
 use App\Models\Photocategory;
 use App\Models\Photogallery;
+use App\Models\News;
 use App\Models\Post;
 use App\Models\Postcategory;
 use App\Models\Servicetwo;
@@ -75,7 +76,12 @@ class WebsiteController extends Controller
         $posts = Post::with(['postCategory', 'user'])
             ->where('is_home', 1)
             ->where('is_active', 1)
-            ->latest('id')->limit(6)->get();
+            ->latest('id')->limit(3)->get();
+
+        $news = News::with(['newsCategory', 'user'])
+            ->where('is_home', 1)
+            ->where('is_active', 1)
+            ->latest('id')->limit(3)->get();
 
         $categories = Category::where('is_active', 1)->where('is_home', 1)
             ->with(['courses' => function($q) {
@@ -158,6 +164,7 @@ class WebsiteController extends Controller
             'studentTestimonials',
             'customerTestimonials',
             'posts',
+            'news',
             'logo_fav',
             'categories',
             'popularCourses',
