@@ -517,7 +517,7 @@
 
                                     <ul class="course-info-list mb-4">
                                         <li><span><i
-                                                    class="fa-solid fa-layer-group me-2"></i>Level</span><strong>{{ ucfirst($courseInfo->live_or_record ?? 'All Level') }}</strong>
+                                                    class="fa-solid fa-layer-group me-2"></i>Type</span><strong>{{ ucfirst($courseInfo->live_or_record ?? '') }}</strong>
                                         </li>
                                         <li><span><i
                                                     class="fa-solid fa-book-open me-2"></i>Lessons</span><strong>{{ $courseInfo->lessons()->count() }}</strong>
@@ -531,6 +531,9 @@
                                         <li><span><i
                                                     class="fa-solid fa-user-tie me-2"></i>Instructor</span><strong>{{ $instructorName }}</strong>
                                         </li>
+                                        @if(($courseInfo->live_or_record ?? '') === 'live' && $courseInfo->batches && $courseInfo->batches->isNotEmpty())
+                                            <li><span><i class="fa-solid fa-layer-group me-2"></i>Batch</span><strong>{{ $courseInfo->batches->pluck('name')->join(', ') }}</strong></li>
+                                        @endif
                                     </ul>
 
                                 </div>

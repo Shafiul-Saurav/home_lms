@@ -40,6 +40,8 @@
                                     <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">Order No</th>
                                     <th class="border-bottom-0">User</th>
+                                    <th class="border-bottom-0">Email</th>
+                                    <th class="border-bottom-0">Phone</th>
                                     <th class="border-bottom-0">Course</th>
                                     <th class="border-bottom-0">Type</th>
                                     <th class="border-bottom-0">Amount</th>
@@ -58,6 +60,8 @@
                                         <td><strong>{{ $orders->firstItem() + $loop->index }}</strong></td>
                                         <td>{{ $order->order_number }}</td>
                                         <td>{{ optional($order->user)->name ?? $order->name }}</td>
+                                        <td>{{ optional($order->user)->email ?? $order->email }}</td>
+                                        <td>{{ optional($order->user)->phone ?? $order->phone }}</td>
                                         <td>{{ optional($order->course)->name ?? optional($order->course)->title ?? '-' }}</td>
                                         <td>
                                             @if(optional($order->course)->live_or_record === 'live')

@@ -59,4 +59,11 @@ class Course extends Model
     {
         return $this->hasMany(Exam::class, 'course_id', 'id');
     }
+
+    public function batches()
+    {
+        return $this->belongsToMany(\App\Models\Batch::class, 'batch_courses', 'course_id', 'batch_id')
+                    ->withPivot('is_active')
+                    ->withTimestamps();
+    }
 }

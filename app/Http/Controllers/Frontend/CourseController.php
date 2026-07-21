@@ -77,7 +77,7 @@ class CourseController extends Controller
         $groupedCourses = [];
 
         if (!$showNoCourses) {
-            $categoriesToQuery = $hasCategoryFilter 
+            $categoriesToQuery = $hasCategoryFilter
                 ? $categories->whereIn('id', $categoryIds)
                 : $categories;
 
@@ -311,7 +311,7 @@ class CourseController extends Controller
     public function courseDetails($id)
     {
         // Fetch course details
-        $courseInfo = Course::with(['teachers.user', 'category'])->where('id', $id)->where('is_active', 1)->first();
+        $courseInfo = Course::with(['teachers.user', 'category', 'batches'])->where('id', $id)->where('is_active', 1)->first();
 
         if (!$courseInfo) {
             return redirect()->back()->with('error', 'Course not found');
