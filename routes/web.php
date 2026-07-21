@@ -43,6 +43,8 @@ use App\Http\Controllers\Backend\PhotoCategoryController;
 use App\Http\Controllers\Backend\PhotoGalleryController;
 use App\Http\Controllers\Backend\PostCategoryController;
 use App\Http\Controllers\Backend\PostController;
+use App\Http\Controllers\Backend\NewsCategoryController;
+use App\Http\Controllers\Backend\NewsController;
 use App\Http\Controllers\Backend\PrivacyPolicyController;
 use App\Http\Controllers\Backend\ProductCategoryController;
 use App\Http\Controllers\Backend\ProductController;
@@ -69,6 +71,7 @@ use App\Http\Controllers\Backend\WebsiteLinkController;
 use App\Http\Controllers\Backend\WhatyougetController;
 use App\Http\Controllers\Frontend\BookPaymentController;
 use App\Http\Controllers\Frontend\CommentController;
+use App\Http\Controllers\Frontend\NewsController as FrontendNewsController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\CourseController as FrontendCourseController;
 use App\Http\Controllers\Frontend\CoursePaymentController;
@@ -109,6 +112,7 @@ use App\Http\Controllers\Trash\PhotoCategoryTrashController;
 use App\Http\Controllers\Trash\PhotoGalleryTrashController;
 use App\Http\Controllers\Trash\PostCategoryTrashController;
 use App\Http\Controllers\Trash\PostTrashController;
+use App\Http\Controllers\Trash\NewsTrashController;
 use App\Http\Controllers\Trash\ProductTrashController;
 use App\Http\Controllers\Trash\QuestionTrashController;
 use App\Http\Controllers\Trash\RoleTrashController;
@@ -143,8 +147,8 @@ Route::get('about', [WebsiteController::class, 'about'])->name('about');
 Route::get('services', [WebsiteController::class, 'services'])->name('services');
 Route::get('photogallery', [WebsiteController::class, 'photoGallery'])->name('photo.gallery');
 Route::get('videogallery', [WebsiteController::class, 'videoGallery'])->name('video.gallery');
-Route::get('news', [WebsiteController::class, 'search'])->name('news.search');
-Route::get('news/details/{id}', [WebsiteController::class, 'newsDetails'])->name('news.details');
+Route::get('blogs', [WebsiteController::class, 'search'])->name('news.search');
+Route::get('blogs/details/{id}', [WebsiteController::class, 'newsDetails'])->name('news.details');
 Route::get('faqs', [WebsiteController::class, 'faq'])->name('faq.page');
 Route::get('contacts', [WebsiteController::class, 'contact'])->name('contact.page');
 Route::get('mentors', [WebsiteController::class, 'mentors'])->name('mentors');
@@ -197,12 +201,21 @@ Route::get('teachers', [WebsiteController::class, 'teachers'])->name('teachers')
 // Teacher details (frontend)
 Route::get('teacher/{id}', [WebsiteController::class, 'teacherDetails'])->name('teacher.show');
 
+// News Routes (Frontend)
+Route::get('news-list', [FrontendNewsController::class, 'index'])->name('frontend.news.index');
+Route::get('news/{id}', [FrontendNewsController::class, 'show'])->name('frontend.news.show');
+Route::get('news/search', [FrontendNewsController::class, 'search'])->name('frontend.news.search');
+
 
 
 Route::prefix('user')->middleware(['auth', 'is_user'])->group(function(){
     Route::get('/dashboard', [ProfileController::class, 'userDashboard'])->name('user.dashboard');
     Route::get('/posts/create', [ProfileController::class, 'createPost'])->name('user.posts.create');
     Route::post('/posts/store', [ProfileController::class, 'storePost'])->name('user.posts.store');
+
+    // News Routes (User submission)
+    Route::get('/news/create', [FrontendNewsController::class, 'create'])->name('frontend.news.create');
+    Route::post('/news/store', [FrontendNewsController::class, 'store'])->name('frontend.news.store');
     Route::get('/generalSetting', [ProfileController::class, 'generalSetting'])->name('general.setting');
     Route::post('/general_store', [ProfileController::class, 'generalStore'])->name('general.store');
     Route::get('/personalSetting', [ProfileController::class, 'personalSetting'])->name('personal.setting');
@@ -853,6 +866,32 @@ Route::get('check/partner/is_active/{id}', [PartnerController::class, 'checkActi
     Route::get('check/post/is_home/{post_id}', [PostController::class, 'checkActiveHome'])
     ->name('post.is_home.ajax');
     Route::resource('posts', PostController::class);
+
+    //News Category Route
+    Route::get('/newscategories/trash', [NewsTrashController::class, 'trash'])->name('newscategories.trash');
+    Route::get('/newscategories/restore/{id}', [NewsTrashController::class, 'restore'])
+    ->name('newscategories.restore');
+    Route::delete('/newscategories/forcedelete/{id}', [NewsTrashController::class, 'forceDelete'])
+    ->name('newscategories.forcedelete');
+    // Ajax Call Active
+    Route::get('check/newscategory/is_active/{category_id}', [NewsCategoryController::class, 'checkActiveActive'])
+    ->name('newscategory.is_active.ajax');
+    Route::get('check/newscategory/is_home/{category_id}', [NewsCategoryController::class, 'checkActiveHome'])
+    ->name('newscategory.is_home.ajax');
+    Route::resource('newscategories', NewsCategoryController::class);
+
+    //News Route
+    Route::get('/news/trash', [NewsTrashController::class, 'trash'])->name('admin.news.trash');
+    Route::get('/news/restore/{id}', [NewsTrashController::class, 'restore'])
+    ->name('admin.news.restore');
+    Route::delete('/news/forcedelete/{id}', [NewsTrashController::class, 'forceDelete'])
+    ->name('admin.news.forcedelete');
+    // Ajax Call Active
+    Route::get('check/news/is_active/{news_id}', [NewsController::class, 'checkActiveActive'])
+    ->name('news.is_active.ajax');
+    Route::get('check/news/is_home/{news_id}', [NewsController::class, 'checkActiveHome'])
+    ->name('news.is_home.ajax');
+    Route::resource('news', NewsController::class, ['as' => 'admin']);
 
     //FAQ Route
     Route::get('/faqs/trash', [FaqTrashController::class, 'trash'])->name('faqs.trash');

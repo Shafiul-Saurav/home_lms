@@ -1,6 +1,6 @@
 @extends('frontendone.layouts.master')
 
-@section('title', 'Create New Post')
+@section('title', 'Submit News')
 
 @push('frontendone_style')
     @include('frontend.pages.common.style')

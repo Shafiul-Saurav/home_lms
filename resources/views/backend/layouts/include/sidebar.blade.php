@@ -906,6 +906,60 @@
                         </ul>
                     </li>
                 @endcan
+                {{-- @can('index-news') --}}
+                    <li
+                        class="slide {{ Request::routeIs('newscategories.index') ? 'is-expanded' : '' }}
+                    {{ Request::routeIs('newscategories.trash') ? 'is-expanded' : '' }}
+                    {{ Request::routeIs('admin.news.index') ? 'is-expanded' : '' }}
+                    {{ Request::routeIs('admin.news.trash') ? 'is-expanded' : '' }}">
+                        <a class="side-menu__item {{ Request::routeIs('newscategories.index') ? 'active' : '' }}
+                        {{ Request::routeIs('newscategories.trash') ? 'active' : '' }}
+                        {{ Request::routeIs('admin.news.index') ? 'active' : '' }}
+                        {{ Request::routeIs('admin.news.trash') ? 'active' : '' }}"
+                            data-bs-toggle="slide" href="#">
+                            <i class="fa-solid fa-newspaper"></i>
+                            <span class="side-menu__label ms-3">News</span><i class="fa-solid fa-angle-right"></i>
+                        </a>
+                        <ul class="slide-menu">
+                            {{-- @can('index-news-category') --}}
+                                <li
+                                    class="sub-slide {{ Request::routeIs('newscategories.index') ? 'is-expanded' : '' }}
+                            {{ Request::routeIs('newscategories.trash') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('newscategories.index') ? 'active' : '' }}
+                                {{ Request::routeIs('newscategories.trash') ? 'active' : '' }}"
+                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">News
+                                            Category Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    <ul class="sub-slide-menu">
+                                        <li><a class="sub-slide-item {{ Request::routeIs('newscategories.index') ? 'active' : '' }}"
+                                                href="{{ route('newscategories.index') }}">List</a></li>
+                                        {{-- @can('delete-news-category') --}}
+                                            <li><a class="sub-slide-item {{ Request::routeIs('newscategories.trash') ? 'active' : '' }}"
+                                                    href="{{ route('newscategories.trash') }}">Trash</a></li>
+                                        {{-- @endcan --}}
+                                    </ul>
+                                </li>
+                            {{-- @endcan
+                            @can('index-news') --}}
+                                <li
+                                    class="sub-slide {{ Request::routeIs('admin.news.index') ? 'is-expanded' : '' }}
+                        {{ Request::routeIs('admin.news.trash') ? 'is-expanded' : '' }}">
+                                    <a class="sub-side-menu__item {{ Request::routeIs('admin.news.index') ? 'active' : '' }}
+                        {{ Request::routeIs('admin.news.trash') ? 'active' : '' }}"
+                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">News
+                                            Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    <ul class="sub-slide-menu">
+                                        <li><a class="sub-slide-item {{ Request::routeIs('admin.news.index') ? 'active' : '' }}"
+                                                href="{{ route('admin.news.index') }}">List</a></li>
+                                        {{-- @can('delete-news') --}}
+                                            <li><a class="sub-slide-item {{ Request::routeIs('admin.news.trash') ? 'active' : '' }}"
+                                                    href="{{ route('admin.news.trash') }}">Trash</a></li>
+                                        {{-- @endcan --}}
+                                    </ul>
+                                </li>
+                            {{-- @endcan --}}
+                        </ul>
+                    </li>
+                {{-- @endcan --}}
                 @can('index-company-policy')
                     <li
                         class="slide {{ Request::routeIs('faqs.index') ? 'is-expanded' : '' }}

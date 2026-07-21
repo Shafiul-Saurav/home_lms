@@ -146,8 +146,14 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('news.search') }}">News & Blog</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#">
+                        News & Blog
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('news.search') }}">Blog</a></li>
+                        <li><a class="dropdown-item" href="{{ route('frontend.news.index') }}">News</a></li>
+                    </ul>
                 </li>
 
                 <li class="nav-item">
