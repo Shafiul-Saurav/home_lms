@@ -172,9 +172,16 @@
                             <div class="col-md-4 mb-3 live-fields" style="{{ old('live_or_record') === 'live' ? '' : 'display:none;' }}">
                                 <div class="form-group">
                                     <label for="start_date">Start Date</label>
-                                    <input type="date" name="start_date" id="start_date"
-                                        class="form-control @error('start_date') is-invalid @enderror"
-                                        value="{{ old('start_date') }}">
+                                    <div class="input-group">
+                                        <div class="input-group-text bg-primary-transparent text-primary">
+                                            <i class="fe fe-calendar text-20"></i>
+                                        </div>
+                                        <input class="form-control fc-datepicker @error('start_date') is-invalid @enderror"
+                                            placeholder="DD/MM/YYYY" type="text" id="start_date"
+                                            value="{{ old('start_date') ? \Carbon\Carbon::parse(old('start_date'))->format('d/m/Y') : '' }}">
+                                        <input type="hidden" name="start_date"
+                                            value="{{ old('start_date') }}">
+                                    </div>
                                     @error('start_date')
                                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
@@ -184,9 +191,16 @@
                             <div class="col-md-4 mb-3 live-fields" style="{{ old('live_or_record') === 'live' ? '' : 'display:none;' }}">
                                 <div class="form-group">
                                     <label for="end_date">End Date</label>
-                                    <input type="date" name="end_date" id="end_date"
-                                        class="form-control @error('end_date') is-invalid @enderror"
-                                        value="{{ old('end_date') }}">
+                                    <div class="input-group">
+                                        <div class="input-group-text bg-primary-transparent text-primary">
+                                            <i class="fe fe-calendar text-20"></i>
+                                        </div>
+                                        <input class="form-control fc-datepicker @error('end_date') is-invalid @enderror"
+                                            placeholder="DD/MM/YYYY" type="text" id="end_date"
+                                            value="{{ old('end_date') ? \Carbon\Carbon::parse(old('end_date'))->format('d/m/Y') : '' }}">
+                                        <input type="hidden" name="end_date"
+                                            value="{{ old('end_date') }}">
+                                    </div>
                                     @error('end_date')
                                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror

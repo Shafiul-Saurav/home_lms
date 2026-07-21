@@ -145,21 +145,21 @@
                         @csrf
                         @method('PUT')
                         <div class="form-row">
-                            <div class="col-12 mb-3">
+                            <div class="col-6 mb-3">
                                 <div class="form-group">
                                     <label for="name">Name <span class="text-danger">*</span></label>
                                     <input type="text" name="name" id="name"
-                                        class="form-control @error('name') is-invalid @enderror"
-                                        value="{{ old('name', $course->name) }}" required>
+                                        class="form-control @error('name') is-invalid @enderror" value="{{ old('name', $course->name) }}"
+                                        required>
                                     @error('name')
                                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
 
-                            <div class="col-12 mb-3">
+                            <div class="col-6 mb-3">
                                 <div class="form-group">
-                                    <label for="slug">Slug</label>
+                                    <label for="slug">Slug (Optional - Auto-generated if left empty)</label>
                                     <input type="text" name="slug" id="slug"
                                         class="form-control @error('slug') is-invalid @enderror"
                                         value="{{ old('slug', $course->slug) }}">
@@ -173,7 +173,7 @@
                                 <div class="form-group">
                                     <label for="category_id">Category</label>
                                     <select name="category_id" id="category_id"
-                                        class="form-control @error('category_id') is-invalid @enderror">
+                                        class="form-control select2-style1 @error('category_id') is-invalid @enderror">
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}" {{ old('category_id', $course->category_id) == $category->id ? 'selected' : '' }}>
@@ -191,7 +191,7 @@
                                 <div class="form-group">
                                     <label for="subcategory_id">Subcategory</label>
                                     <select name="subcategory_id" id="subcategory_id"
-                                        class="form-control @error('subcategory_id') is-invalid @enderror" {{ $course->category_id ? '' : 'disabled' }}>
+                                        class="form-control select2-style1 @error('subcategory_id') is-invalid @enderror" {{ $course->category_id ? '' : 'disabled' }}>
                                         <option value="">Select Subcategory</option>
                                         @foreach ($subcategories as $subcategory)
                                             <option value="{{ $subcategory->id }}" {{ old('subcategory_id', $course->subcategory_id) == $subcategory->id ? 'selected' : '' }}>
@@ -205,11 +205,13 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-12 my-3">
+                                <div><h4 class="text-primary mb-3">Course Pricing</h4></div>
+                                <hr>
                                 <div class="form-group">
-                                    <label for="free_or_paid">Course Pricing</label>
+                                    <label for="free_or_paid">Pricing Type</label>
                                     <select name="free_or_paid" id="free_or_paid"
-                                        class="form-control @error('free_or_paid') is-invalid @enderror">
+                                        class="form-control select2-style1 @error('free_or_paid') is-invalid @enderror">
                                         <option value="">Select Pricing</option>
                                         <option value="free" {{ old('free_or_paid', $course->free_or_paid) == 'free' ? 'selected' : '' }}>Free</option>
                                         <option value="paid" {{ old('free_or_paid', $course->free_or_paid) == 'paid' ? 'selected' : '' }}>Paid</option>
@@ -220,7 +222,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4 mb-3 price-fields" style="{{ old('free_or_paid', $course->free_or_paid) === 'paid' ? '' : 'display:none;' }}">
+                            <div class="col-md-6 mb-3 price-fields" style="{{ old('free_or_paid', $course->free_or_paid) === 'paid' ? '' : 'display:none;' }}">
                                 <div class="form-group">
                                     <label for="price">Price</label>
                                     <input type="number" step="0.01" name="price" id="price"
@@ -232,7 +234,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4 mb-3 price-fields" style="{{ old('free_or_paid', $course->free_or_paid) === 'paid' ? '' : 'display:none;' }}">
+                            <div class="col-md-6 mb-3 price-fields" style="{{ old('free_or_paid', $course->free_or_paid) === 'paid' ? '' : 'display:none;' }}">
                                 <div class="form-group">
                                     <label for="discount">Discount</label>
                                     <input type="number" step="0.01" name="discount" id="discount"
@@ -244,11 +246,13 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-12 my-3">
+                                <div><h4 class="text-primary mb-3">Course Type</h4></div>
+                                <hr>
                                 <div class="form-group">
                                     <label for="live_or_record">Live or Record</label>
                                     <select name="live_or_record" id="live_or_record"
-                                        class="form-control @error('live_or_record') is-invalid @enderror">
+                                        class="form-control select2-style1 @error('live_or_record') is-invalid @enderror">
                                         <option value="">Select Type</option>
                                         <option value="live" {{ old('live_or_record', $course->live_or_record) == 'live' ? 'selected' : '' }}>Live</option>
                                         <option value="record" {{ old('live_or_record', $course->live_or_record) == 'record' ? 'selected' : '' }}>Record</option>
@@ -259,11 +263,85 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-4 mb-3 live-fields" style="{{ old('live_or_record', $course->live_or_record) === 'live' ? '' : 'display:none;' }}">
+                                <div class="form-group">
+                                    <label for="live_schedule">Live Schedule</label>
+                                    <input type="text" name="live_schedule" id="live_schedule"
+                                        class="form-control @error('live_schedule') is-invalid @enderror"
+                                        value="{{ old('live_schedule', $course->live_schedule) }}">
+                                    @error('live_schedule')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3 live-fields" style="{{ old('live_or_record', $course->live_or_record) === 'live' ? '' : 'display:none;' }}">
+                                <div class="form-group">
+                                    <label for="start_date">Start Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group-text bg-primary-transparent text-primary">
+                                            <i class="fe fe-calendar text-20"></i>
+                                        </div>
+                                        <input class="form-control fc-datepicker @error('start_date') is-invalid @enderror"
+                                            placeholder="DD/MM/YYYY" type="text" id="start_date"
+                                            value="{{ old('start_date', $course->start_date) ? \Carbon\Carbon::parse(old('start_date', $course->start_date))->format('d/m/Y') : '' }}">
+                                        <input type="hidden" name="start_date"
+                                            value="{{ old('start_date', $course->start_date) }}">
+                                    </div>
+                                    @error('start_date')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3 live-fields" style="{{ old('live_or_record', $course->live_or_record) === 'live' ? '' : 'display:none;' }}">
+                                <div class="form-group">
+                                    <label for="end_date">End Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group-text bg-primary-transparent text-primary">
+                                            <i class="fe fe-calendar text-20"></i>
+                                        </div>
+                                        <input class="form-control fc-datepicker @error('end_date') is-invalid @enderror"
+                                            placeholder="DD/MM/YYYY" type="text" id="end_date"
+                                            value="{{ old('end_date', $course->end_date) ? \Carbon\Carbon::parse(old('end_date', $course->end_date))->format('d/m/Y') : '' }}">
+                                        <input type="hidden" name="end_date"
+                                            value="{{ old('end_date', $course->end_date) }}">
+                                    </div>
+                                    @error('end_date')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3 live-fields" style="{{ old('live_or_record', $course->live_or_record) === 'live' ? '' : 'display:none;' }}">
+                                <div class="form-group">
+                                    <label for="max_student">Maximum Students</label>
+                                    <input type="number" name="max_student" id="max_student"
+                                        class="form-control @error('max_student') is-invalid @enderror"
+                                        value="{{ old('max_student', $course->max_student) }}">
+                                    @error('max_student')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 mb-3 live-fields" style="{{ old('live_or_record', $course->live_or_record) === 'live' ? '' : 'display:none;' }}">
+                                <div class="form-group">
+                                    <label for="meeting_link">Meeting Link</label>
+                                    <input type="text" name="meeting_link" id="meeting_link"
+                                        class="form-control @error('meeting_link') is-invalid @enderror"
+                                        value="{{ old('meeting_link', $course->meeting_link) }}">
+                                    @error('meeting_link')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="is_offline">Is Offline</label>
                                     <select name="is_offline" id="is_offline"
-                                        class="form-control @error('is_offline') is-invalid @enderror">
+                                        class="form-control select2-style1 @error('is_offline') is-invalid @enderror">
                                         <option value="">Select Option</option>
                                         <option value="1" {{ old('is_offline', (string) $course->is_offline) == '1' ? 'selected' : '' }}>Yes</option>
                                         <option value="0" {{ old('is_offline', (string) $course->is_offline) == '0' ? 'selected' : '' }}>No</option>
@@ -278,7 +356,7 @@
                                 <div class="form-group">
                                     <label for="is_active">Status</label>
                                     <select name="is_active" id="is_active"
-                                        class="form-control @error('is_active') is-invalid @enderror">
+                                        class="form-control select2-style1 @error('is_active') is-invalid @enderror">
                                         <option value="1" {{ old('is_active', (string) $course->is_active) == '1' ? 'selected' : '' }}>Active</option>
                                         <option value="0" {{ old('is_active', (string) $course->is_active) == '0' ? 'selected' : '' }}>Inactive</option>
                                     </select>
@@ -317,81 +395,6 @@
                                     <label for="full_description">Full Description</label>
                                     <textarea name="full_description" class="form-control @error('full_description') is-invalid @enderror" rows="5">{{ old('full_description', $course->full_description) }}</textarea>
                                     @error('full_description')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 mb-3 live-fields" style="{{ old('live_or_record', $course->live_or_record) === 'live' ? '' : 'display:none;' }}">
-                                <div class="form-group">
-                                    <label for="live_schedule">Live Schedule</label>
-                                    <input type="text" name="live_schedule" id="live_schedule"
-                                        class="form-control @error('live_schedule') is-invalid @enderror"
-                                        value="{{ old('live_schedule', $course->live_schedule) }}">
-                                    @error('live_schedule')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 mb-3 live-fields" style="{{ old('live_or_record', $course->live_or_record) === 'live' ? '' : 'display:none;' }}">
-                                <div class="form-group">
-                                    <label for="start_date">Start Date</label>
-                                    <input type="date" name="start_date" id="start_date"
-                                        class="form-control @error('start_date') is-invalid @enderror"
-                                        value="{{ old('start_date', $course->start_date) }}">
-                                    @error('start_date')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 mb-3 live-fields" style="{{ old('live_or_record', $course->live_or_record) === 'live' ? '' : 'display:none;' }}">
-                                <div class="form-group">
-                                    <label for="end_date">End Date</label>
-                                    <input type="date" name="end_date" id="end_date"
-                                        class="form-control @error('end_date') is-invalid @enderror"
-                                        value="{{ old('end_date', $course->end_date) }}">
-                                    @error('end_date')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 mb-3 live-fields" style="{{ old('live_or_record', $course->live_or_record) === 'live' ? '' : 'display:none;' }}">
-                                <div class="form-group">
-                                    <label for="max_student">Maximum Students</label>
-                                    <input type="number" name="max_student" id="max_student"
-                                        class="form-control @error('max_student') is-invalid @enderror"
-                                        value="{{ old('max_student', $course->max_student) }}">
-                                    @error('max_student')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-8 mb-3 live-fields" style="{{ old('live_or_record', $course->live_or_record) === 'live' ? '' : 'display:none;' }}">
-                                <div class="form-group">
-                                    <label for="meeting_link">Meeting Link</label>
-                                    <input type="text" name="meeting_link" id="meeting_link"
-                                        class="form-control @error('meeting_link') is-invalid @enderror"
-                                        value="{{ old('meeting_link', $course->meeting_link) }}">
-                                    @error('meeting_link')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <div class="form-group">
-                                    <label for="button_type">Button Type</label>
-                                    <select name="button_type" id="button_type"
-                                        class="form-control @error('button_type') is-invalid @enderror">
-                                        <option value="">Select Button Type</option>
-                                        <option value="Enroll Now" {{ old('button_type', $course->button_type) == 'Enroll Now' ? 'selected' : '' }}>Enroll Now</option>
-                                        <option value="Comming Soon" {{ old('button_type', $course->button_type) == 'Comming Soon' ? 'selected' : '' }}>Comming Soon</option>
-                                    </select>
-                                    @error('button_type')
                                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
@@ -461,7 +464,24 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="button_type">Button Type</label>
+                                    <select name="button_type" id="button_type"
+                                        class="form-control select2-style1 @error('button_type') is-invalid @enderror">
+                                        <option value="">Select Button Type</option>
+                                        <option value="Enroll Now" {{ old('button_type', $course->button_type) == 'Enroll Now' ? 'selected' : '' }}>Enroll Now</option>
+                                        <option value="Comming Soon" {{ old('button_type', $course->button_type) == 'Comming Soon' ? 'selected' : '' }}>Comming Soon</option>
+                                    </select>
+                                    @error('button_type')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="col-12 mb-3">
+                                <div><h4 class="text-primary mb-3">Create/Update Lesson</h4></div>
+                                <hr>
                                 <div class="form-group">
                                     <label for="lessons">Lessons</label>
                                     <div id="multipleLessonFields">
@@ -523,6 +543,8 @@
                             </div>
 
                             <div class="col-12 mb-3">
+                                <div><h4 class="text-primary mb-3">Create/Update Modules</h4></div>
+                                <hr>
                                 <div class="form-group">
                                     <label for="modules">Modules</label>
                                     <div id="multipleModuleFields">
@@ -1056,16 +1078,34 @@
                 togglePricingFields();
                 toggleLiveFields();
 
-                $(document).on('click', '.save-lesson-popup', function() {
-                    var lessonId = $(this).data('lesson-id');
-                    var modalElement = document.getElementById('lessonEditModal' + lessonId);
-
-                    if (!lessonName || !lessonName.trim()) {
-                        showPopupToastr('warning', 'Lesson name is required.');
-                        return;
-                    }
-
-                    $.ajax({
+                $(document).on('click', '.addModuleField', function() {
+                    var fieldCount = $('#multipleModuleFields .module-row').length;
+                    var newField = `
+                        <div class="border rounded p-3 mb-3 module-row" id="multipleModuleField${fieldCount}">
+                            <input type="hidden" name="modules[${fieldCount}][id]" class="module-id" value="">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Module Lesson</label>
+                                    <select name="modules[${fieldCount}][lesson_ref]" class="form-control module-lesson-select">
+                                        <option value="">Select Lesson</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-8 mb-3">
+                                    <label class="form-label">Title</label>
+                                    <input type="text" name="modules[${fieldCount}][title]" class="form-control" placeholder="Enter module title">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Link</label>
+                                    <input type="text" name="modules[${fieldCount}][link]" class="form-control" placeholder="Enter link">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Free / Paid</label>
+                                    <select name="modules[${fieldCount}][free_paid]" class="form-control">
+                                        <option value="">Select Option</option>
+                                        <option value="free">Free</option>
+                                        <option value="paid">Paid</option>
+                                    </select>
+                                </div>
                                 <div class="col-md-3 mb-3">
                                     <label class="form-label">Live / Record</label>
                                     <select name="modules[${fieldCount}][live_record]" class="form-control">
