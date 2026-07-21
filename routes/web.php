@@ -522,6 +522,8 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     //Service Two Category Route
     Route::get('check/servicetwocategory/is_active/{category_id}', [ServicetwocategoryController::class, 'checkActive'])
     ->name('servicetwocategory.is_active.ajax');
+    Route::post('servicetwocategories/update-order', [ServicetwocategoryController::class, 'updateOrder'])
+    ->name('servicetwocategories.update_order');
     Route::resource('servicetwocategories', ServicetwocategoryController::class);
 
     //Service Two Route

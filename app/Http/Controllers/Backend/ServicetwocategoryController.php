@@ -13,7 +13,7 @@ class ServicetwocategoryController extends Controller
     {
         // Gate::authorize('index-servicetwocategory');
 
-        $categories = Servicetwocategory::latest('id')->paginate(30);
+        $categories = Servicetwocategory::orderBy('sort_order', 'asc')->orderBy('id', 'asc')->get();
         return view('backend.pages.servicetwocategories.category', compact('categories'));
     }
 
@@ -80,5 +80,19 @@ class ServicetwocategoryController extends Controller
         $category->save();
 
         return response()->json(['type' => 'success', 'message' => 'Status Updated']);
+    }
+
+    public function updateOrder(Request $request)
+    {
+        $validated = $request->validate([
+            'order'   => 'required|array',
+            'order.*' => 'integer|exists:servicetwocategories,id',
+        ]);
+
+        foreach ($validated['order'] as $sortOrder => $id) {
+            Servicetwocategory::where('id', $id)->update(['sort_order' => $sortOrder + 1]);
+        }
+
+        return response()->json(['type' => 'success', 'message' => 'Order Updated']);
     }
 }
