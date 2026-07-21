@@ -153,7 +153,7 @@ class WebsiteController extends Controller
         $serviceCategories = Servicetwocategory::where('is_active', 1)
             ->with(['servicetwos' => function($q) {
                 $q->where('is_active', 1);
-            }])->latest('id')->get();
+            }])->orderBy('sort_order', 'asc')->get();
 
         $partners = Partner::where('is_active', 1)->get();
         return view('frontendone.pages.home', compact(
@@ -231,13 +231,13 @@ class WebsiteController extends Controller
         $serviceCategories = Servicetwocategory::where('is_active', 1)
             ->with(['servicetwos' => function($q) {
                 $q->where('is_active', 1);
-            }])->latest('id')->get();
+            }])->orderBy('sort_order', 'asc')->get();
 
         $categories = Servicetwocategory::where('is_active', 1)
             ->with(['servicetwos' => function ($q) {
                 $q->where('is_active', 1);
             }])
-            ->latest('id')
+            ->orderBy('sort_order', 'asc')
             ->get();
 
         $logo_fav = LogoFavicon::first();

@@ -45,7 +45,7 @@
         // Fetch active service two categories with active subcategories for header menu
         $headerServiceCategories = Servicetwocategory::where('is_active', 1)
             ->with(['subcategories' => function ($q) { $q->where('is_active', 1); }])
-            ->orderBy('title')
+            ->orderBy('sort_order', 'asc')
             ->get();
 
         // Fetch active product categories with active subcategories for header menu
