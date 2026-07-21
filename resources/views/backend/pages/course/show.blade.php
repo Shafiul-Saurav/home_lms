@@ -50,8 +50,12 @@
                                     <td>{{ $course->subcategory ? $course->subcategory->name : 'N/A' }}</td>
                                 </tr>
                                 <tr>
+                                    <th>Free or Paid:</th>
+                                    <td>{{ $course->free_or_paid ? ucfirst($course->free_or_paid) : 'N/A' }}</td>
+                                </tr>
+                                <tr>
                                     <th>Price:</th>
-                                    <td>{{ $course->price }}</td>
+                                    <td>{{ $course->price ?? 'N/A' }}</td>
                                 </tr>
                                 <tr>
                                     <th>Discount:</th>
@@ -68,6 +72,40 @@
                                 <tr>
                                     <th>Is Offline:</th>
                                     <td>{{ $course->is_offline === null ? 'N/A' : ($course->is_offline ? 'Yes' : 'No') }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Live Schedule:</th>
+                                    <td>{{ $course->live_schedule ?? 'N/A' }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Start Date:</th>
+                                    <td>{{ $course->start_date ?? 'N/A' }}</td>
+                                </tr>
+                                <tr>
+                                    <th>End Date:</th>
+                                    <td>{{ $course->end_date ?? 'N/A' }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Max Student:</th>
+                                    <td>{{ $course->max_student ?? 'N/A' }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Meeting Link:</th>
+                                    <td>
+                                        @if ($course->meeting_link)
+                                            <a href="{{ $course->meeting_link }}" target="_blank">{{ $course->meeting_link }}</a>
+                                        @else
+                                            N/A
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Button Type:</th>
+                                    <td>{{ $course->button_type ?? 'N/A' }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Tags:</th>
+                                    <td>{{ $course->tags ?? 'N/A' }}</td>
                                 </tr>
                                 <tr>
                                     <th>Status:</th>
@@ -118,6 +156,15 @@
 
                             <h5 class="mt-4">Description</h5>
                             {!! $course->description ?: 'N/A' !!}
+
+                            <h5 class="mt-4">Full Description</h5>
+                            {!! $course->full_description ?: 'N/A' !!}
+
+                            <h5 class="mt-4">Learning Outcomes</h5>
+                            {!! $course->learning_outcomes ?: 'N/A' !!}
+
+                            <h5 class="mt-4">Requirement</h5>
+                            {!! $course->requirement ?: 'N/A' !!}
                         </div>
                     </div>
                 </div>

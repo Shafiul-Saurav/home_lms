@@ -207,17 +207,32 @@
 
                             <div class="col-md-4 mb-3">
                                 <div class="form-group">
-                                    <label for="price">Price <span class="text-danger">*</span></label>
+                                    <label for="free_or_paid">Course Pricing</label>
+                                    <select name="free_or_paid" id="free_or_paid"
+                                        class="form-control @error('free_or_paid') is-invalid @enderror">
+                                        <option value="">Select Pricing</option>
+                                        <option value="free" {{ old('free_or_paid', $course->free_or_paid) == 'free' ? 'selected' : '' }}>Free</option>
+                                        <option value="paid" {{ old('free_or_paid', $course->free_or_paid) == 'paid' ? 'selected' : '' }}>Paid</option>
+                                    </select>
+                                    @error('free_or_paid')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3 price-fields" style="{{ old('free_or_paid', $course->free_or_paid) === 'paid' ? '' : 'display:none;' }}">
+                                <div class="form-group">
+                                    <label for="price">Price</label>
                                     <input type="number" step="0.01" name="price" id="price"
                                         class="form-control @error('price') is-invalid @enderror"
-                                        value="{{ old('price', $course->price) }}" required>
+                                        value="{{ old('price', $course->price) }}">
                                     @error('price')
                                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
 
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-4 mb-3 price-fields" style="{{ old('free_or_paid', $course->free_or_paid) === 'paid' ? '' : 'display:none;' }}">
                                 <div class="form-group">
                                     <label for="discount">Discount</label>
                                     <input type="number" step="0.01" name="discount" id="discount"
@@ -292,6 +307,123 @@
                                         class="form-control @error('description') is-invalid @enderror"
                                         rows="4">{{ old('description', $course->description) }}</textarea>
                                     @error('description')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="full_description">Full Description</label>
+                                    <textarea name="full_description" class="form-control @error('full_description') is-invalid @enderror" rows="5">{{ old('full_description', $course->full_description) }}</textarea>
+                                    @error('full_description')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3 live-fields" style="{{ old('live_or_record', $course->live_or_record) === 'live' ? '' : 'display:none;' }}">
+                                <div class="form-group">
+                                    <label for="live_schedule">Live Schedule</label>
+                                    <input type="text" name="live_schedule" id="live_schedule"
+                                        class="form-control @error('live_schedule') is-invalid @enderror"
+                                        value="{{ old('live_schedule', $course->live_schedule) }}">
+                                    @error('live_schedule')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3 live-fields" style="{{ old('live_or_record', $course->live_or_record) === 'live' ? '' : 'display:none;' }}">
+                                <div class="form-group">
+                                    <label for="start_date">Start Date</label>
+                                    <input type="date" name="start_date" id="start_date"
+                                        class="form-control @error('start_date') is-invalid @enderror"
+                                        value="{{ old('start_date', $course->start_date) }}">
+                                    @error('start_date')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3 live-fields" style="{{ old('live_or_record', $course->live_or_record) === 'live' ? '' : 'display:none;' }}">
+                                <div class="form-group">
+                                    <label for="end_date">End Date</label>
+                                    <input type="date" name="end_date" id="end_date"
+                                        class="form-control @error('end_date') is-invalid @enderror"
+                                        value="{{ old('end_date', $course->end_date) }}">
+                                    @error('end_date')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3 live-fields" style="{{ old('live_or_record', $course->live_or_record) === 'live' ? '' : 'display:none;' }}">
+                                <div class="form-group">
+                                    <label for="max_student">Maximum Students</label>
+                                    <input type="number" name="max_student" id="max_student"
+                                        class="form-control @error('max_student') is-invalid @enderror"
+                                        value="{{ old('max_student', $course->max_student) }}">
+                                    @error('max_student')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 mb-3 live-fields" style="{{ old('live_or_record', $course->live_or_record) === 'live' ? '' : 'display:none;' }}">
+                                <div class="form-group">
+                                    <label for="meeting_link">Meeting Link</label>
+                                    <input type="text" name="meeting_link" id="meeting_link"
+                                        class="form-control @error('meeting_link') is-invalid @enderror"
+                                        value="{{ old('meeting_link', $course->meeting_link) }}">
+                                    @error('meeting_link')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <div class="form-group">
+                                    <label for="button_type">Button Type</label>
+                                    <select name="button_type" id="button_type"
+                                        class="form-control @error('button_type') is-invalid @enderror">
+                                        <option value="">Select Button Type</option>
+                                        <option value="Enroll Now" {{ old('button_type', $course->button_type) == 'Enroll Now' ? 'selected' : '' }}>Enroll Now</option>
+                                        <option value="Comming Soon" {{ old('button_type', $course->button_type) == 'Comming Soon' ? 'selected' : '' }}>Comming Soon</option>
+                                    </select>
+                                    @error('button_type')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="learning_outcomes">Learning Outcomes</label>
+                                    <textarea name="learning_outcomes" class="form-control @error('learning_outcomes') is-invalid @enderror" rows="4">{{ old('learning_outcomes', $course->learning_outcomes) }}</textarea>
+                                    @error('learning_outcomes')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="requirement">Requirement</label>
+                                    <textarea name="requirement" class="form-control @error('requirement') is-invalid @enderror" rows="4">{{ old('requirement', $course->requirement) }}</textarea>
+                                    @error('requirement')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label for="tags">Tags</label>
+                                    <input type="text" name="tags" id="tags"
+                                        class="form-control @error('tags') is-invalid @enderror"
+                                        value="{{ old('tags', $course->tags) }}">
+                                    @error('tags')
                                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
@@ -886,34 +1018,54 @@
                     });
                 });
 
-                $(document).on('click', '.addModuleField', function() {
-                    var fieldCount = $('#multipleModuleFields .module-row').length;
-                    var newField = `
-                        <div class="border p-3 mb-3 module-row" id="multipleModuleField${fieldCount}">
-                            <input type="hidden" name="modules[${fieldCount}][id]" class="module-id" value="">
-                            <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label">Module Lesson</label>
-                                    <select name="modules[${fieldCount}][lesson_ref]" class="form-control module-lesson-select">
-                                        <option value="">Select Lesson</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-8 mb-3">
-                                    <label class="form-label">Title</label>
-                                    <input type="text" name="modules[${fieldCount}][title]" class="form-control" placeholder="Enter module title">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Link</label>
-                                    <input type="text" name="modules[${fieldCount}][link]" class="form-control" placeholder="Enter link">
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label class="form-label">Free / Paid</label>
-                                    <select name="modules[${fieldCount}][free_paid]" class="form-control">
-                                        <option value="">Select Option</option>
-                                        <option value="free">Free</option>
-                                        <option value="paid">Paid</option>
-                                    </select>
-                                </div>
+                function togglePricingFields() {
+                    if ($('#free_or_paid').val() === 'paid') {
+                        $('.price-fields').show();
+                        $('#price').attr('required', true);
+                    } else {
+                        $('.price-fields').hide();
+                        $('#price').removeAttr('required');
+                        $('#price').val('');
+                        $('#discount').val('');
+                    }
+                }
+
+                function toggleLiveFields() {
+                    if ($('#live_or_record').val() === 'live') {
+                        $('.live-fields').show();
+                        $('#start_date').attr('required', true);
+                        $('#end_date').attr('required', true);
+                        $('#max_student').attr('required', true);
+                        $('#meeting_link').attr('required', true);
+                    } else {
+                        $('.live-fields').hide();
+                        $('#start_date').removeAttr('required');
+                        $('#end_date').removeAttr('required');
+                        $('#max_student').removeAttr('required');
+                        $('#meeting_link').removeAttr('required');
+                        $('#live_schedule').val('');
+                        $('#start_date').val('');
+                        $('#end_date').val('');
+                        $('#max_student').val('');
+                        $('#meeting_link').val('');
+                    }
+                }
+
+                $('#free_or_paid').on('change', togglePricingFields);
+                $('#live_or_record').on('change', toggleLiveFields);
+                togglePricingFields();
+                toggleLiveFields();
+
+                $(document).on('click', '.save-lesson-popup', function() {
+                    var lessonId = $(this).data('lesson-id');
+                    var modalElement = document.getElementById('lessonEditModal' + lessonId);
+
+                    if (!lessonName || !lessonName.trim()) {
+                        showPopupToastr('warning', 'Lesson name is required.');
+                        return;
+                    }
+
+                    $.ajax({
                                 <div class="col-md-3 mb-3">
                                     <label class="form-label">Live / Record</label>
                                     <select name="modules[${fieldCount}][live_record]" class="form-control">
