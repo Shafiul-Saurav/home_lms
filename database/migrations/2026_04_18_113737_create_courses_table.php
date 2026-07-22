@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('subcategory_id')->nullable()->constrained('subcategories')->onDelete('set null');
             $table->string('name');
             $table->string('slug')->unique();
+            $table->string('course_level')->nullable();
             $table->decimal('price', 10, 2)->nullable();
             $table->decimal('discount', 10, 2)->nullable();
             $table->string('free_or_paid')->nullable();

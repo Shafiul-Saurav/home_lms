@@ -27,6 +27,7 @@ class CourseStoreRequest extends FormRequest
             'subcategory_id' => 'nullable|exists:subcategories,id',
             'name' => ['required', 'string', 'max:255', Rule::unique('courses', 'name')],
             'slug' => ['nullable', 'string', 'max:255', Rule::unique('courses', 'slug')],
+            'course_level' => 'nullable|string|in:beginner,intermediate,advance',
             'free_or_paid' => 'nullable|string|in:free,paid',
             'price' => 'nullable|numeric|min:0|required_if:free_or_paid,paid',
             'discount' => 'nullable|numeric|min:0',

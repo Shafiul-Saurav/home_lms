@@ -62,7 +62,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <div class="form-group">
                                     <label for="category_id">Category</label>
                                     <select name="category_id" id="category_id"
@@ -82,7 +82,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <div class="form-group">
                                     <label for="subcategory_id">Subcategory</label>
                                     <select name="subcategory_id" id="subcategory_id"
@@ -93,6 +93,22 @@
                                     @error('subcategory_id')
                                         <span class="invalid-feedback"
                                             role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <div class="form-group">
+                                    <label for="course_level">Course Level</label>
+                                    <select name="course_level" id="course_level"
+                                        class="form-control select2-style1 @error('course_level') is-invalid @enderror">
+                                        <option value="">Select Level</option>
+                                        <option value="beginner" {{ old('course_level') == 'beginner' ? 'selected' : '' }}>Beginner</option>
+                                        <option value="intermediate" {{ old('course_level') == 'intermediate' ? 'selected' : '' }}>Intermediate</option>
+                                        <option value="advance" {{ old('course_level') == 'advance' ? 'selected' : '' }}>Advance</option>
+                                    </select>
+                                    @error('course_level')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>

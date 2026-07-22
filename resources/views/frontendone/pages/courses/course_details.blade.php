@@ -483,8 +483,19 @@
 
                     <div class="col-lg-4 order-1 order-lg-2" id="sidebarCol">
                         <div class="sidebar-card">
-                            <div class="thumb"><img src="{{ asset('uploads/courses/' . $courseInfo->image) }}"
-                                    alt="{{ $courseInfo->name }}"></div>
+                            @php
+                                $detailsCourseType = $courseInfo->live_or_record ?? 'recorded';
+                                if ($detailsCourseType === 'record') {
+                                    $detailsCourseType = 'recorded';
+                                }
+                            @endphp
+                            <div class="thumb" style="position: relative;">
+                                <img src="{{ asset('uploads/courses/' . $courseInfo->image) }}"
+                                    alt="{{ $courseInfo->name }}">
+                                <span class="course-badge" style="position: absolute; top: 12px; right: 12px; background: {{ $detailsCourseType === 'live' ? '#ff896f' : '#76bd10' }}; color: #fff; padding: 4px 12px; border-radius: 12px; font-weight: 700; font-size: 12px; text-transform: capitalize; z-index: 2;">
+                                    {{ ucfirst($detailsCourseType) }}
+                                </span>
+                            </div>
                             <div class="sidebar-scroll">
                                 <div class="course-price-box">
                                     <div class="d-flex flex-row justify-content-between">
@@ -518,15 +529,24 @@
                                                     {{ number_format($courseInfo->price, 2) }} Tk
                                                 </h2>
                                             @else
-                                                <h2 style="font-size:18px;font-weight:900;color:#5cb800;margin:0;">Free
-                                                </h2>
+                                                <h2 style="font-size:18px;font-weight:900;color:#5cb800;margin:0;">Free</h2>
                                             @endif
                                         </div>
                                     </div>
 
+                                    @php
+                                        $lvl = strtolower($courseInfo->course_level ?? 'beginner');
+                                        $levelColor = '#76bd10';
+                                        if ($lvl === 'intermediate') {
+                                            $levelColor = '#0d6efd';
+                                        } elseif (in_array($lvl, ['advance', 'advanced'])) {
+                                            $levelColor = '#ff4d24';
+                                        }
+                                    @endphp
+
                                     <ul class="course-info-list mb-4">
                                         <li><span><i
-                                                    class="fa-solid fa-layer-group me-2"></i>Type</span><strong>{{ ($courseInfo->live_or_record ?? '') === 'record' ? 'Recorded' : ucfirst($courseInfo->live_or_record ?? '') }}</strong>
+                                                    class="fa-solid fa-signal me-2"></i>Level</span><strong style="color: {{ $levelColor }}; font-weight: 800;">{{ ucfirst($courseInfo->course_level ?? 'Beginner') }}</strong>
                                         </li>
                                         <li><span><i
                                                     class="fa-solid fa-book-open me-2"></i>Lessons</span><strong>{{ $courseInfo->lessons()->count() }}</strong>
@@ -534,9 +554,9 @@
                                         <li><span><i
                                                     class="fa-solid fa-list-check me-2"></i>Modules</span><strong>{{ $courseInfo->courseModules()->count() }}</strong>
                                         </li>
-                                        <li><span><i
+                                        {{-- <li><span><i
                                                     class="fa-solid fa-globe me-2"></i>Language</span><strong>{{ $courseInfo->language ?? 'English' }}</strong>
-                                        </li>
+                                        </li> --}}
                                         <li><span><i
                                                     class="fa-solid fa-user-tie me-2"></i>Instructor</span><strong>{{ $instructorName }}</strong>
                                         </li>
