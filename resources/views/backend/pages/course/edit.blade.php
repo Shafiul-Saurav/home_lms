@@ -715,7 +715,7 @@
                                             <span id="modules-order-status" class="text-success small d-none"><i class="fa-solid fa-check-circle me-1"></i> Order saved!</span>
                                         </div>
                                         <div class="module_grid" id="modules-grid">
-                                            @foreach ($course->courseModules as $module)
+                                            @foreach ($course->courseModules()->orderBy('sort_order', 'asc')->orderBy('id', 'asc')->get() as $module)
                                                 @php
                                                     $youtubeId = null;
                                                     if (!empty($module->link)) {
@@ -907,7 +907,7 @@
                     return $('<div>').text(text).html();
                 }
 
-                function showPopupToastr(type, message) {
+                window.showPopupToastr = function(type, message) {
                     toastr.options = {
                         "closeButton": true,
                         "progressBar": true
@@ -916,7 +916,7 @@
                     if (typeof toastr[type] === 'function') {
                         toastr[type](message);
                     }
-                }
+                };
 
                 function getYoutubeThumbnail(link) {
                     if (!link) {
@@ -1517,9 +1517,7 @@
                             type: 'POST',
                             data: { order: order },
                             success: function () {
-                                var st = $('#lessons-order-status');
-                                st.removeClass('d-none');
-                                setTimeout(function () { st.addClass('d-none'); }, 2500);
+                                showPopupToastr('success', 'Lesson order updated successfully.');
                             },
                             error: function () {
                                 Swal.fire('Error', 'Could not save lessons order.', 'error');
@@ -1546,9 +1544,7 @@
                             type: 'POST',
                             data: { order: order },
                             success: function () {
-                                var st = $('#modules-order-status');
-                                st.removeClass('d-none');
-                                setTimeout(function () { st.addClass('d-none'); }, 2500);
+                                showPopupToastr('success', 'Module order updated successfully.');
                             },
                             error: function () {
                                 Swal.fire('Error', 'Could not save modules order.', 'error');

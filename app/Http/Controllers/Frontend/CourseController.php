@@ -120,8 +120,14 @@ class CourseController extends Controller
                 }
 
                 if ($request->filled('course_level')) {
-                    $courseLevel = $request->input('course_level');
-                    $coursesQuery->where('course_level', $courseLevel);
+                    $courseLevels = $request->input('course_level');
+                    if (!is_array($courseLevels)) {
+                        $courseLevels = explode(',', $courseLevels);
+                    }
+                    $courseLevels = array_filter(array_map('trim', $courseLevels));
+                    if (!empty($courseLevels)) {
+                        $coursesQuery->whereIn('course_level', $courseLevels);
+                    }
                 }
 
                 $sortBy = $request->input('sort_by', 'latest');

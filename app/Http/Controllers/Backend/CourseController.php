@@ -94,6 +94,11 @@ class CourseController extends Controller
                 ->get();
         }
 
+        // Make sure the course modules are loaded in sort order for the edit view
+        $course->load(['courseModules' => function ($query) {
+            $query->orderBy('sort_order', 'asc')->orderBy('id', 'asc');
+        }]);
+
         // Load lessons and modules for the form
         $lessons = $course->lessons()->orderBy('sort_order', 'asc')->orderBy('id', 'asc')->get(['id', 'name', 'description'])->map(function ($lesson) {
             return [
@@ -113,8 +118,8 @@ class CourseController extends Controller
                 'link' => $module->link,
                 'article' => $module->article,
                 'duration' => $module->duration,
-                'free_paid' => $module->free_paid,
-                'live_record' => $module->live_record,
+                // 'free_paid' => $module->free_paid,
+                // 'live_record' => $module->live_record,
                 'pdf_file' => $module->pdf_file,
                 'date' => $module->date,
                 'time' => $module->time,
@@ -359,8 +364,8 @@ class CourseController extends Controller
                         'link' => (($moduleData['module_type'] ?? '') === 'article') ? null : ($moduleData['link'] ?? null),
                         'article' => (($moduleData['module_type'] ?? '') === 'article') ? ($moduleData['article'] ?? null) : null,
                         'duration' => $moduleData['duration'] ?? null,
-                        'free_paid' => $moduleData['free_paid'] ?? null,
-                        'live_record' => $moduleData['live_record'] ?? null,
+                        // 'free_paid' => $moduleData['free_paid'] ?? null,
+                        // 'live_record' => $moduleData['live_record'] ?? null,
                         'date' => $moduleData['date'] ?? null,
                         'time' => $moduleData['time'] ?? null,
                     ]);
