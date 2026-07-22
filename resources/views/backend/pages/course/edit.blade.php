@@ -668,57 +668,7 @@
                                                         <label class="form-label">Article</label>
                                                         <textarea name="modules[{{ $moduleIndex }}][article]" class="form-control" rows="4" placeholder="Enter article content">{{ $module['article'] ?? '' }}</textarea>
                                                     </div>
-                                                    <div class="col-md-3 mb-3">
-                                                        <label class="form-label">Free / Paid</label>
-                                                        <select name="modules[{{ $moduleIndex }}][free_paid]" class="form-control">
-                                                            <option value="">Select Option</option>
-                                                            <option value="free" {{ ($module['free_paid'] ?? '') === 'free' ? 'selected' : '' }}>Free</option>
-                                                            <option value="paid" {{ ($module['free_paid'] ?? '') === 'paid' ? 'selected' : '' }}>Paid</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-3 mb-3">
-                                                        <label class="form-label">Live / Record</label>
-                                                        <select name="modules[{{ $moduleIndex }}][live_record]" class="form-control">
-                                                            <option value="">Select Type</option>
-                                                            <option value="live" {{ ($module['live_record'] ?? '') === 'live' ? 'selected' : '' }}>Live</option>
-                                                            <option value="record" {{ ($module['live_record'] ?? '') === 'record' ? 'selected' : '' }}>Record</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-4 mb-3">
-                                                        <label class="form-label">PDF File</label>
-                                                        <input type="file" name="modules[{{ $moduleIndex }}][pdf_file]"
-                                                            class="form-control @error('modules.' . $moduleIndex . '.pdf_file') is-invalid @enderror">
-                                                        @error('modules.' . $moduleIndex . '.pdf_file')
-                                                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
-                                                        @enderror
-                                                        @if (!empty($module['pdf_file']))
-                                                            <div class="mt-2">
-                                                                    <a href="{{ asset('uploads/courses/modules/pdfs/' . $module['pdf_file']) }}" target="_blank" rel="noopener noreferrer">Preview PDF</a>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                    <div class="col-md-3 mb-3">
-                                                        <label class="form-label">Date</label>
-                                                        <div class="input-group">
-                                                            <div class="input-group-text bg-primary-transparent text-primary">
-                                                                <i class="fe fe-calendar text-20"></i>
-                                                            </div>
-                                                            <input class="form-control fc-datepicker" placeholder="DD/MM/YYYY" type="text"
-                                                                value="{{ !empty($module['date']) ? \Carbon\Carbon::parse($module['date'])->format('d/m/Y') : '' }}">
-                                                            <input type="hidden" name="modules[{{ $moduleIndex }}][date]" value="{{ $module['date'] ?? '' }}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3 mb-3">
-                                                        <label class="form-label">Time</label>
-                                                        <div class="input-group">
-                                                            <div class="input-group-text bg-primary-transparent text-primary">
-                                                                <i class="fe fe-clock text-20"></i>
-                                                            </div>
-                                                            <input type="text" name="modules[{{ $moduleIndex }}][time]"
-                                                                class="form-control tpicker" value="{{ $module['time'] ?? '' }}"
-                                                                placeholder="Enter time">
-                                                        </div>
-                                                    </div>
+
                                                     <div class="col-md-2 mb-3 d-flex align-items-end">
                                                         <button type="button"
                                                             class="btn w-100 {{ $loop->first ? 'btn-secondary addModuleField' : 'btn-danger removeModuleField' }}">
@@ -904,58 +854,7 @@
                                     rows="4"
                                     placeholder="Enter article content">{{ old('modules.existing_' . $module->id . '.article', $module->article) }}</textarea>
                             </div>
-                            <div class="col-md-3 mb-3">
-                                <label class="form-label">Free / Paid</label>
-                                <select name="modules[existing_{{ $module->id }}][free_paid]"
-                                    class="form-control module-modal-free-paid" data-module-id="{{ $module->id }}">
-                                    <option value="">Select Option</option>
-                                    <option value="free" {{ old('modules.existing_' . $module->id . '.free_paid', $module->free_paid) === 'free' ? 'selected' : '' }}>Free</option>
-                                    <option value="paid" {{ old('modules.existing_' . $module->id . '.free_paid', $module->free_paid) === 'paid' ? 'selected' : '' }}>Paid</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <label class="form-label">Live / Record</label>
-                                <select name="modules[existing_{{ $module->id }}][live_record]"
-                                    class="form-control module-modal-live-record" data-module-id="{{ $module->id }}">
-                                    <option value="">Select Type</option>
-                                    <option value="live" {{ old('modules.existing_' . $module->id . '.live_record', $module->live_record) === 'live' ? 'selected' : '' }}>Live</option>
-                                    <option value="record" {{ old('modules.existing_' . $module->id . '.live_record', $module->live_record) === 'record' ? 'selected' : '' }}>Record</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">PDF File</label>
-                                <input type="file" name="modules[existing_{{ $module->id }}][pdf_file]"
-                                    class="form-control">
-                                @if ($module->pdf_file)
-                                    <div class="mt-2">
-                                        <a href="{{ asset('uploads/courses/modules/pdfs/' . $module->pdf_file) }}" target="_blank" rel="noopener noreferrer">Preview PDF</a>
-                                    </div>
-                                @endif
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <label class="form-label">Date</label>
-                                <div class="input-group">
-                                    <div class="input-group-text bg-primary-transparent text-primary">
-                                        <i class="fe fe-calendar text-20"></i>
-                                    </div>
-                                    <input class="form-control fc-datepicker module-modal-date" placeholder="DD/MM/YYYY" type="text"
-                                        data-module-id="{{ $module->id }}"
-                                        value="{{ old('modules.existing_' . $module->id . '.date', $module->date) ? \Carbon\Carbon::parse(old('modules.existing_' . $module->id . '.date', $module->date))->format('d/m/Y') : '' }}">
-                                    <input type="hidden" name="modules[existing_{{ $module->id }}][date]" value="{{ old('modules.existing_' . $module->id . '.date', $module->date) }}">
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <label class="form-label">Time</label>
-                                <div class="input-group">
-                                    <div class="input-group-text bg-primary-transparent text-primary">
-                                        <i class="fe fe-clock text-20"></i>
-                                    </div>
-                                    <input type="text" name="modules[existing_{{ $module->id }}][time]"
-                                        class="form-control module-modal-time tpicker"
-                                        data-module-id="{{ $module->id }}"
-                                        value="{{ old('modules.existing_' . $module->id . '.time', $module->time) }}">
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -1074,14 +973,17 @@
                 }
 
                 $(document).on('click', '.addLessonField', function() {
-                    var fieldCount = $('#multipleLessonFields .d-flex').length;
+                    var fieldCount = $('#multipleLessonFields .lesson-row').length;
                     var lessonRef = generateLessonRef();
                     var newField = `
-                        <div class="d-flex justify-content-between mb-2 lesson-row" id="multipleLessonField${fieldCount}">
+                        <div class="mb-2 lesson-row" id="multipleLessonField${fieldCount}">
                             <input type="hidden" name="lessons[${fieldCount}][id]" class="lesson-id" value="" />
                             <input type="hidden" name="lessons[${fieldCount}][ref]" class="lesson-ref" value="${lessonRef}" />
-                            <input type="text" name="lessons[${fieldCount}][name]" class="form-control me-4 lesson-name" placeholder="Enter lesson name" />
-                            <button type="button" class="btn btn-danger removeLessonField">-</button>
+                            <div class="d-flex justify-content-between">
+                                <input type="text" name="lessons[${fieldCount}][name]" class="form-control me-4 lesson-name" placeholder="Enter lesson name" />
+                                <button type="button" class="btn btn-danger removeLessonField">-</button>
+                            </div>
+                            <textarea name="lessons[${fieldCount}][description]" class="form-control mt-2" rows="2" placeholder="Enter lesson description"></textarea>
                         </div>
                     `;
                     $('#multipleLessonFields').append(newField);
@@ -1185,10 +1087,13 @@
                     container.find('.module-type-select').each(function() {
                         var type = $(this).val() || 'video';
                         var row = $(this).closest('.module-row');
+                        // toggle content fields (video/article)
                         row.find('.module-content-field').each(function() {
                             var matches = $(this).data('module-type') === type;
                             $(this).toggle(matches);
                         });
+                        // hide auxiliary fields (free/paid, live/record, pdf, date, time)
+                        row.find('.module-aux-field').hide();
                     });
                 }
 
@@ -1240,45 +1145,7 @@
                                     <label class="form-label">Article</label>
                                     <textarea name="modules[${fieldCount}][article]" class="form-control" rows="4" placeholder="Enter article content"></textarea>
                                 </div>
-                                <div class="col-md-3 mb-3">
-                                    <label class="form-label">Free / Paid</label>
-                                    <select name="modules[${fieldCount}][free_paid]" class="form-control">
-                                        <option value="">Select Option</option>
-                                        <option value="free">Free</option>
-                                        <option value="paid">Paid</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label class="form-label">Live / Record</label>
-                                    <select name="modules[${fieldCount}][live_record]" class="form-control">
-                                        <option value="">Select Type</option>
-                                        <option value="live">Live</option>
-                                        <option value="record">Record</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label">PDF File</label>
-                                    <input type="file" name="modules[${fieldCount}][pdf_file]" class="form-control">
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label class="form-label">Date</label>
-                                    <div class="input-group">
-                                        <div class="input-group-text bg-primary-transparent text-primary">
-                                            <i class="fe fe-calendar text-20"></i>
-                                        </div>
-                                        <input class="form-control fc-datepicker" placeholder="DD/MM/YYYY" type="text">
-                                        <input type="hidden" name="modules[${fieldCount}][date]">
-                                    </div>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label class="form-label">Time</label>
-                                    <div class="input-group">
-                                        <div class="input-group-text bg-primary-transparent text-primary">
-                                            <i class="fe fe-clock text-20"></i>
-                                        </div>
-                                        <input type="text" name="modules[${fieldCount}][time]" class="form-control tpicker" placeholder="Enter time">
-                                    </div>
-                                </div>
+
                                 <div class="col-md-2 mb-3 d-flex align-items-end">
                                     <button type="button" class="btn btn-danger w-100 removeModuleField">-</button>
                                 </div>
@@ -1287,6 +1154,11 @@
                     `;
                     $('#multipleModuleFields').append(newField);
                     refreshModuleLessonOptions();
+                    // Ensure lesson options and type toggles run for new row
+                    var $newRow = $('#multipleModuleField' + fieldCount);
+                    $newRow.find('.module-lesson-select').trigger('change');
+                    $newRow.find('.module-type-select').trigger('change');
+                    toggleModuleContentFields($newRow);
                     window.initDatepicker();
                     window.initTimepicker();
                 });

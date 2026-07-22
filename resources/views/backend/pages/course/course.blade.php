@@ -795,13 +795,16 @@
                 }
 
                 $(document).on('click', '.addLessonField', function() {
-                    var fieldCount = $('#multipleLessonFields .d-flex').length;
+                    var fieldCount = $('#multipleLessonFields .lesson-row').length;
                     var lessonRef = generateLessonRef();
                     var newField = `
-                        <div class="d-flex justify-content-between mb-2 lesson-row" id="multipleLessonField${fieldCount}">
+                        <div class="mb-2 lesson-row" id="multipleLessonField${fieldCount}">
                             <input type="hidden" name="lessons[${fieldCount}][ref]" class="lesson-ref" value="${lessonRef}" />
-                            <input type="text" name="lessons[${fieldCount}][name]" class="form-control me-4 lesson-name" placeholder="Enter lesson name" />
-                            <button type="button" class="btn btn-danger removeLessonField">-</button>
+                            <div class="d-flex justify-content-between">
+                                <input type="text" name="lessons[${fieldCount}][name]" class="form-control me-4 lesson-name" placeholder="Enter lesson name" />
+                                <button type="button" class="btn btn-danger removeLessonField">-</button>
+                            </div>
+                            <textarea name="lessons[${fieldCount}][description]" class="form-control mt-2" rows="2" placeholder="Enter lesson description"></textarea>
                         </div>
                     `;
                     $('#multipleLessonFields').append(newField);
@@ -821,10 +824,13 @@
                     container.find('.module-type-select').each(function() {
                         var type = $(this).val() || 'video';
                         var row = $(this).closest('.module-row');
+                        // toggle content fields (video/article)
                         row.find('.module-content-field').each(function() {
                             var matches = $(this).data('module-type') === type;
                             $(this).toggle(matches);
                         });
+                        // hide auxiliary fields (free/paid, live/record, pdf, date, time)
+                        row.find('.module-aux-field').hide();
                     });
                 }
 
@@ -847,7 +853,7 @@
                                     <label class="form-label">Title</label>
                                     <input type="text" name="modules[${fieldCount}][title]" class="form-control" placeholder="Enter module title">
                                 </div>
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-6 mb-3">
                                     <label class="form-label">Module Type</label>
                                     <select name="modules[${fieldCount}][module_type]" class="form-control module-type-select">
                                         <option value="">Select Type</option>
@@ -855,58 +861,20 @@
                                         <option value="article">Article</option>
                                     </select>
                                 </div>
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-6 mb-3">
                                     <label class="form-label">Duration</label>
                                     <input type="text" name="modules[${fieldCount}][duration]" class="form-control" placeholder="e.g. 15 min">
                                 </div>
-                                <div class="col-md-4 mb-3 module-content-field" data-module-type="video">
+                                <div class="col-md-11 mb-3 module-content-field" data-module-type="video">
                                     <label class="form-label">Video Link</label>
                                     <input type="text" name="modules[${fieldCount}][link]" class="form-control" placeholder="Enter link">
                                 </div>
-                                <div class="col-md-8 mb-3 module-content-field" data-module-type="article" style="display:none;">
+                                <div class="col-md-11 mb-3 module-content-field" data-module-type="article" style="display:none;">
                                     <label class="form-label">Article</label>
                                     <textarea name="modules[${fieldCount}][article]" class="form-control" rows="4" placeholder="Enter article content"></textarea>
                                 </div>
-                                <div class="col-md-3 mb-3">
-                                    <label class="form-label">Free / Paid</label>
-                                    <select name="modules[${fieldCount}][free_paid]" class="form-control">
-                                        <option value="">Select Option</option>
-                                        <option value="free">Free</option>
-                                        <option value="paid">Paid</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label class="form-label">Live / Record</label>
-                                    <select name="modules[${fieldCount}][live_record]" class="form-control">
-                                        <option value="">Select Type</option>
-                                        <option value="live">Live</option>
-                                        <option value="record">Record</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label">PDF File</label>
-                                    <input type="file" name="modules[${fieldCount}][pdf_file]" class="form-control">
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label class="form-label">Date</label>
-                                    <div class="input-group">
-                                        <div class="input-group-text bg-primary-transparent text-primary">
-                                            <i class="fe fe-calendar text-20"></i>
-                                        </div>
-                                        <input class="form-control fc-datepicker" placeholder="DD/MM/YYYY" type="text">
-                                        <input type="hidden" name="modules[${fieldCount}][date]">
-                                    </div>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label class="form-label">Time</label>
-                                    <div class="input-group">
-                                        <div class="input-group-text bg-primary-transparent text-primary">
-                                            <i class="fe fe-clock text-20"></i>
-                                        </div>
-                                        <input type="text" name="modules[${fieldCount}][time]" class="form-control tpicker" placeholder="Enter time">
-                                    </div>
-                                </div>
-                                <div class="col-md-2 mb-3 d-flex align-items-end">
+
+                                <div class="col-md-1 mb-3 d-flex align-items-end">
                                     <button type="button" class="btn btn-danger w-100 removeModuleField">-</button>
                                 </div>
                             </div>
@@ -914,6 +882,11 @@
                     `;
                     $('#multipleModuleFields').append(newField);
                     refreshModuleLessonOptions();
+                    // Ensure lesson options and type toggles run for new row
+                    var $newRow = $('#multipleModuleField' + fieldCount);
+                    $newRow.find('.module-lesson-select').trigger('change');
+                    $newRow.find('.module-type-select').trigger('change');
+                    toggleModuleContentFields($newRow);
                     window.initDatepicker();
                     window.initTimepicker();
                 });
