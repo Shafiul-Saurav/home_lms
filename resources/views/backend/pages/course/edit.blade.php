@@ -804,7 +804,7 @@
                     <div class="modal-body">
                         <input type="hidden" name="modules[existing_{{ $module->id }}][id]" value="{{ $module->id }}">
                         <div class="row">
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label class="form-label">Module Lesson</label>
                                 <select name="modules[existing_{{ $module->id }}][lesson_ref]"
                                     class="form-control module-lesson-select module-modal-lesson"
@@ -813,7 +813,7 @@
                                     <option value="">Select Lesson</option>
                                 </select>
                             </div>
-                            <div class="col-md-8 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label class="form-label">Title</label>
                                 <input type="text" name="modules[existing_{{ $module->id }}][title]"
                                     class="form-control module-modal-title"
@@ -821,7 +821,7 @@
                                     value="{{ old('modules.existing_' . $module->id . '.title', $module->title) }}"
                                     placeholder="Enter module title">
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label class="form-label">Module Type</label>
                                 <select name="modules[existing_{{ $module->id }}][module_type]"
                                     class="form-control module-modal-module-type" data-module-id="{{ $module->id }}">
@@ -830,7 +830,7 @@
                                     <option value="article" {{ old('modules.existing_' . $module->id . '.module_type', $module->module_type) === 'article' ? 'selected' : '' }}>Article</option>
                                 </select>
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label class="form-label">Duration</label>
                                 <input type="text" name="modules[existing_{{ $module->id }}][duration]"
                                     class="form-control module-modal-duration"
@@ -838,7 +838,7 @@
                                     value="{{ old('modules.existing_' . $module->id . '.duration', $module->duration) }}"
                                     placeholder="e.g. 15 min">
                             </div>
-                            <div class="col-md-4 mb-3 module-modal-content-field" data-module-type="video">
+                            <div class="col-md-11 mb-3 module-modal-content-field" data-module-type="video">
                                 <label class="form-label">Link</label>
                                 <input type="text" name="modules[existing_{{ $module->id }}][link]"
                                     class="form-control module-modal-link"
@@ -846,7 +846,7 @@
                                     value="{{ old('modules.existing_' . $module->id . '.link', $module->link) }}"
                                     placeholder="Enter link">
                             </div>
-                            <div class="col-md-8 mb-3 module-modal-content-field" data-module-type="article">
+                            <div class="col-md-11 mb-3 module-modal-content-field" data-module-type="article">
                                 <label class="form-label">Article</label>
                                 <textarea name="modules[existing_{{ $module->id }}][article]"
                                     class="form-control module-modal-article"
@@ -854,7 +854,6 @@
                                     rows="4"
                                     placeholder="Enter article content">{{ old('modules.existing_' . $module->id . '.article', $module->article) }}</textarea>
                             </div>
-
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -983,7 +982,7 @@
                                 <input type="text" name="lessons[${fieldCount}][name]" class="form-control me-4 lesson-name" placeholder="Enter lesson name" />
                                 <button type="button" class="btn btn-danger removeLessonField">-</button>
                             </div>
-                            <textarea name="lessons[${fieldCount}][description]" class="form-control mt-2" rows="2" placeholder="Enter lesson description"></textarea>
+                            <textarea name="lessons[${fieldCount}][description]" class="form-control mt-2" rows="3" placeholder="Enter lesson description"></textarea>
                         </div>
                     `;
                     $('#multipleLessonFields').append(newField);
@@ -1115,17 +1114,17 @@
                         <div class="border rounded p-3 mb-3 module-row" id="multipleModuleField${fieldCount}">
                             <input type="hidden" name="modules[${fieldCount}][id]" class="module-id" value="">
                             <div class="row">
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-6 mb-3">
                                     <label class="form-label">Module Lesson</label>
                                     <select name="modules[${fieldCount}][lesson_ref]" class="form-control module-lesson-select">
                                         <option value="">Select Lesson</option>
                                     </select>
                                 </div>
-                                <div class="col-md-8 mb-3">
+                                <div class="col-md-6 mb-3">
                                     <label class="form-label">Title</label>
                                     <input type="text" name="modules[${fieldCount}][title]" class="form-control" placeholder="Enter module title">
                                 </div>
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-6 mb-3">
                                     <label class="form-label">Module Type</label>
                                     <select name="modules[${fieldCount}][module_type]" class="form-control module-type-select">
                                         <option value="">Select Type</option>
@@ -1133,20 +1132,20 @@
                                         <option value="article">Article</option>
                                     </select>
                                 </div>
-                                <div class="col-md-4 mb-3">
+                                <div class="col-md-6 mb-3">
                                     <label class="form-label">Duration</label>
                                     <input type="text" name="modules[${fieldCount}][duration]" class="form-control" placeholder="e.g. 15 min">
                                 </div>
-                                <div class="col-md-4 mb-3 module-content-field" data-module-type="video">
+                                <div class="col-md-11 mb-3 module-content-field" data-module-type="video">
                                     <label class="form-label">Video Link</label>
                                     <input type="text" name="modules[${fieldCount}][link]" class="form-control" placeholder="Enter link">
                                 </div>
-                                <div class="col-md-8 mb-3 module-content-field" data-module-type="article" style="display:none;">
+                                <div class="col-md-11 mb-3 module-content-field" data-module-type="article" style="display:none;">
                                     <label class="form-label">Article</label>
                                     <textarea name="modules[${fieldCount}][article]" class="form-control" rows="4" placeholder="Enter article content"></textarea>
                                 </div>
 
-                                <div class="col-md-2 mb-3 d-flex align-items-end">
+                                <div class="col-md-1 mb-3 d-flex align-items-end">
                                     <button type="button" class="btn btn-danger w-100 removeModuleField">-</button>
                                 </div>
                             </div>
