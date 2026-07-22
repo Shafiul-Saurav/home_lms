@@ -526,18 +526,24 @@
                                             ]);
                                         @endphp
                                         @foreach ($lessonValues as $lessonIndex => $lesson)
-                                            <div class="d-flex justify-content-between mb-2 lesson-row" id="multipleLessonField{{ $lessonIndex }}">
+                                            <div class="mb-2 lesson-row" id="multipleLessonField{{ $lessonIndex }}">
                                                 <input type="hidden" name="lessons[{{ $lessonIndex }}][id]" class="lesson-id"
                                                     value="{{ $lesson['id'] ?? '' }}" />
                                                 <input type="hidden" name="lessons[{{ $lessonIndex }}][ref]" class="lesson-ref"
                                                     value="{{ $lesson['ref'] ?? 'lesson_' . uniqid() }}" />
-                                                <input type="text" name="lessons[{{ $lessonIndex }}][name]"
-                                                    class="form-control me-4 lesson-name @error('lessons.' . $lessonIndex . '.name') is-invalid @enderror"
-                                                    value="{{ $lesson['name'] ?? '' }}" placeholder="Enter lesson name" />
-                                                <button type="button"
-                                                    class="btn {{ $loop->first ? 'btn-secondary addLessonField' : 'btn-danger removeLessonField' }}">
-                                                    {{ $loop->first ? '+' : '-' }}
-                                                </button>
+                                                <div class="d-flex justify-content-between">
+                                                    <input type="text" name="lessons[{{ $lessonIndex }}][name]"
+                                                        class="form-control me-4 lesson-name @error('lessons.' . $lessonIndex . '.name') is-invalid @enderror"
+                                                        value="{{ $lesson['name'] ?? '' }}" placeholder="Enter lesson name" />
+                                                    <button type="button"
+                                                        class="btn {{ $loop->first ? 'btn-secondary addLessonField' : 'btn-danger removeLessonField' }}">
+                                                        {{ $loop->first ? '+' : '-' }}
+                                                    </button>
+                                                </div>
+                                                <textarea name="lessons[{{ $lessonIndex }}][description]"
+                                                    class="form-control mt-2"
+                                                    rows="2"
+                                                    placeholder="Enter lesson description">{{ $lesson['description'] ?? '' }}</textarea>
                                             </div>
                                             @error('lessons.' . $lessonIndex . '.name')
                                                 <span class="invalid-feedback d-block" role="alert">
@@ -638,11 +644,29 @@
                                                             <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                                         @enderror
                                                     </div>
-                                                    <div class="col-md-6 mb-3">
-                                                        <label class="form-label">Link</label>
+                                                    <div class="col-md-4 mb-3">
+                                                        <label class="form-label">Module Type</label>
+                                                        <select name="modules[{{ $moduleIndex }}][module_type]" class="form-control module-type-select">
+                                                            <option value="">Select Type</option>
+                                                            <option value="video" {{ ($module['module_type'] ?? '') === 'video' ? 'selected' : '' }}>Video</option>
+                                                            <option value="article" {{ ($module['module_type'] ?? '') === 'article' ? 'selected' : '' }}>Article</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4 mb-3">
+                                                        <label class="form-label">Duration</label>
+                                                        <input type="text" name="modules[{{ $moduleIndex }}][duration]"
+                                                            class="form-control" value="{{ $module['duration'] ?? '' }}"
+                                                            placeholder="e.g. 15 min">
+                                                    </div>
+                                                    <div class="col-md-4 mb-3 module-content-field" data-module-type="video">
+                                                        <label class="form-label">Video Link</label>
                                                         <input type="text" name="modules[{{ $moduleIndex }}][link]"
                                                             class="form-control" value="{{ $module['link'] ?? '' }}"
                                                             placeholder="Enter link">
+                                                    </div>
+                                                    <div class="col-md-8 mb-3 module-content-field" data-module-type="article">
+                                                        <label class="form-label">Article</label>
+                                                        <textarea name="modules[{{ $moduleIndex }}][article]" class="form-control" rows="4" placeholder="Enter article content">{{ $module['article'] ?? '' }}</textarea>
                                                     </div>
                                                     <div class="col-md-3 mb-3">
                                                         <label class="form-label">Free / Paid</label>
@@ -847,13 +871,38 @@
                                     value="{{ old('modules.existing_' . $module->id . '.title', $module->title) }}"
                                     placeholder="Enter module title">
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Module Type</label>
+                                <select name="modules[existing_{{ $module->id }}][module_type]"
+                                    class="form-control module-modal-module-type" data-module-id="{{ $module->id }}">
+                                    <option value="">Select Type</option>
+                                    <option value="video" {{ old('modules.existing_' . $module->id . '.module_type', $module->module_type) === 'video' ? 'selected' : '' }}>Video</option>
+                                    <option value="article" {{ old('modules.existing_' . $module->id . '.module_type', $module->module_type) === 'article' ? 'selected' : '' }}>Article</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Duration</label>
+                                <input type="text" name="modules[existing_{{ $module->id }}][duration]"
+                                    class="form-control module-modal-duration"
+                                    data-module-id="{{ $module->id }}"
+                                    value="{{ old('modules.existing_' . $module->id . '.duration', $module->duration) }}"
+                                    placeholder="e.g. 15 min">
+                            </div>
+                            <div class="col-md-4 mb-3 module-modal-content-field" data-module-type="video">
                                 <label class="form-label">Link</label>
                                 <input type="text" name="modules[existing_{{ $module->id }}][link]"
                                     class="form-control module-modal-link"
                                     data-module-id="{{ $module->id }}"
                                     value="{{ old('modules.existing_' . $module->id . '.link', $module->link) }}"
                                     placeholder="Enter link">
+                            </div>
+                            <div class="col-md-8 mb-3 module-modal-content-field" data-module-type="article">
+                                <label class="form-label">Article</label>
+                                <textarea name="modules[existing_{{ $module->id }}][article]"
+                                    class="form-control module-modal-article"
+                                    data-module-id="{{ $module->id }}"
+                                    rows="4"
+                                    placeholder="Enter article content">{{ old('modules.existing_' . $module->id . '.article', $module->article) }}</textarea>
                             </div>
                             <div class="col-md-3 mb-3">
                                 <label class="form-label">Free / Paid</label>
@@ -1040,7 +1089,7 @@
                 });
 
                 $(document).on('click', '.removeLessonField', function() {
-                    $(this).closest('.d-flex').remove();
+                    $(this).closest('.lesson-row').remove();
                     refreshModuleLessonOptions();
                 });
 
@@ -1132,6 +1181,29 @@
                 togglePricingFields();
                 toggleLiveFields();
 
+                function toggleModuleContentFields(container) {
+                    container.find('.module-type-select').each(function() {
+                        var type = $(this).val() || 'video';
+                        var row = $(this).closest('.module-row');
+                        row.find('.module-content-field').each(function() {
+                            var matches = $(this).data('module-type') === type;
+                            $(this).toggle(matches);
+                        });
+                    });
+                }
+
+                $(document).on('change', '.module-type-select', function() {
+                    toggleModuleContentFields($(this).closest('.module-row'));
+                });
+
+                $(document).on('change', '.module-modal-module-type', function() {
+                    var modalBody = $(this).closest('.modal-body');
+                    var type = $(this).val() || 'video';
+                    modalBody.find('.module-modal-content-field').each(function() {
+                        $(this).toggle($(this).data('module-type') === type);
+                    });
+                });
+
                 $(document).on('click', '.addModuleField', function() {
                     var fieldCount = $('#multipleModuleFields .module-row').length;
                     var newField = `
@@ -1148,9 +1220,25 @@
                                     <label class="form-label">Title</label>
                                     <input type="text" name="modules[${fieldCount}][title]" class="form-control" placeholder="Enter module title">
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Link</label>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Module Type</label>
+                                    <select name="modules[${fieldCount}][module_type]" class="form-control module-type-select">
+                                        <option value="">Select Type</option>
+                                        <option value="video" selected>Video</option>
+                                        <option value="article">Article</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Duration</label>
+                                    <input type="text" name="modules[${fieldCount}][duration]" class="form-control" placeholder="e.g. 15 min">
+                                </div>
+                                <div class="col-md-4 mb-3 module-content-field" data-module-type="video">
+                                    <label class="form-label">Video Link</label>
                                     <input type="text" name="modules[${fieldCount}][link]" class="form-control" placeholder="Enter link">
+                                </div>
+                                <div class="col-md-8 mb-3 module-content-field" data-module-type="article" style="display:none;">
+                                    <label class="form-label">Article</label>
+                                    <textarea name="modules[${fieldCount}][article]" class="form-control" rows="4" placeholder="Enter article content"></textarea>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label class="form-label">Free / Paid</label>
@@ -1231,6 +1319,9 @@
                     var time = moduleModal.find('.module-modal-time').val();
                     var lessonRef = moduleModal.find('.module-modal-lesson').val();
                     var lessonId = lessonRef && lessonRef.startsWith('existing:') ? lessonRef.replace('existing:', '') : '';
+                    var moduleType = moduleModal.find('.module-modal-module-type').val();
+                    var duration = moduleModal.find('.module-modal-duration').val();
+                    var article = moduleModal.find('.module-modal-article').val();
                     var formData = new FormData();
                     var pdfInput = moduleModal.find('input[type="file"]')[0];
 
@@ -1242,7 +1333,10 @@
                     formData.append('_token', "{{ csrf_token() }}");
                     formData.append('lesson_id', lessonId);
                     formData.append('title', title);
+                    formData.append('module_type', moduleType);
                     formData.append('link', link);
+                    formData.append('article', article);
+                    formData.append('duration', duration);
                     formData.append('free_paid', freePaid);
                     formData.append('live_record', liveRecord);
                     formData.append('date', date);
@@ -1413,6 +1507,12 @@
                 });
 
                 refreshModuleLessonOptions();
+                $('.module-row').each(function() {
+                    toggleModuleContentFields($(this));
+                });
+                $('.module-modal-module-type').each(function() {
+                    $(this).trigger('change');
+                });
 
                 $('#category_id').on('change', function() {
                     var categoryId = $(this).val();
