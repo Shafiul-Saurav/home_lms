@@ -457,7 +457,7 @@
                                                             class="form-control" value="{{ $module['link'] ?? '' }}"
                                                             placeholder="Enter link">
                                                     </div>
-                                                    <div class="col-md-3 mb-3">
+                                                    {{-- <div class="col-md-3 mb-3">
                                                         <label class="form-label">Free / Paid</label>
                                                         <select name="modules[{{ $moduleIndex }}][free_paid]"
                                                             class="form-control">
@@ -469,8 +469,8 @@
                                                                 {{ ($module['free_paid'] ?? '') === 'paid' ? 'selected' : '' }}>
                                                                 Paid</option>
                                                         </select>
-                                                    </div>
-                                                    <div class="col-md-3 mb-3">
+                                                    </div> --}}
+                                                    {{-- <div class="col-md-3 mb-3">
                                                         <label class="form-label">Live / Record</label>
                                                         <select name="modules[{{ $moduleIndex }}][live_record]"
                                                             class="form-control">
@@ -482,15 +482,15 @@
                                                                 {{ ($module['live_record'] ?? '') === 'record' ? 'selected' : '' }}>
                                                                 Record</option>
                                                         </select>
-                                                    </div>
-                                                    <div class="col-md-4 mb-3">
+                                                    </div> --}}
+                                                    {{-- <div class="col-md-4 mb-3">
                                                         <label class="form-label">PDF File</label>
                                                         <input type="file"
                                                             name="modules[{{ $moduleIndex }}][pdf_file]"
                                                             class="form-control" value="{{ $module['pdf_file'] ?? '' }}"
                                                             placeholder="Enter PDF file path or name">
-                                                    </div>
-                                                    <div class="col-md-3 mb-3">
+                                                    </div> --}}
+                                                    {{-- <div class="col-md-3 mb-3">
                                                         <label class="form-label">Date</label>
                                                         <div class="input-group">
                                                             <div
@@ -504,8 +504,8 @@
                                                                 name="modules[{{ $moduleIndex }}][date]"
                                                                 value="{{ $module['date'] ?? '' }}">
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-3 mb-3">
+                                                    </div> --}}
+                                                    {{-- <div class="col-md-3 mb-3">
                                                         <label class="form-label">Time</label>
                                                         <div class="input-group">
                                                             <div
@@ -518,7 +518,7 @@
                                                                 value="{{ $module['time'] ?? '' }}"
                                                                 placeholder="Enter time">
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                     <div class="col-md-2 mb-3 d-flex align-items-end">
                                                         <button type="button"
                                                             class="btn w-100 {{ $loop->first ? 'btn-secondary addModuleField' : 'btn-danger removeModuleField' }}">
