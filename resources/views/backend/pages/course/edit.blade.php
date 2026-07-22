@@ -656,7 +656,7 @@
                                                 <input type="hidden" name="modules[{{ $moduleIndex }}][id]" class="module-id"
                                                     value="{{ $module['id'] ?? '' }}">
                                                 <div class="row">
-                                                    <div class="col-md-4 mb-3">
+                                                    <div class="col-md-6 mb-3">
                                                         <label class="form-label">Module Lesson</label>
                                                         <select name="modules[{{ $moduleIndex }}][lesson_ref]"
                                                             class="form-control module-lesson-select"
@@ -664,7 +664,7 @@
                                                             <option value="">Select Lesson</option>
                                                         </select>
                                                     </div>
-                                                    <div class="col-md-8 mb-3">
+                                                    <div class="col-md-6 mb-3">
                                                         <label class="form-label">Title</label>
                                                         <input type="text" name="modules[{{ $moduleIndex }}][title]"
                                                             class="form-control @error('modules.' . $moduleIndex . '.title') is-invalid @enderror"
@@ -673,7 +673,7 @@
                                                             <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                                         @enderror
                                                     </div>
-                                                    <div class="col-md-4 mb-3">
+                                                    <div class="col-md-6 mb-3">
                                                         <label class="form-label">Module Type</label>
                                                         <select name="modules[{{ $moduleIndex }}][module_type]" class="form-control module-type-select">
                                                             <option value="">Select Type</option>
@@ -681,13 +681,13 @@
                                                             <option value="article" {{ ($module['module_type'] ?? '') === 'article' ? 'selected' : '' }}>Article</option>
                                                         </select>
                                                     </div>
-                                                    <div class="col-md-4 mb-3">
+                                                    <div class="col-md-6 mb-3">
                                                         <label class="form-label">Duration</label>
                                                         <input type="text" name="modules[{{ $moduleIndex }}][duration]"
                                                             class="form-control" value="{{ $module['duration'] ?? '' }}"
                                                             placeholder="e.g. 15 min">
                                                     </div>
-                                                    <div class="col-md-4 mb-3 module-content-field" data-module-type="video">
+                                                    <div class="col-md-11 mb-3 module-content-field" data-module-type="video">
                                                         <label class="form-label">Video Link</label>
                                                         <input type="text" name="modules[{{ $moduleIndex }}][link]"
                                                             class="form-control" value="{{ $module['link'] ?? '' }}"
@@ -698,7 +698,7 @@
                                                         <textarea name="modules[{{ $moduleIndex }}][article]" data-summernote class="form-control" rows="4" placeholder="Enter article content">{{ $module['article'] ?? '' }}</textarea>
                                                     </div>
 
-                                                    <div class="col-md-2 mb-3 d-flex align-items-end">
+                                                    <div class="col-md-1 mb-3 d-flex align-items-end">
                                                         <button type="button"
                                                             class="btn w-100 {{ $loop->first ? 'btn-secondary addModuleField' : 'btn-danger removeModuleField' }}">
                                                             {{ $loop->first ? '+' : '-' }}

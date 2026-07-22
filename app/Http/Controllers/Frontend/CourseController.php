@@ -119,6 +119,11 @@ class CourseController extends Controller
                     }
                 }
 
+                if ($request->filled('course_level')) {
+                    $courseLevel = $request->input('course_level');
+                    $coursesQuery->where('course_level', $courseLevel);
+                }
+
                 $sortBy = $request->input('sort_by', 'latest');
                 switch ($sortBy) {
                     case 'featured':

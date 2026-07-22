@@ -250,6 +250,34 @@
 
                             <div class="mb-4">
                                 <div class="filter-panel">
+                                    <button type="button" class="filter-panel-header" data-target="#levelFilterBody"
+                                        aria-expanded="true">
+                                        <span class="widget-title mb-0">Course Level</span>
+                                        <i class="fa-solid fa-chevron-up filter-toggle-icon"></i>
+                                    </button>
+                                    <div class="filter-panel-body show" id="levelFilterBody">
+                                        <div class="form-check">
+                                            <input class="form-check-input level-filter" type="checkbox" value="" id="level-all" {{ empty(request('course_level')) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="level-all">All Levels</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input level-filter" type="checkbox" value="beginner" id="level-beginner" {{ in_array('beginner', explode(',', request('course_level', ''))) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="level-beginner">Beginner</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input level-filter" type="checkbox" value="intermediate" id="level-intermediate" {{ in_array('intermediate', explode(',', request('course_level', ''))) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="level-intermediate">Intermediate</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input level-filter" type="checkbox" value="advance" id="level-advance" {{ in_array('advance', explode(',', request('course_level', ''))) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="level-advance">Advance</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="mb-4">
+                                <div class="filter-panel">
                                     <button type="button" class="filter-panel-header" data-target="#categoryFilterBody"
                                         aria-expanded="true">
                                         <span class="widget-title mb-0">Category</span>
@@ -404,6 +432,16 @@
                 let sortBy = $('#sort_by').val();
                 sortBy ? urlParams.set('sort_by', sortBy) : urlParams.delete('sort_by');
 
+                let levels = [];
+                let allLevelsChecked = false;
+                $('.level-filter:checked').each(function() {
+                    if ($(this).val() === '') allLevelsChecked = true;
+                    else levels.push($(this).val());
+                });
+                if (allLevelsChecked) urlParams.delete('course_level');
+                else if (levels.length > 0) urlParams.set('course_level', levels.join(','));
+                else urlParams.delete('course_level');
+
                 // subcategories
                 let subcategories = [],
                     allSubcatsChecked = false;
@@ -504,8 +542,23 @@
                     }
                 }
 
-                if ($(this).hasClass('price-filter') || $(this).is('#sort_by')) {
+                if ($(this).hasClass('price-filter') || $(this).hasClass('level-filter') || $(this).is('#sort_by')) {
                     // keep current filter state
+                }
+
+                filterCourses(buildFilterUrl());
+            });
+
+            $(document).on('change', '.level-filter', function() {
+                let checked = $(this).is(':checked');
+                let value = $(this).val();
+
+                if (value === '') {
+                    if (checked) {
+                        $('.level-filter').not(this).prop('checked', false);
+                    }
+                } else {
+                    $('#level-all').prop('checked', false);
                 }
 
                 filterCourses(buildFilterUrl());
