@@ -485,7 +485,7 @@
                                                     </div>
                                                     <div class="col-md-4 mb-3">
                                                         <label class="form-label">PDF File</label>
-                                                        <input type="text"
+                                                        <input type="file"
                                                             name="modules[{{ $moduleIndex }}][pdf_file]"
                                                             class="form-control" value="{{ $module['pdf_file'] ?? '' }}"
                                                             placeholder="Enter PDF file path or name">

@@ -112,7 +112,42 @@
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 16px;
         }
+
+        /* Drag & Drop */
+        .drag-handle {
+            cursor: grab;
+            color: #9ca3af;
+            font-size: 14px;
+            padding: 0 6px 0 0;
+            flex-shrink: 0;
+        }
+        .drag-handle:active { cursor: grabbing; }
+        .lesson_item.sortable-ghost {
+            opacity: 0.4;
+            background: #e0f2fe;
+            border-color: #38bdf8;
+        }
+        .module_item.sortable-ghost {
+            opacity: 0.35;
+            background: #e0f2fe;
+            border: 2px dashed #38bdf8;
+        }
+        .module_drag_handle {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            z-index: 3;
+            cursor: grab;
+            color: #9ca3af;
+            font-size: 14px;
+            background: rgba(255,255,255,0.85);
+            border-radius: 4px;
+            padding: 2px 5px;
+            line-height: 1;
+        }
+        .module_drag_handle:active { cursor: grabbing; }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
 @endpush
 
 @section('backend_content')
@@ -337,7 +372,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                            {{-- <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="is_offline">Is Offline</label>
                                     <select name="is_offline" id="is_offline"
@@ -350,9 +385,9 @@
                                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
 
-                            <div class="col-md-6 mb-3">
+                            {{-- <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label for="is_active">Status</label>
                                     <select name="is_active" id="is_active"
@@ -364,7 +399,7 @@
                                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="col-12 mb-3">
                                 <div class="form-group">
@@ -514,16 +549,22 @@
                                     <small class="form-text text-muted">Add new lessons here. Existing lessons can be deleted below.</small>
 
                                     @if ($course->lessons->count() > 0)
-                                        <ul class="list-inline mt-3 mb-0">
-                                            @foreach ($course->lessons as $lesson)
-                                                <li class="list-inline-item lesson_item mb-2 existing-lesson-item"
+                                        <div class="d-flex align-items-center justify-content-between mt-3 mb-1">
+                                            <small class="text-muted"><i class="fa-solid fa-grip-lines me-1"></i> Drag lessons to reorder</small>
+                                            <span id="lessons-order-status" class="text-success small d-none"><i class="fa-solid fa-check-circle me-1"></i> Order saved!</span>
+                                        </div>
+                                        <ul class="list-inline mb-0" id="lessons-sortable-list" style="display:flex;flex-wrap:wrap;gap:8px;padding:0;">
+                                            @foreach ($course->lessons()->orderBy('sort_order','asc')->orderBy('id','asc')->get() as $lesson)
+                                                <li class="list-inline-item lesson_item mb-0 existing-lesson-item"
                                                     id="course-lesson-{{ $lesson->id }}" data-lesson-id="{{ $lesson->id }}"
-                                                    data-lesson-name="{{ $lesson->name }}">
+                                                    data-lesson-name="{{ $lesson->name }}" style="list-style:none;margin:0;">
+                                                    <span class="drag-handle"><i class="fa-solid fa-grip-vertical"></i></span>
                                                     <span>{{ $lesson->name }}</span>
                                                     <div class="remove_icon ms-2">
                                                         <button type="button"
                                                             class="btn btn-sm btn-outline-primary border edit-lesson"
                                                             data-id="{{ $lesson->id }}" data-name="{{ $lesson->name }}"
+                                                            data-description="{{ $lesson->description }}"
                                                             data-toggle="tooltip" data-placement="top"
                                                             data-bs-original-title="Edit">
                                                             <i class="fa-solid fa-pen fa-fw"></i>
@@ -666,7 +707,11 @@
                                     </div>
 
                                     @if ($course->courseModules->count() > 0)
-                                        <div class="module_grid mt-3">
+                                        <div class="d-flex align-items-center justify-content-between mb-2">
+                                            <small class="text-muted"><i class="fa-solid fa-grip-lines me-1"></i> Drag modules to reorder</small>
+                                            <span id="modules-order-status" class="text-success small d-none"><i class="fa-solid fa-check-circle me-1"></i> Order saved!</span>
+                                        </div>
+                                        <div class="module_grid" id="modules-grid">
                                             @foreach ($course->courseModules as $module)
                                                 @php
                                                     $youtubeId = null;
@@ -692,6 +737,7 @@
                                                     data-time="{{ $module->time }}"
                                                     data-thumbnail="{{ $thumbnail }}"
                                                     data-video-id="{{ $youtubeId }}">
+                                                    <span class="module_drag_handle" style="cursor:grab; position:absolute; top:5px; left:5px;"><i class="fa-solid fa-grip-vertical"></i></span>
                                                     <div class="module_actions">
                                                         <button type="button" class="btn btn-sm btn-outline-primary border edit-module"
                                                             data-id="{{ $module->id }}">
@@ -754,6 +800,14 @@
                                 class="form-control lesson-modal-name"
                                 data-lesson-id="{{ $lesson->id }}"
                                 value="{{ old('lessons.existing_' . $lesson->id . '.name', $lesson->name) }}">
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="lesson_description_{{ $lesson->id }}">Lesson Description</label>
+                            <textarea id="lesson_description_{{ $lesson->id }}"
+                                name="lessons[existing_{{ $lesson->id }}][description]"
+                                class="form-control lesson-modal-description"
+                                data-lesson-id="{{ $lesson->id }}"
+                                rows="3">{{ old('lessons.existing_' . $lesson->id . '.description', $lesson->description) }}</textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -1414,6 +1468,100 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
+            });
+        </script>
+
+        <script>
+            // ── Lessons drag-and-drop ──
+            var lessonsList = document.getElementById('lessons-sortable-list');
+            if (lessonsList) {
+                Sortable.create(lessonsList, {
+                    animation: 150,
+                    handle: '.drag-handle',
+                    ghostClass: 'sortable-ghost',
+                    onEnd: function () {
+                        var order = [];
+                        lessonsList.querySelectorAll('[data-lesson-id]').forEach(function (el) {
+                            order.push(el.getAttribute('data-lesson-id'));
+                        });
+                        $.ajax({
+                            url: '{{ route("course.lessons.update_order") }}',
+                            type: 'POST',
+                            data: { order: order },
+                            success: function () {
+                                var st = $('#lessons-order-status');
+                                st.removeClass('d-none');
+                                setTimeout(function () { st.addClass('d-none'); }, 2500);
+                            },
+                            error: function () {
+                                Swal.fire('Error', 'Could not save lessons order.', 'error');
+                            }
+                        });
+                    }
+                });
+            }
+
+            // ── Modules drag-and-drop ──
+            var modulesGrid = document.getElementById('modules-grid');
+            if (modulesGrid) {
+                Sortable.create(modulesGrid, {
+                    animation: 150,
+                    handle: '.module_drag_handle',
+                    ghostClass: 'sortable-ghost',
+                    onEnd: function () {
+                        var order = [];
+                        modulesGrid.querySelectorAll('.module_item[data-module-id]').forEach(function (el) {
+                            order.push(el.getAttribute('data-module-id'));
+                        });
+                        $.ajax({
+                            url: '{{ route("course.modules.update_order") }}',
+                            type: 'POST',
+                            data: { order: order },
+                            success: function () {
+                                var st = $('#modules-order-status');
+                                st.removeClass('d-none');
+                                setTimeout(function () { st.addClass('d-none'); }, 2500);
+                            },
+                            error: function () {
+                                Swal.fire('Error', 'Could not save modules order.', 'error');
+                            }
+                        });
+                    }
+                });
+            }
+
+            // ── Populate description in lesson edit modal ──
+            $(document).on('click', '.edit-lesson', function () {
+                var id = $(this).data('id');
+                var name = $(this).data('name');
+                var desc = $(this).data('description') || '';
+                $('#lessonEditModal' + id + ' .lesson-modal-name').val(name);
+                $('#lessonEditModal' + id + ' .lesson-modal-description').val(desc);
+                $('#lessonEditModal' + id).modal('show');
+            });
+
+            // ── Save lesson from popup (send name + description via AJAX) ──
+            $(document).on('click', '.save-lesson-popup', function () {
+                var lessonId = $(this).data('lesson-id');
+                var modal    = $('#lessonEditModal' + lessonId);
+                var name     = modal.find('.lesson-modal-name').val();
+                var desc     = modal.find('.lesson-modal-description').val();
+                $.ajax({
+                    url: '{{ route("course.lesson.update.ajax", ":id") }}'.replace(':id', lessonId),
+                    type: 'POST',
+                    data: { name: name, description: desc },
+                    success: function (res) {
+                        // Update visible lesson name in list
+                        var li = $('#course-lesson-' + lessonId);
+                        li.find('> span:not(.drag-handle)').text(name);
+                        li.find('.edit-lesson').data('name', name).data('description', desc);
+                        modal.modal('hide');
+                        Swal.fire({ icon: 'success', title: 'Saved!', text: res.success, timer: 1500, showConfirmButton: false });
+                    },
+                    error: function () {
+                        Swal.fire('Error', 'Could not update lesson.', 'error');
+                    }
+                });
             });
         </script>
     @endpush

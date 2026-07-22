@@ -691,10 +691,14 @@ Route::get('check/partner/is_active/{id}', [PartnerController::class, 'checkActi
     ->name('course.lesson.delete');
     Route::post('/course/lesson/{id}/update', [CourseController::class, 'updateLessonAjax'])
     ->name('course.lesson.update.ajax');
+    Route::post('/course/lessons/update-order', [CourseController::class, 'updateLessonsOrder'])
+    ->name('course.lessons.update_order');
     Route::delete('/course/module/{id}', [CourseController::class, 'deleteModule'])
     ->name('course.module.delete');
     Route::post('/course/module/{id}/update', [CourseController::class, 'updateModuleAjax'])
     ->name('course.module.update.ajax');
+    Route::post('/course/modules/update-order', [CourseController::class, 'updateModulesOrder'])
+    ->name('course.modules.update_order');
     // Ajax Call Active
     Route::get('check/course/is_active/{course_id}', [CourseController::class, 'checkActive'])
     ->name('course.is_active.ajax');

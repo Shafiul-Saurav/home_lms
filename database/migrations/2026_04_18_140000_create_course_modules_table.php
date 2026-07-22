@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('pdf_file')->nullable();
             $table->text('date');
             $table->text('time');
+            $table->unsignedInteger('sort_order')->default(0);
             $table->timestamps();
         });
     }

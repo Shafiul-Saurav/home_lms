@@ -94,15 +94,16 @@ class CourseController extends Controller
         }
 
         // Load lessons and modules for the form
-        $lessons = $course->lessons()->get(['id', 'name'])->map(function ($lesson) {
+        $lessons = $course->lessons()->orderBy('sort_order', 'asc')->orderBy('id', 'asc')->get(['id', 'name', 'description'])->map(function ($lesson) {
             return [
                 'id' => $lesson->id,
                 'ref' => 'existing:' . $lesson->id,
                 'name' => $lesson->name,
+                'description' => $lesson->description,
             ];
         })->toArray();
 
-        $modules = $course->courseModules()->get()->map(function ($module) {
+        $modules = $course->courseModules()->orderBy('sort_order', 'asc')->orderBy('id', 'asc')->get()->map(function ($module) {
             return [
                 'id' => $module->id,
                 'lesson_ref' => $module->lesson_id ? 'existing:' . $module->lesson_id : '',
@@ -307,6 +308,7 @@ class CourseController extends Controller
                     $lesson = Lesson::create([
                         'course_id' => $courseId,
                         'name' => $lessonData['name'],
+                        'description' => $lessonData['description'] ?? null,
                     ]);
                     if (isset($lessonData['ref'])) {
                         $lessonRefMap[$lessonData['ref']] = $lesson->id;
@@ -373,7 +375,10 @@ class CourseController extends Controller
                         // Update existing lesson
                         $lesson = Lesson::find($lessonData['id']);
                         if ($lesson) {
-                            $lesson->update(['name' => $lessonData['name']]);
+                            $lesson->update([
+                                'name' => $lessonData['name'],
+                                'description' => $lessonData['description'] ?? null,
+                            ]);
                             $lessonRefMap[$lessonData['ref'] ?? $lessonData['id']] = $lesson->id;
                         }
                     } else {
@@ -381,6 +386,7 @@ class CourseController extends Controller
                         $lesson = Lesson::create([
                             'course_id' => $courseId,
                             'name' => $lessonData['name'],
+                            'description' => $lessonData['description'] ?? null,
                         ]);
                         if (isset($lessonData['ref'])) {
                             $lessonRefMap[$lessonData['ref']] = $lesson->id;
@@ -476,7 +482,10 @@ class CourseController extends Controller
         Gate::authorize('edit-course');
 
         $lesson = Lesson::findOrFail($id);
-        $lesson->update(['name' => $request->name]);
+        $lesson->update([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
 
         return response()->json([
             'success' => 'Lesson updated successfully',
@@ -522,6 +531,34 @@ class CourseController extends Controller
             'success' => 'Module updated successfully',
             'module' => $module,
         ]);
+    }
+
+    public function updateLessonsOrder(Request $request)
+    {
+        $validated = $request->validate([
+            'order'   => 'required|array',
+            'order.*' => 'integer|exists:lessons,id',
+        ]);
+
+        foreach ($validated['order'] as $sortOrder => $id) {
+            Lesson::where('id', $id)->update(['sort_order' => $sortOrder + 1]);
+        }
+
+        return response()->json(['type' => 'success', 'message' => 'Lessons Order Updated']);
+    }
+
+    public function updateModulesOrder(Request $request)
+    {
+        $validated = $request->validate([
+            'order'   => 'required|array',
+            'order.*' => 'integer|exists:course_modules,id',
+        ]);
+
+        foreach ($validated['order'] as $sortOrder => $id) {
+            CourseModule::where('id', $id)->update(['sort_order' => $sortOrder + 1]);
+        }
+
+        return response()->json(['type' => 'success', 'message' => 'Modules Order Updated']);
     }
 }
 
