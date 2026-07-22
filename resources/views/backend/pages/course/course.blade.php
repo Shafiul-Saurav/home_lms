@@ -266,6 +266,20 @@
                                 </div>
                             </div> --}}
 
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="button_type">Button Type</label>
+                                    <select name="button_type" id="button_type"
+                                        class="form-control select2-style1 @error('button_type') is-invalid @enderror">
+                                        <option value="Enroll Now" {{ old('button_type', 'Enroll Now') == 'Enroll Now' ? 'selected' : '' }}>Enroll Now</option>
+                                        <option value="Comming Soon" {{ old('button_type') == 'Comming Soon' ? 'selected' : '' }}>Comming Soon</option>
+                                    </select>
+                                    @error('button_type')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="video_link">Video Link</label>
@@ -478,7 +492,7 @@
                                                     </div>
                                                     <div class="col-md-11 mb-3 module-content-field" data-module-type="article">
                                                         <label class="form-label">Article</label>
-                                                        <textarea name="modules[{{ $moduleIndex }}][article]" class="form-control" rows="4" placeholder="Enter article content">{{ $module['article'] ?? '' }}</textarea>
+                                                        <textarea name="modules[{{ $moduleIndex }}][article]" data-summernote class="form-control" rows="4" placeholder="Enter article content">{{ $module['article'] ?? '' }}</textarea>
                                                     </div>
                                                     {{-- <div class="col-md-3 mb-3">
                                                         <label class="form-label">Free / Paid</label>
@@ -820,6 +834,24 @@
                     refreshModuleLessonOptions();
                 });
 
+                function initSummernote(container) {
+                    var $targets = container ? $(container).find('textarea[data-summernote]') : $('textarea[data-summernote]');
+                    $targets.each(function() {
+                        var $this = $(this);
+                        if (!$this.data('summernote-inited') && $this.is(':visible')) {
+                            $this.summernote({
+                                height: 180,
+                                callbacks: {
+                                    onChange: function(contents) {
+                                        $this.val(contents);
+                                    }
+                                }
+                            });
+                            $this.data('summernote-inited', true);
+                        }
+                    });
+                }
+
                 function toggleModuleContentFields(container) {
                     container.find('.module-type-select').each(function() {
                         var type = $(this).val() || 'video';
@@ -828,6 +860,9 @@
                         row.find('.module-content-field').each(function() {
                             var matches = $(this).data('module-type') === type;
                             $(this).toggle(matches);
+                            if (matches && type === 'article') {
+                                initSummernote($(this));
+                            }
                         });
                         // hide auxiliary fields (free/paid, live/record, pdf, date, time)
                         row.find('.module-aux-field').hide();
@@ -871,7 +906,7 @@
                                 </div>
                                 <div class="col-md-11 mb-3 module-content-field" data-module-type="article" style="display:none;">
                                     <label class="form-label">Article</label>
-                                    <textarea name="modules[${fieldCount}][article]" class="form-control" rows="4" placeholder="Enter article content"></textarea>
+                                    <textarea name="modules[${fieldCount}][article]" data-summernote class="form-control" rows="4" placeholder="Enter article content"></textarea>
                                 </div>
 
                                 <div class="col-md-1 mb-3 d-flex align-items-end">

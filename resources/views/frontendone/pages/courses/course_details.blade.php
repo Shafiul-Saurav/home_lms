@@ -303,10 +303,9 @@
                                                         data-bs-parent="#courseAccordion">
                                                         <div class="accordion-body">
                                                             @forelse($lesson->courseModules as $module)
-                                                                <div
-                                                                    class="curriculum-item {{ $isEnrolled || $module->free_paid === 'free' ? 'unlock' : '' }}"
+                                                                <div class="curriculum-item {{ $isEnrolled || $module->free_paid === 'free' ? 'unlock' : '' }}"
                                                                     style="cursor:pointer;"
-                                                                    onclick="@if($isEnrolled || $module->free_paid === 'free') window.location.href='{{ route('course.video', ['course_id' => $courseInfo->id, 'module_id' => $module->id]) }}' @else toastr.error('Please enroll in this course to access this content') @endif">
+                                                                    onclick="@if ($isEnrolled || $module->free_paid === 'free') window.location.href='{{ route('course.video', ['course_id' => $courseInfo->id, 'module_id' => $module->id]) }}' @else toastr.error('Please enroll in this course to access this content') @endif">
                                                                     <div>
                                                                         <strong class="d-block mb-1">
                                                                             @if ($module->pdf_file)
@@ -396,8 +395,8 @@
                                                     course.</p>
                                             </div>
                                             @auth
-                                                <button type="button" class="enroll-btn border-0" id="give-review-btn">Give Review <i
-                                                        class="fa-solid fa-pen-to-square"></i></button>
+                                                <button type="button" class="enroll-btn border-0" id="give-review-btn">Give
+                                                    Review <i class="fa-solid fa-pen-to-square"></i></button>
                                             @else
                                                 <a href="{{ route('login') }}" class="enroll-btn">Login to Review <i
                                                         class="fa-solid fa-right-to-bracket"></i></a>
@@ -493,31 +492,41 @@
                                             <p class="mb-1 text-uppercase small">Course Price</p>
                                         </div>
                                         <div>
-                                            @if ($courseInfo->discount && $courseInfo->discount > 0)
+                                            @if ($courseInfo->free_or_paid === 'free')
+                                                <h2 style="font-size:18px;font-weight:900;color:#5cb800;margin:0;">Free
+                                                </h2>
+                                            @elseif ($courseInfo->discount && $courseInfo->discount > 0)
                                                 @php
                                                     $finalPrice = $courseInfo->price - $courseInfo->discount;
-                                                    $discountPct = $courseInfo->price > 0 ? round(($courseInfo->discount / $courseInfo->price) * 100) : 0;
+                                                    $discountPct =
+                                                        $courseInfo->price > 0
+                                                            ? round(($courseInfo->discount / $courseInfo->price) * 100)
+                                                            : 0;
                                                 @endphp
                                                 <h2 style="font-size:2rem;font-weight:900;color:#5cb800;margin:0 0 4px;">
                                                     {{ number_format($finalPrice, 2) }} Tk
                                                 </h2>
                                                 <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-                                                    <del style="color:#999;font-size:0.95rem;">{{ number_format($courseInfo->price, 2) }} Tk</del>
-                                                    <span style="background:#ffe0d6;color:#e05a2b;font-size:0.78rem;font-weight:800;padding:3px 9px;border-radius:4px;">{{ $discountPct }}% OFF</span>
+                                                    <del style="color:#999;font-size:0.95rem;">{{ number_format($courseInfo->price, 2) }}
+                                                        Tk</del>
+                                                    <span
+                                                        style="background:#ffe0d6;color:#e05a2b;font-size:0.78rem;font-weight:800;padding:3px 9px;border-radius:4px;">{{ $discountPct }}%
+                                                        OFF</span>
                                                 </div>
                                             @elseif($courseInfo->price > 0)
                                                 <h2 style="font-size:2rem;font-weight:900;color:#5cb800;margin:0;">
                                                     {{ number_format($courseInfo->price, 2) }} Tk
                                                 </h2>
                                             @else
-                                                <h2 style="font-size:2rem;font-weight:900;color:#5cb800;margin:0;">Free</h2>
+                                                <h2 style="font-size:18px;font-weight:900;color:#5cb800;margin:0;">Free
+                                                </h2>
                                             @endif
                                         </div>
                                     </div>
 
                                     <ul class="course-info-list mb-4">
                                         <li><span><i
-                                                    class="fa-solid fa-layer-group me-2"></i>Type</span><strong>{{ ucfirst($courseInfo->live_or_record ?? '') }}</strong>
+                                                    class="fa-solid fa-layer-group me-2"></i>Type</span><strong>{{ ($courseInfo->live_or_record ?? '') === 'record' ? 'Recorded' : ucfirst($courseInfo->live_or_record ?? '') }}</strong>
                                         </li>
                                         <li><span><i
                                                     class="fa-solid fa-book-open me-2"></i>Lessons</span><strong>{{ $courseInfo->lessons()->count() }}</strong>
@@ -531,17 +540,58 @@
                                         <li><span><i
                                                     class="fa-solid fa-user-tie me-2"></i>Instructor</span><strong>{{ $instructorName }}</strong>
                                         </li>
-                                        @if(($courseInfo->live_or_record ?? '') === 'live' && $courseInfo->batches && $courseInfo->batches->isNotEmpty())
-                                            <li><span><i class="fa-solid fa-layer-group me-2"></i>Batch</span><strong>{{ $courseInfo->batches->pluck('name')->join(', ') }}</strong></li>
+                                        @if (($courseInfo->live_or_record ?? '') === 'live' && $courseInfo->batches && $courseInfo->batches->isNotEmpty())
+                                            <li><span><i
+                                                        class="fa-solid fa-layer-group me-2"></i>Batch</span><strong>{{ $courseInfo->batches->pluck('name')->join(', ') }}</strong>
+                                            </li>
                                         @endif
                                     </ul>
 
+                                    {{-- Action Button --}}
+                                    @php
+                                        $isFree =
+                                            $courseInfo->free_or_paid === 'free' ||
+                                            ($courseInfo->price === null || $courseInfo->price == 0);
+                                        $btnType = $courseInfo->button_type ?? 'Enroll Now';
+                                        $isComingSoon = in_array($btnType, ['Comming Soon', 'Coming Soon']);
+                                    @endphp
+
+
                                 </div>
                             </div>
-                            <div class="px-2 pt-2 pb-1">
+                            {{-- <div class="px-2 pt-2 pb-1">
                                 <a href="#course-reviews" class="enroll-btn w-100 justify-content-center d-flex">View
                                     Reviews
                                     <i class="fa-solid fa-comments"></i></a>
+                            </div> --}}
+                            <div class="mb-3">
+                                @if ($isFree)
+                                    @if ($isLoggedIn)
+                                        <a href="{{ route('course.video', ['course_id' => $courseInfo->id]) }}"
+                                            class="enroll-btn w-100 justify-content-center d-flex">
+                                            Watch Now <i class="fa-solid fa-play ms-2"></i>
+                                        </a>
+                                    @else
+                                        <a href="{{ route('login') }}"
+                                            class="enroll-btn w-100 justify-content-center d-flex">
+                                            Sign In to Watch Free <i class="fa-solid fa-sign-in-alt ms-2"></i>
+                                        </a>
+                                    @endif
+                                @elseif ($isEnrolled)
+                                    <a href="{{ route('course.video', ['course_id' => $courseInfo->id]) }}"
+                                        class="enroll-btn w-100 justify-content-center d-flex">
+                                        Go to Course <i class="fa-solid fa-play ms-2"></i>
+                                    </a>
+                                @elseif ($isComingSoon)
+                                    <a href="javascript:void(0)" class="enroll-btn w-100 justify-content-center d-flex">
+                                        {{ $btnType }} <i class="fa-solid fa-clock ms-2"></i>
+                                    </a>
+                                @else
+                                    <a href="{{ route('checkout', $courseInfo->id) }}"
+                                        class="enroll-btn w-100 justify-content-center d-flex">
+                                        {{ $btnType }} <i class="fa-solid fa-arrow-right ms-2"></i>
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -564,30 +614,38 @@
                         <div class="col-xl-4 col-lg-4 col-md-6">
                             <div class="course-card-modern">
                                 <div class="course-thumb">
-                                    <img src="{{ asset('uploads/courses/' . $related->image) }}" alt="{{ $related->name }}">
+                                    <img src="{{ asset('uploads/courses/' . $related->image) }}"
+                                        alt="{{ $related->name }}">
                                 </div>
                                 <div class="course-content">
                                     <h3>{{ $related->name }}</h3>
-                                    <p class="desc">{{ \Illuminate\Support\Str::words(strip_tags($related->short_description ?? $related->description), 10, '...') }}</p>
+                                    <p class="desc">
+                                        {{ \Illuminate\Support\Str::words(strip_tags($related->short_description ?? $related->description), 10, '...') }}
+                                    </p>
                                     <div class="course-meta">
-                                        <span><i class="fa-regular fa-star"></i> {{ $related->averageRating() ?? 0 }} ({{ $related->reviewCount() ?? 0 }})</span>
-                                        <span><i class="fa-regular fa-user"></i> {{ $related->students_count ?? 0 }}</span>
-                                        <span><i class="fa-regular fa-file-lines"></i> {{ $related->lessons()->count() }} lessons</span>
-                                        @if($related->duration)
-                                        <span><i class="fa-regular fa-clock"></i> {{ $related->duration }}</span>
+                                        <span><i class="fa-regular fa-star"></i> {{ $related->averageRating() ?? 0 }}
+                                            ({{ $related->reviewCount() ?? 0 }})</span>
+                                        <span><i class="fa-regular fa-user"></i>
+                                            {{ $related->students_count ?? 0 }}</span>
+                                        <span><i class="fa-regular fa-file-lines"></i> {{ $related->lessons()->count() }}
+                                            lessons</span>
+                                        @if ($related->duration)
+                                            <span><i class="fa-regular fa-clock"></i> {{ $related->duration }}</span>
                                         @endif
                                     </div>
                                     <ul class="course-list">
-                                        @foreach($related->features ?? [] as $feature)
+                                        @foreach ($related->features ?? [] as $feature)
                                             <li><i class="fa-solid fa-check"></i> {{ $feature }}</li>
                                         @endforeach
                                     </ul>
                                     <div class="course-bottom">
                                         <div class="price-box">
-                                            @if($related->discount && $related->discount > 0)
+                                            @if ($related->discount && $related->discount > 0)
                                                 @php
                                                     $relFinalPrice = $related->price - $related->discount;
-                                                    $relDiscountPct = round(($related->discount / $related->price) * 100);
+                                                    $relDiscountPct = round(
+                                                        ($related->discount / $related->price) * 100,
+                                                    );
                                                 @endphp
                                                 <h4>{{ $relFinalPrice }} Tk</h4>
                                                 <div class="price-old-row">
@@ -598,8 +656,13 @@
                                                 <h4>{{ $related->price ?? '0' }} Tk</h4>
                                             @endif
                                         </div>
+                                        @php
+                                            $relBtnText = $related->button_type ?? 'Enroll Now';
+                                            $relIsComingSoon = in_array($relBtnText, ['Comming Soon', 'Coming Soon']);
+                                        @endphp
                                         <a href="{{ route('course.details', $related->id) }}" class="enroll-btn">
-                                            Enroll Now <i class="fa-solid fa-arrow-right"></i>
+                                            {{ $relBtnText }} <i
+                                                class="fa-solid {{ $relIsComingSoon ? 'fa-clock' : 'fa-arrow-right' }}"></i>
                                         </a>
                                     </div>
                                 </div>

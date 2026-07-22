@@ -76,7 +76,9 @@
                             </ul>
                             <div class="course-bottom">
                                 <div class="price-box">
-                                    @if ($course->discount && $course->discount > 0)
+                                    @if ($course->free_or_paid === 'free')
+                                        <h4>Free</h4>
+                                    @elseif ($course->discount && $course->discount > 0)
                                         @php
                                             $finalPrice = $course->price - $course->discount;
                                             $discountPercent = $course->price > 0 ? round(($course->discount / $course->price) * 100) : 0;
@@ -90,8 +92,12 @@
                                         <h4>{{ $course->price > 0 ? $course->price . ' Tk' : 'Free' }}</h4>
                                     @endif
                                 </div>
+                                @php
+                                    $btnText = $course->button_type ?? 'Enroll Now';
+                                    $isComingSoon = in_array($btnText, ['Comming Soon', 'Coming Soon']);
+                                @endphp
                                 <a href="{{ route('course.details', $course->id) }}" class="enroll-btn">
-                                    Enroll Now <i class="fa-solid fa-arrow-right"></i>
+                                    {{ $btnText }} <i class="fa-solid {{ $isComingSoon ? 'fa-clock' : 'fa-arrow-right' }}"></i>
                                 </a>
                             </div>
                         </div>

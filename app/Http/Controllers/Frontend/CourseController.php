@@ -106,9 +106,16 @@ class CourseController extends Controller
                     if (in_array('free', $priceFilters) && in_array('paid', $priceFilters)) {
                         // both
                     } elseif (in_array('free', $priceFilters)) {
-                        $coursesQuery->where('price', 0);
+                        $coursesQuery->where(function ($q) {
+                            $q->where('free_or_paid', 'free')
+                              ->orWhere('price', 0)
+                              ->orWhereNull('price');
+                        });
                     } elseif (in_array('paid', $priceFilters)) {
-                        $coursesQuery->where('price', '>', 0);
+                        $coursesQuery->where(function ($q) {
+                            $q->where('free_or_paid', 'paid')
+                              ->orWhere('price', '>', 0);
+                        });
                     }
                 }
 
@@ -232,9 +239,16 @@ class CourseController extends Controller
             if (in_array('free', $priceFilters) && in_array('paid', $priceFilters)) {
                 // If both are selected, no need to filter by price to show all
             } elseif (in_array('free', $priceFilters)) {
-                $query->where('price', 0);
+                $query->where(function ($q) {
+                    $q->where('free_or_paid', 'free')
+                      ->orWhere('price', 0)
+                      ->orWhereNull('price');
+                });
             } elseif (in_array('paid', $priceFilters)) {
-                $query->where('price', '>', 0);
+                $query->where(function ($q) {
+                    $q->where('free_or_paid', 'paid')
+                      ->orWhere('price', '>', 0);
+                });
             }
         }
 
@@ -376,6 +390,15 @@ class CourseController extends Controller
     {
         $course = Course::with('teachers.user')->where('id', $course_id)->where('is_active', 1)->firstOrFail();
 
+        // Must be logged in to access any course video
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Please sign in to access course content.');
+        }
+
+        /** @var User $user */
+        $user = Auth::user();
+        $isLoggedIn = true;
+
         // Fetch lessons with modules
         $lessons = Lesson::with('courseModules')
                         ->where('course_id', $course_id)
@@ -383,20 +406,12 @@ class CourseController extends Controller
 
         $modules = CourseModule::where('course_id', $course_id)->get();
 
-        // Check if user is logged in and enrolled
-        $isLoggedIn = Auth::check();
-        $isEnrolled = false;
-        $completedModuleIds = [];
-
-        if ($isLoggedIn) {
-            /** @var User $user */
-            $user = Auth::user();
-            $isEnrolled = $user->isEnrolledInCourse($course_id);
-            $completedModuleIds = LessonCompletion::where('user_id', $user->id)
-                ->where('course_id', $course_id)
-                ->pluck('module_id')
-                ->toArray();
-        }
+        // Check enrollment
+        $isEnrolled = $user->isEnrolledInCourse($course_id);
+        $completedModuleIds = LessonCompletion::where('user_id', $user->id)
+            ->where('course_id', $course_id)
+            ->pluck('module_id')
+            ->toArray();
 
         if ($module_id) {
             $module = $modules->where('id', $module_id)->first();
@@ -411,9 +426,11 @@ class CourseController extends Controller
             }
         }
 
-        // Access check for initial load: flash a toastr notification and redirect back
-        if ($module->free_paid != 'free' && !$isEnrolled) {
-            return redirect()->back()->with('error', 'Please enroll in this course to access this content');
+        // Free course: logged-in users can access without enrollment
+        // Paid course: must be enrolled
+        $isFreeAccess = ($course->free_or_paid === 'free' || $course->price === null || $course->price == 0);
+        if (!$isFreeAccess && !$isEnrolled) {
+            return redirect()->back()->with('error', 'Please enroll in this course to access this content.');
         }
 
         return view('frontendone.pages.courses.course_video', compact('course', 'module', 'modules', 'lessons', 'isEnrolled', 'isLoggedIn', 'completedModuleIds'));
@@ -498,25 +515,35 @@ class CourseController extends Controller
 
         $course = Course::find($module->course_id);
 
-        $isEnrolled = false;
-        $completedModuleIds = [];
-        if (Auth::check()) {
-            /** @var User $user */
-            $user = Auth::user();
-            $isEnrolled = $user->isEnrolledInCourse($course->id);
-            $completedModuleIds = LessonCompletion::where('user_id', $user->id)
-                ->where('course_id', $course->id)
-                ->pluck('module_id')
-                ->toArray();
+        // Must be logged in
+        if (!Auth::check()) {
+            return response()->json([
+                'success' => false,
+                'hasAccess' => false,
+                'requiresLogin' => true,
+                'error' => 'Please sign in to access course content.',
+                'loginUrl' => route('login')
+            ], 401);
         }
 
-        $hasAccess = ($module->free_paid == 'free' || $isEnrolled);
+        /** @var User $user */
+        $user = Auth::user();
+        $isEnrolled = $user->isEnrolledInCourse($course->id);
+        $completedModuleIds = LessonCompletion::where('user_id', $user->id)
+            ->where('course_id', $course->id)
+            ->pluck('module_id')
+            ->toArray();
+
+        // Free course: logged-in users can access without enrollment
+        // Paid course: must be enrolled
+        $isFreeAccess = ($course->free_or_paid === 'free' || $course->price === null || $course->price == 0);
+        $hasAccess = $isFreeAccess || $isEnrolled;
 
         if (!$hasAccess) {
             return response()->json([
                 'success' => false,
                 'hasAccess' => false,
-                'error' => 'Please enroll in this course to access this content'
+                'error' => 'Please enroll in this course to access this content.'
             ]);
         }
 
@@ -566,9 +593,16 @@ class CourseController extends Controller
                 $priceFilters = explode(',', $request->input('price'));
                 if (in_array('free', $priceFilters) && in_array('paid', $priceFilters)) {
                 } elseif (in_array('free', $priceFilters)) {
-                    $query->where('price', 0);
+                    $query->where(function ($q) {
+                        $q->where('free_or_paid', 'free')
+                          ->orWhere('price', 0)
+                          ->orWhereNull('price');
+                    });
                 } elseif (in_array('paid', $priceFilters)) {
-                    $query->where('price', '>', 0);
+                    $query->where(function ($q) {
+                        $q->where('free_or_paid', 'paid')
+                          ->orWhere('price', '>', 0);
+                    });
                 }
             }
         }
@@ -665,9 +699,16 @@ class CourseController extends Controller
                 $priceFilters = explode(',', $request->input('price'));
                 if (in_array('free', $priceFilters) && in_array('paid', $priceFilters)) {
                 } elseif (in_array('free', $priceFilters)) {
-                    $query->where('price', 0);
+                    $query->where(function ($q) {
+                        $q->where('free_or_paid', 'free')
+                          ->orWhere('price', 0)
+                          ->orWhereNull('price');
+                    });
                 } elseif (in_array('paid', $priceFilters)) {
-                    $query->where('price', '>', 0);
+                    $query->where(function ($q) {
+                        $q->where('free_or_paid', 'paid')
+                          ->orWhere('price', '>', 0);
+                    });
                 }
             }
         }

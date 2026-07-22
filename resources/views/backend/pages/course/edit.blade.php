@@ -401,6 +401,20 @@
                                 </div>
                             </div> --}}
 
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label for="button_type">Button Type</label>
+                                    <select name="button_type" id="button_type"
+                                        class="form-control select2-style1 @error('button_type') is-invalid @enderror">
+                                        <option value="Enroll Now" {{ old('button_type', $course->button_type ?? 'Enroll Now') == 'Enroll Now' ? 'selected' : '' }}>Enroll Now</option>
+                                        <option value="Comming Soon" {{ old('button_type', $course->button_type) == 'Comming Soon' ? 'selected' : '' }}>Comming Soon</option>
+                                    </select>
+                                    @error('button_type')
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="video_link">Video Link</label>
@@ -664,9 +678,9 @@
                                                             class="form-control" value="{{ $module['link'] ?? '' }}"
                                                             placeholder="Enter link">
                                                     </div>
-                                                    <div class="col-md-8 mb-3 module-content-field" data-module-type="article">
+                                                    <div class="col-md-11 mb-3 module-content-field" data-module-type="article">
                                                         <label class="form-label">Article</label>
-                                                        <textarea name="modules[{{ $moduleIndex }}][article]" class="form-control" rows="4" placeholder="Enter article content">{{ $module['article'] ?? '' }}</textarea>
+                                                        <textarea name="modules[{{ $moduleIndex }}][article]" data-summernote class="form-control" rows="4" placeholder="Enter article content">{{ $module['article'] ?? '' }}</textarea>
                                                     </div>
 
                                                     <div class="col-md-2 mb-3 d-flex align-items-end">
@@ -849,6 +863,7 @@
                             <div class="col-md-11 mb-3 module-modal-content-field" data-module-type="article">
                                 <label class="form-label">Article</label>
                                 <textarea name="modules[existing_{{ $module->id }}][article]"
+                                    data-summernote
                                     class="form-control module-modal-article"
                                     data-module-id="{{ $module->id }}"
                                     rows="4"
@@ -1082,6 +1097,24 @@
                 togglePricingFields();
                 toggleLiveFields();
 
+                function initSummernote(container) {
+                    var $targets = container ? $(container).find('textarea[data-summernote]') : $('textarea[data-summernote]');
+                    $targets.each(function() {
+                        var $this = $(this);
+                        if (!$this.data('summernote-inited') && $this.is(':visible')) {
+                            $this.summernote({
+                                height: 180,
+                                callbacks: {
+                                    onChange: function(contents) {
+                                        $this.val(contents);
+                                    }
+                                }
+                            });
+                            $this.data('summernote-inited', true);
+                        }
+                    });
+                }
+
                 function toggleModuleContentFields(container) {
                     container.find('.module-type-select').each(function() {
                         var type = $(this).val() || 'video';
@@ -1090,6 +1123,9 @@
                         row.find('.module-content-field').each(function() {
                             var matches = $(this).data('module-type') === type;
                             $(this).toggle(matches);
+                            if (matches && type === 'article') {
+                                initSummernote($(this));
+                            }
                         });
                         // hide auxiliary fields (free/paid, live/record, pdf, date, time)
                         row.find('.module-aux-field').hide();
@@ -1104,7 +1140,11 @@
                     var modalBody = $(this).closest('.modal-body');
                     var type = $(this).val() || 'video';
                     modalBody.find('.module-modal-content-field').each(function() {
-                        $(this).toggle($(this).data('module-type') === type);
+                        var matches = $(this).data('module-type') === type;
+                        $(this).toggle(matches);
+                        if (matches && type === 'article') {
+                            initSummernote($(this));
+                        }
                     });
                 });
 
@@ -1142,7 +1182,7 @@
                                 </div>
                                 <div class="col-md-11 mb-3 module-content-field" data-module-type="article" style="display:none;">
                                     <label class="form-label">Article</label>
-                                    <textarea name="modules[${fieldCount}][article]" class="form-control" rows="4" placeholder="Enter article content"></textarea>
+                                    <textarea name="modules[${fieldCount}][article]" data-summernote class="form-control" rows="4" placeholder="Enter article content"></textarea>
                                 </div>
 
                                 <div class="col-md-1 mb-3 d-flex align-items-end">
@@ -1174,6 +1214,7 @@
 
                     if (modalElement) {
                         bootstrap.Modal.getOrCreateInstance(modalElement).show();
+                        $(modalElement).find('.module-modal-module-type').trigger('change');
                     }
                 });
 
@@ -1192,7 +1233,8 @@
                     var lessonId = lessonRef && lessonRef.startsWith('existing:') ? lessonRef.replace('existing:', '') : '';
                     var moduleType = moduleModal.find('.module-modal-module-type').val();
                     var duration = moduleModal.find('.module-modal-duration').val();
-                    var article = moduleModal.find('.module-modal-article').val();
+                    var articleArea = moduleModal.find('.module-modal-article');
+                    var article = articleArea.data('summernote-inited') ? articleArea.summernote('code') : articleArea.val();
                     var formData = new FormData();
                     var pdfInput = moduleModal.find('input[type="file"]')[0];
 
