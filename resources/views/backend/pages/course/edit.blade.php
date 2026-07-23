@@ -709,70 +709,78 @@
                                         @endforeach
                                     </div>
 
-                                    @if ($course->courseModules->count() > 0)
+                                    @if ($course->lessons->count() > 0)
                                         <div class="d-flex align-items-center justify-content-between mb-2">
-                                            <small class="text-muted"><i class="fa-solid fa-grip-lines me-1"></i> Drag modules to reorder</small>
+                                            <small class="text-muted"><i class="fa-solid fa-grip-lines me-1"></i> Drag modules to reorder within each lesson</small>
                                             <span id="modules-order-status" class="text-success small d-none"><i class="fa-solid fa-check-circle me-1"></i> Order saved!</span>
                                         </div>
-                                        <div class="module_grid" id="modules-grid">
-                                            @foreach ($course->courseModules()->orderBy('sort_order', 'asc')->orderBy('id', 'asc')->get() as $module)
-                                                @php
-                                                    $youtubeId = null;
-                                                    if (!empty($module->link)) {
-                                                        preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/', $module->link, $matches);
-                                                        $youtubeId = $matches[1] ?? null;
-                                                    }
-                                                    $thumbnail = $youtubeId
-                                                        ? 'https://img.youtube.com/vi/' . $youtubeId . '/hqdefault.jpg'
-                                                        : 'https://placehold.co/640x360/e5e7eb/6b7280?text=Module+Preview';
-                                                    $embedUrl = $youtubeId
-                                                        ? 'https://www.youtube.com/embed/' . $youtubeId . '?autoplay=1&rel=0'
-                                                        : null;
-                                                @endphp
-                                                <div class="module_item existing-module-item" id="course-module-{{ $module->id }}"
-                                                    data-module-id="{{ $module->id }}"
-                                                    data-lesson-ref="{{ $module->lesson_id ? 'existing:' . $module->lesson_id : '' }}"
-                                                    data-title="{{ $module->title }}"
-                                                    data-link="{{ $module->link }}"
-                                                    data-free-paid="{{ $module->free_paid }}"
-                                                    data-live-record="{{ $module->live_record }}"
-                                                    data-date="{{ $module->date }}"
-                                                    data-time="{{ $module->time }}"
-                                                    data-thumbnail="{{ $thumbnail }}"
-                                                    data-video-id="{{ $youtubeId }}">
-                                                    <span class="module_drag_handle" style="cursor:grab; position:absolute; top:5px; left:5px;"><i class="fa-solid fa-grip-vertical"></i></span>
-                                                    <div class="module_actions">
-                                                        <button type="button" class="btn btn-sm btn-outline-primary border edit-module"
-                                                            data-id="{{ $module->id }}">
-                                                            <i class="fa-solid fa-pen fa-fw"></i>
-                                                        </button>
-                                                        <button type="button"
-                                                            class="btn btn-sm btn-outline-warning border show_confirm delete-module"
-                                                            data-id="{{ $module->id }}">
-                                                            <i class="fa-solid fa-trash-can fa-fw"></i>
-                                                        </button>
-                                                    </div>
-                                                    <div class="module_media">
-                                                        <img src="{{ $thumbnail }}" alt="{{ $module->title }}" class="module_thumb module-thumbnail-preview">
-                                                        @if ($embedUrl)
-                                                            <button type="button" class="module_play_trigger play-module-video"
-                                                                data-embed-url="{{ $embedUrl }}">
-                                                                <span class="module_play_icon">
-                                                                    <i class="fa-solid fa-play"></i>
-                                                                </span>
-                                                            </button>
-                                                        @endif
-                                                    </div>
-                                                    <div class="module_body">
-                                                        <div class="module_title">{{ $module->title }}</div>
-                                                        <div class="module_meta module-lesson-preview">
-                                                            Lesson:
-                                                            {{ optional($course->lessons->firstWhere('id', $module->lesson_id))->name ?? 'N/A' }}
-                                                        </div>
-                                                    </div>
+
+                                        @foreach ($course->lessons()->orderBy('sort_order', 'asc')->orderBy('id', 'asc')->get() as $lesson)
+                                            <div class="lesson-module-group mb-4">
+                                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                                    <h5 class="mb-2">Lesson: {{ $lesson->name }}</h5>
                                                 </div>
-                                            @endforeach
-                                        </div>
+                                                <div class="module_grid lesson-module-grid" data-lesson-id="{{ $lesson->id }}">
+                                                    @foreach ($lesson->courseModules()->orderBy('sort_order', 'asc')->orderBy('id', 'asc')->get() as $module)
+                                                        @php
+                                                            $youtubeId = null;
+                                                            if (!empty($module->link)) {
+                                                                preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/', $module->link, $matches);
+                                                                $youtubeId = $matches[1] ?? null;
+                                                            }
+                                                            $thumbnail = $youtubeId
+                                                                ? 'https://img.youtube.com/vi/' . $youtubeId . '/hqdefault.jpg'
+                                                                : 'https://placehold.co/640x360/e5e7eb/6b7280?text=Module+Preview';
+                                                            $embedUrl = $youtubeId
+                                                                ? 'https://www.youtube.com/embed/' . $youtubeId . '?autoplay=1&rel=0'
+                                                                : null;
+                                                        @endphp
+                                                        <div class="module_item existing-module-item" id="course-module-{{ $module->id }}"
+                                                            data-module-id="{{ $module->id }}"
+                                                            data-lesson-id="{{ $lesson->id }}"
+                                                            data-lesson-ref="{{ $module->lesson_id ? 'existing:' . $module->lesson_id : '' }}"
+                                                            data-title="{{ $module->title }}"
+                                                            data-link="{{ $module->link }}"
+                                                            data-free-paid="{{ $module->free_paid }}"
+                                                            data-live-record="{{ $module->live_record }}"
+                                                            data-date="{{ $module->date }}"
+                                                            data-time="{{ $module->time }}"
+                                                            data-thumbnail="{{ $thumbnail }}"
+                                                            data-video-id="{{ $youtubeId }}">
+                                                            <span class="module_drag_handle" style="cursor:grab; position:absolute; top:5px; left:5px;"><i class="fa-solid fa-grip-vertical"></i></span>
+                                                            <div class="module_actions">
+                                                                <button type="button" class="btn btn-sm btn-outline-primary border edit-module"
+                                                                    data-id="{{ $module->id }}">
+                                                                    <i class="fa-solid fa-pen fa-fw"></i>
+                                                                </button>
+                                                                <button type="button"
+                                                                    class="btn btn-sm btn-outline-warning border show_confirm delete-module"
+                                                                    data-id="{{ $module->id }}">
+                                                                    <i class="fa-solid fa-trash-can fa-fw"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div class="module_media">
+                                                                <img src="{{ $thumbnail }}" alt="{{ $module->title }}" class="module_thumb module-thumbnail-preview">
+                                                                @if ($embedUrl)
+                                                                    <button type="button" class="module_play_trigger play-module-video"
+                                                                        data-embed-url="{{ $embedUrl }}">
+                                                                        <span class="module_play_icon">
+                                                                            <i class="fa-solid fa-play"></i>
+                                                                        </span>
+                                                                    </button>
+                                                                @endif
+                                                            </div>
+                                                            <div class="module_body">
+                                                                <div class="module_title">{{ $module->title }}</div>
+                                                                <div class="module_meta module-lesson-preview">
+                                                                    Lesson: {{ $lesson->name }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     @endif
                                 </div>
                             </div>
@@ -1527,22 +1535,28 @@
                 });
             }
 
-            // ── Modules drag-and-drop ──
-            var modulesGrid = document.getElementById('modules-grid');
-            if (modulesGrid) {
-                Sortable.create(modulesGrid, {
+            // ── Modules drag-and-drop by lesson ──
+            document.querySelectorAll('.lesson-module-grid').forEach(function (grid) {
+                Sortable.create(grid, {
                     animation: 150,
                     handle: '.module_drag_handle',
+                    draggable: '.module_item',
                     ghostClass: 'sortable-ghost',
                     onEnd: function () {
+                        var lessonId = grid.dataset.lessonId;
                         var order = [];
-                        modulesGrid.querySelectorAll('.module_item[data-module-id]').forEach(function (el) {
+
+                        grid.querySelectorAll('.module_item[data-module-id]').forEach(function (el) {
                             order.push(el.getAttribute('data-module-id'));
                         });
+
+                        var data = { orders: {} };
+                        data.orders[lessonId] = order;
+
                         $.ajax({
                             url: '{{ route("course.modules.update_order") }}',
                             type: 'POST',
-                            data: { order: order },
+                            data: data,
                             success: function () {
                                 showPopupToastr('success', 'Module order updated successfully.');
                             },
@@ -1552,7 +1566,7 @@
                         });
                     }
                 });
-            }
+            });
 
             // ── Populate description in lesson edit modal ──
             $(document).on('click', '.edit-lesson', function () {

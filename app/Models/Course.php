@@ -25,7 +25,9 @@ class Course extends Model
     //relationship with Lesson
     public function lessons()
     {
-        return $this->hasMany(Lesson::class, 'course_id', 'id');
+        return $this->hasMany(Lesson::class, 'course_id', 'id')
+            ->orderBy('sort_order', 'asc')
+            ->orderBy('id', 'asc');
     }
 
     public function courseModules()

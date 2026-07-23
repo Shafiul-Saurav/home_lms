@@ -67,8 +67,8 @@ class CourseController extends Controller
         $this->pdfUpload($request, $course->id);
 
         // Store lessons and modules
-        $this->storeLessons($request, $course->id);
-        $this->storeModules($request, $course->id);
+        $lessonRefMap = $this->storeLessons($request, $course->id);
+        $this->storeModules($request, $course->id, $lessonRefMap);
 
         return redirect()->back()->with('message', 'Course Created Successfully');
     }
@@ -165,8 +165,8 @@ class CourseController extends Controller
         $this->pdfUpload($request, $course->id);
 
         // Update lessons and modules
-        $this->updateLessons($request, $course->id);
-        $this->updateModules($request, $course->id);
+        $lessonRefMap = $this->updateLessons($request, $course->id);
+        $this->updateModules($request, $course->id, $lessonRefMap);
 
         return redirect()->back()->with('message', 'Course Updated Successfully');
     }
@@ -315,10 +315,12 @@ class CourseController extends Controller
         if ($request->has('lessons') && is_array($request->lessons)) {
             foreach ($request->lessons as $lessonData) {
                 if (isset($lessonData['name']) && !empty(trim($lessonData['name']))) {
+                    $maxSortOrder = Lesson::where('course_id', $courseId)->max('sort_order') ?? 0;
                     $lesson = Lesson::create([
                         'course_id' => $courseId,
                         'name' => $lessonData['name'],
                         'description' => $lessonData['description'] ?? null,
+                        'sort_order' => $maxSortOrder + 1,
                     ]);
                     if (isset($lessonData['ref'])) {
                         $lessonRefMap[$lessonData['ref']] = $lesson->id;
@@ -330,10 +332,9 @@ class CourseController extends Controller
         return $lessonRefMap;
     }
 
-    public function storeModules(Request $request, int $courseId): void
+    public function storeModules(Request $request, int $courseId, array $lessonRefMap = []): void
     {
         // Get lesson refs map from existing lessons
-        $lessonRefMap = [];
         $lessons = Lesson::where('course_id', $courseId)->get();
         foreach ($lessons as $lesson) {
             $lessonRefMap['existing:' . $lesson->id] = $lesson->id;
@@ -351,10 +352,17 @@ class CourseController extends Controller
                             $lessonId = $lessonRefMap[$ref] ?? null;
                         } else if (strpos($lessonRef, 'existing:') === 0) {
                             $lessonId = substr($lessonRef, 9);
+                        } else if (isset($lessonRefMap[$lessonRef])) {
+                            $lessonId = $lessonRefMap[$lessonRef];
                         } else if (!empty($lessonRef)) {
                             $lessonId = $lessonRef;
                         }
                     }
+
+                    $maxSortOrder = CourseModule::where('course_id', $courseId)
+                        ->when($lessonId, function ($q) use ($lessonId) {
+                            $q->where('lesson_id', $lessonId);
+                        })->max('sort_order') ?? 0;
 
                     $module = CourseModule::create([
                         'course_id' => $courseId,
@@ -368,6 +376,7 @@ class CourseController extends Controller
                         // 'live_record' => $moduleData['live_record'] ?? null,
                         'date' => $moduleData['date'] ?? null,
                         'time' => $moduleData['time'] ?? null,
+                        'sort_order' => $maxSortOrder + 1,
                     ]);
 
                     // Handle PDF upload for this module
@@ -393,17 +402,21 @@ class CourseController extends Controller
                                 'description' => $lessonData['description'] ?? null,
                             ]);
                             $lessonRefMap[$lessonData['ref'] ?? $lessonData['id']] = $lesson->id;
+                            $lessonRefMap['existing:' . $lesson->id] = $lesson->id;
                         }
                     } else {
                         // Create new lesson
+                        $maxSortOrder = Lesson::where('course_id', $courseId)->max('sort_order') ?? 0;
                         $lesson = Lesson::create([
                             'course_id' => $courseId,
                             'name' => $lessonData['name'],
                             'description' => $lessonData['description'] ?? null,
+                            'sort_order' => $maxSortOrder + 1,
                         ]);
                         if (isset($lessonData['ref'])) {
                             $lessonRefMap[$lessonData['ref']] = $lesson->id;
                         }
+                        $lessonRefMap['existing:' . $lesson->id] = $lesson->id;
                     }
                 }
             }
@@ -412,10 +425,8 @@ class CourseController extends Controller
         return $lessonRefMap;
     }
 
-    public function updateModules(Request $request, int $courseId): void
+    public function updateModules(Request $request, int $courseId, array $lessonRefMap = []): void
     {
-        $lessonRefMap = [];
-
         // First get all lesson refs
         $lessons = Lesson::where('course_id', $courseId)->get();
         foreach ($lessons as $lesson) {
@@ -434,6 +445,8 @@ class CourseController extends Controller
                             $lessonId = $lessonRefMap[$ref] ?? null;
                         } else if (strpos($lessonRef, 'existing:') === 0) {
                             $lessonId = substr($lessonRef, 9);
+                        } else if (isset($lessonRefMap[$lessonRef])) {
+                            $lessonId = $lessonRefMap[$lessonRef];
                         } else if (!empty($lessonRef)) {
                             $lessonId = $lessonRef;
                         }
@@ -461,15 +474,24 @@ class CourseController extends Controller
                         }
                     } else {
                         // Create new module
+                        $maxSortOrder = CourseModule::where('course_id', $courseId)
+                            ->when($lessonId, function ($q) use ($lessonId) {
+                                $q->where('lesson_id', $lessonId);
+                            })->max('sort_order') ?? 0;
+
                         $module = CourseModule::create([
                             'course_id' => $courseId,
                             'lesson_id' => $lessonId,
                             'title' => $moduleData['title'],
-                            'link' => $moduleData['link'] ?? null,
+                            'module_type' => $moduleData['module_type'] ?? null,
+                            'link' => (($moduleData['module_type'] ?? '') === 'article') ? null : ($moduleData['link'] ?? null),
+                            'article' => (($moduleData['module_type'] ?? '') === 'article') ? ($moduleData['article'] ?? null) : null,
+                            'duration' => $moduleData['duration'] ?? null,
                             'free_paid' => $moduleData['free_paid'] ?? null,
                             'live_record' => $moduleData['live_record'] ?? null,
                             'date' => $moduleData['date'] ?? null,
                             'time' => $moduleData['time'] ?? null,
+                            'sort_order' => $maxSortOrder + 1,
                         ]);
 
                         // Handle PDF upload for this module
@@ -527,15 +549,25 @@ class CourseController extends Controller
         Gate::authorize('edit-course');
 
         $module = CourseModule::findOrFail($id);
-        $module->update([
+
+        $dataToUpdate = [
             'lesson_id' => $request->lesson_id,
             'title' => $request->title,
-                            'module_type' => $request->module_type,
-                            'link' => ($request->module_type === 'article') ? null : $request->link,
-                            'article' => ($request->module_type === 'article') ? $request->article : null,
-                            'duration' => $request->duration,
+            'module_type' => $request->module_type,
+            'link' => ($request->module_type === 'article') ? null : $request->link,
+            'article' => ($request->module_type === 'article') ? $request->article : null,
+            'duration' => $request->duration,
             'time' => $request->time,
-        ]);
+        ];
+
+        if ($request->filled('lesson_id') && $module->lesson_id != $request->lesson_id) {
+            $maxSortOrder = CourseModule::where('course_id', $module->course_id)
+                ->where('lesson_id', $request->lesson_id)
+                ->max('sort_order') ?? 0;
+            $dataToUpdate['sort_order'] = $maxSortOrder + 1;
+        }
+
+        $module->update($dataToUpdate);
 
         // Handle PDF upload
         $this->modulePdfUpload($request, $module->id);
@@ -565,13 +597,29 @@ class CourseController extends Controller
 
     public function updateModulesOrder(Request $request)
     {
+        if ($request->has('order')) {
+            $validated = $request->validate([
+                'order'   => 'required|array',
+                'order.*' => 'integer|exists:course_modules,id',
+            ]);
+
+            foreach ($validated['order'] as $sortOrder => $id) {
+                CourseModule::where('id', $id)->update(['sort_order' => $sortOrder + 1]);
+            }
+
+            return response()->json(['type' => 'success', 'message' => 'Modules Order Updated']);
+        }
+
         $validated = $request->validate([
-            'order'   => 'required|array',
-            'order.*' => 'integer|exists:course_modules,id',
+            'orders' => 'required|array',
+            'orders.*' => 'array',
+            'orders.*.*' => 'integer|exists:course_modules,id',
         ]);
 
-        foreach ($validated['order'] as $sortOrder => $id) {
-            CourseModule::where('id', $id)->update(['sort_order' => $sortOrder + 1]);
+        foreach ($validated['orders'] as $lessonOrder) {
+            foreach ($lessonOrder as $sortOrder => $id) {
+                CourseModule::where('id', $id)->update(['sort_order' => $sortOrder + 1]);
+            }
         }
 
         return response()->json(['type' => 'success', 'message' => 'Modules Order Updated']);
