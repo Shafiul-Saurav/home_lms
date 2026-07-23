@@ -242,6 +242,8 @@
                             <li><a href="{{ route('about.index') }}"
                                     class="slide-item {{ Request::routeIs('about.index') ? 'active' : '' }}">About Us
                                     Settings</a></li>
+                            <li><a href="{{ route('company_overview.index') }}"
+                                    class="slide-item {{ Request::routeIs('company_overview.*') ? 'active' : '' }}">Company Overview</a></li>
                             <li><a href="{{ route('corevalues.index') }}"
                                     class="slide-item {{ Request::routeIs('corevalues.*') ? 'active' : '' }}">Core Values</a></li>
                             <li><a href="{{ route('whychooseuses.index') }}"

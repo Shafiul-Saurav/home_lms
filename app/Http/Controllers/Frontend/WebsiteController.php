@@ -32,6 +32,7 @@ use App\Models\ProductCategory;
 use App\Models\ProductSubcategory;
 use App\Models\Corevalue;
 use App\Models\Whychooseus;
+use App\Models\CompanyOverview;
 use App\Models\CreateCertificate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
@@ -227,7 +228,9 @@ class WebsiteController extends Controller
         $awardsCounter = $formatCounter($awardsCount);
         $values = Corevalue::where('is_active', 1)->latest('id')->get();
         $whyChooseUs = Whychooseus::where('is_active', 1)->latest('id')->get();
-        return view('frontendone.pages.about.about_page', compact('about', 'testimonials', 'logo_fav', 'studentsCounter', 'coursesCounter', 'tutorsCounter', 'awardsCounter', 'values', 'whyChooseUs'));
+        $companyOverview = CompanyOverview::latest('id')->first();
+
+        return view('frontendone.pages.about.about_page', compact('about', 'testimonials', 'logo_fav', 'studentsCounter', 'coursesCounter', 'tutorsCounter', 'awardsCounter', 'values', 'whyChooseUs', 'companyOverview'));
     }
 
     public function services()

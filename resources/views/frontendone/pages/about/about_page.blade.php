@@ -1006,13 +1006,11 @@
                     <div class="section-heading">
                         <span class="sub-title">
                             <i class="fa-solid fa-building"></i>
-                            About Us
+                            {{ $about->sub_title ?? null }}
                         </span>
-                        <h1>Empowering Bangladesh Through Cybersecurity Excellence</h1>
+                        <h1>{{ $about->title ?? null }}</h1>
                         <p>
-                            Bridging cybersecurity education and enterprise security, HackToLive provides professional
-                            training, penetration testing, phishing simulations, SOC implementation, vulnerability
-                            assessments, and strategic security audit & consultation.
+                            {!! $about->description ?? null !!}
                         </p>
                     </div>
                 </div>
@@ -1026,29 +1024,22 @@
                 <div class="row">
                     <div class="section-heading text-start m-0">
                         <span class="sub-title">
-                            Company Overview
+                            {{ $companyOverview->sub_title ?? 'Company Overview' }}
                         </span>
                     </div>
                     <div class="col-lg-6">
                         <div class="overview-content">
-                            <h1 class="mb-2 mb-md-4">Leading the Cybersecurity Revolution in Bangladesh
-                            </h1>
-                            <p>
-                                Founded in 2019, HackToLive (H4K2LIV3) has emerged as Bangladesh's most trusted
-                                cybersecurity platform. We bridge the gap between traditional education and industry needs
-                                by providing world-class security training in Bengali, making cybersecurity accessible to
-                                millions.
-                            </p>
-                            <p>
-                                Our comprehensive approach combines professional security services, hands-on training
-                                programs, and a vibrant community of ethical hackers. We've trained over 5,000 professionals
-                                and conducted 500+ successful security audits for leading organizations across South Asia.
-                            </p>
-                            <p>
-                                What sets us apart is our commitment to quality education in Bengali, practical hands-on
-                                training, and real-world experience through CTF challenges and live projects. We're not just
-                                teaching cybersecurity - we're building Bangladesh's digital defense force.
-                            </p>
+                            <h1 class="mb-2 mb-md-4">{{ $companyOverview->title ?? 'Leading the Cybersecurity Revolution in Bangladesh' }}</h1>
+                            @if(!empty($companyOverview->description))
+                                {!! $companyOverview->description !!}
+                            @else
+                                <p>
+                                    Founded in 2019, HackToLive (H4K2LIV3) has emerged as Bangladesh's most trusted
+                                    cybersecurity platform. We bridge the gap between traditional education and industry needs
+                                    by providing world-class security training in Bengali, making cybersecurity accessible to
+                                    millions.
+                                </p>
+                            @endif
                         </div>
                     </div>
                     <div class="col-lg-6">
