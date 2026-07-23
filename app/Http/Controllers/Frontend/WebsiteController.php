@@ -30,6 +30,8 @@ use App\Models\WebsiteLink;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductSubcategory;
+use App\Models\Corevalue;
+use App\Models\Whychooseus;
 use App\Models\CreateCertificate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
@@ -223,7 +225,9 @@ class WebsiteController extends Controller
         // Awards: count active awards from database
         $awardsCount = Award::where('is_active', 1)->count();
         $awardsCounter = $formatCounter($awardsCount);
-        return view('frontendone.pages.about.about_page', compact('about', 'testimonials', 'logo_fav', 'studentsCounter', 'coursesCounter', 'tutorsCounter', 'awardsCounter'));
+        $values = Corevalue::where('is_active', 1)->latest('id')->get();
+        $whyChooseUs = Whychooseus::where('is_active', 1)->latest('id')->get();
+        return view('frontendone.pages.about.about_page', compact('about', 'testimonials', 'logo_fav', 'studentsCounter', 'coursesCounter', 'tutorsCounter', 'awardsCounter', 'values', 'whyChooseUs'));
     }
 
     public function services()

@@ -1149,65 +1149,23 @@
                 </div>
 
                 <div class="values-grid">
-                    <!-- Security First -->
-                    <div class="value-card">
-                        <div class="value-icon">
-                            <i class="fas fa-shield-alt"></i>
+                    @forelse($values as $value)
+                        <div class="value-card">
+                            <div class="value-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3>{{ $value->title }}</h3>
+                            <p>{{ $value->description }}</p>
                         </div>
-                        <h3>Security First</h3>
-                        <p>We prioritize security in everything we do, ensuring the highest standards of protection for our
-                            clients and students.</p>
-                    </div>
-
-                    <!-- Integrity -->
-                    <div class="value-card">
-                        <div class="value-icon">
-                            <i class="fas fa-heart"></i>
+                    @empty
+                        <div class="value-card">
+                            <div class="value-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <h3>No Core Values Found</h3>
+                            <p>Please check back later for our core values.</p>
                         </div>
-                        <h3>Integrity</h3>
-                        <p>We maintain the highest ethical standards in all our operations, building trust through
-                            transparency and honesty.</p>
-                    </div>
-
-                    <!-- Community -->
-                    <div class="value-card">
-                        <div class="value-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3>Community</h3>
-                        <p>We foster a collaborative learning environment where knowledge sharing and mutual growth are
-                            encouraged.</p>
-                    </div>
-
-                    <!-- Excellence -->
-                    <div class="value-card">
-                        <div class="value-icon">
-                            <i class="fas fa-arrow-up"></i>
-                        </div>
-                        <h3>Excellence</h3>
-                        <p>We strive for excellence in our training programs, security services, and continuous innovation.
-                        </p>
-                    </div>
-
-                    <!-- Accessibility -->
-                    <div class="value-card">
-                        <div class="value-icon">
-                            <i class="fas fa-globe"></i>
-                        </div>
-                        <h3>Accessibility</h3>
-                        <p>We make cybersecurity education accessible to everyone through Bengali language content and
-                            affordable pricing.</p>
-                    </div>
-
-                    <!-- Innovation -->
-                    <div class="value-card">
-                        <div class="value-icon">
-                            <i class="fas fa-bolt"></i>
-                        </div>
-                        <h3>Innovation</h3>
-                        <p>We stay ahead of emerging threats and technologies, constantly updating our curriculum and
-                            methodologies.</p>
-                    </div>
+                    @endforelse
                 </div>
             </div>
         </div>
@@ -1340,59 +1298,23 @@
                 </div>
 
                 <div class="values-grid">
-                    <div class="value-card">
-                        <div class="value-icon">
-                            <i class="fas fa-book"></i>
+                    @forelse($whyChooseUs as $item)
+                        <div class="value-card">
+                            <div class="value-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3>{{ $item->title }}</h3>
+                            <p>{{ $item->description }}</p>
                         </div>
-                        <h3>Bengali Education</h3>
-                        <p>First and only comprehensive cybersecurity platform offering training in Bengali language, making
-                            it accessible to millions.</p>
-                    </div>
-
-                    <div class="value-card">
-                        <div class="value-icon">
-                            <i class="fas fa-layer-group"></i>
+                    @empty
+                        <div class="value-card">
+                            <div class="value-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <h3>No Items Found</h3>
+                            <p>Please check back later for why you should choose us.</p>
                         </div>
-                        <h3>Hands-on Learning</h3>
-                        <p>Learn by doing with our extensive lab environment, CTF challenges, and real-world scenarios from
-                            actual security engagements.</p>
-                    </div>
-
-                    <div class="value-card">
-                        <div class="value-icon">
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                        <h3>Expert Instructors</h3>
-                        <p>Learn from certified professionals with years of industry experience in penetration testing,
-                            security audits, and ethical hacking.</p>
-                    </div>
-
-                    <div class="value-card">
-                        <div class="value-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <h3>Flexible Learning</h3>
-                        <p>Self-paced courses with lifetime access, allowing you to learn at your own speed while balancing
-                            work and personal commitments.</p>
-                    </div>
-
-                    <div class="value-card">
-                        <div class="value-icon">
-                            <i class="fas fa-certificate"></i>
-                        </div>
-                        <h3>Industry Recognition</h3>
-                        <p>Earn certificates recognized by leading companies in Bangladesh and build a portfolio through our
-                            CTF competitions.</p>
-                    </div>
-
-                    <div class="value-card">
-                        <div class="value-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h3>Professional Services</h3>
-                        <p>Beyond training, we offer penetration testing, security audits, and SOC services to protect your
-                            organization.</p>
-                    </div>
+                    @endforelse
                 </div>
             </div>
         </div>

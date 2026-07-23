@@ -19,6 +19,7 @@ use App\Http\Controllers\Backend\ChildcategoryController;
 use App\Http\Controllers\Backend\ContactController as BackendContactController;
 use App\Http\Controllers\Backend\CopyrightController;
 use App\Http\Controllers\Backend\CouponController;
+use App\Http\Controllers\Backend\CorevalueController;
 use App\Http\Controllers\Backend\CourseController;
 use App\Http\Controllers\Backend\CourseOrderController;
 use App\Http\Controllers\Backend\DepartmentController;
@@ -71,6 +72,7 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\VideoGalleryController;
 use App\Http\Controllers\Backend\WebsiteLinkController;
 use App\Http\Controllers\Backend\WhatyougetController;
+use App\Http\Controllers\Backend\WhychooseusController;
 use App\Http\Controllers\Frontend\BookPaymentController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CommentController;
@@ -558,6 +560,10 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
 Route::get('check/partner/is_active/{id}', [PartnerController::class, 'checkActive'])->name('partner.is_active.ajax');
 
     //How We Work Route
+    Route::get('check/corevalue/is_active/{id}', [CorevalueController::class, 'checkActive'])
+    ->name('corevalue.is_active.ajax');
+    Route::resource('corevalues', CorevalueController::class);
+
     Route::get('check/howwework/is_active/{id}', [HowweworkController::class, 'checkActive'])
     ->name('howwework.is_active.ajax');
     Route::resource('howweworks', HowweworkController::class);
@@ -566,6 +572,11 @@ Route::get('check/partner/is_active/{id}', [PartnerController::class, 'checkActi
     Route::get('check/whatyouget/is_active/{id}', [WhatyougetController::class, 'checkActive'])
     ->name('whatyouget.is_active.ajax');
     Route::resource('whatyougets', WhatyougetController::class);
+
+    //Why Choose Us Route
+    Route::get('check/whychooseus/is_active/{id}', [WhychooseusController::class, 'checkActive'])
+    ->name('whychooseus.is_active.ajax');
+    Route::resource('whychooseuses', WhychooseusController::class);
 
     //Coupon Route
     Route::get('/coupons/trash', [CouponTrashController::class, 'trash'])->name('coupons.trash');

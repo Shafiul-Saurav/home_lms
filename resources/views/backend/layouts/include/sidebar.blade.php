@@ -242,6 +242,10 @@
                             <li><a href="{{ route('about.index') }}"
                                     class="slide-item {{ Request::routeIs('about.index') ? 'active' : '' }}">About Us
                                     Settings</a></li>
+                            <li><a href="{{ route('corevalues.index') }}"
+                                    class="slide-item {{ Request::routeIs('corevalues.*') ? 'active' : '' }}">Core Values</a></li>
+                            <li><a href="{{ route('whychooseuses.index') }}"
+                                    class="slide-item {{ Request::routeIs('whychooseuses.*') ? 'active' : '' }}">Why Choose Us</a></li>
                         </ul>
                     </li>
                 @endcan
@@ -730,10 +734,14 @@
                             {{-- @can('index-howwework') --}}
                                 <li><a href="{{ route('howweworks.index') }}"
                                         class="slide-item {{ Request::routeIs('howweworks.index') ? 'active' : '' }}">How We Work</a></li>
+                                <li><a href="{{ route('corevalues.index') }}"
+                                    class="slide-item {{ Request::routeIs('corevalues.*') ? 'active' : '' }}">Core Values</a></li>
                             {{-- @endcan --}}
                             {{-- @can('index-whatyouget') --}}
                                 <li><a href="{{ route('whatyougets.index') }}"
                                         class="slide-item {{ Request::routeIs('whatyougets.index') ? 'active' : '' }}">What You Get</a></li>
+                                <li><a href="{{ route('whychooseuses.index') }}"
+                                    class="slide-item {{ Request::routeIs('whychooseuses.*') ? 'active' : '' }}">Why Choose Us</a></li>
                             {{-- @endcan --}}
                         </ul>
                     </li>
