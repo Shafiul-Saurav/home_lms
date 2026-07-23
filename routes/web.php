@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CertificateController as AdminCertificateController;
 use App\Http\Controllers\Auth\OtpController;
 use App\Http\Controllers\Auth\SocialiteLoginController;
 use App\Http\Controllers\Backend\AboutController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\Backend\AdminLoginController;
 use App\Http\Controllers\Backend\AdminProfileController;
 use App\Http\Controllers\Backend\AdminReviewController;
 use App\Http\Controllers\Backend\AwardController;
+use App\Http\Controllers\Backend\BatchController;
 use App\Http\Controllers\Backend\BookCategoryController;
 use App\Http\Controllers\Backend\BookController;
 use App\Http\Controllers\Backend\BookOrderController;
@@ -29,9 +31,12 @@ use App\Http\Controllers\Backend\HomeSliderController;
 use App\Http\Controllers\Backend\HowweworkController;
 use App\Http\Controllers\Backend\InstructorCommissionController;
 use App\Http\Controllers\Backend\InstructorEarningsController;
+use App\Http\Controllers\Backend\InstructorRequestController;
 use App\Http\Controllers\Backend\InstructorWithdrawalController;
 use App\Http\Controllers\Backend\LogoFaviconController;
 use App\Http\Controllers\Backend\ModuleController;
+use App\Http\Controllers\Backend\NewsCategoryController;
+use App\Http\Controllers\Backend\NewsController;
 use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\PartnerController;
 use App\Http\Controllers\Backend\PdfBookCategoryController;
@@ -43,8 +48,6 @@ use App\Http\Controllers\Backend\PhotoCategoryController;
 use App\Http\Controllers\Backend\PhotoGalleryController;
 use App\Http\Controllers\Backend\PostCategoryController;
 use App\Http\Controllers\Backend\PostController;
-use App\Http\Controllers\Backend\NewsCategoryController;
-use App\Http\Controllers\Backend\NewsController;
 use App\Http\Controllers\Backend\PrivacyPolicyController;
 use App\Http\Controllers\Backend\ProductCategoryController;
 use App\Http\Controllers\Backend\ProductController;
@@ -62,7 +65,6 @@ use App\Http\Controllers\Backend\SSLCommerzAPIController;
 use App\Http\Controllers\Backend\StuffController;
 use App\Http\Controllers\Backend\SubcategoryController;
 use App\Http\Controllers\Backend\TeacherController;
-use App\Http\Controllers\Backend\BatchController;
 use App\Http\Controllers\Backend\TermsAndConditionsController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\UserController;
@@ -70,16 +72,19 @@ use App\Http\Controllers\Backend\VideoGalleryController;
 use App\Http\Controllers\Backend\WebsiteLinkController;
 use App\Http\Controllers\Backend\WhatyougetController;
 use App\Http\Controllers\Frontend\BookPaymentController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CommentController;
-use App\Http\Controllers\Frontend\NewsController as FrontendNewsController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\CourseController as FrontendCourseController;
 use App\Http\Controllers\Frontend\CoursePaymentController;
 use App\Http\Controllers\Frontend\CourseReviewController;
 use App\Http\Controllers\Frontend\ExamController as FrontendExamController;
+use App\Http\Controllers\Frontend\InstructorRequestController as FrontendInstructorRequestController;
+use App\Http\Controllers\Frontend\NewsController as FrontendNewsController;
 use App\Http\Controllers\Frontend\PDFBookController as FrontendPDFBookController;
 use App\Http\Controllers\Frontend\PdfBookPaymentController;
 use App\Http\Controllers\Frontend\PhysicalBookController;
+use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\ProfileImageController;
 use App\Http\Controllers\Frontend\ServiceConsultationController;
 use App\Http\Controllers\Frontend\ShurjopayBookController;
@@ -87,10 +92,7 @@ use App\Http\Controllers\Frontend\ShurjopayCourseController;
 use App\Http\Controllers\Frontend\ShurjopayPdfController;
 use App\Http\Controllers\Frontend\TestimonialController as FrontendTestimonialController;
 use App\Http\Controllers\Frontend\UserLogoutController;
-use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\WebsiteController;
-use App\Http\Controllers\Frontend\ProfileController;
-use App\Http\Controllers\Admin\CertificateController as AdminCertificateController;
 use App\Http\Controllers\Trash\AwardTrashController;
 use App\Http\Controllers\Trash\BookCategoryTrashController;
 use App\Http\Controllers\Trash\BookSubcategoryTrashController;
@@ -104,6 +106,7 @@ use App\Http\Controllers\Trash\ExamCategoryTrashController;
 use App\Http\Controllers\Trash\ExamTrashController;
 use App\Http\Controllers\Trash\FaqTrashController;
 use App\Http\Controllers\Trash\ModuleTrashController;
+use App\Http\Controllers\Trash\NewsTrashController;
 use App\Http\Controllers\Trash\PdfBookCategoryTrashController;
 use App\Http\Controllers\Trash\PdfBookSubcategoryTrashController;
 use App\Http\Controllers\Trash\PdfBookTrashController;
@@ -112,7 +115,6 @@ use App\Http\Controllers\Trash\PhotoCategoryTrashController;
 use App\Http\Controllers\Trash\PhotoGalleryTrashController;
 use App\Http\Controllers\Trash\PostCategoryTrashController;
 use App\Http\Controllers\Trash\PostTrashController;
-use App\Http\Controllers\Trash\NewsTrashController;
 use App\Http\Controllers\Trash\ProductTrashController;
 use App\Http\Controllers\Trash\QuestionTrashController;
 use App\Http\Controllers\Trash\RoleTrashController;
@@ -241,8 +243,8 @@ Route::prefix('user')->middleware(['auth', 'is_user'])->group(function(){
     Route::get('/certificates/{certificate}', [ProfileController::class, 'certificateDetails'])->name('certificate.details');
 
     // Instructor Request Routes
-    Route::post('/request-instructor', [\App\Http\Controllers\Frontend\InstructorRequestController::class, 'store'])->name('instructor.request.store');
-    Route::post('/cancel-instructor-request', [\App\Http\Controllers\Frontend\InstructorRequestController::class, 'cancel'])->name('instructor.request.cancel');
+    Route::post('/request-instructor', [FrontendInstructorRequestController::class, 'store'])->name('instructor.request.store');
+    Route::post('/cancel-instructor-request', [FrontendInstructorRequestController::class, 'cancel'])->name('instructor.request.cancel');
 
     //Testimonial Route
     Route::get('testimonial_view', [FrontendTestimonialController::class, 'testimonialView'])->name('testimonial.view');
@@ -430,10 +432,10 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     Route::resource('/users', UserController::class);
 
     // Instructor Request Routes
-    Route::get('instructor-requests', [\App\Http\Controllers\Backend\InstructorRequestController::class, 'index'])->name('instructor-requests.index');
-    Route::get('instructor-requests/{id}', [\App\Http\Controllers\Backend\InstructorRequestController::class, 'show'])->name('instructor-requests.show');
-    Route::post('instructor-requests/{id}/approve', [\App\Http\Controllers\Backend\InstructorRequestController::class, 'approve'])->name('instructor-requests.approve');
-    Route::post('instructor-requests/{id}/reject', [\App\Http\Controllers\Backend\InstructorRequestController::class, 'reject'])->name('instructor-requests.reject');
+    Route::get('instructor-requests', [InstructorRequestController::class, 'index'])->name('instructor-requests.index');
+    Route::get('instructor-requests/{id}', [InstructorRequestController::class, 'show'])->name('instructor-requests.show');
+    Route::post('instructor-requests/{id}/approve', [InstructorRequestController::class, 'approve'])->name('instructor-requests.approve');
+    Route::post('instructor-requests/{id}/reject', [InstructorRequestController::class, 'reject'])->name('instructor-requests.reject');
 
     // Page Route
     Route::resource('/pages', PageController::class);
