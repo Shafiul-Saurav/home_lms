@@ -302,7 +302,7 @@
         .timeline {
             position: relative;
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: minmax(0, 1fr) 90px minmax(0, 1fr);
             gap: 40px;
             align-items: start;
         }
@@ -310,8 +310,8 @@
         .timeline::before {
             content: '';
             position: absolute;
-            top: 10px;
-            bottom: 10px;
+            top: 20px;
+            bottom: 20px;
             left: calc(50% - 2px);
             width: 4px;
             background: #76bd10;
@@ -320,21 +320,26 @@
 
         .timeline-item {
             position: relative;
-            width: 100%;
-            max-width: 520px;
-            padding: 36px 28px 28px;
+            padding: 32px 28px 28px;
             background: #fff;
             border: 1px solid #eaf4ea;
             border-radius: 24px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+            width: 100%;
+            max-width: 500px;
+            min-height: 220px;
         }
 
         .timeline-item:nth-child(odd) {
+            grid-column: 1 / 2;
             justify-self: end;
+            transform: translateX(12px);
         }
 
         .timeline-item:nth-child(even) {
+            grid-column: 3 / 4;
             justify-self: start;
+            transform: translateX(-12px);
         }
 
         .timeline-item::before {
@@ -349,18 +354,17 @@
         }
 
         .timeline-item:nth-child(odd)::before {
-            right: -48px;
+            right: -46px;
         }
 
         .timeline-item:nth-child(even)::before {
-            left: -48px;
+            left: -46px;
         }
 
         .timeline-item .timeline-year {
             position: absolute;
             top: 20px;
-            min-width: 70px;
-            background: rgba(118, 189, 16, 0.12);
+            background: rgba(118, 189, 16, 0.15);
             color: #1f6d22;
             padding: 10px 16px;
             border-radius: 14px;

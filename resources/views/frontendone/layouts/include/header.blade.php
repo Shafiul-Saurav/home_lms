@@ -161,7 +161,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('contact.page') }}">About Us</a>
+                    <a class="nav-link" href="{{ route('about') }}">About Us</a>
                 </li>
 
             </ul>
@@ -331,7 +331,7 @@
             </li>
 
             <li>
-                <a class="mobile-nav-link" href="{{ route('contact.page') }}">Contact</a>
+                <a class="mobile-nav-link" href="{{ route('about') }}">Contact</a>
             </li>
 
         </ul>
