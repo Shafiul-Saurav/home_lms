@@ -239,7 +239,7 @@
 
             <li>
                 <button class="mobile-nav-link mobile-dropdown-btn">
-                    Courses <i class="fa-solid fa-angle-down"></i>
+                    Academy <i class="fa-solid fa-angle-down"></i>
                 </button>
                 <ul class="mobile-submenu">
                     @if($headerCategories->count())
@@ -250,7 +250,6 @@
                                         {{ $hcat->name }} <i class="fa-solid fa-angle-down"></i>
                                     </button>
                                     <ul class="mobile-submenu">
-                                        <li><a href="{{ route('category.courses', $hcat->id) }}">All {{ $hcat->name }}</a></li>
                                         @foreach($hcat->subcategories as $hsub)
                                             <li><a href="{{ route('subcategory.courses', $hsub->id) }}">{{ $hsub->name }}</a></li>
                                         @endforeach
@@ -324,25 +323,46 @@
             </li>
 
             <li>
-                <a class="mobile-nav-link" href="{{ route('news.search') }}">News</a>
+                <button class="mobile-nav-link mobile-dropdown-btn">
+                    News &amp; Blog <i class="fa-solid fa-angle-down"></i>
+                </button>
+                <ul class="mobile-submenu">
+                    <li><a href="{{ route('news.search') }}">Blog</a></li>
+                    <li><a href="{{ route('frontend.news.index') }}">News</a></li>
+                </ul>
             </li>
 
             <li>
-                <a class="mobile-nav-link" href="{{ route('photo.gallery') }}">Gallery</a>
+                <button class="mobile-nav-link mobile-dropdown-btn">
+                    Gallery <i class="fa-solid fa-angle-down"></i>
+                </button>
+                <ul class="mobile-submenu">
+                    <li><a href="{{ route('photo.gallery') }}">Photo Gallery</a></li>
+                    <li><a href="{{ route('video.gallery') }}">Video Gallery</a></li>
+                </ul>
             </li>
 
             <li>
-                <a class="mobile-nav-link" href="#">Reviews</a>
-            </li>
-
-            <li>
-                <a class="mobile-nav-link" href="{{ route('about') }}">Contact</a>
+                <a class="mobile-nav-link" href="{{ route('about') }}">About Us</a>
             </li>
 
         </ul>
 
-        <a href="{{ route('login') }}" class="mobile-join-btn">
-            Enroll Now <i class="fa-solid fa-arrow-right"></i>
-        </a>
+        @guest('web')
+            <a href="{{ route('login') }}" class="mobile-join-btn">Sign In</a>
+            <a href="{{ route('register') }}" class="mobile-join-btn">Sign Up</a>
+        @endguest
+
+        @auth('web')
+            <a href="{{ route('user.dashboard') }}" class="mobile-join-btn">Dashboard</a>
+            <a href="{{ route('general.setting') }}" class="mobile-join-btn">Settings</a>
+            <a href="#" class="mobile-join-btn"
+                onclick="event.preventDefault(); document.getElementById('mobileLogoutForm').submit()">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </a>
+            <form action="{{ route('user.logout') }}" id="mobileLogoutForm" method="POST">
+                @csrf
+            </form>
+        @endauth
     </div>
 </div>

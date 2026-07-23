@@ -362,7 +362,7 @@
         }
 
         .timeline-item:nth-child(odd)::before {
-            left: 104%;
+            right: -43px;
         }
 
         .timeline-item:nth-child(even)::before {
@@ -610,7 +610,7 @@
             .timeline-item::before,
             .timeline-item:nth-child(odd)::before,
             .timeline-item:nth-child(even)::before {
-                left: -32px;
+                left: -34px;
                 right: auto;
                 top: 28px;
                 width: 14px;
