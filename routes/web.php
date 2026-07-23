@@ -154,6 +154,8 @@ Route::get('blogs/details/{id}', [WebsiteController::class, 'newsDetails'])->nam
 Route::get('faqs', [WebsiteController::class, 'faq'])->name('faq.page');
 Route::get('contacts', [WebsiteController::class, 'contact'])->name('contact.page');
 Route::get('mentors', [WebsiteController::class, 'mentors'])->name('mentors');
+Route::get('verify-certificate', [WebsiteController::class, 'verifyCertificate'])->name('verify.certificate');
+Route::post('verify-certificate', [WebsiteController::class, 'checkCertificate'])->name('check.certificate');
 Route::get('service/category/{id}', [WebsiteController::class, 'serviceCategory'])->name('service.category');
 Route::get('service/track/{service}', [WebsiteController::class, 'trackServiceClick'])->name('service.track');
 Route::get('service/subcategory/{id}', [WebsiteController::class, 'serviceSubcategory'])->name('service.subcategory');

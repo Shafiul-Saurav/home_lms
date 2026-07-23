@@ -30,6 +30,7 @@ use App\Models\WebsiteLink;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductSubcategory;
+use App\Models\CreateCertificate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 
@@ -846,6 +847,56 @@ class WebsiteController extends Controller
         $logo_fav = LogoFavicon::first();
 
         return view('frontendone.pages.services.subcategory', compact('subcategory', 'services', 'logo_fav'));
+    }
+
+    /**
+     * Display certificate verification page
+     */
+    public function verifyCertificate()
+    {
+        $logo_fav = LogoFavicon::first();
+        return view('frontendone.pages.certificate-verify', compact('logo_fav'));
+    }
+
+    /**
+     * Check certificate authenticity
+     */
+    public function checkCertificate(Request $request)
+    {
+        $request->validate([
+            'certificate_number' => 'required|string|max:50',
+        ]);
+
+        $certificateNumber = trim($request->input('certificate_number'));
+
+        $certificate = CreateCertificate::with(['user', 'course'])
+            ->where('certificate_number', $certificateNumber)
+            ->where('status', 'approved')
+            ->first();
+
+        if ($request->ajax()) {
+            if ($certificate) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Certificate verified successfully!',
+                    'certificate' => [
+                        'number' => $certificate->certificate_number,
+                        'student_name' => $certificate->user->name,
+                        'course_name' => $certificate->course->title ?? $certificate->course->name,
+                        'issued_date' => $certificate->issued_date ? $certificate->issued_date->format('d M, Y') : 'N/A',
+                        'status' => ucfirst($certificate->status),
+                    ]
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Certificate not found or has not been approved yet.'
+                ], 404);
+            }
+        }
+
+        $logo_fav = LogoFavicon::first();
+        return view('frontendone.pages.certificate-verify', compact('certificate', 'logo_fav'));
     }
 }
 

@@ -85,10 +85,14 @@
                                         <h4 class="title">Certificate Requests</h4>
                                         <p class="text-muted mb-0">Track your pending and approved certificates.</p>
                                     </div>
-                                    <div class="header-right">
+                                    <div class="header-right d-flex gap-2">
                                         <a href="{{ route('my.courses') }}" class="enroll-btn">
                                             Find Completed Courses
                                             <i class="fas fa-arrow-right"></i>
+                                        </a>
+                                        <a href="{{ route('verify.certificate') }}" class="enroll-btn" style="background: #666; border-color: #666;">
+                                            Verify Certificate
+                                            <i class="fas fa-shield-alt"></i>
                                         </a>
                                     </div>
                                 </div>
