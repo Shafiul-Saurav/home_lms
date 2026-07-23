@@ -857,7 +857,10 @@
                                                     <div class="accordion-body">
                                                         @if ($lessonModules->count() > 0)
                                                             @foreach ($lessonModules as $mod)
-                                                                <div class="curriculum-item {{ $isEnrolled || $mod->free_paid == 'free' ? 'unlock' : '' }} {{ $mod->id == $module->id ? 'active' : '' }}"
+                                                                @php
+                                                                    $modHasAccess = ($course->free_or_paid === 'free') || $isEnrolled || $mod->free_paid == 'free';
+                                                                @endphp
+                                                                <div class="curriculum-item {{ $modHasAccess ? 'unlock' : '' }} {{ $mod->id == $module->id ? 'active' : '' }}"
                                                                     data-module-id="{{ $mod->id }}"
                                                                     onclick="changeVideo(this, {{ $mod->id }})"
                                                                     style="cursor: pointer;">
@@ -885,7 +888,7 @@
                                                                         <span
                                                                             class="duration">{{ $mod->time ?? '00:00' }}</span>
                                                                         <span class="lock"><i
-                                                                                class="fad {{ $isEnrolled || $mod->free_paid == 'free' ? 'fa-unlock' : 'fa-lock' }}"></i></span>
+                                                                                class="fad {{ $modHasAccess ? 'fa-unlock' : 'fa-lock' }}"></i></span>
                                                                     </div>
                                                                 </div>
                                                             @endforeach
@@ -926,7 +929,10 @@
                                                     data-bs-parent="#courseLessonsAccordion">
                                                     <div class="accordion-body">
                                                         @foreach ($modulesWithoutLessons as $mod)
-                                                            <div class="curriculum-item {{ $isEnrolled || $mod->free_paid == 'free' ? 'unlock' : '' }} {{ $mod->id == $module->id ? 'active' : '' }}"
+                                                            @php
+                                                                $modHasAccess = ($course->free_or_paid === 'free') || $isEnrolled || $mod->free_paid == 'free';
+                                                            @endphp
+                                                            <div class="curriculum-item {{ $modHasAccess ? 'unlock' : '' }} {{ $mod->id == $module->id ? 'active' : '' }}"
                                                                 data-module-id="{{ $mod->id }}"
                                                                 onclick="changeVideo(this, {{ $mod->id }})"
                                                                 style="cursor: pointer;">
@@ -957,7 +963,7 @@
                                                                     <span
                                                                         class="duration">{{ $mod->time ?? '00:00' }}</span>
                                                                     <span class="lock"><i
-                                                                            class="fad {{ $isEnrolled || $mod->free_paid == 'free' ? 'fa-unlock' : 'fa-lock' }}"></i></span>
+                                                                            class="fad {{ $modHasAccess ? 'fa-unlock' : 'fa-lock' }}"></i></span>
                                                                 </div>
                                                             </div>
                                                         @endforeach

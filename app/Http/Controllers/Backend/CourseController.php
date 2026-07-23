@@ -118,7 +118,7 @@ class CourseController extends Controller
                 'link' => $module->link,
                 'article' => $module->article,
                 'duration' => $module->duration,
-                // 'free_paid' => $module->free_paid,
+                'free_paid' => $module->free_paid,
                 // 'live_record' => $module->live_record,
                 'pdf_file' => $module->pdf_file,
                 'date' => $module->date,
@@ -340,6 +340,10 @@ class CourseController extends Controller
             $lessonRefMap['existing:' . $lesson->id] = $lesson->id;
         }
 
+        // If the course is free, all modules must be free automatically
+        $course = Course::findOrFail($courseId);
+        $isCourseFreePaid = $course->free_or_paid;
+
         if ($request->has('modules') && is_array($request->modules)) {
             foreach ($request->modules as $moduleIndex => $moduleData) {
                 if (isset($moduleData['title']) && !empty(trim($moduleData['title']))) {
@@ -364,6 +368,9 @@ class CourseController extends Controller
                             $q->where('lesson_id', $lessonId);
                         })->max('sort_order') ?? 0;
 
+                    // Auto-set free_paid: if course is free, always 'free'; if paid, use submitted value
+                    $moduleFreeOrPaid = ($isCourseFreePaid === 'free') ? 'free' : ($moduleData['free_paid'] ?? null);
+
                     $module = CourseModule::create([
                         'course_id' => $courseId,
                         'lesson_id' => $lessonId,
@@ -372,7 +379,7 @@ class CourseController extends Controller
                         'link' => (($moduleData['module_type'] ?? '') === 'article') ? null : ($moduleData['link'] ?? null),
                         'article' => (($moduleData['module_type'] ?? '') === 'article') ? ($moduleData['article'] ?? null) : null,
                         'duration' => $moduleData['duration'] ?? null,
-                        // 'free_paid' => $moduleData['free_paid'] ?? null,
+                        'free_paid' => $moduleFreeOrPaid,
                         // 'live_record' => $moduleData['live_record'] ?? null,
                         'date' => $moduleData['date'] ?? null,
                         'time' => $moduleData['time'] ?? null,
@@ -433,6 +440,10 @@ class CourseController extends Controller
             $lessonRefMap['existing:' . $lesson->id] = $lesson->id;
         }
 
+        // If the course is free, all modules must be free automatically
+        $course = Course::findOrFail($courseId);
+        $isCourseFreePaid = $course->free_or_paid;
+
         if ($request->has('modules') && is_array($request->modules)) {
             foreach ($request->modules as $moduleIndex => $moduleData) {
                 if (isset($moduleData['title']) && !empty(trim($moduleData['title']))) {
@@ -452,6 +463,9 @@ class CourseController extends Controller
                         }
                     }
 
+                    // Auto-set free_paid: if course is free, always 'free'; if paid, use submitted value
+                    $moduleFreeOrPaid = ($isCourseFreePaid === 'free') ? 'free' : ($moduleData['free_paid'] ?? null);
+
                     if (!empty($moduleData['id'])) {
                         // Update existing module
                         $module = CourseModule::find($moduleData['id']);
@@ -463,7 +477,7 @@ class CourseController extends Controller
                                 'link' => (($moduleData['module_type'] ?? '') === 'article') ? null : ($moduleData['link'] ?? null),
                                 'article' => (($moduleData['module_type'] ?? '') === 'article') ? ($moduleData['article'] ?? null) : null,
                                 'duration' => $moduleData['duration'] ?? null,
-                                'free_paid' => $moduleData['free_paid'] ?? null,
+                                'free_paid' => $moduleFreeOrPaid,
                                 'live_record' => $moduleData['live_record'] ?? null,
                                 'date' => $moduleData['date'] ?? null,
                                 'time' => $moduleData['time'] ?? null,
@@ -487,7 +501,7 @@ class CourseController extends Controller
                             'link' => (($moduleData['module_type'] ?? '') === 'article') ? null : ($moduleData['link'] ?? null),
                             'article' => (($moduleData['module_type'] ?? '') === 'article') ? ($moduleData['article'] ?? null) : null,
                             'duration' => $moduleData['duration'] ?? null,
-                            'free_paid' => $moduleData['free_paid'] ?? null,
+                            'free_paid' => $moduleFreeOrPaid,
                             'live_record' => $moduleData['live_record'] ?? null,
                             'date' => $moduleData['date'] ?? null,
                             'time' => $moduleData['time'] ?? null,
@@ -550,6 +564,10 @@ class CourseController extends Controller
 
         $module = CourseModule::findOrFail($id);
 
+        // If the course is free, module must always be 'free'
+        $course = Course::findOrFail($module->course_id);
+        $moduleFreeOrPaid = ($course->free_or_paid === 'free') ? 'free' : $request->free_paid;
+
         $dataToUpdate = [
             'lesson_id' => $request->lesson_id,
             'title' => $request->title,
@@ -557,6 +575,7 @@ class CourseController extends Controller
             'link' => ($request->module_type === 'article') ? null : $request->link,
             'article' => ($request->module_type === 'article') ? $request->article : null,
             'duration' => $request->duration,
+            'free_paid' => $moduleFreeOrPaid,
             'time' => $request->time,
         ];
 

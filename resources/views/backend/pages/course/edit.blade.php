@@ -687,15 +687,24 @@
                                                             class="form-control" value="{{ $module['duration'] ?? '' }}"
                                                             placeholder="e.g. 15 min">
                                                     </div>
-                                                    <div class="col-md-11 mb-3 module-content-field" data-module-type="video">
+                                                    <div class="col-md-6 mb-3 module-content-field" data-module-type="video">
                                                         <label class="form-label">Video Link</label>
                                                         <input type="text" name="modules[{{ $moduleIndex }}][link]"
                                                             class="form-control" value="{{ $module['link'] ?? '' }}"
                                                             placeholder="Enter link">
                                                     </div>
-                                                    <div class="col-md-11 mb-3 module-content-field" data-module-type="article">
+                                                    <div class="col-md-6 mb-3 module-content-field" data-module-type="article">
                                                         <label class="form-label">Article</label>
                                                         <textarea name="modules[{{ $moduleIndex }}][article]" data-summernote class="form-control" rows="4" placeholder="Enter article content">{{ $module['article'] ?? '' }}</textarea>
+                                                    </div>
+
+                                                    <div class="col-md-5 mb-3 module-free-paid-field" style="{{ old('free_or_paid', $course->free_or_paid) === 'paid' ? '' : 'display:none;' }}">
+                                                        <label class="form-label">Free / Paid</label>
+                                                        <select name="modules[{{ $moduleIndex }}][free_paid]" class="form-control">
+                                                            <option value="">Select Option</option>
+                                                            <option value="free" {{ ($module['free_paid'] ?? '') === 'free' ? 'selected' : '' }}>Free</option>
+                                                            <option value="paid" {{ ($module['free_paid'] ?? '') === 'paid' ? 'selected' : '' }}>Paid</option>
+                                                        </select>
                                                     </div>
 
                                                     <div class="col-md-1 mb-3 d-flex align-items-end">
@@ -875,7 +884,7 @@
                                     value="{{ old('modules.existing_' . $module->id . '.duration', $module->duration) }}"
                                     placeholder="e.g. 15 min">
                             </div>
-                            <div class="col-md-11 mb-3 module-modal-content-field" data-module-type="video">
+                            <div class="col-md-6 mb-3 module-modal-content-field" data-module-type="video">
                                 <label class="form-label">Link</label>
                                 <input type="text" name="modules[existing_{{ $module->id }}][link]"
                                     class="form-control module-modal-link"
@@ -883,7 +892,7 @@
                                     value="{{ old('modules.existing_' . $module->id . '.link', $module->link) }}"
                                     placeholder="Enter link">
                             </div>
-                            <div class="col-md-11 mb-3 module-modal-content-field" data-module-type="article">
+                            <div class="col-md-6 mb-3 module-modal-content-field" data-module-type="article">
                                 <label class="form-label">Article</label>
                                 <textarea name="modules[existing_{{ $module->id }}][article]"
                                     data-summernote
@@ -891,6 +900,15 @@
                                     data-module-id="{{ $module->id }}"
                                     rows="4"
                                     placeholder="Enter article content">{{ old('modules.existing_' . $module->id . '.article', $module->article) }}</textarea>
+                            </div>
+                            <div class="col-md-6 mb-3 module-free-paid-field" style="{{ old('free_or_paid', $course->free_or_paid) === 'paid' ? '' : 'display:none;' }}">
+                                <label class="form-label">Free / Paid</label>
+                                <select name="modules[existing_{{ $module->id }}][free_paid]"
+                                    class="form-control module-modal-free-paid" data-module-id="{{ $module->id }}">
+                                    <option value="">Select Option</option>
+                                    <option value="free" {{ old('modules.existing_' . $module->id . '.free_paid', $module->free_paid) === 'free' ? 'selected' : '' }}>Free</option>
+                                    <option value="paid" {{ old('modules.existing_' . $module->id . '.free_paid', $module->free_paid) === 'paid' ? 'selected' : '' }}>Paid</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -1115,10 +1133,22 @@
                     }
                 }
 
-                $('#free_or_paid').on('change', togglePricingFields);
+                function toggleModuleFreePaidFields() {
+                    if ($('#free_or_paid').val() === 'paid') {
+                        $('.module-free-paid-field').show();
+                    } else {
+                        $('.module-free-paid-field').hide();
+                    }
+                }
+
+                $('#free_or_paid').on('change', function() {
+                    togglePricingFields();
+                    toggleModuleFreePaidFields();
+                });
                 $('#live_or_record').on('change', toggleLiveFields);
                 togglePricingFields();
                 toggleLiveFields();
+                toggleModuleFreePaidFields();
 
                 function initSummernote(container) {
                     var $targets = container ? $(container).find('textarea[data-summernote]') : $('textarea[data-summernote]');
@@ -1199,13 +1229,21 @@
                                     <label class="form-label">Duration</label>
                                     <input type="text" name="modules[${fieldCount}][duration]" class="form-control" placeholder="e.g. 15 min">
                                 </div>
-                                <div class="col-md-11 mb-3 module-content-field" data-module-type="video">
+                                <div class="col-md-6 mb-3 module-content-field" data-module-type="video">
                                     <label class="form-label">Video Link</label>
                                     <input type="text" name="modules[${fieldCount}][link]" class="form-control" placeholder="Enter link">
                                 </div>
-                                <div class="col-md-11 mb-3 module-content-field" data-module-type="article" style="display:none;">
+                                <div class="col-md-6 mb-3 module-content-field" data-module-type="article" style="display:none;">
                                     <label class="form-label">Article</label>
                                     <textarea name="modules[${fieldCount}][article]" data-summernote class="form-control" rows="4" placeholder="Enter article content"></textarea>
+                                </div>
+                                <div class="col-md-5 mb-3 module-free-paid-field" style="${$('#free_or_paid').val() === 'paid' ? '' : 'display:none;'}">
+                                    <label class="form-label">Free / Paid</label>
+                                    <select name="modules[${fieldCount}][free_paid]" class="form-control">
+                                        <option value="">Select Option</option>
+                                        <option value="free">Free</option>
+                                        <option value="paid">Paid</option>
+                                    </select>
                                 </div>
 
                                 <div class="col-md-1 mb-3 d-flex align-items-end">

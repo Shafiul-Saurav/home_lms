@@ -103,34 +103,45 @@
                                     <select name="course_level" id="course_level"
                                         class="form-control select2-style1 @error('course_level') is-invalid @enderror">
                                         <option value="">Select Level</option>
-                                        <option value="beginner" {{ old('course_level') == 'beginner' ? 'selected' : '' }}>Beginner</option>
-                                        <option value="intermediate" {{ old('course_level') == 'intermediate' ? 'selected' : '' }}>Intermediate</option>
-                                        <option value="advance" {{ old('course_level') == 'advance' ? 'selected' : '' }}>Advance</option>
+                                        <option value="beginner" {{ old('course_level') == 'beginner' ? 'selected' : '' }}>
+                                            Beginner</option>
+                                        <option value="intermediate"
+                                            {{ old('course_level') == 'intermediate' ? 'selected' : '' }}>Intermediate
+                                        </option>
+                                        <option value="advance" {{ old('course_level') == 'advance' ? 'selected' : '' }}>
+                                            Advance</option>
                                     </select>
                                     @error('course_level')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
 
                             <div class="col-md-12 my-3">
-                                <div><h4 class="text-primary mb-3">Course Pricing</h4></div>
+                                <div>
+                                    <h4 class="text-primary mb-3">Course Pricing</h4>
+                                </div>
                                 <hr>
                                 <div class="form-group">
                                     <label for="free_or_paid">Pricing Type</label>
                                     <select name="free_or_paid" id="free_or_paid"
                                         class="form-control select2-style1 @error('free_or_paid') is-invalid @enderror">
                                         <option value="">Select Pricing</option>
-                                        <option value="free" {{ old('free_or_paid') == 'free' ? 'selected' : '' }}>Free</option>
-                                        <option value="paid" {{ old('free_or_paid') == 'paid' ? 'selected' : '' }}>Paid</option>
+                                        <option value="free" {{ old('free_or_paid') == 'free' ? 'selected' : '' }}>Free
+                                        </option>
+                                        <option value="paid" {{ old('free_or_paid') == 'paid' ? 'selected' : '' }}>Paid
+                                        </option>
                                     </select>
                                     @error('free_or_paid')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
 
-                            <div class="col-md-6 mb-3 price-fields" style="{{ old('free_or_paid') === 'paid' ? '' : 'display:none;' }}">
+                            <div class="col-md-6 mb-3 price-fields"
+                                style="{{ old('free_or_paid') === 'paid' ? '' : 'display:none;' }}">
                                 <div class="form-group">
                                     <label for="price">Price</label>
                                     <input type="number" step="0.01" name="price" id="price"
@@ -143,7 +154,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6 mb-3 price-fields" style="{{ old('free_or_paid') === 'paid' ? '' : 'display:none;' }}">
+                            <div class="col-md-6 mb-3 price-fields"
+                                style="{{ old('free_or_paid') === 'paid' ? '' : 'display:none;' }}">
                                 <div class="form-group">
                                     <label for="discount">Discount</label>
                                     <input type="number" step="0.01" name="discount" id="discount"
@@ -157,54 +169,64 @@
                             </div>
 
                             <div class="col-md-12 my-3">
-                                <div><h4 class="text-primary mb-3">Course Type</h4></div>
+                                <div>
+                                    <h4 class="text-primary mb-3">Course Type</h4>
+                                </div>
                                 <hr>
                                 <div class="form-group">
                                     <label for="live_or_record">Live or Record</label>
                                     <select name="live_or_record" id="live_or_record"
                                         class="form-control select2-style1 @error('live_or_record') is-invalid @enderror">
                                         <option value="">Select Type</option>
-                                        <option value="live" {{ old('live_or_record') == 'live' ? 'selected' : '' }}>Live</option>
-                                        <option value="record" {{ old('live_or_record') == 'record' ? 'selected' : '' }}>Record</option>
+                                        <option value="live" {{ old('live_or_record') == 'live' ? 'selected' : '' }}>
+                                            Live</option>
+                                        <option value="record" {{ old('live_or_record') == 'record' ? 'selected' : '' }}>
+                                            Record</option>
                                     </select>
                                     @error('live_or_record')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
 
-                            <div class="col-md-4 mb-3 live-fields" style="{{ old('live_or_record') === 'live' ? '' : 'display:none;' }}">
+                            <div class="col-md-4 mb-3 live-fields"
+                                style="{{ old('live_or_record') === 'live' ? '' : 'display:none;' }}">
                                 <div class="form-group">
                                     <label for="live_schedule">Live Schedule</label>
                                     <input type="text" name="live_schedule" id="live_schedule"
                                         class="form-control @error('live_schedule') is-invalid @enderror"
                                         value="{{ old('live_schedule') }}">
                                     @error('live_schedule')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
 
-                            <div class="col-md-4 mb-3 live-fields" style="{{ old('live_or_record') === 'live' ? '' : 'display:none;' }}">
+                            <div class="col-md-4 mb-3 live-fields"
+                                style="{{ old('live_or_record') === 'live' ? '' : 'display:none;' }}">
                                 <div class="form-group">
                                     <label for="start_date">Start Date</label>
                                     <div class="input-group">
                                         <div class="input-group-text bg-primary-transparent text-primary">
                                             <i class="fe fe-calendar text-20"></i>
                                         </div>
-                                        <input class="form-control fc-datepicker @error('start_date') is-invalid @enderror"
+                                        <input
+                                            class="form-control fc-datepicker @error('start_date') is-invalid @enderror"
                                             placeholder="DD/MM/YYYY" type="text" id="start_date"
                                             value="{{ old('start_date') ? \Carbon\Carbon::parse(old('start_date'))->format('d/m/Y') : '' }}">
-                                        <input type="hidden" name="start_date"
-                                            value="{{ old('start_date') }}">
+                                        <input type="hidden" name="start_date" value="{{ old('start_date') }}">
                                     </div>
                                     @error('start_date')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
 
-                            <div class="col-md-4 mb-3 live-fields" style="{{ old('live_or_record') === 'live' ? '' : 'display:none;' }}">
+                            <div class="col-md-4 mb-3 live-fields"
+                                style="{{ old('live_or_record') === 'live' ? '' : 'display:none;' }}">
                                 <div class="form-group">
                                     <label for="end_date">End Date</label>
                                     <div class="input-group">
@@ -214,35 +236,39 @@
                                         <input class="form-control fc-datepicker @error('end_date') is-invalid @enderror"
                                             placeholder="DD/MM/YYYY" type="text" id="end_date"
                                             value="{{ old('end_date') ? \Carbon\Carbon::parse(old('end_date'))->format('d/m/Y') : '' }}">
-                                        <input type="hidden" name="end_date"
-                                            value="{{ old('end_date') }}">
+                                        <input type="hidden" name="end_date" value="{{ old('end_date') }}">
                                     </div>
                                     @error('end_date')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
 
-                            <div class="col-md-4 mb-3 live-fields" style="{{ old('live_or_record') === 'live' ? '' : 'display:none;' }}">
+                            <div class="col-md-4 mb-3 live-fields"
+                                style="{{ old('live_or_record') === 'live' ? '' : 'display:none;' }}">
                                 <div class="form-group">
                                     <label for="max_student">Maximum Students</label>
                                     <input type="number" name="max_student" id="max_student"
                                         class="form-control @error('max_student') is-invalid @enderror"
                                         value="{{ old('max_student') }}">
                                     @error('max_student')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
 
-                            <div class="col-md-8 mb-3 live-fields" style="{{ old('live_or_record') === 'live' ? '' : 'display:none;' }}">
+                            <div class="col-md-8 mb-3 live-fields"
+                                style="{{ old('live_or_record') === 'live' ? '' : 'display:none;' }}">
                                 <div class="form-group">
                                     <label for="meeting_link">Meeting Link</label>
                                     <input type="text" name="meeting_link" id="meeting_link"
                                         class="form-control @error('meeting_link') is-invalid @enderror"
                                         value="{{ old('meeting_link') }}">
                                     @error('meeting_link')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -287,11 +313,16 @@
                                     <label for="button_type">Button Type</label>
                                     <select name="button_type" id="button_type"
                                         class="form-control select2-style1 @error('button_type') is-invalid @enderror">
-                                        <option value="Enroll Now" {{ old('button_type', 'Enroll Now') == 'Enroll Now' ? 'selected' : '' }}>Enroll Now</option>
-                                        <option value="Comming Soon" {{ old('button_type') == 'Comming Soon' ? 'selected' : '' }}>Comming Soon</option>
+                                        <option value="Enroll Now"
+                                            {{ old('button_type', 'Enroll Now') == 'Enroll Now' ? 'selected' : '' }}>Enroll
+                                            Now</option>
+                                        <option value="Comming Soon"
+                                            {{ old('button_type') == 'Comming Soon' ? 'selected' : '' }}>Comming Soon
+                                        </option>
                                     </select>
                                     @error('button_type')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -312,8 +343,7 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" class="form-control @error('description') is-invalid @enderror"
-                                        rows="4">{{ old('description') }}</textarea>
+                                    <textarea name="description" class="form-control @error('description') is-invalid @enderror" rows="4">{{ old('description') }}</textarea>
                                     @error('description')
                                         <span class="invalid-feedback"
                                             role="alert"><strong>{{ $message }}</strong></span>
@@ -324,9 +354,11 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="full_description">Full Description</label>
-                                    <textarea name="full_description" class="form-control @error('full_description') is-invalid @enderror" rows="5">{{ old('full_description') }}</textarea>
+                                    <textarea name="full_description" class="form-control @error('full_description') is-invalid @enderror"
+                                        rows="5">{{ old('full_description') }}</textarea>
                                     @error('full_description')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -334,9 +366,11 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="learning_outcomes">Learning Outcomes</label>
-                                    <textarea name="learning_outcomes" class="form-control @error('learning_outcomes') is-invalid @enderror" rows="4">{{ old('learning_outcomes') }}</textarea>
+                                    <textarea name="learning_outcomes" class="form-control @error('learning_outcomes') is-invalid @enderror"
+                                        rows="4">{{ old('learning_outcomes') }}</textarea>
                                     @error('learning_outcomes')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -346,7 +380,8 @@
                                     <label for="requirement">Requirement</label>
                                     <textarea name="requirement" class="form-control @error('requirement') is-invalid @enderror" rows="4">{{ old('requirement') }}</textarea>
                                     @error('requirement')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -358,7 +393,8 @@
                                         class="form-control @error('tags') is-invalid @enderror"
                                         value="{{ old('tags') }}">
                                     @error('tags')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
@@ -393,17 +429,23 @@
                                     <select name="button_type" id="button_type"
                                         class="form-control @error('button_type') is-invalid @enderror">
                                         <option value="">Select Button Type</option>
-                                        <option value="Enroll Now" {{ old('button_type') == 'Enroll Now' ? 'selected' : '' }}>Enroll Now</option>
-                                        <option value="Comming Soon" {{ old('button_type') == 'Comming Soon' ? 'selected' : '' }}>Comming Soon</option>
+                                        <option value="Enroll Now"
+                                            {{ old('button_type') == 'Enroll Now' ? 'selected' : '' }}>Enroll Now</option>
+                                        <option value="Comming Soon"
+                                            {{ old('button_type') == 'Comming Soon' ? 'selected' : '' }}>Comming Soon
+                                        </option>
                                     </select>
                                     @error('button_type')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        <span class="invalid-feedback"
+                                            role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
                             </div>
 
                             <div class="col-12 mb-3">
-                                <div><h4 class="text-primary mb-3">Create Lesson</h4></div>
+                                <div>
+                                    <h4 class="text-primary mb-3">Create Lesson</h4>
+                                </div>
                                 <hr>
                                 <div class="form-group">
                                     <label for="lessons">Lessons</label>
@@ -428,9 +470,7 @@
                                                         {{ $loop->first ? '+' : '-' }}
                                                     </button>
                                                 </div>
-                                                <textarea name="lessons[{{ $lessonIndex }}][description]"
-                                                    class="form-control mt-2"
-                                                    rows="3"
+                                                <textarea name="lessons[{{ $lessonIndex }}][description]" class="form-control mt-2" rows="3"
                                                     placeholder="Enter lesson description">{{ $lesson['description'] ?? '' }}</textarea>
                                             </div>
                                             @error('lessons.' . $lessonIndex . '.name')
@@ -444,7 +484,9 @@
                             </div>
 
                             <div class="col-12 mb-3">
-                                <div><h4 class="text-primary mb-3">Course Module</h4></div>
+                                <div>
+                                    <h4 class="text-primary mb-3">Course Module</h4>
+                                </div>
                                 <hr>
                                 <div class="form-group">
                                     <label for="modules">Modules</label>
@@ -488,54 +530,50 @@
                                                     </div>
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Module Type</label>
-                                                        <select name="modules[{{ $moduleIndex }}][module_type]" class="form-control module-type-select">
+                                                        <select name="modules[{{ $moduleIndex }}][module_type]"
+                                                            class="form-control module-type-select">
                                                             <option value="">Select Type</option>
-                                                            <option value="video" {{ ($module['module_type'] ?? '') === 'video' ? 'selected' : '' }}>Video</option>
-                                                            <option value="article" {{ ($module['module_type'] ?? '') === 'article' ? 'selected' : '' }}>Article</option>
+                                                            <option value="video"
+                                                                {{ ($module['module_type'] ?? '') === 'video' ? 'selected' : '' }}>
+                                                                Video</option>
+                                                            <option value="article"
+                                                                {{ ($module['module_type'] ?? '') === 'article' ? 'selected' : '' }}>
+                                                                Article</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-md-6 mb-3">
                                                         <label class="form-label">Duration</label>
-                                                        <input type="text" name="modules[{{ $moduleIndex }}][duration]"
+                                                        <input type="text"
+                                                            name="modules[{{ $moduleIndex }}][duration]"
                                                             class="form-control" value="{{ $module['duration'] ?? '' }}"
                                                             placeholder="e.g. 15 min">
                                                     </div>
-                                                    <div class="col-md-11 mb-3 module-content-field" data-module-type="video">
+                                                    <div class="col-md-6 mb-3 module-content-field"
+                                                        data-module-type="video">
                                                         <label class="form-label">Video Link</label>
                                                         <input type="text" name="modules[{{ $moduleIndex }}][link]"
                                                             class="form-control" value="{{ $module['link'] ?? '' }}"
                                                             placeholder="Enter link">
                                                     </div>
-                                                    <div class="col-md-11 mb-3 module-content-field" data-module-type="article">
+                                                    <div class="col-md-6 mb-3 module-content-field"
+                                                        data-module-type="article">
                                                         <label class="form-label">Article</label>
-                                                        <textarea name="modules[{{ $moduleIndex }}][article]" data-summernote class="form-control" rows="4" placeholder="Enter article content">{{ $module['article'] ?? '' }}</textarea>
+                                                        <textarea name="modules[{{ $moduleIndex }}][article]" data-summernote class="form-control" rows="4"
+                                                            placeholder="Enter article content">{{ $module['article'] ?? '' }}</textarea>
                                                     </div>
-                                                    {{-- <div class="col-md-3 mb-3">
-                                                        <label class="form-label">Free / Paid</label>
-                                                        <select name="modules[{{ $moduleIndex }}][free_paid]"
-                                                            class="form-control">
-                                                            <option value="">Select Option</option>
-                                                            <option value="free"
-                                                                {{ ($module['free_paid'] ?? '') === 'free' ? 'selected' : '' }}>
-                                                                Free</option>
-                                                            <option value="paid"
-                                                                {{ ($module['free_paid'] ?? '') === 'paid' ? 'selected' : '' }}>
-                                                                Paid</option>
-                                                        </select>
-                                                    </div> --}}
-                                                    {{-- <div class="col-md-3 mb-3">
-                                                        <label class="form-label">Live / Record</label>
-                                                        <select name="modules[{{ $moduleIndex }}][live_record]"
-                                                            class="form-control">
-                                                            <option value="">Select Type</option>
-                                                            <option value="live"
-                                                                {{ ($module['live_record'] ?? '') === 'live' ? 'selected' : '' }}>
-                                                                Live</option>
-                                                            <option value="record"
-                                                                {{ ($module['live_record'] ?? '') === 'record' ? 'selected' : '' }}>
-                                                                Record</option>
-                                                        </select>
-                                                    </div> --}}
+                                                     <div class="col-md-5 mb-3 module-free-paid-field" style="{{ old('free_or_paid') === 'paid' ? '' : 'display:none;' }}">
+                                                         <label class="form-label">Free / Paid</label>
+                                                         <select name="modules[{{ $moduleIndex }}][free_paid]"
+                                                             class="form-control">
+                                                             <option value="">Select Option</option>
+                                                             <option value="free"
+                                                                 {{ ($module['free_paid'] ?? '') === 'free' ? 'selected' : '' }}>
+                                                                 Free</option>
+                                                             <option value="paid"
+                                                                 {{ ($module['free_paid'] ?? '') === 'paid' ? 'selected' : '' }}>
+                                                                 Paid</option>
+                                                         </select>
+                                                     </div>
                                                     {{-- <div class="col-md-4 mb-3">
                                                         <label class="form-label">PDF File</label>
                                                         <input type="file"
@@ -770,8 +808,17 @@
                     }
                 }
 
+                function toggleModuleFreePaidFields() {
+                    if ($('#free_or_paid').val() === 'paid') {
+                        $('.module-free-paid-field').show();
+                    } else {
+                        $('.module-free-paid-field').hide();
+                    }
+                }
+
                 $('#free_or_paid').on('change', function() {
                     togglePricingFields();
+                    toggleModuleFreePaidFields();
                 });
 
                 $('#live_or_record').on('change', function() {
@@ -780,6 +827,7 @@
 
                 togglePricingFields();
                 toggleLiveFields();
+                toggleModuleFreePaidFields();
 
                 function generateLessonRef() {
                     return 'lesson_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
@@ -851,7 +899,8 @@
                 });
 
                 function initSummernote(container) {
-                    var $targets = container ? $(container).find('textarea[data-summernote]') : $('textarea[data-summernote]');
+                    var $targets = container ? $(container).find('textarea[data-summernote]') : $(
+                        'textarea[data-summernote]');
                     $targets.each(function() {
                         var $this = $(this);
                         if (!$this.data('summernote-inited') && $this.is(':visible')) {
@@ -892,7 +941,7 @@
                 $(document).on('click', '.addModuleField', function() {
                     var fieldCount = $('#multipleModuleFields .module-row').length;
                     var newField = `
-                        <div class="border rounded p-3 mb-3 module-row" id="multipleModuleField${fieldCount}">
+                        <div class="p-3 mb-3 module-row" id="multipleModuleField${fieldCount}">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Module Lesson</label>
@@ -916,13 +965,21 @@
                                     <label class="form-label">Duration</label>
                                     <input type="text" name="modules[${fieldCount}][duration]" class="form-control" placeholder="e.g. 15 min">
                                 </div>
-                                <div class="col-md-11 mb-3 module-content-field" data-module-type="video">
+                                <div class="col-md-6 mb-3 module-content-field" data-module-type="video">
                                     <label class="form-label">Video Link</label>
                                     <input type="text" name="modules[${fieldCount}][link]" class="form-control" placeholder="Enter link">
                                 </div>
-                                <div class="col-md-11 mb-3 module-content-field" data-module-type="article" style="display:none;">
+                                <div class="col-md-6 mb-3 module-content-field" data-module-type="article" style="display:none;">
                                     <label class="form-label">Article</label>
                                     <textarea name="modules[${fieldCount}][article]" data-summernote class="form-control" rows="4" placeholder="Enter article content"></textarea>
+                                </div>
+                                <div class="col-md-5 mb-3 module-free-paid-field" style="${$('#free_or_paid').val() === 'paid' ? '' : 'display:none;'}">
+                                    <label class="form-label">Free / Paid</label>
+                                    <select name="modules[${fieldCount}][free_paid]" class="form-control">
+                                        <option value="">Select Option</option>
+                                        <option value="free">Free</option>
+                                        <option value="paid">Paid</option>
+                                    </select>
                                 </div>
 
                                 <div class="col-md-1 mb-3 d-flex align-items-end">

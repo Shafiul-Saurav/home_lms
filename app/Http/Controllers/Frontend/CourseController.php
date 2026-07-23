@@ -437,10 +437,11 @@ class CourseController extends Controller
             }
         }
 
-        // Free course: logged-in users can access without enrollment
-        // Paid course: must be enrolled
+        // Free course: all modules accessible without enrollment
+        // Paid course: enrolled users get all; non-enrolled can only watch modules marked free_paid='free'
         $isFreeAccess = ($course->free_or_paid === 'free' || $course->price === null || $course->price == 0);
-        if (!$isFreeAccess && !$isEnrolled) {
+        $isModuleFree = ($module->free_paid === 'free');
+        if (!$isFreeAccess && !$isEnrolled && !$isModuleFree) {
             return redirect()->back()->with('error', 'Please enroll in this course to access this content.');
         }
 
@@ -545,10 +546,9 @@ class CourseController extends Controller
             ->pluck('module_id')
             ->toArray();
 
-        // Free course: logged-in users can access without enrollment
-        // Paid course: must be enrolled
+        // Free course: all modules accessible. Paid course: enrolled users get all; non-enrolled only get modules with free_paid='free'
         $isFreeAccess = ($course->free_or_paid === 'free' || $course->price === null || $course->price == 0);
-        $hasAccess = $isFreeAccess || $isEnrolled;
+        $hasAccess = $isFreeAccess || $isEnrolled || ($module->free_paid === 'free');
 
         if (!$hasAccess) {
             return response()->json([

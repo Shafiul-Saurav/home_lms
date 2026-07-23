@@ -303,9 +303,13 @@
                                                         data-bs-parent="#courseAccordion">
                                                         <div class="accordion-body">
                                                             @forelse($lesson->courseModules as $module)
-                                                                <div class="curriculum-item {{ $isEnrolled || $module->free_paid === 'free' ? 'unlock' : '' }}"
+                                                                @php
+                                                                    $isFreeCourse = $courseInfo->free_or_paid === 'free';
+                                                                    $hasAccess = $isFreeCourse || $isEnrolled || $module->free_paid === 'free';
+                                                                @endphp
+                                                                <div class="curriculum-item {{ $hasAccess ? 'unlock' : '' }}"
                                                                     style="cursor:pointer;"
-                                                                    onclick="@if ($isEnrolled || $module->free_paid === 'free') window.location.href='{{ route('course.video', ['course_id' => $courseInfo->id, 'module_id' => $module->id]) }}' @else toastr.error('Please enroll in this course to access this content') @endif">
+                                                                    onclick="@if ($hasAccess) window.location.href='{{ route('course.video', ['course_id' => $courseInfo->id, 'module_id' => $module->id]) }}' @else toastr.error('Please enroll in this course to access this content') @endif">
                                                                     <div>
                                                                         <strong class="d-block mb-1">
                                                                             @if ($module->pdf_file)
@@ -326,7 +330,7 @@
                                                                             class="text-muted">{{ $module->time ?? '00:00' }}</small>
                                                                     </div>
                                                                     <div><i
-                                                                            class="fa-solid {{ $isEnrolled || $module->free_paid === 'free' ? 'fa-unlock' : 'fa-lock' }} me-1"></i>{{ ucfirst($module->free_paid ?? 'paid') }}
+                                                                            class="fa-solid {{ $hasAccess ? 'fa-unlock' : 'fa-lock' }} me-1"></i>{{ $isFreeCourse ? 'Free' : ucfirst($module->free_paid ?? 'paid') }}
                                                                     </div>
                                                                 </div>
 
