@@ -345,12 +345,16 @@ class CourseController extends Controller
         // Fetch course category
         $category = Category::where('id', $courseInfo->category_id)->first();
 
-        // Fetch lessons with modules
-        $lessons = Lesson::with('courseModules')
+        // Fetch lessons with modules ordered by sort_order
+        $lessons = Lesson::with(['courseModules' => function ($q) {
+                        $q->orderBy('sort_order', 'asc')->orderBy('id', 'asc');
+                    }])
                         ->where('course_id', $id)
+                        ->orderBy('sort_order', 'asc')
+                        ->orderBy('id', 'asc')
                         ->get();
 
-        $modules = CourseModule::where('course_id', $id)->get();
+        $modules = CourseModule::where('course_id', $id)->orderBy('sort_order', 'asc')->orderBy('id', 'asc')->get();
 
         // Fetch related courses
         $relatedCourses = Course::with(['teachers.user', 'category'])->where('id', '!=', $id)
@@ -410,12 +414,16 @@ class CourseController extends Controller
         $user = Auth::user();
         $isLoggedIn = true;
 
-        // Fetch lessons with modules
-        $lessons = Lesson::with('courseModules')
+        // Fetch lessons with modules ordered by sort_order
+        $lessons = Lesson::with(['courseModules' => function ($q) {
+                        $q->orderBy('sort_order', 'asc')->orderBy('id', 'asc');
+                    }])
                         ->where('course_id', $course_id)
+                        ->orderBy('sort_order', 'asc')
+                        ->orderBy('id', 'asc')
                         ->get();
 
-        $modules = CourseModule::where('course_id', $course_id)->get();
+        $modules = CourseModule::where('course_id', $course_id)->orderBy('sort_order', 'asc')->orderBy('id', 'asc')->get();
 
         // Check enrollment
         $isEnrolled = $user->isEnrolledInCourse($course_id);
