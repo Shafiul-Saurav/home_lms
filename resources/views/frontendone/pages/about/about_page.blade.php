@@ -262,6 +262,297 @@
             margin: 0;
         }
 
+        /* Journey Timeline Section */
+        .journey-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .journey-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .journey-header .journey-badge {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .journey-header h2 {
+            font-size: 42px;
+            font-weight: 900;
+            color: #111;
+            margin: 0 0 16px 0;
+        }
+
+        .journey-header p {
+            font-size: 16px;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .timeline {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            bottom: 10px;
+            left: calc(50% - 2px);
+            width: 4px;
+            background: #76bd10;
+            border-radius: 999px;
+        }
+
+        .timeline-item {
+            position: relative;
+            width: 100%;
+            max-width: 520px;
+            padding: 36px 28px 28px;
+            background: #fff;
+            border: 1px solid #eaf4ea;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+        }
+
+        .timeline-item:nth-child(odd) {
+            justify-self: end;
+        }
+
+        .timeline-item:nth-child(even) {
+            justify-self: start;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 52px;
+            width: 18px;
+            height: 18px;
+            background: #76bd10;
+            border: 4px solid #f8f9fa;
+            border-radius: 50%;
+        }
+
+        .timeline-item:nth-child(odd)::before {
+            right: -48px;
+        }
+
+        .timeline-item:nth-child(even)::before {
+            left: -48px;
+        }
+
+        .timeline-item .timeline-year {
+            position: absolute;
+            top: 20px;
+            min-width: 70px;
+            background: rgba(118, 189, 16, 0.12);
+            color: #1f6d22;
+            padding: 10px 16px;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-year {
+            right: 24px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-year {
+            left: 24px;
+        }
+
+        .timeline-item h3 {
+            font-size: 26px;
+            font-weight: 900;
+            color: #111;
+            margin: 0 0 16px 0;
+        }
+
+        .timeline-item p {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.9;
+            margin: 0;
+        }
+
+        /* Milestones Section */
+        .milestones-section {
+            padding: 80px 0;
+            background: #fff;
+        }
+
+        .milestones-header {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .milestones-header .milestones-badge {
+            display: inline-block;
+            background: #d7f2d8;
+            color: #227a28;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .milestones-header h2 {
+            font-size: 42px;
+            font-weight: 900;
+            color: #111;
+            margin: 0;
+        }
+
+        .milestones-header p {
+            font-size: 16px;
+            color: #666;
+            max-width: 680px;
+            margin: 0;
+            line-height: 1.8;
+        }
+
+        .milestones-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .milestone-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 18px;
+        }
+
+        .milestone-list li {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            color: #1b1b1b;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .milestone-list li::before {
+            content: '\2713';
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: #d7f2d8;
+            color: #227a28;
+            border-radius: 50%;
+            font-size: 14px;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .milestone-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .milestone-stat-card {
+            background: #fff;
+            border: 1px solid #eef4ef;
+            border-radius: 20px;
+            padding: 28px 22px;
+            display: grid;
+            gap: 18px;
+            min-height: 180px;
+            box-shadow: 0 12px 32px rgba(35, 91, 36, 0.06);
+        }
+
+        .milestone-stat-card .stat-icon {
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+            background: #eaf7e8;
+            display: grid;
+            place-items: center;
+            color: #4a9a1d;
+            font-size: 28px;
+        }
+
+        .milestone-stat-card .stat-value {
+            font-size: 32px;
+            font-weight: 900;
+            color: #111;
+            margin: 0;
+        }
+
+        .milestone-stat-card .stat-label {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+            text-transform: capitalize;
+        }
+
+        @media (max-width: 1024px) {
+            .timeline {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-item {
+                justify-self: stretch;
+                max-width: 100%;
+            }
+
+            .timeline-item::before {
+                left: calc(50% - 11px);
+                right: auto;
+            }
+
+            .timeline-item .timeline-year,
+            .timeline-item:nth-child(odd) .timeline-year,
+            .timeline-item:nth-child(even) .timeline-year {
+                left: calc(50% - 35px);
+                right: auto;
+            }
+
+            .milestones-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .milestone-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .milestones-grid {
+                gap: 24px;
+            }
+
+            .milestone-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (max-width: 1024px) {
             .values-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -283,10 +574,12 @@
                 background-color: #171a1d;
                 margin-bottom: 20px;
             }
-            .company_overview .overview-content h1{
+
+            .company_overview .overview-content h1 {
                 color: #fff !important;
             }
-            .company_overview .overview-content p{
+
+            .company_overview .overview-content p {
                 color: #999 !important;
             }
 
@@ -409,15 +702,23 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="overview-content">
-                            <h1 class="mb-2 mb-md-4" style="color: #fff">Leading the Cybersecurity Revolution in Bangladesh</h1>
+                            <h1 class="mb-2 mb-md-4" style="color: #fff">Leading the Cybersecurity Revolution in Bangladesh
+                            </h1>
                             <p style="color: #999">
-                                Founded in 2019, HackToLive (H4K2LIV3) has emerged as Bangladesh's most trusted cybersecurity platform. We bridge the gap between traditional education and industry needs by providing world-class security training in Bengali, making cybersecurity accessible to millions.
+                                Founded in 2019, HackToLive (H4K2LIV3) has emerged as Bangladesh's most trusted
+                                cybersecurity platform. We bridge the gap between traditional education and industry needs
+                                by providing world-class security training in Bengali, making cybersecurity accessible to
+                                millions.
                             </p>
                             <p style="color: #999">
-                                Our comprehensive approach combines professional security services, hands-on training programs, and a vibrant community of ethical hackers. We've trained over 5,000 professionals and conducted 500+ successful security audits for leading organizations across South Asia.
+                                Our comprehensive approach combines professional security services, hands-on training
+                                programs, and a vibrant community of ethical hackers. We've trained over 5,000 professionals
+                                and conducted 500+ successful security audits for leading organizations across South Asia.
                             </p>
                             <p style="color: #999">
-                                What sets us apart is our commitment to quality education in Bengali, practical hands-on training, and real-world experience through CTF challenges and live projects. We're not just teaching cybersecurity - we're building Bangladesh's digital defense force.
+                                What sets us apart is our commitment to quality education in Bengali, practical hands-on
+                                training, and real-world experience through CTF challenges and live projects. We're not just
+                                teaching cybersecurity - we're building Bangladesh's digital defense force.
                             </p>
                         </div>
                     </div>
@@ -476,7 +777,10 @@
                         </div>
                         <h3>Our Mission</h3>
                         <p>
-                            To empower individuals and organizations in Bangladesh with world-class cybersecurity knowledge and skills, making digital security accessible through education in Bengali. We strive to build a safer digital ecosystem by training the next generation of ethical hackers and providing professional security services that protect businesses from cyber threats.
+                            To empower individuals and organizations in Bangladesh with world-class cybersecurity knowledge
+                            and skills, making digital security accessible through education in Bengali. We strive to build
+                            a safer digital ecosystem by training the next generation of ethical hackers and providing
+                            professional security services that protect businesses from cyber threats.
                         </p>
                         <ul class="card-benefits">
                             <li>Provide quality cybersecurity education in Bengali</li>
@@ -490,7 +794,10 @@
                         </div>
                         <h3>Our Vision</h3>
                         <p>
-                            To become South Asia's leading cybersecurity platform, recognized globally for excellence in ethical hacking education and security services. We envision a future where Bangladesh is known for its cybersecurity expertise, with thousands of certified professionals protecting the digital infrastructure of businesses worldwide.
+                            To become South Asia's leading cybersecurity platform, recognized globally for excellence in
+                            ethical hacking education and security services. We envision a future where Bangladesh is known
+                            for its cybersecurity expertise, with thousands of certified professionals protecting the
+                            digital infrastructure of businesses worldwide.
                         </p>
                         <ul class="card-benefits">
                             <li>Lead cybersecurity innovation in South Asia</li>
@@ -519,7 +826,8 @@
                             <i class="fas fa-shield-alt"></i>
                         </div>
                         <h3>Security First</h3>
-                        <p>We prioritize security in everything we do, ensuring the highest standards of protection for our clients and students.</p>
+                        <p>We prioritize security in everything we do, ensuring the highest standards of protection for our
+                            clients and students.</p>
                     </div>
 
                     <!-- Integrity -->
@@ -528,7 +836,8 @@
                             <i class="fas fa-heart"></i>
                         </div>
                         <h3>Integrity</h3>
-                        <p>We maintain the highest ethical standards in all our operations, building trust through transparency and honesty.</p>
+                        <p>We maintain the highest ethical standards in all our operations, building trust through
+                            transparency and honesty.</p>
                     </div>
 
                     <!-- Community -->
@@ -537,7 +846,8 @@
                             <i class="fas fa-users"></i>
                         </div>
                         <h3>Community</h3>
-                        <p>We foster a collaborative learning environment where knowledge sharing and mutual growth are encouraged.</p>
+                        <p>We foster a collaborative learning environment where knowledge sharing and mutual growth are
+                            encouraged.</p>
                     </div>
 
                     <!-- Excellence -->
@@ -546,7 +856,8 @@
                             <i class="fas fa-arrow-up"></i>
                         </div>
                         <h3>Excellence</h3>
-                        <p>We strive for excellence in our training programs, security services, and continuous innovation.</p>
+                        <p>We strive for excellence in our training programs, security services, and continuous innovation.
+                        </p>
                     </div>
 
                     <!-- Accessibility -->
@@ -555,7 +866,8 @@
                             <i class="fas fa-globe"></i>
                         </div>
                         <h3>Accessibility</h3>
-                        <p>We make cybersecurity education accessible to everyone through Bengali language content and affordable pricing.</p>
+                        <p>We make cybersecurity education accessible to everyone through Bengali language content and
+                            affordable pricing.</p>
                     </div>
 
                     <!-- Innovation -->
@@ -564,14 +876,132 @@
                             <i class="fas fa-bolt"></i>
                         </div>
                         <h3>Innovation</h3>
-                        <p>We stay ahead of emerging threats and technologies, constantly updating our curriculum and methodologies.</p>
+                        <p>We stay ahead of emerging threats and technologies, constantly updating our curriculum and
+                            methodologies.</p>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Core Values End -->
-@endsection
 
-@push('frontendone_script')
-    @include('frontend.pages.common.script')
-@endpush
+        <!-- Journey Timeline Section -->
+        <div class="journey-section">
+            <div class="container">
+                <div class="journey-header">
+                    <span class="journey-badge">OUR JOURNEY</span>
+                    <h2>Our Story of Growth</h2>
+                    <p>From a small initiative to Bangladesh's leading cybersecurity platform.</p>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="timeline-year">2019</span>
+                        <h3>Foundation</h3>
+                        <p>HackToLive was founded with a vision to democratize cybersecurity education in Bangladesh.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-year">2020</span>
+                        <h3>First Academy Launch</h3>
+                        <p>Launched our first ethical hacking course in Bengali, reaching 500+ students in the first year.
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-year">2021</span>
+                        <h3>Service Expansion</h3>
+                        <p>Expanded into professional security services, conducting our first penetration testing
+                            engagements.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-year">2022</span>
+                        <h3>CTF Platform</h3>
+                        <p>Launched our Capture The Flag platform, hosting Bangladesh's largest cybersecurity competitions.
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-year">2023</span>
+                        <h3>Industry Recognition</h3>
+                        <p>Recognized as Bangladesh's leading cybersecurity education platform with 3,000+ active students.
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-year">2024</span>
+                        <h3>Global Expansion</h3>
+                        <p>Partnered with international organizations and expanded our reach to serve clients across South
+                            Asia.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Journey Timeline Section End -->
+
+        <!-- Milestones Section -->
+        <div class="milestones-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="section-heading text-start m-0">
+                            <span class="sub-title">
+                                OUR ACHIEVEMENTS
+                            </span>
+                            <h1>Milestones That Define Us</h1>
+                            <p>Over the years, HackToLive has achieved significant milestones that demonstrate our
+                                commitment to cybersecurity excellence and education in Bangladesh.</p>
+                        </div>
+                        <div class="milestones-grid">
+                            <ul class="milestone-list">
+                                <li>First Bengali cybersecurity academy in Bangladesh</li>
+                                <li>ISO 27001 certified security operations</li>
+                                <li>Trained 5,000+ cybersecurity professionals</li>
+                                <li>Conducted 500+ successful security audits</li>
+                                <li>Partnership with leading tech companies</li>
+                                <li>Active community of 10,000+ members</li>
+                            </ul>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="milestone-stats">
+                            <div class="milestone-stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-award"></i>
+                                </div>
+                                <p class="stat-value">15+</p>
+                                <p class="stat-label">Certifications</p>
+                            </div>
+                            <div class="milestone-stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <p class="stat-value">50+</p>
+                                <p class="stat-label">Courses</p>
+                            </div>
+                            <div class="milestone-stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-globe"></i>
+                                </div>
+                                <p class="stat-value">10+</p>
+                                <p class="stat-label">Countries</p>
+                            </div>
+                            <div class="milestone-stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p class="stat-value">4.9/5</p>
+                                <p class="stat-label">Rating</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Milestones Section End -->
+    @endsection
+
+    @push('frontendone_script')
+        @include('frontend.pages.common.script')
+    @endpush
