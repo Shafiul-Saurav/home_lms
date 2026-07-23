@@ -200,7 +200,7 @@
 
         .values-header h2 {
             font-size: 42px;
-            font-weight: 900;
+            /* font-weight: 900; */
             color: #111;
             margin: 0 0 16px 0;
         }
@@ -286,7 +286,7 @@
 
         .journey-header h2 {
             font-size: 42px;
-            font-weight: 900;
+            /* font-weight: 900; */
             color: #111;
             margin: 0 0 16px 0;
         }
@@ -325,8 +325,6 @@
             border-radius: 24px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
             width: 100%;
-            /* max-width: 500px;
-                min-height: 220px; */
         }
 
         .timeline-item:nth-child(odd) {
@@ -342,43 +340,20 @@
         }
 
         /* Each item gets its own row so odd/even items never get
-                   auto-packed side by side into the same grid row */
-        .timeline-item:nth-child(1) {
-            grid-row: 1;
-        }
-
-        .timeline-item:nth-child(2) {
-            grid-row: 2;
-        }
-
-        .timeline-item:nth-child(3) {
-            grid-row: 3;
-        }
-
-        .timeline-item:nth-child(4) {
-            grid-row: 4;
-        }
-
-        .timeline-item:nth-child(5) {
-            grid-row: 5;
-        }
-
-        .timeline-item:nth-child(6) {
-            grid-row: 6;
-        }
-
-        .timeline-item:nth-child(7) {
-            grid-row: 7;
-        }
-
-        .timeline-item:nth-child(8) {
-            grid-row: 8;
-        }
+           auto-packed side by side into the same grid row */
+        .timeline-item:nth-child(1) { grid-row: 1; }
+        .timeline-item:nth-child(2) { grid-row: 2; }
+        .timeline-item:nth-child(3) { grid-row: 3; }
+        .timeline-item:nth-child(4) { grid-row: 4; }
+        .timeline-item:nth-child(5) { grid-row: 5; }
+        .timeline-item:nth-child(6) { grid-row: 6; }
+        .timeline-item:nth-child(7) { grid-row: 7; }
+        .timeline-item:nth-child(8) { grid-row: 8; }
 
         .timeline-item::before {
             content: '';
             position: absolute;
-            top: 50%;
+            top: 52px;
             width: 18px;
             height: 18px;
             background: #76bd10;
@@ -611,23 +586,46 @@
         @media (max-width: 1024px) {
             .timeline {
                 grid-template-columns: 1fr;
+                padding-left: 36px;
+                gap: 32px;
             }
 
-            .timeline-item {
+            .timeline::before {
+                left: 8px;
+                width: 3px;
+            }
+
+            .timeline-item,
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                grid-column: 1 / -1;
                 justify-self: stretch;
                 max-width: 100%;
+                width: 100%;
+                transform: none;
+                padding: 24px 20px 20px;
+                min-height: 0;
             }
 
-            .timeline-item::before {
-                left: calc(50% - 11px);
+            .timeline-item::before,
+            .timeline-item:nth-child(odd)::before,
+            .timeline-item:nth-child(even)::before {
+                left: -32px;
                 right: auto;
+                top: 28px;
+                width: 14px;
+                height: 14px;
             }
 
             .timeline-item .timeline-year,
             .timeline-item:nth-child(odd) .timeline-year,
             .timeline-item:nth-child(even) .timeline-year {
-                left: calc(50% - 35px);
+                position: static;
+                display: inline-block;
+                margin-bottom: 14px;
+                left: auto;
                 right: auto;
+                top: auto;
             }
 
             .milestones-grid {
@@ -637,18 +635,6 @@
             .milestone-stats {
                 grid-template-columns: 1fr 1fr;
             }
-
-        }
-
-        @media (max-width: 991px) {
-            .timeline-item:nth-child(odd)::before {
-                left: 105%;
-            }
-
-            .timeline-item:nth-child(even)::before {
-                left: -43px;
-            }
-
         }
 
         @media (max-width: 576px) {
@@ -659,6 +645,27 @@
             .milestone-stats {
                 grid-template-columns: 1fr;
             }
+
+            .timeline-item .timeline-year, .timeline-item:nth-child(odd) .timeline-year, .timeline-item:nth-child(even) .timeline-year {
+                margin-bottom: 4px;
+                padding: 4px 10px;
+            }
+
+            .timeline-item, .timeline-item:nth-child(odd), .timeline-item:nth-child(even) {
+                padding: 15px;
+            }
+
+            .timeline-item h3 {
+                margin: 0;
+                font-size: 18px;
+            }
+
+            .timeline-item p {
+                font-size: 14px;
+                line-height: 1.4;
+            }
+
+
         }
 
         @media (max-width: 1024px) {
