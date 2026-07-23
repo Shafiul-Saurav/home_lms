@@ -303,7 +303,6 @@
             position: relative;
             display: grid;
             grid-template-columns: minmax(0, 1fr) 90px minmax(0, 1fr);
-            gap: 40px;
             align-items: start;
         }
 
@@ -326,8 +325,8 @@
             border-radius: 24px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
             width: 100%;
-            max-width: 500px;
-            min-height: 220px;
+            /* max-width: 500px;
+                min-height: 220px; */
         }
 
         .timeline-item:nth-child(odd) {
@@ -342,10 +341,44 @@
             transform: translateX(-12px);
         }
 
+        /* Each item gets its own row so odd/even items never get
+                   auto-packed side by side into the same grid row */
+        .timeline-item:nth-child(1) {
+            grid-row: 1;
+        }
+
+        .timeline-item:nth-child(2) {
+            grid-row: 2;
+        }
+
+        .timeline-item:nth-child(3) {
+            grid-row: 3;
+        }
+
+        .timeline-item:nth-child(4) {
+            grid-row: 4;
+        }
+
+        .timeline-item:nth-child(5) {
+            grid-row: 5;
+        }
+
+        .timeline-item:nth-child(6) {
+            grid-row: 6;
+        }
+
+        .timeline-item:nth-child(7) {
+            grid-row: 7;
+        }
+
+        .timeline-item:nth-child(8) {
+            grid-row: 8;
+        }
+
         .timeline-item::before {
             content: '';
             position: absolute;
-            top: 52px;
+            top: 50%;
             width: 18px;
             height: 18px;
             background: #76bd10;
@@ -354,11 +387,11 @@
         }
 
         .timeline-item:nth-child(odd)::before {
-            right: -46px;
+            left: 104%;
         }
 
         .timeline-item:nth-child(even)::before {
-            left: -46px;
+            left: -43px;
         }
 
         .timeline-item .timeline-year {
@@ -381,10 +414,10 @@
         }
 
         .timeline-item h3 {
-            font-size: 26px;
+            font-size: 22px;
             font-weight: 900;
             color: #111;
-            margin: 0 0 16px 0;
+            margin: 32px 0 16px 0;
         }
 
         .timeline-item p {
@@ -604,6 +637,18 @@
             .milestone-stats {
                 grid-template-columns: 1fr 1fr;
             }
+
+        }
+
+        @media (max-width: 991px) {
+            .timeline-item:nth-child(odd)::before {
+                left: 105%;
+            }
+
+            .timeline-item:nth-child(even)::before {
+                left: -43px;
+            }
+
         }
 
         @media (max-width: 576px) {
