@@ -155,9 +155,14 @@
                         <li><a class="dropdown-item" href="{{ route('frontend.news.index') }}">News</a></li>
                     </ul>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('photo.gallery') }}">Gallery</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#">
+                        Gallery
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('photo.gallery') }}">Photo Gallery</a></li>
+                        <li><a class="dropdown-item" href="{{ route('video.gallery') }}">Video Gallery</a></li>
+                    </ul>
                 </li>
 
                 <li class="nav-item">

@@ -793,7 +793,7 @@
                                     </ul>
                                 </li>
                             @endcan
-                            {{-- @can('index-video-gallery')
+                            @can('index-video-gallery')
                                 <li
                                     class="sub-slide {{ Request::routeIs('videogalleries.index') ? 'is-expanded' : '' }}
                         {{ Request::routeIs('videogalleries.trash') ? 'is-expanded' : '' }}">
@@ -810,7 +810,7 @@
                                         @endcan
                                     </ul>
                                 </li>
-                            @endcan --}}
+                            @endcan
                         </ul>
                     </li>
                 @endcan

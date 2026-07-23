@@ -274,7 +274,7 @@ class WebsiteController extends Controller
         $videos = Videogallery::get();
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
-        return view('frontend.pages.gallery.video.videogallery', compact('videos', 'logo_fav'));
+        return view('frontendone.pages.gallery.video.videogallery', compact('videos', 'logo_fav'));
     }
 
     public function search(Request $request)
