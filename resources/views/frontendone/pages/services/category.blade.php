@@ -62,11 +62,43 @@
 
                 <div class="row mt-5">
                     <div class="col-12">
-                        @php
-                            $services = $category->servicetwos->where('is_active', 1);
-                            $timeslots = App\Models\ServiceConsultationTimeslot::where('is_active', 1)->get();
-                        @endphp
-                        @include('frontendone.pages.services.consultation_form', compact('services', 'timeslots'))
+                        <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 p-4 border rounded-4 bg-light">
+                            <div class="section-heading m-0 text-start">
+                                <span class="sub-title" style="color: #76bd10;">
+                                    <i class="fa-solid fa-headset"></i>
+                                    Start Consultation
+                                </span>
+                                <h2>Need a tailored service proposal?</h2>
+                                <p style="color: #4b5563;">
+                                    Choose the service and share your project requirements with our team.
+                                </p>
+                            </div>
+                            <button type="button" class="enroll-btn border-0 px-4 py-3 rounded-pill" data-bs-toggle="modal" data-bs-target="#consultationModal">
+                                <i class="fa-solid fa-comments"></i> Start Consultation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                @php
+                    $services = $category->servicetwos->where('is_active', 1);
+                    $timeslots = App\Models\ServiceConsultationTimeslot::where('is_active', 1)->get();
+                @endphp
+
+                <div class="modal fade" id="consultationModal" tabindex="-1" aria-labelledby="consultationModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+                        <div class="modal-content border-0 rounded-4 overflow-hidden">
+                            <div class="modal-header border-0 pb-0">
+                                <div>
+                                    <p class="mb-1 fw-bold" style="color: #76bd10;">Consultation Request</p>
+                                    <h5 class="modal-title" id="consultationModalLabel">Book a Consultation</h5>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body px-4 pb-4 pt-2">
+                                @include('frontendone.pages.services.consultation_form', compact('services', 'timeslots'))
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

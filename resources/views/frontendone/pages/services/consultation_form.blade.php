@@ -19,7 +19,7 @@
                 <div class="auth-form p-4" style="border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.05);">
                     <div class="auth-header text-center mb-4">
                         <i class="fa-solid fa-headset" style="font-size: 34px; color: #76bd10; margin-bottom: 12px;"></i>
-                        <p style="font-size: 14px; font-weight: 700; color: #76bd10; margin-bottom: 8px;">Consultation Request</p>
+                        <p style="font-size: 14px; font-weight: 700; color: #76bd10 !important; margin-bottom: 8px;">Consultation Request</p>
                         <h2 style="font-size: 32px; font-weight: 800; margin-bottom: 8px;">Book a Consultation</h2>
                         <p style="color: #6b7280; margin: 0;">Fill out the form below and our team will get back to you with a proposal and next steps.</p>
                     </div>

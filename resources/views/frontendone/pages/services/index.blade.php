@@ -73,7 +73,7 @@
 
             <section class="py-5 service-info-area">
                 <div class="row gy-4">
-                    <div class="col-xl-8">
+                    <div class="col-12">
                         <div class="p-4" style="border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.05);">
                             <div class="section-heading">
                                 <span class="sub-title">
@@ -142,28 +142,66 @@
                                     </div>
                                 @endforelse
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4" id="sidebarCol">
-                        <div class="consultation-sidebar">
-                            <div class="mb-5">
-                                {{-- <div class="row">
-                                <div class="col-12"> --}}
-                                @php
-                                    $services = App\Models\Servicetwo::where('is_active', 1)->get();
-                                    $timeslots = App\Models\ServiceConsultationTimeslot::where('is_active', 1)->get();
-                                    $selectedServiceId = request('service_id');
-                                @endphp
-                                @include(
-                                    'frontendone.pages.services.consultation_form',
-                                    compact('services', 'timeslots', 'selectedServiceId'))
-                                {{-- </div>
-                            </div> --}}
+
+                            <div class="row mt-5">
+                                <div class="col-12">
+                                    <div
+                                        class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 p-4 border rounded-4 bg-light">
+                                        <div class="section-heading m-0 text-start">
+                                            <span class="sub-title" style="color: #76bd10;">
+                                                <i class="fa-solid fa-headset"></i>
+                                                Start Consultation
+                                            </span>
+                                            <h2>Need a tailored service proposal?</h2>
+                                            <p style="color: #4b5563;">
+                                                Choose the service and share your project requirements with our team.
+                                            </p>
+                                        </div>
+                                        {{-- <div>
+                                            <span class="sub-title mb-2 d-inline-block">
+                                                <i class="fa-solid fa-headset"></i>
+                                                Start Consultation
+                                            </span>
+                                            <h3 class="mb-1">Need a tailored service proposal?</h3>
+                                            <p class="mb-0 text-muted">Choose the service and share your project requirements with our team.</p>
+                                        </div> --}}
+                                        <button type="button" class="enroll-btn border-0 px-4 py-3 rounded-pill"
+                                            data-bs-toggle="modal" data-bs-target="#consultationModal">
+                                            <i class="fa-solid fa-comments"></i> Start Consultation
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
+
+            @php
+                $services = App\Models\Servicetwo::where('is_active', 1)->get();
+                $timeslots = App\Models\ServiceConsultationTimeslot::where('is_active', 1)->get();
+                $selectedServiceId = request('service_id');
+            @endphp
+
+            <div class="modal fade" id="consultationModal" tabindex="-1" aria-labelledby="consultationModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+                    <div class="modal-content border-0 rounded-4 overflow-hidden">
+                        <div class="modal-header border-0 pb-0">
+                            <div>
+                                <p class="mb-1 fw-bold" style="color: #76bd10;">Consultation Request</p>
+                                <h5 class="modal-title" id="consultationModalLabel">Book a Consultation</h5>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body px-4 pb-4 pt-2">
+                            @include(
+                                'frontendone.pages.services.consultation_form',
+                                compact('services', 'timeslots', 'selectedServiceId'))
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             @php
                 $studentReviews = App\Models\CourseReview::with('user.profile.profileImage')
@@ -199,7 +237,7 @@
                                     <div class="review-card">
                                         <div class="stars">
                                             @for ($i = 1; $i <= 5; $i++)
-                                                @if ($i <= (data_get($testimonial, 'rating', 0)))
+                                                @if ($i <= data_get($testimonial, 'rating', 0))
                                                     <i class="fa-solid fa-star"></i>
                                                 @else
                                                     <i class="fa-regular fa-star"></i>
@@ -211,11 +249,16 @@
 
                                         <div class="review-user">
                                             @php
-                                                $avatar = data_get($testimonial, 'user.profile.profileImage.profile_image');
+                                                $avatar = data_get(
+                                                    $testimonial,
+                                                    'user.profile.profileImage.profile_image',
+                                                );
                                             @endphp
-                                            <img src="{{ $avatar ? asset($avatar) : asset('assets/frontend/img/testimonial/images.png') }}" style="width: 45px; height:45px;" alt="">
+                                            <img src="{{ $avatar ? asset($avatar) : asset('assets/frontend/img/testimonial/images.png') }}"
+                                                style="width: 45px; height:45px;" alt="">
                                             <div>
-                                                <h5>{{ data_get($testimonial, 'user.name', data_get($testimonial, 'name', 'Anonymous')) }}</h5>
+                                                <h5>{{ data_get($testimonial, 'user.name', data_get($testimonial, 'name', 'Anonymous')) }}
+                                                </h5>
                                                 <span>{{ data_get($testimonial, 'short_description') ?: 'Student' }}</span>
                                             </div>
                                         </div>
