@@ -33,6 +33,8 @@ use App\Models\ProductSubcategory;
 use App\Models\Corevalue;
 use App\Models\Whychooseus;
 use App\Models\CompanyOverview;
+use App\Models\AchievementSection;
+use App\Models\MissionVision;
 use App\Models\CreateCertificate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
@@ -229,8 +231,10 @@ class WebsiteController extends Controller
         $values = Corevalue::where('is_active', 1)->latest('id')->get();
         $whyChooseUs = Whychooseus::where('is_active', 1)->latest('id')->get();
         $companyOverview = CompanyOverview::latest('id')->first();
+        $achievementSection = AchievementSection::latest('id')->first();
+        $missionVision = MissionVision::latest('id')->first();
 
-        return view('frontendone.pages.about.about_page', compact('about', 'testimonials', 'logo_fav', 'studentsCounter', 'coursesCounter', 'tutorsCounter', 'awardsCounter', 'values', 'whyChooseUs', 'companyOverview'));
+        return view('frontendone.pages.about.about_page', compact('about', 'testimonials', 'logo_fav', 'studentsCounter', 'coursesCounter', 'tutorsCounter', 'awardsCounter', 'values', 'whyChooseUs', 'companyOverview', 'achievementSection', 'missionVision'));
     }
 
     public function services()

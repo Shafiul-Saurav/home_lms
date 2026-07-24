@@ -244,6 +244,10 @@
                                     Settings</a></li>
                             <li><a href="{{ route('company_overview.index') }}"
                                     class="slide-item {{ Request::routeIs('company_overview.*') ? 'active' : '' }}">Company Overview</a></li>
+                            <li><a href="{{ route('achievement_section.index') }}"
+                                    class="slide-item {{ Request::routeIs('achievement_section.*') ? 'active' : '' }}">Achievement Section</a></li>
+                            <li><a href="{{ route('mission_vision.index') }}"
+                                    class="slide-item {{ Request::routeIs('mission_vision.*') ? 'active' : '' }}">Mission & Vision</a></li>
                             <li><a href="{{ route('corevalues.index') }}"
                                     class="slide-item {{ Request::routeIs('corevalues.*') ? 'active' : '' }}">Core Values</a></li>
                             <li><a href="{{ route('whychooseuses.index') }}"

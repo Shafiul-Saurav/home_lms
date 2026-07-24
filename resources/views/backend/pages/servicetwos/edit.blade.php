@@ -1,6 +1,6 @@
 @extends('backend.layouts.master')
 
-@section('title', 'Edit Service Two')
+@section('title', 'Edit Service')
 
 @push('backend_style')
     @include('backend.pages.common.style')
@@ -11,12 +11,12 @@
         <div class="col-12">
             <div class="page-header">
                 <div>
-                    <h1 class="page-title">Edit Service Two</h1>
+                    <h1 class="page-title">Edit Service</h1>
                 </div>
                 <div class="ms-auto pageheader-btn">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Service Two</li>
+                        <li class="breadcrumb-item active" aria-current="page">Service</li>
                     </ol>
                 </div>
             </div>
@@ -25,7 +25,7 @@
         <div class="col-lg-12 col-md-12">
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
-                    <h3 class="card-title">Update Service Two</h3>
+                    <h3 class="card-title">Update Service</h3>
                     <a href="{{ route('servicetwos.index') }}" class="btn btn-info"><i
                             class="fa-solid fa-angles-left fa-fw"></i> Back</a>
                 </div>

@@ -1095,35 +1095,19 @@
                         <div class="card-icon">
                             <i class="fas fa-bullseye"></i>
                         </div>
-                        <h3>Our Mission</h3>
+                        <h3>{{ $missionVision->title_one ?? 'Our Mission' }}</h3>
                         <p>
-                            To empower individuals and organizations in Bangladesh with world-class cybersecurity knowledge
-                            and skills, making digital security accessible through education in Bengali. We strive to build
-                            a safer digital ecosystem by training the next generation of ethical hackers and providing
-                            professional security services that protect businesses from cyber threats.
+                            {!! $missionVision->description_one ?? 'To empower individuals and organizations in Bangladesh with world-class cybersecurity knowledge and skills, making digital security accessible through education in Bengali. We strive to build a safer digital ecosystem by training the next generation of ethical hackers and providing professional security services that protect businesses from cyber threats.' !!}
                         </p>
-                        <ul class="card-benefits">
-                            <li>Provide quality cybersecurity education in Bengali</li>
-                            <li>Deliver professional security services</li>
-                            <li>Foster a community of security professionals</li>
-                        </ul>
                     </div>
                     <div class="vision-card">
                         <div class="card-icon">
                             <i class="fas fa-eye"></i>
                         </div>
-                        <h3>Our Vision</h3>
+                        <h3>{{ $missionVision->title_two ?? 'Our Vision' }}</h3>
                         <p>
-                            To become South Asia's leading cybersecurity platform, recognized globally for excellence in
-                            ethical hacking education and security services. We envision a future where Bangladesh is known
-                            for its cybersecurity expertise, with thousands of certified professionals protecting the
-                            digital infrastructure of businesses worldwide.
+                            {!! $missionVision->description_two ?? null !!}
                         </p>
-                        <ul class="card-benefits">
-                            <li>Lead cybersecurity innovation in South Asia</li>
-                            <li>Create 50,000+ certified security professionals</li>
-                            <li>Build a safer digital Bangladesh</li>
-                        </ul>
                     </div>
                 </div>
             </div>
@@ -1224,22 +1208,15 @@
                     <div class="col-md-6">
                         <div class="section-heading text-start m-0">
                             <span class="sub-title">
-                                OUR ACHIEVEMENTS
+                                {{ $achievementSection->sub_title ?? 'OUR ACHIEVEMENTS' }}
                             </span>
-                            <h1>Milestones That Define Us</h1>
-                            <p>Over the years, HackToLive has achieved significant milestones that demonstrate our
-                                commitment to cybersecurity excellence and education in Bangladesh.</p>
-                        </div>
-                        <div class="milestones-grid">
-                            <ul class="milestone-list">
-                                <li>First Bengali cybersecurity academy in Bangladesh</li>
-                                <li>ISO 27001 certified security operations</li>
-                                <li>Trained 5,000+ cybersecurity professionals</li>
-                                <li>Conducted 500+ successful security audits</li>
-                                <li>Partnership with leading tech companies</li>
-                                <li>Active community of 10,000+ members</li>
-                            </ul>
-
+                            <h1>{{ $achievementSection->title ?? 'Milestones That Define Us' }}</h1>
+                            @if(!empty($achievementSection->description))
+                                {!! $achievementSection->description !!}
+                            @else
+                                <p>Over the years, HackToLive has achieved significant milestones that demonstrate our
+                                    commitment to cybersecurity excellence and education in Bangladesh.</p>
+                            @endif
                         </div>
                     </div>
                     <div class="col-md-6">

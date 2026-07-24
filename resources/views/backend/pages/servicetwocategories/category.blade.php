@@ -1,6 +1,6 @@
 @extends('backend.layouts.master')
 
-@section('title', 'Service Two Category')
+@section('title', 'Service Category')
 
 @push('backend_style')
     @include('backend.pages.common.style')
@@ -37,12 +37,12 @@
         <div class="col-12">
             <div class="page-header">
                 <div>
-                    <h1 class="page-title">Service Two Category</h1>
+                    <h1 class="page-title">Service Category</h1>
                 </div>
                 <div class="ms-auto pageheader-btn">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Service Two Category</li>
+                        <li class="breadcrumb-item active" aria-current="page">Service Category</li>
                     </ol>
                 </div>
             </div>
@@ -51,7 +51,7 @@
         <div class="col-lg-12 col-md-12">
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between">
-                    <h3 class="card-title">Create Service Two Category</h3>
+                    <h3 class="card-title">Create Service Category</h3>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('servicetwocategories.store') }}" method="POST">
@@ -84,7 +84,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header border-bottom d-flex justify-content-between align-items-center">
-                    <h3 class="card-title mb-0">Service Two Category List</h3>
+                    <h3 class="card-title mb-0">Service Category List</h3>
                     <div class="d-flex align-items-center gap-2">
                         <span id="sort-status" class="text-muted me-2">
                             <i class="fa-solid fa-grip-lines me-1"></i> Drag rows to reorder

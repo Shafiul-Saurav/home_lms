@@ -56,6 +56,8 @@ use App\Http\Controllers\Backend\ProductSubcategoryController;
 use App\Http\Controllers\Backend\QuestionController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\CompanyOverviewController;
+use App\Http\Controllers\Backend\AchievementSectionController;
+use App\Http\Controllers\Backend\MissionVisionController;
 use App\Http\Controllers\Backend\ServiceConsultationController as BackendServiceConsultationController;
 use App\Http\Controllers\Backend\ServiceConsultationTimeslotController;
 use App\Http\Controllers\Backend\ServiceController;
@@ -481,6 +483,8 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     //About Setting Start
     Route::resource('about', AboutController::class);
     Route::resource('company_overview', CompanyOverviewController::class);
+    Route::resource('achievement_section', AchievementSectionController::class);
+    Route::resource('mission_vision', MissionVisionController::class);
     //About Setting End
 
     //Privacy Policy Setting Start
