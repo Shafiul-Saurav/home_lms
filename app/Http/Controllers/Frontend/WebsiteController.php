@@ -826,6 +826,8 @@ class WebsiteController extends Controller
             ->where('is_active', 1)
             ->findOrFail($id);
 
+        $service->increment('visitor_count');
+
         $logo_fav = LogoFavicon::first();
 
         return view('frontendone.pages.services.show', compact('service', 'logo_fav'));
