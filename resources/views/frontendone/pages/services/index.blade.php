@@ -21,6 +21,23 @@
             padding: 30px;
         }
 
+        .service-info-icon {
+            width: 80px;
+            height: 80px;
+            background: #e8f5e9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: #76bd10;
+            flex-shrink: 0;
+        }
+
+        .service-info-icon i {
+            font-size: 1.8rem;
+        }
+
         .service-info-area {
             position: relative;
             z-index: 1;
@@ -57,7 +74,7 @@
 @endpush
 
 @section('frontendone_content')
-    <main class="main py-5">
+    <main class="main py-5 bg-light">
         <!-- breadcrumb -->
         {{-- <x-frontend.pages.common.breadcrumb :title="'Services'" :breadcrumb="[['name' => 'Home', 'url' => route('home')], ['name' => 'Services', 'url' => '#']]" /> --}}
         <!-- breadcrumb end -->
@@ -74,7 +91,7 @@
             <section class="py-5 service-info-area">
                 <div class="row gy-4">
                     <div class="col-12">
-                        <div class="p-4" style="border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.05);">
+                        <div class="p-4">
                             <div class="section-heading">
                                 <span class="sub-title">
                                     <i class="fa-solid fa-gears"></i>
@@ -94,7 +111,7 @@
                                             <div class="card-body">
                                                 @php $howIcon = $item->service_icon ?: 'fa-solid fa-circle-check'; @endphp
                                                 <div class="d-flex align-items-center gap-3 mb-3">
-                                                    <div class="fs-2 text-success"><i class="{{ $howIcon }}"></i></div>
+                                                    <div class="service-info-icon"><i class="{{ $howIcon }}"></i></div>
                                                     <h5 class="mb-0">{{ $item->title }}</h5>
                                                 </div>
                                                 <p class="text-muted" style="font-size: 14px;">{{ $item->description }}</p>
@@ -129,7 +146,7 @@
                                             <div class="card-body">
                                                 @php $whatIcon = $item->service_icon ?: 'fa-solid fa-circle-check'; @endphp
                                                 <div class="d-flex align-items-center gap-3 mb-3">
-                                                    <div class="fs-2 text-success"><i class="{{ $whatIcon }}"></i></div>
+                                                    <div class="service-info-icon"><i class="{{ $whatIcon }}"></i></div>
                                                     <h5 class="mb-0">{{ $item->title }}</h5>
                                                 </div>
                                                 <p class="text-muted" style="font-size: 14px;">{{ $item->description }}</p>
@@ -142,22 +159,26 @@
                                     </div>
                                 @endforelse
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-                            <div class="row mt-5">
-                                <div class="col-12">
-                                    <div
-                                        class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 p-4 border rounded-4 bg-light">
-                                        <div class="section-heading m-0 text-start">
-                                            <span class="sub-title" style="color: #76bd10;">
-                                                <i class="fa-solid fa-headset"></i>
-                                                Start Consultation
-                                            </span>
-                                            <h2>Need a tailored service proposal?</h2>
-                                            <p style="color: #4b5563;">
-                                                Choose the service and share your project requirements with our team.
-                                            </p>
-                                        </div>
-                                        {{-- <div>
+            <section>
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between p-4 bg-white" style="border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.05);">
+                            <div class="section-heading m-0 text-start">
+                                <span class="sub-title" style="color: #76bd10;">
+                                    <i class="fa-solid fa-headset"></i>
+                                    Start Consultation
+                                </span>
+                                <h2>Need a tailored service proposal?</h2>
+                                <p style="color: #4b5563;">
+                                    Choose the service and share your project requirements with our team.
+                                </p>
+                            </div>
+                            {{-- <div>
                                             <span class="sub-title mb-2 d-inline-block">
                                                 <i class="fa-solid fa-headset"></i>
                                                 Start Consultation
@@ -165,16 +186,14 @@
                                             <h3 class="mb-1">Need a tailored service proposal?</h3>
                                             <p class="mb-0 text-muted">Choose the service and share your project requirements with our team.</p>
                                         </div> --}}
-                                        <button type="button" class="enroll-btn border-0 px-4 py-3 rounded-pill"
-                                            data-bs-toggle="modal" data-bs-target="#consultationModal">
-                                            <i class="fa-solid fa-comments"></i> Start Consultation
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                            <button type="button" class="enroll-btn border-0 px-4 py-3 rounded-pill" data-bs-toggle="modal"
+                                data-bs-target="#consultationModal">
+                                <i class="fa-solid fa-comments"></i> Start Consultation
+                            </button>
                         </div>
                     </div>
                 </div>
+
             </section>
 
             @php
