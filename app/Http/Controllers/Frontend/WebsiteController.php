@@ -820,6 +820,17 @@ class WebsiteController extends Controller
         return view('frontendone.pages.services.category', compact('category', 'logo_fav'));
     }
 
+    public function serviceDetails($id)
+    {
+        $service = Servicetwo::with(['category', 'subcategory'])
+            ->where('is_active', 1)
+            ->findOrFail($id);
+
+        $logo_fav = LogoFavicon::first();
+
+        return view('frontendone.pages.services.show', compact('service', 'logo_fav'));
+    }
+
     public function trackServiceClick(Request $request, Servicetwo $service)
     {
         $service->increment('visitor_count');

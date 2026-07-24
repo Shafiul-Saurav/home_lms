@@ -162,6 +162,7 @@ Route::get('mentors', [WebsiteController::class, 'mentors'])->name('mentors');
 Route::get('verify-certificate', [WebsiteController::class, 'verifyCertificate'])->name('verify.certificate');
 Route::post('verify-certificate', [WebsiteController::class, 'checkCertificate'])->name('check.certificate');
 Route::get('service/category/{id}', [WebsiteController::class, 'serviceCategory'])->name('service.category');
+Route::get('service/details/{id}', [WebsiteController::class, 'serviceDetails'])->name('service.details');
 Route::get('service/track/{service}', [WebsiteController::class, 'trackServiceClick'])->name('service.track');
 Route::get('service/subcategory/{id}', [WebsiteController::class, 'serviceSubcategory'])->name('service.subcategory');
 Route::post('service/consultations', [ServiceConsultationController::class, 'store'])->name('service.consultations.store');

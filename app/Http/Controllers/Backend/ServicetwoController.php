@@ -32,8 +32,6 @@ class ServicetwoController extends Controller
             'title'                    => 'required|string|max:255',
             'service_icon'             => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'description'              => 'required|string',
-            'service_type'             => 'required|string|max:255',
-            'url'                      => 'nullable|url|max:255',
             'image'                    => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:2048',
         ]);
 
@@ -42,8 +40,6 @@ class ServicetwoController extends Controller
             'servicetwosubcategory_id' => $request->servicetwosubcategory_id ?: null,
             'title'                    => $request->title,
             'description'              => $request->description,
-            'service_type'             => $request->service_type,
-            'url'                      => $request->url,
             'is_active'                => $request->has('is_active') ? 1 : 0,
             'image'                    => 'default_service.jpg',
             'service_icon'             => null,
@@ -52,7 +48,7 @@ class ServicetwoController extends Controller
         $this->imageUpload($request, $service->id);
         $this->iconUpload($request, $service->id);
 
-        return redirect()->back()->with('message', 'Service Two Created Successfully 🙂');
+        return redirect()->back()->with('message', 'Service Created Successfully 🙂');
     }
 
     public function destroy(string $id)
@@ -74,7 +70,7 @@ class ServicetwoController extends Controller
         }
         $service->delete();
 
-        return redirect()->back()->with('warning', 'Service Two Deleted Successfully');
+        return redirect()->back()->with('warning', 'Service Deleted Successfully');
     }
 
     public function edit(string $id)
@@ -102,8 +98,6 @@ class ServicetwoController extends Controller
             'title'                    => 'required|string|max:255',
             'service_icon'             => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
             'description'              => 'required|string',
-            'service_type'             => 'required|string|max:255',
-            'url'                      => 'nullable|url|max:255',
             'image'                    => 'nullable|file|mimes:jpeg,png,jpg,gif,webp,avif|max:2048',
         ]);
 
@@ -112,15 +106,13 @@ class ServicetwoController extends Controller
             'servicetwosubcategory_id' => $request->servicetwosubcategory_id ?: null,
             'title'                    => $request->title,
             'description'              => $request->description,
-            'service_type'             => $request->service_type,
-            'url'                      => $request->url,
             'is_active'                => $request->has('is_active') ? 1 : 0,
         ]);
 
         $this->imageUpload($request, $service->id);
         $this->iconUpload($request, $service->id);
 
-        return redirect()->route('servicetwos.index')->with('message', 'Service Two Updated Successfully 🙂');
+        return redirect()->route('servicetwos.index')->with('message', 'Service Updated Successfully 🙂');
     }
 
     public function imageUpload(Request $request, int $serviceId): void

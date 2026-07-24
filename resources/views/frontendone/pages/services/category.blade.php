@@ -47,10 +47,7 @@
                                         {{ $service->title }}
                                     </h4>
                                     <p>{!! $service->description !!}</p>
-                                    @if ($service->service_type)
-                                        <a target="_blank" href="{{ route('service.track', ['service' => $service->id]) }}">{{ $service->service_type }} <i
-                                                class="fa-solid fa-arrow-right"></i></a>
-                                    @endif
+                                    <a href="{{ route('service.details', ['id' => $service->id]) }}" class="btn btn-primary mt-3">Get Support</a>
                                 </div>
                             </div>
                         </div>

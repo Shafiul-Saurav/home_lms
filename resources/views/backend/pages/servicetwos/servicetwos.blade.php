@@ -94,7 +94,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
+                            {{-- <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="service_type">Service Type</label>
                                     <input type="text" name="service_type"
@@ -117,7 +117,7 @@
                                             role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="description">Description</label>
@@ -155,7 +155,7 @@
                                     <th class="border-bottom-0">Service Name</th>
                                     <th class="border-bottom-0">Icon</th>
                                     <th class="border-bottom-0">Image</th>
-                                    <th class="border-bottom-0">Type</th>
+                                    {{-- <th class="border-bottom-0">Type</th> --}}
                                     <th class="border-bottom-0">Status</th>
                                     <th class="border-bottom-0">Actions</th>
                                 </tr>
@@ -185,7 +185,7 @@
                                                 <span class="text-muted">No Image</span>
                                             @endif
                                         </td>
-                                        <td>{{ $service->service_type }}</td>
+                                        {{-- <td>{{ $service->service_type }}</td> --}}
                                         <td>
                                             <div class="material-switch">
                                                 <input id="active-{{ $service->id }}" class="toggle-class-active"

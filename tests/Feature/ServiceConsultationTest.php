@@ -71,4 +71,28 @@ class ServiceConsultationTest extends TestCase
         $response->assertSee($category->title);
         $response->assertSee('Security Audit');
     }
+
+    public function test_service_details_page_loads_with_requested_service_id(): void
+    {
+        $category = Servicetwocategory::create([
+            'title' => 'Managed Security',
+            'slug' => 'managed-security',
+            'is_active' => true,
+        ]);
+
+        $service = Servicetwo::create([
+            'servicetwocategory_id' => $category->id,
+            'title' => 'Security Audit',
+            'description' => 'Test service',
+            'service_type' => 'Consultation',
+            'url' => 'https://example.com',
+            'is_active' => true,
+        ]);
+
+        $response = $this->get(route('service.details', ['id' => $service->id]));
+
+        $response->assertOk();
+        $response->assertSee('Security Audit');
+        $response->assertSee('Get Support');
+    }
 }
