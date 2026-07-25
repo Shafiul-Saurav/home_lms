@@ -409,6 +409,9 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function(){
     Route::get('/users/system-owner', [UserController::class, 'systemOwner'])->name('users.system-owner');
     Route::get('/users/student', [UserController::class, 'student'])->name('users.student');
     Route::get('/users/teacher', [UserController::class, 'teacher'])->name('users.teacher');
+    Route::get('/users/blocked', [UserController::class, 'blockedUsers'])->name('users.blocked');
+    Route::delete('/users/unblock/{id}', [UserController::class, 'unblockUser'])->name('users.unblock');
+    Route::post('/users/block-manual', [UserController::class, 'blockManual'])->name('users.block-manual');
 
     // Teacher Routes
     Route::post('teachers/update-or-create/{userId}', [TeacherController::class, 'updateOrCreateFromUser'])->name('teachers.update-or-create');

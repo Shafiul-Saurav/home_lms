@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Backend;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\BlockedEntity;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
@@ -203,6 +206,69 @@ class UserController extends Controller
             'type' => 'success',
             'message' => 'Status Updated'
         ]);
+    }
+
+    /**
+     * Display a listing of blocked users / entities.
+     */
+    public function blockedUsers()
+    {
+        Gate::authorize('index-user');
+
+        $blockedEntities = BlockedEntity::orderBy('id', 'desc')->get();
+
+        foreach ($blockedEntities as $entity) {
+            if ($entity->type === 'email') {
+                $entity->user = User::where('email', $entity->value)->first();
+            } else {
+                $entity->user = null;
+            }
+        }
+
+        return view('backend.pages.users.blocked', compact('blockedEntities'));
+    }
+
+    /**
+     * Unblock a blocked user / entity.
+     */
+    public function unblockUser($id)
+    {
+        Gate::authorize('index-user');
+
+        $blockedEntity = BlockedEntity::findOrFail($id);
+        $value = $blockedEntity->value;
+
+        // Clear cache keys for both email and IP
+        Cache::forget("login_blocked_until_email_{$value}");
+        Cache::forget("login_blocked_until_ip_{$value}");
+        Cache::forget("login_fails_email_{$value}");
+        Cache::forget("login_fails_ip_{$value}");
+
+        $blockedEntity->delete();
+
+        return redirect()->back()->with('message', "Entity '{$value}' has been successfully unblocked 🙂");
+    }
+
+    /**
+     * Manually block an email or IP address.
+     */
+    public function blockManual(Request $request)
+    {
+        Gate::authorize('index-user');
+
+        $request->validate([
+            'type' => 'required|in:email,ip',
+            'value' => 'required|string|max:191',
+        ]);
+
+        $val = trim($request->value);
+
+        BlockedEntity::firstOrCreate([
+            'type' => $request->type,
+            'value' => $val,
+        ]);
+
+        return redirect()->back()->with('message', "{$request->type} '{$val}' has been manually blocked.");
     }
 
 }

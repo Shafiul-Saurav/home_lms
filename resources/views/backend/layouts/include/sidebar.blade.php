@@ -117,6 +117,7 @@
                     {{ Request::routeIs('roles.trash') ? 'is-expanded' : '' }}
                     {{ Request::routeIs('users.index') ? 'is-expanded' : '' }}
                     {{ Request::routeIs('users.trash') ? 'is-expanded' : '' }}
+                    {{ Request::routeIs('users.blocked') ? 'is-expanded' : '' }}
                     {{ Request::routeIs('users.system-owner') ? 'is-expanded' : '' }}
                     {{ Request::routeIs('users.student') ? 'is-expanded' : '' }}
                     {{ Request::routeIs('users.teacher') ? 'is-expanded' : '' }}">
@@ -128,6 +129,7 @@
                         {{ Request::routeIs('roles.trash') ? 'active' : '' }}
                         {{ Request::routeIs('users.index') ? 'active' : '' }}
                         {{ Request::routeIs('users.trash') ? 'active' : '' }}
+                        {{ Request::routeIs('users.blocked') ? 'active' : '' }}
                         {{ Request::routeIs('users.system-owner') ? 'active' : '' }}
                         {{ Request::routeIs('users.student') ? 'active' : '' }}
                         {{ Request::routeIs('users.teacher') ? 'active' : '' }}"
@@ -198,12 +200,14 @@
                                 <li
                                     class="sub-slide {{ Request::routeIs('users.index') ? 'is-expanded' : '' }}
                         {{ Request::routeIs('users.trash') ? 'is-expanded' : '' }}
+                        {{ Request::routeIs('users.blocked') ? 'is-expanded' : '' }}
                         {{ Request::routeIs('users.system-owner') ? 'is-expanded' : '' }}
                         {{ Request::routeIs('users.student') ? 'is-expanded' : '' }}
                         {{ Request::routeIs('users.teacher') ? 'is-expanded' : '' }}
                         {{ Request::routeIs('instructor-requests.*') ? 'is-expanded' : '' }}">
                                     <a class="sub-side-menu__item {{ Request::routeIs('users.index') ? 'active' : '' }}
                         {{ Request::routeIs('users.trash') ? 'active' : '' }}
+                        {{ Request::routeIs('users.blocked') ? 'active' : '' }}
                         {{ Request::routeIs('users.system-owner') ? 'active' : '' }}
                         {{ Request::routeIs('users.student') ? 'active' : '' }}
                         {{ Request::routeIs('users.teacher') ? 'active' : '' }}
@@ -225,6 +229,8 @@
                                             <li><a class="sub-slide-item {{ Request::routeIs('users.trash') ? 'active' : '' }}"
                                                     href="{{ route('users.trash') }}">Trash</a></li>
                                         @endcan
+                                        <li><a class="sub-slide-item {{ Request::routeIs('users.blocked') ? 'active' : '' }}"
+                                                href="{{ route('users.blocked') }}">Blocked Users</a></li>
                                     </ul>
                                 </li>
                             @endcan
