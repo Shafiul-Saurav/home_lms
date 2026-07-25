@@ -510,6 +510,11 @@
                 let sortBy = $('#sort_by').val();
                 sortBy ? urlParams.set('sort_by', sortBy) : urlParams.delete('sort_by');
 
+                // include academy tab/type filter
+                let selectedType = $('.filter-btn.active').data('filter');
+                if (selectedType && selectedType !== 'all') urlParams.set('type', selectedType);
+                else urlParams.delete('type');
+
                 if (pageUrl) {
                     let pageParam = new URL(pageUrl, window.location.origin).searchParams.get('page');
                     if (pageParam) urlParams.set('page', pageParam);
@@ -544,6 +549,13 @@
             setFilterPanelState();
 
             $(document).on('change', '.category-filter, .price-filter, #sort_by', function() {
+                filterCourses(buildFilterUrl());
+            });
+
+            // academy tab buttons
+            $(document).on('click', '.filter-btn', function() {
+                $('.filter-btn').removeClass('active');
+                $(this).addClass('active');
                 filterCourses(buildFilterUrl());
             });
 

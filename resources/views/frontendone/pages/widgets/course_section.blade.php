@@ -20,10 +20,13 @@
                         <span></span><span></span><span></span>
                     </div> --}}
 
+                    @php $currentType = request()->get('type', 'all'); @endphp
                     <div class="course-filter-bar" id="courseFilterBar">
-                        <button type="button" class="filter-btn active" data-filter="all">All Course</button>
-                        <button type="button" class="filter-btn" data-filter="live">Live</button>
-                        <button type="button" class="filter-btn" data-filter="recorded">Recorded</button>
+                        <button type="button" class="filter-btn {{ $currentType === 'all' ? 'active' : '' }}" data-filter="all">All Course</button>
+                        <button type="button" class="filter-btn {{ $currentType === 'free' ? 'active' : '' }}" data-filter="free">Free</button>
+                        <button type="button" class="filter-btn {{ $currentType === 'live' ? 'active' : '' }}" data-filter="live">Live</button>
+                        <button type="button" class="filter-btn {{ $currentType === 'recorded' ? 'active' : '' }}" data-filter="recorded">Recorded</button>
+                        <button type="button" class="filter-btn {{ $currentType === 'upcoming' ? 'active' : '' }}" data-filter="upcoming">Upcoming Webinar</button>
                     </div>
 
                     {{-- <div class="course-filter-dots" aria-hidden="true">
@@ -36,7 +39,7 @@
             </div>
         </div>
 
-        <div class="row g-4" id="courseGrid">
+        <div class="row g-4" id="course-grid">
             @foreach ($popularCourses as $course)
                 @php
                     $courseType = $course->live_or_record ?? 'recorded';

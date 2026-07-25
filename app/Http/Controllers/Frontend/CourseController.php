@@ -18,6 +18,7 @@ use App\Models\WebsiteLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use Carbon\Carbon;
 
 class CourseController extends Controller
 {
@@ -260,6 +261,39 @@ class CourseController extends Controller
                     $q->where('free_or_paid', 'paid')
                       ->orWhere('price', '>', 0);
                 });
+            }
+        }
+
+        // Type / Tab filter (all, free, live, recorded, upcoming)
+        if ($request->filled('type')) {
+            $type = $request->input('type');
+            switch ($type) {
+                case 'free':
+                    $query->where(function ($q) {
+                        $q->where('free_or_paid', 'free')
+                          ->orWhereNull('price')
+                          ->orWhere('price', 0);
+                    });
+                    break;
+                case 'live':
+                    $query->where('live_or_record', 'live');
+                    break;
+                case 'recorded':
+                    $query->where(function ($q) {
+                        $q->where('live_or_record', 'record')
+                          ->orWhereNull('live_or_record');
+                    });
+                    break;
+                case 'upcoming':
+                    $today = Carbon::today()->toDateString();
+                    $query->where('live_or_record', 'live')
+                          ->whereNotNull('start_date')
+                          ->whereDate('start_date', '>=', $today);
+                    break;
+                case 'all':
+                default:
+                    // no extra filter
+                    break;
             }
         }
 

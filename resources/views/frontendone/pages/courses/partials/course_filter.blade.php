@@ -6,7 +6,7 @@
     $finalPrice = $course->price - ($course->discount ?? 0);
 @endphp
 
-<div class="col-xl-4 col-lg-6 col-md-6 col-6 px-1 px-md-2" data-course-type="{{ $courseType }}">
+<div class="col-xl-3 col-lg-3 col-md-6 col-6 px-1 px-md-2" data-course-type="{{ $courseType }}">
     <div class="course-card-modern">
         <div class="course-thumb">
             <img src="{{ asset('uploads/courses/' . $course->image) }}" alt="{{ $course->name }}">
@@ -27,6 +27,19 @@
                 <span><i class="fa-regular fa-clock"></i> {{ $course->duration }}</span>
                 @endif
             </div>
+            @if($courseType === 'live')
+                <div class="live-info mt-2 mb-2" style="color:#6b7280;font-size:13px;">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    @if($course->start_date)
+                        {{ \Carbon\Carbon::parse($course->start_date)->format('d M, Y') }}
+                    @else
+                        Starting date: TBA
+                    @endif
+                    @if($course->live_schedule)
+                        &nbsp;•&nbsp;{{ $course->live_schedule }}
+                    @endif
+                </div>
+            @endif
             <ul class="course-list">
                 @foreach($course->features ?? [] as $feature)
                     <li><i class="fa-solid fa-check"></i> {{ $feature }}</li>

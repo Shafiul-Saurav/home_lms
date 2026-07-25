@@ -119,7 +119,8 @@ $(document).ready(function () {
         $('#courseFilterBar .filter-btn').removeClass('active');
         $(this).addClass('active');
 
-        $('#courseGrid > [data-course-type]').each(function () {
+        // support both id variants to remain backward compatible
+        $('#courseGrid, #course-grid').children('[data-course-type]').each(function () {
             var type = $(this).data('course-type');
             var show = filter === 'all' || type === filter;
             $(this).toggle(show);
