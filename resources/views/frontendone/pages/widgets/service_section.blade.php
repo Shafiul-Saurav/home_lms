@@ -1,4 +1,4 @@
-<section class="section-padding service-dark">
+<section class="section-padding service-dark" data-aos="fade-up">
     <div class="container">
 
         <div class="section-heading">

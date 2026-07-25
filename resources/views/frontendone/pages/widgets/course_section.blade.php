@@ -1,4 +1,4 @@
-<section class="section-padding course-section" id="courseGridSection">
+<section class="section-padding course-section" id="courseGridSection" data-aos="fade-up">
     <div class="container">
         <div class="row gx-0">
             <div class="col-12">
@@ -61,7 +61,7 @@
                     // allow multiple tokens in data attribute so client filter can match both type and price
                     $dataType = trim($courseType . ' ' . $priceType);
                 @endphp
-                <div class="col-xl-3 col-lg-3 col-md-6 col-6 px-1 px-md-2" data-course-type="{{ $dataType }}">
+                <div class="col-xl-3 col-lg-3 col-md-6 col-6 px-1 px-md-2" data-course-type="{{ $dataType }}" data-aos="fade-up" data-aos-delay="{{ $loop->index * 60 }}">
                     <div class="course-card-modern">
                         <div class="course-thumb">
                             <img src="{{ asset('uploads/courses/' . $course->image) }}" alt="{{ $course->title }}">

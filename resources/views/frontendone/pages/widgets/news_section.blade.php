@@ -1,4 +1,4 @@
-<section class="section-padding news-section">
+<section class="section-padding news-section" data-aos="fade-up">
     <div class="container">
 
         <div class="section-heading">

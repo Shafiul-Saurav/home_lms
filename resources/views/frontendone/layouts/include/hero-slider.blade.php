@@ -1,4 +1,4 @@
-<section class="hero-slider">
+<section class="hero-slider" data-aos="fade-up">
     <div id="heroImageSlider" class="carousel slide carousel-fade" data-bs-ride="carousel">
 
         <div class="carousel-indicators">

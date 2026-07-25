@@ -138,8 +138,10 @@ $(document).ready(function () {
         // show google form button only when 'upcoming' filter is active
         if (filter === 'upcoming') {
             $('.google-form-btn').removeClass('d-none');
+            $('.google-form-info').removeClass('d-none');
         } else {
             $('.google-form-btn').addClass('d-none');
+            $('.google-form-info').addClass('d-none');
         }
     });
 
@@ -157,6 +159,7 @@ $(document).ready(function () {
     $('#newsFilterBar .filter-btn.active').trigger('click');
     // trigger course filter active state on load so google form button visibility syncs
     $('#courseFilterBar .filter-btn.active').trigger('click');
+    // AOS initialization temporarily removed for troubleshooting
 });
 
 // Google Form redirect (no popup) — show info above button and redirect when clicked

@@ -1,4 +1,4 @@
-<section class="section-padding gallery-section">
+<section class="section-padding gallery-section" data-aos="fade-up">
     <div class="container">
 
         <div class="section-heading">

@@ -7,6 +7,35 @@
 <!-- Owl Carousel -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
+<!-- AOS (Animate On Scroll) - load dynamically and initialize after load -->
+<script>
+    (function () {
+        try {
+            var s = document.createElement('script');
+            s.src = 'https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js';
+            s.async = true;
+            s.onload = function () {
+                try {
+                    if (window.AOS) {
+                        AOS.init({
+                            duration: 800,
+                            easing: 'ease-out-cubic',
+                            once: true,
+                            offset: 120
+                        });
+                        AOS.refresh();
+                    }
+                } catch (e) {
+                    console && console.warn && console.warn('AOS init failed', e);
+                }
+            };
+            document.head.appendChild(s);
+        } catch (e) {
+            console && console.warn && console.warn('Failed to load AOS', e);
+        }
+    })();
+</script>
+
 <!-- custom js -->
 <script src="{{ asset('assets/frontendone') }}/js/script.js"></script>
 <script src="{{ asset('ijaboCropTool/ijaboCropTool.min.js') }}"></script>

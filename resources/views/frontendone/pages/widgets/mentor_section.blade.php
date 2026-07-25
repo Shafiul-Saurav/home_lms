@@ -1,4 +1,4 @@
-<section class="section-padding mentor-section">
+<section class="section-padding mentor-section" data-aos="fade-up">
     <div class="container">
 
         <div class="section-heading">

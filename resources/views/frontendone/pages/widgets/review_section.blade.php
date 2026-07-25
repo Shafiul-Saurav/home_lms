@@ -1,4 +1,4 @@
-<section class="section-padding review-section">
+<section class="section-padding review-section" data-aos="fade-up">
     <div class="container">
 
         <div class="section-heading">

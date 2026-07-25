@@ -1,4 +1,4 @@
-<section class="brand-section">
+<section class="brand-section" data-aos="fade-up">
     <div class="container">
 
         <div class="section-heading">

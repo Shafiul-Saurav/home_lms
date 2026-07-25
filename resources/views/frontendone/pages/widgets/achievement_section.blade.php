@@ -1,4 +1,4 @@
-<section class="threat-protection-section text-center text-white position-relative d-flex align-items-center">
+<section class="threat-protection-section text-center text-white position-relative d-flex align-items-center" data-aos="fade-up">
     <div class="dot-grid d-none d-md-block"></div>
 
     <div class="container position-relative z-1 py-5">
