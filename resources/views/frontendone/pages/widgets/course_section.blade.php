@@ -39,6 +39,17 @@
             </div>
         </div>
 
+        @php $googleFormUrl = config('services.google_form_url', '#'); @endphp
+        <div class="mb-3 text-center">
+            <p class="google-form-info d-none" style="margin-bottom:12px;color:#374151;">
+                You will be redirected to a Google Form to complete your registration. Please have your full name and email ready.
+            </p>
+            <a href="{{ $googleFormUrl ?: '#' }}" id="googleFormBtn" class="enroll-btn google-form-btn d-none" style="display:inline-flex;align-items:center;gap:10px;padding:10px 18px;">
+                <i class="fa-brands fa-google" style="color:#fff;font-size:18px;"></i>
+                <span>Register via Google Form</span>
+            </a>
+        </div>
+
         <div class="row g-4" id="course-grid">
             @foreach ($popularCourses as $course)
                 @php

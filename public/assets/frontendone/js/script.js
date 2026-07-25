@@ -135,6 +135,12 @@ $(document).ready(function () {
             }
             $(this).toggle(show);
         });
+        // show google form button only when 'upcoming' filter is active
+        if (filter === 'upcoming') {
+            $('.google-form-btn').removeClass('d-none');
+        } else {
+            $('.google-form-btn').addClass('d-none');
+        }
     });
 
     $('#newsFilterBar .filter-btn').on('click', function () {
@@ -149,6 +155,20 @@ $(document).ready(function () {
     });
 
     $('#newsFilterBar .filter-btn.active').trigger('click');
+    // trigger course filter active state on load so google form button visibility syncs
+    $('#courseFilterBar .filter-btn.active').trigger('click');
+});
+
+// Google Form redirect (no popup) — show info above button and redirect when clicked
+$(document).on('click', '.google-form-btn', function (e) {
+    e.preventDefault();
+    var url = $(this).attr('href') || '';
+    if (!url || url === '#' || url.trim() === '') {
+        alert('Google Form URL is not configured. Please contact the site administrator.');
+        return;
+    }
+    // Redirect in the same tab
+    window.location.href = url;
 });
 
 // counter animation

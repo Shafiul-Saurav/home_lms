@@ -49,4 +49,7 @@ return [
         'redirect' => env('TWITTER_REDIRECT'),
     ],
 
+    /* Global Google Form URL for upcoming webinars */
+    'google_form_url' => env('GOOGLE_FORM_URL', ''),
+
 ];
