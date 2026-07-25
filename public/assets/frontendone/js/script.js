@@ -119,10 +119,20 @@ $(document).ready(function () {
         $('#courseFilterBar .filter-btn').removeClass('active');
         $(this).addClass('active');
 
-        // support both id variants to remain backward compatible
+        // support both id variants and multi-token data-course-type (e.g. "live free")
         $('#courseGrid, #course-grid').children('[data-course-type]').each(function () {
-            var type = $(this).data('course-type');
-            var show = filter === 'all' || type === filter;
+            var typeStr = $(this).attr('data-course-type') || '';
+            var tokens = typeStr.split(/\s+/).filter(Boolean);
+            var show = false;
+            if (filter === 'all') show = true;
+            else if (filter === 'free') {
+                show = tokens.indexOf('free') !== -1;
+            } else if (filter === 'paid') {
+                show = tokens.indexOf('paid') !== -1;
+            } else {
+                // live / recorded
+                show = tokens.indexOf(filter) !== -1;
+            }
             $(this).toggle(show);
         });
     });

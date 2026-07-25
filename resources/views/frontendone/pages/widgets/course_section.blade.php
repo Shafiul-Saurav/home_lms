@@ -46,8 +46,11 @@
                     if ($courseType === 'record') {
                         $courseType = 'recorded';
                     }
+                    $priceType = ($course->free_or_paid === 'free' || $course->price == 0 || $course->price === null) ? 'free' : 'paid';
+                    // allow multiple tokens in data attribute so client filter can match both type and price
+                    $dataType = trim($courseType . ' ' . $priceType);
                 @endphp
-                <div class="col-xl-3 col-lg-3 col-md-6 col-6 px-1 px-md-2" data-course-type="{{ $courseType }}">
+                <div class="col-xl-3 col-lg-3 col-md-6 col-6 px-1 px-md-2" data-course-type="{{ $dataType }}">
                     <div class="course-card-modern">
                         <div class="course-thumb">
                             <img src="{{ asset('uploads/courses/' . $course->image) }}" alt="{{ $course->title }}">
@@ -72,6 +75,19 @@
                                     <span><i class="fa-regular fa-clock"></i> {{ $course->duration }}</span>
                                 @endif
                             </div>
+                            @if($course->live_or_record === 'live')
+                                <div class="live-info mt-2 mb-2" style="color:#6b7280;font-size:13px;">
+                                    <i class="fa-solid fa-calendar-days"></i>
+                                    @if($course->start_date)
+                                        {{ \Carbon\Carbon::parse($course->start_date)->format('d M, Y') }}
+                                    @else
+                                        Starting date: TBA
+                                    @endif
+                                    @if($course->live_schedule)
+                                        &nbsp;•&nbsp;{{ $course->live_schedule }}
+                                    @endif
+                                </div>
+                            @endif
                             <ul class="course-list">
                                 @foreach ($course->features ?? [] as $feature)
                                     <li><i class="fa-solid fa-check"></i> {{ $feature }}</li>
