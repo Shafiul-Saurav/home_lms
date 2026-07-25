@@ -607,16 +607,24 @@
                                             Your browser does not support the video tag.
                                         </video>
                                     @endif
-                            </div>
-                        @else
-                            <div class="d-flex align-items-center justify-content-center h-100 text-white">
-                                <div class="text-center">
-                                    <i class="feather-play-circle" style="font-size: 3rem;"></i>
-                                    <p class="mt-3">No video available for this module</p>
-                                </div>
-                            </div>
-                            @endif
-                        </div>
+                                @elseif ((strtolower(trim($module->module_type ?? '')) === 'article') || (!empty(trim($module->article ?? '')) && empty(trim($module->link ?? ''))))
+                                    <div class="d-flex align-items-center justify-content-center h-100 text-white" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+                                        <div class="text-center p-4">
+                                            <i class="fas fa-file-alt text-success" style="font-size: 3.5rem;"></i>
+                                            <h4 class="mt-3 text-white">Article Lesson</h4>
+                                            <p class="mt-2 text-muted small mb-0">Read the article content below to complete this module.</p>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="d-flex align-items-center justify-content-center h-100 text-white">
+                                        <div class="text-center">
+                                            <i class="feather-play-circle" style="font-size: 3rem;"></i>
+                                            <p class="mt-3">No video available for this module</p>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div> <!-- Close plyr__video-embed -->
+                        </div> <!-- Close video-container -->
 
                         <!-- Video Title and Info -->
                         <div class="video-instructor mt-3 d-flex align-items-center mb-2">
@@ -766,6 +774,24 @@
                             </table>
                         </div>
 
+                        @php
+                            $isArticleModule = (strtolower(trim($module->module_type ?? '')) === 'article') || !empty(trim($module->article ?? ''));
+                        @endphp
+
+                        <div id="articleSection" class="card border-0 shadow-sm rounded-4 p-4 mb-4 mt-3" style="background: #ffffff; border-left: 4px solid #74bd0d !important; {{ $isArticleModule ? '' : 'display: none;' }}">
+                            <div class="d-flex align-items-center mb-3 pb-2 border-bottom">
+                                <i class="fas fa-file-alt text-success me-2 fs-4"></i>
+                                <h4 class="mb-0 text-dark font-weight-bold">Article Content</h4>
+                            </div>
+                            <div class="article-body text-dark" id="articleBodyContent" style="font-size: 16px; line-height: 1.8; color: #334155;">
+                                @if (!empty(trim($module->article ?? '')))
+                                    {!! $module->article !!}
+                                @else
+                                    <p class="mb-0 text-muted">This article module has no content yet.</p>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="toolbar mb-3">
                             <button class="nav-vid-btn" id="prevVideoBtn"
                                 onclick="if(!this.disabled) navigateVideo('prev')">
@@ -799,13 +825,23 @@
                         <div class="module-list-title px-3 pt-3">
                             <h3 class="mb-2">Course Curriculum</h3>
                             @if (Auth::check() && Auth::user()->profileCompletionPercentage() < 90)
-                                <div class="alert alert-warning border-0 small mb-3 shadow-sm" style="background-color: #fffbeb; border-left: 4px solid #f59e0b; border-radius: 8px; padding: 12px;">
+                                <div class="alert alert-warning border-0 small mb-3 shadow-sm"
+                                    style="background-color: #fffbeb; border-left: 4px solid #f59e0b; border-radius: 8px; padding: 12px;">
                                     <div class="d-flex align-items-start gap-2">
-                                        <i class="fa-solid fa-triangle-exclamation text-warning mt-1" style="font-size: 14px;"></i>
+                                        <i class="fa-solid fa-triangle-exclamation text-warning mt-1"
+                                            style="font-size: 14px;"></i>
                                         <div>
-                                            <strong class="text-warning-dark d-block mb-1" style="color: #b45309; font-size: 12px; font-weight: 700;">Complete Your Profile ({{ Auth::user()->profileCompletionPercentage() }}%)</strong>
-                                            <span style="color: #d97706; font-size: 11px; font-weight: 600; line-height: 1.3; display: block;">You must complete at least 90% of your profile to track progress and complete this course.</span>
-                                            <a href="{{ route('personal.setting') }}" class="btn btn-warning btn-sm mt-2 px-3 fw-bold" style="background-color: #f59e0b; border: none; color: #fff; border-radius: 20px; font-size: 10px; padding: 4px 10px;">Update Profile</a>
+                                            <strong class="text-warning-dark d-block mb-1"
+                                                style="color: #b45309; font-size: 12px; font-weight: 700;">Complete Your
+                                                Profile ({{ Auth::user()->profileCompletionPercentage() }}%)</strong>
+                                            <span
+                                                style="color: #d97706; font-size: 11px; font-weight: 600; line-height: 1.3; display: block;">You
+                                                must complete at least 90% of your profile to track progress and complete
+                                                this course.</span>
+                                            <a href="{{ route('personal.setting') }}"
+                                                class="btn btn-warning btn-sm mt-2 px-3 fw-bold"
+                                                style="background-color: #f59e0b; border: none; color: #fff; border-radius: 20px; font-size: 10px; padding: 4px 10px;">Update
+                                                Profile</a>
                                         </div>
                                     </div>
                                 </div>
@@ -858,7 +894,10 @@
                                                         @if ($lessonModules->count() > 0)
                                                             @foreach ($lessonModules as $mod)
                                                                 @php
-                                                                    $modHasAccess = ($course->free_or_paid === 'free') || $isEnrolled || $mod->free_paid == 'free';
+                                                                    $modHasAccess =
+                                                                        $course->free_or_paid === 'free' ||
+                                                                        $isEnrolled ||
+                                                                        $mod->free_paid == 'free';
                                                                 @endphp
                                                                 <div class="curriculum-item {{ $modHasAccess ? 'unlock' : '' }} {{ $mod->id == $module->id ? 'active' : '' }}"
                                                                     data-module-id="{{ $mod->id }}"
@@ -930,7 +969,10 @@
                                                     <div class="accordion-body">
                                                         @foreach ($modulesWithoutLessons as $mod)
                                                             @php
-                                                                $modHasAccess = ($course->free_or_paid === 'free') || $isEnrolled || $mod->free_paid == 'free';
+                                                                $modHasAccess =
+                                                                    $course->free_or_paid === 'free' ||
+                                                                    $isEnrolled ||
+                                                                    $mod->free_paid == 'free';
                                                             @endphp
                                                             <div class="curriculum-item {{ $modHasAccess ? 'unlock' : '' }} {{ $mod->id == $module->id ? 'active' : '' }}"
                                                                 data-module-id="{{ $mod->id }}"
@@ -1460,16 +1502,26 @@
                     </video>
                 `;
                 }
-            } else {
-                videoPlayerHtml += `
-                <div class="d-flex align-items-center justify-content-center h-100 text-white">
-                    <div class="text-center">
-                        <i class="feather-play-circle" style="font-size: 3rem;"></i>
-                        <p class="mt-3">No video available for this module</p>
+                } else if ((module.module_type && module.module_type.toLowerCase().trim() === 'article') || (module.article && module.article.trim() !== '' && !module.link)) {
+                    videoPlayerHtml += `
+                    <div class="d-flex align-items-center justify-content-center h-100 text-white" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+                        <div class="text-center p-4">
+                            <i class="fas fa-file-alt text-success" style="font-size: 3.5rem;"></i>
+                            <h4 class="mt-3 text-white">Article Lesson</h4>
+                            <p class="mt-2 text-muted small mb-0">Read the article content below to complete this module.</p>
+                        </div>
                     </div>
-                </div>
-            `;
-            }
+                `;
+                } else {
+                    videoPlayerHtml += `
+                    <div class="d-flex align-items-center justify-content-center h-100 text-white">
+                        <div class="text-center">
+                            <i class="feather-play-circle" style="font-size: 3rem;"></i>
+                            <p class="mt-3">No video available for this module</p>
+                        </div>
+                    </div>
+                `;
+                }
 
             videoPlayerHtml += '</div>'; // Close plyr__video-embed div
 
@@ -1739,6 +1791,22 @@
                     <span style="background-color: #a6ff3426; color: #4a8500; padding: 2px 8px; border-radius: 5px;">${date}</span>
                     <span style="background-color: #ff4d24; color: #fff; padding: 2px 8px; border-radius: 5px;">${time}</span>
                 `;
+            }
+
+            // 7. Article Section
+            const articleSection = document.getElementById('articleSection');
+            const articleBodyContent = document.getElementById('articleBodyContent');
+            if (articleSection && articleBodyContent) {
+                const isArticle = (module && module.module_type && module.module_type.toLowerCase().trim() === 'article') || (module && module.article && module.article.trim() !== '');
+                if (isArticle) {
+                    articleSection.style.display = 'block';
+                    articleBodyContent.innerHTML = (module && module.article && module.article.trim() !== '')
+                        ? module.article
+                        : '<p class="mb-0 text-muted">This article module has no content yet.</p>';
+                } else {
+                    articleSection.style.display = 'none';
+                    articleBodyContent.innerHTML = '';
+                }
             }
         }
 
