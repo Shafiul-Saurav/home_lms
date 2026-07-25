@@ -35,6 +35,7 @@ use App\Models\Whychooseus;
 use App\Models\CompanyOverview;
 use App\Models\AchievementSection;
 use App\Models\MissionVision;
+use App\Models\Storyofgrowth;
 use App\Models\CreateCertificate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
@@ -205,6 +206,8 @@ class WebsiteController extends Controller
             ? ($heroStudentCount >= 1000 ? number_format($heroStudentCount / 1000, 0) . 'k+' : $heroStudentCount . '+')
             : '250k+';
 
+        $certificateCount = CreateCertificate::where('status', 'approved')->count();
+
         $heroCourseCount = Course::where('is_active', 1)->count();
         $heroCourseCountLabel = $heroCourseCount > 0 ? $heroCourseCount . '+' : '160+';
         // Dynamic counters: format numbers for display animation (value + unit)
@@ -218,7 +221,8 @@ class WebsiteController extends Controller
             return ['value' => $n, 'unit' => ''];
         };
 
-        $studentsCounter = $formatCounter($heroStudentCount);
+        $studentsCounter = 3000 + $heroStudentCount;
+        $certificatesCounter = 3000 + $certificateCount;
         $coursesCounter = $formatCounter($heroCourseCount);
 
         // Count teachers (expert tutors)
@@ -233,8 +237,12 @@ class WebsiteController extends Controller
         $companyOverview = CompanyOverview::latest('id')->first();
         $achievementSection = AchievementSection::latest('id')->first();
         $missionVision = MissionVision::latest('id')->first();
+        $storyOfGrowth = Storyofgrowth::orderBy('year')->get();
+        $teachers = Teacher::with(['user.profile.profileImage'])->whereHas('user', function($q) {
+            $q->where('role_id', 7);
+        })->withCount('courses')->latest('id')->get();
 
-        return view('frontendone.pages.about.about_page', compact('about', 'testimonials', 'logo_fav', 'studentsCounter', 'coursesCounter', 'tutorsCounter', 'awardsCounter', 'values', 'whyChooseUs', 'companyOverview', 'achievementSection', 'missionVision'));
+        return view('frontendone.pages.about.about_page', compact('about', 'testimonials', 'logo_fav', 'studentsCounter', 'certificatesCounter', 'coursesCounter', 'tutorsCounter', 'awardsCounter', 'values', 'whyChooseUs', 'companyOverview', 'achievementSection', 'missionVision', 'storyOfGrowth', 'teachers'));
     }
 
     public function services()

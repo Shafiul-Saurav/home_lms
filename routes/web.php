@@ -58,6 +58,7 @@ use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\CompanyOverviewController;
 use App\Http\Controllers\Backend\AchievementSectionController;
 use App\Http\Controllers\Backend\MissionVisionController;
+use App\Http\Controllers\Backend\StoryofgrowthController;
 use App\Http\Controllers\Backend\ServiceConsultationController as BackendServiceConsultationController;
 use App\Http\Controllers\Backend\ServiceConsultationTimeslotController;
 use App\Http\Controllers\Backend\ServiceController;
@@ -584,6 +585,13 @@ Route::get('check/partner/is_active/{id}', [PartnerController::class, 'checkActi
     Route::get('check/whychooseus/is_active/{id}', [WhychooseusController::class, 'checkActive'])
     ->name('whychooseus.is_active.ajax');
     Route::resource('whychooseuses', WhychooseusController::class);
+
+    //Story of Growth Route
+    Route::get('storyofgrowths', [StoryofgrowthController::class, 'index'])->name('storyofgrowths.index');
+    Route::post('storyofgrowths', [StoryofgrowthController::class, 'store'])->name('storyofgrowths.store');
+    Route::get('storyofgrowths/{storyofgrowth}/edit', [StoryofgrowthController::class, 'edit'])->name('storyofgrowths.edit');
+    Route::put('storyofgrowths/{storyofgrowth}', [StoryofgrowthController::class, 'update'])->name('storyofgrowths.update');
+    Route::delete('storyofgrowths/{storyofgrowth}', [StoryofgrowthController::class, 'destroy'])->name('storyofgrowths.destroy');
 
     //Coupon Route
     Route::get('/coupons/trash', [CouponTrashController::class, 'trash'])->name('coupons.trash');

@@ -331,6 +331,7 @@
             grid-column: 1 / 2;
             justify-self: end;
             transform: translateX(12px);
+            text-align: right;
         }
 
         .timeline-item:nth-child(even) {
@@ -635,43 +636,16 @@
             .milestone-stats {
                 grid-template-columns: 1fr 1fr;
             }
-        }
 
-        @media (max-width: 576px) {
-            .milestones-grid {
-                gap: 24px;
-            }
-
-            .milestone-stats {
-                grid-template-columns: 1fr;
-            }
-
-            .timeline-item .timeline-year, .timeline-item:nth-child(odd) .timeline-year, .timeline-item:nth-child(even) .timeline-year {
-                margin-bottom: 4px;
-                padding: 4px 10px;
-            }
-
-            .timeline-item, .timeline-item:nth-child(odd), .timeline-item:nth-child(even) {
-                padding: 15px;
-            }
-
-            .timeline-item h3 {
-                margin: 0;
-                font-size: 18px;
-            }
-
-            .timeline-item p {
-                font-size: 14px;
-                line-height: 1.4;
-            }
-
-
-        }
-
-        @media (max-width: 1024px) {
             .values-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 24px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .timeline-item:nth-child(odd) {
+                text-align: left;
             }
         }
 
@@ -759,6 +733,37 @@
 
             .value-card h3 {
                 font-size: 18px;
+            }
+
+            .milestones-grid {
+                gap: 24px;
+            }
+
+            .milestone-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-item .timeline-year, .timeline-item:nth-child(odd) .timeline-year, .timeline-item:nth-child(even) .timeline-year {
+                margin-bottom: 4px;
+                padding: 4px 10px;
+            }
+
+            .timeline-item, .timeline-item:nth-child(odd), .timeline-item:nth-child(even) {
+                padding: 15px;
+            }
+
+            .timeline-item h3 {
+                margin: 0;
+                font-size: 18px;
+            }
+
+            .timeline-item p {
+                font-size: 14px;
+                line-height: 1.4;
+            }
+
+            .timeline-item:nth-child(odd) {
+                text-align: left;
             }
         }
 
@@ -1049,7 +1054,7 @@
                                     <i class="fas fa-users"></i>
                                 </div>
                                 <div class="stat-content">
-                                    <h3>5,000+</h3>
+                                    <h3>{{ $studentsCounter ?? 0 }}+</h3>
                                     <p>Students</p>
                                 </div>
                             </div>
@@ -1058,8 +1063,8 @@
                                     <i class="fas fa-shield-alt"></i>
                                 </div>
                                 <div class="stat-content">
-                                    <h3>500+</h3>
-                                    <p>Security Audits</p>
+                                    <h3>{{ $certificatesCounter ?? 0 }}+</h3>
+                                    <p>Certificates</p>
                                 </div>
                             </div>
                             <div class="stat-card">
@@ -1067,7 +1072,7 @@
                                     <i class="fas fa-award"></i>
                                 </div>
                                 <div class="stat-content">
-                                    <h3>50+</h3>
+                                    <h3>{{ ($coursesCounter['value'] ?? 0) }}{{ $coursesCounter['unit'] ?? '' }}+</h3>
                                     <p>Courses</p>
                                 </div>
                             </div>
@@ -1076,8 +1081,8 @@
                                     <i class="fas fa-globe"></i>
                                 </div>
                                 <div class="stat-content">
-                                    <h3>10+</h3>
-                                    <p>Countries</p>
+                                    <h3>{{ ($tutorsCounter['value'] ?? 0) }}{{ $tutorsCounter['unit'] ?? '' }}+</h3>
+                                    <p>Tutors</p>
                                 </div>
                             </div>
                         </div>
@@ -1156,50 +1161,23 @@
                 </div>
 
                 <div class="timeline">
-                    <div class="timeline-item">
-                        <span class="timeline-year">2019</span>
-                        <h3>Foundation</h3>
-                        <p>HackToLive was founded with a vision to democratize cybersecurity education in Bangladesh.</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <span class="timeline-year">2020</span>
-                        <h3>First Academy Launch</h3>
-                        <p>Launched our first ethical hacking course in Bengali, reaching 500+ students in the first year.
-                        </p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <span class="timeline-year">2021</span>
-                        <h3>Service Expansion</h3>
-                        <p>Expanded into professional security services, conducting our first penetration testing
-                            engagements.</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <span class="timeline-year">2022</span>
-                        <h3>CTF Platform</h3>
-                        <p>Launched our Capture The Flag platform, hosting Bangladesh's largest cybersecurity competitions.
-                        </p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <span class="timeline-year">2023</span>
-                        <h3>Industry Recognition</h3>
-                        <p>Recognized as Bangladesh's leading cybersecurity education platform with 3,000+ active students.
-                        </p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <span class="timeline-year">2024</span>
-                        <h3>Global Expansion</h3>
-                        <p>Partnered with international organizations and expanded our reach to serve clients across South
-                            Asia.</p>
-                    </div>
+                    @forelse($storyOfGrowth as $story)
+                        <div class="timeline-item">
+                            <span class="timeline-year">{{ $story->year }}</span>
+                            <h3>{{ $story->title }}</h3>
+                            <p>{{ $story->description }}</p>
+                        </div>
+                    @empty
+                        <div class="col-12">
+                            <p class="mb-0 text-muted">No story of growth items found.</p>
+                        </div>
+                    @endforelse
                 </div>
             </div>
         </div>
         <!-- Journey Timeline Section End -->
+
+        @include('frontendone.pages.widgets.mentor_section')
 
         <!-- Milestones Section -->
         <div class="milestones-section">
@@ -1223,31 +1201,31 @@
                         <div class="milestone-stats">
                             <div class="milestone-stat-card">
                                 <div class="stat-icon">
-                                    <i class="fas fa-award"></i>
+                                    <i class="fas fa-users"></i>
                                 </div>
-                                <p class="stat-value">15+</p>
-                                <p class="stat-label">Certifications</p>
+                                <p class="stat-value">{{ $studentsCounter ?? 0 }}+</p>
+                                <p class="stat-label">Students</p>
                             </div>
                             <div class="milestone-stat-card">
                                 <div class="stat-icon">
                                     <i class="fas fa-code"></i>
                                 </div>
-                                <p class="stat-value">50+</p>
+                                <p class="stat-value">{{ ($coursesCounter['value'] ?? 0) }}{{ $coursesCounter['unit'] ?? '' }}+</p>
                                 <p class="stat-label">Courses</p>
                             </div>
                             <div class="milestone-stat-card">
                                 <div class="stat-icon">
-                                    <i class="fas fa-globe"></i>
+                                    <i class="fas fa-chalkboard-teacher"></i>
                                 </div>
-                                <p class="stat-value">10+</p>
-                                <p class="stat-label">Countries</p>
+                                <p class="stat-value">{{ ($tutorsCounter['value'] ?? 0) }}{{ $tutorsCounter['unit'] ?? '' }}+</p>
+                                <p class="stat-label">Tutors</p>
                             </div>
                             <div class="milestone-stat-card">
                                 <div class="stat-icon">
-                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-award"></i>
                                 </div>
-                                <p class="stat-value">4.9/5</p>
-                                <p class="stat-label">Rating</p>
+                                <p class="stat-value">{{ $certificatesCounter ?? 0 }}+</p>
+                                <p class="stat-label">Certificates</p>
                             </div>
                         </div>
                     </div>
