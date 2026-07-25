@@ -403,6 +403,42 @@
             margin: 0;
         }
 
+        /* === Timeline slide-in animations === */
+        .timeline-item {
+            opacity: 0;
+            transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Odd items start off-screen to the LEFT, slide right */
+        .timeline-item:nth-child(odd) {
+            transform: translateX(-60px);
+        }
+
+        /* Even items start off-screen to the RIGHT, slide left */
+        .timeline-item:nth-child(even) {
+            transform: translateX(60px);
+        }
+
+        /* When AOS marks item as animated, snap to final position */
+        .timeline-item.aos-animate {
+            opacity: 1 !important;
+        }
+
+        .timeline-item.aos-animate:nth-child(odd) {
+            transform: translateX(12px) !important;
+        }
+
+        .timeline-item.aos-animate:nth-child(even) {
+            transform: translateX(-12px) !important;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-item.aos-animate:nth-child(odd),
+            .timeline-item.aos-animate:nth-child(even) {
+                transform: none !important;
+            }
+        }
+
         /* Milestones Section */
         .milestones-section {
             padding: 80px 0;
@@ -1005,7 +1041,7 @@
         <!-- breadcrumb end -->
 
         <!-- about area -->
-        <div class="about-area">
+        <div class="about-area" data-aos="fade-up">
             <div class="container">
                 <div class="row">
                     <div class="section-heading">
@@ -1024,7 +1060,7 @@
         <!-- about area end -->
 
         <!-- Company Overview -->
-        <div class="company_overview">
+        <div class="company_overview" data-aos="fade-up">
             <div class="container">
                 <div class="row">
                     <div class="section-heading text-start m-0">
@@ -1093,7 +1129,7 @@
         <!-- Company Overview End -->
 
         <!-- mission vision -->
-        <div class="mission-vision">
+        <div class="mission-vision" data-aos="fade-up">
             <div class="container">
                 <div class="mission-vision-container">
                     <div class="mission-card">
@@ -1120,7 +1156,7 @@
         <!-- mission vision end -->
 
         <!-- Core Values Section -->
-        <div class="core-values">
+        <div class="core-values" data-aos="fade-up">
             <div class="container">
                 <div class="values-header">
                     <span class="values-badge">OUR CORE VALUES</span>
@@ -1152,7 +1188,7 @@
         <!-- Core Values End -->
 
         <!-- Journey Timeline Section -->
-        <div class="journey-section">
+        <div class="journey-section" data-aos="fade-up">
             <div class="container">
                 <div class="journey-header">
                     <span class="journey-badge">OUR JOURNEY</span>
@@ -1162,7 +1198,11 @@
 
                 <div class="timeline">
                     @forelse($storyOfGrowth as $story)
-                        <div class="timeline-item">
+                        <div class="timeline-item"
+                             data-aos="{{ $loop->iteration % 2 !== 0 ? 'fade-right' : 'fade-left' }}"
+                             data-aos-duration="700"
+                             data-aos-delay="{{ ($loop->index) * 100 }}"
+                             data-aos-easing="ease-out-cubic">
                             <span class="timeline-year">{{ $story->year }}</span>
                             <h3>{{ $story->title }}</h3>
                             <p>{{ $story->description }}</p>
@@ -1180,7 +1220,7 @@
         @include('frontendone.pages.widgets.mentor_section')
 
         <!-- Milestones Section -->
-        <div class="milestones-section">
+        <div class="milestones-section" data-aos="fade-up">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
@@ -1235,7 +1275,7 @@
         <!-- Milestones Section End -->
 
         <!-- Why Choose Us Section -->
-        <div class="core-values">
+        <div class="core-values" data-aos="fade-up">
             <div class="container">
                 <div class="values-header">
                     <span class="values-badge">WHY CHOOSE US</span>
@@ -1267,7 +1307,7 @@
         <!-- Why Choose Us Section End -->
 
         <!-- CTA Banner Section -->
-        <div class="cta-banner">
+        <div class="cta-banner" data-aos="fade-up">
             <div class="container">
                 <div class="cta-inner">
                     <div>
@@ -1284,7 +1324,7 @@
         </div>
         <!-- CTA Banner Section End -->
 
-        <div class="contact-info-area">
+        <div class="contact-info-area" data-aos="fade-up">
             <div class="container">
                 <div class="row g-4">
                     <div class="col-xl-3 col-md-6">
@@ -1334,7 +1374,7 @@
                 </div>
             </div>
         </div>
-        <div class="contact-area-wrap">
+        <div class="contact-area-wrap" data-aos="fade-up">
             <div class="container">
                 <div class="row g-4 align-items-stretch">
                     <div class="col-lg-5">
@@ -1419,7 +1459,7 @@
                 </div>
             </div>
         </div>
-        <div class="contact-map-section">
+        <div class="contact-map-section" data-aos="fade-up">
             <div class="container">
                 <div class="map-container-inner">
                     @if (isset($website_link->map_link) && str_contains($website_link->map_link, '<iframe'))

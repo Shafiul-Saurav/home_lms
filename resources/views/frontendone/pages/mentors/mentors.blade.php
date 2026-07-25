@@ -7,7 +7,7 @@
 @endpush
 
 @section('frontendone_content')
-    <main class="main">
+    <main class="main" data-aos="fade-up">
         <x-frontend.pages.common.breadcrumb
             :title="'Mentors'"
             :breadcrumb="[

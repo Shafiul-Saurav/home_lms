@@ -88,7 +88,7 @@
                 $whatYouGets = App\Models\Whatyouget::where('is_active', 1)->get();
             @endphp
 
-            <section class="py-5 service-info-area">
+            <section class="py-5 service-info-area" data-aos="fade-up">
                 <div class="row gy-4">
                     <div class="col-12">
                         <div class="p-4">
@@ -164,7 +164,7 @@
                 </div>
             </section>
 
-            <section>
+            <section data-aos="fade-up">
                 <div class="row mt-5">
                     <div class="col-12">
                         <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between p-4 bg-white" style="border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.05);">
@@ -238,7 +238,7 @@
                     });
             @endphp
 
-            <section class="section-padding">
+            <section class="section-padding" data-aos="fade-up">
                 <div class="container px-0">
                     <div class="section-heading text-center">
                         <span class="sub-title">

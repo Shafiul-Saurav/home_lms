@@ -221,7 +221,7 @@
 
 @section('frontendone_content')
     <main class="main">
-        <section class="course-hero">
+        <section class="course-hero" data-aos="fade-up">
             <div class="container">
                 <div class="section-heading">
                     <span class="sub-title">
@@ -240,7 +240,7 @@
             </div>
         </section>
 
-        <section class="section-padding pb-5 pt-1" style="background-color: #000000">
+        <section class="section-padding pb-5 pt-1" style="background-color: #000000" data-aos="fade-up">
             <div class="container">
                 @php
                     use App\Models\CourseOrder;
@@ -290,7 +290,7 @@
         </section>
 
         <!-- Explore Course Categories Marquee -->
-        <section class="section-padding py-5 bg-light">
+        <section class="section-padding py-5 bg-light" data-aos="fade-up">
             <div class="container">
                 <div class="row mb-3">
                     <div class="col-12 text-center">
@@ -358,7 +358,7 @@
                 ->get();
         @endphp
 
-        <section class="section-padding review-section">
+        <section class="section-padding review-section" data-aos="fade-up">
             <div class="container">
                 <div class="section-heading text-center">
                     <span class="sub-title">

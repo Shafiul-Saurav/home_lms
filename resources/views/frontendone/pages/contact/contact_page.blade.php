@@ -157,7 +157,7 @@
             transition: 0.3s;
             box-shadow: none;
         }
-        
+
         .form-icon-contact input.form-control {
             height: 54px;
         }
@@ -234,7 +234,7 @@
                 ['name' => 'Contact Us', 'url' => '#']
             ]"
         />
-        <div class="contact-info-area">
+        <div class="contact-info-area" data-aos="fade-up">
             <div class="container">
                 <div class="row g-4">
                     <div class="col-xl-3 col-md-6">
@@ -284,7 +284,7 @@
                 </div>
             </div>
         </div>
-        <div class="contact-area-wrap">
+        <div class="contact-area-wrap" data-aos="fade-up">
             <div class="container">
                 <div class="row g-4 align-items-stretch">
                     <div class="col-lg-5">
@@ -292,7 +292,7 @@
                             <img src="{{ asset('assets/frontend/img/contact/01.webp') }}" alt="Contact Us Image" />
                         </div>
                     </div>
-                    
+
                     <div class="col-lg-7">
                         <div class="auth-form-contact">
                             <div class="auth-header-contact">
@@ -362,7 +362,7 @@
                 </div>
             </div>
         </div>
-        <div class="contact-map-section">
+        <div class="contact-map-section" data-aos="fade-up">
             <div class="container">
                 <div class="map-container-inner">
                     @if(isset($website_link->map_link) && str_contains($website_link->map_link, '<iframe'))

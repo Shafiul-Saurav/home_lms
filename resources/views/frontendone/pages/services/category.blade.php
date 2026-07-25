@@ -7,7 +7,7 @@
 @endpush
 
 @section('frontendone_content')
-    <main class="main">
+    <main class="main" data-aos="fade-up">
         <!-- breadcrumb -->
         <x-frontend.pages.common.breadcrumb :title="$category->title" :breadcrumb="[
             ['name' => 'Home', 'url' => route('home')],

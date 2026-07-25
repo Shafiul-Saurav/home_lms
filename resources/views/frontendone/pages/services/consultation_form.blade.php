@@ -1,4 +1,4 @@
-<section class="auth-area consultation-request">
+<section class="auth-area consultation-request" data-aos="fade-up">
     <style>
         .consultation-request .form-control:focus,
         .consultation-request textarea:focus,
