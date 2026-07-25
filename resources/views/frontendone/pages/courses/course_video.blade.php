@@ -450,6 +450,28 @@
                     <i class="fa-solid fa-arrow-left"></i> Back to Course
                 </a>
                 <h4 style="font-size:1.5rem;font-weight:700;margin:0;color:#fff;">{{ $course->name ?? 'Course Video' }}</h4>
+
+                @php
+                    $topMeetingLink = !empty($course->meeting_link)
+                        ? $course->meeting_link
+                        : (!empty($module->link) && (strtolower(trim($module->live_record ?? '')) === 'live' || Str::contains(strtolower(trim($module->link)), ['zoom.us', 'zoom.com', 'meet.google.com', 'google.com'])) ? $module->link : null);
+                @endphp
+
+                @if ($topMeetingLink)
+                    <div class="mt-3 d-flex align-items-center flex-wrap gap-3">
+                        <a href="{{ $topMeetingLink }}" target="_blank" rel="noopener noreferrer"
+                           class="btn font-weight-bold px-4 py-2 rounded-pill shadow-sm d-inline-flex align-items-center gap-2"
+                           style="background-color: #74bd0d; border: none; color: #ffffff; font-size: 0.95rem; text-decoration: none;">
+                            <i class="fa-solid fa-video"></i> Join Live Meeting Class
+                            <i class="fa-solid fa-arrow-up-right-from-square fs-12 ms-1"></i>
+                        </a>
+                        @if(!empty($course->live_schedule))
+                            <span class="text-white-50 small d-inline-flex align-items-center gap-1">
+                                <i class="fa-solid fa-calendar-days text-success"></i> {{ $course->live_schedule }}
+                            </span>
+                        @endif
+                    </div>
+                @endif
             </div>
         </div>
         <!-- breadcrumb end -->
@@ -507,6 +529,23 @@
 
             <div class="row">
                 <div class="col-lg-8">
+                    @if (strtolower(trim($course->live_or_record ?? '')) === 'live' && $topMeetingLink)
+                        <div class="alert alert-success border-0 shadow-sm rounded-4 mb-4 p-3 d-flex align-items-center justify-content-between flex-wrap gap-2" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%); color: #ffffff;">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="bg-white rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm" style="width: 44px; height: 44px; flex-shrink: 0;">
+                                    <i class="fa-solid fa-video text-success fs-18"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0 text-white font-weight-bold">Live Class Meeting Link</h6>
+                                    <small class="text-white-50">{{ $course->live_schedule ?? 'Click to join the ongoing live class session.' }}</small>
+                                </div>
+                            </div>
+                            <a href="{{ $topMeetingLink }}" target="_blank" rel="noopener noreferrer" class="btn btn-light btn-sm fw-bold px-4 py-2 rounded-pill shadow-sm text-success">
+                                <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Join Meeting
+                            </a>
+                        </div>
+                    @endif
+
                     <div class="video-player-section" data-aos="fade-right">
 
                         <!-- Video Player -->
@@ -695,8 +734,8 @@
 
                                     <!-- Course Routine Row -->
                                     <tr>
-                                        <td><i class="feather-calendar me-2"></i>Course Routine</td>
-                                        <td class="course-routine-cell">
+                                        {{-- <td><i class="feather-calendar me-2"></i>Course Routine</td> --}}
+                                        {{-- <td class="course-routine-cell">
                                             @if (!empty($courseRoutinePdfs))
                                                 @foreach ($courseRoutinePdfs as $pdf)
                                                     <a href="{{ asset($pdf) }}" target="_blank" class="file-link">
@@ -706,7 +745,7 @@
                                             @else
                                                 <span class="no-files-text">No routine available</span>
                                             @endif
-                                        </td>
+                                        </td> --}}
                                     </tr>
 
                                     <!-- Lesson File Row -->
@@ -728,8 +767,8 @@
 
                                     <!-- Module File Row -->
                                     <tr>
-                                        <td><i class="feather-folder me-2"></i>Module File</td>
-                                        <td class="module-file-cell">
+                                        {{-- <td><i class="feather-folder me-2"></i>Module File</td> --}}
+                                        {{-- <td class="module-file-cell">
                                             @if (!empty($modulePdfs))
                                                 @foreach ($modulePdfs as $pdf)
                                                     <a href="{{ asset($pdf) }}" target="_blank" class="file-link">
@@ -739,7 +778,7 @@
                                             @else
                                                 <span class="no-files-text">No files available</span>
                                             @endif
-                                        </td>
+                                        </td> --}}
                                     </tr>
 
                                     <!-- Date & Time Row -->
