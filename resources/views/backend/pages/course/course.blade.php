@@ -308,24 +308,6 @@
                                 </div>
                             </div> --}}
 
-                            <div class="col-md-12 mb-3">
-                                <div class="form-group">
-                                    <label for="button_type">Button Type</label>
-                                    <select name="button_type" id="button_type"
-                                        class="form-control select2-style1 @error('button_type') is-invalid @enderror">
-                                        <option value="Enroll Now"
-                                            {{ old('button_type', 'Enroll Now') == 'Enroll Now' ? 'selected' : '' }}>Enroll
-                                            Now</option>
-                                        <option value="Comming Soon"
-                                            {{ old('button_type') == 'Comming Soon' ? 'selected' : '' }}>Comming Soon
-                                        </option>
-                                    </select>
-                                    @error('button_type')
-                                        <span class="invalid-feedback"
-                                            role="alert"><strong>{{ $message }}</strong></span>
-                                    @enderror
-                                </div>
-                            </div>
 
                             <div class="col-12 mb-3">
                                 <div class="form-group">
@@ -427,10 +409,10 @@
                                 <div class="form-group">
                                     <label for="button_type">Button Type</label>
                                     <select name="button_type" id="button_type"
-                                        class="form-control @error('button_type') is-invalid @enderror">
-                                        <option value="">Select Button Type</option>
+                                        class="form-control select2-style1 @error('button_type') is-invalid @enderror">
                                         <option value="Enroll Now"
-                                            {{ old('button_type') == 'Enroll Now' ? 'selected' : '' }}>Enroll Now</option>
+                                            {{ old('button_type', 'Enroll Now') == 'Enroll Now' ? 'selected' : '' }}>Enroll
+                                            Now</option>
                                         <option value="Comming Soon"
                                             {{ old('button_type') == 'Comming Soon' ? 'selected' : '' }}>Comming Soon
                                         </option>
@@ -651,7 +633,7 @@
                                     <th>Price</th>
                                     <th>Discount</th>
                                     <th>Type</th>
-                                    @can('edit-course')
+                                    @can('update-status')
                                         <th>Status</th>
                                     @endcan
                                     @canany(['edit-course', 'delete-course'])
@@ -677,7 +659,7 @@
                                         <td>{{ $course->price }}</td>
                                         <td>{{ $course->discount ?? 'N/A' }}</td>
                                         <td>{{ $course->live_or_record ?? 'N/A' }}</td>
-                                        @can('edit-course')
+                                        @can('update-status')
                                             <td>
                                                 <div class="material-switch">
                                                     <input id="course-{{ $course->id }}" class="toggle-class"

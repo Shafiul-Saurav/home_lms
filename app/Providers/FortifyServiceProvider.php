@@ -97,21 +97,23 @@ class FortifyServiceProvider extends ServiceProvider
 
             // 5. Failed login: increment counters and block
             $failsEmail = \Illuminate\Support\Facades\Cache::get("login_fails_email_{$email}", 0) + 1;
-            \Illuminate\Support\Facades\Cache::put("login_fails_email_{$email}", $failsEmail, now()->addHour());
+            \Illuminate\Support\Facades\Cache::put("login_fails_email_{$email}", $failsEmail, now()->addDay());
 
             $failsIp = \Illuminate\Support\Facades\Cache::get("login_fails_ip_{$ip}", 0) + 1;
-            \Illuminate\Support\Facades\Cache::put("login_fails_ip_{$ip}", $failsIp, now()->addHour());
+            \Illuminate\Support\Facades\Cache::put("login_fails_ip_{$ip}", $failsIp, now()->addDay());
 
-            // 7 failed attempts: temporary block (15 minutes)
-            if ($failsEmail >= 7 && $failsEmail < 12) {
+            // Exactly 7 failed attempts: temporary block (15 minutes)
+            if ($failsEmail == 7 || $failsIp == 7) {
                 \Illuminate\Support\Facades\Cache::put("login_blocked_until_email_{$email}", now()->addMinutes(15), now()->addMinutes(15));
-            }
-            if ($failsIp >= 7 && $failsIp < 12) {
                 \Illuminate\Support\Facades\Cache::put("login_blocked_until_ip_{$ip}", now()->addMinutes(15), now()->addMinutes(15));
+
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'email' => ["Too many login failures. You are temporarily blocked. Please try again in 15 minutes."],
+                ]);
             }
 
-            // 12 failed attempts total (7 + another 5): permanent block (mail and IP)
-            if ($failsEmail >= 12) {
+            // 12 failed attempts total (7 initial + 5 more): permanent block for both Email and IP
+            if ($failsEmail >= 12 || $failsIp >= 12) {
                 \App\Models\BlockedEntity::firstOrCreate([
                     'type' => 'email',
                     'value' => $email
@@ -120,15 +122,9 @@ class FortifyServiceProvider extends ServiceProvider
                     'type' => 'ip',
                     'value' => $ip
                 ]);
-            }
-            if ($failsIp >= 12) {
-                \App\Models\BlockedEntity::firstOrCreate([
-                    'type' => 'email',
-                    'value' => $email
-                ]);
-                \App\Models\BlockedEntity::firstOrCreate([
-                    'type' => 'ip',
-                    'value' => $ip
+
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'email' => ['This account and IP address have been permanently blocked due to multiple failed login attempts.'],
                 ]);
             }
 

@@ -57,7 +57,7 @@ class CourseController extends Controller
             'learning_outcomes' => $request->learning_outcomes,
             'requirement' => $request->requirement,
             'tags' => $request->tags,
-            'is_active' => $request->has('is_active') ? $request->is_active : 1,
+            // 'is_active' => $request->has('is_active') ? $request->is_active : 1,
             'live_or_record' => $request->live_or_record,
             'is_offline' => $request->is_offline,
             'video_link' => $request->video_link,
