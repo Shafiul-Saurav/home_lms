@@ -537,13 +537,13 @@
                                                             class="form-control" value="{{ $module['link'] ?? '' }}"
                                                             placeholder="Enter link">
                                                     </div>
-                                                    <div class="col-md-6 mb-3 module-content-field"
+                                                    <div class="col-md-11 mb-3 module-content-field"
                                                         data-module-type="article">
                                                         <label class="form-label">Article</label>
                                                         <textarea name="modules[{{ $moduleIndex }}][article]" data-summernote class="form-control" rows="4"
                                                             placeholder="Enter article content">{{ $module['article'] ?? '' }}</textarea>
                                                     </div>
-                                                     <div class="col-md-5 mb-3 module-free-paid-field" style="{{ old('free_or_paid') === 'paid' ? '' : 'display:none;' }}">
+                                                     <div class="col-md-11 mb-3 module-free-paid-field" style="{{ old('free_or_paid') === 'paid' ? '' : 'display:none;' }}">
                                                          <label class="form-label">Free / Paid</label>
                                                          <select name="modules[{{ $moduleIndex }}][free_paid]"
                                                              class="form-control">
@@ -951,11 +951,11 @@
                                     <label class="form-label">Video Link</label>
                                     <input type="text" name="modules[${fieldCount}][link]" class="form-control" placeholder="Enter link">
                                 </div>
-                                <div class="col-md-6 mb-3 module-content-field" data-module-type="article" style="display:none;">
+                                <div class="col-md-11 mb-3 module-content-field" data-module-type="article" style="display:none;">
                                     <label class="form-label">Article</label>
                                     <textarea name="modules[${fieldCount}][article]" data-summernote class="form-control" rows="4" placeholder="Enter article content"></textarea>
                                 </div>
-                                <div class="col-md-5 mb-3 module-free-paid-field" style="${$('#free_or_paid').val() === 'paid' ? '' : 'display:none;'}">
+                                <div class="col-md-11 mb-3 module-free-paid-field" style="${$('#free_or_paid').val() === 'paid' ? '' : 'display:none;'}">
                                     <label class="form-label">Free / Paid</label>
                                     <select name="modules[${fieldCount}][free_paid]" class="form-control">
                                         <option value="">Select Option</option>
