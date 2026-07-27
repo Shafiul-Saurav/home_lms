@@ -45,6 +45,7 @@
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
             aspect-ratio: 4/3;
+            height: inherit !important;
             cursor: pointer;
             background: #f3f4f6;
         }

@@ -144,5 +144,11 @@
             @endif
         </div>
 
+        <div class="d-flex justify-content-center mt-5">
+            <a href="{{ route('photo.gallery') }}" class="enroll-btn px-4">
+                View All <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+
     </div>
 </section>
