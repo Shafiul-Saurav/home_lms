@@ -216,6 +216,19 @@
                 font-size: 24px;
             }
         }
+
+         .course-filter-bar .filter-btn.mobile {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .course-filter-bar .filter-btn.desktop {
+                display: none;
+            }
+            .course-filter-bar .filter-btn.mobile {
+                display: inline-block;
+            }
+        }
     </style>
 @endpush
 
