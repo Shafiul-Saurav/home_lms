@@ -80,7 +80,7 @@
         <!-- breadcrumb end -->
 
         <!-- Service Section -->
-        @include('frontendone.pages.widgets.service_section')
+        @include('frontendone.pages.widgets.service_section', ['showConsultationBtn' => true])
 
         <!-- Services Grouped By Category -->
         <section class="section-padding" data-aos="fade-up">
@@ -207,7 +207,7 @@
                 </div>
             </section>
 
-            <section data-aos="fade-up">
+            <section data-aos="fade-up" id="start-consultation-section">
                 <div class="row mt-5">
                     <div class="col-12">
                         <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between p-4 bg-white" style="border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.05);">

@@ -10,6 +10,64 @@
             <p>
                 Bridging cybersecurity education and enterprise security, HackToLive provides professional training, penetration testing, phishing simulations, SOC implementation, vulnerability assessments, and strategic security audit & consultation.
             </p>
+            @if (!empty($showConsultationBtn))
+                <style>
+                    #start-consultation-section {
+                        scroll-margin-top: 120px;
+                    }
+
+                    @keyframes consultationPulse {
+                        0% {
+                            box-shadow: 0 0 0 0 rgba(118, 189, 16, 0.6);
+                            transform: scale(1);
+                        }
+                        50% {
+                            box-shadow: 0 0 0 12px rgba(118, 189, 16, 0);
+                            transform: scale(1.04);
+                        }
+                        100% {
+                            box-shadow: 0 0 0 0 rgba(118, 189, 16, 0);
+                            transform: scale(1);
+                        }
+                    }
+
+                    .btn-animated-consultation {
+                        animation: consultationPulse 2s infinite ease-in-out;
+                        background: #76bd10 !important;
+                        color: #ffffff !important;
+                        font-weight: 700;
+                        text-decoration: none;
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 8px;
+                        transition: all 0.3s ease;
+                    }
+
+                    .btn-animated-consultation:hover {
+                        background: #5ea00c !important;
+                        color: #ffffff !important;
+                        transform: translateY(-2px);
+                    }
+                </style>
+                <div class="mt-4 mb-2 text-center">
+                    <a href="#start-consultation-section" class="enroll-btn btn-animated-consultation px-4 py-3 rounded-pill">
+                        <i class="fa-solid fa-comments"></i> Start Consultation
+                    </a>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        document.querySelectorAll('a[href="#start-consultation-section"]').forEach(function (link) {
+                            link.addEventListener('click', function (e) {
+                                e.preventDefault();
+                                const target = document.getElementById('start-consultation-section');
+                                if (target) {
+                                    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                }
+                            });
+                        });
+                    });
+                </script>
+            @endif
         </div>
 
         <div class="text-center">
