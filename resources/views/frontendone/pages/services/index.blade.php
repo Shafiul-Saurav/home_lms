@@ -223,40 +223,31 @@
             </div>
 
             @php
-                $studentReviews = App\Models\CourseReview::with('user.profile.profileImage')
-                    ->where('is_approved', 1)
+                $customerTestimonials = App\Models\Testimonial::with('user.profile.profileImage')
+                    ->where('is_active', 1)
                     ->latest('id')
-                    ->get()
-                    ->map(function ($review) {
-                        return (object) [
-                            'rating' => (int) ($review->rating ?? 5),
-                            'review' => data_get($review, 'comment', ''),
-                            'short_description' => $review->short_description,
-                            'user' => $review->user,
-                            'name' => $review->user?->name ?? 'Anonymous',
-                        ];
-                    });
+                    ->get();
             @endphp
 
-            <section class="section-padding" data-aos="fade-up">
-                <div class="container px-0">
+            <section class="section-padding review-section" data-aos="fade-up">
+                <div class="container">
                     <div class="section-heading text-center">
                         <span class="sub-title">
                             <i class="fa-solid fa-star"></i>
-                            Student Reviews
+                            Testimonials
                         </span>
-                        <h2>What Our Students Say</h2>
-                        <p>Hear from students who built practical cyber security skills through our training programs.</p>
+                        <h2>What Our Customers Say</h2>
+                        <p>Hear from clients who trust us for enterprise-grade security services.</p>
                     </div>
 
                     <div class="review-carousel-wrap">
-                        <div class="owl-carousel owl-theme review-carousel" id="review-list">
-                            @forelse($studentReviews as $testimonial)
+                        <div class="owl-carousel owl-theme review-carousel" id="service-review-list">
+                            @forelse($customerTestimonials as $testimonial)
                                 <div class="item">
                                     <div class="review-card">
                                         <div class="stars">
                                             @for ($i = 1; $i <= 5; $i++)
-                                                @if ($i <= data_get($testimonial, 'rating', 0))
+                                                @if ($i <= (data_get($testimonial, 'rating', 0)))
                                                     <i class="fa-solid fa-star"></i>
                                                 @else
                                                     <i class="fa-regular fa-star"></i>
@@ -268,24 +259,20 @@
 
                                         <div class="review-user">
                                             @php
-                                                $avatar = data_get(
-                                                    $testimonial,
-                                                    'user.profile.profileImage.profile_image',
-                                                );
+                                                $avatar = data_get($testimonial, 'user.profile.profileImage.profile_image');
                                             @endphp
                                             <img src="{{ $avatar ? asset($avatar) : asset('assets/frontend/img/testimonial/images.png') }}"
                                                 style="width: 45px; height:45px;" alt="">
                                             <div>
-                                                <h5>{{ data_get($testimonial, 'user.name', data_get($testimonial, 'name', 'Anonymous')) }}
-                                                </h5>
-                                                <span>{{ data_get($testimonial, 'short_description') ?: 'Student' }}</span>
+                                                <h5>{{ data_get($testimonial, 'user.name', data_get($testimonial, 'name', 'Anonymous')) }}</h5>
+                                                <span>{{ data_get($testimonial, 'short_description') ?: 'Customer' }}</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             @empty
                                 <div class="col-12 text-center py-5">
-                                    <p class="text-muted">No student reviews available yet.</p>
+                                    <p class="text-muted">No customer reviews available yet.</p>
                                 </div>
                             @endforelse
                         </div>
