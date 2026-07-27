@@ -1090,7 +1090,7 @@
                                     <i class="fas fa-users"></i>
                                 </div>
                                 <div class="stat-content">
-                                    <h3>{{ $studentsCounter ?? 0 }}+</h3>
+                                    <h3>{{ is_numeric($studentsCounter) ? number_format($studentsCounter) : $studentsCounter }}+</h3>
                                     <p>Students</p>
                                 </div>
                             </div>
@@ -1099,7 +1099,7 @@
                                     <i class="fas fa-shield-alt"></i>
                                 </div>
                                 <div class="stat-content">
-                                    <h3>{{ $certificatesCounter ?? 0 }}+</h3>
+                                    <h3>{{ is_numeric($certificatesCounter) ? number_format($certificatesCounter) : $certificatesCounter }}+</h3>
                                     <p>Certificates</p>
                                 </div>
                             </div>
@@ -1243,7 +1243,7 @@
                                 <div class="stat-icon">
                                     <i class="fas fa-users"></i>
                                 </div>
-                                <p class="stat-value">{{ $studentsCounter ?? 0 }}+</p>
+                                <p class="stat-value">{{ is_numeric($studentsCounter) ? number_format($studentsCounter) : $studentsCounter }}+</p>
                                 <p class="stat-label">Students</p>
                             </div>
                             <div class="milestone-stat-card">

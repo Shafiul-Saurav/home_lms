@@ -38,19 +38,31 @@
 
         // Fetch active categories with active subcategories for header menu
         $headerCategories = Category::where('is_active', 1)
-            ->with(['subcategories' => function ($q) { $q->where('is_active', 1); }])
+            ->with([
+                'subcategories' => function ($q) {
+                    $q->where('is_active', 1);
+                },
+            ])
             ->orderBy('name')
             ->get();
 
         // Fetch active service two categories with active subcategories for header menu
         $headerServiceCategories = Servicetwocategory::where('is_active', 1)
-            ->with(['subcategories' => function ($q) { $q->where('is_active', 1); }])
+            ->with([
+                'subcategories' => function ($q) {
+                    $q->where('is_active', 1);
+                },
+            ])
             ->orderBy('sort_order', 'asc')
             ->get();
 
         // Fetch active product categories with active subcategories for header menu
         $headerProductCategories = ProductCategory::where('is_active', 1)
-            ->with(['subcategories' => function ($q) { $q->where('is_active', 1); }])
+            ->with([
+                'subcategories' => function ($q) {
+                    $q->where('is_active', 1);
+                },
+            ])
             ->orderBy('name')
             ->get();
     @endphp
@@ -73,19 +85,24 @@
                         Academy
                     </a>
                     <ul class="dropdown-menu">
-                        @if($headerCategories->count())
-                            @foreach($headerCategories as $hcat)
-                                @if($hcat->subcategories && $hcat->subcategories->count())
+                        @if ($headerCategories->count())
+                            @foreach ($headerCategories as $hcat)
+                                @if ($hcat->subcategories && $hcat->subcategories->count())
                                     <li class="dropdown-submenu">
-                                        <a class="dropdown-item dropdown-toggle" href="{{ route('category.courses', $hcat->id) }}">{{ $hcat->name }}</a>
+                                        <a class="dropdown-item dropdown-toggle"
+                                            href="{{ route('category.courses', $hcat->id) }}">{{ $hcat->name }}</a>
                                         <ul class="dropdown-menu">
-                                            @foreach($hcat->subcategories as $hsub)
-                                                <li><a class="dropdown-item" href="{{ route('subcategory.courses', $hsub->id) }}">{{ $hsub->name }}</a></li>
+                                            @foreach ($hcat->subcategories as $hsub)
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route('subcategory.courses', $hsub->id) }}">{{ $hsub->name }}</a>
+                                                </li>
                                             @endforeach
                                         </ul>
                                     </li>
                                 @else
-                                    <li><a class="dropdown-item" href="{{ route('category.courses', $hcat->id) }}">{{ $hcat->name }}</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ route('category.courses', $hcat->id) }}">{{ $hcat->name }}</a>
+                                    </li>
                                 @endif
                             @endforeach
                         @else
@@ -99,19 +116,24 @@
                         Services
                     </a>
                     <ul class="dropdown-menu">
-                        @if($headerServiceCategories->count())
-                            @foreach($headerServiceCategories as $scat)
-                                @if($scat->subcategories && $scat->subcategories->count())
+                        @if ($headerServiceCategories->count())
+                            @foreach ($headerServiceCategories as $scat)
+                                @if ($scat->subcategories && $scat->subcategories->count())
                                     <li class="dropdown-submenu">
-                                        <a class="dropdown-item dropdown-toggle" href="{{ route('service.category', $scat->id) }}">{{ $scat->title }}</a>
+                                        <a class="dropdown-item dropdown-toggle"
+                                            href="{{ route('service.category', $scat->id) }}">{{ $scat->title }}</a>
                                         <ul class="dropdown-menu">
-                                            @foreach($scat->subcategories as $ssub)
-                                                <li><a class="dropdown-item" href="{{ route('service.subcategory', $ssub->id) }}">{{ $ssub->name }}</a></li>
+                                            @foreach ($scat->subcategories as $ssub)
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route('service.subcategory', $ssub->id) }}">{{ $ssub->name }}</a>
+                                                </li>
                                             @endforeach
                                         </ul>
                                     </li>
                                 @else
-                                    <li><a class="dropdown-item" href="{{ route('service.category', $scat->id) }}">{{ $scat->title }}</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ route('service.category', $scat->id) }}">{{ $scat->title }}</a>
+                                    </li>
                                 @endif
                             @endforeach
                         @else
@@ -125,19 +147,24 @@
                         Shop
                     </a>
                     <ul class="dropdown-menu">
-                        @if($headerProductCategories->count())
-                            @foreach($headerProductCategories as $pcat)
-                                @if($pcat->subcategories && $pcat->subcategories->count())
+                        @if ($headerProductCategories->count())
+                            @foreach ($headerProductCategories as $pcat)
+                                @if ($pcat->subcategories && $pcat->subcategories->count())
                                     <li class="dropdown-submenu">
-                                        <a class="dropdown-item dropdown-toggle" href="{{ route('category.products', $pcat->id) }}">{{ $pcat->name }}</a>
+                                        <a class="dropdown-item dropdown-toggle"
+                                            href="{{ route('category.products', $pcat->id) }}">{{ $pcat->name }}</a>
                                         <ul class="dropdown-menu">
-                                            @foreach($pcat->subcategories as $psub)
-                                                <li><a class="dropdown-item" href="{{ route('subcategory.products', $psub->id) }}">{{ $psub->name }}</a></li>
+                                            @foreach ($pcat->subcategories as $psub)
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route('subcategory.products', $psub->id) }}">{{ $psub->name }}</a>
+                                                </li>
                                             @endforeach
                                         </ul>
                                     </li>
                                 @else
-                                    <li><a class="dropdown-item" href="{{ route('category.products', $pcat->id) }}">{{ $pcat->name }}</a></li>
+                                    <li><a class="dropdown-item"
+                                            href="{{ route('category.products', $pcat->id) }}">{{ $pcat->name }}</a>
+                                    </li>
                                 @endif
                             @endforeach
                         @else
@@ -147,7 +174,7 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#">
+                    <a class="nav-link dropdown-toggle" href="{{ route('news.blog') }}">
                         News & Blog
                     </a>
                     <ul class="dropdown-menu">
@@ -156,10 +183,11 @@
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#">
+                    <a class="nav-link dropdown-toggle" href="{{ route('gallery') }}">
                         Gallery
                     </a>
                     <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('gallery') }}">All Gallery</a></li>
                         <li><a class="dropdown-item" href="{{ route('photo.gallery') }}">Photo Gallery</a></li>
                         <li><a class="dropdown-item" href="{{ route('video.gallery') }}">Video Gallery</a></li>
                     </ul>
@@ -242,16 +270,18 @@
                     Academy <i class="fa-solid fa-angle-down"></i>
                 </button>
                 <ul class="mobile-submenu">
-                    @if($headerCategories->count())
-                        @foreach($headerCategories as $hcat)
+                    @if ($headerCategories->count())
+                        @foreach ($headerCategories as $hcat)
                             <li>
-                                @if($hcat->subcategories && $hcat->subcategories->count())
+                                @if ($hcat->subcategories && $hcat->subcategories->count())
                                     <button class="mobile-dropdown-btn">
                                         {{ $hcat->name }} <i class="fa-solid fa-angle-down"></i>
                                     </button>
                                     <ul class="mobile-submenu">
-                                        @foreach($hcat->subcategories as $hsub)
-                                            <li><a href="{{ route('subcategory.courses', $hsub->id) }}">{{ $hsub->name }}</a></li>
+                                        @foreach ($hcat->subcategories as $hsub)
+                                            <li><a
+                                                    href="{{ route('subcategory.courses', $hsub->id) }}">{{ $hsub->name }}</a>
+                                            </li>
                                         @endforeach
                                     </ul>
                                 @else
@@ -270,16 +300,18 @@
                     Services <i class="fa-solid fa-angle-down"></i>
                 </button>
                 <ul class="mobile-submenu">
-                    @if($headerServiceCategories->count())
-                        @foreach($headerServiceCategories as $scat)
+                    @if ($headerServiceCategories->count())
+                        @foreach ($headerServiceCategories as $scat)
                             <li>
-                                @if($scat->subcategories && $scat->subcategories->count())
+                                @if ($scat->subcategories && $scat->subcategories->count())
                                     <button class="mobile-dropdown-btn">
                                         {{ $scat->title }} <i class="fa-solid fa-angle-down"></i>
                                     </button>
                                     <ul class="mobile-submenu">
-                                        @foreach($scat->subcategories as $ssub)
-                                            <li><a href="{{ route('service.subcategory', $ssub->id) }}">{{ $ssub->name }}</a></li>
+                                        @foreach ($scat->subcategories as $ssub)
+                                            <li><a
+                                                    href="{{ route('service.subcategory', $ssub->id) }}">{{ $ssub->name }}</a>
+                                            </li>
                                         @endforeach
                                     </ul>
                                 @else
@@ -298,17 +330,20 @@
                     Shop <i class="fa-solid fa-angle-down"></i>
                 </button>
                 <ul class="mobile-submenu">
-                    @if($headerProductCategories->count())
-                        @foreach($headerProductCategories as $pcat)
+                    @if ($headerProductCategories->count())
+                        @foreach ($headerProductCategories as $pcat)
                             <li>
-                                @if($pcat->subcategories && $pcat->subcategories->count())
+                                @if ($pcat->subcategories && $pcat->subcategories->count())
                                     <button class="mobile-dropdown-btn">
                                         {{ $pcat->name }} <i class="fa-solid fa-angle-down"></i>
                                     </button>
                                     <ul class="mobile-submenu">
-                                        <li><a href="{{ route('category.products', $pcat->id) }}">All {{ $pcat->name }}</a></li>
-                                        @foreach($pcat->subcategories as $psub)
-                                            <li><a href="{{ route('subcategory.products', $psub->id) }}">{{ $psub->name }}</a></li>
+                                        <li><a href="{{ route('category.products', $pcat->id) }}">All
+                                                {{ $pcat->name }}</a></li>
+                                        @foreach ($pcat->subcategories as $psub)
+                                            <li><a
+                                                    href="{{ route('subcategory.products', $psub->id) }}">{{ $psub->name }}</a>
+                                            </li>
                                         @endforeach
                                     </ul>
                                 @else
@@ -327,6 +362,7 @@
                     News &amp; Blog <i class="fa-solid fa-angle-down"></i>
                 </button>
                 <ul class="mobile-submenu">
+                    <li><a href="{{ route('news.blog') }}">All News &amp; Blog</a></li>
                     <li><a href="{{ route('news.search') }}">Blog</a></li>
                     <li><a href="{{ route('frontend.news.index') }}">News</a></li>
                 </ul>
@@ -337,6 +373,7 @@
                     Gallery <i class="fa-solid fa-angle-down"></i>
                 </button>
                 <ul class="mobile-submenu">
+                    <li><a href="{{ route('gallery') }}">All Gallery</a></li>
                     <li><a href="{{ route('photo.gallery') }}">Photo Gallery</a></li>
                     <li><a href="{{ route('video.gallery') }}">Video Gallery</a></li>
                 </ul>

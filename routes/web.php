@@ -153,6 +153,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [WebsiteController::class, 'home'])->name('home');
 Route::get('about', [WebsiteController::class, 'about'])->name('about');
 Route::get('services', [WebsiteController::class, 'services'])->name('services');
+Route::get('gallery', [WebsiteController::class, 'gallery'])->name('gallery');
 Route::get('photogallery', [WebsiteController::class, 'photoGallery'])->name('photo.gallery');
 Route::get('videogallery', [WebsiteController::class, 'videoGallery'])->name('video.gallery');
 Route::get('blogs', [WebsiteController::class, 'search'])->name('news.search');
@@ -213,6 +214,7 @@ Route::get('teachers', [WebsiteController::class, 'teachers'])->name('teachers')
 Route::get('teacher/{id}', [WebsiteController::class, 'teacherDetails'])->name('teacher.show');
 
 // News Routes (Frontend)
+Route::get('news-blog', [FrontendNewsController::class, 'newsBlog'])->name('news.blog');
 Route::get('news-list', [FrontendNewsController::class, 'index'])->name('frontend.news.index');
 Route::get('news/{id}', [FrontendNewsController::class, 'show'])->name('frontend.news.show');
 Route::get('news/search', [FrontendNewsController::class, 'search'])->name('frontend.news.search');

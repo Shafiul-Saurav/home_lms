@@ -146,4 +146,24 @@ class NewsController extends Controller
 
         return view('frontendone.pages.news.news', compact('news', 'newsCategories', 'popularNews'));
     }
+
+    /**
+     * Display combined News & Blog page with two separate sections.
+     */
+    public function newsBlog()
+    {
+        $news = News::with('newsCategory', 'user')
+            ->where('is_active', 1)
+            ->latest('id')
+            ->limit(6)
+            ->get();
+
+        $posts = \App\Models\Post::with('postCategory', 'user')
+            ->where('is_active', 1)
+            ->latest('id')
+            ->limit(6)
+            ->get();
+
+        return view('frontendone.pages.news.news_blog', compact('news', 'posts'));
+    }
 }

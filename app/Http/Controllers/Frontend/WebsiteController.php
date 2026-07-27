@@ -197,13 +197,12 @@ class WebsiteController extends Controller
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
 
-        $heroStudentCount = CourseOrder::where('status', 'Enrolled')
+        $enrolledCount = CourseOrder::where('status', 'Enrolled')
             ->where('payment_status', 'Completed')
-            ->distinct()
-            ->count('user_id');
+            ->count();
 
-        $heroStudentCountLabel = $heroStudentCount > 0
-            ? ($heroStudentCount >= 1000 ? number_format($heroStudentCount / 1000, 0) . 'k+' : $heroStudentCount . '+')
+        $heroStudentCountLabel = $enrolledCount > 0
+            ? ($enrolledCount >= 1000 ? number_format($enrolledCount / 1000, 0) . 'k+' : $enrolledCount . '+')
             : '250k+';
 
         $certificateCount = CreateCertificate::where('status', 'approved')->count();
@@ -221,7 +220,7 @@ class WebsiteController extends Controller
             return ['value' => $n, 'unit' => ''];
         };
 
-        $studentsCounter = 3000 + $heroStudentCount;
+        $studentsCounter = 3000 + $enrolledCount;
         $certificatesCounter = 3000 + $certificateCount;
         $coursesCounter = $formatCounter($heroCourseCount);
 
@@ -294,6 +293,14 @@ class WebsiteController extends Controller
         // Fetch logo/favicon data
         $logo_fav = LogoFavicon::first();
         return view('frontendone.pages.gallery.video.videogallery', compact('videos', 'logo_fav'));
+    }
+
+    public function gallery()
+    {
+        $galleries = Photogallery::where('is_active', 1)->latest('id')->limit(6)->get();
+        $videos = Videogallery::latest('id')->limit(6)->get();
+        $logo_fav = LogoFavicon::first();
+        return view('frontendone.pages.gallery.gallery', compact('galleries', 'videos', 'logo_fav'));
     }
 
     public function search(Request $request)
