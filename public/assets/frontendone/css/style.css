@@ -1247,8 +1247,8 @@ img {
     }
 
     .course-filter-bar .filter-btn {
-        padding: 11px 10px;
-        font-size: 11px;
+        padding: 11px 1px;
+        font-size: 9px;
         flex: 1;
         min-width: 0;
     }

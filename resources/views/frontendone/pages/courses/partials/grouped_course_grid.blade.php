@@ -11,7 +11,7 @@
     @foreach($categories as $category)
         @if(!empty($groupedCourses[$category->id]) && $groupedCourses[$category->id]->count() > 0)
             <div class="mb-4">
-                <h3 class="mb-3">{{ $category->name }}</h3>
+                <h3 class="mb-3" style="font-weight: 900;">{{ $category->name }}</h3>
                 <div class="row g-4 course-grid-area p-0 p-md-3">
                     @foreach($groupedCourses[$category->id] as $course)
                         @include('frontendone.pages.courses.partials.course_filter', compact('course'))

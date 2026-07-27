@@ -26,7 +26,8 @@
                         <button type="button" class="filter-btn {{ $currentType === 'free' ? 'active' : '' }}" data-filter="free">Free</button>
                         <button type="button" class="filter-btn {{ $currentType === 'live' ? 'active' : '' }}" data-filter="live">Live</button>
                         <button type="button" class="filter-btn {{ $currentType === 'recorded' ? 'active' : '' }}" data-filter="recorded">Recorded</button>
-                        <button type="button" class="filter-btn {{ $currentType === 'upcoming' ? 'active' : '' }}" data-filter="upcoming">Upcoming Webinar</button>
+                        <button type="button" class="filter-btn desktop {{ $currentType === 'upcoming' ? 'active' : '' }}" data-filter="upcoming">Upcoming Webinar</button>
+                        <button type="button" class="filter-btn mobile {{ $currentType === 'upcoming' ? 'active' : '' }}" data-filter="upcoming">Upc..Web.</button>
                     </div>
 
                     {{-- <div class="course-filter-dots" aria-hidden="true">
