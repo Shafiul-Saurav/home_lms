@@ -3,98 +3,116 @@
 @section('title', $productInfo->name . ' | Product')
 
 @push('frontendone_style')
-@include('frontend.pages.common.style')
+    @include('frontend.pages.common.style')
     <style>
         .product-detail-hero {
             padding: 120px 0 70px;
             background: linear-gradient(135deg, #07111f 0%, #0d1f36 50%, #12345a 100%);
             color: #fff;
         }
+
         .product-detail-hero h1 {
             font-size: clamp(2.2rem, 4vw, 4.2rem);
             font-weight: 800;
             margin-bottom: 14px;
         }
+
         .product-detail-hero .meta-pill {
             display: inline-flex;
             align-items: center;
             gap: 8px;
             padding: 10px 14px;
             border-radius: 999px;
-            background: rgba(255,255,255,.12);
+            background: rgba(255, 255, 255, .12);
             margin-right: 10px;
             margin-bottom: 10px;
         }
+
         .product-detail-card,
         .product-aside-card,
         .product-tab-card {
             background: #fff;
             border-radius: 24px;
-            box-shadow: 0 18px 50px rgba(8,15,30,.08);
+            box-shadow: 0 18px 50px rgba(8, 15, 30, .08);
         }
+
         .product-detail-card {
             padding: 28px;
         }
+
         .product-detail-card .price-box {
             margin-bottom: 20px;
         }
+
         .product-detail-card .product-name {
             margin: 0;
             font-size: 2.2rem;
             color: #16335c;
             font-weight: 900;
         }
+
         .product-detail-card .product-price {
             margin-bottom: 24px;
         }
+
         .product-detail-card .product-price h2 {
             margin: 0;
             font-size: 2rem;
             color: #a6ff34;
             font-weight: 900;
         }
+
         .product-detail-card .price-old-row del {
             color: #9aa1af;
             font-size: 1rem;
         }
+
         .product-detail-tabs .nav-link {
             border-radius: 999px;
             padding: 10px 18px;
             color: #76bd10;
         }
+
         .product-detail-tabs .nav-link.active {
             background: #0d1f36;
             color: #fff;
         }
+
         .product-detail-tabs .tab-panel-box {
             background: #fff;
             border-radius: 24px;
             padding: 28px;
-            box-shadow: 0 18px 50px rgba(8,15,30,.08);
+            box-shadow: 0 18px 50px rgba(8, 15, 30, .08);
         }
+
         .related-product-card {
             border-radius: 24px;
             overflow: hidden;
             background: #fff;
-            box-shadow: 0 18px 50px rgba(8,15,30,.08);
+            box-shadow: 0 18px 50px rgba(8, 15, 30, .08);
         }
+
         .related-product-card img {
             width: 100%;
             height: 120px;
             object-fit: cover;
         }
+
         .product-gallery-main img {
             width: 100%;
             height: auto;
             object-fit: contain;
         }
+
         .product-gallery-thumbs button img {
             border: 2px solid transparent;
             transition: border-color 0.2s ease;
         }
+
         .product-gallery-thumbs button img.active {
             border-color: #76bd10;
         }
+
         @media (max-width: 991px) {
             .product-detail-hero {
                 padding-top: 100px;
@@ -108,6 +126,7 @@
             width: auto;
             z-index: 999;
         }
+
         .fixed-cart-card {
             border-radius: 18px;
             border: 1px solid rgba(118, 189, 16, 0.18);
@@ -118,10 +137,12 @@
             min-width: 90px;
             padding: 8px;
         }
+
         .fixed-cart-card:hover {
             transform: translateY(-1px);
             box-shadow: 0 22px 50px rgba(8, 15, 30, 0.18);
         }
+
         .fixed-cart-card .cart-card-icon-wrap {
             width: 30px;
             height: 30px;
@@ -131,16 +152,19 @@
             background: #76bd10;
             margin: 0 auto;
         }
+
         .fixed-cart-card .cart-card-icon {
             font-size: 14px;
             color: #fff;
         }
+
         .fixed-cart-card .cart-card-count {
             font-size: 15px;
             font-weight: 700;
             margin-bottom: 2px;
             color: #fff;
         }
+
         .fixed-cart-card .cart-card-total {
             font-size: 14px;
             color: #e8f1ff;
@@ -150,33 +174,41 @@
             background: #fff;
             color: #111827;
         }
+
         .cart-sidebar .offcanvas-header {
             padding: 1.25rem 1.5rem;
             background: #fff;
             color: #111827;
         }
+
         .cart-sidebar .offcanvas-body {
             padding: 1.5rem;
             background: #f8fafc;
         }
+
         .cart-sidebar .offcanvas-title {
             font-weight: 800;
             color: #0d0f12;
         }
+
         .cart-sidebar .btn-close {
             filter: invert(0);
         }
+
         .cart-sidebar-item .btn-outline-danger {
             min-width: 38px;
             min-height: 38px;
             border-radius: 10px;
         }
+
         .cart-sidebar-item .text-dark {
             color: #111827 !important;
         }
+
         .cart-sidebar-footer .btn.theme-btn {
             padding: 12px 18px;
         }
+
         .cart-sidebar-footer .btn-outline-secondary {
             padding: 12px 18px;
         }
@@ -184,15 +216,17 @@
 @endpush
 
 @section('frontendone_content')
-    <main class="main" data-aos="fade-up">
-        <x-frontend.pages.common.breadcrumb
-            :title="$productInfo->name"
-            :breadcrumb="[
-                ['name' => 'Home', 'url' => route('home')],
-                ['name' => $productInfo->category->name ?? 'Products', 'url' => $productInfo->category_id ? route('category.products', $productInfo->category_id) : route('home')],
-                ['name' => $productInfo->name, 'url' => '#']
-            ]"
-        />
+    <main class="main">
+        <x-frontend.pages.common.breadcrumb :title="$productInfo->name" :breadcrumb="[
+            ['name' => 'Home', 'url' => route('home')],
+            [
+                'name' => $productInfo->category->name ?? 'Products',
+                'url' => $productInfo->category_id
+                    ? route('category.products', $productInfo->category_id)
+                    : route('home'),
+            ],
+            ['name' => $productInfo->name, 'url' => '#'],
+        ]" />
 
         <section class="section-padding py-5">
             <div class="container">
@@ -208,21 +242,30 @@
                                                 if (!empty($productInfo->image)) {
                                                     $galleryImages->push('uploads/products/' . $productInfo->image);
                                                 }
-                                                $productInfo->productImages->each(function ($image) use ($galleryImages) {
+                                                $productInfo->productImages->each(function ($image) use (
+                                                    $galleryImages,
+                                                ) {
                                                     $galleryImages->push('uploads/products/' . $image->multiple_image);
                                                 });
                                                 $galleryImages = $galleryImages->unique();
-                                                $mainImage = $galleryImages->first() ? asset($galleryImages->first()) : asset('assets/frontend/img/default-product.png');
+                                                $mainImage = $galleryImages->first()
+                                                    ? asset($galleryImages->first())
+                                                    : asset('assets/frontend/img/default-product.png');
                                             @endphp
-                                            <img id="mainProductImage" src="{{ $mainImage }}" alt="{{ $productInfo->name }}" class="img-fluid rounded-4">
+                                            <img id="mainProductImage" src="{{ $mainImage }}"
+                                                alt="{{ $productInfo->name }}" class="img-fluid rounded-4">
                                         </div>
 
-                                        @if($galleryImages->count() > 1)
+                                        @if ($galleryImages->count() > 1)
                                             <div class="row g-2 product-gallery-thumbs">
-                                                @foreach($galleryImages as $index => $galleryImage)
+                                                @foreach ($galleryImages as $index => $galleryImage)
                                                     <div class="col-3">
-                                                        <button type="button" class="product-gallery-thumb p-0 border-0 bg-transparent" data-image="{{ asset($galleryImage) }}">
-                                                            <img src="{{ asset($galleryImage) }}" alt="{{ $productInfo->name }} thumbnail" class="img-fluid rounded-4{{ $index === 0 ? ' active' : '' }}">
+                                                        <button type="button"
+                                                            class="product-gallery-thumb p-0 border-0 bg-transparent"
+                                                            data-image="{{ asset($galleryImage) }}">
+                                                            <img src="{{ asset($galleryImage) }}"
+                                                                alt="{{ $productInfo->name }} thumbnail"
+                                                                class="img-fluid rounded-4{{ $index === 0 ? ' active' : '' }}">
                                                         </button>
                                                     </div>
                                                 @endforeach
@@ -235,19 +278,27 @@
                                         <h2 class="product-name">{{ $productInfo->name }}</h2>
                                     </div>
                                     <ul class="list-unstyled mb-4">
-                                        <li><strong>Category:</strong> {{ $productInfo->category->name ?? 'Uncategorized' }}</li>
+                                        <li><strong>Category:</strong> {{ $productInfo->category->name ?? 'Uncategorized' }}
+                                        </li>
                                         {{-- <li><strong>Subcategory:</strong> {{ $productInfo->subcategory->name ?? 'N/A' }}</li> --}}
-                                        <li><strong>Available Quantity:</strong> {{ $productInfo->product_quantity ?? 'N/A' }}</li>
+                                        <li><strong>Available Quantity:</strong>
+                                            {{ $productInfo->product_quantity ?? 'N/A' }}</li>
                                     </ul>
                                     <div class="product-price">
-                                        @if($productInfo->discount_amount && $productInfo->discount_amount > 0)
+                                        @if ($productInfo->discount_amount && $productInfo->discount_amount > 0)
                                             @php
-                                                if(strtolower(trim($productInfo->discount_type)) === 'percentage') {
+                                                if (strtolower(trim($productInfo->discount_type)) === 'percentage') {
                                                     $discountPercentage = $productInfo->discount_amount;
-                                                    $finalPrice = $productInfo->sell_price * (1 - $discountPercentage / 100);
+                                                    $finalPrice =
+                                                        $productInfo->sell_price * (1 - $discountPercentage / 100);
                                                 } else {
-                                                    $finalPrice = $productInfo->sell_price - $productInfo->discount_amount;
-                                                    $discountPercentage = round(($productInfo->discount_amount / max($productInfo->sell_price, 1)) * 100);
+                                                    $finalPrice =
+                                                        $productInfo->sell_price - $productInfo->discount_amount;
+                                                    $discountPercentage = round(
+                                                        ($productInfo->discount_amount /
+                                                            max($productInfo->sell_price, 1)) *
+                                                            100,
+                                                    );
                                                 }
                                             @endphp
                                             <h2>${{ number_format($finalPrice, 2) }}</h2>
@@ -261,10 +312,12 @@
                                             <h2 class="text-success">Free</h2>
                                         @endif
                                     </div>
-                                    <form action="{{ route('cart.add') }}" method="POST" class="d-flex gap-2 align-items-center flex-wrap">
+                                    <form action="{{ route('cart.add') }}" method="POST"
+                                        class="d-flex gap-2 align-items-center flex-wrap">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $productInfo->id }}">
-                                        <input type="number" name="qty" value="1" min="1" class="form-control form-control-sm" style="width:100px;">
+                                        <input type="number" name="qty" value="1" min="1"
+                                            class="form-control form-control-sm" style="width:100px;">
                                         <button type="submit" class="enroll-btn border-0">Add to Cart</button>
                                     </form>
                                     <div class="mt-3">
@@ -278,9 +331,11 @@
 
                         <div class="product-detail-tabs">
                             <ul class="nav nav-tabs mb-4" role="tablist">
-                                <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#product-description" type="button">Description</button></li>
+                                <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab"
+                                        data-bs-target="#product-description" type="button">Description</button></li>
                                 {{-- <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#product-additional" type="button">Additional Info</button></li> --}}
-                                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#product-specs" type="button">Specifications</button></li>
+                                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab"
+                                        data-bs-target="#product-specs" type="button">Specifications</button></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane fade show active" id="product-description">
@@ -311,18 +366,28 @@
                             <h4 class="mb-4">Related Products</h4>
                             @forelse($relatedProducts as $related)
                                 <div class="d-flex gap-3 mb-3 align-items-center">
-                                    <a href="{{ route('product.details', $related->slug) }}" class="flex-shrink-0" style="width:80px;">
-                                        @if(!empty($related->image))
-                                            <img src="{{ asset('uploads/products/' . $related->image) }}" alt="{{ $related->name }}" class="rounded-4 w-100" style="height:80px;object-fit:cover;">
+                                    <a href="{{ route('product.details', $related->slug) }}" class="flex-shrink-0"
+                                        style="width:80px;">
+                                        @if (!empty($related->image))
+                                            <img src="{{ asset('uploads/products/' . $related->image) }}"
+                                                alt="{{ $related->name }}" class="rounded-4 w-100"
+                                                style="height:80px;object-fit:cover;">
                                         @elseif($related->productImages->first())
-                                            <img src="{{ asset('uploads/products/' . $related->productImages->first()->multiple_image) }}" alt="{{ $related->name }}" class="rounded-4 w-100" style="height:80px;object-fit:cover;">
+                                            <img src="{{ asset('uploads/products/' . $related->productImages->first()->multiple_image) }}"
+                                                alt="{{ $related->name }}" class="rounded-4 w-100"
+                                                style="height:80px;object-fit:cover;">
                                         @else
-                                            <img src="{{ asset('assets/frontend/img/default-product.png') }}" alt="{{ $related->name }}" class="rounded-4 w-100" style="height:80px;object-fit:cover;">
+                                            <img src="{{ asset('assets/frontend/img/default-product.png') }}"
+                                                alt="{{ $related->name }}" class="rounded-4 w-100"
+                                                style="height:80px;object-fit:cover;">
                                         @endif
                                     </a>
                                     <div>
-                                        <h6 class="mb-1" style="font-size:14px;"><a href="{{ route('product.details', $related->slug) }}">{{ Str::limit($related->name, 40) }}</a></h6>
-                                        <span class="text-muted" style="font-size:14px;">${{ number_format($related->sell_price - ($related->discount_amount ?? 0), 2) }}</span>
+                                        <h6 class="mb-1" style="font-size:14px;"><a
+                                                href="{{ route('product.details', $related->slug) }}">{{ Str::limit($related->name, 40) }}</a>
+                                        </h6>
+                                        <span class="text-muted"
+                                            style="font-size:14px;">${{ number_format($related->sell_price - ($related->discount_amount ?? 0), 2) }}</span>
                                     </div>
                                 </div>
                             @empty
@@ -338,7 +403,7 @@
 @endsection
 
 @push('frontendone_script')
-@include('frontend.pages.common.script')
+    @include('frontend.pages.common.script')
     <script>
         $(function() {
             $(document).on('click', '.product-gallery-thumb', function() {
@@ -350,4 +415,3 @@
         });
     </script>
 @endpush
-

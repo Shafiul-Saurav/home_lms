@@ -227,10 +227,11 @@
 
         .fixed-cart-panel {
             position: fixed;
-            top: 45%;
+            top: 50%;
             right: 24px;
+            transform: translateY(-50%);
             width: auto;
-            z-index: 999;
+            z-index: 1050;
         }
         .fixed-cart-card {
             border-radius: 18px;
@@ -322,7 +323,7 @@
 @endpush
 
 @section('frontendone_content')
-    <main class="main" data-aos="fade-up">
+    <main class="main">
         <x-frontend.pages.common.breadcrumb
             :title="'All Products'"
             :breadcrumb="[
@@ -409,8 +410,9 @@
             </div>
         </section>
 
-        @include('frontendone.pages.products.partials.fixed_cart_card')
     </main>
+
+    @include('frontendone.pages.products.partials.fixed_cart_card')
 @endsection
 
 @push('frontendone_script')

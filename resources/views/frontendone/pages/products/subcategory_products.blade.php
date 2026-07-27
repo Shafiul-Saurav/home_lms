@@ -364,7 +364,7 @@
 @endpush
 
 @section('frontendone_content')
-    <main class="main" data-aos="fade-up">
+    <main class="main">
         <x-frontend.pages.common.breadcrumb :title="$subcategory->name . ' Products'" :breadcrumb="[
             ['name' => 'Home', 'url' => route('home')],
             ['name' => $subcategory->name . ' Products', 'url' => '#'],
@@ -415,12 +415,10 @@
                                                             @if ($product->discount_amount && $product->discount_amount > 0)
                                                                 @php
                                                                     if (
-                                                                        strtolower(
-                                                                            trim($product->discount_type),
-                                                                        ) === 'percentage'
+                                                                        strtolower(trim($product->discount_type)) ===
+                                                                        'percentage'
                                                                     ) {
-                                                                        $discountPercentage =
-                                                                            $product->discount_amount;
+                                                                        $discountPercentage = $product->discount_amount;
                                                                         $finalPrice =
                                                                             $product->sell_price *
                                                                             (1 - $discountPercentage / 100);
