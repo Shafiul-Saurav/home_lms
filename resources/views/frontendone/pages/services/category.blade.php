@@ -7,7 +7,7 @@
 @endpush
 
 @section('frontendone_content')
-    <main class="main" data-aos="fade-up">
+    <main class="main">
         <!-- breadcrumb -->
         <x-frontend.pages.common.breadcrumb :title="$category->title" :breadcrumb="[
             ['name' => 'Home', 'url' => route('home')],
@@ -16,7 +16,7 @@
         ]" />
         <!-- breadcrumb end -->
 
-        <div class="service-area py-5">
+        <div class="service-area py-5" data-aos="fade-up">
             <div class="container">
                 <div class="row mb-4">
                     <div class="col-lg-8 mx-auto">
@@ -46,7 +46,7 @@
                                         @endif
                                         {{ $service->title }}
                                     </h4>
-                                    <p>{!! $service->description !!}</p>
+                                    <p>{{ \Illuminate\Support\Str::limit(strip_tags($service->description), 80, '...') }}</p>
                                     <a href="{{ route('service.details', ['id' => $service->id]) }}" class="">Get Support <i class="fa-solid fa-arrow-right"></i></a>
                                 </div>
                             </div>
@@ -79,26 +79,26 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                @php
-                    $services = $category->servicetwos->where('is_active', 1);
-                    $timeslots = App\Models\ServiceConsultationTimeslot::where('is_active', 1)->get();
-                @endphp
+        @php
+            $services = $category->servicetwos->where('is_active', 1);
+            $timeslots = App\Models\ServiceConsultationTimeslot::where('is_active', 1)->get();
+        @endphp
 
-                <div class="modal fade" id="consultationModal" tabindex="-1" aria-labelledby="consultationModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
-                        <div class="modal-content border-0 rounded-4 overflow-hidden">
-                            <div class="modal-header border-0 pb-0">
-                                <div>
-                                    <p class="mb-1 fw-bold" style="color: #76bd10;">Consultation Request</p>
-                                    <h5 class="modal-title" id="consultationModalLabel">Book a Consultation</h5>
-                                </div>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body px-4 pb-4 pt-2">
-                                @include('frontendone.pages.services.consultation_form', compact('services', 'timeslots'))
-                            </div>
+        <div class="modal fade" id="consultationModal" tabindex="-1" aria-labelledby="consultationModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+                <div class="modal-content border-0 rounded-4 overflow-hidden">
+                    <div class="modal-header border-0 pb-0">
+                        <div>
+                            <p class="mb-1 fw-bold" style="color: #76bd10;">Consultation Request</p>
+                            <h5 class="modal-title" id="consultationModalLabel">Book a Consultation</h5>
                         </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body px-4 pb-4 pt-2">
+                        @include('frontendone.pages.services.consultation_form', compact('services', 'timeslots'))
                     </div>
                 </div>
             </div>

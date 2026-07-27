@@ -43,7 +43,7 @@
                                             @endif
                                             {{ $service->title }}
                                         </h4>
-                                        <p>{!! $service->description !!}</p>
+                                        <p>{{ \Illuminate\Support\Str::limit(strip_tags($service->description), 80, '...') }}</p>
                                         <a href="{{ route('service.details', ['id' => $service->id]) }}" class="">Get Support <i class="fa-solid fa-arrow-right"></i></a>
                                     </div>
                                 </div>

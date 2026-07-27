@@ -142,7 +142,7 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" id="summernote" cols="30" rows="10"
+                                    <textarea name="description" id="description" cols="30" rows="10"
                                         class="form-control @error('description') is-invalid @enderror" required>{{ $service->description }}</textarea>
                                     @error('description')
                                         <span class="invalid-feedback"
