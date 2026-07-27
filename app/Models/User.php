@@ -154,7 +154,7 @@ class User extends Authenticatable
      */
     public function profileCompletionPercentage()
     {
-        // 10 non-image fields contributing to 80% of completion
+        // non-image fields contributing to 80% of completion
         $fields = [
             'name' => !empty($this->name),
             'email' => !empty($this->email),
@@ -170,6 +170,7 @@ class User extends Authenticatable
             $fields['twitter'] = !empty($profile->twitter);
             $fields['linkedIn'] = !empty($profile->linkedIn);
             $fields['instagram'] = !empty($profile->instagram);
+            $fields['experience'] = !empty($profile->experience);
         } else {
             $fields['nid_num'] = false;
             $fields['address'] = false;
@@ -178,9 +179,10 @@ class User extends Authenticatable
             $fields['twitter'] = false;
             $fields['linkedIn'] = false;
             $fields['instagram'] = false;
+            $fields['experience'] = false;
         }
 
-        $totalOtherFields = count($fields); // 10
+        $totalOtherFields = count($fields);
         $filledOtherFields = count(array_filter($fields));
 
         // Calculate contribution of other fields (max 80%)

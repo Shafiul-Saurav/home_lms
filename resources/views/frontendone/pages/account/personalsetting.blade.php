@@ -223,7 +223,24 @@
                                                             @enderror
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group-contact">
+                                                            <label class="form-label">Experience</label>
+                                                            <div class="form-icon-contact">
+                                                                <input type="text" name="experience"
+                                                                    class="form-control @error('experience') is-invalid @enderror"
+                                                                    value="{{ old('experience', $profile->experience ?? '') }}"
+                                                                    placeholder="Experience (e.g., 2 years, 5+ years)" />
+                                                                <i class="fa-solid fa-briefcase input-icon"></i>
+                                                            </div>
+                                                            @error('experience')
+                                                                <span class="invalid-feedback d-block" role="alert">
+                                                                    <strong>{{ $message }}</strong>
+                                                                </span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
                                                         <div class="form-group-contact">
                                                             <label class="form-label">Address</label>
                                                             <div class="form-icon-contact">

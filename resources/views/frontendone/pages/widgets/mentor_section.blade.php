@@ -6,7 +6,7 @@
                 <i class="fa-solid fa-user-tie"></i>
                 Our Mentors
             </span>
-            <h2>Learn from Experienced Cybersecurity Professionals</h2>
+            <h2>Learn from Experienced <span style="color: #76bd10 !important;">Cybersecurity Professionals </span></h2>
             <p>
                  Learn from experienced trainers and cybersecurity professionals with industry expertise, dedicated to delivering practical, hands-on learning and real-world guidance.
             </p>
@@ -31,15 +31,34 @@
                             <div class="mentor-info">
                                 <h4>{{ $teacher->user->name }}</h4>
                                 <p>{{ $teacher->qualification ?? 'Mentor' }}</p>
+                                @php
+                                    $facebook = $teacher->facebook ?? ($teacher->user->profile->facebook ?? null);
+                                    $linkedin = $teacher->linkedin ?? ($teacher->user->profile->linkedIn ?? $teacher->user->profile->linkedin ?? null);
+                                    $youtube = $teacher->youtube ?? ($teacher->user->profile->youtube ?? null);
+                                    $twitter = $teacher->twitter ?? ($teacher->user->profile->twitter ?? null);
+                                    $instagram = $teacher->instagram ?? ($teacher->user->profile->instagram ?? null);
+                                    $experienceText = $teacher->experience ?? ($teacher->user->profile->experience ?? null);
+                                @endphp
+
+                                @if(!empty($experienceText))
+                                    <p class="mentor-experience mb-2"><i class="fa-solid fa-briefcase me-2"></i>{{ $experienceText }}</p>
+                                @endif
+
                                 <div class="mentor-social">
-                                    @if(isset($teacher->facebook))
-                                        <a href="{{ $teacher->facebook }}"><i class="fa-brands fa-facebook-f"></i></a>
+                                    @if(!empty($facebook))
+                                        <a href="{{ $facebook }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook-f"></i></a>
                                     @endif
-                                    @if(isset($teacher->linkedin))
-                                        <a href="{{ $teacher->linkedin }}"><i class="fa-brands fa-linkedin-in"></i></a>
+                                    @if(!empty($linkedin))
+                                        <a href="{{ $linkedin }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin-in"></i></a>
                                     @endif
-                                    @if(isset($teacher->youtube))
-                                        <a href="{{ $teacher->youtube }}"><i class="fa-brands fa-youtube"></i></a>
+                                    @if(!empty($twitter))
+                                        <a href="{{ $twitter }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-twitter"></i></a>
+                                    @endif
+                                    @if(!empty($instagram))
+                                        <a href="{{ $instagram }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
+                                    @endif
+                                    @if(!empty($youtube))
+                                        <a href="{{ $youtube }}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube"></i></a>
                                     @endif
                                 </div>
                             </div>

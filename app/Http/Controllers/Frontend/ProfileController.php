@@ -65,7 +65,7 @@ class ProfileController extends Controller
 
         // Get instructor request if exists
         $instructorRequest = \App\Models\InstructorRequest::where('user_id', $user->id)->first();
-        
+
         // Get profile completion percentage
         $profileCompletionPercentage = $user->profileCompletionPercentage();
 
@@ -134,6 +134,7 @@ class ProfileController extends Controller
             'twitter' => ['nullable', 'url', 'max:255'],
             'linkedIn' => ['nullable', 'url', 'max:255'],
             'instagram' => ['nullable', 'url', 'max:255'],
+            'experience' => ['nullable', 'string', 'max:255'],
         ]);
 
         $validated['user_id'] = Auth::id();

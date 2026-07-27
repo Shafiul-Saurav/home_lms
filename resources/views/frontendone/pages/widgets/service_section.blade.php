@@ -6,7 +6,7 @@
                 <i class="fa-solid fa-shield-halved"></i>
                 Our Services and Solutions
             </span>
-            <h2>Cyber Security Services, Solutions & Professional Training</h2>
+            <h2> <span style="color: #76bd10 !important;">Cyber Security Services, Solutions </span> & Professional Training</h2>
             <p>
                 Bridging cybersecurity education and enterprise security, HackToLive provides professional training, penetration testing, phishing simulations, SOC implementation, vulnerability assessments, and strategic security audit & consultation.
             </p>
