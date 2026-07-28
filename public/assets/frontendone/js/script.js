@@ -114,36 +114,38 @@ $(document).ready(function () {
         $(this).find('i').toggleClass('fa-angle-down fa-angle-up');
     });
 
-    $('#courseFilterBar .filter-btn').on('click', function () {
-        var filter = $(this).data('filter');
-        $('#courseFilterBar .filter-btn').removeClass('active');
-        $(this).addClass('active');
+    function bindCourseFilter(filterBarId, courseGridId) {
+        $(filterBarId + ' .filter-btn').on('click', function () {
+            var filter = $(this).data('filter');
+            $(filterBarId + ' .filter-btn').removeClass('active');
+            $(this).addClass('active');
 
-        // support both id variants and multi-token data-course-type (e.g. "live free")
-        $('#courseGrid, #course-grid').children('[data-course-type]').each(function () {
-            var typeStr = $(this).attr('data-course-type') || '';
-            var tokens = typeStr.split(/\s+/).filter(Boolean);
-            var show = false;
-            if (filter === 'all') show = true;
-            else if (filter === 'free') {
-                show = tokens.indexOf('free') !== -1;
-            } else if (filter === 'paid') {
-                show = tokens.indexOf('paid') !== -1;
+            $(courseGridId).children('[data-course-type]').each(function () {
+                var typeStr = $(this).attr('data-course-type') || '';
+                var tokens = typeStr.split(/\s+/).filter(Boolean);
+                var show = false;
+                if (filter === 'all') show = true;
+                else if (filter === 'free') {
+                    show = tokens.indexOf('free') !== -1;
+                } else if (filter === 'paid') {
+                    show = tokens.indexOf('paid') !== -1;
+                } else {
+                    show = tokens.indexOf(filter) !== -1;
+                }
+                $(this).toggle(show);
+            });
+            if (filter === 'upcoming') {
+                $('.google-form-btn').removeClass('d-none');
+                $('.google-form-info').removeClass('d-none');
             } else {
-                // live / recorded
-                show = tokens.indexOf(filter) !== -1;
+                $('.google-form-btn').addClass('d-none');
+                $('.google-form-info').addClass('d-none');
             }
-            $(this).toggle(show);
         });
-        // show google form button only when 'upcoming' filter is active
-        if (filter === 'upcoming') {
-            $('.google-form-btn').removeClass('d-none');
-            $('.google-form-info').removeClass('d-none');
-        } else {
-            $('.google-form-btn').addClass('d-none');
-            $('.google-form-info').addClass('d-none');
-        }
-    });
+    }
+
+    bindCourseFilter('#courseFilterBarPopular', '#course-grid-popular');
+    bindCourseFilter('#courseFilterBarType', '#course-grid-type');
 
     $('#newsFilterBar .filter-btn').on('click', function () {
         var filter = $(this).data('filter');
@@ -157,8 +159,9 @@ $(document).ready(function () {
     });
 
     $('#newsFilterBar .filter-btn.active').trigger('click');
-    // trigger course filter active state on load so google form button visibility syncs
-    $('#courseFilterBar .filter-btn.active').trigger('click');
+    // trigger course filter active state on load so each widget initializes independently
+    $('#courseFilterBarPopular .filter-btn.active').trigger('click');
+    $('#courseFilterBarType .filter-btn.active').trigger('click');
     // AOS initialization temporarily removed for troubleshooting
 });
 

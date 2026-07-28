@@ -1,4 +1,4 @@
-<section class="section-padding course-section" id="courseGridSection" data-aos="fade-up">
+<section class="section-padding course-section course-widget" id="courseGridSectionPopular" data-aos="fade-up">
     <div class="container">
         <div class="row gx-0">
             <div class="col-12">
@@ -21,7 +21,7 @@
                     </div> --}}
 
                     @php $currentType = request()->get('type', 'all'); @endphp
-                    <div class="course-filter-bar" id="courseFilterBar">
+                    <div class="course-filter-bar" id="courseFilterBarPopular">
                         <button type="button" class="filter-btn {{ $currentType === 'all' ? 'active' : '' }}" data-filter="all">All Course</button>
                         <button type="button" class="filter-btn {{ $currentType === 'free' ? 'active' : '' }}" data-filter="free">Free</button>
                         <button type="button" class="filter-btn {{ $currentType === 'live' ? 'active' : '' }}" data-filter="live">Live</button>
@@ -51,7 +51,7 @@
             </a>
         </div>
 
-        <div class="row g-4" id="course-grid">
+        <div class="row g-4 course-grid" id="course-grid-popular">
             @foreach ($popularCourses as $course)
                 @php
                     $courseType = $course->live_or_record ?? 'recorded';

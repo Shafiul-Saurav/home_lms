@@ -440,7 +440,7 @@
                                         <div class="d-flex justify-content-between align-items-start">
                                             <h3 class="mb-0">{{ $course->name }}</h3>
                                             <span class="course-badge"
-                                                style="background:{{ $priceType === 'free' ? '#3b82f6' : '#76bd10' }};color:#fff;padding:3px 8px;border-radius:12px;font-weight:700;font-size:10px;">Free</span>
+                                                style="background:{{ $courseType === 'live' ? '#ff896f' : '#76bd10' }};color:#fff;padding:3px 8px;border-radius:12px;font-weight:700;font-size:10px;text-transform:capitalize;">{{ $courseType }}</span>
                                         </div>
                                         <p class="desc">
                                             {{ \Illuminate\Support\Str::words(strip_tags($course->short_description ?? $course->description), 10, '...') }}
