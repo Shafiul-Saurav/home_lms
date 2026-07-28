@@ -83,6 +83,103 @@
             opacity: .85;
             transform: translateY(-2px);
         }
+
+        .course-filter-bar .course-tabs {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 8px;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .course-filter-bar .course-tabs .nav-item {
+            flex: 0 0 auto;
+        }
+
+        .course-filter-bar .course-tabs .nav-link {
+            border-radius: 999px;
+            border: 1px solid transparent;
+            color: #e2e8f0;
+            background: rgba(15, 23, 42, 0.9);
+            padding: 10px 20px;
+            font-weight: 700;
+            white-space: nowrap;
+            transition: all .25s ease;
+        }
+
+        .course-filter-bar .course-tabs .nav-link.active,
+        .course-filter-bar .course-tabs .nav-link:hover {
+            background: #76bd10;
+            color: #0f172a;
+            border-color: transparent;
+        }
+
+        .course-filter-bar .course-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .course-filter-bar {
+            position: relative;
+        }
+
+        /* Mobile scroll arrows */
+        .scroll-arrows {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            pointer-events: none;
+            transform: translateY(-50%);
+        }
+
+        .scroll-arrow {
+            pointer-events: auto;
+            display: none;
+            position: absolute;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(15, 23, 42, .95);
+            color: #fff;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 18px rgba(2, 6, 23, .35);
+            cursor: pointer;
+        }
+
+        .scroll-arrow i {
+            font-size: 14px;
+            color:#76bd10;
+        }
+
+        .scroll-arrow.left {
+            left: -11px;
+            top: -18px;
+        }
+
+        .scroll-arrow.right {
+            right: -11px;
+            top: -18px;
+        }
+
+        @media (max-width: 768px) {
+            .course-filter-bar .course-tabs {
+                gap: 6px;
+            }
+
+            .course-filter-bar .course-tabs .nav-link {
+                padding: 8px 14px;
+                font-size: 10px;
+            }
+
+            /* show arrows on small screens */
+            .scroll-arrow {
+                display: flex;
+            }
+        }
     </style>
 @endpush
 
@@ -130,10 +227,21 @@
                         </div>
                         <div class="course-filter-wrap mt-4">
                             <div class="course-filter-bar" id="liveCoursesCategoryFilterBar">
-                                <button type="button" class="filter-btn active" data-filter="all">All Categories</button>
-                                @foreach ($categories as $category)
-                                    <button type="button" class="filter-btn" data-filter="category-{{ $category->id }}">{{ $category->name }}</button>
-                                @endforeach
+                                <ul class="nav nav-pills course-tabs" role="tablist">
+                                    @foreach ($categories as $category)
+                                        <li class="nav-item">
+                                            <button type="button"
+                                                class="nav-link filter-btn{{ $loop->first ? ' active' : '' }}"
+                                                data-filter="category-{{ $category->id }}">{{ $category->name }}</button>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                                <div class="scroll-arrows" aria-hidden="true">
+                                    <button class="scroll-arrow left" type="button" aria-label="Scroll left"><i
+                                            class="fa-solid fa-chevron-left"></i></button>
+                                    <button class="scroll-arrow right" type="button" aria-label="Scroll right"><i
+                                            class="fa-solid fa-chevron-right"></i></button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -163,8 +271,7 @@
                             @endphp
                             <div class="col-xl-3 col-lg-3 col-md-6 col-6 px-1 px-md-2"
                                 data-course-type="{{ $dataType }}"
-                                data-course-category="category-{{ $course->category_id ?? 0 }}"
-                                data-aos="fade-up"
+                                data-course-category="category-{{ $course->category_id ?? 0 }}" data-aos="fade-up"
                                 data-aos-delay="{{ ($loop->index % 4) * 60 }}">
                                 <div class="course-card-modern">
                                     <div class="course-thumb"><img src="{{ asset('uploads/courses/' . $course->image) }}"
@@ -279,14 +386,25 @@
                 </div>
                 <div class="course-filter-wrap mt-4">
                     <div class="course-filter-bar" id="recordedCoursesCategoryFilterBar">
-                        <button type="button" class="filter-btn active" data-filter="all">All Categories</button>
-                        @foreach ($categories as $category)
-                            <button type="button" class="filter-btn" data-filter="category-{{ $category->id }}">{{ $category->name }}</button>
-                        @endforeach
+                        <ul class="nav nav-pills course-tabs" role="tablist">
+                            @foreach ($categories as $category)
+                                <li class="nav-item">
+                                    <button type="button" class="nav-link filter-btn{{ $loop->first ? ' active' : '' }}"
+                                        data-filter="category-{{ $category->id }}">{{ $category->name }}</button>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <div class="scroll-arrows" aria-hidden="true">
+                            <button class="scroll-arrow left" type="button" aria-label="Scroll left"><i
+                                    class="fa-solid fa-chevron-left"></i></button>
+                            <button class="scroll-arrow right" type="button" aria-label="Scroll right"><i
+                                    class="fa-solid fa-chevron-right"></i></button>
+                        </div>
                     </div>
                 </div>
                 <div class="mb-3 text-center">
-                    <p class="google-form-info d-none" style="margin-bottom:12px;color:#374151;">You will be redirected to a
+                    <p class="google-form-info d-none" style="margin-bottom:12px;color:#374151;">You will be redirected to
+                        a
                         Google Form to complete your registration.</p>
                     <a href="{{ $googleFormUrl ?: '#' }}" class="enroll-btn google-form-btn d-none"
                         style="display:inline-flex;align-items:center;gap:10px;padding:10px 18px;">
@@ -310,8 +428,7 @@
                             @endphp
                             <div class="col-xl-3 col-lg-3 col-md-6 col-6 px-1 px-md-2"
                                 data-course-type="{{ $dataType }}"
-                                data-course-category="category-{{ $course->category_id ?? 0 }}"
-                                data-aos="fade-up"
+                                data-course-category="category-{{ $course->category_id ?? 0 }}" data-aos="fade-up"
                                 data-aos-delay="{{ ($loop->index % 4) * 60 }}">
                                 <div class="course-card-modern">
                                     <div class="course-thumb"><img src="{{ asset('uploads/courses/' . $course->image) }}"
@@ -424,14 +541,26 @@
                         <i class="fa-brands fa-google" style="color:#fff;font-size:18px;"></i><span>Register via Google
                             Form</span>
                     </a>
-                </div>                <div class="course-filter-wrap mt-4">
+                </div>
+                <div class="course-filter-wrap mt-4">
                     <div class="course-filter-bar" id="freeCoursesCategoryFilterBar">
-                        <button type="button" class="filter-btn active" data-filter="all">All Categories</button>
-                        @foreach ($categories as $category)
-                            <button type="button" class="filter-btn" data-filter="category-{{ $category->id }}">{{ $category->name }}</button>
-                        @endforeach
+                        <ul class="nav nav-pills course-tabs" role="tablist">
+                            @foreach ($categories as $category)
+                                <li class="nav-item">
+                                    <button type="button" class="nav-link filter-btn{{ $loop->first ? ' active' : '' }}"
+                                        data-filter="category-{{ $category->id }}">{{ $category->name }}</button>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <div class="scroll-arrows" aria-hidden="true">
+                            <button class="scroll-arrow left" type="button" aria-label="Scroll left"><i
+                                    class="fa-solid fa-chevron-left"></i></button>
+                            <button class="scroll-arrow right" type="button" aria-label="Scroll right"><i
+                                    class="fa-solid fa-chevron-right"></i></button>
+                        </div>
                     </div>
-                </div>                @if ($freeCourses->isNotEmpty())
+                </div>
+                @if ($freeCourses->isNotEmpty())
                     <div class="row g-4" id="free-grid">
                         @foreach ($freeCourses as $course)
                             @php
@@ -447,8 +576,7 @@
                             @endphp
                             <div class="col-xl-3 col-lg-3 col-md-6 col-6 px-1 px-md-2"
                                 data-course-type="{{ $dataType }}"
-                                data-course-category="category-{{ $course->category_id ?? 0 }}"
-                                data-aos="fade-up"
+                                data-course-category="category-{{ $course->category_id ?? 0 }}" data-aos="fade-up"
                                 data-aos-delay="{{ ($loop->index % 4) * 60 }}">
                                 <div class="course-card-modern">
                                     <div class="course-thumb"><img src="{{ asset('uploads/courses/' . $course->image) }}"
@@ -515,4 +643,52 @@
 
 @push('frontendone_script')
     @include('frontend.pages.common.script')
+@endpush
+
+@push('frontendone_script')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.course-filter-bar').forEach(function(bar) {
+                var tabs = bar.querySelector('.course-tabs');
+                var left = bar.querySelector('.scroll-arrow.left');
+                var right = bar.querySelector('.scroll-arrow.right');
+                if (!tabs || !left || !right) return;
+
+                var scrollAmount = 120;
+
+                function updateArrows() {
+                    var canScroll = tabs.scrollWidth > tabs.clientWidth + 1;
+                    if (!canScroll) {
+                        left.style.display = 'none';
+                        right.style.display = 'none';
+                        return;
+                    }
+                    left.style.display = tabs.scrollLeft > 5 ? 'flex' : 'none';
+                    right.style.display = (tabs.scrollLeft + tabs.clientWidth) < (tabs.scrollWidth - 5) ?
+                        'flex' : 'none';
+                }
+
+                right.addEventListener('click', function() {
+                    tabs.scrollBy({
+                        left: scrollAmount,
+                        behavior: 'smooth'
+                    });
+                    setTimeout(updateArrows, 300);
+                });
+                left.addEventListener('click', function() {
+                    tabs.scrollBy({
+                        left: -scrollAmount,
+                        behavior: 'smooth'
+                    });
+                    setTimeout(updateArrows, 300);
+                });
+
+                tabs.addEventListener('scroll', updateArrows);
+                window.addEventListener('resize', updateArrows);
+
+                // initial state
+                updateArrows();
+            });
+        });
+    </script>
 @endpush
