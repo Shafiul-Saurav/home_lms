@@ -192,19 +192,35 @@ $(document).ready(function () {
     $('.stat-number').each(function () {
         var $this = $(this);
         var fullText = $this.text().trim();
-        var targetNum = parseInt(fullText.match(/\d+/), 10);
-        var suffix = fullText.replace(/[0-9]/g, '');
 
-        $({ countNum: 0 }).animate({
-            countNum: targetNum
-        }, {
+        // Extract numeric portion (supports integers, decimals, optional trailing dot)
+        var match = fullText.match(/-?\d+([.,]\d+)?\.?/);
+        var numStr = match ? match[0].replace(',', '.') : '0';
+        var targetNum = parseFloat(numStr);
+        if (isNaN(targetNum)) targetNum = 0;
+
+        // Determine decimal precision from the original numeric string
+        var decimals = 0;
+        if (numStr.indexOf('.') !== -1) {
+            var parts = numStr.split('.');
+            decimals = parts[1] ? parts[1].length : 0;
+        }
+
+        // Preserve the original suffix (any characters that follow the numeric part)
+        var suffix = match ? fullText.replace(match[0], '') : '';
+
+        $({ countNum: 0 }).animate({ countNum: targetNum }, {
             duration: 2000,
             easing: 'swing',
-            step: function () {
-                $this.text(Math.floor(this.countNum) + suffix);
+            step: function (now) {
+                var display;
+                if (decimals > 0) display = parseFloat(now).toFixed(decimals);
+                else display = Math.floor(now);
+                $this.text(display + suffix);
             },
             complete: function () {
-                $this.text(targetNum + suffix);
+                var final = decimals > 0 ? targetNum.toFixed(decimals) : targetNum;
+                $this.text(final + suffix);
             }
         });
     });
