@@ -5,13 +5,13 @@
                 <div class="section-heading">
                     <span class="sub-title">
                         <i class="fa-solid fa-graduation-cap"></i>
-                        Popular Courses
+                        Featured Cyber Security Tracks
                     </span>
-                    <h2>Hacktolive Practical Cyber Security Training Programs</h2>
+                    <h2>Pick the Best Course for Your Next Security Career Move</h2>
                     <p>
-                        Industry & International Certificate focused training in SOC Implementation & Analysis, Ethical
-                        Hacking, Penetration Testing, Web Security, Reverse Engineering & Digital Forensic, designed to
-                        take you from beginner to job-ready professional.
+                        Explore curated live, recorded, and free cyber security programs designed to build practical
+                        skills in ethical hacking, digital forensics, web security, and SOC operations while preparing you
+                        for real-world certification and job readiness.
                     </p>
                 </div>
 
