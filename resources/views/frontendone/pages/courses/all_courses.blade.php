@@ -128,17 +128,14 @@
                                 hands-on labs in SOC Analysis, Ethical Hacking, and Penetration Testing.
                             </p>
                         </div>
-                        {{-- <div class="course-filter-wrap">
-                            <div class="course-filter-bar" id="liveFilterBar">
-                                <button type="button" class="filter-btn active" data-filter="all">All Course</button>
-                                <button type="button" class="filter-btn" data-filter="free">Free</button>
-                                <button type="button" class="filter-btn" data-filter="live">Live</button>
-                                <button type="button" class="filter-btn" data-filter="recorded">Recorded</button>
-                                <button type="button" class="filter-btn desktop" data-filter="upcoming">Upcoming
-                                    Webinar</button>
-                                <button type="button" class="filter-btn mobile" data-filter="upcoming">Upc..Web.</button>
+                        <div class="course-filter-wrap mt-4">
+                            <div class="course-filter-bar" id="liveCoursesCategoryFilterBar">
+                                <button type="button" class="filter-btn active" data-filter="all">All Categories</button>
+                                @foreach ($categories as $category)
+                                    <button type="button" class="filter-btn" data-filter="category-{{ $category->id }}">{{ $category->name }}</button>
+                                @endforeach
                             </div>
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
                 <div class="mb-3 text-center">
@@ -165,7 +162,9 @@
                                 $dataType = trim($courseType . ' ' . $priceType);
                             @endphp
                             <div class="col-xl-3 col-lg-3 col-md-6 col-6 px-1 px-md-2"
-                                data-course-type="{{ $dataType }}" data-aos="fade-up"
+                                data-course-type="{{ $dataType }}"
+                                data-course-category="category-{{ $course->category_id ?? 0 }}"
+                                data-aos="fade-up"
                                 data-aos-delay="{{ ($loop->index % 4) * 60 }}">
                                 <div class="course-card-modern">
                                     <div class="course-thumb"><img src="{{ asset('uploads/courses/' . $course->image) }}"
@@ -278,9 +277,17 @@
                         </div> --}}
                     </div>
                 </div>
+                <div class="course-filter-wrap mt-4">
+                    <div class="course-filter-bar" id="recordedCoursesCategoryFilterBar">
+                        <button type="button" class="filter-btn active" data-filter="all">All Categories</button>
+                        @foreach ($categories as $category)
+                            <button type="button" class="filter-btn" data-filter="category-{{ $category->id }}">{{ $category->name }}</button>
+                        @endforeach
+                    </div>
+                </div>
                 <div class="mb-3 text-center">
-                    <p class="google-form-info d-none" style="margin-bottom:12px;color:#374151;">You will be redirected to
-                        a Google Form to complete your registration.</p>
+                    <p class="google-form-info d-none" style="margin-bottom:12px;color:#374151;">You will be redirected to a
+                        Google Form to complete your registration.</p>
                     <a href="{{ $googleFormUrl ?: '#' }}" class="enroll-btn google-form-btn d-none"
                         style="display:inline-flex;align-items:center;gap:10px;padding:10px 18px;">
                         <i class="fa-brands fa-google" style="color:#fff;font-size:18px;"></i><span>Register via Google
@@ -302,7 +309,9 @@
                                 $dataType = trim($courseType . ' ' . $priceType);
                             @endphp
                             <div class="col-xl-3 col-lg-3 col-md-6 col-6 px-1 px-md-2"
-                                data-course-type="{{ $dataType }}" data-aos="fade-up"
+                                data-course-type="{{ $dataType }}"
+                                data-course-category="category-{{ $course->category_id ?? 0 }}"
+                                data-aos="fade-up"
                                 data-aos-delay="{{ ($loop->index % 4) * 60 }}">
                                 <div class="course-card-modern">
                                     <div class="course-thumb"><img src="{{ asset('uploads/courses/' . $course->image) }}"
@@ -415,8 +424,14 @@
                         <i class="fa-brands fa-google" style="color:#fff;font-size:18px;"></i><span>Register via Google
                             Form</span>
                     </a>
-                </div>
-                @if ($freeCourses->isNotEmpty())
+                </div>                <div class="course-filter-wrap mt-4">
+                    <div class="course-filter-bar" id="freeCoursesCategoryFilterBar">
+                        <button type="button" class="filter-btn active" data-filter="all">All Categories</button>
+                        @foreach ($categories as $category)
+                            <button type="button" class="filter-btn" data-filter="category-{{ $category->id }}">{{ $category->name }}</button>
+                        @endforeach
+                    </div>
+                </div>                @if ($freeCourses->isNotEmpty())
                     <div class="row g-4" id="free-grid">
                         @foreach ($freeCourses as $course)
                             @php
@@ -431,7 +446,9 @@
                                 $dataType = trim($courseType . ' ' . $priceType);
                             @endphp
                             <div class="col-xl-3 col-lg-3 col-md-6 col-6 px-1 px-md-2"
-                                data-course-type="{{ $dataType }}" data-aos="fade-up"
+                                data-course-type="{{ $dataType }}"
+                                data-course-category="category-{{ $course->category_id ?? 0 }}"
+                                data-aos="fade-up"
                                 data-aos-delay="{{ ($loop->index % 4) * 60 }}">
                                 <div class="course-card-modern">
                                     <div class="course-thumb"><img src="{{ asset('uploads/courses/' . $course->image) }}"

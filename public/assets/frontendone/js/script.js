@@ -122,6 +122,7 @@ $(document).ready(function () {
 
             $(courseGridId).children('[data-course-type]').each(function () {
                 var typeStr = $(this).attr('data-course-type') || '';
+                var category = $(this).attr('data-course-category') || '';
                 var tokens = typeStr.split(/\s+/).filter(Boolean);
                 var show = false;
                 if (filter === 'all') show = true;
@@ -129,6 +130,8 @@ $(document).ready(function () {
                     show = tokens.indexOf('free') !== -1;
                 } else if (filter === 'paid') {
                     show = tokens.indexOf('paid') !== -1;
+                } else if (filter.indexOf('category-') === 0) {
+                    show = category === filter;
                 } else {
                     show = tokens.indexOf(filter) !== -1;
                 }
@@ -146,6 +149,9 @@ $(document).ready(function () {
 
     bindCourseFilter('#courseFilterBarPopular', '#course-grid-popular');
     bindCourseFilter('#courseFilterBarType', '#course-grid-type');
+    bindCourseFilter('#liveCoursesCategoryFilterBar', '#live-grid');
+    bindCourseFilter('#recordedCoursesCategoryFilterBar', '#recorded-grid');
+    bindCourseFilter('#freeCoursesCategoryFilterBar', '#free-grid');
 
     $('#newsFilterBar .filter-btn').on('click', function () {
         var filter = $(this).data('filter');

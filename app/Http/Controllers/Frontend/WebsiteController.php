@@ -196,12 +196,12 @@ class WebsiteController extends Controller
      */
     public function allCourseTypes()
     {
-        $liveCourses = Course::where('is_active', 1)
+        $liveCourses = Course::with('category')->where('is_active', 1)
             ->where('live_or_record', 'live')
             ->latest('id')
             ->get();
 
-        $recordedCourses = Course::where('is_active', 1)
+        $recordedCourses = Course::with('category')->where('is_active', 1)
             ->where(function ($q) {
                 $q->where('live_or_record', 'record')
                   ->orWhereNull('live_or_record');
@@ -217,7 +217,7 @@ class WebsiteController extends Controller
             ->latest('id')
             ->get();
 
-        $freeCourses = Course::where('is_active', 1)
+        $freeCourses = Course::with('category')->where('is_active', 1)
             ->where(function ($q) {
                 $q->where('free_or_paid', 'free')
                   ->orWhere('price', 0)
@@ -226,12 +226,17 @@ class WebsiteController extends Controller
             ->latest('id')
             ->get();
 
+        $categories = Category::where('is_active', 1)
+            ->orderBy('name')
+            ->get();
+
         $logo_fav = LogoFavicon::first();
 
         return view('frontendone.pages.courses.all_courses', compact(
             'liveCourses',
             'recordedCourses',
             'freeCourses',
+            'categories',
             'logo_fav'
         ));
     }
