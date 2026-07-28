@@ -190,6 +190,52 @@ class WebsiteController extends Controller
         ));
     }
 
+    /**
+     * All courses page — shows Live, Recorded & Free courses in separate sections.
+     * Linked from the "View More" button on the home page course widget.
+     */
+    public function allCourseTypes()
+    {
+        $liveCourses = Course::where('is_active', 1)
+            ->where('live_or_record', 'live')
+            ->latest('id')
+            ->get();
+
+        $recordedCourses = Course::where('is_active', 1)
+            ->where(function ($q) {
+                $q->where('live_or_record', 'record')
+                  ->orWhereNull('live_or_record');
+            })
+            ->where(function ($q) {
+                $q->where('free_or_paid', '!=', 'free')
+                  ->orWhereNull('free_or_paid');
+            })
+            ->where(function ($q) {
+                $q->where('price', '>', 0)
+                  ->orWhereNull('price');
+            })
+            ->latest('id')
+            ->get();
+
+        $freeCourses = Course::where('is_active', 1)
+            ->where(function ($q) {
+                $q->where('free_or_paid', 'free')
+                  ->orWhere('price', 0)
+                  ->orWhereNull('price');
+            })
+            ->latest('id')
+            ->get();
+
+        $logo_fav = LogoFavicon::first();
+
+        return view('frontendone.pages.courses.all_courses', compact(
+            'liveCourses',
+            'recordedCourses',
+            'freeCourses',
+            'logo_fav'
+        ));
+    }
+
     public function about()
     {
         $about = About::latest('id')->first();

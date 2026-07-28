@@ -171,6 +171,7 @@ Route::post('service/consultations', [ServiceConsultationController::class, 'sto
 
 // Course Routes
 Route::get('courses', [FrontendCourseController::class, 'courses'])->name('courses');
+Route::get('courses/all', [WebsiteController::class, 'allCourseTypes'])->name('courses.all');
 Route::get('academy', [FrontendCourseController::class, 'academy'])->name('academy');
 Route::get('category/{id}/courses', [FrontendCourseController::class, 'categoryCourses'])->name('category.courses');
 Route::get('subcategory/{id}/courses', [FrontendCourseController::class, 'subcategoryCourses'])->name('subcategory.courses');
