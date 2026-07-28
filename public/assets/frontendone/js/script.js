@@ -168,6 +168,10 @@ $(document).ready(function () {
     // trigger course filter active state on load so each widget initializes independently
     $('#courseFilterBarPopular .filter-btn.active').trigger('click');
     $('#courseFilterBarType .filter-btn.active').trigger('click');
+    // Ensure category-based course lists show the first active category by default
+    $('#liveCoursesCategoryFilterBar .filter-btn.active').trigger('click');
+    $('#recordedCoursesCategoryFilterBar .filter-btn.active').trigger('click');
+    $('#freeCoursesCategoryFilterBar .filter-btn.active').trigger('click');
     // AOS initialization temporarily removed for troubleshooting
 });
 
