@@ -61,14 +61,14 @@
                                         Create</a></li> --}}
                             @endcan
                             @can('index-banner')
-                                <li><a href="{{ route('breadcrumb.index') }}"
+                                {{-- <li><a href="{{ route('breadcrumb.index') }}"
                                         class="slide-item {{ Request::routeIs('breadcrumb.index') ? 'active' : '' }}">Breadcrumb/Banner
-                                        Setting</a></li>
+                                        Setting</a></li> --}}
                             @endcan
                             @can('index-weblink')
-                                {{-- <li><a href="{{ route('website_link.index') }}"
+                                <li><a href="{{ route('website_link.index') }}"
                                         class="slide-item {{ Request::routeIs('website_link.index') ? 'active' : '' }}">Website
-                                        Link Setting</a></li> --}}
+                                        Link Setting</a></li>
                             @endcan
                             @can('index-home-slider')
                                 {{-- <li><a href="{{ route('home_slider.index') }}"
@@ -80,12 +80,13 @@
                                         class="slide-item {{ Request::routeIs('copyright.index') ? 'active' : '' }}">Copyright
                                         Setting</a></li>
                             @endcan
-                        <li>
-                            <a class="slide-item {{ Request::routeIs('partners.index') ? 'active' : '' }}" href="{{ route('partners.index') }}">
-                                <i class="fa-solid fa-handshake fa-fw"></i>
-                                <span class="sidemenu-label ms-3">Partners</span>
-                            </a>
-                        </li>
+                            <li>
+                                <a class="slide-item {{ Request::routeIs('partners.index') ? 'active' : '' }}"
+                                    href="{{ route('partners.index') }}">
+                                    <i class="fa-solid fa-handshake fa-fw"></i>
+                                    <span class="sidemenu-label ms-3">Partners</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 @endcan
@@ -249,20 +250,28 @@
                                     class="slide-item {{ Request::routeIs('about.index') ? 'active' : '' }}">About Us
                                     Settings</a></li>
                             <li><a href="{{ route('company_overview.index') }}"
-                                    class="slide-item {{ Request::routeIs('company_overview.*') ? 'active' : '' }}">Company Overview</a></li>
+                                    class="slide-item {{ Request::routeIs('company_overview.*') ? 'active' : '' }}">Company
+                                    Overview</a></li>
                             <li><a href="{{ route('achievement_section.index') }}"
-                                    class="slide-item {{ Request::routeIs('achievement_section.*') ? 'active' : '' }}">Achievement Section</a></li>
+                                    class="slide-item {{ Request::routeIs('achievement_section.*') ? 'active' : '' }}">Achievement
+                                    Section</a></li>
                             {{-- @can('index-impact') --}}
-                                <li><a href="{{ route('impacts.index') }}" class="slide-item {{ Request::routeIs('impacts.*') ? 'active' : '' }}">Impacts</a></li>
+                            <li><a href="{{ route('impacts.index') }}"
+                                    class="slide-item {{ Request::routeIs('impacts.*') ? 'active' : '' }}">Impacts</a>
+                            </li>
                             {{-- @endcan --}}
                             <li><a href="{{ route('mission_vision.index') }}"
-                                    class="slide-item {{ Request::routeIs('mission_vision.*') ? 'active' : '' }}">Mission & Vision</a></li>
+                                    class="slide-item {{ Request::routeIs('mission_vision.*') ? 'active' : '' }}">Mission
+                                    & Vision</a></li>
                             <li><a href="{{ route('storyofgrowths.index') }}"
-                                    class="slide-item {{ Request::routeIs('storyofgrowths.*') ? 'active' : '' }}">Story of Growth</a></li>
+                                    class="slide-item {{ Request::routeIs('storyofgrowths.*') ? 'active' : '' }}">Story
+                                    of Growth</a></li>
                             <li><a href="{{ route('corevalues.index') }}"
-                                    class="slide-item {{ Request::routeIs('corevalues.*') ? 'active' : '' }}">Core Values</a></li>
+                                    class="slide-item {{ Request::routeIs('corevalues.*') ? 'active' : '' }}">Core
+                                    Values</a></li>
                             <li><a href="{{ route('whychooseuses.index') }}"
-                                    class="slide-item {{ Request::routeIs('whychooseuses.*') ? 'active' : '' }}">Why Choose Us</a></li>
+                                    class="slide-item {{ Request::routeIs('whychooseuses.*') ? 'active' : '' }}">Why
+                                    Choose Us</a></li>
                         </ul>
                     </li>
                 @endcan
@@ -277,28 +286,34 @@
                         </a>
                         <ul class="slide-menu">
                             {{-- @can('index-course-category') --}}
-                                <li class="sub-slide {{ Request::routeIs('product_categories.*') ? 'is-expanded' : '' }}">
-                                    <a class="sub-side-menu__item {{ Request::routeIs('product_categories.*') ? 'active' : '' }}"
-                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Category</span><i class="sub-angle fa fa-angle-right"></i></a>
-                                    <ul class="sub-slide-menu">
-                                        <li><a class="sub-slide-item {{ Request::routeIs('product_categories.index') ? 'active' : '' }}"
-                                                href="{{ route('product_categories.index') }}">List</a></li>
-                                    </ul>
-                                </li>
+                            <li class="sub-slide {{ Request::routeIs('product_categories.*') ? 'is-expanded' : '' }}">
+                                <a class="sub-side-menu__item {{ Request::routeIs('product_categories.*') ? 'active' : '' }}"
+                                    data-bs-toggle="sub-slide" href="#"><span
+                                        class="sub-side-menu__label">Category</span><i
+                                        class="sub-angle fa fa-angle-right"></i></a>
+                                <ul class="sub-slide-menu">
+                                    <li><a class="sub-slide-item {{ Request::routeIs('product_categories.index') ? 'active' : '' }}"
+                                            href="{{ route('product_categories.index') }}">List</a></li>
+                                </ul>
+                            </li>
                             {{-- @endcan --}}
                             {{-- @can('index-course-subcategory') --}}
-                                <li class="sub-slide {{ Request::routeIs('product_subcategories.*') ? 'is-expanded' : '' }}">
-                                    <a class="sub-side-menu__item {{ Request::routeIs('product_subcategories.*') ? 'active' : '' }}"
-                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Subcategory</span><i class="sub-angle fa fa-angle-right"></i></a>
-                                    <ul class="sub-slide-menu">
-                                        <li><a class="sub-slide-item {{ Request::routeIs('product_subcategories.index') ? 'active' : '' }}"
-                                                href="{{ route('product_subcategories.index') }}">List</a></li>
-                                    </ul>
-                                </li>
+                            <li class="sub-slide {{ Request::routeIs('product_subcategories.*') ? 'is-expanded' : '' }}">
+                                <a class="sub-side-menu__item {{ Request::routeIs('product_subcategories.*') ? 'active' : '' }}"
+                                    data-bs-toggle="sub-slide" href="#"><span
+                                        class="sub-side-menu__label">Subcategory</span><i
+                                        class="sub-angle fa fa-angle-right"></i></a>
+                                <ul class="sub-slide-menu">
+                                    <li><a class="sub-slide-item {{ Request::routeIs('product_subcategories.index') ? 'active' : '' }}"
+                                            href="{{ route('product_subcategories.index') }}">List</a></li>
+                                </ul>
+                            </li>
                             {{-- @endcan --}}
                             <li class="sub-slide {{ Request::routeIs('products.*') ? 'is-expanded' : '' }}">
                                 <a class="sub-side-menu__item {{ Request::routeIs('products.*') ? 'active' : '' }}"
-                                    data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Product</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    data-bs-toggle="sub-slide" href="#"><span
+                                        class="sub-side-menu__label">Product</span><i
+                                        class="sub-angle fa fa-angle-right"></i></a>
                                 <ul class="sub-slide-menu">
                                     <li><a class="sub-slide-item {{ Request::routeIs('products.index') ? 'active' : '' }}"
                                             href="{{ route('products.index') }}">List</a></li>
@@ -400,10 +415,14 @@
                             {{-- @endcan --}}
                             <li class="sub-slide {{ Request::routeIs('batches.*') ? 'is-expanded' : '' }}">
                                 <a class="sub-side-menu__item {{ Request::routeIs('batches.*') ? 'active' : '' }}"
-                                    data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">Batches</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                    data-bs-toggle="sub-slide" href="#"><span
+                                        class="sub-side-menu__label">Batches</span><i
+                                        class="sub-angle fa fa-angle-right"></i></a>
                                 <ul class="sub-slide-menu">
-                                    <li><a class="sub-slide-item {{ Request::routeIs('batches.index') ? 'active' : '' }}" href="{{ route('batches.index') }}">List</a></li>
-                                    <li><a class="sub-slide-item {{ Request::routeIs('batches.create') ? 'active' : '' }}" href="{{ route('batches.create') }}">Create</a></li>
+                                    <li><a class="sub-slide-item {{ Request::routeIs('batches.index') ? 'active' : '' }}"
+                                            href="{{ route('batches.index') }}">List</a></li>
+                                    <li><a class="sub-slide-item {{ Request::routeIs('batches.create') ? 'active' : '' }}"
+                                            href="{{ route('batches.create') }}">Create</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -647,15 +666,18 @@
                         <ul class="slide-menu">
                             @can('index-course-order')
                                 <li><a href="{{ route('orders.course_enrollment.live') }}"
-                                        class="slide-item {{ Request::routeIs('orders.course_enrollment.live') ? 'active' : '' }}">Live Course
+                                        class="slide-item {{ Request::routeIs('orders.course_enrollment.live') ? 'active' : '' }}">Live
+                                        Course
                                         Enrollment</a>
                                 </li>
                                 <li><a href="{{ route('orders.course_enrollment.recorded') }}"
-                                        class="slide-item {{ Request::routeIs('orders.course_enrollment.recorded') ? 'active' : '' }}">Recorded Course
+                                        class="slide-item {{ Request::routeIs('orders.course_enrollment.recorded') ? 'active' : '' }}">Recorded
+                                        Course
                                         Enrollment</a>
                                 </li>
                                 <li><a href="{{ route('orders.course_enrollment') }}"
-                                        class="slide-item {{ Request::routeIs('orders.course_enrollment') ? 'active' : '' }}">All Course
+                                        class="slide-item {{ Request::routeIs('orders.course_enrollment') ? 'active' : '' }}">All
+                                        Course
                                         Enrollment</a>
                                 </li>
                             @endcan
@@ -719,7 +741,8 @@
                     </li> --}}
                 @endcan
                 @can('index-service')
-                    <li class="slide {{ Request::routeIs('services.index', 'servicetwocategories.index', 'servicetwos.index', 'howweworks.index', 'whatyougets.index') ? 'is-expanded' : '' }}">
+                    <li
+                        class="slide {{ Request::routeIs('services.index', 'servicetwocategories.index', 'servicetwos.index', 'howweworks.index', 'whatyougets.index') ? 'is-expanded' : '' }}">
                         <a class="side-menu__item {{ Request::routeIs('services.index', 'servicetwocategories.index', 'servicetwos.index', 'howweworks.index', 'whatyougets.index') ? 'active' : '' }}"
                             data-bs-toggle="slide" href="#">
                             <i class="fa-brands fa-servicestack"></i>
@@ -731,32 +754,42 @@
                                         Settings</a></li> --}}
                             @endcan
                             {{-- @can('index-servicetwocategory') --}}
-                                <li><a href="{{ route('servicetwocategories.index') }}"
-                                        class="slide-item {{ Request::routeIs('servicetwocategories.index') ? 'active' : '' }}">Service Category</a></li>
-                                <li><a href="{{ route('servicetwosubcategories.index') }}"
-                                        class="slide-item {{ Request::routeIs('servicetwosubcategories.index') ? 'active' : '' }}">Service Subcategory</a></li>
+                            <li><a href="{{ route('servicetwocategories.index') }}"
+                                    class="slide-item {{ Request::routeIs('servicetwocategories.index') ? 'active' : '' }}">Service
+                                    Category</a></li>
+                            <li><a href="{{ route('servicetwosubcategories.index') }}"
+                                    class="slide-item {{ Request::routeIs('servicetwosubcategories.index') ? 'active' : '' }}">Service
+                                    Subcategory</a></li>
                             {{-- @endcan --}}
                             {{-- @can('index-servicetwo') --}}
-                                <li><a href="{{ route('servicetwos.index') }}"
-                                        class="slide-item {{ Request::routeIs('servicetwos.index') ? 'active' : '' }}">Service</a></li>
+                            <li><a href="{{ route('servicetwos.index') }}"
+                                    class="slide-item {{ Request::routeIs('servicetwos.index') ? 'active' : '' }}">Service</a>
+                            </li>
                             {{-- @endcan --}}
-                                <li><a href="{{ route('service_consultation_timeslots.index') }}"
-                                        class="slide-item {{ Request::routeIs('service_consultation_timeslots.*') ? 'active' : '' }}">Consultation Timeslots</a></li>
-                                <li><a href="{{ route('service_consultations.index') }}"
-                                        class="slide-item {{ Request::routeIs('service_consultations.*') ? 'active' : '' }}">Service Consultations</a></li>
-                                <li><a href="{{ route('service.clicks') }}"
-                                        class="slide-item {{ Request::routeIs('service.clicks') ? 'active' : '' }}">Service Click Tracking</a></li>
+                            <li><a href="{{ route('service_consultation_timeslots.index') }}"
+                                    class="slide-item {{ Request::routeIs('service_consultation_timeslots.*') ? 'active' : '' }}">Consultation
+                                    Timeslots</a></li>
+                            <li><a href="{{ route('service_consultations.index') }}"
+                                    class="slide-item {{ Request::routeIs('service_consultations.*') ? 'active' : '' }}">Service
+                                    Consultations</a></li>
+                            <li><a href="{{ route('service.clicks') }}"
+                                    class="slide-item {{ Request::routeIs('service.clicks') ? 'active' : '' }}">Service
+                                    Click Tracking</a></li>
                             {{-- @can('index-howwework') --}}
-                                <li><a href="{{ route('howweworks.index') }}"
-                                        class="slide-item {{ Request::routeIs('howweworks.index') ? 'active' : '' }}">How We Work</a></li>
-                                <li><a href="{{ route('corevalues.index') }}"
-                                    class="slide-item {{ Request::routeIs('corevalues.*') ? 'active' : '' }}">Core Values</a></li>
+                            <li><a href="{{ route('howweworks.index') }}"
+                                    class="slide-item {{ Request::routeIs('howweworks.index') ? 'active' : '' }}">How We
+                                    Work</a></li>
+                            <li><a href="{{ route('corevalues.index') }}"
+                                    class="slide-item {{ Request::routeIs('corevalues.*') ? 'active' : '' }}">Core
+                                    Values</a></li>
                             {{-- @endcan --}}
                             {{-- @can('index-whatyouget') --}}
-                                <li><a href="{{ route('whatyougets.index') }}"
-                                        class="slide-item {{ Request::routeIs('whatyougets.index') ? 'active' : '' }}">What You Get</a></li>
-                                <li><a href="{{ route('whychooseuses.index') }}"
-                                    class="slide-item {{ Request::routeIs('whychooseuses.*') ? 'active' : '' }}">Why Choose Us</a></li>
+                            <li><a href="{{ route('whatyougets.index') }}"
+                                    class="slide-item {{ Request::routeIs('whatyougets.index') ? 'active' : '' }}">What
+                                    You Get</a></li>
+                            <li><a href="{{ route('whychooseuses.index') }}"
+                                    class="slide-item {{ Request::routeIs('whychooseuses.*') ? 'active' : '' }}">Why
+                                    Choose Us</a></li>
                             {{-- @endcan --}}
                         </ul>
                     </li>
@@ -945,40 +978,40 @@
                         </a>
                         <ul class="slide-menu">
                             {{-- @can('index-news-category') --}}
-                                <li
-                                    class="sub-slide {{ Request::routeIs('newscategories.index') ? 'is-expanded' : '' }}
+                            <li
+                                class="sub-slide {{ Request::routeIs('newscategories.index') ? 'is-expanded' : '' }}
                             {{ Request::routeIs('newscategories.trash') ? 'is-expanded' : '' }}">
-                                    <a class="sub-side-menu__item {{ Request::routeIs('newscategories.index') ? 'active' : '' }}
+                                <a class="sub-side-menu__item {{ Request::routeIs('newscategories.index') ? 'active' : '' }}
                                 {{ Request::routeIs('newscategories.trash') ? 'active' : '' }}"
-                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">News
-                                            Category Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
-                                    <ul class="sub-slide-menu">
-                                        <li><a class="sub-slide-item {{ Request::routeIs('newscategories.index') ? 'active' : '' }}"
-                                                href="{{ route('newscategories.index') }}">List</a></li>
-                                        {{-- @can('delete-news-category') --}}
-                                            <li><a class="sub-slide-item {{ Request::routeIs('newscategories.trash') ? 'active' : '' }}"
-                                                    href="{{ route('newscategories.trash') }}">Trash</a></li>
-                                        {{-- @endcan --}}
-                                    </ul>
-                                </li>
+                                    data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">News
+                                        Category Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                <ul class="sub-slide-menu">
+                                    <li><a class="sub-slide-item {{ Request::routeIs('newscategories.index') ? 'active' : '' }}"
+                                            href="{{ route('newscategories.index') }}">List</a></li>
+                                    {{-- @can('delete-news-category') --}}
+                                    <li><a class="sub-slide-item {{ Request::routeIs('newscategories.trash') ? 'active' : '' }}"
+                                            href="{{ route('newscategories.trash') }}">Trash</a></li>
+                                    {{-- @endcan --}}
+                                </ul>
+                            </li>
                             {{-- @endcan
                             @can('index-news') --}}
-                                <li
-                                    class="sub-slide {{ Request::routeIs('admin.news.index') ? 'is-expanded' : '' }}
+                            <li
+                                class="sub-slide {{ Request::routeIs('admin.news.index') ? 'is-expanded' : '' }}
                         {{ Request::routeIs('admin.news.trash') ? 'is-expanded' : '' }}">
-                                    <a class="sub-side-menu__item {{ Request::routeIs('admin.news.index') ? 'active' : '' }}
+                                <a class="sub-side-menu__item {{ Request::routeIs('admin.news.index') ? 'active' : '' }}
                         {{ Request::routeIs('admin.news.trash') ? 'active' : '' }}"
-                                        data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">News
-                                            Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
-                                    <ul class="sub-slide-menu">
-                                        <li><a class="sub-slide-item {{ Request::routeIs('admin.news.index') ? 'active' : '' }}"
-                                                href="{{ route('admin.news.index') }}">List</a></li>
-                                        {{-- @can('delete-news') --}}
-                                            <li><a class="sub-slide-item {{ Request::routeIs('admin.news.trash') ? 'active' : '' }}"
-                                                    href="{{ route('admin.news.trash') }}">Trash</a></li>
-                                        {{-- @endcan --}}
-                                    </ul>
-                                </li>
+                                    data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">News
+                                        Setting</span><i class="sub-angle fa fa-angle-right"></i></a>
+                                <ul class="sub-slide-menu">
+                                    <li><a class="sub-slide-item {{ Request::routeIs('admin.news.index') ? 'active' : '' }}"
+                                            href="{{ route('admin.news.index') }}">List</a></li>
+                                    {{-- @can('delete-news') --}}
+                                    <li><a class="sub-slide-item {{ Request::routeIs('admin.news.trash') ? 'active' : '' }}"
+                                            href="{{ route('admin.news.trash') }}">Trash</a></li>
+                                    {{-- @endcan --}}
+                                </ul>
+                            </li>
                             {{-- @endcan --}}
                         </ul>
                     </li>
@@ -1057,7 +1090,7 @@
                                 <span class="side-menu__label ms-3">Instructor Earnings</span>
                             </a>
                         </li>
-                        @if(in_array(Auth::user()->role_id, [1, 2]))
+                        @if (in_array(Auth::user()->role_id, [1, 2]))
                             <li class="slide">
                                 <a class="side-menu__item has-link {{ Request::routeIs('instructor.withdrawals.index') ? 'active' : '' }}"
                                     href="{{ route('instructor.withdrawals.index') }}">
@@ -1068,6 +1101,6 @@
                         @endif
                     @endif
                 @endcan
-            </div>
         </div>
     </div>
+</div>

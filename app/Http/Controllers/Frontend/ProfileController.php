@@ -9,6 +9,7 @@ use App\Models\CourseOrder;
 use App\Models\CourseModule;
 use App\Models\CreateCertificate;
 use App\Models\LessonCompletion;
+use App\Models\LogoFavicon;
 use App\Models\PdfBookOrder;
 use App\Models\Profile;
 use App\Models\ProfileImage;
@@ -292,13 +293,17 @@ class ProfileController extends Controller
             ->latest()
             ->paginate(8);
 
+        $logoFav = LogoFavicon::first();
+        $companyLogo = $logoFav && $logoFav->logo ? asset($logoFav->logo) : null;
+        $companyName = $logoFav && $logoFav->web_name ? $logoFav->web_name : '';
+
         if ($request->ajax()) {
             return response()->json([
-                'html' => view('frontendone.pages.account.partials.certificates_list', compact('certificates'))->render(),
+                'html' => view('frontendone.pages.account.partials.certificates_list', compact('certificates', 'companyLogo', 'companyName'))->render(),
             ]);
         }
 
-        return view('frontendone.pages.account.certificates', compact('user', 'certificates'));
+        return view('frontendone.pages.account.certificates', compact('user', 'certificates', 'companyLogo', 'companyName'));
     }
 
     public function certificateDetails(CreateCertificate $certificate)
@@ -307,7 +312,10 @@ class ProfileController extends Controller
         abort_unless($certificate->user_id === $user->id, 403);
 
         $certificate->load('course');
-        return view('frontendone.pages.account.certificate_details', compact('certificate'));
+        $logoFav = LogoFavicon::first();
+        $companyLogo = $logoFav && $logoFav->logo ? asset($logoFav->logo) : null;
+        $companyName = $logoFav && $logoFav->web_name ? $logoFav->web_name : 'DSGST Learning Management System';
+        return view('frontendone.pages.account.certificate_details', compact('certificate', 'companyLogo', 'companyName'));
     }
 
     public function applyCertificate(Request $request)

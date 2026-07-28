@@ -379,7 +379,7 @@
                 });
         @endphp
 
-        <section class="section-padding" data-aos="fade-up">
+        <section class="pb-5" data-aos="fade-up">
             <div class="container px-0">
                 <div class="section-heading text-center">
                     <span class="sub-title">

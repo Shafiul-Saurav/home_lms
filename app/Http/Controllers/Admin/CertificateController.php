@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\CreateCertificate;
+use App\Models\LogoFavicon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -27,7 +28,10 @@ class CertificateController extends Controller
     public function show(CreateCertificate $certificate)
     {
         $certificate->load(['user', 'course']);
-        return view('backend.pages.certificate.show', compact('certificate'));
+        $logoFav = LogoFavicon::first();
+        $companyLogo = $logoFav && $logoFav->logo ? asset($logoFav->logo) : null;
+        $companyName = $logoFav && $logoFav->web_name ? $logoFav->web_name : 'DSGST Learning Management System';
+        return view('backend.pages.certificate.show', compact('certificate', 'companyLogo', 'companyName'));
     }
 
     /**
