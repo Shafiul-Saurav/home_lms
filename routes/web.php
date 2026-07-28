@@ -21,6 +21,7 @@ use App\Http\Controllers\Backend\CopyrightController;
 use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\CorevalueController;
 use App\Http\Controllers\Backend\CourseController;
+use App\Http\Controllers\ImpactController;
 use App\Http\Controllers\Backend\CourseOrderController;
 use App\Http\Controllers\Backend\DepartmentController;
 use App\Http\Controllers\Backend\ExamCategoryController;
@@ -949,6 +950,9 @@ Route::get('check/partner/is_active/{id}', [PartnerController::class, 'checkActi
     // Course Review Route
     Route::get('course-reviews/toggle-approval/{id}', [AdminReviewController::class, 'toggleApproval'])->name('course-reviews.toggle-approval');
     Route::resource('course-reviews', AdminReviewController::class)->only(['index', 'update', 'destroy']);
+
+    // Impact CRUD
+    Route::resource('impacts', ImpactController::class);
 
 });
 

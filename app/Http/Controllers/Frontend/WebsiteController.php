@@ -34,6 +34,7 @@ use App\Models\Corevalue;
 use App\Models\Whychooseus;
 use App\Models\CompanyOverview;
 use App\Models\AchievementSection;
+use App\Models\Impact;
 use App\Models\MissionVision;
 use App\Models\Storyofgrowth;
 use App\Models\CreateCertificate;
@@ -53,6 +54,14 @@ class WebsiteController extends Controller
         // Fetch website link data and share with all views
         $website_link = WebsiteLink::first();
         View::share('website_link', $website_link);
+
+        // Share Impact entries (name/value pairs) with all views
+        try {
+            $impacts = Impact::orderBy('id','asc')->get();
+        } catch (\Exception $e) {
+            $impacts = collect();
+        }
+        View::share('impacts', $impacts);
     }
 
     public function home()

@@ -25,30 +25,37 @@
         </ul> --}}
 
         <div class="row g-4 justify-content-center mt-4">
-            <div class="col-6 col-md-4 mb-4">
-                <div class="stat-number">1T</div>
-                <div class="stat-label">Cloud events processed</div>
-            </div>
-            <div class="col-6 col-md-4 mb-4">
-                <div class="stat-number">15K</div>
-                <div class="stat-label">Exploit attempts detected</div>
-            </div>
-            <div class="col-6 col-md-4 mb-4">
-                <div class="stat-number">360K</div>
-                <div class="stat-label">Malware executions blocked</div>
-            </div>
-            <div class="col-6 col-md-4 mb-4">
-                <div class="stat-number">2B</div>
-                <div class="stat-label">New unique objects analyzed</div>
-            </div>
-            <div class="col-6 col-md-4 mb-4">
-                <div class="stat-number">10M</div>
-                <div class="stat-label">New unique attack objects identified</div>
-            </div>
-            <div class="col-6 col-md-4 mb-4">
-                <div class="stat-number">20B</div>
-                <div class="stat-label">Attacks prevented inline</div>
-            </div>
+            @forelse($impacts as $impact)
+                <div class="col-6 col-md-4 mb-4">
+                    <div class="stat-number">{{ $impact->value }}</div>
+                    <div class="stat-label">{{ $impact->name }}</div>
+                </div>
+            @empty
+                <div class="col-6 col-md-4 mb-4">
+                    <div class="stat-number">1T</div>
+                    <div class="stat-label">Cloud events processed</div>
+                </div>
+                <div class="col-6 col-md-4 mb-4">
+                    <div class="stat-number">15K</div>
+                    <div class="stat-label">Exploit attempts detected</div>
+                </div>
+                <div class="col-6 col-md-4 mb-4">
+                    <div class="stat-number">360K</div>
+                    <div class="stat-label">Malware executions blocked</div>
+                </div>
+                <div class="col-6 col-md-4 mb-4">
+                    <div class="stat-number">2B</div>
+                    <div class="stat-label">New unique objects analyzed</div>
+                </div>
+                <div class="col-6 col-md-4 mb-4">
+                    <div class="stat-number">10M</div>
+                    <div class="stat-label">New unique attack objects identified</div>
+                </div>
+                <div class="col-6 col-md-4 mb-4">
+                    <div class="stat-number">20B</div>
+                    <div class="stat-label">Attacks prevented inline</div>
+                </div>
+            @endforelse
         </div>
 
         <div class="mt-4">

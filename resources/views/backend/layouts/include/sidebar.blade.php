@@ -252,6 +252,9 @@
                                     class="slide-item {{ Request::routeIs('company_overview.*') ? 'active' : '' }}">Company Overview</a></li>
                             <li><a href="{{ route('achievement_section.index') }}"
                                     class="slide-item {{ Request::routeIs('achievement_section.*') ? 'active' : '' }}">Achievement Section</a></li>
+                            {{-- @can('index-impact') --}}
+                                <li><a href="{{ route('impacts.index') }}" class="slide-item {{ Request::routeIs('impacts.*') ? 'active' : '' }}">Impacts</a></li>
+                            {{-- @endcan --}}
                             <li><a href="{{ route('mission_vision.index') }}"
                                     class="slide-item {{ Request::routeIs('mission_vision.*') ? 'active' : '' }}">Mission & Vision</a></li>
                             <li><a href="{{ route('storyofgrowths.index') }}"
