@@ -64,7 +64,14 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
-        }
+        },
+        "audit": {
+    "ignore": {
+        "PKSA-m5cs-t1y6-qpcs": "Staying on Laravel 10; not using temporary signed URLs.",
+        "PKSA-3r5d-mb8f-1qw9": "Staying on Laravel 10; handling email validation safely.",
+        "CVE-2026-48019": "Staying on Laravel 10; handling email validation safely."
+    }
+}
     },
     "minimum-stability": "stable",
     "prefer-stable": true
