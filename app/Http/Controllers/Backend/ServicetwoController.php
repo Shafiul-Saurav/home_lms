@@ -8,7 +8,7 @@ use App\Models\Servicetwocategory;
 use App\Models\Servicetwosubcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 
 class ServicetwoController extends Controller
 {
@@ -140,10 +140,14 @@ class ServicetwoController extends Controller
             $ext = strtolower($uploadedImage->getClientOriginalExtension());
             if ($ext === 'avif') {
                 $uploadedImage->move($imageLocation, $newImageName);
-            } elseif ($ext === 'webp') {
-                Image::make($uploadedImage)->resize(600, 450)->save($newImageLocation);
             } else {
-                Image::make($uploadedImage)->resize(600, 450)->save($newImageLocation, 80);
+                $img = Image::read($uploadedImage)->resize(600, 450);
+
+                if ($ext === 'webp') {
+                    $img->toWebp(80)->save($newImageLocation);
+                } else {
+                    $img->toJpeg(80)->save($newImageLocation);
+                }
             }
 
             $service->update([
@@ -177,10 +181,14 @@ class ServicetwoController extends Controller
             $ext = strtolower($uploadedIcon->getClientOriginalExtension());
             if ($ext === 'svg' || $ext === 'avif') {
                 $uploadedIcon->move($imageLocation, $newIconName);
-            } elseif ($ext === 'webp') {
-                Image::make($uploadedIcon)->resize(100, 100)->save($newIconLocation);
             } else {
-                Image::make($uploadedIcon)->resize(100, 100)->save($newIconLocation, 80);
+                $img = Image::read($uploadedIcon)->resize(100, 100);
+
+                if ($ext === 'webp') {
+                    $img->toWebp(80)->save($newIconLocation);
+                } else {
+                    $img->toJpeg(80)->save($newIconLocation);
+                }
             }
 
             $service->update([

@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Photocategory;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PhotoGalleryStoreRequest;
-use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Gate;
+use Intervention\Image\Laravel\Facades\Image;
 
 class PhotoGalleryController extends Controller
 {
@@ -137,7 +137,7 @@ class PhotoGalleryController extends Controller
             $uploaded_photo = $request->file('gall_image');
             $new_photo_name = $gallery->id . '.' . $uploaded_photo->getClientOriginalExtension();
             $new_photo_location = $photo_location . $new_photo_name;
-            Image::make($uploaded_photo)->resize(750,800)->save(base_path($new_photo_location), 40);
+            Image::read($uploaded_photo)->resize(750,800)->save(base_path($new_photo_location), 40);
             //$user = User::find($gallery->id);
             $check = $gallery->update([
                 'gall_image' => $new_photo_name,

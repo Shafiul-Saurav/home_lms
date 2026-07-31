@@ -8,7 +8,7 @@ use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 
 class TeacherController extends Controller
 {
@@ -168,26 +168,32 @@ class TeacherController extends Controller
     public function image_upload($request, $teacher_id)
     {
         $teacher = Teacher::findOrFail($teacher_id);
+
         if ($request->hasFile('profile_image')) {
-            if ($teacher->profile_image != 'default_profile_image.jpg') {
-                //delete old photo
-                $photo_location = 'public/uploads/teachers/';
-                $old_photo_location = $photo_location . $teacher->profile_image;
-                if(file_exists(base_path($old_photo_location))) {
-                    unlink(base_path($old_photo_location));
+            $photo_location = public_path('uploads/teachers/');
+
+            if ($teacher->profile_image && $teacher->profile_image != 'default_profile_image.jpg') {
+                $old_photo_path = $photo_location . $teacher->profile_image;
+                if (file_exists($old_photo_path)) {
+                    unlink($old_photo_path);
                 }
             }
-            $photo_location = 'public/uploads/teachers/';
-            $uploaded_photo = $request->file('profile_image');
-            $new_photo_name = $teacher->id . '.' . $uploaded_photo->getClientOriginalExtension();
-            $new_photo_location = $photo_location . $new_photo_name;
 
-            // Check if Image class exists (Intervention Image)
-            if (class_exists('Intervention\Image\Facades\Image')) {
-                Image::make($uploaded_photo)->resize(600, 600)->save(base_path($new_photo_location), 80);
+            if (!file_exists($photo_location)) {
+                mkdir($photo_location, 0755, true);
+            }
+
+            $uploaded_photo = $request->file('profile_image');
+            $extension = strtolower($uploaded_photo->getClientOriginalExtension());
+            $new_photo_name = $teacher->id . '.' . $extension;
+            $new_photo_path = $photo_location . $new_photo_name;
+
+            $img = Image::read($uploaded_photo)->resize(600, 600);
+
+            if ($extension === 'webp') {
+                $img->toWebp(80)->save($new_photo_path);
             } else {
-                // Fallback for simple upload if Intervention is not installed/configured
-                $uploaded_photo->move(base_path($photo_location), $new_photo_name);
+                $img->toJpeg(80)->save($new_photo_path);
             }
 
             $teacher->update([

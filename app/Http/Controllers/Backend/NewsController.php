@@ -7,8 +7,8 @@ use App\Models\Newscategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Gate;
+use Intervention\Image\Laravel\Facades\Image;
 
 class NewsController extends Controller
 {
@@ -110,23 +110,34 @@ class NewsController extends Controller
         $news = News::findOrFail($news_id);
 
         if ($request->hasFile('news_image')) {
-            if ($news->news_image && $news->news_image != 'default_news.jpg') {
-                $photo_location = 'public/uploads/news/';
-                $old_photo_location = $photo_location . $news->news_image;
-                if (file_exists(base_path($old_photo_location))) {
-                    @unlink(base_path($old_photo_location));
+            $photo_location = public_path('uploads/news/');
+
+            // Delete old photo if it exists and is not default
+            if ($news->news_image && $news->news_image !== 'default_news.jpg') {
+                $old_photo_path = $photo_location . $news->news_image;
+                if (file_exists($old_photo_path)) {
+                    unlink($old_photo_path);
                 }
             }
 
-            $photo_location = 'public/uploads/news/';
-            if (!is_dir(base_path($photo_location))) {
-                mkdir(base_path($photo_location), 0755, true);
+            // Create directory if it does not exist
+            if (!file_exists($photo_location)) {
+                mkdir($photo_location, 0755, true);
             }
 
             $uploaded_photo = $request->file('news_image');
-            $new_photo_name = $news->id . '.' . $uploaded_photo->getClientOriginalExtension();
-            $new_photo_location = $photo_location . $new_photo_name;
-            Image::make($uploaded_photo)->resize(600, 450)->save(base_path($new_photo_location), 40);
+            $extension = strtolower($uploaded_photo->getClientOriginalExtension());
+            $new_photo_name = $news->id . '.' . $extension;
+            $new_photo_path = $photo_location . $new_photo_name;
+
+            // Intervention Image v3/v4 syntax
+            $img = Image::read($uploaded_photo)->resize(600, 450);
+
+            if ($extension === 'webp') {
+                $img->toWebp(40)->save($new_photo_path);
+            } else {
+                $img->toJpeg(40)->save($new_photo_path);
+            }
 
             $news->update([
                 'news_image' => $new_photo_name,

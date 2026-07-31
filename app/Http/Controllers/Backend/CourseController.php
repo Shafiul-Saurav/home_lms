@@ -12,7 +12,7 @@ use App\Models\Lesson;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 
 class CourseController extends Controller
 {
@@ -57,7 +57,6 @@ class CourseController extends Controller
             'learning_outcomes' => $request->learning_outcomes,
             'requirement' => $request->requirement,
             'tags' => $request->tags,
-            // 'is_active' => $request->has('is_active') ? $request->is_active : 1,
             'live_or_record' => $request->live_or_record,
             'is_offline' => $request->is_offline,
             'video_link' => $request->video_link,
@@ -119,7 +118,6 @@ class CourseController extends Controller
                 'article' => $module->article,
                 'duration' => $module->duration,
                 'free_paid' => $module->free_paid,
-                // 'live_record' => $module->live_record,
                 'pdf_file' => $module->pdf_file,
                 'date' => $module->date,
                 'time' => $module->time,
@@ -155,7 +153,6 @@ class CourseController extends Controller
             'learning_outcomes' => $request->learning_outcomes,
             'requirement' => $request->requirement,
             'tags' => $request->tags,
-            // 'is_active' => $request->has('is_active') ? $request->is_active : 0,
             'live_or_record' => $request->live_or_record,
             'is_offline' => $request->is_offline,
             'video_link' => $request->video_link,
@@ -195,7 +192,8 @@ class CourseController extends Controller
 
             $imageLocation = public_path('uploads/courses/');
             $uploadedImage = $request->file('image');
-            $newImageName = $course->id . '.' . $uploadedImage->getClientOriginalExtension();
+            $extension = strtolower($uploadedImage->getClientOriginalExtension());
+            $newImageName = $course->id . '.' . $extension;
 
             if (!file_exists($imageLocation)) {
                 mkdir($imageLocation, 0755, true);
@@ -203,10 +201,13 @@ class CourseController extends Controller
 
             $newImageLocation = $imageLocation . $newImageName;
 
-            if ($uploadedImage->getClientOriginalExtension() === 'webp') {
-                Image::make($uploadedImage)->resize(600, 450)->save($newImageLocation);
+            // Updated for Intervention Image v3/v4 syntax
+            $img = Image::read($uploadedImage)->resize(600, 450);
+
+            if ($extension === 'webp') {
+                $img->toWebp(80)->save($newImageLocation);
             } else {
-                Image::make($uploadedImage)->resize(600, 450)->save($newImageLocation, 80);
+                $img->toJpeg(80)->save($newImageLocation);
             }
 
             $course->update([
@@ -380,7 +381,6 @@ class CourseController extends Controller
                         'article' => (($moduleData['module_type'] ?? '') === 'article') ? ($moduleData['article'] ?? null) : null,
                         'duration' => $moduleData['duration'] ?? null,
                         'free_paid' => $moduleFreeOrPaid,
-                        // 'live_record' => $moduleData['live_record'] ?? null,
                         'date' => $moduleData['date'] ?? null,
                         'time' => $moduleData['time'] ?? null,
                         'sort_order' => $maxSortOrder + 1,
@@ -644,4 +644,3 @@ class CourseController extends Controller
         return response()->json(['type' => 'success', 'message' => 'Modules Order Updated']);
     }
 }
-

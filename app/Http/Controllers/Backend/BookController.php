@@ -10,7 +10,7 @@ use App\Models\Book;
 use App\Models\BookSubcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 
 class BookController extends Controller
 {
@@ -130,7 +130,8 @@ class BookController extends Controller
 
             $imageLocation = public_path('uploads/books/');
             $uploadedImage = $request->file('image');
-            $newImageName = $book->id . '.' . $uploadedImage->getClientOriginalExtension();
+            $extension = strtolower($uploadedImage->getClientOriginalExtension());
+            $newImageName = $book->id . '.' . $extension;
 
             if (!file_exists($imageLocation)) {
                 mkdir($imageLocation, 0755, true);
@@ -138,10 +139,13 @@ class BookController extends Controller
 
             $newImageLocation = $imageLocation . $newImageName;
 
-            if ($uploadedImage->getClientOriginalExtension() === 'webp') {
-                Image::make($uploadedImage)->resize(600, 800)->save($newImageLocation);
+            // Image Processing for v3/v4
+            $img = Image::read($uploadedImage)->resize(600, 800);
+
+            if ($extension === 'webp') {
+                $img->toWebp(80)->save($newImageLocation);
             } else {
-                Image::make($uploadedImage)->resize(600, 800)->save($newImageLocation, 80);
+                $img->toJpeg(80)->save($newImageLocation);
             }
 
             $book->update([
@@ -164,7 +168,8 @@ class BookController extends Controller
 
             $imageLocation = public_path('uploads/books/authors/');
             $uploadedImage = $request->file('author_profile');
-            $newImageName = $book->id . '_author.' . $uploadedImage->getClientOriginalExtension();
+            $extension = strtolower($uploadedImage->getClientOriginalExtension());
+            $newImageName = $book->id . '_author.' . $extension;
 
             if (!file_exists($imageLocation)) {
                 mkdir($imageLocation, 0755, true);
@@ -172,10 +177,13 @@ class BookController extends Controller
 
             $newImageLocation = $imageLocation . $newImageName;
 
-            if ($uploadedImage->getClientOriginalExtension() === 'webp') {
-                Image::make($uploadedImage)->resize(300, 300)->save($newImageLocation);
+            // Image Processing for v3/v4
+            $img = Image::read($uploadedImage)->resize(300, 300);
+
+            if ($extension === 'webp') {
+                $img->toWebp(80)->save($newImageLocation);
             } else {
-                Image::make($uploadedImage)->resize(300, 300)->save($newImageLocation, 80);
+                $img->toJpeg(80)->save($newImageLocation);
             }
 
             $book->update([

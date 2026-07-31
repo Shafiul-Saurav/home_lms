@@ -16,7 +16,7 @@ use App\Models\ProfileImage;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\Postcategory;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -444,11 +444,25 @@ class ProfileController extends Controller
         ]);
 
         if ($request->hasFile('post_image')) {
-            $photo_location = 'public/uploads/posts/';
+            $photo_location = public_path('uploads/posts/');
+
+            if (!file_exists($photo_location)) {
+                mkdir($photo_location, 0755, true);
+            }
+
             $uploaded_photo = $request->file('post_image');
-            $new_photo_name = $post->id . '.' . $uploaded_photo->getClientOriginalExtension();
-            $new_photo_location = $photo_location . $new_photo_name;
-            Image::make($uploaded_photo)->resize(600, 450)->save(base_path($new_photo_location), 80);
+            $extension = strtolower($uploaded_photo->getClientOriginalExtension());
+            $new_photo_name = $post->id . '.' . $extension;
+            $new_photo_path = $photo_location . $new_photo_name;
+
+            $img = Image::read($uploaded_photo)->resize(600, 450);
+
+            if ($extension === 'webp') {
+                $img->toWebp(80)->save($new_photo_path);
+            } else {
+                $img->toJpeg(80)->save($new_photo_path);
+            }
+
             $post->update(['post_image' => $new_photo_name]);
         }
 

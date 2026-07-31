@@ -10,7 +10,7 @@ use App\Models\PdfBook;
 use App\Models\PdfBookSubcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 
 class PdfBookController extends Controller
 {
@@ -140,7 +140,14 @@ class PdfBookController extends Controller
 
             $newImageLocation = $imageLocation . $newImageName;
 
-            Image::make($uploadedImage)->resize(600, 800)->save($newImageLocation, 80);
+            $img = Image::read($uploadedImage)->resize(600, 800);
+            $extension = strtolower($uploadedImage->getClientOriginalExtension());
+
+            if ($extension === 'webp') {
+                $img->toWebp(80)->save($newImageLocation);
+            } else {
+                $img->toJpeg(80)->save($newImageLocation);
+            }
 
             $book->update([
                 'image' => $newImageName,
@@ -195,10 +202,13 @@ class PdfBookController extends Controller
 
             $newImageLocation = $imageLocation . $newImageName;
 
-            if ($uploadedImage->getClientOriginalExtension() === 'webp') {
-                Image::make($uploadedImage)->resize(300, 300)->save($newImageLocation);
+            $img = Image::read($uploadedImage)->resize(300, 300);
+            $extension = strtolower($uploadedImage->getClientOriginalExtension());
+
+            if ($extension === 'webp') {
+                $img->toWebp(80)->save($newImageLocation);
             } else {
-                Image::make($uploadedImage)->resize(300, 300)->save($newImageLocation, 80);
+                $img->toJpeg(80)->save($newImageLocation);
             }
 
             $book->update([

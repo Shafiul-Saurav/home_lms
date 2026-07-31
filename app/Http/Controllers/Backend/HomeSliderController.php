@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\HomeSlider;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Gate;
+use Intervention\Image\Laravel\Facades\Image;
 
 class HomeSliderController extends Controller
 {
@@ -101,21 +101,38 @@ class HomeSliderController extends Controller
     public function image_upload($request, $home_slider_id)
     {
         $home_slider = HomeSlider::findOrFail($home_slider_id);
-        // dd($request->all(), $home_slider, $request->hasFile('slider_image'));
+
         if ($request->hasFile('slider_image')) {
-            if ($home_slider->slider_image != 'default_home_slider.jpg') {
-                //delete old photo
-                $photo_location = 'public/uploads/home_slider/';
-                $old_photo_location = $photo_location . $home_slider->slider_image;
-                unlink(base_path($old_photo_location));
+            $photo_location = public_path('uploads/home_slider/');
+
+            // পুরোনো ছবি ডিলিট করার সেফটি চেক
+            if ($home_slider->slider_image && $home_slider->slider_image !== 'default_home_slider.jpg') {
+                $old_photo_path = $photo_location . $home_slider->slider_image;
+                if (file_exists($old_photo_path)) {
+                    unlink($old_photo_path);
+                }
             }
-            $photo_location = 'public/uploads/home_slider/';
+
+            // ডিরেক্টরি না থাকলে তৈরি করে নেওয়া
+            if (!file_exists($photo_location)) {
+                mkdir($photo_location, 0755, true);
+            }
+
             $uploaded_photo = $request->file('slider_image');
-            $new_photo_name = $home_slider->id . '.' . $uploaded_photo->getClientOriginalExtension();
-            $new_photo_location = $photo_location . $new_photo_name;
-            Image::make($uploaded_photo)->resize(1920,335)->save(base_path($new_photo_location), 40);
-            //$user = User::find($home_slider->id);
-            $check = $home_slider->update([
+            $extension = strtolower($uploaded_photo->getClientOriginalExtension());
+            $new_photo_name = $home_slider->id . '.' . $extension;
+            $new_photo_path = $photo_location . $new_photo_name;
+
+            // Intervention Image v3/v4 সিনট্যাক্স
+            $img = Image::read($uploaded_photo)->resize(1920, 335);
+
+            if ($extension === 'webp') {
+                $img->toWebp(40)->save($new_photo_path);
+            } else {
+                $img->toJpeg(40)->save($new_photo_path);
+            }
+
+            $home_slider->update([
                 'slider_image' => $new_photo_name,
             ]);
         }

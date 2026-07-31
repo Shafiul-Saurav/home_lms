@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 // use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Support\Facades\Gate;
 
 class ProductController extends Controller
@@ -233,11 +233,13 @@ class ProductController extends Controller
 
             $new_photo_location = $photo_location . $new_photo_name;
 
-            // Handle WebP format properly
-            if ($uploaded_photo->getClientOriginalExtension() == 'webp') {
-                Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location);
+            $img = Image::read($uploaded_photo)->resize(800, 800);
+            $extension = strtolower($uploaded_photo->getClientOriginalExtension());
+
+            if ($extension === 'webp') {
+                $img->toWebp(80)->save($new_photo_location);
             } else {
-                Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location, 80);
+                $img->toJpeg(80)->save($new_photo_location);
             }
 
             $product->update([
@@ -309,12 +311,13 @@ class ProductController extends Controller
 
                     $new_photo_location = $photo_location . $new_photo_name;
 
-                    // Resize and save the image
-                    // Handle WebP format properly
-                    if ($uploaded_photo->getClientOriginalExtension() == 'webp') {
-                        Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location);
+                    $img = Image::read($uploaded_photo)->resize(800, 800);
+                    $extension = strtolower($uploaded_photo->getClientOriginalExtension());
+
+                    if ($extension === 'webp') {
+                        $img->toWebp(80)->save($new_photo_location);
                     } else {
-                        Image::make($uploaded_photo)->resize(800, 800)->save($new_photo_location, 80);
+                        $img->toJpeg(80)->save($new_photo_location);
                     }
 
                     // Save image to ProductImage model

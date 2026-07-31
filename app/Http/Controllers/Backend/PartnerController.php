@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Partner;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Support\Facades\Gate;
 
 class PartnerController extends Controller
@@ -73,24 +73,35 @@ class PartnerController extends Controller
     public function image_upload($request, $partner_id)
     {
         $partner = Partner::findOrFail($partner_id);
+
         if ($request->hasFile('partner_image')) {
+            $photo_location = public_path('uploads/partners/');
+
             if ($partner->partner_image && $partner->partner_image != 'default_partner.jpg') {
-                $old = public_path('uploads/partners/' . $partner->partner_image);
-                if (file_exists($old)) unlink($old);
-            }
-            $photo_location = 'uploads/partners/';
-            $destination = public_path($photo_location);
-
-            // Ensure the directory exists and is writable
-            if (!file_exists($destination)) {
-                mkdir($destination, 0755, true);
+                $old_photo_path = $photo_location . $partner->partner_image;
+                if (file_exists($old_photo_path)) {
+                    unlink($old_photo_path);
+                }
             }
 
-            $uploaded = $request->file('partner_image');
-            $new_name = $partner->id . '.' . $uploaded->getClientOriginalExtension();
-            $new_path = $photo_location . $new_name;
-            Image::make($uploaded)->resize(240, 90)->save(public_path($new_path), 80);
-            $partner->update(['partner_image' => $new_name]);
+            if (!file_exists($photo_location)) {
+                mkdir($photo_location, 0755, true);
+            }
+
+            $uploaded_photo = $request->file('partner_image');
+            $extension = strtolower($uploaded_photo->getClientOriginalExtension());
+            $new_photo_name = $partner->id . '.' . $extension;
+            $new_photo_path = $photo_location . $new_photo_name;
+
+            $img = Image::read($uploaded_photo)->resize(240, 90);
+
+            if ($extension === 'webp') {
+                $img->toWebp(80)->save($new_photo_path);
+            } else {
+                $img->toJpeg(80)->save($new_photo_path);
+            }
+
+            $partner->update(['partner_image' => $new_photo_name]);
         }
     }
 

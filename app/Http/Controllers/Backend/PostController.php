@@ -7,7 +7,7 @@ use App\Models\Postcategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
@@ -121,21 +121,35 @@ class PostController extends Controller
     public function image_upload($request, $post_id)
     {
         $post = Post::findOrFail($post_id);
-        // dd($request->all(), $post, $request->hasFile('post_image'));
+
         if ($request->hasFile('post_image')) {
-            if ($post->post_image != 'default_post.jpg') {
-                //delete old photo
-                $photo_location = 'public/uploads/posts/';
-                $old_photo_location = $photo_location . $post->post_image;
-                unlink(base_path($old_photo_location));
+            $photo_location = public_path('uploads/posts/');
+
+            if ($post->post_image && $post->post_image != 'default_post.jpg') {
+                $old_photo_path = $photo_location . $post->post_image;
+                if (file_exists($old_photo_path)) {
+                    unlink($old_photo_path);
+                }
             }
-            $photo_location = 'public/uploads/posts/';
+
+            if (!file_exists($photo_location)) {
+                mkdir($photo_location, 0755, true);
+            }
+
             $uploaded_photo = $request->file('post_image');
-            $new_photo_name = $post->id . '.' . $uploaded_photo->getClientOriginalExtension();
-            $new_photo_location = $photo_location . $new_photo_name;
-            Image::make($uploaded_photo)->resize(600,450)->save(base_path($new_photo_location), 40);
-            //$user = User::find($post->id);
-            $check = $post->update([
+            $extension = strtolower($uploaded_photo->getClientOriginalExtension());
+            $new_photo_name = $post->id . '.' . $extension;
+            $new_photo_path = $photo_location . $new_photo_name;
+
+            $img = Image::read($uploaded_photo)->resize(600, 450);
+
+            if ($extension === 'webp') {
+                $img->toWebp(40)->save($new_photo_path);
+            } else {
+                $img->toJpeg(40)->save($new_photo_path);
+            }
+
+            $post->update([
                 'post_image' => $new_photo_name,
             ]);
         }
